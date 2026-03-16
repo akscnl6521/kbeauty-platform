@@ -112,7 +112,25 @@ export default function Home() {
 
         {/* Footer note */}
         <footer className="mt-16 border-t border-gray-100 pt-6 text-xs text-gray-400">
-          Powered by K-beauty ingredients, routines, and real user data.
+          <div className="flex flex-col items-start justify-between gap-2 text-xs text-gray-400 sm:flex-row sm:items-center">
+            <span>
+              Powered by K-beauty ingredients, routines, and real user data.
+            </span>
+            <div className="flex gap-4">
+              <Link
+                href="/privacy"
+                className="text-xs text-gray-400 underline hover:text-[#C2185B]"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="text-xs text-gray-400 underline hover:text-[#C2185B]"
+              >
+                Terms of Service
+              </Link>
+            </div>
+          </div>
         </footer>
       </main>
     </div>
