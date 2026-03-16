@@ -1,5 +1,6 @@
 "use client";
 
+import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -187,6 +188,13 @@ export default function ResultsPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
+      <Head>
+        <title>Your K-Beauty Matches | KBEAUTY GUIDE</title>
+        <meta
+          name="description"
+          content="Personalized K-beauty product recommendations with ingredient research and where to buy in your country."
+        />
+      </Head>
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
         {/* Header */}
         <header className="mb-10 flex items-center justify-between">

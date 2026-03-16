@@ -1,5 +1,6 @@
- "use client";
+"use client";
 
+import Head from "next/head";
 import Link from "next/link";
 import { useLocale } from "@/hooks/useLocale";
 
@@ -8,6 +9,15 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
+      <Head>
+        <title>
+          KBEAUTY GUIDE - Personalized Korean Skincare Recommendations
+        </title>
+        <meta
+          name="description"
+          content="Find your perfect K-beauty match based on skin tone, age, concerns and budget. Science-backed ingredient information included."
+        />
+      </Head>
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
         {/* Header */}
         <header className="flex items-center justify-between">

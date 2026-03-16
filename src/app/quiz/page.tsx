@@ -1,5 +1,6 @@
 "use client";
 
+import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useLocale } from "@/hooks/useLocale";
@@ -135,6 +136,13 @@ export default function QuizPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
+      <Head>
+        <title>Find Your K-Beauty Match | KBEAUTY GUIDE</title>
+        <meta
+          name="description"
+          content="Take our quick quiz to find K-beauty products perfect for your skin tone, concerns and budget."
+        />
+      </Head>
       <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-6 py-10">
         {/* Top label & language toggle */}
         <div className="mb-8 flex items-center justify-between">

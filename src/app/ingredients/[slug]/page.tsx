@@ -1,5 +1,6 @@
- "use client";
+"use client";
 
+import Head from "next/head";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -87,6 +88,13 @@ export default function IngredientPage({ params }: IngredientPageProps) {
   if (!ingredient) {
     return (
       <div className="min-h-screen bg-white font-sans text-gray-900">
+        <Head>
+          <title>K-Beauty Ingredient Guide | KBEAUTY GUIDE</title>
+          <meta
+            name="description"
+            content="This ingredient information is being prepared. Check back soon for detailed K-beauty science and research."
+          />
+        </Head>
         <main className="mx-auto flex min-h-screen max-w-4xl flex-col px-6 py-10">
           <header className="mb-8">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C2185B]">
@@ -128,6 +136,12 @@ export default function IngredientPage({ params }: IngredientPageProps) {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
+      <Head>
+        <title>{`${ingredient.name_en} | K-Beauty Ingredient Guide`}</title>
+        {ingredient.mechanism && (
+          <meta name="description" content={ingredient.mechanism} />
+        )}
+      </Head>
       <main className="mx-auto flex min-h-screen max-w-4xl flex-col px-6 py-10">
         {/* Header */}
         <header className="mb-8">
