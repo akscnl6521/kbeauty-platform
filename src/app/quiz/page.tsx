@@ -1,7 +1,8 @@
- "use client";
+"use client";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useLocale } from "@/hooks/useLocale";
 
 type StepKey = "age" | "tone" | "undertone" | "concern" | "budget";
 
@@ -9,6 +10,7 @@ export default function QuizPage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Partial<Record<StepKey, string>>>({});
+  const { messages, locale, setLocale } = useLocale();
 
   const totalSteps = 4;
 
@@ -28,9 +30,9 @@ export default function QuizPage() {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">
-              Find Your K-Beauty Match
+              {messages.find_match}
             </h2>
-            <p className="text-base text-gray-600">What&apos;s your age group?</p>
+            <p className="text-base text-gray-600">{messages.age_question}</p>
             <div className="flex flex-wrap gap-3">
               {["10s", "20s", "30s", "40s+"].map((label) => (
                 <button
@@ -49,9 +51,9 @@ export default function QuizPage() {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">
-              Find Your K-Beauty Match
+              {messages.find_match}
             </h2>
-            <p className="text-base text-gray-600">What&apos;s your skin tone?</p>
+            <p className="text-base text-gray-600">{messages.tone_question}</p>
             <div className="flex flex-wrap gap-3">
               {["Light", "Medium", "Dark"].map((label) => (
                 <button
@@ -85,9 +87,9 @@ export default function QuizPage() {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">
-              Find Your K-Beauty Match
+              {messages.find_match}
             </h2>
-            <p className="text-base text-gray-600">What&apos;s your main skin concern?</p>
+            <p className="text-base text-gray-600">{messages.concern_question}</p>
             <div className="flex flex-wrap gap-3">
               {["Redness", "Dryness", "Acne", "Dullness", "Anti-aging"].map((label) => (
                 <button
@@ -107,9 +109,9 @@ export default function QuizPage() {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">
-              Find Your K-Beauty Match
+              {messages.find_match}
             </h2>
-            <p className="text-base text-gray-600">What&apos;s your budget?</p>
+            <p className="text-base text-gray-600">{messages.budget_question}</p>
             <div className="flex flex-wrap gap-3">
               {[
                 "Budget ($0-20)",
@@ -134,9 +136,35 @@ export default function QuizPage() {
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-6 py-10">
-        {/* Top label */}
-        <div className="mb-8 text-xs font-semibold uppercase tracking-[0.3em] text-[#C2185B]">
-          K-Beauty Quiz
+        {/* Top label & language toggle */}
+        <div className="mb-8 flex items-center justify-between">
+          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C2185B]">
+            K-Beauty Quiz
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <button
+              type="button"
+              onClick={() => setLocale("en")}
+              className={`rounded-full px-3 py-1 transition ${
+                locale === "en"
+                  ? "bg-[#C2185B] text-white"
+                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+              }`}
+            >
+              🇺🇸
+            </button>
+            <button
+              type="button"
+              onClick={() => setLocale("ja")}
+              className={`rounded-full px-3 py-1 transition ${
+                locale === "ja"
+                  ? "bg-[#C2185B] text-white"
+                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+              }`}
+            >
+              🇯🇵
+            </button>
+          </div>
         </div>
 
         <section className="flex flex-1 flex-col justify-center">

@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 type ProductRow = {
   id: string;
   name: string;
+  name_ko: string | null;
   brand: string;
   category: string | null;
   skin_concern: string | null;
@@ -14,9 +15,27 @@ type ProductRow = {
   key_ingredients: string[] | null;
   price_usd: number | null;
   recommendation_reason: string | null;
-  where_to_find_us: string | null;
-  where_to_find_jp: string | null;
   slug: string | null;
+};
+
+type CountryCode = "US" | "JP" | "KR" | "OTHER";
+
+type Locale = "en" | "ja";
+
+type Messages = {
+  results_title: string;
+  view_ingredients: string;
+};
+
+const LOCALE_MESSAGES: Record<Locale, Messages> = {
+  en: {
+    results_title: "Your K-Beauty Matches",
+    view_ingredients: "View Ingredients",
+  },
+  ja: {
+    results_title: "あなたへのK-ビューティーおすすめ",
+    view_ingredients: "成分を見る",
+  },
 };
 
 function ingredientNameToSlug(name: string): string {
@@ -27,10 +46,70 @@ function ingredientNameToSlug(name: string): string {
     .replace(/[^a-z0-9-]/g, "");
 }
 
+function buildPurchaseLinks(
+  country: CountryCode,
+  productNameEn: string,
+  productNameKo: string | null
+): { label: string; href: string }[] {
+  const baseName = country === "KR" && productNameKo ? productNameKo : productNameEn;
+  const encodedName = encodeURIComponent(baseName).replace(/%20/g, "+");
+
+  switch (country) {
+    case "US":
+      return [
+        {
+          label: "Find on Sephora",
+          href: `https://www.sephora.com/search?keyword=${encodedName}`,
+        },
+        {
+          label: "Find on Amazon",
+          href: `https://www.amazon.com/s?k=${encodedName}`,
+        },
+      ];
+    case "JP":
+      return [
+        {
+          label: "Qoo10で探す",
+          href: `https://www.qoo10.jp/gmkt.inc/Search/Search.aspx?keyword=${encodedName}`,
+        },
+        {
+          label: "Amazon.co.jpで探す",
+          href: `https://www.amazon.co.jp/s?k=${encodedName}`,
+        },
+      ];
+    case "KR":
+      return [
+        {
+          label: "올리브영에서 찾기",
+          href: `https://www.oliveyoung.co.kr/store/search/getSearchMain.do?query=${encodedName}`,
+        },
+        {
+          label: "쿠팡에서 찾기",
+          href: `https://www.coupang.com/np/search?q=${encodedName}`,
+        },
+        {
+          label: "네이버쇼핑에서 찾기",
+          href: `https://search.shopping.naver.com/search/all?query=${encodedName}`,
+        },
+      ];
+    default:
+      return [
+        {
+          label: "Find on YesStyle",
+          href: `https://www.yesstyle.com/en/search.html?keyword=${encodedName}`,
+        },
+      ];
+  }
+}
+
 export default function ResultsPage() {
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [country, setCountry] = useState<CountryCode>("OTHER");
+  const [locale, setLocale] = useState<Locale>("en");
+
+  const messages = LOCALE_MESSAGES[locale];
 
   useEffect(() => {
     async function fetchProducts() {
@@ -38,34 +117,50 @@ export default function ResultsPage() {
         const { data, error: fetchError } = await supabase
           .from("products")
           .select(
-            "id, name, brand, category, skin_concern, skin_tone, key_ingredients, price_usd, recommendation_reason, where_to_find_us, where_to_find_jp, slug"
+            "id, name, name_ko, brand, category, skin_concern, skin_tone, key_ingredients, price_usd, recommendation_reason, slug"
           )
           .limit(10000);
 
         if (fetchError) {
-          console.error("[Supabase products fetch error]", {
-            message: fetchError.message,
-            details: fetchError.details,
-            hint: fetchError.hint,
-            code: fetchError.code,
-          });
+          console.error("[Supabase products fetch error]", fetchError);
           setError(fetchError.message);
           return;
         }
-        const list = (data as ProductRow[]) ?? [];
-        setProducts(list);
-        if (process.env.NODE_ENV === "development") {
-          console.log("[Supabase products] loaded count:", list.length);
-        }
+        setProducts((data as ProductRow[]) ?? []);
       } catch (e) {
         const err = e instanceof Error ? e : new Error(String(e));
-        console.error("[Supabase products fetch exception]", err.message, err);
+        console.error("[Supabase products fetch exception]", err);
         setError(err.message);
       } finally {
         setLoading(false);
       }
     }
+
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    async function detectCountry() {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        if (!res.ok) return;
+        const json = (await res.json()) as { country_code?: string };
+        const code = json.country_code;
+        if (code === "US") {
+          setCountry("US");
+        } else if (code === "JP") {
+          setCountry("JP");
+        } else if (code === "KR") {
+          setCountry("KR");
+        } else {
+          setCountry("OTHER");
+        }
+      } catch (e) {
+        console.error("[ipapi] country detect failed", e);
+      }
+    }
+
+    detectCountry();
   }, []);
 
   if (loading) {
@@ -100,8 +195,32 @@ export default function ResultsPage() {
               K-Beauty Recommendations
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
-              Your K-Beauty Matches
+              {messages.results_title}
             </h1>
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <button
+              type="button"
+              onClick={() => setLocale("en")}
+              className={`rounded-full px-3 py-1 transition ${
+                locale === "en"
+                  ? "bg-[#C2185B] text-white"
+                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+              }`}
+            >
+              🇺🇸
+            </button>
+            <button
+              type="button"
+              onClick={() => setLocale("ja")}
+              className={`rounded-full px-3 py-1 transition ${
+                locale === "ja"
+                  ? "bg-[#C2185B] text-white"
+                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+              }`}
+            >
+              🇯🇵
+            </button>
           </div>
         </header>
 
@@ -115,9 +234,12 @@ export default function ResultsPage() {
                   ? ingredientNameToSlug(keyIngredients[0])
                   : null;
               const priceDisplay =
-                product.price_usd != null
-                  ? `$${product.price_usd}`
-                  : null;
+                product.price_usd != null ? `$${product.price_usd}` : null;
+              const purchaseLinks = buildPurchaseLinks(
+                country,
+                product.name,
+                product.name_ko
+              );
 
               return (
                 <article
@@ -132,10 +254,7 @@ export default function ResultsPage() {
                   </h2>
                   {(product.skin_concern || product.skin_tone) && (
                     <p className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-gray-500">
-                      {[
-                        product.skin_concern,
-                        product.skin_tone,
-                      ]
+                      {[product.skin_concern, product.skin_tone]
                         .filter(Boolean)
                         .join(" · ")}
                     </p>
@@ -167,22 +286,23 @@ export default function ResultsPage() {
                       </p>
                     )}
                     <div className="flex flex-col gap-2 text-sm sm:flex-row">
-                      {product.where_to_find_us && (
+                      {purchaseLinks.map((link) => (
                         <a
-                          href={product.where_to_find_us}
+                          key={link.href}
+                          href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex flex-1 items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 font-semibold text-white shadow-sm transition hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                         >
-                          Find This Product
+                          {link.label}
                         </a>
-                      )}
+                      ))}
                       {firstIngredientSlug ? (
                         <Link
                           href={`/ingredients/${firstIngredientSlug}`}
                           className="inline-flex flex-1 items-center justify-center rounded-full border border-[#C2185B] bg-white px-4 py-2 font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                         >
-                          View Ingredients
+                          {messages.view_ingredients}
                         </Link>
                       ) : null}
                     </div>
@@ -212,3 +332,4 @@ export default function ResultsPage() {
     </div>
   );
 }
+

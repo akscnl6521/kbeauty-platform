@@ -1,6 +1,11 @@
+ "use client";
+
 import Link from "next/link";
+import { useLocale } from "@/hooks/useLocale";
 
 export default function Home() {
+  const { messages, locale, setLocale } = useLocale();
+
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
@@ -8,6 +13,30 @@ export default function Home() {
         <header className="flex items-center justify-between">
           <div className="text-lg font-semibold tracking-[0.2em] text-[#C2185B]">
             KBEAUTY GUIDE
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <button
+              type="button"
+              onClick={() => setLocale("en")}
+              className={`rounded-full px-3 py-1 transition ${
+                locale === "en"
+                  ? "bg-[#C2185B] text-white"
+                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+              }`}
+            >
+              🇺🇸
+            </button>
+            <button
+              type="button"
+              onClick={() => setLocale("ja")}
+              className={`rounded-full px-3 py-1 transition ${
+                locale === "ja"
+                  ? "bg-[#C2185B] text-white"
+                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+              }`}
+            >
+              🇯🇵
+            </button>
           </div>
         </header>
 
@@ -18,12 +47,10 @@ export default function Home() {
               K-Beauty Discovery Platform
             </p>
             <h1 className="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-              Find Your Perfect
-              <span className="block text-[#C2185B]">K-Beauty Match</span>
+              {messages.find_match}
             </h1>
             <p className="text-base leading-relaxed text-gray-600 md:text-lg">
-              Personalized recommendations based on your skin tone, concerns, and budget.
-              Discover Korean skincare routines, product matches, and routines curated just for you.
+              {messages.subtitle}
             </p>
             <div className="mt-4">
               <Link href="/quiz">
@@ -31,7 +58,7 @@ export default function Home() {
                   type="button"
                   className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#C2185B33] transition hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
-                  Find My Skincare
+                  {messages.start_button}
                 </button>
               </Link>
             </div>
