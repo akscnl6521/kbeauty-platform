@@ -39,7 +39,8 @@ export default function ResultsPage() {
           .from("products")
           .select(
             "id, name, brand, category, skin_concern, skin_tone, key_ingredients, price_usd, recommendation_reason, where_to_find_us, where_to_find_jp, slug"
-          );
+          )
+          .limit(10000);
 
         if (fetchError) {
           setError(fetchError.message);
