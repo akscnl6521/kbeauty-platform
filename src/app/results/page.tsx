@@ -43,12 +43,24 @@ export default function ResultsPage() {
           .limit(10000);
 
         if (fetchError) {
+          console.error("[Supabase products fetch error]", {
+            message: fetchError.message,
+            details: fetchError.details,
+            hint: fetchError.hint,
+            code: fetchError.code,
+          });
           setError(fetchError.message);
           return;
         }
-        setProducts((data as ProductRow[]) ?? []);
+        const list = (data as ProductRow[]) ?? [];
+        setProducts(list);
+        if (process.env.NODE_ENV === "development") {
+          console.log("[Supabase products] loaded count:", list.length);
+        }
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Failed to load products");
+        const err = e instanceof Error ? e : new Error(String(e));
+        console.error("[Supabase products fetch exception]", err.message, err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
