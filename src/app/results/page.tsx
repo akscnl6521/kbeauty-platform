@@ -695,14 +695,14 @@ function ResultsPageInner() {
                         {priceDisplay}
                       </p>
                     )}
-                    <div className="flex flex-col gap-2 text-sm sm:flex-row">
+                    <div className="flex flex-wrap gap-2">
                       {purchaseLinks.map((link) => (
                         <a
                           key={link.href}
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex flex-1 items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 font-semibold text-white shadow-md shadow-[#C2185B33] transition-transform transition-colors duration-200 hover:-translate-y-0.5 hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAF8]"
+                          className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white shadow-md shadow-[#C2185B33] transition-transform transition-colors duration-200 hover:-translate-y-0.5 hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAF8]"
                         >
                           {link.label}
                         </a>
@@ -710,7 +710,7 @@ function ResultsPageInner() {
                       {product.key_ingredients?.length && firstIngredientSlug ? (
                         <Link
                           href={`/ingredients/${firstIngredientSlug}`}
-                          className="inline-flex flex-1 items-center justify-center rounded-full border border-[#C2185B] bg-white px-4 py-2 font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                          className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-transparent px-4 py-2 text-xs font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAF8]"
                         >
                           {messages.view_ingredients}
                         </Link>

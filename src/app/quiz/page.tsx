@@ -70,6 +70,15 @@ export default function QuizPage() {
 
   const totalSteps = 4;
 
+  const optionClass = (key: StepKey, value: string) => {
+    const selected = answers[key] === value;
+    return `rounded-full border px-5 py-2 text-sm font-medium transition ${
+      selected
+        ? "border-[#C2185B] bg-[#C2185B] text-white shadow-md shadow-[#C2185B33]"
+        : "border-pink-100 bg-white text-gray-800 hover:border-[#C2185B] hover:bg-pink-50"
+    }`;
+  };
+
   const budgetToParam = (raw: string): string => {
     if (raw === "Budget ($0-20)") return "low";
     if (raw === "Mid-range ($20-50)") return "mid";
@@ -110,7 +119,7 @@ export default function QuizPage() {
                   key={value}
                   type="button"
                   onClick={() => handleSelect("age", value, false)}
-                  className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
+                  className={optionClass("age", value)}
                 >
                   {optionLabel(value, locale)}
                 </button>
@@ -131,7 +140,7 @@ export default function QuizPage() {
                   key={value}
                   type="button"
                   onClick={() => handleSelect("tone", value, false)}
-                  className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
+                  className={optionClass("tone", value)}
                 >
                   {optionLabel(value, locale)}
                 </button>
@@ -151,7 +160,7 @@ export default function QuizPage() {
                     key={value}
                     type="button"
                     onClick={() => handleSelect("undertone", value, false)}
-                    className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
+                    className={optionClass("undertone", value)}
                   >
                     {optionLabel(value, locale)}
                   </button>
@@ -173,7 +182,7 @@ export default function QuizPage() {
                   key={value}
                   type="button"
                   onClick={() => handleSelect("concern", value, false)}
-                  className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
+                  className={optionClass("concern", value)}
                 >
                   {optionLabel(value, locale)}
                 </button>
@@ -199,7 +208,7 @@ export default function QuizPage() {
                   key={value}
                   type="button"
                   onClick={() => handleSelect("budget", value, true)}
-                  className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
+                  className={optionClass("budget", value)}
                 >
                   {budgetLabel(value, locale)}
                 </button>
@@ -219,7 +228,7 @@ export default function QuizPage() {
           content="Take our quick quiz to find K-beauty products perfect for your skin tone, concerns and budget."
         />
       </Head>
-      <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-6 py-10">
+      <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-6 py-10">
         {/* Top label & language toggle */}
         <div className="mb-8 flex items-center justify-between">
           <div className="font-['Playfair_Display',serif] text-sm font-semibold uppercase tracking-[0.3em] text-[#B8860B]">
@@ -262,8 +271,8 @@ export default function QuizPage() {
           </div>
         </div>
 
-        <section className="flex flex-1 flex-col justify-center">
-          <div className="rounded-3xl border border-pink-100 bg-pink-50/40 p-6 shadow-sm sm:p-8">
+        <section className="mt-16 flex flex-1 items-center justify-center">
+          <div className="w-full rounded-3xl border border-pink-100 bg-pink-50/40 p-6 shadow-sm sm:p-8">
             {renderStep()}
 
             {/* Progress */}
