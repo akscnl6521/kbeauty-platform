@@ -228,9 +228,10 @@ export default function QuizPage() {
           content="Take our quick quiz to find K-beauty products perfect for your skin tone, concerns and budget."
         />
       </Head>
-      <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-6 py-10">
+      <main className="min-h-screen flex items-center justify-center bg-[#FAFAF8] px-6 py-10">
         {/* Top label & language toggle */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="absolute left-0 right-0 top-0 mx-auto max-w-2xl px-6 py-10">
+          <div className="mb-8 flex items-center justify-between">
           <div className="font-['Playfair_Display',serif] text-sm font-semibold uppercase tracking-[0.3em] text-[#B8860B]">
             K-Beauty Quiz
           </div>
@@ -270,9 +271,10 @@ export default function QuizPage() {
             </button>
           </div>
         </div>
+        </div>
 
-        <section className="mt-16 flex flex-1 items-center justify-center">
-          <div className="w-full rounded-3xl border border-pink-100 bg-pink-50/40 p-6 shadow-sm sm:p-8">
+        <section className="w-full max-w-2xl">
+          <div className="w-full max-w-2xl rounded-3xl border border-pink-100 bg-white p-8 shadow-sm">
             {renderStep()}
 
             {/* Progress */}
