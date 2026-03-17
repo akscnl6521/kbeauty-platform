@@ -123,7 +123,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-white font-sans text-gray-900">
+      <div className="flex min-h-screen items-center justify-center bg-[#FAFAF8] text-[#1A1A1A]">
         <p className="text-sm text-gray-500">Loading ingredient...</p>
       </div>
     );
@@ -131,7 +131,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
 
   if (error) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-white font-sans text-gray-900 px-6">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[#FAFAF8] text-[#1A1A1A] px-6">
         <p className="text-sm text-red-600">{error}</p>
         <Link
           href="/results"
@@ -145,7 +145,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
 
   if (!ingredient) {
     return (
-      <div className="min-h-screen bg-white font-sans text-gray-900">
+      <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
         <Head>
           <title>K-Beauty Ingredient Guide | KBEAUTY GUIDE</title>
           <meta
@@ -213,7 +213,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
         : ingredient.caution;
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
       <Head>
         <title>{`${displayName} | K-Beauty Ingredient Guide`}</title>
         {(displayMechanism ?? ingredient.mechanism) && (
@@ -226,10 +226,10 @@ export default function IngredientPage({ params }: IngredientPageProps) {
       <main className="mx-auto flex min-h-screen max-w-4xl flex-col px-6 py-10">
         {/* Header */}
         <header className="mb-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C2185B]">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#B8860B]">
             K-Beauty Ingredient Insight
           </p>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+          <h1 className="mt-4 font-['Playfair_Display',serif] text-3xl font-semibold tracking-tight text-[#1A1A1A] md:text-4xl">
             {displayName}
           </h1>
 

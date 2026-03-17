@@ -469,7 +469,7 @@ function ResultsPageInner() {
   }
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
       <Head>
         <title>Your K-Beauty Matches | KBEAUTY GUIDE</title>
         <meta
@@ -481,10 +481,10 @@ function ResultsPageInner() {
         {/* Header */}
         <header className="mb-6 flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C2185B]">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#B8860B]">
               K-Beauty Recommendations
             </p>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+            <h1 className="mt-3 font-['Playfair_Display',serif] text-3xl font-semibold tracking-tight text-[#1A1A1A] md:text-4xl">
               {messages.results_title}
             </h1>
           </div>
@@ -627,7 +627,7 @@ function ResultsPageInner() {
               return (
                 <article
                   key={product.id}
-                  className="relative flex h-full flex-col rounded-3xl border border-pink-100 bg-pink-50/40 p-5 shadow-sm"
+                  className="relative flex h-full flex-col rounded-3xl border border-[#F3E5F5] bg-white p-5 shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-transform duration-200 hover:-translate-y-1"
                 >
                   <button
                     type="button"
@@ -639,7 +639,7 @@ function ResultsPageInner() {
                       {isFavorite ? "❤️" : "🤍"}
                     </span>
                   </button>
-                  <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B]">
+                  <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#B8860B]">
                     {product.brand}
                   </div>
                   <h2 className="mb-2 text-lg font-semibold text-gray-900">
@@ -702,7 +702,7 @@ function ResultsPageInner() {
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex flex-1 items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 font-semibold text-white shadow-sm transition hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                          className="inline-flex flex-1 items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 font-semibold text-white shadow-md shadow-[#C2185B33] transition-transform transition-colors duration-200 hover:-translate-y-0.5 hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAF8]"
                         >
                           {link.label}
                         </a>

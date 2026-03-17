@@ -8,7 +8,7 @@ export default function Home() {
   const { messages, locale, setLocale } = useLocale();
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+    <div className="relative min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
       <Head>
         <title>
           KBEAUTY GUIDE - Personalized Korean Skincare Recommendations
@@ -18,6 +18,12 @@ export default function Home() {
           content="Find your perfect K-beauty match based on skin tone, age, concerns and budget. Science-backed ingredient information included."
         />
       </Head>
+      {/* subtle background accent */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-gradient-to-br from-[#FCE4EC] via-transparent to-[#C2185B]/15 blur-3xl" />
+        <div className="absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-gradient-to-tr from-[#FFF3E0] via-transparent to-[#C2185B]/10 blur-3xl" />
+      </div>
+
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
         {/* Header */}
         <header className="flex items-center justify-between">
@@ -64,20 +70,20 @@ export default function Home() {
         {/* Hero Section */}
         <section className="mt-20 flex flex-1 flex-col items-start justify-center gap-8 md:mt-28 md:flex-row md:items-center md:gap-16">
           <div className="max-w-xl space-y-6">
-            <p className="text-xs font-medium uppercase tracking-[0.3em] text-[#C2185B]">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#B8860B]">
               {messages.platform_tag}
             </p>
-            <h1 className="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+            <h1 className="font-['Playfair_Display',serif] text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
               {messages.find_match}
             </h1>
-            <p className="text-base leading-relaxed text-gray-600 md:text-lg">
+            <p className="font-['DM_Sans',system-ui,sans-serif] text-base leading-relaxed text-gray-700 md:text-lg">
               {messages.subtitle}
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link href="/quiz">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#C2185B33] transition hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#C2185B33] transition-transform transition-colors duration-200 hover:-translate-y-0.5 hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAF8]"
                 >
                   {messages.start_button}
                 </button>
@@ -85,7 +91,7 @@ export default function Home() {
               <Link href="/analyze">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-full border border-pink-200 px-6 py-3 text-sm font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex items-center justify-center rounded-full border border-[#C2185B]/30 bg-white/70 px-6 py-3 text-sm font-semibold text-[#C2185B] shadow-sm transition-transform transition-colors duration-200 hover:-translate-y-0.5 hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAF8]"
                 >
                   {locale === "ko"
                     ? "AI 피부 분석"
@@ -95,11 +101,11 @@ export default function Home() {
                 </button>
               </Link>
             </div>
-            <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-500">
-              <span className="rounded-full bg-pink-50 px-4 py-1 text-[#C2185B]">
+            <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-600">
+              <span className="rounded-full bg-pink-50 px-4 py-1 text-[#C2185B] shadow-sm">
                 {messages.badge_skin_tone}
               </span>
-              <span className="rounded-full bg-pink-50 px-4 py-1 text-[#C2185B]">
+              <span className="rounded-full bg-pink-50 px-4 py-1 text-[#C2185B] shadow-sm">
                 {messages.badge_budget}
               </span>
             </div>

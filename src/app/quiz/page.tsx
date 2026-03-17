@@ -211,7 +211,7 @@ export default function QuizPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
       <Head>
         <title>Find Your K-Beauty Match | KBEAUTY GUIDE</title>
         <meta
@@ -222,7 +222,7 @@ export default function QuizPage() {
       <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-6 py-10">
         {/* Top label & language toggle */}
         <div className="mb-8 flex items-center justify-between">
-          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C2185B]">
+          <div className="font-['Playfair_Display',serif] text-sm font-semibold uppercase tracking-[0.3em] text-[#B8860B]">
             K-Beauty Quiz
           </div>
           <div className="flex items-center gap-2 text-sm">
