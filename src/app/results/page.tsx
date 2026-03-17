@@ -21,7 +21,7 @@ type ProductRow = {
 
 type CountryCode = "US" | "JP" | "KR" | "OTHER";
 
-type Locale = "en" | "ja";
+type Locale = "en" | "ja" | "ko";
 
 type Messages = {
   results_title: string;
@@ -36,6 +36,10 @@ const LOCALE_MESSAGES: Record<Locale, Messages> = {
   ja: {
     results_title: "あなたへのK-ビューティーおすすめ",
     view_ingredients: "成分を見る",
+  },
+  ko: {
+    results_title: "나에게 맞는 K-뷰티 제품",
+    view_ingredients: "성분 보기",
   },
 };
 
@@ -110,7 +114,21 @@ export default function ResultsPage() {
   const [country, setCountry] = useState<CountryCode>("OTHER");
   const [locale, setLocale] = useState<Locale>("en");
 
+  const displayProductName = (product: ProductRow) =>
+    locale === "ko" && product.name_ko ? product.name_ko : product.name;
+
   const messages = LOCALE_MESSAGES[locale];
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("locale");
+      if (saved === "en" || saved === "ja" || saved === "ko") {
+        setLocale(saved);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -209,7 +227,14 @@ export default function ResultsPage() {
           <div className="flex items-center gap-2 text-sm">
             <button
               type="button"
-              onClick={() => setLocale("en")}
+              onClick={() => {
+                setLocale("en");
+                try {
+                  window.localStorage.setItem("locale", "en");
+                } catch {
+                  // ignore
+                }
+              }}
               className={`rounded-full px-3 py-1 transition ${
                 locale === "en"
                   ? "bg-[#C2185B] text-white"
@@ -220,7 +245,14 @@ export default function ResultsPage() {
             </button>
             <button
               type="button"
-              onClick={() => setLocale("ja")}
+              onClick={() => {
+                setLocale("ja");
+                try {
+                  window.localStorage.setItem("locale", "ja");
+                } catch {
+                  // ignore
+                }
+              }}
               className={`rounded-full px-3 py-1 transition ${
                 locale === "ja"
                   ? "bg-[#C2185B] text-white"
@@ -228,6 +260,24 @@ export default function ResultsPage() {
               }`}
             >
               🇯🇵
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setLocale("ko");
+                try {
+                  window.localStorage.setItem("locale", "ko");
+                } catch {
+                  // ignore
+                }
+              }}
+              className={`rounded-full px-3 py-1 transition ${
+                locale === "ko"
+                  ? "bg-[#C2185B] text-white"
+                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+              }`}
+            >
+              🇰🇷
             </button>
           </div>
         </header>
@@ -258,7 +308,7 @@ export default function ResultsPage() {
                     {product.brand}
                   </div>
                   <h2 className="mb-2 text-lg font-semibold text-gray-900">
-                    {product.name}
+                    {displayProductName(product)}
                   </h2>
                   {(product.skin_concern || product.skin_tone) && (
                     <p className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-gray-500">

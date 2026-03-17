@@ -172,6 +172,17 @@ export default function QuizPage() {
             >
               🇯🇵
             </button>
+            <button
+              type="button"
+              onClick={() => setLocale("ko")}
+              className={`rounded-full px-3 py-1 transition ${
+                locale === "ko"
+                  ? "bg-[#C2185B] text-white"
+                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+              }`}
+            >
+              🇰🇷
+            </button>
           </div>
         </div>
 

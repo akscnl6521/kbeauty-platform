@@ -4,12 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import { useCountry } from "@/hooks/useCountry";
 import en from "@/locales/en.json";
 import ja from "@/locales/ja.json";
+import ko from "@/locales/ko.json";
 
-type SupportedLocale = "en" | "ja";
+type SupportedLocale = "en" | "ja" | "ko";
 
 const messagesMap = {
   en,
   ja,
+  ko,
 } as const;
 
 export type Messages = typeof en;
@@ -31,7 +33,7 @@ export function useLocale(): UseLocaleResult {
     let initial: SupportedLocale | null = null;
     try {
       const saved = window.localStorage.getItem(LOCALE_STORAGE_KEY);
-      if (saved === "en" || saved === "ja") {
+      if (saved === "en" || saved === "ja" || saved === "ko") {
         initial = saved;
       }
     } catch {
@@ -39,7 +41,9 @@ export function useLocale(): UseLocaleResult {
     }
 
     if (!initial) {
-      if (countryCode === "JP") {
+      if (countryCode === "KR") {
+        initial = "ko";
+      } else if (countryCode === "JP") {
         initial = "ja";
       } else {
         initial = "en";
