@@ -13,7 +13,7 @@ export default function Home() {
       : messages.find_match;
   const subcopy =
     locale === "ko"
-      ? "피부톤, 고민, 성분, 예산을 기준으로 K-뷰티 정보를 정리해드립니다"
+      ? "피부톤, 고민, 성분, 예산을 기준으로 K-뷰티 정보를 정리해드립니다. AI 분석 기능을 통해 피부 특성과 관심 성분을 더 빠르게 확인할 수 있습니다."
       : messages.subtitle;
 
   return (
@@ -123,15 +123,15 @@ export default function Home() {
           <div className="relative z-10">
             <div className="rounded-3xl bg-white p-8 shadow-[0_18px_50px_rgba(0,0,0,0.10)]">
               <p className="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-gray-400">
-                PERSONALIZED GUIDE PREVIEW
+                AI GUIDE PREVIEW
               </p>
 
               <div className="space-y-5">
                 {[
-                  { n: "01", t: locale === "ko" ? "피부 타입 이해" : messages.preview_step_1 },
+                  { n: "01", t: locale === "ko" ? "피부 타입 추정" : messages.preview_step_1 },
                   { n: "02", t: locale === "ko" ? "주요 고민 정리" : messages.preview_step_2 },
-                  { n: "03", t: locale === "ko" ? "추천 성분 확인" : messages.preview_step_3 },
-                  { n: "04", t: locale === "ko" ? "루틴 가이드 보기" : messages.preview_step_4 },
+                  { n: "03", t: locale === "ko" ? "추천 성분 제안" : messages.preview_step_3 },
+                  { n: "04", t: locale === "ko" ? "루틴 가이드 안내" : messages.preview_step_4 },
                 ].map((row) => (
                   <div key={row.n} className="flex items-start gap-4">
                     <div className="w-10 text-sm font-semibold text-[#B8860B]">
