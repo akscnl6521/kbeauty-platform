@@ -23,13 +23,23 @@ const OPTION_LABELS_KO: Record<string, string> = {
   Acne: "여드름",
   Dullness: "칙칙함",
   "Anti-aging": "노화 방지",
-  "Budget ($0-20)": "저가 ($0-20)",
-  "Mid-range ($20-50)": "중가 ($20-50)",
-  "Premium ($50+)": "프리미엄 ($50+)",
 };
 
 function optionLabel(value: string, locale: string): string {
   return locale === "ko" ? OPTION_LABELS_KO[value] ?? value : value;
+}
+
+function budgetLabel(value: string, locale: string): string {
+  if (locale === "ko") {
+    if (value === "Budget ($0-20)") return "저가 (₩0-27,000)";
+    if (value === "Mid-range ($20-50)") return "중가 (₩27,000-67,500)";
+    if (value === "Premium ($50+)") return "프리미엄 (₩67,500+)";
+  } else if (locale === "ja") {
+    if (value === "Budget ($0-20)") return "低価格 (¥0-3,000)";
+    if (value === "Mid-range ($20-50)") return "中価格 (¥3,000-7,500)";
+    if (value === "Premium ($50+)") return "プレミアム (¥7,500+)";
+  }
+  return value;
 }
 
 export default function QuizPage() {
@@ -165,7 +175,7 @@ export default function QuizPage() {
                   onClick={() => handleSelect("budget", value, true)}
                   className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
                 >
-                  {optionLabel(value, locale)}
+                  {budgetLabel(value, locale)}
                 </button>
               ))}
             </div>
