@@ -287,6 +287,8 @@ function ResultsPageInner() {
   const [country, setCountry] = useState<CountryCode>("OTHER");
   const [locale, setLocale] = useState<Locale>("en");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const { krw, jpy } = useExchangeRate();
 
   const tone = searchParams.get("tone");
@@ -305,12 +307,17 @@ function ResultsPageInner() {
     });
   }, [products, tone, concern, budget]);
 
-  // 검색어 기반 2차 필터 (name/name_ko/name_ja/brand)
+  // 검색어 + 즐겨찾기 기반 2차 필터 (name/name_ko/name_ja/brand, favorites)
   const filteredProducts = useMemo(() => {
+    const favoritesSet = new Set(favoriteIds);
     const query = searchQuery.trim().toLowerCase();
-    if (!query) return quizFilteredProducts;
+    if (!query && !showFavoritesOnly) return quizFilteredProducts;
 
     return quizFilteredProducts.filter((p) => {
+      if (showFavoritesOnly && !favoritesSet.has(p.id)) return false;
+
+      if (!query) return true;
+
       const nameEn = p.name ?? "";
       const nameKo = p.name_ko ?? "";
       const nameJa = p.name_ja ?? "";
@@ -318,7 +325,7 @@ function ResultsPageInner() {
       const haystack = `${nameEn} ${nameKo} ${nameJa} ${brand}`.toLowerCase();
       return haystack.includes(query);
     });
-  }, [quizFilteredProducts, searchQuery]);
+  }, [quizFilteredProducts, searchQuery, favoriteIds, showFavoritesOnly]);
 
   useEffect(() => {
     if (filteredProducts.length > 0) {
@@ -347,6 +354,34 @@ function ResultsPageInner() {
   const exchangeRates = { krw, jpy };
   // 판매처는 IP 기반 country만 사용, locale은 화면 텍스트에만 영향
   const effectiveCountry: CountryCode = country;
+
+  // 즐겨찾기 로드
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem("favoriteProductIds");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          setFavoriteIds(parsed.filter((v) => typeof v === "string"));
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const toggleFavorite = (productId: string) => {
+    setFavoriteIds((prev) => {
+      const exists = prev.includes(productId);
+      const next = exists ? prev.filter((id) => id !== productId) : [...prev, productId];
+      try {
+        window.localStorage.setItem("favoriteProductIds", JSON.stringify(next));
+      } catch {
+        // ignore
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     try {
@@ -513,8 +548,8 @@ function ResultsPageInner() {
 
         {/* Product cards */}
         <section className="flex-1">
-          {/* Search input just above grid */}
-          <div className="mb-6">
+          {/* Search + favorites toggle just above grid */}
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <input
               type="text"
               value={searchQuery}
@@ -522,6 +557,21 @@ function ResultsPageInner() {
               placeholder={searchPlaceholder}
               className="w-full rounded-full border border-pink-200 bg-white px-5 py-3 text-sm text-gray-900 shadow-sm focus:border-[#C2185B] focus:outline-none focus:ring-1 focus:ring-[#C2185B]"
             />
+            <button
+              type="button"
+              onClick={() => setShowFavoritesOnly((prev) => !prev)}
+              className={`mt-1 inline-flex items-center justify-center rounded-full px-4 py-2 text-xs font-semibold transition sm:mt-0 ${
+                showFavoritesOnly
+                  ? "bg-[#C2185B] text-white"
+                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+              }`}
+            >
+              {locale === "ko"
+                ? "즐겨찾기"
+                : locale === "ja"
+                  ? "お気に入り"
+                  : "Favorites"}
+            </button>
           </div>
           {filteredProducts.length === 0 ? (
             <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-8 text-center">
@@ -560,11 +610,23 @@ function ResultsPageInner() {
               );
               const purchaseLinks = buildPurchaseLinks(effectiveCountry, product);
 
+              const isFavorite = favoriteIds.includes(product.id);
+
               return (
                 <article
                   key={product.id}
-                  className="flex h-full flex-col rounded-3xl border border-pink-100 bg-pink-50/40 p-5 shadow-sm"
+                  className="relative flex h-full flex-col rounded-3xl border border-pink-100 bg-pink-50/40 p-5 shadow-sm"
                 >
+                  <button
+                    type="button"
+                    onClick={() => toggleFavorite(product.id)}
+                    className="absolute right-4 top-4 text-xl"
+                    aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                  >
+                    <span className={isFavorite ? "text-[#C2185B]" : "text-gray-300"}>
+                      {isFavorite ? "❤️" : "🤍"}
+                    </span>
+                  </button>
                   <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B]">
                     {product.brand}
                   </div>
