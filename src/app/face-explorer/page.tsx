@@ -1,7 +1,7 @@
 "use client";
 
-import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import { useLocale } from "@/hooks/useLocale";
 
@@ -181,21 +181,20 @@ const AREA_INFO: Record<Locale, Record<FaceArea, AreaInfo>> = {
 };
 
 function areaHitboxClass(area: FaceArea): string {
-  // These positions are tuned for the provided /face-female.png & /face-male.png illustrations.
-  // Percent-based for responsive scaling.
+  // Percent-based positions requested by user
   switch (area) {
     case "forehead":
-      return "left-[34%] top-[10%] w-[32%] h-[16%]";
+      return "top-[15%] left-[35%] w-[30%] h-[12%]";
     case "eyes":
-      return "left-[26%] top-[28%] w-[48%] h-[14%]";
+      return "top-[28%] left-[20%] w-[60%] h-[12%]";
     case "cheeks":
-      return "left-[18%] top-[42%] w-[64%] h-[16%]";
+      return "top-[42%] left-[10%] w-[80%] h-[12%]";
     case "nose":
-      return "left-[42%] top-[40%] w-[16%] h-[18%]";
+      return "top-[46%] left-[38%] w-[24%] h-[12%]";
     case "lips":
-      return "left-[36%] top-[58%] w-[28%] h-[12%]";
+      return "top-[58%] left-[30%] w-[40%] h-[10%]";
     case "chin":
-      return "left-[32%] top-[68%] w-[36%] h-[16%]";
+      return "top-[68%] left-[25%] w-[50%] h-[10%]";
   }
 }
 
@@ -216,11 +215,6 @@ export default function FaceExplorerPage() {
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
-      <Head>
-        <title>{`${t.pageTitle} | KBEAUTY GUIDE`}</title>
-        <meta name="description" content={t.pageDesc} />
-      </Head>
-
       <main className="mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-10">
         <header className="mb-8 flex items-start justify-between gap-6">
           <div>
@@ -275,11 +269,13 @@ export default function FaceExplorerPage() {
             </div>
 
             <div className="relative mx-auto w-full max-w-xl">
-              <img
+              <Image
                 src={imageSrc}
                 alt={gender === "female" ? "female face" : "male face"}
+                width={1024}
+                height={768}
                 className="h-auto w-full select-none rounded-2xl"
-                draggable={false}
+                priority
               />
 
               {/* Transparent clickable areas */}
