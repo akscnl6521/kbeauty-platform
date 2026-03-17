@@ -23,12 +23,12 @@ export default function FaceExplorer() {
   const info = activeZone ? zoneInfo[activeZone] : null;
 
   const zones = [
-    { id: "forehead", top: "12%", left: "30%", width: "40%", height: "10%" },
-    { id: "eyes", top: "28%", left: "15%", width: "70%", height: "12%" },
-    { id: "cheeks", top: "42%", left: "8%", width: "84%", height: "12%" },
-    { id: "nose", top: "46%", left: "36%", width: "28%", height: "12%" },
-    { id: "lips", top: "58%", left: "28%", width: "44%", height: "10%" },
-    { id: "chin", top: "68%", left: "22%", width: "56%", height: "10%" },
+    { id: "forehead", top: "10%", left: "33%", width: "34%", height: "13%" },
+    { id: "eyes", top: "26%", left: "22%", width: "56%", height: "11%" },
+    { id: "cheeks", top: "37%", left: "12%", width: "76%", height: "13%" },
+    { id: "nose", top: "43%", left: "38%", width: "24%", height: "13%" },
+    { id: "lips", top: "57%", left: "32%", width: "36%", height: "9%" },
+    { id: "chin", top: "65%", left: "28%", width: "44%", height: "10%" },
   ];
 
   return (
@@ -57,7 +57,7 @@ export default function FaceExplorer() {
               <Image src={gender === "female" ? "/face-female.png" : "/face-male.png"} alt="얼굴" width={400} height={500} className="w-full" />
               {zones.map((z) => (
                 <button key={z.id} onClick={() => setActiveZone(z.id as Zone)}
-                  style={{ position: "absolute", top: z.top, left: z.left, width: z.width, height: z.height, background: activeZone === z.id ? "rgba(194,24,91,0.2)" : "transparent", border: "none", borderRadius: 8, cursor: "pointer", transition: "background .2s" }}
+                  style={{ position: "absolute", top: z.top, left: z.left, width: z.width, height: z.height, background: activeZone === z.id ? "rgba(194,24,91,0.2)" : "transparent", border: activeZone === z.id ? "2px solid rgba(194,24,91,0.5)" : "none", borderRadius: 8, cursor: "pointer", transition: "background .2s, border .2s" }}
                   onMouseEnter={e => { if (activeZone !== z.id) (e.target as HTMLElement).style.background = "rgba(194,24,91,0.1)"; }}
                   onMouseLeave={e => { if (activeZone !== z.id) (e.target as HTMLElement).style.background = "transparent"; }}
                 />
