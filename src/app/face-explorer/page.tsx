@@ -221,7 +221,7 @@ export default function FaceExplorerPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C2185B]">
               K-Beauty Guide
             </p>
-            <h1 className="mt-3 font-['Playfair_Display',serif] text-3xl font-bold tracking-tight md:text-4xl">
+            <h1 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">
               {t.pageTitle}
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-600">
@@ -313,7 +313,7 @@ export default function FaceExplorerPage() {
               <span className="inline-flex rounded-full bg-pink-50 px-3 py-1 text-xs font-semibold text-[#C2185B]">
                 {selectedInfo.tag}
               </span>
-              <h2 className="mt-3 font-['Playfair_Display',serif] text-2xl font-bold tracking-tight">
+              <h2 className="mt-3 text-2xl font-bold tracking-tight">
                 {selectedInfo.title}
               </h2>
             </div>
