@@ -3,7 +3,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useLocale } from "@/hooks/useLocale";
 
 type Locale = "en" | "ja" | "ko";
