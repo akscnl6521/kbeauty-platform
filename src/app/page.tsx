@@ -73,13 +73,25 @@ export default function Home() {
             <p className="text-base leading-relaxed text-gray-600 md:text-lg">
               {messages.subtitle}
             </p>
-            <div className="mt-4">
+            <div className="mt-4 flex flex-wrap gap-3">
               <Link href="/quiz">
                 <button
                   type="button"
                   className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#C2185B33] transition hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   {messages.start_button}
+                </button>
+              </Link>
+              <Link href="/analyze">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-full border border-pink-200 px-6 py-3 text-sm font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                >
+                  {locale === "ko"
+                    ? "AI 피부 분석"
+                    : locale === "ja"
+                      ? "AI肌分析"
+                      : "AI Skin Analysis"}
                 </button>
               </Link>
             </div>
