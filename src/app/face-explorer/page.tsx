@@ -184,17 +184,17 @@ function areaHitboxClass(area: FaceArea): string {
   // Percent-based positions requested by user
   switch (area) {
     case "forehead":
-      return "top-[15%] left-[35%] w-[30%] h-[12%]";
+      return "top-[12%] left-[30%] w-[40%] h-[10%]";
     case "eyes":
-      return "top-[28%] left-[20%] w-[60%] h-[12%]";
+      return "top-[28%] left-[15%] w-[70%] h-[12%]";
     case "cheeks":
-      return "top-[42%] left-[10%] w-[80%] h-[12%]";
+      return "top-[42%] left-[8%] w-[84%] h-[12%]";
     case "nose":
-      return "top-[46%] left-[38%] w-[24%] h-[12%]";
+      return "top-[46%] left-[36%] w-[28%] h-[12%]";
     case "lips":
-      return "top-[58%] left-[30%] w-[40%] h-[10%]";
+      return "top-[58%] left-[28%] w-[44%] h-[10%]";
     case "chin":
-      return "top-[68%] left-[25%] w-[50%] h-[10%]";
+      return "top-[68%] left-[22%] w-[56%] h-[10%]";
   }
 }
 
@@ -268,13 +268,13 @@ export default function FaceExplorerPage() {
               </div>
             </div>
 
-            <div className="relative mx-auto w-full max-w-xl">
+            <div className="relative mx-auto w-full max-w-[400px] min-h-[500px]">
               <Image
                 src={imageSrc}
                 alt={gender === "female" ? "female face" : "male face"}
-                width={1024}
-                height={768}
-                className="h-auto w-full select-none rounded-2xl"
+                fill
+                sizes="(min-width: 768px) 400px, 100vw"
+                className="select-none rounded-2xl object-contain"
                 priority
               />
 
@@ -293,7 +293,7 @@ export default function FaceExplorerPage() {
                       areaHitboxClass(area),
                       "bg-transparent",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white",
-                      "hover:bg-[#C2185B]/10",
+                      "hover:bg-[rgba(194,24,91,0.15)]",
                       active ? "ring-2 ring-[#C2185B]/60" : "",
                     ].join(" ")}
                     aria-label={t.areaLabel[area]}
