@@ -7,6 +7,31 @@ import { useLocale } from "@/hooks/useLocale";
 
 type StepKey = "age" | "tone" | "undertone" | "concern" | "budget";
 
+const OPTION_LABELS_KO: Record<string, string> = {
+  "10s": "10대",
+  "20s": "20대",
+  "30s": "30대",
+  "40s+": "40대 이상",
+  Light: "밝은",
+  Medium: "중간",
+  Dark: "어두운",
+  Warm: "웜톤",
+  Cool: "쿨톤",
+  Neutral: "중립",
+  Redness: "붉은기",
+  Dryness: "건조함",
+  Acne: "여드름",
+  Dullness: "칙칙함",
+  "Anti-aging": "노화 방지",
+  "Budget ($0-20)": "저가 ($0-20)",
+  "Mid-range ($20-50)": "중가 ($20-50)",
+  "Premium ($50+)": "프리미엄 ($50+)",
+};
+
+function optionLabel(value: string, locale: string): string {
+  return locale === "ko" ? OPTION_LABELS_KO[value] ?? value : value;
+}
+
 export default function QuizPage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
@@ -15,11 +40,26 @@ export default function QuizPage() {
 
   const totalSteps = 4;
 
+  const budgetToParam = (raw: string): string => {
+    if (raw === "Budget ($0-20)") return "low";
+    if (raw === "Mid-range ($20-50)") return "mid";
+    if (raw === "Premium ($50+)") return "premium";
+    return "mid";
+  };
+
   const handleSelect = (key: StepKey, value: string, isLastStep: boolean) => {
-    setAnswers((prev) => ({ ...prev, [key]: value }));
+    const nextAnswers = { ...answers, [key]: value };
+    setAnswers(nextAnswers);
 
     if (isLastStep) {
-      router.push("/results");
+      const params = new URLSearchParams();
+      if (nextAnswers.age) params.set("age", nextAnswers.age);
+      if (nextAnswers.tone) params.set("tone", nextAnswers.tone);
+      if (nextAnswers.undertone) params.set("warmth", nextAnswers.undertone);
+      if (nextAnswers.concern) params.set("concern", nextAnswers.concern);
+      if (nextAnswers.budget)
+        params.set("budget", budgetToParam(nextAnswers.budget));
+      router.push(`/results?${params.toString()}`);
     } else {
       setStep((prev) => Math.min(prev + 1, totalSteps - 1));
     }
@@ -35,14 +75,14 @@ export default function QuizPage() {
             </h2>
             <p className="text-base text-gray-600">{messages.age_question}</p>
             <div className="flex flex-wrap gap-3">
-              {["10s", "20s", "30s", "40s+"].map((label) => (
+              {["10s", "20s", "30s", "40s+"].map((value) => (
                 <button
-                  key={label}
+                  key={value}
                   type="button"
-                  onClick={() => handleSelect("age", label, false)}
+                  onClick={() => handleSelect("age", value, false)}
                   className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
                 >
-                  {label}
+                  {optionLabel(value, locale)}
                 </button>
               ))}
             </div>
@@ -56,28 +96,28 @@ export default function QuizPage() {
             </h2>
             <p className="text-base text-gray-600">{messages.tone_question}</p>
             <div className="flex flex-wrap gap-3">
-              {["Light", "Medium", "Dark"].map((label) => (
+              {["Light", "Medium", "Dark"].map((value) => (
                 <button
-                  key={label}
+                  key={value}
                   type="button"
-                  onClick={() => handleSelect("tone", label, false)}
+                  onClick={() => handleSelect("tone", value, false)}
                   className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
                 >
-                  {label}
+                  {optionLabel(value, locale)}
                 </button>
               ))}
             </div>
             <div className="pt-2">
               <p className="mb-3 text-sm text-gray-600">And your undertone?</p>
               <div className="flex flex-wrap gap-3">
-                {["Warm", "Cool", "Neutral"].map((label) => (
+                {["Warm", "Cool", "Neutral"].map((value) => (
                   <button
-                    key={label}
+                    key={value}
                     type="button"
-                    onClick={() => handleSelect("undertone", label, false)}
+                    onClick={() => handleSelect("undertone", value, false)}
                     className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
                   >
-                    {label}
+                    {optionLabel(value, locale)}
                   </button>
                 ))}
               </div>
@@ -92,14 +132,14 @@ export default function QuizPage() {
             </h2>
             <p className="text-base text-gray-600">{messages.concern_question}</p>
             <div className="flex flex-wrap gap-3">
-              {["Redness", "Dryness", "Acne", "Dullness", "Anti-aging"].map((label) => (
+              {["Redness", "Dryness", "Acne", "Dullness", "Anti-aging"].map((value) => (
                 <button
-                  key={label}
+                  key={value}
                   type="button"
-                  onClick={() => handleSelect("concern", label, false)}
+                  onClick={() => handleSelect("concern", value, false)}
                   className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
                 >
-                  {label}
+                  {optionLabel(value, locale)}
                 </button>
               ))}
             </div>
@@ -118,14 +158,14 @@ export default function QuizPage() {
                 "Budget ($0-20)",
                 "Mid-range ($20-50)",
                 "Premium ($50+)",
-              ].map((label) => (
+              ].map((value) => (
                 <button
-                  key={label}
+                  key={value}
                   type="button"
-                  onClick={() => handleSelect("budget", label, true)}
+                  onClick={() => handleSelect("budget", value, true)}
                   className="rounded-full border border-pink-100 px-5 py-2 text-sm font-medium text-gray-800 transition hover:border-[#C2185B] hover:bg-pink-50"
                 >
-                  {label}
+                  {optionLabel(value, locale)}
                 </button>
               ))}
             </div>

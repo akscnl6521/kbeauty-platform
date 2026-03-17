@@ -8,6 +8,20 @@
   "age_question": "年齢層を教えてください",
   "tone_question": "肌のトーンは？",
   "concern_question": "主な肌の悩みは？",
-  "budget_question": "予算はどのくらいですか？"
+  "budget_question": "予算はどのくらいですか？",
+  "platform_tag": "K-ビューティー・ディスカバリープラットフォーム",
+  "badge_skin_tone": "肌トーン・悩みに合わせて",
+  "badge_budget": "予算別K-ビューティールーティン",
+  "preview_title": "プレビュー",
+  "skin_type": "肌タイプ",
+  "preview_skin_example": "混合・敏感",
+  "preview_routine_title": "今夜のK-ビューティールーティン",
+  "preview_step_1": "低pHジェルクレンザー",
+  "preview_step_2": "パンテノール化粧水",
+  "preview_step_3": "ナイアシンアミド＋バリアセラム",
+  "preview_step_4": "セラミドクリーム",
+  "footer_powered": "K-ビューティー成分、ルーティン、実際のユーザーデータに基づいています。",
+  "privacy_policy": "プライバシーポリシー",
+  "terms_of_service": "利用規約"
 }
 

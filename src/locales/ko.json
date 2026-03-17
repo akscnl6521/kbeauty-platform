@@ -8,5 +8,19 @@
   "age_question": "나이대를 선택해주세요",
   "tone_question": "피부톤이 어떻게 되세요?",
   "concern_question": "주요 피부 고민은 무엇인가요?",
-  "budget_question": "예산은 얼마나 되세요?"
+  "budget_question": "예산은 얼마나 되세요?",
+  "platform_tag": "K-뷰티 디스커버리 플랫폼",
+  "badge_skin_tone": "피부톤·고민 맞춤",
+  "badge_budget": "예산별 K-뷰티 루틴",
+  "preview_title": "미리보기",
+  "skin_type": "피부 타입",
+  "preview_skin_example": "복합성 · 민감성",
+  "preview_routine_title": "오늘 밤 K-뷰티 루틴",
+  "preview_step_1": "저자극 젤 클렌저",
+  "preview_step_2": "판테놀 토너",
+  "preview_step_3": "나이아신아마이드·장벽 세럼",
+  "preview_step_4": "세라마이드 크림",
+  "footer_powered": "K-뷰티 성분, 루틴, 실제 사용자 데이터 기반.",
+  "privacy_policy": "개인정보처리방침",
+  "terms_of_service": "이용약관"
 }

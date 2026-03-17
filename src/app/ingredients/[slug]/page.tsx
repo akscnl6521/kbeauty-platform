@@ -3,11 +3,14 @@
 import Head from "next/head";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
+import { useLocale } from "@/hooks/useLocale";
 import { supabase } from "@/lib/supabase";
 
 type IngredientPageProps = {
   params: Promise<{ slug: string }>;
 };
+
+type Locale = "en" | "ja" | "ko";
 
 type IngredientRow = {
   slug: string;
@@ -15,8 +18,11 @@ type IngredientRow = {
   name_ko: string | null;
   name_ja: string | null;
   effects: string[] | null;
+  effects_ko: string[] | null;
   mechanism: string | null;
+  mechanism_ko: string | null;
   caution: string | null;
+  caution_ko: string | null;
   paper_1_title: string | null;
   paper_1_year: string | null;
   paper_1_journal: string | null;
@@ -27,11 +33,60 @@ type IngredientRow = {
   paper_2_url: string | null;
 };
 
+const INGREDIENT_PAGE_LABELS: Record<
+  Locale,
+  {
+    howItWorks: string;
+    clinicalResearch: string;
+    viewOnPubmed: string;
+    importantNotice: string;
+    foundIn: string;
+    backToResults: string;
+  }
+> = {
+  en: {
+    howItWorks: "How it works",
+    clinicalResearch: "Clinical & Research Studies",
+    viewOnPubmed: "View on PubMed",
+    importantNotice: "Important note",
+    foundIn: "Found In",
+    backToResults: "Back to Results",
+  },
+  ja: {
+    howItWorks: "How it works",
+    clinicalResearch: "Clinical & Research Studies",
+    viewOnPubmed: "View on PubMed",
+    importantNotice: "Important note",
+    foundIn: "Found In",
+    backToResults: "Back to Results",
+  },
+  ko: {
+    howItWorks: "작용 원리",
+    clinicalResearch: "임상 연구",
+    viewOnPubmed: "PubMed에서 보기",
+    importantNotice: "주의사항",
+    foundIn: "이 성분이 들어간 제품",
+    backToResults: "결과로 돌아가기",
+  },
+};
+
+function displayIngredientName(
+  row: IngredientRow,
+  locale: Locale
+): string {
+  if (locale === "ko" && row.name_ko) return row.name_ko;
+  if (locale === "ja" && row.name_ja) return row.name_ja;
+  return row.name_en;
+}
+
 export default function IngredientPage({ params }: IngredientPageProps) {
   const { slug } = use(params);
+  const { locale } = useLocale();
   const [ingredient, setIngredient] = useState<IngredientRow | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const labels = INGREDIENT_PAGE_LABELS[locale];
 
   useEffect(() => {
     async function fetchIngredient() {
@@ -39,7 +94,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
         const { data, error: fetchError } = await supabase
           .from("ingredients")
           .select(
-            "slug, name_en, name_ko, name_ja, effects, mechanism, caution, paper_1_title, paper_1_year, paper_1_journal, paper_1_url, paper_2_title, paper_2_year, paper_2_journal, paper_2_url"
+            "slug, name_en, name_ko, name_ja, effects, effects_ko, mechanism, mechanism_ko, caution, caution_ko, paper_1_title, paper_1_year, paper_1_journal, paper_1_url, paper_2_title, paper_2_year, paper_2_journal, paper_2_url"
           )
           .eq("slug", slug)
           .maybeSingle();
@@ -79,7 +134,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
           href="/results"
           className="text-xs font-semibold text-[#C2185B] underline hover:no-underline"
         >
-          Back to Results
+          {labels.backToResults}
         </Link>
       </div>
     );
@@ -123,7 +178,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
                 type="button"
                 className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-5 py-2 text-xs font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               >
-                Back to Results
+                {labels.backToResults}
               </button>
             </Link>
           </footer>
@@ -132,14 +187,29 @@ export default function IngredientPage({ params }: IngredientPageProps) {
     );
   }
 
-  const effects = ingredient.effects ?? [];
+  const displayName = displayIngredientName(ingredient, locale);
+  const effects =
+    locale === "ko" && ingredient.effects_ko?.length
+      ? ingredient.effects_ko
+      : (ingredient.effects ?? []);
+  const displayMechanism =
+    locale === "ko" && ingredient.mechanism_ko
+      ? ingredient.mechanism_ko
+      : ingredient.mechanism;
+  const displayCaution =
+    locale === "ko" && ingredient.caution_ko
+      ? ingredient.caution_ko
+      : ingredient.caution;
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <Head>
-        <title>{`${ingredient.name_en} | K-Beauty Ingredient Guide`}</title>
-        {ingredient.mechanism && (
-          <meta name="description" content={ingredient.mechanism} />
+        <title>{`${displayName} | K-Beauty Ingredient Guide`}</title>
+        {(displayMechanism ?? ingredient.mechanism) && (
+          <meta
+            name="description"
+            content={displayMechanism ?? ingredient.mechanism ?? ""}
+          />
         )}
       </Head>
       <main className="mx-auto flex min-h-screen max-w-4xl flex-col px-6 py-10">
@@ -149,7 +219,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
             K-Beauty Ingredient Insight
           </p>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
-            {ingredient.name_en}
+            {displayName}
           </h1>
 
           {effects.length > 0 && (
@@ -167,13 +237,18 @@ export default function IngredientPage({ params }: IngredientPageProps) {
         </header>
 
         {/* Mechanism of action */}
-        {ingredient.mechanism && (
+        {displayMechanism && (
           <section className="mb-8">
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gray-700">
-              How it works
+              {labels.howItWorks}
             </h2>
             <div className="rounded-2xl border border-pink-100 bg-pink-50/60 p-5 text-sm leading-relaxed text-gray-800">
-              {ingredient.mechanism}
+              {displayMechanism}
+              {locale === "ko" && !ingredient.mechanism_ko && ingredient.mechanism && (
+                <p className="mt-2 text-xs text-gray-500">
+                  (영문으로 제공됩니다)
+                </p>
+              )}
             </div>
           </section>
         )}
@@ -182,7 +257,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
         {(ingredient.paper_1_title || ingredient.paper_2_title) && (
           <section className="mb-8">
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-gray-700">
-              Clinical & Research Studies
+              {labels.clinicalResearch}
             </h2>
             <div className="grid gap-4 md:grid-cols-2">
               {ingredient.paper_1_title && (
@@ -201,7 +276,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
                         rel="noopener noreferrer"
                         className="inline-flex items-center text-xs font-semibold text-[#C2185B] underline underline-offset-4 hover:text-[#a3154f]"
                       >
-                        View on PubMed
+                        {labels.viewOnPubmed}
                       </Link>
                     </div>
                   )}
@@ -224,7 +299,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
                         rel="noopener noreferrer"
                         className="inline-flex items-center text-xs font-semibold text-[#C2185B] underline underline-offset-4 hover:text-[#a3154f]"
                       >
-                        View on PubMed
+                        {labels.viewOnPubmed}
                       </Link>
                     </div>
                   )}
@@ -235,13 +310,13 @@ export default function IngredientPage({ params }: IngredientPageProps) {
         )}
 
         {/* Caution */}
-        {ingredient.caution && (
+        {displayCaution && (
           <section className="mb-8">
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gray-700">
-              Important note
+              {labels.importantNotice}
             </h2>
             <div className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-xs leading-relaxed text-gray-800">
-              {ingredient.caution}
+              {displayCaution}
             </div>
           </section>
         )}
@@ -253,7 +328,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
               type="button"
               className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-5 py-2 text-xs font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              Back to Results
+              {labels.backToResults}
             </button>
           </Link>
         </footer>

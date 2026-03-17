@@ -65,7 +65,7 @@ export default function Home() {
         <section className="mt-20 flex flex-1 flex-col items-start justify-center gap-8 md:mt-28 md:flex-row md:items-center md:gap-16">
           <div className="max-w-xl space-y-6">
             <p className="text-xs font-medium uppercase tracking-[0.3em] text-[#C2185B]">
-              K-Beauty Discovery Platform
+              {messages.platform_tag}
             </p>
             <h1 className="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
               {messages.find_match}
@@ -85,10 +85,10 @@ export default function Home() {
             </div>
             <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-500">
               <span className="rounded-full bg-pink-50 px-4 py-1 text-[#C2185B]">
-                Skin tone & concern matching
+                {messages.badge_skin_tone}
               </span>
               <span className="rounded-full bg-pink-50 px-4 py-1 text-[#C2185B]">
-                K-beauty routines by budget
+                {messages.badge_budget}
               </span>
             </div>
           </div>
@@ -97,23 +97,23 @@ export default function Home() {
           <div className="mt-10 w-full max-w-sm md:mt-0">
             <div className="relative rounded-3xl border border-pink-100 bg-pink-50/60 p-6">
               <div className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-[#C2185B]">
-                Preview
+                {messages.preview_title}
               </div>
               <div className="space-y-4 rounded-2xl bg-white p-4 shadow-sm">
                 <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Skin Type</span>
+                  <span>{messages.skin_type}</span>
                   <span className="rounded-full bg-pink-50 px-3 py-1 text-[11px] font-medium text-[#C2185B]">
-                    Combination · Sensitive
+                    {messages.preview_skin_example}
                   </span>
                 </div>
                 <div className="h-px bg-pink-100" />
                 <div className="space-y-2 text-xs text-gray-600">
-                  <p className="font-semibold text-gray-900">Tonight&apos;s K-Beauty routine</p>
+                  <p className="font-semibold text-gray-900">{messages.preview_routine_title}</p>
                   <ul className="list-inside list-disc space-y-1">
-                    <li>Low pH gel cleanser</li>
-                    <li>Hydrating toner with panthenol</li>
-                    <li>Niacinamide + barrier serum</li>
-                    <li>Ceramide cream moisturizer</li>
+                    <li>{messages.preview_step_1}</li>
+                    <li>{messages.preview_step_2}</li>
+                    <li>{messages.preview_step_3}</li>
+                    <li>{messages.preview_step_4}</li>
                   </ul>
                 </div>
               </div>
@@ -124,21 +124,19 @@ export default function Home() {
         {/* Footer note */}
         <footer className="mt-16 border-t border-gray-100 pt-6 text-xs text-gray-400">
           <div className="flex flex-col items-start justify-between gap-2 text-xs text-gray-400 sm:flex-row sm:items-center">
-            <span>
-              Powered by K-beauty ingredients, routines, and real user data.
-            </span>
+            <span>{messages.footer_powered}</span>
             <div className="flex gap-4">
               <Link
                 href="/privacy"
                 className="text-xs text-gray-400 underline hover:text-[#C2185B]"
               >
-                Privacy Policy
+                {messages.privacy_policy}
               </Link>
               <Link
                 href="/terms"
                 className="text-xs text-gray-400 underline hover:text-[#C2185B]"
               >
-                Terms of Service
+                {messages.terms_of_service}
               </Link>
             </div>
           </div>

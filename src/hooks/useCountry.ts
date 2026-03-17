@@ -38,11 +38,9 @@ export function useCountry(): UseCountryResult {
         } else {
           setCountryCode(null);
         }
-      } catch (e) {
-        const err = e instanceof Error ? e : new Error(String(e));
+      } catch {
         if (!cancelled) {
-          console.error("[useCountry] failed to detect country", err);
-          setError(err.message);
+          setCountryCode("KR");
         }
       } finally {
         if (!cancelled) {

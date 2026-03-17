@@ -8,6 +8,20 @@
   "age_question": "What's your age group?",
   "tone_question": "What's your skin tone?",
   "concern_question": "What's your main skin concern?",
-  "budget_question": "What's your budget?"
+  "budget_question": "What's your budget?",
+  "platform_tag": "K-Beauty Discovery Platform",
+  "badge_skin_tone": "Skin tone & concern matching",
+  "badge_budget": "K-beauty routines by budget",
+  "preview_title": "Preview",
+  "skin_type": "Skin Type",
+  "preview_skin_example": "Combination · Sensitive",
+  "preview_routine_title": "Tonight's K-Beauty routine",
+  "preview_step_1": "Low pH gel cleanser",
+  "preview_step_2": "Hydrating toner with panthenol",
+  "preview_step_3": "Niacinamide + barrier serum",
+  "preview_step_4": "Ceramide cream moisturizer",
+  "footer_powered": "Powered by K-beauty ingredients, routines, and real user data.",
+  "privacy_policy": "Privacy Policy",
+  "terms_of_service": "Terms of Service"
 }
 
