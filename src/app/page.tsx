@@ -109,6 +109,18 @@ export default function Home() {
                       : "AI Skin Analysis"}
                 </button>
               </Link>
+              <Link href="/face-explorer">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-7 py-3 text-sm font-medium text-gray-800 transition-transform hover:scale-105 hover:bg-pink-50"
+                >
+                  {locale === "ko"
+                    ? "얼굴로 탐색하기"
+                    : locale === "ja"
+                      ? "顔で探す"
+                      : "Explore by Face"}
+                </button>
+              </Link>
               {/* /ingredients 목록 페이지가 아직 없어서 텍스트 버튼 형태로 유지 */}
               <button
                 type="button"
