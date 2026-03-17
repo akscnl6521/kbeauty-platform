@@ -557,21 +557,33 @@ function ResultsPageInner() {
               placeholder={searchPlaceholder}
               className="w-full rounded-full border border-pink-200 bg-white px-5 py-3 text-sm text-gray-900 shadow-sm focus:border-[#C2185B] focus:outline-none focus:ring-1 focus:ring-[#C2185B]"
             />
-            <button
-              type="button"
-              onClick={() => setShowFavoritesOnly((prev) => !prev)}
-              className={`mt-1 inline-flex items-center justify-center rounded-full px-4 py-2 text-xs font-semibold transition sm:mt-0 ${
-                showFavoritesOnly
-                  ? "bg-[#C2185B] text-white"
-                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
-              }`}
-            >
-              {locale === "ko"
-                ? "즐겨찾기"
-                : locale === "ja"
-                  ? "お気に入り"
-                  : "Favorites"}
-            </button>
+            <div className="flex items-center gap-2 sm:mt-0">
+              <button
+                type="button"
+                onClick={() => setShowFavoritesOnly((prev) => !prev)}
+                className={`inline-flex items-center justify-center rounded-full px-4 py-2 text-xs font-semibold transition ${
+                  showFavoritesOnly
+                    ? "bg-[#C2185B] text-white"
+                    : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+                }`}
+              >
+                {locale === "ko"
+                  ? "즐겨찾기"
+                  : locale === "ja"
+                    ? "お気に入り"
+                    : "Favorites"}
+              </button>
+              <Link
+                href="/routine"
+                className="inline-flex items-center justify-center rounded-full border border-pink-200 px-4 py-2 text-xs font-semibold text-[#C2185B] transition hover:bg-pink-50"
+              >
+                {locale === "ko"
+                  ? "내 루틴 보기"
+                  : locale === "ja"
+                    ? "ルーティンを見る"
+                    : "View My Routine"}
+              </Link>
+            </div>
           </div>
           {filteredProducts.length === 0 ? (
             <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-8 text-center">
