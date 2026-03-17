@@ -286,6 +286,7 @@ function ResultsPageInner() {
   const [error, setError] = useState<string | null>(null);
   const [country, setCountry] = useState<CountryCode>("OTHER");
   const [locale, setLocale] = useState<Locale>("en");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const { krw, jpy } = useExchangeRate();
 
   const tone = searchParams.get("tone");
@@ -293,14 +294,32 @@ function ResultsPageInner() {
   const budget = searchParams.get("budget");
 
   const filteredProducts = useMemo(() => {
-    if (!tone && !concern && !budget) return products;
+    const query = searchTerm.trim().toLowerCase();
+
+    if (!tone && !concern && !budget && !query) return products;
+
     return products.filter((p) => {
       if (tone && !matchesTone(p.skin_tone, tone)) return false;
       if (concern && !matchesConcern(p.skin_concern, concern)) return false;
       if (budget && !matchesBudget(p.price_usd, budget)) return false;
+
+      if (query) {
+        const nameEn = p.name ?? "";
+        const nameLocalized =
+          locale === "ko"
+            ? p.name_ko ?? ""
+            : locale === "ja"
+              ? p.name_ja ?? ""
+              : "";
+        const brand = p.brand ?? "";
+        const category = p.category ?? "";
+        const haystack = `${nameEn} ${nameLocalized} ${brand} ${category}`.toLowerCase();
+        if (!haystack.includes(query)) return false;
+      }
+
       return true;
     });
-  }, [products, tone, concern, budget]);
+  }, [products, tone, concern, budget, searchTerm, locale]);
 
   useEffect(() => {
     if (filteredProducts.length > 0) {
@@ -320,6 +339,12 @@ function ResultsPageInner() {
       : product.name;
 
   const messages = LOCALE_MESSAGES[locale];
+  const searchPlaceholder =
+    locale === "ko"
+      ? "제품 검색..."
+      : locale === "ja"
+        ? "製品を検索..."
+        : "Search products...";
   const exchangeRates = { krw, jpy };
   // 판매처는 IP 기반 country만 사용, locale은 화면 텍스트에만 영향
   const effectiveCountry: CountryCode = country;
@@ -420,7 +445,7 @@ function ResultsPageInner() {
       </Head>
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
         {/* Header */}
-        <header className="mb-10 flex items-center justify-between">
+        <header className="mb-6 flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C2185B]">
               K-Beauty Recommendations
@@ -486,6 +511,24 @@ function ResultsPageInner() {
             </button>
           </div>
         </header>
+
+        {/* Search */}
+        <div className="mb-8">
+          <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 mb-2">
+            {locale === "ko"
+              ? "제품 검색"
+              : locale === "ja"
+                ? "製品検索"
+                : "Search Products"}
+          </label>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder={searchPlaceholder}
+            className="w-full rounded-full border border-pink-200 bg-white px-4 py-2 text-sm text-gray-900 shadow-sm focus:border-[#C2185B] focus:outline-none focus:ring-1 focus:ring-[#C2185B]"
+          />
+        </div>
 
         {/* Product cards */}
         <section className="flex-1">
