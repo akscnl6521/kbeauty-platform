@@ -499,24 +499,10 @@ function ResultsPageInner() {
           ) : (
           <div className="grid gap-6 md:grid-cols-3">
             {filteredProducts.map((product) => {
-              let displayIngredients: string[] =
-                product.key_ingredients ?? [];
-
-              if (
-                locale === "ja" &&
-                product.key_ingredients_ja &&
-                (Array.isArray(product.key_ingredients_ja) ||
-                  typeof product.key_ingredients_ja === "string")
-              ) {
-                if (Array.isArray(product.key_ingredients_ja)) {
-                  displayIngredients = product.key_ingredients_ja;
-                } else if (typeof product.key_ingredients_ja === "string") {
-                  displayIngredients = product.key_ingredients_ja
-                    .split(",")
-                    .map((s) => s.trim())
-                    .filter(Boolean);
-                }
-              }
+              const displayIngredients: string[] =
+                locale === "ja" && product.key_ingredients_ja?.length
+                  ? product.key_ingredients_ja
+                  : product.key_ingredients ?? [];
 
               const firstIngredientSlug =
                 displayIngredients && displayIngredients.length > 0
@@ -554,24 +540,16 @@ function ResultsPageInner() {
                     </p>
                   )}
 
-                  <p style={{ color: "red" }}>
-                    locale: {locale} / ja_ingredients:{" "}
-                    {JSON.stringify(product.key_ingredients_ja)}
-                  </p>
-
-                  {Array.isArray(locale === "ja" ? product.key_ingredients_ja : product.key_ingredients) &&
-                    (locale === "ja" ? product.key_ingredients_ja : product.key_ingredients)!.length > 0 && (
+                  {displayIngredients.length > 0 && (
                     <div className="mb-3 flex flex-wrap gap-2">
-                      {(locale === "ja" ? product.key_ingredients_ja : product.key_ingredients)!.map(
-                        (ing: string, idx: number) => (
-                          <span
-                            key={idx}
-                            className="rounded-full bg-[#C2185B] px-3 py-1 text-xs font-medium text-white"
-                          >
-                            {ing}
-                          </span>
-                        )
-                      )}
+                      {displayIngredients.map((ing, idx) => (
+                        <span
+                          key={idx}
+                          className="rounded-full bg-[#C2185B] px-3 py-1 text-xs font-medium text-white"
+                        >
+                          {ing}
+                        </span>
+                      ))}
                     </div>
                   )}
 
