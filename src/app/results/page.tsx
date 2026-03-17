@@ -23,6 +23,13 @@ type ProductRow = {
   recommendation_reason_ko: string | null;
   recommendation_reason_ja: string | null;
   slug: string | null;
+  link_sephora: string | null;
+  link_amazon_us: string | null;
+  link_amazon_jp: string | null;
+  link_qoo10: string | null;
+  link_oliveyoung: string | null;
+  link_coupang: string | null;
+  link_yesstyle: string | null;
 };
 
 type CountryCode = "US" | "JP" | "KR" | "OTHER";
@@ -198,58 +205,59 @@ function formatAttributeDisplay(
 
 function buildPurchaseLinks(
   country: CountryCode,
-  productNameEn: string,
-  productNameKo: string | null
+  product: ProductRow
 ): { label: string; href: string }[] {
-  // 한국(KR) 구매처: name_ko 있으면 name_ko 검색어, 없으면 영어 name
-  const searchNameKr = productNameKo ?? productNameEn;
-  const searchNameDefault = productNameEn;
+  const searchNameKr = product.name_ko ?? product.name;
+  const searchNameDefault = product.name;
   const encodedForKr = encodeURIComponent(searchNameKr).replace(/%20/g, "+");
   const encodedDefault = encodeURIComponent(searchNameDefault).replace(/%20/g, "+");
 
   switch (country) {
-    case "US":
-      return [
-        {
-          label: "Find on Sephora",
-          href: `https://www.sephora.com/search?keyword=${encodedDefault}`,
-        },
-        {
-          label: "Find on Amazon",
-          href: `https://www.amazon.com/s?k=${encodedDefault}`,
-        },
-      ];
-    case "JP":
-      return [
-        {
-          label: "Qoo10で探す",
-          href: `https://www.qoo10.jp/gmkt.inc/Search/Search.aspx?keyword=${encodedDefault}`,
-        },
-        {
-          label: "Amazon.co.jpで探す",
-          href: `https://www.amazon.co.jp/s?k=${encodedDefault}`,
-        },
-      ];
-    case "KR":
-      return [
-        {
-          label: "올리브영에서 찾기",
-          href: `https://www.oliveyoung.co.kr/store/search/getSearchMain.do?query=${encodedForKr}`,
-        },
-        {
-          label: "쿠팡에서 찾기",
-          href: `https://www.coupang.com/np/search?q=${encodedForKr}`,
-        },
-        {
-          label: "네이버쇼핑에서 찾기",
-          href: `https://search.shopping.naver.com/search/all?query=${encodedForKr}`,
-        },
-      ];
+    case "US": {
+      const links: { label: string; href: string }[] = [];
+      links.push({
+        label: "Find on Sephora",
+        href: product.link_sephora ?? `https://www.sephora.com/search?keyword=${encodedDefault}`,
+      });
+      links.push({
+        label: "Find on Amazon",
+        href: product.link_amazon_us ?? `https://www.amazon.com/s?k=${encodedDefault}`,
+      });
+      return links;
+    }
+    case "JP": {
+      const links: { label: string; href: string }[] = [];
+      links.push({
+        label: "Qoo10で探す",
+        href: product.link_qoo10 ?? `https://www.qoo10.jp/gmkt.inc/Search/Search.aspx?keyword=${encodedDefault}`,
+      });
+      links.push({
+        label: "Amazon.co.jpで探す",
+        href: product.link_amazon_jp ?? `https://www.amazon.co.jp/s?k=${encodedDefault}`,
+      });
+      return links;
+    }
+    case "KR": {
+      const links: { label: string; href: string }[] = [];
+      links.push({
+        label: "올리브영에서 찾기",
+        href: product.link_oliveyoung ?? `https://www.oliveyoung.co.kr/store/search/getSearchMain.do?query=${encodedForKr}`,
+      });
+      links.push({
+        label: "쿠팡에서 찾기",
+        href: product.link_coupang ?? `https://www.coupang.com/np/search?q=${encodedForKr}`,
+      });
+      links.push({
+        label: "네이버쇼핑에서 찾기",
+        href: `https://search.shopping.naver.com/search/all?query=${encodedForKr}`,
+      });
+      return links;
+    }
     default:
       return [
         {
           label: "Find on YesStyle",
-          href: `https://www.yesstyle.com/en/search.html?keyword=${encodedDefault}`,
+          href: product.link_yesstyle ?? `https://www.yesstyle.com/en/search.html?keyword=${encodedDefault}`,
         },
       ];
   }
@@ -311,9 +319,8 @@ function ResultsPageInner() {
 
   const messages = LOCALE_MESSAGES[locale];
   const exchangeRates = { krw, jpy };
-  // locale이 ko이면 무조건 한국 구매처(YesStyle 노출 방지)
-  const effectiveCountry: CountryCode =
-    locale === "ko" ? "KR" : country;
+  // 판매처는 IP 기반 country만 사용, locale은 화면 텍스트에만 영향
+  const effectiveCountry: CountryCode = country;
 
   useEffect(() => {
     try {
@@ -332,7 +339,7 @@ function ResultsPageInner() {
         const { data, error: fetchError } = await supabase
           .from("products")
           .select(
-            "id, name, name_ja, name_ko, brand, category, skin_concern, skin_tone, key_ingredients, key_ingredients_ja, price_usd, recommendation_reason, recommendation_reason_ko, recommendation_reason_ja, slug"
+            "id, name, name_ja, name_ko, brand, category, skin_concern, skin_tone, key_ingredients, key_ingredients_ja, price_usd, recommendation_reason, recommendation_reason_ko, recommendation_reason_ja, slug, link_sephora, link_amazon_us, link_amazon_jp, link_qoo10, link_oliveyoung, link_coupang, link_yesstyle"
           )
           .limit(10000);
 
@@ -514,11 +521,7 @@ function ResultsPageInner() {
                 locale,
                 exchangeRates
               );
-              const purchaseLinks = buildPurchaseLinks(
-                effectiveCountry,
-                product.name,
-                product.name_ko
-              );
+              const purchaseLinks = buildPurchaseLinks(effectiveCountry, product);
 
               return (
                 <article
