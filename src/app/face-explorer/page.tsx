@@ -23,12 +23,13 @@ export default function FaceExplorer() {
   const info = activeZone ? zoneInfo[activeZone] : null;
 
   const zones = [
-    { id: "forehead", top: "10%", left: "33%", width: "34%", height: "13%" },
-    { id: "eyes", top: "26%", left: "22%", width: "56%", height: "11%" },
-    { id: "cheeks", top: "37%", left: "12%", width: "76%", height: "13%" },
-    { id: "nose", top: "43%", left: "38%", width: "24%", height: "13%" },
-    { id: "lips", top: "57%", left: "32%", width: "36%", height: "9%" },
-    { id: "chin", top: "65%", left: "28%", width: "44%", height: "10%" },
+    { id: "forehead", top: "8%", left: "32%", width: "36%", height: "11%" },
+    { id: "eyes", top: "24%", left: "20%", width: "60%", height: "10%" },
+    { id: "cheeks", top: "36%", left: "10%", width: "32%", height: "14%" },
+    { id: "cheeks", top: "36%", left: "58%", width: "32%", height: "14%" },
+    { id: "nose", top: "36%", left: "40%", width: "20%", height: "16%" },
+    { id: "lips", top: "55%", left: "31%", width: "38%", height: "9%" },
+    { id: "chin", top: "64%", left: "27%", width: "46%", height: "10%" },
   ];
 
   return (
@@ -53,10 +54,16 @@ export default function FaceExplorer() {
                 ))}
               </div>
             </div>
-            <div className="relative" style={{ maxWidth: 400, margin: "0 auto" }}>
-              <Image src={gender === "female" ? "/face-female.png" : "/face-male.png"} alt="얼굴" width={400} height={500} className="w-full" />
-              {zones.map((z) => (
-                <button key={z.id} onClick={() => setActiveZone(z.id as Zone)}
+            <div className="relative" style={{ maxWidth: 520, margin: "0 auto", overflow: "visible" }}>
+              <Image
+                src={gender === "female" ? "/face-female.png" : "/face-male.png"}
+                alt="얼굴"
+                width={520}
+                height={650}
+                className="w-full"
+              />
+              {zones.map((z, idx) => (
+                <button key={`${z.id}-${idx}`} onClick={() => setActiveZone(z.id as Zone)}
                   style={{ position: "absolute", top: z.top, left: z.left, width: z.width, height: z.height, background: activeZone === z.id ? "rgba(194,24,91,0.2)" : "transparent", border: activeZone === z.id ? "2px solid rgba(194,24,91,0.5)" : "none", borderRadius: 8, cursor: "pointer", transition: "background .2s, border .2s" }}
                   onMouseEnter={e => { if (activeZone !== z.id) (e.target as HTMLElement).style.background = "rgba(194,24,91,0.1)"; }}
                   onMouseLeave={e => { if (activeZone !== z.id) (e.target as HTMLElement).style.background = "transparent"; }}
