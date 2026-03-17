@@ -31,7 +31,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap"
           rel="stylesheet"
         />
         <script
@@ -40,7 +40,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="antialiased bg-[#FAFAF8] text-[#1A1A1A]">
+      <body className="antialiased bg-[#FAFAF8] text-[#1A1A1A] font-['DM_Sans',system-ui,sans-serif]">
         {children}
       </body>
     </html>

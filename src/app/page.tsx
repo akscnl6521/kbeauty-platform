@@ -8,7 +8,7 @@ export default function Home() {
   const { messages, locale, setLocale } = useLocale();
 
   return (
-    <div className="relative min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
+    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
       <Head>
         <title>
           KBEAUTY GUIDE - Personalized Korean Skincare Recommendations
@@ -18,72 +18,72 @@ export default function Home() {
           content="Find your perfect K-beauty match based on skin tone, age, concerns and budget. Science-backed ingredient information included."
         />
       </Head>
-      {/* subtle background accent */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-gradient-to-br from-[#FCE4EC] via-transparent to-[#C2185B]/15 blur-3xl" />
-        <div className="absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-gradient-to-tr from-[#FFF3E0] via-transparent to-[#C2185B]/10 blur-3xl" />
-      </div>
 
-      <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
+      <main className="mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-10">
         {/* Header */}
         <header className="flex items-center justify-between">
-          <div className="text-lg font-semibold tracking-[0.2em] text-[#C2185B]">
+          <div className="font-['Playfair_Display',serif] text-2xl italic tracking-tight text-[#1A1A1A]">
             KBEAUTY GUIDE
           </div>
-          <div className="flex items-center gap-2 text-sm">
+
+          <div className="flex items-center gap-4 text-sm">
             <button
               type="button"
               onClick={() => setLocale("en")}
-              className={`rounded-full px-3 py-1 transition ${
+              className={`transition ${
                 locale === "en"
-                  ? "bg-[#C2185B] text-white"
-                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+                  ? "text-[#C2185B]"
+                  : "text-gray-500 hover:text-[#1A1A1A]"
               }`}
             >
-              🇺🇸
+              EN
             </button>
             <button
               type="button"
               onClick={() => setLocale("ja")}
-              className={`rounded-full px-3 py-1 transition ${
+              className={`transition ${
                 locale === "ja"
-                  ? "bg-[#C2185B] text-white"
-                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+                  ? "text-[#C2185B]"
+                  : "text-gray-500 hover:text-[#1A1A1A]"
               }`}
             >
-              🇯🇵
+              JA
             </button>
             <button
               type="button"
               onClick={() => setLocale("ko")}
-              className={`rounded-full px-3 py-1 transition ${
+              className={`transition ${
                 locale === "ko"
-                  ? "bg-[#C2185B] text-white"
-                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
+                  ? "text-[#C2185B]"
+                  : "text-gray-500 hover:text-[#1A1A1A]"
               }`}
             >
-              🇰🇷
+              KO
             </button>
           </div>
         </header>
 
-        {/* Hero Section */}
-        <section className="mt-20 flex flex-1 flex-col items-start justify-center gap-8 md:mt-28 md:flex-row md:items-center md:gap-16">
-          <div className="max-w-xl space-y-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#B8860B]">
+        {/* Hero */}
+        <section className="relative mt-16 grid flex-1 items-center gap-10 md:mt-20 md:grid-cols-2">
+          {/* left pink blur */}
+          <div className="pointer-events-none absolute -left-24 top-10 h-96 w-96 rounded-full bg-pink-100 blur-3xl opacity-50" />
+
+          <div className="relative z-10 max-w-xl space-y-6">
+            <p className="text-xs font-medium uppercase tracking-[0.35em] text-[#C2185B]">
               {messages.platform_tag}
             </p>
-            <h1 className="font-['Playfair_Display',serif] text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+            <h1 className="font-['Playfair_Display',serif] text-5xl font-bold leading-tight md:text-6xl">
               {messages.find_match}
             </h1>
-            <p className="font-['DM_Sans',system-ui,sans-serif] text-base leading-relaxed text-gray-700 md:text-lg">
+            <p className="text-lg font-light text-gray-500">
               {messages.subtitle}
             </p>
-            <div className="mt-4 flex flex-wrap gap-3">
+
+            <div className="mt-8 flex flex-wrap gap-4">
               <Link href="/quiz">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#C2185B33] transition-transform transition-colors duration-200 hover:-translate-y-0.5 hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAF8]"
+                  className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-8 py-3 text-sm font-medium text-white shadow-lg shadow-[#C2185B33] transition-transform hover:scale-105"
                 >
                   {messages.start_button}
                 </button>
@@ -91,7 +91,7 @@ export default function Home() {
               <Link href="/analyze">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-full border border-[#C2185B]/30 bg-white/70 px-6 py-3 text-sm font-semibold text-[#C2185B] shadow-sm transition-transform transition-colors duration-200 hover:-translate-y-0.5 hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAF8]"
+                  className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-transparent px-7 py-3 text-sm font-medium text-[#C2185B] transition-transform hover:scale-105"
                 >
                   {locale === "ko"
                     ? "AI 피부 분석"
@@ -101,59 +101,65 @@ export default function Home() {
                 </button>
               </Link>
             </div>
-            <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-600">
-              <span className="rounded-full bg-pink-50 px-4 py-1 text-[#C2185B] shadow-sm">
-                {messages.badge_skin_tone}
-              </span>
-              <span className="rounded-full bg-pink-50 px-4 py-1 text-[#C2185B] shadow-sm">
-                {messages.badge_budget}
-              </span>
-            </div>
           </div>
 
-          {/* Right side simple visual placeholder */}
-          <div className="mt-10 w-full max-w-sm md:mt-0">
-            <div className="relative rounded-3xl border border-pink-100 bg-pink-50/60 p-6">
-              <div className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-[#C2185B]">
-                {messages.preview_title}
-              </div>
-              <div className="space-y-4 rounded-2xl bg-white p-4 shadow-sm">
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>{messages.skin_type}</span>
-                  <span className="rounded-full bg-pink-50 px-3 py-1 text-[11px] font-medium text-[#C2185B]">
-                    {messages.preview_skin_example}
-                  </span>
-                </div>
-                <div className="h-px bg-pink-100" />
-                <div className="space-y-2 text-xs text-gray-600">
-                  <p className="font-semibold text-gray-900">{messages.preview_routine_title}</p>
-                  <ul className="list-inside list-disc space-y-1">
-                    <li>{messages.preview_step_1}</li>
-                    <li>{messages.preview_step_2}</li>
-                    <li>{messages.preview_step_3}</li>
-                    <li>{messages.preview_step_4}</li>
-                  </ul>
-                </div>
+          {/* Right preview card */}
+          <div className="relative z-10">
+            <div className="rounded-3xl bg-white p-8 shadow-[0_18px_50px_rgba(0,0,0,0.10)]">
+              <p className="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-gray-400">
+                Skincare Routine Preview
+              </p>
+
+              <div className="space-y-5">
+                {[
+                  { n: "01", t: messages.preview_step_1 },
+                  { n: "02", t: messages.preview_step_2 },
+                  { n: "03", t: messages.preview_step_3 },
+                  { n: "04", t: messages.preview_step_4 },
+                ].map((row) => (
+                  <div key={row.n} className="flex items-start gap-4">
+                    <div className="w-10 text-sm font-semibold text-[#B8860B]">
+                      {row.n}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-800">{row.t}</p>
+                      <div className="mt-4 h-px w-full bg-gray-100" />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
-        {/* Footer note */}
-        <footer className="mt-16 border-t border-gray-100 pt-6 text-xs text-gray-400">
-          <div className="flex flex-col items-start justify-between gap-2 text-xs text-gray-400 sm:flex-row sm:items-center">
+        {/* Stats */}
+        <section className="mt-14 grid gap-6 border-t border-gray-100 pt-10 md:grid-cols-3">
+          {[
+            { v: "186+", l: "Products" },
+            { v: "38", l: "Ingredients" },
+            { v: "3", l: "Languages" },
+          ].map((s) => (
+            <div
+              key={s.l}
+              className="rounded-3xl bg-white p-6 shadow-[0_12px_30px_rgba(0,0,0,0.06)]"
+            >
+              <p className="font-['Playfair_Display',serif] text-3xl font-bold">
+                {s.v}
+              </p>
+              <p className="mt-2 text-sm text-gray-500">{s.l}</p>
+            </div>
+          ))}
+        </section>
+
+        {/* Footer */}
+        <footer className="mt-14 border-t border-gray-100 pt-8 text-xs text-gray-400">
+          <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
             <span>{messages.footer_powered}</span>
             <div className="flex gap-4">
-              <Link
-                href="/privacy"
-                className="text-xs text-gray-400 underline hover:text-[#C2185B]"
-              >
+              <Link href="/privacy" className="hover:text-gray-600">
                 {messages.privacy_policy}
               </Link>
-              <Link
-                href="/terms"
-                className="text-xs text-gray-400 underline hover:text-[#C2185B]"
-              >
+              <Link href="/terms" className="hover:text-gray-600">
                 {messages.terms_of_service}
               </Link>
             </div>
