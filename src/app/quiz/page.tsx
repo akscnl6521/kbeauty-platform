@@ -244,7 +244,7 @@ export default function QuizPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
+    <div className="min-h-screen bg-[#FAFAF8] flex flex-col">
       <Head>
         <title>Find Your K-Beauty Match | KBEAUTY GUIDE</title>
         <meta
@@ -252,10 +252,9 @@ export default function QuizPage() {
           content="Take our quick quiz to find K-beauty products perfect for your skin tone, concerns and budget."
         />
       </Head>
-      <main className="min-h-screen flex flex-col items-center justify-center bg-[#FAFAF8] px-6 py-10">
-        {/* Top label & language toggle */}
-        <div className="absolute left-0 right-0 top-0 mx-auto max-w-2xl px-6 py-10">
-          <div className="mb-8 flex items-center justify-between">
+
+      <header className="mx-auto w-full max-w-2xl px-6 py-10">
+        <div className="mb-8 flex items-center justify-between">
           <div className="font-['Playfair_Display',serif] text-sm font-semibold uppercase tracking-[0.3em] text-[#B8860B]">
             K-Beauty Quiz
           </div>
@@ -295,8 +294,9 @@ export default function QuizPage() {
             </button>
           </div>
         </div>
-        </div>
+      </header>
 
+      <div className="flex-1 flex items-center justify-center px-6 py-10">
         <section className="w-full max-w-2xl">
           <div className="w-full max-w-2xl rounded-3xl border border-pink-100 bg-white p-8 shadow-sm">
             {renderStep()}
@@ -317,7 +317,7 @@ export default function QuizPage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }
