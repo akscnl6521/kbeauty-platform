@@ -76,7 +76,9 @@ function formatPrice(
   }
 }
 
+/** 성분명 → URL slug. 매핑 없이 소문자+공백을 하이픈으로 변환해 항상 문자열 반환. */
 function ingredientNameToSlug(name: string): string {
+  if (!name || typeof name !== "string") return "";
   return name
     .toLowerCase()
     .trim()
@@ -512,11 +514,11 @@ function ResultsPageInner() {
                   ? product.key_ingredients_ja
                   : product.key_ingredients ?? [];
 
-              // slug는 항상 영문 key_ingredients 기준으로 구함 (일본어명으로는 DB slug 매칭 불가)
+              // slug는 항상 영문 key_ingredients[0]을 변환해 사용 (배지 표시는 keyIngredients로 locale 구분)
               const firstIngredientSlug =
                 product.key_ingredients && product.key_ingredients.length > 0
                   ? ingredientNameToSlug(product.key_ingredients[0])
-                  : null;
+                  : "";
               const priceDisplay = formatPrice(
                 product.price_usd,
                 locale,
@@ -597,7 +599,7 @@ function ResultsPageInner() {
                           {link.label}
                         </a>
                       ))}
-                      {firstIngredientSlug ? (
+                      {product.key_ingredients?.length && firstIngredientSlug ? (
                         <Link
                           href={`/ingredients/${firstIngredientSlug}`}
                           className="inline-flex flex-1 items-center justify-center rounded-full border border-[#C2185B] bg-white px-4 py-2 font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
