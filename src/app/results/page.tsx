@@ -10,15 +10,18 @@ import { supabase } from "@/lib/supabase";
 type ProductRow = {
   id: string;
   name: string;
+  name_ja: string | null;
   name_ko: string | null;
   brand: string;
   category: string | null;
   skin_concern: string | null;
   skin_tone: string | null;
   key_ingredients: string[] | null;
+  key_ingredients_ja: string[] | null;
   price_usd: number | null;
   recommendation_reason: string | null;
   recommendation_reason_ko: string | null;
+  recommendation_reason_ja: string | null;
   slug: string | null;
 };
 
@@ -193,11 +196,6 @@ function formatAttributeDisplay(
   return parts.join(" · ");
 }
 
-function formatIngredientName(name: string, locale: Locale): string {
-  if (locale !== "ko") return name;
-  return INGREDIENT_NAME_KO[name] ?? INGREDIENT_NAME_KO[name.trim()] ?? name;
-}
-
 function buildPurchaseLinks(
   country: CountryCode,
   productNameEn: string,
@@ -294,8 +292,21 @@ function ResultsPageInner() {
     });
   }, [products, tone, concern, budget]);
 
-  const displayProductName = (product: ProductRow) =>
-    locale === "ko" && product.name_ko ? product.name_ko : product.name;
+  useEffect(() => {
+    if (filteredProducts.length > 0) {
+      console.log(
+        "첫번째 제품 key_ingredients_ja:",
+        filteredProducts[0].key_ingredients_ja
+      );
+      console.log("현재 locale:", locale);
+    }
+  }, [filteredProducts, locale]);
+
+  const displayProductName = (product: ProductRow) => {
+    if (locale === "ko" && product.name_ko) return product.name_ko;
+    if (locale === "ja" && product.name_ja) return product.name_ja;
+    return product.name;
+  };
 
   const messages = LOCALE_MESSAGES[locale];
   const exchangeRates = { krw, jpy };
@@ -320,7 +331,7 @@ function ResultsPageInner() {
         const { data, error: fetchError } = await supabase
           .from("products")
           .select(
-            "id, name, name_ko, brand, category, skin_concern, skin_tone, key_ingredients, price_usd, recommendation_reason, recommendation_reason_ko, slug"
+            "id, name, name_ja, name_ko, brand, category, skin_concern, skin_tone, key_ingredients, key_ingredients_ja, price_usd, recommendation_reason, recommendation_reason_ko, recommendation_reason_ja, slug"
           )
           .limit(10000);
 
@@ -488,10 +499,28 @@ function ResultsPageInner() {
           ) : (
           <div className="grid gap-6 md:grid-cols-3">
             {filteredProducts.map((product) => {
-              const keyIngredients = product.key_ingredients ?? [];
+              let displayIngredients: string[] =
+                product.key_ingredients ?? [];
+
+              if (
+                locale === "ja" &&
+                product.key_ingredients_ja &&
+                (Array.isArray(product.key_ingredients_ja) ||
+                  typeof product.key_ingredients_ja === "string")
+              ) {
+                if (Array.isArray(product.key_ingredients_ja)) {
+                  displayIngredients = product.key_ingredients_ja;
+                } else if (typeof product.key_ingredients_ja === "string") {
+                  displayIngredients = product.key_ingredients_ja
+                    .split(",")
+                    .map((s) => s.trim())
+                    .filter(Boolean);
+                }
+              }
+
               const firstIngredientSlug =
-                keyIngredients.length > 0
-                  ? ingredientNameToSlug(keyIngredients[0])
+                displayIngredients && displayIngredients.length > 0
+                  ? ingredientNameToSlug(displayIngredients[0])
                   : null;
               const priceDisplay = formatPrice(
                 product.price_usd,
@@ -525,25 +554,36 @@ function ResultsPageInner() {
                     </p>
                   )}
 
-                  {keyIngredients.length > 0 && (
+                  <p style={{ color: "red" }}>
+                    locale: {locale} / ja_ingredients:{" "}
+                    {JSON.stringify(product.key_ingredients_ja)}
+                  </p>
+
+                  {Array.isArray(locale === "ja" ? product.key_ingredients_ja : product.key_ingredients) &&
+                    (locale === "ja" ? product.key_ingredients_ja : product.key_ingredients)!.length > 0 && (
                     <div className="mb-3 flex flex-wrap gap-2">
-                      {keyIngredients.map((ingredient) => (
-                        <span
-                          key={ingredient}
-                          className="rounded-full bg-[#C2185B] px-3 py-1 text-xs font-medium text-white"
-                        >
-                          {formatIngredientName(ingredient, locale)}
-                        </span>
-                      ))}
+                      {(locale === "ja" ? product.key_ingredients_ja : product.key_ingredients)!.map(
+                        (ing: string, idx: number) => (
+                          <span
+                            key={idx}
+                            className="rounded-full bg-[#C2185B] px-3 py-1 text-xs font-medium text-white"
+                          >
+                            {ing}
+                          </span>
+                        )
+                      )}
                     </div>
                   )}
 
                   {((locale === "ko" && product.recommendation_reason_ko) ||
+                    (locale === "ja" && product.recommendation_reason_ja) ||
                     product.recommendation_reason) && (
                     <div className="mb-4">
                       <p className="text-sm leading-relaxed text-gray-700">
                         {locale === "ko" && product.recommendation_reason_ko
                           ? product.recommendation_reason_ko
+                          : locale === "ja" && product.recommendation_reason_ja
+                          ? product.recommendation_reason_ja
                           : product.recommendation_reason}
                       </p>
                       {locale === "ko" &&

@@ -20,6 +20,7 @@ type IngredientRow = {
   effects: string[] | null;
   effects_ko: string[] | null;
   mechanism: string | null;
+  mechanism_ja: string | null;
   mechanism_ko: string | null;
   caution: string | null;
   caution_ko: string | null;
@@ -53,12 +54,12 @@ const INGREDIENT_PAGE_LABELS: Record<
     backToResults: "Back to Results",
   },
   ja: {
-    howItWorks: "How it works",
-    clinicalResearch: "Clinical & Research Studies",
-    viewOnPubmed: "View on PubMed",
-    importantNotice: "Important note",
-    foundIn: "Found In",
-    backToResults: "Back to Results",
+    howItWorks: "作用メカニズム",
+    clinicalResearch: "臨床研究",
+    viewOnPubmed: "PubMedで見る",
+    importantNotice: "注意事項",
+    foundIn: "この成分が入った製品",
+    backToResults: "結果に戻る",
   },
   ko: {
     howItWorks: "작용 원리",
@@ -94,7 +95,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
         const { data, error: fetchError } = await supabase
           .from("ingredients")
           .select(
-            "slug, name_en, name_ko, name_ja, effects, effects_ko, mechanism, mechanism_ko, caution, caution_ko, paper_1_title, paper_1_year, paper_1_journal, paper_1_url, paper_2_title, paper_2_year, paper_2_journal, paper_2_url"
+            "slug, name_en, name_ko, name_ja, effects, effects_ko, mechanism, mechanism_ja, mechanism_ko, caution, caution_ko, paper_1_title, paper_1_year, paper_1_journal, paper_1_url, paper_2_title, paper_2_year, paper_2_journal, paper_2_url"
           )
           .eq("slug", slug)
           .maybeSingle();
@@ -195,7 +196,9 @@ export default function IngredientPage({ params }: IngredientPageProps) {
   const displayMechanism =
     locale === "ko" && ingredient.mechanism_ko
       ? ingredient.mechanism_ko
-      : ingredient.mechanism;
+      : locale === "ja" && ingredient.mechanism_ja
+        ? ingredient.mechanism_ja
+        : ingredient.mechanism;
   const displayCaution =
     locale === "ko" && ingredient.caution_ko
       ? ingredient.caution_ko

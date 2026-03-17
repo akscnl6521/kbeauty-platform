@@ -25,8 +25,28 @@ const OPTION_LABELS_KO: Record<string, string> = {
   "Anti-aging": "노화 방지",
 };
 
+const OPTION_LABELS_JA: Record<string, string> = {
+  "10s": "10代",
+  "20s": "20代",
+  "30s": "30代",
+  "40s+": "40代以上",
+  Light: "明るい",
+  Medium: "ミディアム",
+  Dark: "ダーク",
+  Warm: "ウォームトーン",
+  Cool: "クールトーン",
+  Neutral: "ニュートラル",
+  Redness: "赤み",
+  Dryness: "乾燥",
+  Acne: "ニキビ",
+  Dullness: "くすみ",
+  "Anti-aging": "エイジングケア",
+};
+
 function optionLabel(value: string, locale: string): string {
-  return locale === "ko" ? OPTION_LABELS_KO[value] ?? value : value;
+  if (locale === "ko") return OPTION_LABELS_KO[value] ?? value;
+  if (locale === "ja") return OPTION_LABELS_JA[value] ?? value;
+  return value;
 }
 
 function budgetLabel(value: string, locale: string): string {
@@ -118,7 +138,13 @@ export default function QuizPage() {
               ))}
             </div>
             <div className="pt-2">
-              <p className="mb-3 text-sm text-gray-600">And your undertone?</p>
+              <p className="mb-3 text-sm text-gray-600">
+                {locale === "ko"
+                  ? "퍼스널 컬러는?"
+                  : locale === "ja"
+                    ? "アンダートーンは？"
+                    : "And your undertone?"}
+              </p>
               <div className="flex flex-wrap gap-3">
                 {["Warm", "Cool", "Neutral"].map((value) => (
                   <button
