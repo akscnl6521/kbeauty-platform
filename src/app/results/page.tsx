@@ -302,11 +302,12 @@ function ResultsPageInner() {
     }
   }, [filteredProducts, locale]);
 
-  const displayProductName = (product: ProductRow) => {
-    if (locale === "ko" && product.name_ko) return product.name_ko;
-    if (locale === "ja" && product.name_ja) return product.name_ja;
-    return product.name;
-  };
+  const displayProductName = (product: ProductRow) =>
+    locale === "ja" && product.name_ja
+      ? product.name_ja
+      : locale === "ko" && product.name_ko
+      ? product.name_ko
+      : product.name;
 
   const messages = LOCALE_MESSAGES[locale];
   const exchangeRates = { krw, jpy };
@@ -499,14 +500,14 @@ function ResultsPageInner() {
           ) : (
           <div className="grid gap-6 md:grid-cols-3">
             {filteredProducts.map((product) => {
-              const displayIngredients: string[] =
+              const keyIngredients =
                 locale === "ja" && product.key_ingredients_ja?.length
                   ? product.key_ingredients_ja
                   : product.key_ingredients ?? [];
 
               const firstIngredientSlug =
-                displayIngredients && displayIngredients.length > 0
-                  ? ingredientNameToSlug(displayIngredients[0])
+                keyIngredients && keyIngredients.length > 0
+                  ? ingredientNameToSlug(keyIngredients[0])
                   : null;
               const priceDisplay = formatPrice(
                 product.price_usd,
@@ -540,9 +541,9 @@ function ResultsPageInner() {
                     </p>
                   )}
 
-                  {displayIngredients.length > 0 && (
+                  {keyIngredients.length > 0 && (
                     <div className="mb-3 flex flex-wrap gap-2">
-                      {displayIngredients.map((ing, idx) => (
+                      {keyIngredients.map((ing, idx) => (
                         <span
                           key={idx}
                           className="rounded-full bg-[#C2185B] px-3 py-1 text-xs font-medium text-white"
@@ -558,10 +559,10 @@ function ResultsPageInner() {
                     product.recommendation_reason) && (
                     <div className="mb-4">
                       <p className="text-sm leading-relaxed text-gray-700">
-                        {locale === "ko" && product.recommendation_reason_ko
-                          ? product.recommendation_reason_ko
-                          : locale === "ja" && product.recommendation_reason_ja
+                        {locale === "ja" && product.recommendation_reason_ja
                           ? product.recommendation_reason_ja
+                          : locale === "ko" && product.recommendation_reason_ko
+                          ? product.recommendation_reason_ko
                           : product.recommendation_reason}
                       </p>
                       {locale === "ko" &&
