@@ -286,40 +286,39 @@ function ResultsPageInner() {
   const [error, setError] = useState<string | null>(null);
   const [country, setCountry] = useState<CountryCode>("OTHER");
   const [locale, setLocale] = useState<Locale>("en");
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const { krw, jpy } = useExchangeRate();
 
   const tone = searchParams.get("tone");
   const concern = searchParams.get("concern");
   const budget = searchParams.get("budget");
 
-  const filteredProducts = useMemo(() => {
-    const query = searchTerm.trim().toLowerCase();
-
-    if (!tone && !concern && !budget && !query) return products;
+  // 설문 조건(tone/concern/budget) 기반 1차 필터
+  const quizFilteredProducts = useMemo(() => {
+    if (!tone && !concern && !budget) return products;
 
     return products.filter((p) => {
       if (tone && !matchesTone(p.skin_tone, tone)) return false;
       if (concern && !matchesConcern(p.skin_concern, concern)) return false;
       if (budget && !matchesBudget(p.price_usd, budget)) return false;
-
-      if (query) {
-        const nameEn = p.name ?? "";
-        const nameLocalized =
-          locale === "ko"
-            ? p.name_ko ?? ""
-            : locale === "ja"
-              ? p.name_ja ?? ""
-              : "";
-        const brand = p.brand ?? "";
-        const category = p.category ?? "";
-        const haystack = `${nameEn} ${nameLocalized} ${brand} ${category}`.toLowerCase();
-        if (!haystack.includes(query)) return false;
-      }
-
       return true;
     });
-  }, [products, tone, concern, budget, searchTerm, locale]);
+  }, [products, tone, concern, budget]);
+
+  // 검색어 기반 2차 필터 (name/name_ko/name_ja/brand)
+  const filteredProducts = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return quizFilteredProducts;
+
+    return quizFilteredProducts.filter((p) => {
+      const nameEn = p.name ?? "";
+      const nameKo = p.name_ko ?? "";
+      const nameJa = p.name_ja ?? "";
+      const brand = p.brand ?? "";
+      const haystack = `${nameEn} ${nameKo} ${nameJa} ${brand}`.toLowerCase();
+      return haystack.includes(query);
+    });
+  }, [quizFilteredProducts, searchQuery]);
 
   useEffect(() => {
     if (filteredProducts.length > 0) {
@@ -512,26 +511,18 @@ function ResultsPageInner() {
           </div>
         </header>
 
-        {/* Search */}
-        <div className="mb-8">
-          <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 mb-2">
-            {locale === "ko"
-              ? "제품 검색"
-              : locale === "ja"
-                ? "製品検索"
-                : "Search Products"}
-          </label>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder={searchPlaceholder}
-            className="w-full rounded-full border border-pink-200 bg-white px-4 py-2 text-sm text-gray-900 shadow-sm focus:border-[#C2185B] focus:outline-none focus:ring-1 focus:ring-[#C2185B]"
-          />
-        </div>
-
         {/* Product cards */}
         <section className="flex-1">
+          {/* Search input just above grid */}
+          <div className="mb-6">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={searchPlaceholder}
+              className="w-full rounded-full border border-pink-200 bg-white px-5 py-3 text-sm text-gray-900 shadow-sm focus:border-[#C2185B] focus:outline-none focus:ring-1 focus:ring-[#C2185B]"
+            />
+          </div>
           {filteredProducts.length === 0 ? (
             <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-8 text-center">
               <p className="text-base font-medium text-gray-700">
