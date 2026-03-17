@@ -97,6 +97,18 @@ export default function Home() {
                   {locale === "ko" ? "가이드 시작하기" : messages.start_button}
                 </button>
               </Link>
+              <Link href="/analyze">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-transparent px-7 py-3 text-sm font-medium text-[#C2185B] transition-transform hover:scale-105"
+                >
+                  {locale === "ko"
+                    ? "AI 피부 분석 시작"
+                    : locale === "ja"
+                      ? "AI肌分析"
+                      : "AI Skin Analysis"}
+                </button>
+              </Link>
               {/* /ingredients 목록 페이지가 아직 없어서 텍스트 버튼 형태로 유지 */}
               <button
                 type="button"
@@ -104,18 +116,6 @@ export default function Home() {
               >
                 성분별로 보기
               </button>
-              <Link href="/analyze">
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-transparent px-7 py-3 text-sm font-medium text-[#C2185B] transition-transform hover:scale-105"
-                >
-                  {locale === "ko"
-                    ? "AI 피부 분석"
-                    : locale === "ja"
-                      ? "AI肌分析"
-                      : "AI Skin Analysis"}
-                </button>
-              </Link>
             </div>
           </div>
 

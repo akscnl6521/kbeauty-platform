@@ -266,11 +266,7 @@ function ResultsPageInner() {
 
   useEffect(() => {
     if (filteredProducts.length > 0) {
-      console.log(
-        "첫번째 제품 key_ingredients_ja:",
-        filteredProducts[0].key_ingredients_ja
-      );
-      console.log("현재 locale:", locale);
+      // no-op: keep effect dependency stable without logs
     }
   }, [filteredProducts, locale]);
 
@@ -290,10 +286,14 @@ function ResultsPageInner() {
         : "Search products...";
   const subtitle =
     locale === "ko"
-      ? "피부톤, 피부 고민, 언더톤, 가격대를 기준으로 정리된 결과입니다"
+      ? "이 결과는 피부톤, 피부 고민, 언더톤, 가격대와 AI 분석 정보를 기준으로 정리되었습니다."
       : locale === "ja"
-        ? "肌トーン・肌悩み・アンダートーン・価格帯を基準に整理した結果です"
-        : "Results organized by skin tone, concerns, undertone, and price tier.";
+        ? "肌トーン・肌悩み・アンダートーン・価格帯とAIガイド情報を基準に整理した結果です。"
+        : "Results organized by skin tone, concerns, undertone, price tier, and AI guide insights.";
+
+  const aiApplied = searchParams.get("ai") === "1";
+  const aiBadgeText =
+    locale === "ko" ? "AI 분석 반영됨" : locale === "ja" ? "AIガイド適用" : "AI Guide Applied";
 
   // 즐겨찾기 로드
   useEffect(() => {
@@ -412,6 +412,13 @@ function ResultsPageInner() {
               {messages.results_title}
             </h1>
             <p className="mt-2 text-sm text-gray-500">{subtitle}</p>
+            {aiApplied ? (
+              <div className="mt-3">
+                <span className="inline-flex rounded-full border border-pink-200 bg-white px-3 py-1 text-xs font-semibold text-[#C2185B]">
+                  {aiBadgeText}
+                </span>
+              </div>
+            ) : null}
           </div>
           <div className="flex items-center gap-2 text-sm">
             <button

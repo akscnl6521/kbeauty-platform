@@ -222,7 +222,15 @@ Return JSON only.`,
     if (!result) return;
     const params = new URLSearchParams();
     params.set("tone", resultsTone);
-    params.set("concern", mode === "manual" ? primaryConcernParam : "Redness");
+    params.set(
+      "concern",
+      mode === "manual"
+        ? primaryConcernParam
+        : result.concerns?.[0]
+          ? String(result.concerns[0])
+          : "Redness"
+    );
+    params.set("ai", "1");
     router.push(`/results?${params.toString()}`);
   };
 
@@ -234,6 +242,38 @@ Return JSON only.`,
         : result?.summary_en;
 
   const canAnalyzePhoto = !!imageBase64 && !loading;
+
+  // Load last analysis result from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("skinAnalysisResult");
+      if (saved) {
+        const parsed = JSON.parse(saved) as AnalysisResult;
+        setResult(parsed);
+      }
+    } catch {
+      // ignore parse errors
+    }
+  }, []);
+
+  // Persist analysis result (text only) to localStorage
+  useEffect(() => {
+    if (!result) return;
+    try {
+      window.localStorage.setItem("skinAnalysisResult", JSON.stringify(result));
+    } catch {
+      // ignore quota/serialization errors
+    }
+  }, [result]);
+
+  const clearResult = () => {
+    try {
+      window.localStorage.removeItem("skinAnalysisResult");
+    } catch {
+      // ignore
+    }
+    setResult(null);
+  };
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
