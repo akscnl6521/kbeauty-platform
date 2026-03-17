@@ -189,6 +189,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
   }
 
   const displayName = displayIngredientName(ingredient, locale);
+  // effects 배지: ko일 때만 effects_ko, ja·en 등은 영문 effects
   const effects =
     locale === "ko" && ingredient.effects_ko?.length
       ? ingredient.effects_ko
@@ -199,6 +200,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
       : locale === "ja" && ingredient.mechanism_ja
         ? ingredient.mechanism_ja
         : ingredient.mechanism;
+  // 주의사항: ko일 때만 caution_ko, ja·en 등은 반드시 영문 caution
   const displayCaution =
     locale === "ko" && ingredient.caution_ko
       ? ingredient.caution_ko
