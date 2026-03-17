@@ -19,11 +19,13 @@ type IngredientRow = {
   name_ja: string | null;
   effects: string[] | null;
   effects_ko: string[] | null;
+  effects_ja: string[] | null;
   mechanism: string | null;
   mechanism_ja: string | null;
   mechanism_ko: string | null;
   caution: string | null;
   caution_ko: string | null;
+  caution_ja: string | null;
   paper_1_title: string | null;
   paper_1_year: string | null;
   paper_1_journal: string | null;
@@ -95,7 +97,7 @@ export default function IngredientPage({ params }: IngredientPageProps) {
         const { data, error: fetchError } = await supabase
           .from("ingredients")
           .select(
-            "slug, name_en, name_ko, name_ja, effects, effects_ko, mechanism, mechanism_ja, mechanism_ko, caution, caution_ko, paper_1_title, paper_1_year, paper_1_journal, paper_1_url, paper_2_title, paper_2_year, paper_2_journal, paper_2_url"
+            "slug, name_en, name_ko, name_ja, effects, effects_ko, effects_ja, mechanism, mechanism_ja, mechanism_ko, caution, caution_ko, caution_ja, paper_1_title, paper_1_year, paper_1_journal, paper_1_url, paper_2_title, paper_2_year, paper_2_journal, paper_2_url"
           )
           .eq("slug", slug)
           .maybeSingle();
@@ -189,22 +191,26 @@ export default function IngredientPage({ params }: IngredientPageProps) {
   }
 
   const displayName = displayIngredientName(ingredient, locale);
-  // effects 배지: ko일 때만 effects_ko, ja·en 등은 영문 effects
+  // effects 배지: ko → effects_ko, ja → effects_ja, 그 외 → 영문 effects
   const effects =
     locale === "ko" && ingredient.effects_ko?.length
       ? ingredient.effects_ko
-      : (ingredient.effects ?? []);
+      : locale === "ja" && ingredient.effects_ja?.length
+        ? ingredient.effects_ja
+        : (ingredient.effects ?? []);
   const displayMechanism =
     locale === "ko" && ingredient.mechanism_ko
       ? ingredient.mechanism_ko
       : locale === "ja" && ingredient.mechanism_ja
         ? ingredient.mechanism_ja
         : ingredient.mechanism;
-  // 주의사항: ko일 때만 caution_ko, ja·en 등은 반드시 영문 caution
+  // 주의사항: ko → caution_ko, ja → caution_ja, 그 외 → 영문 caution
   const displayCaution =
     locale === "ko" && ingredient.caution_ko
       ? ingredient.caution_ko
-      : ingredient.caution;
+      : locale === "ja" && ingredient.caution_ja
+        ? ingredient.caution_ja
+        : ingredient.caution;
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
