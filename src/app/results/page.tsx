@@ -3,7 +3,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useExchangeRate } from "@/hooks/useExchangeRate";
 import { supabase } from "@/lib/supabase";
 
@@ -258,6 +258,20 @@ function buildPurchaseLinks(
 }
 
 export default function ResultsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-white">
+          <p className="text-sm text-gray-500">Loading recommendations...</p>
+        </div>
+      }
+    >
+      <ResultsPageInner />
+    </Suspense>
+  );
+}
+
+function ResultsPageInner() {
   const searchParams = useSearchParams();
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [loading, setLoading] = useState(true);
