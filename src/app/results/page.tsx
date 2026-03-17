@@ -4,7 +4,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { useExchangeRate } from "@/hooks/useExchangeRate";
 import { supabase } from "@/lib/supabase";
 
 type ProductRow = {
@@ -32,8 +31,6 @@ type ProductRow = {
   link_yesstyle: string | null;
 };
 
-type CountryCode = "US" | "JP" | "KR" | "OTHER";
-
 type Locale = "en" | "ja" | "ko";
 
 type Messages = {
@@ -51,29 +48,27 @@ const LOCALE_MESSAGES: Record<Locale, Messages> = {
     view_ingredients: "成分を見る",
   },
   ko: {
-    results_title: "나에게 맞는 K-뷰티 제품",
+    results_title: "나에게 맞는 K-뷰티 정보",
     view_ingredients: "성분 보기",
   },
 };
 
-function formatPrice(
-  priceUsd: number | null,
-  locale: Locale,
-  rates: { krw: number; jpy: number }
-): string | null {
+function priceTierText(priceUsd: number | null, locale: Locale): string | null {
   if (priceUsd == null) return null;
-  switch (locale) {
-    case "ko": {
-      const krw = Math.round(priceUsd * rates.krw);
-      return `₩${krw.toLocaleString("ko-KR")}`;
-    }
-    case "ja": {
-      const jpy = Math.round(priceUsd * rates.jpy);
-      return `¥${jpy.toLocaleString("ja-JP")}`;
-    }
-    default:
-      return `$${priceUsd.toFixed(2)}`;
+  const tier = priceUsd <= 20 ? "low" : priceUsd <= 50 ? "mid" : "premium";
+  if (locale === "ko") {
+    if (tier === "low") return "가격대: 저가";
+    if (tier === "mid") return "가격대: 중가";
+    return "가격대: 프리미엄";
   }
+  if (locale === "ja") {
+    if (tier === "low") return "価格帯: 低価格";
+    if (tier === "mid") return "価格帯: 中価格";
+    return "価格帯: プレミアム";
+  }
+  if (tier === "low") return "Price tier: Budget";
+  if (tier === "mid") return "Price tier: Mid-range";
+  return "Price tier: Premium";
 }
 
 /** 성분명 → URL slug. 매핑 없이 소문자+공백을 하이픈으로 변환해 항상 문자열 반환. */
@@ -205,66 +200,6 @@ function formatAttributeDisplay(
   return parts.join(" · ");
 }
 
-function buildPurchaseLinks(
-  country: CountryCode,
-  product: ProductRow
-): { label: string; href: string }[] {
-  const searchNameKr = product.name_ko ?? product.name;
-  const searchNameDefault = product.name;
-  const encodedForKr = encodeURIComponent(searchNameKr).replace(/%20/g, "+");
-  const encodedDefault = encodeURIComponent(searchNameDefault).replace(/%20/g, "+");
-
-  switch (country) {
-    case "US": {
-      const links: { label: string; href: string }[] = [];
-      links.push({
-        label: "Find on Sephora",
-        href: product.link_sephora ?? `https://www.sephora.com/search?keyword=${encodedDefault}`,
-      });
-      links.push({
-        label: "Find on Amazon",
-        href: product.link_amazon_us ?? `https://www.amazon.com/s?k=${encodedDefault}`,
-      });
-      return links;
-    }
-    case "JP": {
-      const links: { label: string; href: string }[] = [];
-      links.push({
-        label: "Qoo10で探す",
-        href: product.link_qoo10 ?? `https://www.qoo10.jp/gmkt.inc/Search/Search.aspx?keyword=${encodedDefault}`,
-      });
-      links.push({
-        label: "Amazon.co.jpで探す",
-        href: product.link_amazon_jp ?? `https://www.amazon.co.jp/s?k=${encodedDefault}`,
-      });
-      return links;
-    }
-    case "KR": {
-      const links: { label: string; href: string }[] = [];
-      links.push({
-        label: "올리브영에서 찾기",
-        href: product.link_oliveyoung ?? `https://www.oliveyoung.co.kr/store/search/getSearchMain.do?query=${encodedForKr}`,
-      });
-      links.push({
-        label: "쿠팡에서 찾기",
-        href: product.link_coupang ?? `https://www.coupang.com/np/search?q=${encodedForKr}`,
-      });
-      links.push({
-        label: "네이버쇼핑에서 찾기",
-        href: `https://search.shopping.naver.com/search/all?query=${encodedForKr}`,
-      });
-      return links;
-    }
-    default:
-      return [
-        {
-          label: "Find on YesStyle",
-          href: product.link_yesstyle ?? `https://www.yesstyle.com/en/search.html?keyword=${encodedDefault}`,
-        },
-      ];
-  }
-}
-
 export default function ResultsPage() {
   return (
     <Suspense
@@ -284,12 +219,11 @@ function ResultsPageInner() {
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [country, setCountry] = useState<CountryCode>("OTHER");
   const [locale, setLocale] = useState<Locale>("en");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
-  const { krw, jpy } = useExchangeRate();
+  const [openReasonIds, setOpenReasonIds] = useState<string[]>([]);
 
   const tone = searchParams.get("tone");
   const concern = searchParams.get("concern");
@@ -322,7 +256,10 @@ function ResultsPageInner() {
       const nameKo = p.name_ko ?? "";
       const nameJa = p.name_ja ?? "";
       const brand = p.brand ?? "";
-      const haystack = `${nameEn} ${nameKo} ${nameJa} ${brand}`.toLowerCase();
+      const ingredientsEn = (p.key_ingredients ?? []).join(" ");
+      const ingredientsJa = (p.key_ingredients_ja ?? []).join(" ");
+      const haystack =
+        `${nameEn} ${nameKo} ${nameJa} ${brand} ${ingredientsEn} ${ingredientsJa}`.toLowerCase();
       return haystack.includes(query);
     });
   }, [quizFilteredProducts, searchQuery, favoriteIds, showFavoritesOnly]);
@@ -347,13 +284,16 @@ function ResultsPageInner() {
   const messages = LOCALE_MESSAGES[locale];
   const searchPlaceholder =
     locale === "ko"
-      ? "제품 검색..."
+      ? "제품명 또는 성분으로 검색해보세요"
       : locale === "ja"
         ? "製品を検索..."
         : "Search products...";
-  const exchangeRates = { krw, jpy };
-  // 판매처는 IP 기반 country만 사용, locale은 화면 텍스트에만 영향
-  const effectiveCountry: CountryCode = country;
+  const subtitle =
+    locale === "ko"
+      ? "피부톤, 피부 고민, 언더톤, 가격대를 기준으로 정리된 결과입니다"
+      : locale === "ja"
+        ? "肌トーン・肌悩み・アンダートーン・価格帯を基準に整理した結果です"
+        : "Results organized by skin tone, concerns, undertone, and price tier.";
 
   // 즐겨찾기 로드
   useEffect(() => {
@@ -381,6 +321,14 @@ function ResultsPageInner() {
       }
       return next;
     });
+  };
+
+  const toggleReason = (productId: string) => {
+    setOpenReasonIds((prev) =>
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId]
+    );
   };
 
   useEffect(() => {
@@ -420,30 +368,6 @@ function ResultsPageInner() {
     }
 
     fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    async function detectCountry() {
-      try {
-        const res = await fetch("https://ipapi.co/json/");
-        if (!res.ok) return;
-        const json = (await res.json()) as { country_code?: string };
-        const code = json.country_code;
-        if (code === "US") {
-          setCountry("US");
-        } else if (code === "JP") {
-          setCountry("JP");
-        } else if (code === "KR") {
-          setCountry("KR");
-        } else {
-          setCountry("OTHER");
-        }
-      } catch {
-        // 조용히 무시 (locale이 ko면 effectiveCountry로 KR 사용)
-      }
-    }
-
-    detectCountry();
   }, []);
 
   if (loading) {
@@ -487,6 +411,7 @@ function ResultsPageInner() {
             <h1 className="mt-3 font-['Playfair_Display',serif] text-3xl font-semibold tracking-tight text-[#1A1A1A] md:text-4xl">
               {messages.results_title}
             </h1>
+            <p className="mt-2 text-sm text-gray-500">{subtitle}</p>
           </div>
           <div className="flex items-center gap-2 text-sm">
             <button
@@ -615,12 +540,6 @@ function ResultsPageInner() {
                 product.key_ingredients && product.key_ingredients.length > 0
                   ? ingredientNameToSlug(product.key_ingredients[0])
                   : "";
-              const priceDisplay = formatPrice(
-                product.price_usd,
-                locale,
-                exchangeRates
-              );
-              const purchaseLinks = buildPurchaseLinks(effectiveCountry, product);
 
               const isFavorite = favoriteIds.includes(product.id);
 
@@ -633,10 +552,11 @@ function ResultsPageInner() {
                     type="button"
                     onClick={() => toggleFavorite(product.id)}
                     className="absolute right-4 top-4 text-xl"
-                    aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                    aria-label="저장"
+                    title="저장"
                   >
                     <span className={isFavorite ? "text-[#C2185B]" : "text-gray-300"}>
-                      {isFavorite ? "❤️" : "🤍"}
+                      {"🔖"}
                     </span>
                   </button>
                   <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#B8860B]">
@@ -655,6 +575,12 @@ function ResultsPageInner() {
                     </p>
                   )}
 
+                  {priceTierText(product.price_usd, locale) ? (
+                    <p className="mb-3 text-xs font-medium text-gray-500">
+                      {priceTierText(product.price_usd, locale)}
+                    </p>
+                  ) : null}
+
                   {keyIngredients.length > 0 && (
                     <div className="mb-3 flex flex-wrap gap-2">
                       {keyIngredients.map((ing, idx) => (
@@ -668,54 +594,44 @@ function ResultsPageInner() {
                     </div>
                   )}
 
-                  {((locale === "ko" && product.recommendation_reason_ko) ||
-                    (locale === "ja" && product.recommendation_reason_ja) ||
-                    product.recommendation_reason) && (
-                    <div className="mb-4">
-                      <p className="text-sm leading-relaxed text-gray-700">
-                        {locale === "ja" && product.recommendation_reason_ja
-                          ? product.recommendation_reason_ja
-                          : locale === "ko" && product.recommendation_reason_ko
-                          ? product.recommendation_reason_ko
-                          : product.recommendation_reason}
-                      </p>
-                      {locale === "ko" &&
-                        !product.recommendation_reason_ko &&
-                        product.recommendation_reason && (
-                          <p className="mt-1 text-xs text-gray-500">
-                            (영문으로 제공됩니다)
-                          </p>
-                        )}
-                    </div>
-                  )}
-
-                  <div className="mt-auto">
-                    {priceDisplay && (
-                      <p className="mb-4 text-sm font-semibold text-gray-900">
-                        {priceDisplay}
-                      </p>
-                    )}
+                  <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
-                      {purchaseLinks.map((link) => (
-                        <a
-                          key={link.href}
-                          href={link.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white shadow-md shadow-[#C2185B33] transition-transform transition-colors duration-200 hover:-translate-y-0.5 hover:bg-[#a3154f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAF8]"
-                        >
-                          {link.label}
-                        </a>
-                      ))}
+                      <button
+                        type="button"
+                        onClick={() => toggleReason(product.id)}
+                        className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#a3154f]"
+                      >
+                        추천 이유 보기
+                      </button>
                       {product.key_ingredients?.length && firstIngredientSlug ? (
                         <Link
                           href={`/ingredients/${firstIngredientSlug}`}
                           className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-transparent px-4 py-2 text-xs font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAFAF8]"
                         >
-                          {messages.view_ingredients}
+                          성분 설명 보기
                         </Link>
                       ) : null}
                     </div>
+
+                    {openReasonIds.includes(product.id) &&
+                      ((locale === "ko" && product.recommendation_reason_ko) ||
+                        (locale === "ja" && product.recommendation_reason_ja) ||
+                        product.recommendation_reason) && (
+                        <div className="mt-3 rounded-2xl border border-pink-100 bg-pink-50/40 p-4">
+                          <p className="text-sm leading-relaxed text-gray-700">
+                            {locale === "ja" && product.recommendation_reason_ja
+                              ? product.recommendation_reason_ja
+                              : locale === "ko" &&
+                                product.recommendation_reason_ko
+                              ? product.recommendation_reason_ko
+                              : product.recommendation_reason}
+                          </p>
+                        </div>
+                      )}
+                  </div>
+
+                  <div className="mt-auto">
+                    {/* 정보형 UI로 전환: 구매 버튼 제거 */}
                   </div>
                 </article>
               );

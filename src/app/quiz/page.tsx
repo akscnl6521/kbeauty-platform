@@ -69,6 +69,14 @@ export default function QuizPage() {
   const { messages, locale, setLocale } = useLocale();
 
   const totalSteps = 4;
+  const title =
+    locale === "ko"
+      ? "나에게 맞는 K-뷰티 정보를 찾아보세요"
+      : messages.find_match;
+  const subtitle =
+    locale === "ko"
+      ? "몇 가지 질문으로 피부에 맞는 성분과 제품 정보를 정리해드립니다"
+      : "";
 
   const optionClass = (key: StepKey, value: string) => {
     const selected = answers[key] === value;
@@ -110,8 +118,11 @@ export default function QuizPage() {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">
-              {messages.find_match}
+              {title}
             </h2>
+            {subtitle ? (
+              <p className="-mt-3 text-sm text-gray-500">{subtitle}</p>
+            ) : null}
             <p className="text-base text-gray-600">{messages.age_question}</p>
             <div className="flex flex-wrap gap-3">
               {["10s", "20s", "30s", "40s+"].map((value) => (
@@ -131,8 +142,11 @@ export default function QuizPage() {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">
-              {messages.find_match}
+              {title}
             </h2>
+            {subtitle ? (
+              <p className="-mt-3 text-sm text-gray-500">{subtitle}</p>
+            ) : null}
             <p className="text-base text-gray-600">{messages.tone_question}</p>
             <div className="flex flex-wrap gap-3">
               {["Light", "Medium", "Dark"].map((value) => (
@@ -173,8 +187,11 @@ export default function QuizPage() {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">
-              {messages.find_match}
+              {title}
             </h2>
+            {subtitle ? (
+              <p className="-mt-3 text-sm text-gray-500">{subtitle}</p>
+            ) : null}
             <p className="text-base text-gray-600">{messages.concern_question}</p>
             <div className="flex flex-wrap gap-3">
               {["Redness", "Dryness", "Acne", "Dullness", "Anti-aging"].map((value) => (
@@ -195,9 +212,16 @@ export default function QuizPage() {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">
-              {messages.find_match}
+              {title}
             </h2>
-            <p className="text-base text-gray-600">{messages.budget_question}</p>
+            {subtitle ? (
+              <p className="-mt-3 text-sm text-gray-500">{subtitle}</p>
+            ) : null}
+            <p className="text-base text-gray-600">
+              {locale === "ko"
+                ? "관심 있는 가격대는 어느 정도인가요?"
+                : messages.budget_question}
+            </p>
             <div className="flex flex-wrap gap-3">
               {[
                 "Budget ($0-20)",

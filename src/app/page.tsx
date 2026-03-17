@@ -7,6 +7,15 @@ import { useLocale } from "@/hooks/useLocale";
 export default function Home() {
   const { messages, locale, setLocale } = useLocale();
 
+  const headline =
+    locale === "ko"
+      ? "내 피부에 맞는 K-뷰티를 더 쉽게 이해하세요"
+      : messages.find_match;
+  const subcopy =
+    locale === "ko"
+      ? "피부톤, 고민, 성분, 예산을 기준으로 K-뷰티 정보를 정리해드립니다"
+      : messages.subtitle;
+
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
       <Head>
@@ -73,10 +82,10 @@ export default function Home() {
               {messages.platform_tag}
             </p>
             <h1 className="font-['Playfair_Display',serif] text-5xl font-bold leading-tight md:text-6xl">
-              {messages.find_match}
+              {headline}
             </h1>
             <p className="text-lg font-light text-gray-500">
-              {messages.subtitle}
+              {subcopy}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
@@ -85,9 +94,16 @@ export default function Home() {
                   type="button"
                   className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-8 py-3 text-sm font-medium text-white shadow-lg shadow-[#C2185B33] transition-transform hover:scale-105"
                 >
-                  {messages.start_button}
+                  {locale === "ko" ? "가이드 시작하기" : messages.start_button}
                 </button>
               </Link>
+              {/* /ingredients 목록 페이지가 아직 없어서 텍스트 버튼 형태로 유지 */}
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-transparent px-7 py-3 text-sm font-medium text-[#C2185B] transition-transform hover:scale-105"
+              >
+                성분별로 보기
+              </button>
               <Link href="/analyze">
                 <button
                   type="button"
@@ -107,15 +123,15 @@ export default function Home() {
           <div className="relative z-10">
             <div className="rounded-3xl bg-white p-8 shadow-[0_18px_50px_rgba(0,0,0,0.10)]">
               <p className="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-gray-400">
-                Skincare Routine Preview
+                PERSONALIZED GUIDE PREVIEW
               </p>
 
               <div className="space-y-5">
                 {[
-                  { n: "01", t: messages.preview_step_1 },
-                  { n: "02", t: messages.preview_step_2 },
-                  { n: "03", t: messages.preview_step_3 },
-                  { n: "04", t: messages.preview_step_4 },
+                  { n: "01", t: locale === "ko" ? "피부 타입 이해" : messages.preview_step_1 },
+                  { n: "02", t: locale === "ko" ? "주요 고민 정리" : messages.preview_step_2 },
+                  { n: "03", t: locale === "ko" ? "추천 성분 확인" : messages.preview_step_3 },
+                  { n: "04", t: locale === "ko" ? "루틴 가이드 보기" : messages.preview_step_4 },
                 ].map((row) => (
                   <div key={row.n} className="flex items-start gap-4">
                     <div className="w-10 text-sm font-semibold text-[#B8860B]">
@@ -135,9 +151,9 @@ export default function Home() {
         {/* Stats */}
         <section className="mt-14 grid gap-6 border-t border-gray-100 pt-10 md:grid-cols-3">
           {[
-            { v: "186+", l: "Products" },
-            { v: "38", l: "Ingredients" },
-            { v: "3", l: "Languages" },
+            { v: "186+", l: locale === "ko" ? "정리된 제품 정보" : "Products" },
+            { v: "38", l: locale === "ko" ? "핵심 성분 가이드" : "Ingredients" },
+            { v: "3", l: locale === "ko" ? "언어 지원" : "Languages" },
           ].map((s) => (
             <div
               key={s.l}
