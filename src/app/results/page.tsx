@@ -512,9 +512,10 @@ function ResultsPageInner() {
                   ? product.key_ingredients_ja
                   : product.key_ingredients ?? [];
 
+              // slug는 항상 영문 key_ingredients 기준으로 구함 (일본어명으로는 DB slug 매칭 불가)
               const firstIngredientSlug =
-                keyIngredients && keyIngredients.length > 0
-                  ? ingredientNameToSlug(keyIngredients[0])
+                product.key_ingredients && product.key_ingredients.length > 0
+                  ? ingredientNameToSlug(product.key_ingredients[0])
                   : null;
               const priceDisplay = formatPrice(
                 product.price_usd,
