@@ -55,7 +55,7 @@ export default function FaceExplorer() {
   const zones = gender === "female" ? femaleZones : maleZones;
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] font-sans">
+    <div className="min-h-screen font-sans" style={{ backgroundImage: "url('/face-bg.png')", backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat", backgroundAttachment: "fixed" }}>
       <header className="flex items-center justify-between px-8 py-5 border-b border-pink-50">
         <span className="text-sm font-semibold tracking-[0.2em] text-[#B8860B]">K-BEAUTY GUIDE</span>
         <Link href="/" className="text-sm text-[#C2185B] hover:underline">← Home</Link>
