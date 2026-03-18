@@ -56,16 +56,12 @@ export default function FaceExplorer() {
 
   return (
     <div className="min-h-screen font-sans" style={{ backgroundImage: "url('/face-bg.png')", backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat", backgroundAttachment: "fixed" }}>
-      <header
-        className="sticky top-0 z-20 flex items-center justify-end border-b border-pink-100/80 px-6 py-4 backdrop-blur-sm sm:px-10"
-        style={{ background: "rgba(250,250,248,0.9)" }}
-      >
-        <Link href="/" className="text-sm font-medium text-[#C2185B] hover:underline">
-          ← Home
-        </Link>
-      </header>
-
       <main className="mx-auto max-w-6xl px-4 py-8 pb-16 sm:px-6 lg:px-8">
+        <div className="mb-2">
+          <Link href="/" className="text-sm text-[#C2185B] hover:underline">
+            ← Home
+          </Link>
+        </div>
         <div
           className="mb-8 rounded-2xl border border-white/70 px-6 py-6 shadow-sm backdrop-blur-sm sm:px-8"
           style={{ background: "rgba(255,255,255,0.88)" }}
