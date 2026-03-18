@@ -57,15 +57,7 @@ export default function FaceExplorer() {
   return (
     <div className="min-h-screen font-sans" style={{ backgroundImage: "url('/face-bg.png')", backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat", backgroundAttachment: "fixed" }}>
       <main className="mx-auto max-w-6xl px-4 py-8 pb-16 sm:px-6 lg:px-8">
-        <div className="mb-2">
-          <Link href="/" className="text-sm text-[#C2185B] hover:underline">
-            ← Home
-          </Link>
-        </div>
-        <div
-          className="mb-8 rounded-2xl border border-white/70 px-6 py-6 shadow-sm backdrop-blur-sm sm:px-8"
-          style={{ background: "rgba(255,255,255,0.88)" }}
-        >
+        <div className="mb-8 bg-white/80 backdrop-blur-sm rounded-2xl p-6">
           <h1 className="mb-2 text-3xl font-bold text-[#1A1A1A] sm:text-4xl">얼굴로 탐색하기</h1>
           <p className="text-sm leading-relaxed text-gray-700 sm:text-base">
             부위에 마우스를 올리면 관련 K-뷰티 정보를 확인할 수 있어요.
@@ -83,7 +75,7 @@ export default function FaceExplorer() {
                   src={gender === "female" ? "/face-female.png" : "/face-male.png"}
                   alt="얼굴"
                   fill
-                  className="object-cover object-top"
+                  className="object-cover object-center"
                 />
               </div>
 
