@@ -55,11 +55,21 @@ export default function FaceExplorer() {
   const zones = gender === "female" ? femaleZones : maleZones;
 
   return (
-    <div className="min-h-screen font-sans" style={{ backgroundImage: "url('/face-bg.png')", backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat", backgroundAttachment: "fixed" }}>
+    <div
+      className="min-h-screen font-sans"
+      style={{
+        backgroundImage: "url('/face-bg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        background: "rgba(250,250,248,0.88)",
+      }}
+    >
       <main className="mx-auto max-w-6xl px-4 py-8 pb-16 sm:px-6 lg:px-8">
-        <div className="mb-8 bg-white/80 backdrop-blur-sm rounded-2xl p-6">
-          <h1 className="mb-2 text-3xl font-bold text-[#1A1A1A] sm:text-4xl">얼굴로 탐색하기</h1>
-          <p className="text-sm leading-relaxed text-gray-700 sm:text-base">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2">얼굴로 탐색하기</h1>
+          <p className="text-gray-500">
             부위에 마우스를 올리면 관련 K-뷰티 정보를 확인할 수 있어요.
           </p>
         </div>
