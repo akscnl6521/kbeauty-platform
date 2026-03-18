@@ -56,20 +56,31 @@ export default function FaceExplorer() {
 
   return (
     <div className="min-h-screen font-sans" style={{ backgroundImage: "url('/face-bg.png')", backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat", backgroundAttachment: "fixed" }}>
-      <header className="flex items-center justify-between px-8 py-5 border-b border-pink-50">
-        <span className="text-sm font-semibold tracking-[0.2em] text-[#B8860B]">K-BEAUTY GUIDE</span>
-        <Link href="/" className="text-sm text-[#C2185B] hover:underline">← Home</Link>
+      <header
+        className="sticky top-0 z-20 flex items-center justify-end border-b border-pink-100/80 px-6 py-4 backdrop-blur-sm sm:px-10"
+        style={{ background: "rgba(250,250,248,0.9)" }}
+      >
+        <Link href="/" className="text-sm font-medium text-[#C2185B] hover:underline">
+          ← Home
+        </Link>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-10">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">얼굴로 탐색하기</h1>
-          <p className="text-gray-500">부위에 마우스를 올리면 관련 K-뷰티 정보를 확인할 수 있어요.</p>
+      <main className="mx-auto max-w-6xl px-4 py-8 pb-16 sm:px-6 lg:px-8">
+        <div
+          className="mb-8 rounded-2xl border border-white/70 px-6 py-6 shadow-sm backdrop-blur-sm sm:px-8"
+          style={{ background: "rgba(255,255,255,0.88)" }}
+        >
+          <h1 className="mb-2 text-3xl font-bold text-[#1A1A1A] sm:text-4xl">얼굴로 탐색하기</h1>
+          <p className="text-sm leading-relaxed text-gray-700 sm:text-base">
+            부위에 마우스를 올리면 관련 K-뷰티 정보를 확인할 수 있어요.
+          </p>
         </div>
 
-        <div className="flex gap-8 items-start">
+        <div
+          className="flex flex-col gap-8 rounded-3xl border border-white/50 bg-white/35 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] backdrop-blur-md sm:p-6 lg:flex-row lg:items-start lg:p-8"
+        >
           {/* 왼쪽: 얼굴 이미지 */}
-          <div className="flex-1 bg-white rounded-3xl border border-pink-100 shadow-sm overflow-hidden">
+          <div className="flex-1 overflow-hidden rounded-3xl border border-pink-100/90 bg-white shadow-md">
             <div className="relative" style={{ paddingBottom: "109%" }}>
               <div className="absolute inset-0">
                 <Image
@@ -173,7 +184,7 @@ export default function FaceExplorer() {
           </div>
 
           {/* 오른쪽: 정보 카드 */}
-          <div className="w-72 flex flex-col gap-4">
+          <div className="mx-auto flex w-full max-w-sm flex-col gap-4 lg:mx-0 lg:w-72 lg:max-w-none lg:shrink-0">
             {/* 성별 토글 */}
             <div className="bg-white rounded-2xl border border-pink-100 p-4 shadow-sm flex gap-2">
               {(["female", "male"] as const).map((g) => (
