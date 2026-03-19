@@ -60,10 +60,8 @@ export default function FaceExplorer() {
       style={{
         backgroundImage: "url('/face-bg.png')",
         backgroundSize: "cover",
-        backgroundPosition: "center top",
+        backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
-        background: "rgba(250,250,248,0.88)",
       }}
     >
       <main className="mx-auto max-w-6xl px-4 py-8 pb-16 sm:px-6 lg:px-8">
