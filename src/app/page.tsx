@@ -13,11 +13,33 @@ export default function Home() {
       : messages.find_match;
   const subcopy =
     locale === "ko"
-      ? "피부톤, 고민, 성분, 예산을 기준으로 K-뷰티 정보를 정리해드립니다. AI 분석 기능을 통해 피부 특성과 관심 성분을 더 빠르게 확인할 수 있습니다."
+      ? "피부톤, 고민, 성분, 예산을 기준으로 K-뷰티 정보를 정리해드립니다"
       : messages.subtitle;
 
+  const platformTag =
+    locale === "ko"
+      ? "K-뷰티 디스커버리 플랫폼"
+      : locale === "ja"
+        ? "K-ビューティー発見プラットフォーム"
+        : "K-Beauty Discovery Platform";
+
+  const ingredientCta =
+    locale === "ko"
+      ? "성분별로 보기"
+      : locale === "ja"
+        ? "成分で探す"
+        : "Explore Ingredients";
+
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
+    <div
+      className="min-h-screen text-[#1A1A1A]"
+      style={{
+        backgroundImage: "url('/hero-bg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <Head>
         <title>
           KBEAUTY GUIDE - Personalized Korean Skincare Recommendations
@@ -31,7 +53,7 @@ export default function Home() {
       <main className="mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-10">
         {/* Header */}
         <header className="flex items-center justify-between">
-          <div className="font-['Playfair_Display',serif] text-2xl italic tracking-tight text-[#1A1A1A]">
+          <div className="font-['Playfair_Display',serif] text-2xl font-semibold tracking-tight text-[#1A1A1A]">
             KBEAUTY GUIDE
           </div>
 
@@ -73,14 +95,13 @@ export default function Home() {
         </header>
 
         {/* Hero */}
-        <section className="relative mt-16 grid flex-1 items-center gap-10 md:mt-20 md:grid-cols-2">
-          {/* left pink blur */}
-          <div className="pointer-events-none absolute -left-24 top-10 h-96 w-96 rounded-full bg-pink-100 blur-3xl opacity-50" />
+        <section className="relative mt-14 grid flex-1 items-center gap-10 md:mt-16 md:grid-cols-2">
+          <div className="pointer-events-none absolute -left-28 top-14 h-80 w-80 rounded-full bg-pink-200/40 blur-3xl" />
 
           <div className="relative z-10 max-w-xl space-y-6">
-            <p className="text-xs font-medium uppercase tracking-[0.35em] text-[#C2185B]">
-              {messages.platform_tag}
-            </p>
+            <div className="inline-flex rounded-full bg-pink-100/70 px-4 py-2 text-xs font-semibold tracking-[0.2em] text-[#C2185B]">
+              {platformTag}
+            </div>
             <h1 className="font-['Playfair_Display',serif] text-5xl font-bold leading-tight md:text-6xl">
               {headline}
             </h1>
@@ -88,19 +109,19 @@ export default function Home() {
               {subcopy}
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link href="/quiz">
+            <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4">
+              <Link href="/quiz" className="block">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-8 py-3 text-sm font-medium text-white shadow-lg shadow-[#C2185B33] transition-transform hover:scale-105"
+                  className="w-full rounded-2xl bg-[#C2185B] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#C2185B33] transition hover:brightness-95"
                 >
                   {locale === "ko" ? "가이드 시작하기" : messages.start_button}
                 </button>
               </Link>
-              <Link href="/analyze">
+              <Link href="/analyze" className="block">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-transparent px-7 py-3 text-sm font-medium text-[#C2185B] transition-transform hover:scale-105"
+                  className="w-full rounded-2xl border border-[#C2185B] bg-transparent px-5 py-3 text-sm font-semibold text-[#C2185B] transition hover:bg-pink-50/60"
                 >
                   {locale === "ko"
                     ? "AI 피부 분석 시작"
@@ -109,10 +130,10 @@ export default function Home() {
                       : "AI Skin Analysis"}
                 </button>
               </Link>
-              <Link href="/face-explorer">
+              <Link href="/face-explorer" className="block">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-7 py-3 text-sm font-medium text-gray-800 transition-transform hover:scale-105 hover:bg-pink-50"
+                  className="w-full rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-gray-800 shadow-sm ring-1 ring-white/60 transition hover:bg-white/80"
                 >
                   {locale === "ko"
                     ? "얼굴로 탐색하기"
@@ -121,13 +142,14 @@ export default function Home() {
                       : "Explore by Face"}
                 </button>
               </Link>
-              {/* /ingredients 목록 페이지가 아직 없어서 텍스트 버튼 형태로 유지 */}
-              <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-transparent px-7 py-3 text-sm font-medium text-[#C2185B] transition-transform hover:scale-105"
-              >
-                성분별로 보기
-              </button>
+              <Link href="/ingredients" className="block">
+                <button
+                  type="button"
+                  className="w-full rounded-2xl border border-[#C2185B] bg-transparent px-5 py-3 text-sm font-semibold text-[#C2185B] transition hover:bg-pink-50/60"
+                >
+                  {ingredientCta}
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -161,7 +183,7 @@ export default function Home() {
         </section>
 
         {/* Stats */}
-        <section className="mt-14 grid gap-6 border-t border-gray-100 pt-10 md:grid-cols-3">
+        <section className="mt-14 grid gap-6 border-t border-black/5 pt-10 md:grid-cols-3">
           {[
             { v: "186+", l: locale === "ko" ? "정리된 제품 정보" : "Products" },
             { v: "38", l: locale === "ko" ? "핵심 성분 가이드" : "Ingredients" },
@@ -180,9 +202,15 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="mt-14 border-t border-gray-100 pt-8 text-xs text-gray-400">
+        <footer className="mt-14 border-t border-black/5 pt-8 text-xs text-gray-500">
           <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-            <span>{messages.footer_powered}</span>
+            <span>
+              {locale === "ko"
+                ? "K-뷰티 성분, 루틴, 실제 사용자 데이터 기반"
+                : locale === "ja"
+                  ? "成分・ルーティン・ユーザーデータに基づくK-ビューティーガイド"
+                  : "K-beauty ingredients, routines, and real user data"}
+            </span>
             <div className="flex gap-4">
               <Link href="/privacy" className="hover:text-gray-600">
                 {messages.privacy_policy}
