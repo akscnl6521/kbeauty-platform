@@ -1,4 +1,9 @@
-export type { AnalysisResult, Recommendation } from "./types";
+export type {
+  AnalysisResult,
+  RankableProduct,
+  RankedProduct,
+  Recommendation,
+} from "./types";
 export {
   ANALYSIS_RESULT_STORAGE_KEY,
   RECOMMENDATION_STORAGE_KEY,
@@ -8,3 +13,9 @@ export {
   parseAnalysisTextToRecommendation,
   toRecommendation,
 } from "./parseAnalysis";
+export {
+  coerceIngredientList,
+  findMatchingIngredient,
+  normalizeIngredientKey,
+} from "./normalizeIngredient";
+export { rankProducts } from "./rankProducts";
