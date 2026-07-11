@@ -35,3 +35,4 @@ export {
   createMockRecommendation,
   MOCK_RECOMMENDATION,
 } from "./mockRecommendation";
+export { loadRankedProductsFromStorage } from "./loadRankedProducts";

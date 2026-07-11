@@ -5,16 +5,20 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
 import { useLocale } from "@/hooks/useLocale";
+import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import {
   ANALYSIS_RESULT_STORAGE_KEY,
   clearPersistedRankedProducts,
   createMockRecommendation,
+  loadRankedProductsFromStorage,
   persistTopRankedProducts,
   RANKED_PRODUCTS_STORAGE_KEY,
   RECOMMENDATION_STORAGE_KEY,
   parseAnalysisTextToRecommendation,
   toRecommendation,
   type AnalysisResult,
+  type CandidateProduct,
+  type RankedProduct,
   type Recommendation,
 } from "@/lib/recommend";
 
@@ -124,10 +128,19 @@ export default function AnalyzePage() {
    * 클라이언트 마운트 후 NODE_ENV 를 확인해 프로덕션에서는 절대 보이지 않게 한다.
    */
   const [showMockButton, setShowMockButton] = useState(false);
+  /** Sprint 3 Phase 1 — LocalStorage 랭킹 제품 (최대 5) */
+  const [rankedProducts, setRankedProducts] = useState<
+    RankedProduct<CandidateProduct>[]
+  >([]);
 
   useEffect(() => {
     // next dev 에서만 true. production 빌드에서는 false.
     setShowMockButton(process.env.NODE_ENV === "development");
+  }, []);
+
+  /** 마운트 시 저장된 랭킹 결과 복원 */
+  useEffect(() => {
+    setRankedProducts(loadRankedProductsFromStorage());
   }, []);
 
   const [manualTone, setManualTone] = useState<ToneKo>("중간");
@@ -209,6 +222,8 @@ export default function AnalyzePage() {
       persistRecommendation(nextRecommendation);
       // Phase 3B: 분석 UI와 무관하게 백그라운드로 Top5 랭킹 저장
       await runRankingPipeline(nextRecommendation);
+      // Sprint 3 Phase 1: 저장된 랭킹을 화면에 반영
+      setRankedProducts(loadRankedProductsFromStorage());
     } catch (e) {
       const err = e instanceof Error ? e : new Error(String(e));
       setError(err.message);
@@ -251,6 +266,8 @@ Return JSON only.`,
       persistRecommendation(nextRecommendation);
       // Phase 3B: 분석 UI와 무관하게 백그라운드로 Top5 랭킹 저장
       await runRankingPipeline(nextRecommendation);
+      // Sprint 3 Phase 1: 저장된 랭킹을 화면에 반영
+      setRankedProducts(loadRankedProductsFromStorage());
     } catch (e) {
       const err = e instanceof Error ? e : new Error(String(e));
       setError(err.message);
@@ -323,6 +340,7 @@ Return JSON only.`,
       // ignore
     }
     setResult(null);
+    setRankedProducts([]);
   };
 
   /**
@@ -352,6 +370,9 @@ Return JSON only.`,
       );
 
       console.log("Mock recommendation saved");
+
+      // Sprint 3 Phase 1: 카드 목록 갱신
+      setRankedProducts(loadRankedProductsFromStorage());
 
       setMockTestMessage({
         type: top.length > 0 ? "success" : "error",
@@ -733,6 +754,32 @@ Return JSON only.`,
             )}
           </div>
         </section>
+
+        {/* Sprint 3 Phase 1 — LocalStorage 랭킹 제품 표시 (기존 분석 레이아웃 아래) */}
+        {rankedProducts.length > 0 ? (
+          <section
+            className="mt-10 border-t border-pink-100 pt-8"
+            aria-label="추천 제품"
+          >
+            <h2 className="font-['Playfair_Display',serif] text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+              추천 제품
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">
+              분석·매칭 결과 상위 {rankedProducts.length}개 제품입니다. (구매
+              링크는 아직 제공하지 않습니다)
+            </p>
+            <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {rankedProducts.map((ranked, index) => (
+                <RecommendedProductCard
+                  key={ranked.product.id}
+                  rank={index + 1}
+                  ranked={ranked}
+                  locale={locale}
+                />
+              ))}
+            </div>
+          </section>
+        ) : null}
       </main>
     </div>
   );
