@@ -67,3 +67,31 @@ export interface RankedProduct<T extends RankableProduct = RankableProduct> {
   /** recommendation.ingredientsToAvoid 와 교집합으로 걸린 성분 */
   excludedIngredients: string[];
 }
+
+/**
+ * Phase 3A — Supabase에서 로드한 후보 제품.
+ * RankableProduct(랭킹) + 결과 UI 표시에 필요한 필드를 포함한다.
+ */
+export interface CandidateProduct extends RankableProduct {
+  id: string;
+  name: string | null;
+  name_ko: string | null;
+  name_ja: string | null;
+  brand: string | null;
+  category: string | null;
+  skin_concern: string | null;
+  skin_tone: string | null;
+  key_ingredients: string[] | null;
+  key_ingredients_ja: string[] | null;
+  price_usd: number | null;
+  recommendation_reason: string | null;
+  recommendation_reason_ko: string | null;
+  recommendation_reason_ja: string | null;
+  slug: string | null;
+}
+
+/** fetchCandidateProducts 옵션 */
+export type FetchCandidateProductsOptions = {
+  /** 최대 행 수 (기본 10000 — 기존 results 페이지와 동일 상한) */
+  limit?: number;
+};

@@ -1,5 +1,7 @@
 export type {
   AnalysisResult,
+  CandidateProduct,
+  FetchCandidateProductsOptions,
   RankableProduct,
   RankedProduct,
   Recommendation,
@@ -19,3 +21,7 @@ export {
   normalizeIngredientKey,
 } from "./normalizeIngredient";
 export { rankProducts } from "./rankProducts";
+export {
+  fetchCandidateProducts,
+  mapRowToCandidateProduct,
+} from "./fetchCandidateProducts";
