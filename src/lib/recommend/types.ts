@@ -36,6 +36,15 @@ export const RECOMMENDATION_STORAGE_KEY = "skinRecommendation";
 export const ANALYSIS_RESULT_STORAGE_KEY = "skinAnalysisResult";
 
 /**
+ * Phase 3B — 랭킹 Top N 제품 저장 키.
+ * analyze UI에는 아직 표시하지 않고, 이후 results 연결용으로만 보관한다.
+ */
+export const RANKED_PRODUCTS_STORAGE_KEY = "skinRankedProducts";
+
+/** Top N 개수 (Phase 3B 고정) */
+export const RANKED_PRODUCTS_TOP_N = 5;
+
+/**
  * 랭킹 입력용 최소 제품 형태 (Phase 2).
  * Supabase 행을 그대로 넘겨도 되고, 테스트용 mock도 가능.
  * UI/DB 계층과 분리하기 위해 여기만 정의한다.

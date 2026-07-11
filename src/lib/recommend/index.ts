@@ -8,6 +8,8 @@ export type {
 } from "./types";
 export {
   ANALYSIS_RESULT_STORAGE_KEY,
+  RANKED_PRODUCTS_STORAGE_KEY,
+  RANKED_PRODUCTS_TOP_N,
   RECOMMENDATION_STORAGE_KEY,
 } from "./types";
 export {
@@ -25,3 +27,11 @@ export {
   fetchCandidateProducts,
   mapRowToCandidateProduct,
 } from "./fetchCandidateProducts";
+export {
+  clearPersistedRankedProducts,
+  persistTopRankedProducts,
+} from "./persistTopRankedProducts";
+export {
+  createMockRecommendation,
+  MOCK_RECOMMENDATION,
+} from "./mockRecommendation";

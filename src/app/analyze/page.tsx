@@ -7,6 +7,10 @@ import { useMemo, useState, useEffect } from "react";
 import { useLocale } from "@/hooks/useLocale";
 import {
   ANALYSIS_RESULT_STORAGE_KEY,
+  clearPersistedRankedProducts,
+  createMockRecommendation,
+  persistTopRankedProducts,
+  RANKED_PRODUCTS_STORAGE_KEY,
   RECOMMENDATION_STORAGE_KEY,
   parseAnalysisTextToRecommendation,
   toRecommendation,
@@ -90,6 +94,15 @@ function persistRecommendation(recommendation: Recommendation) {
   }
 }
 
+/**
+ * Phase 3B 파이프라인:
+ * Recommendation → fetchCandidateProducts → rankProducts → Top5 → LocalStorage
+ * 분석 UI는 변경하지 않으며, 제품 목록도 화면에 그리지 않는다.
+ */
+async function runRankingPipeline(recommendation: Recommendation) {
+  await persistTopRankedProducts(recommendation);
+}
+
 export default function AnalyzePage() {
   const { locale } = useLocale();
   const router = useRouter();
@@ -100,6 +113,22 @@ export default function AnalyzePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  /** Phase 3C: 개발용 mock 테스트 상태 메시지 (제품 카드는 표시하지 않음) */
+  const [mockTestMessage, setMockTestMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+  const [mockTestLoading, setMockTestLoading] = useState(false);
+  /**
+   * 개발 전용 버튼 노출 여부.
+   * 클라이언트 마운트 후 NODE_ENV 를 확인해 프로덕션에서는 절대 보이지 않게 한다.
+   */
+  const [showMockButton, setShowMockButton] = useState(false);
+
+  useEffect(() => {
+    // next dev 에서만 true. production 빌드에서는 false.
+    setShowMockButton(process.env.NODE_ENV === "development");
+  }, []);
 
   const [manualTone, setManualTone] = useState<ToneKo>("중간");
   const [manualUndertone, setManualUndertone] = useState<UndertoneKo>("중립");
@@ -178,6 +207,8 @@ export default function AnalyzePage() {
         });
       setResult(analysis);
       persistRecommendation(nextRecommendation);
+      // Phase 3B: 분석 UI와 무관하게 백그라운드로 Top5 랭킹 저장
+      await runRankingPipeline(nextRecommendation);
     } catch (e) {
       const err = e instanceof Error ? e : new Error(String(e));
       setError(err.message);
@@ -218,6 +249,8 @@ Return JSON only.`,
         await callAnthropic(payload);
       setResult(analysis);
       persistRecommendation(nextRecommendation);
+      // Phase 3B: 분석 UI와 무관하게 백그라운드로 Top5 랭킹 저장
+      await runRankingPipeline(nextRecommendation);
     } catch (e) {
       const err = e instanceof Error ? e : new Error(String(e));
       setError(err.message);
@@ -285,10 +318,57 @@ Return JSON only.`,
     try {
       window.localStorage.removeItem(ANALYSIS_RESULT_STORAGE_KEY);
       window.localStorage.removeItem(RECOMMENDATION_STORAGE_KEY);
+      clearPersistedRankedProducts();
     } catch {
       // ignore
     }
     setResult(null);
+  };
+
+  /**
+   * Phase 3C — AI 없이 랭킹 파이프라인만 검증.
+   * mock Recommendation → persistTopRankedProducts → LocalStorage
+   */
+  const handleMockRecommendationTest = async () => {
+    if (process.env.NODE_ENV !== "development") return;
+    setMockTestLoading(true);
+    setMockTestMessage(null);
+    try {
+      const mockRecommendation = createMockRecommendation();
+
+      // 1) skinRecommendation 저장
+      window.localStorage.setItem(
+        RECOMMENDATION_STORAGE_KEY,
+        JSON.stringify(mockRecommendation)
+      );
+
+      // 2) 후보 로드 + 랭킹 + skinRankedProducts 저장
+      const top = await persistTopRankedProducts(mockRecommendation);
+
+      // 3) 키가 비어 있지 않도록 한 번 더 보장 (조회 실패 시에도 [])
+      window.localStorage.setItem(
+        RANKED_PRODUCTS_STORAGE_KEY,
+        JSON.stringify(top)
+      );
+
+      console.log("Mock recommendation saved");
+
+      setMockTestMessage({
+        type: top.length > 0 ? "success" : "error",
+        text:
+          top.length > 0
+            ? `Mock 추천 Top${top.length} 저장 완료 (skinRecommendation, skinRankedProducts)`
+            : "skinRecommendation / skinRankedProducts 저장됨 (랭킹 0건 — DB 후보 확인)",
+      });
+    } catch (e) {
+      const err = e instanceof Error ? e : new Error(String(e));
+      setMockTestMessage({
+        type: "error",
+        text: `Mock 추천 테스트 실패: ${err.message}`,
+      });
+    } finally {
+      setMockTestLoading(false);
+    }
   };
 
   return (
@@ -312,6 +392,33 @@ Return JSON only.`,
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-gray-600">
             사진 또는 기본 정보를 바탕으로 피부 타입, 주요 고민, 관심 성분을 정리해드립니다. 이 기능은 의료적 진단이 아닌, K-Beauty 정보 탐색을 돕기 위한 분석 가이드입니다.
           </p>
+          {/* Phase 3C: development 전용 Mock 추천 테스트 버튼 */}
+          {showMockButton ? (
+            <div className="mt-4">
+              <button
+                type="button"
+                data-testid="mock-recommendation-test"
+                onClick={handleMockRecommendationTest}
+                disabled={mockTestLoading}
+                className={`rounded-full border border-[#C2185B] bg-white px-4 py-2 text-xs font-semibold text-[#C2185B] transition hover:bg-pink-50 ${
+                  mockTestLoading ? "cursor-not-allowed opacity-60" : ""
+                }`}
+              >
+                {mockTestLoading ? "Mock 테스트 중..." : "Mock 추천 테스트"}
+              </button>
+              {mockTestMessage ? (
+                <p
+                  className={`mt-2 text-xs ${
+                    mockTestMessage.type === "success"
+                      ? "text-green-700"
+                      : "text-red-600"
+                  }`}
+                >
+                  {mockTestMessage.text}
+                </p>
+              ) : null}
+            </div>
+          ) : null}
         </header>
 
         {/* Tabs */}
