@@ -5,18 +5,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
 import { useLocale } from "@/hooks/useLocale";
+import {
+  ANALYSIS_RESULT_STORAGE_KEY,
+  RECOMMENDATION_STORAGE_KEY,
+  parseAnalysisTextToRecommendation,
+  toRecommendation,
+  type AnalysisResult,
+  type Recommendation,
+} from "@/lib/recommend";
 
 type Locale = "en" | "ja" | "ko";
-
-type AnalysisResult = {
-  skin_type: string;
-  concerns: string[];
-  ingredients: string[];
-  summary_en: string;
-  summary_ko: string;
-  summary_ja: string;
-  routine_tips: string[];
-};
 
 type InputMode = "photo" | "manual";
 type ToneKo = "밝은" | "중간" | "어두운";
@@ -45,7 +43,9 @@ function toneKoToResultsTone(t: ToneKo): string {
   return "Dark";
 }
 
-async function callAnthropic(payload: unknown): Promise<AnalysisResult> {
+async function callAnthropic(
+  payload: unknown
+): Promise<{ analysis: AnalysisResult; recommendation: Recommendation }> {
   if (!process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY) {
     throw new Error("Anthropic API key is not configured.");
   }
@@ -74,16 +74,20 @@ async function callAnthropic(payload: unknown): Promise<AnalysisResult> {
     throw new Error("No content returned from Anthropic.");
   }
 
-  let parsed: AnalysisResult | null = null;
-  try {
-    parsed = JSON.parse(contentText);
-  } catch {
-    const match = contentText.match(/\{[\s\S]*\}/);
-    if (match) parsed = JSON.parse(match[0]);
-  }
+  const { analysis, recommendation } =
+    parseAnalysisTextToRecommendation(contentText);
+  return { analysis, recommendation };
+}
 
-  if (!parsed) throw new Error("Failed to parse analysis result.");
-  return parsed;
+function persistRecommendation(recommendation: Recommendation) {
+  try {
+    window.localStorage.setItem(
+      RECOMMENDATION_STORAGE_KEY,
+      JSON.stringify(recommendation)
+    );
+  } catch {
+    // ignore quota/serialization errors
+  }
 }
 
 export default function AnalyzePage() {
@@ -146,32 +150,34 @@ export default function AnalyzePage() {
     setResult(null);
 
     try {
-      const parsed = await callAnthropic({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 700,
-        system:
-          "You are a K-beauty skincare information guide. Based on the skin photo provided, analyze and respond ONLY in JSON: {\"skin_type\": \"string\", \"concerns\": [\"string\"], \"ingredients\": [\"string\"], \"summary_ko\": \"Korean summary\", \"summary_en\": \"English summary\", \"summary_ja\": \"Japanese summary\", \"routine_tips\": [\"string\"]}",
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                text: "Analyze this skin photo and return JSON only.",
-              },
-              {
-                type: "image",
-                source: {
-                  type: "base64",
-                  media_type: "image/jpeg",
-                  data: imageBase64,
+      const { analysis, recommendation: nextRecommendation } =
+        await callAnthropic({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 700,
+          system:
+            "You are a K-beauty skincare information guide. Based on the skin photo provided, analyze and respond ONLY in JSON: {\"skin_type\": \"string\", \"concerns\": [\"string\"], \"ingredients\": [\"string\"], \"summary_ko\": \"Korean summary\", \"summary_en\": \"English summary\", \"summary_ja\": \"Japanese summary\", \"routine_tips\": [\"string\"]}",
+          messages: [
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: "Analyze this skin photo and return JSON only.",
                 },
-              },
-            ],
-          },
-        ],
-      });
-      setResult(parsed);
+                {
+                  type: "image",
+                  source: {
+                    type: "base64",
+                    media_type: "image/jpeg",
+                    data: imageBase64,
+                  },
+                },
+              ],
+            },
+          ],
+        });
+      setResult(analysis);
+      persistRecommendation(nextRecommendation);
     } catch (e) {
       const err = e instanceof Error ? e : new Error(String(e));
       setError(err.message);
@@ -208,8 +214,10 @@ Return JSON only.`,
           },
         ],
       };
-      const parsed = await callAnthropic(payload);
-      setResult(parsed);
+      const { analysis, recommendation: nextRecommendation } =
+        await callAnthropic(payload);
+      setResult(analysis);
+      persistRecommendation(nextRecommendation);
     } catch (e) {
       const err = e instanceof Error ? e : new Error(String(e));
       setError(err.message);
@@ -243,24 +251,31 @@ Return JSON only.`,
 
   const canAnalyzePhoto = !!imageBase64 && !loading;
 
-  // Load last analysis result from localStorage on mount
+  // Load last analysis from localStorage on mount; rebuild Recommendation for Phase 1+
   useEffect(() => {
     try {
-      const saved = window.localStorage.getItem("skinAnalysisResult");
+      const saved = window.localStorage.getItem(ANALYSIS_RESULT_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved) as AnalysisResult;
         setResult(parsed);
+        const savedRec = window.localStorage.getItem(RECOMMENDATION_STORAGE_KEY);
+        if (!savedRec) {
+          persistRecommendation(toRecommendation(parsed));
+        }
       }
     } catch {
       // ignore parse errors
     }
   }, []);
 
-  // Persist analysis result (text only) to localStorage
+  // Persist analysis result (text only) to localStorage — UI contract unchanged
   useEffect(() => {
     if (!result) return;
     try {
-      window.localStorage.setItem("skinAnalysisResult", JSON.stringify(result));
+      window.localStorage.setItem(
+        ANALYSIS_RESULT_STORAGE_KEY,
+        JSON.stringify(result)
+      );
     } catch {
       // ignore quota/serialization errors
     }
@@ -268,7 +283,8 @@ Return JSON only.`,
 
   const clearResult = () => {
     try {
-      window.localStorage.removeItem("skinAnalysisResult");
+      window.localStorage.removeItem(ANALYSIS_RESULT_STORAGE_KEY);
+      window.localStorage.removeItem(RECOMMENDATION_STORAGE_KEY);
     } catch {
       // ignore
     }
