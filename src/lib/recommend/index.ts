@@ -19,9 +19,12 @@ export {
 } from "./parseAnalysis";
 export {
   coerceIngredientList,
+  coerceIngredientListUnknown,
+  debugNormalizeIngredients,
   findMatchingIngredient,
   normalizeIngredientKey,
 } from "./normalizeIngredient";
+export { INGREDIENT_ALIAS_GROUPS } from "./ingredientAliases";
 export { rankProducts } from "./rankProducts";
 export {
   fetchCandidateProducts,

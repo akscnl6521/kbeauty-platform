@@ -1,6 +1,9 @@
 import {
   coerceIngredientList,
+  coerceIngredientListUnknown,
+  debugNormalizeIngredients,
   findMatchingIngredient,
+  normalizeIngredientKey,
 } from "./normalizeIngredient";
 import type { RankableProduct, RankedProduct, Recommendation } from "./types";
 
@@ -13,20 +16,24 @@ const AVOID_PENALTY = 1.25;
 /** 회피 성분이 있을 때 추가 배수 감점 (비율) */
 const AVOID_RATIO_PENALTY = 0.35;
 
+/** 개발 로그 출력 상한 (제품당 스팸 방지) */
+const DEV_LOG_LIMIT = 5;
+let devLogCount = 0;
+
 /**
  * 제품에서 비교에 쓸 성분 목록을 모은다.
  * key_ingredients + key_ingredients_ja (있을 경우).
  */
 function collectProductIngredients(product: RankableProduct): string[] {
-  const primary = coerceIngredientList(product.key_ingredients);
-  const ja = coerceIngredientList(product.key_ingredients_ja);
-  // 중복 원문 제거 (표기 그대로 유지하되 동일 문자열만 제거)
+  const primary = coerceIngredientListUnknown(product.key_ingredients);
+  const ja = coerceIngredientListUnknown(product.key_ingredients_ja);
   const seen = new Set<string>();
   const out: string[] = [];
   for (const name of [...primary, ...ja]) {
-    if (seen.has(name)) continue;
-    seen.add(name);
-    out.push(name);
+    const key = name.trim();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(key);
   }
   return out;
 }
@@ -60,16 +67,15 @@ function scoreOneProduct<T extends RankableProduct>(
   const matchCount = matchedIngredients.length;
   const avoidCount = excludedIngredients.length;
 
-  // 기본 점수: 추천 성분 대비 매칭 비율 (추천 목록이 비면 0)
   const matchRatio =
     recommendedCount > 0 ? matchCount / recommendedCount : 0;
 
   let score = matchCount * MATCH_WEIGHT + matchRatio;
 
-  // 피부 고민 태그가 recommendation.skinConcerns 와 겹치면 소폭 가산
+  // 피부 고민 태그 소폭 가산 (성분과 동일 매칭 유틸 재사용)
   if (recommendation.skinConcerns.length > 0 && product.skin_concern) {
     const concernHaystack = coerceIngredientList(product.skin_concern);
-    if (concernHaystack.length === 0) {
+    if (concernHaystack.length === 0 && product.skin_concern) {
       concernHaystack.push(product.skin_concern);
     }
     let concernHits = 0;
@@ -81,18 +87,34 @@ function scoreOneProduct<T extends RankableProduct>(
     }
   }
 
-  // 회피 성분 감점
+  // 회피 성분 감점 유지
   if (avoidCount > 0) {
     score -= avoidCount * AVOID_PENALTY;
     score -= avoidCount * AVOID_RATIO_PENALTY;
   }
 
-  // 분석 confidence 를 약한 가중치로 반영 (0.85 ~ 1.0 구간)
   const confidenceFactor = 0.85 + 0.15 * recommendation.confidenceScore;
   score *= confidenceFactor;
-
-  // 부동 오차 정리
   score = Math.round(score * 1000) / 1000;
+
+  // 개발 전용 매칭 디버그 (프로덕션 미출력)
+  if (
+    process.env.NODE_ENV === "development" &&
+    typeof console !== "undefined" &&
+    devLogCount < DEV_LOG_LIMIT
+  ) {
+    devLogCount += 1;
+    console.log("[rankProducts:match]", {
+      productId: product.id,
+      productName: product.name ?? null,
+      recommendedIngredients: recommendation.recommendedIngredients,
+      normalizedProductIngredients: debugNormalizeIngredients(productIngredients),
+      matchedIngredients,
+      excludedIngredients,
+      score,
+      rawKeyIngredients: product.key_ingredients ?? null,
+    });
+  }
 
   return {
     product,
@@ -103,17 +125,8 @@ function scoreOneProduct<T extends RankableProduct>(
 }
 
 /**
- * Phase 2 — 제품 랭킹 엔진.
- *
- * Recommendation(Phase 1)과 제품 목록을 받아
- * 추천 성분 매칭·회피 성분 감점 후 점수 내림차순으로 정렬한다.
- *
- * - Supabase 호출 없음 (호출측에서 products 를 넘김)
- * - UI / AI 프롬프트와 무관
- *
- * @param recommendation Phase 1 구조화 추천 객체
- * @param products 랭킹 대상 제품 배열
- * @returns score 내림차순 RankedProduct[]
+ * Phase 2 / Sprint 3 Phase 2A — 제품 랭킹 엔진.
+ * 시그니처 유지: rankProducts(recommendation, products)
  */
 export function rankProducts<T extends RankableProduct>(
   recommendation: Recommendation,
@@ -123,13 +136,26 @@ export function rankProducts<T extends RankableProduct>(
     return [];
   }
 
+  // 호출마다 개발 로그 카운터 리셋 (한 번의 랭킹 런에서 상위 N개만)
+  devLogCount = 0;
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("[rankProducts] start", {
+      recommendedIngredients: recommendation.recommendedIngredients,
+      ingredientsToAvoid: recommendation.ingredientsToAvoid,
+      productCount: products.length,
+      sampleNormalize: recommendation.recommendedIngredients.map(
+        (r) => `${r} → ${normalizeIngredientKey(r)}`
+      ),
+    });
+  }
+
   const ranked = products.map((product) =>
     scoreOneProduct(recommendation, product)
   );
 
   ranked.sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
-    // 동점 시 매칭 성분 수 → id 로 안정 정렬
     if (b.matchedIngredients.length !== a.matchedIngredients.length) {
       return b.matchedIngredients.length - a.matchedIngredients.length;
     }
