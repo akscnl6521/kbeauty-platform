@@ -1,29 +1,20 @@
 import {
   coerceIngredientList,
   coerceIngredientListUnknown,
-  debugNormalizeIngredients,
-  findMatchingIngredient,
-  normalizeIngredientKey,
+  findMatchByCanonical,
+  indexIngredients,
+  toCanonical,
+  type CanonicalIngredientRef,
 } from "./normalizeIngredient";
 import type { RankableProduct, RankedProduct, Recommendation } from "./types";
 
-/** 추천 성분 1개 매칭 시 가산점 */
 const MATCH_WEIGHT = 1;
-
-/** 회피 성분 1개 적중 시 감점 */
 const AVOID_PENALTY = 1.25;
-
-/** 회피 성분이 있을 때 추가 배수 감점 (비율) */
 const AVOID_RATIO_PENALTY = 0.35;
 
-/** 개발 로그 출력 상한 (제품당 스팸 방지) */
 const DEV_LOG_LIMIT = 5;
 let devLogCount = 0;
 
-/**
- * 제품에서 비교에 쓸 성분 목록을 모은다.
- * key_ingredients + key_ingredients_ja (있을 경우).
- */
 function collectProductIngredients(product: RankableProduct): string[] {
   const primary = coerceIngredientListUnknown(product.key_ingredients);
   const ja = coerceIngredientListUnknown(product.key_ingredients_ja);
@@ -38,27 +29,51 @@ function collectProductIngredients(product: RankableProduct): string[] {
   return out;
 }
 
-/**
- * 단일 제품에 대한 매칭·점수 계산.
- */
+/** 추천 쪽 캐논컬을 한 번만 계산 */
+function indexRecommendation(recommendation: Recommendation): {
+  recommended: { label: string; canonical: string }[];
+  avoid: { label: string; canonical: string }[];
+  concerns: { label: string; canonical: string }[];
+} {
+  return {
+    recommended: recommendation.recommendedIngredients
+      .map((label) => ({ label, canonical: toCanonical(label) }))
+      .filter((x) => x.canonical),
+    avoid: recommendation.ingredientsToAvoid
+      .map((label) => ({ label, canonical: toCanonical(label) }))
+      .filter((x) => x.canonical),
+    concerns: recommendation.skinConcerns
+      .map((label) => ({ label, canonical: toCanonical(label) }))
+      .filter((x) => x.canonical),
+  };
+}
+
 function scoreOneProduct<T extends RankableProduct>(
   recommendation: Recommendation,
-  product: T
+  product: T,
+  recIndex: ReturnType<typeof indexRecommendation>
 ): RankedProduct<T> {
   const productIngredients = collectProductIngredients(product);
+  // 제품 성분은 제품당 1회만 캐논컬 인덱싱
+  const productIndex: CanonicalIngredientRef[] =
+    indexIngredients(productIngredients);
 
   const matchedIngredients: string[] = [];
-  for (const recommended of recommendation.recommendedIngredients) {
-    const hit = findMatchingIngredient(recommended, productIngredients);
-    if (hit && !matchedIngredients.includes(hit)) {
+  const matchedCanonical = new Set<string>();
+  for (const rec of recIndex.recommended) {
+    const hit = findMatchByCanonical(rec.canonical, productIndex);
+    if (hit && !matchedCanonical.has(rec.canonical)) {
+      matchedCanonical.add(rec.canonical);
       matchedIngredients.push(hit);
     }
   }
 
   const excludedIngredients: string[] = [];
-  for (const avoid of recommendation.ingredientsToAvoid) {
-    const hit = findMatchingIngredient(avoid, productIngredients);
-    if (hit && !excludedIngredients.includes(hit)) {
+  const excludedCanonical = new Set<string>();
+  for (const avoid of recIndex.avoid) {
+    const hit = findMatchByCanonical(avoid.canonical, productIndex);
+    if (hit && !excludedCanonical.has(avoid.canonical)) {
+      excludedCanonical.add(avoid.canonical);
       excludedIngredients.push(hit);
     }
   }
@@ -72,22 +87,22 @@ function scoreOneProduct<T extends RankableProduct>(
 
   let score = matchCount * MATCH_WEIGHT + matchRatio;
 
-  // 피부 고민 태그 소폭 가산 (성분과 동일 매칭 유틸 재사용)
-  if (recommendation.skinConcerns.length > 0 && product.skin_concern) {
+  if (recIndex.concerns.length > 0 && product.skin_concern) {
     const concernHaystack = coerceIngredientList(product.skin_concern);
     if (concernHaystack.length === 0 && product.skin_concern) {
       concernHaystack.push(product.skin_concern);
     }
+    const concernIndex = indexIngredients(concernHaystack);
     let concernHits = 0;
-    for (const c of recommendation.skinConcerns) {
-      if (findMatchingIngredient(c, concernHaystack)) concernHits += 1;
+    for (const c of recIndex.concerns) {
+      if (findMatchByCanonical(c.canonical, concernIndex)) concernHits += 1;
     }
     if (concernHits > 0) {
       score += 0.15 * (concernHits / recommendation.skinConcerns.length);
     }
   }
 
-  // 회피 성분 감점 유지
+  // ingredientsToAvoid 감점 유지
   if (avoidCount > 0) {
     score -= avoidCount * AVOID_PENALTY;
     score -= avoidCount * AVOID_RATIO_PENALTY;
@@ -97,7 +112,6 @@ function scoreOneProduct<T extends RankableProduct>(
   score *= confidenceFactor;
   score = Math.round(score * 1000) / 1000;
 
-  // 개발 전용 매칭 디버그 (프로덕션 미출력)
   if (
     process.env.NODE_ENV === "development" &&
     typeof console !== "undefined" &&
@@ -107,12 +121,10 @@ function scoreOneProduct<T extends RankableProduct>(
     console.log("[rankProducts:match]", {
       productId: product.id,
       productName: product.name ?? null,
-      recommendedIngredients: recommendation.recommendedIngredients,
-      normalizedProductIngredients: debugNormalizeIngredients(productIngredients),
       matchedIngredients,
-      excludedIngredients,
       score,
-      rawKeyIngredients: product.key_ingredients ?? null,
+      excludedIngredients,
+      productCanonicals: productIndex.map((p) => p.canonical),
     });
   }
 
@@ -125,7 +137,7 @@ function scoreOneProduct<T extends RankableProduct>(
 }
 
 /**
- * Phase 2 / Sprint 3 Phase 2A — 제품 랭킹 엔진.
+ * 제품 랭킹 — 캐논컬 성분 매칭 (Sprint 3 Phase 2C).
  * 시그니처 유지: rankProducts(recommendation, products)
  */
 export function rankProducts<T extends RankableProduct>(
@@ -136,22 +148,20 @@ export function rankProducts<T extends RankableProduct>(
     return [];
   }
 
-  // 호출마다 개발 로그 카운터 리셋 (한 번의 랭킹 런에서 상위 N개만)
   devLogCount = 0;
+  const recIndex = indexRecommendation(recommendation);
 
   if (process.env.NODE_ENV === "development") {
     console.log("[rankProducts] start", {
       recommendedIngredients: recommendation.recommendedIngredients,
+      recommendedCanonicals: recIndex.recommended.map((r) => r.canonical),
       ingredientsToAvoid: recommendation.ingredientsToAvoid,
       productCount: products.length,
-      sampleNormalize: recommendation.recommendedIngredients.map(
-        (r) => `${r} → ${normalizeIngredientKey(r)}`
-      ),
     });
   }
 
   const ranked = products.map((product) =>
-    scoreOneProduct(recommendation, product)
+    scoreOneProduct(recommendation, product, recIndex)
   );
 
   ranked.sort((a, b) => {

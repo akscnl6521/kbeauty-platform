@@ -1,9 +1,9 @@
 /**
- * 성분 다국어 동의어 → 정규화 비교용 그룹.
- * 제품명을 하드코딩하지 않고, 성분명 표기 차이만 흡수한다.
+ * 성분 다국어 동의어 → 캐논컬 매핑 (Sprint 3 Phase 2C).
+ * Phase 2B audit 에서 흔한 EN 라벨 + KO/JA 표기를 반영한다.
+ * 각 그룹 첫 항목(영문)이 캐논컬이다.
  */
 
-/** 각 배열 = 동일 성분. 첫 영문 표기를 캐논컬 라벨로 사용 */
 export const INGREDIENT_ALIAS_GROUPS: readonly (readonly string[])[] = [
   [
     "Centella Asiatica",
@@ -11,13 +11,19 @@ export const INGREDIENT_ALIAS_GROUPS: readonly (readonly string[])[] = [
     "Cica",
     "Madecassoside",
     "Asiaticoside",
+    "Asiatic Acid",
+    "Madecassic Acid",
+    "Madagascar Centella",
     "센텔라 아시아티카",
     "센텔라",
     "병풀",
     "시카",
     "마데카소사이드",
+    "마다가스카르 센텔라",
     "ツボクサ",
     "センテラ",
+    "センテラアジアティカ",
+    "マデカッソサイド",
   ],
   [
     "Panthenol",
@@ -36,33 +42,56 @@ export const INGREDIENT_ALIAS_GROUPS: readonly (readonly string[])[] = [
     "Ceramide NP",
     "Ceramide AP",
     "Ceramide EOP",
+    "Ceramide NS",
     "세라마이드",
+    "세라마이드 NP",
     "セラミド",
   ],
   [
     "Hyaluronic Acid",
     "Sodium Hyaluronate",
+    "Hydrolyzed Hyaluronic Acid",
     "HA",
     "히알루론산",
     "히알루론산나트륨",
     "ヒアルロン酸",
     "ヒアルロン酸ナトリウム",
   ],
+  ["Glycerin", "Glycerine", "Glycerol", "글리세린", "グリセリン"],
+  ["Squalane", "Squalene", "스쿠알란", "スクワラン"],
+  ["Cholesterol", "콜레스테롤", "コレステロール"],
+  ["Allantoin", "알란토인", "アラントイン"],
+  ["Betaine", "베타인", "ベタイン"],
   [
     "Niacinamide",
     "Vitamin B3",
+    "Nicotinamide",
     "니아신아마이드",
     "나이아신아마이드",
     "ニコチン酸アミド",
     "ナイアシンアミド",
   ],
+  ["Tranexamic Acid", "TXA", "트라넥삼산", "トラネキサム酸"],
   [
-    "Retinol",
-    "Retinal",
-    "Retinaldehyde",
-    "레티놀",
-    "레티날",
-    "レチノール",
+    "Arbutin",
+    "Alpha-Arbutin",
+    "α-Arbutin",
+    "알부틴",
+    "알파 알부틴",
+    "알파아르부틴",
+    "アルブチン",
+  ],
+  [
+    "Vitamin C",
+    "Ascorbic Acid",
+    "L-Ascorbic Acid",
+    "Ascorbyl Glucoside",
+    "Ethyl Ascorbic Acid",
+    "3-O-Ethyl Ascorbic Acid",
+    "비타민 C",
+    "아스코르빅애씨드",
+    "ビタミンC",
+    "アスコルビン酸",
   ],
   [
     "Salicylic Acid",
@@ -78,25 +107,65 @@ export const INGREDIENT_ALIAS_GROUPS: readonly (readonly string[])[] = [
     "글리콜산",
     "グリコール酸",
   ],
+  ["Lactic Acid", "락틱애씨드", "유산", "乳酸"],
+  ["Mandelic Acid", "만델릭애씨드", "マンデル酸"],
+  ["Azelaic Acid", "아젤라익애씨드", "アゼライン酸"],
   [
     "Tea Tree",
     "Melaleuca",
+    "Melaleuca Alternifolia",
     "티트리",
     "ティーツリー",
   ],
+  ["Benzoyl Peroxide", "벤조일퍼옥사이드", "過酸化ベンゾイル"],
+  [
+    "Retinol",
+    "Retinal",
+    "Retinaldehyde",
+    "Retinyl Palmitate",
+    "레티놀",
+    "레티날",
+    "レチノール",
+  ],
+  [
+    "Peptide",
+    "Peptides",
+    "Copper Peptide",
+    "Matrixyl",
+    "Argireline",
+    "펩타이드",
+    "ペプチド",
+  ],
+  ["Adenosine", "아데노신", "アデノシン"],
+  ["Bakuchiol", "바쿠치올", "バクチオール"],
   [
     "Snail Mucin",
     "Snail Secretion Filtrate",
+    "달팽이점액여과물",
     "달팽이점액",
     "スネイルムチン",
   ],
-  // 회피 성분 계열
+  ["Propolis", "프로폴리스", "プロポリス"],
+  ["Green Tea", "Camellia Sinensis", "EGCG", "녹차", "緑茶"],
+  ["Mugwort", "Artemisia", "Artemisia Princeps", "쑥", "ヨモギ"],
+  ["Heartleaf", "Houttuynia Cordata", "어성초", "ドクダミ"],
+  ["Zinc PCA", "Zinc", "징크 PCA", "亜鉛"],
+  [
+    "Tocopherol",
+    "Vitamin E",
+    "토코페롤",
+    "비타민 E",
+    "トコフェロール",
+  ],
+  ["Collagen", "Hydrolyzed Collagen", "콜라겐", "コラーゲン"],
   [
     "Alcohol",
     "Alcohol Denat",
+    "Alcohol Denat.",
     "Denatured Alcohol",
     "Ethanol",
     "SD Alcohol",
+    "SD Alcohol 40",
     "고함량 알코올",
     "변성알코올",
     "에탄올",
@@ -111,9 +180,9 @@ export const INGREDIENT_ALIAS_GROUPS: readonly (readonly string[])[] = [
     "香料",
     "フレグランス",
   ],
+  ["Essential Oil", "에센셜 오일", "精油"],
 ] as const;
 
-/** 정규화 키 → 캐논컬 키 (그룹 대표 영문의 정규화형) */
 let aliasLookup: Map<string, string> | null = null;
 
 function buildAliasLookup(
@@ -132,10 +201,6 @@ function buildAliasLookup(
   return map;
 }
 
-/**
- * 성분 문자열을 동의어 그룹의 캐논컬 키로 변환.
- * 그룹에 없으면 자기 정규화 키를 반환.
- */
 export function toCanonicalIngredientKey(
   name: string,
   normalizeKey: (s: string) => string
@@ -148,9 +213,7 @@ export function toCanonicalIngredientKey(
   return aliasLookup.get(key) ?? key;
 }
 
-/**
- * 매칭용 키 집합: 원문 정규화 + 캐논컬 + (캐논컬에 매핑된 모든 별칭 키는 비교 시 캐논컬로 통일되므로 원문·캐논컬이면 충분)
- */
+/** @deprecated 캐논컬 단일 비교 권장. 호환용 */
 export function expandIngredientMatchKeys(
   name: string,
   normalizeKey: (s: string) => string

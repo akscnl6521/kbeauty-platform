@@ -1,16 +1,15 @@
 /**
- * 성분명 정규화·비교 유틸 (Sprint 3 Phase 2A).
- * - 배열 / JSON 문자열 / 쉼표 구분 / Postgres {a,b} 형식 지원
- * - KO/EN/JA 동의어로 매칭
+ * 성분명 정규화·캐논컬 매칭 (Sprint 3 Phase 2C).
+ * normalizeIngredient() 는 결정적(동일 입력 → 동일 출력)이다.
  */
 
-import {
-  expandIngredientMatchKeys,
-  toCanonicalIngredientKey,
-} from "./ingredientAliases";
+import { toCanonicalIngredientKey } from "./ingredientAliases";
 
-/** 비교용 키: NFKC, 소문자, 공백·기호 제거 (한글/가나/한자/라틴 유지) */
-export function normalizeIngredientKey(name: string): string {
+/**
+ * 결정적 정규화: NFKC → 소문자 → 숫자/% 제거 → 기호 제거.
+ * 한글/가나/한자/라틴만 남긴다.
+ */
+export function normalizeIngredient(name: string): string {
   return name
     .trim()
     .toLowerCase()
@@ -21,15 +20,16 @@ export function normalizeIngredientKey(name: string): string {
     .trim();
 }
 
+/** @deprecated normalizeIngredient 사용. 기존 import 호환 */
+export const normalizeIngredientKey = normalizeIngredient;
+
 function pushToken(out: string[], seen: Set<string>, token: string) {
   const t = token.trim();
-  if (!t) return;
-  if (seen.has(t)) return;
+  if (!t || seen.has(t)) return;
   seen.add(t);
   out.push(t);
 }
 
-/** Postgres text[] 리터럴: {a,b,"c d"} */
 function parsePostgresArrayLiteral(value: string): string[] | null {
   const trimmed = value.trim();
   if (!trimmed.startsWith("{") || !trimmed.endsWith("}")) return null;
@@ -51,9 +51,7 @@ function parsePostgresArrayLiteral(value: string): string[] | null {
     }
     current += ch;
   }
-  if (current.trim() || parts.length > 0) {
-    parts.push(current.trim());
-  }
+  if (current.trim() || parts.length > 0) parts.push(current.trim());
   return parts.map((p) => p.replace(/^"|"$/g, "").trim()).filter(Boolean);
 }
 
@@ -69,14 +67,12 @@ function flattenUnknownTokens(
     const trimmed = value.trim();
     if (!trimmed) return;
 
-    // JSON 배열/문자열
     if (
       (trimmed.startsWith("[") && trimmed.endsWith("]")) ||
       (trimmed.startsWith('"') && trimmed.endsWith('"'))
     ) {
       try {
-        const parsed: unknown = JSON.parse(trimmed);
-        flattenUnknownTokens(parsed, out, seen, depth + 1);
+        flattenUnknownTokens(JSON.parse(trimmed), out, seen, depth + 1);
         return;
       } catch {
         // continue
@@ -89,11 +85,8 @@ function flattenUnknownTokens(
       return;
     }
 
-    // 쉼표·세미콜론·슬래시·파이프·중점 구분
     if (/[,;/|·、]/.test(trimmed)) {
-      for (const part of trimmed.split(/[,;/|·、]+/)) {
-        pushToken(out, seen, part);
-      }
+      for (const part of trimmed.split(/[,;/|·、]+/)) pushToken(out, seen, part);
       return;
     }
 
@@ -107,14 +100,11 @@ function flattenUnknownTokens(
   }
 
   if (Array.isArray(value)) {
-    for (const item of value) {
-      flattenUnknownTokens(item, out, seen, depth + 1);
-    }
+    for (const item of value) flattenUnknownTokens(item, out, seen, depth + 1);
     return;
   }
 
   if (typeof value === "object") {
-    // { name: "Panthenol" } 형태 방어
     const rec = value as Record<string, unknown>;
     for (const key of ["name", "name_en", "name_ko", "name_ja", "label", "value"]) {
       if (typeof rec[key] === "string") {
@@ -124,10 +114,6 @@ function flattenUnknownTokens(
   }
 }
 
-/**
- * 제품/추천 성분 필드를 문자열 배열로 통일.
- * string[] | string | JSON | Postgres {} | null 모두 허용.
- */
 export function coerceIngredientList(
   value: string[] | string | null | undefined
 ): string[] {
@@ -138,9 +124,6 @@ export function coerceIngredientList(
   return out;
 }
 
-/**
- * unknown 값도 성분 목록으로 (fetch 직후 방어용).
- */
 export function coerceIngredientListUnknown(value: unknown): string[] {
   const out: string[] = [];
   const seen = new Set<string>();
@@ -148,61 +131,70 @@ export function coerceIngredientListUnknown(value: unknown): string[] {
   return out;
 }
 
-/**
- * 후보 목록에서 needle과 매칭되는 원본 표기를 찾는다.
- * 동의어(캐논컬 키) 또는 정규화 키 포함 관계로 판정.
- */
-export function findMatchingIngredient(
-  needle: string,
-  haystack: string[]
-): string | null {
-  const needleKeys = expandIngredientMatchKeys(needle, normalizeIngredientKey);
-  if (needleKeys.size === 0) return null;
+/** 라벨 → 캐논컬 키 (동의어 반영, 결정적) */
+export function toCanonical(name: string): string {
+  return toCanonicalIngredientKey(name, normalizeIngredient);
+}
 
-  const needleCanonical = toCanonicalIngredientKey(
-    needle,
-    normalizeIngredientKey
-  );
+/** 인덱싱된 성분 (원문 라벨 + 캐논컬) — 중복 정규화 방지 */
+export type CanonicalIngredientRef = {
+  label: string;
+  canonical: string;
+};
+
+export function indexIngredients(labels: string[]): CanonicalIngredientRef[] {
+  const out: CanonicalIngredientRef[] = [];
+  const seenCanonical = new Set<string>();
+  for (const label of labels) {
+    const canonical = toCanonical(label);
+    if (!canonical) continue;
+    // 동일 캐논컬은 첫 라벨만 대표로 유지 (매칭 결과 표시용)
+    if (seenCanonical.has(canonical)) continue;
+    seenCanonical.add(canonical);
+    out.push({ label, canonical });
+  }
+  return out;
+}
+
+/**
+ * 미리 계산된 캐논컬로 매칭 (haystack 은 제품당 1회 인덱싱).
+ */
+export function findMatchByCanonical(
+  needleCanonical: string,
+  haystack: CanonicalIngredientRef[]
+): string | null {
+  if (!needleCanonical) return null;
 
   for (const item of haystack) {
-    const itemKeys = expandIngredientMatchKeys(item, normalizeIngredientKey);
-    if (itemKeys.size === 0) continue;
+    if (item.canonical === needleCanonical) return item.label;
+  }
 
-    // 1) 캐논컬/정규화 키 교집합
-    for (const k of needleKeys) {
-      if (itemKeys.has(k)) return item;
-    }
-
-    const itemCanonical = toCanonicalIngredientKey(
-      item,
-      normalizeIngredientKey
-    );
-    if (
-      needleCanonical &&
-      itemCanonical &&
-      needleCanonical === itemCanonical
-    ) {
-      return item;
-    }
-
-    // 2) 포함 매칭 (영문 토큰 등, 최소 길이 가드)
-    for (const nk of needleKeys) {
-      for (const ik of itemKeys) {
-        const shorter = nk.length <= ik.length ? nk : ik;
-        const longer = nk.length <= ik.length ? ik : nk;
-        if (shorter.length >= 4 && longer.includes(shorter)) {
-          return item;
-        }
-      }
+  // 짧은 캐논컬 포함 매칭 (오탐 완화: 길이 >= 4)
+  for (const item of haystack) {
+    const a = needleCanonical;
+    const b = item.canonical;
+    const shorter = a.length <= b.length ? a : b;
+    const longer = a.length <= b.length ? b : a;
+    if (shorter.length >= 4 && longer.includes(shorter)) {
+      return item.label;
     }
   }
   return null;
 }
 
-/** 디버그용: 성분 목록의 정규화·캐논컬 키 */
+/**
+ * 후보 목록에서 needle과 매칭되는 원본 표기.
+ * 내부적으로 캐논컬 비교 (호환 API 유지).
+ */
+export function findMatchingIngredient(
+  needle: string,
+  haystack: string[]
+): string | null {
+  const needleCanonical = toCanonical(needle);
+  if (!needleCanonical) return null;
+  return findMatchByCanonical(needleCanonical, indexIngredients(haystack));
+}
+
 export function debugNormalizeIngredients(names: string[]): string[] {
-  return names.map(
-    (n) =>
-      `${n} → ${toCanonicalIngredientKey(n, normalizeIngredientKey) || normalizeIngredientKey(n)}`
-  );
+  return names.map((n) => `${n} → ${toCanonical(n)}`);
 }

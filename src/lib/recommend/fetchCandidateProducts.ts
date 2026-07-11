@@ -160,6 +160,19 @@ export async function fetchCandidateProducts(
     return [];
   }
 
+  // Sprint 3 Phase 2B: 개발 전용 — 매핑 전 raw 성분 필드 형식 감사 (점수/UI 변경 없음)
+  if (process.env.NODE_ENV === "development") {
+    const { auditIngredientFormats, logIngredientFormatAudit } = await import(
+      "./auditIngredientFormats"
+    );
+    const auditRows = (data as ProductRowRaw[]).map((row) => ({
+      productId: asNullableString(row.id) ?? "(missing-id)",
+      key_ingredients: row.key_ingredients,
+      key_ingredients_ja: row.key_ingredients_ja,
+    }));
+    logIngredientFormatAudit(auditIngredientFormats(auditRows));
+  }
+
   const products: CandidateProduct[] = [];
   for (const row of data as ProductRowRaw[]) {
     const mapped = mapRowToCandidateProduct(row);

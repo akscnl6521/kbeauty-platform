@@ -21,8 +21,12 @@ export {
   coerceIngredientList,
   coerceIngredientListUnknown,
   debugNormalizeIngredients,
+  findMatchByCanonical,
   findMatchingIngredient,
+  indexIngredients,
+  normalizeIngredient,
   normalizeIngredientKey,
+  toCanonical,
 } from "./normalizeIngredient";
 export { INGREDIENT_ALIAS_GROUPS } from "./ingredientAliases";
 export { rankProducts } from "./rankProducts";
@@ -39,3 +43,11 @@ export {
   MOCK_RECOMMENDATION,
 } from "./mockRecommendation";
 export { loadRankedProductsFromStorage } from "./loadRankedProducts";
+export {
+  auditIngredientFormats,
+  logIngredientFormatAudit,
+} from "./auditIngredientFormats";
+export type {
+  IngredientAuditRow,
+  IngredientFormatAuditSummary,
+} from "./auditIngredientFormats";
