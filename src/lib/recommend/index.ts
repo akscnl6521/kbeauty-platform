@@ -44,6 +44,13 @@ export {
 } from "./mockRecommendation";
 export { loadRankedProductsFromStorage } from "./loadRankedProducts";
 export {
+  loadLatestRecommendationPipeline,
+  loadRecommendationFromStorage,
+  purgeLegacyRecommendationCaches,
+  RECOMMENDATION_SOURCE_KEYS,
+} from "./loadRecommendation";
+export type { RecommendationPipelineSnapshot } from "./loadRecommendation";
+export {
   auditIngredientFormats,
   logIngredientFormatAudit,
 } from "./auditIngredientFormats";
@@ -51,3 +58,10 @@ export type {
   IngredientAuditRow,
   IngredientFormatAuditSummary,
 } from "./auditIngredientFormats";
+export { selectPurchaseLink } from "./selectPurchaseLink";
+export type { PurchaseLinkSelection } from "./selectPurchaseLink";
+export {
+  countPurchaseLinkCoverage,
+  logPurchaseLinkCoverage,
+  logTopProductPurchaseLinkAudit,
+} from "./auditPurchaseLinks";

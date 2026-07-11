@@ -78,8 +78,9 @@ export interface RankedProduct<T extends RankableProduct = RankableProduct> {
 }
 
 /**
- * Phase 3A — Supabase에서 로드한 후보 제품.
- * RankableProduct(랭킹) + 결과 UI 표시에 필요한 필드를 포함한다.
+ * Phase 3A / Sprint 3 Phase 3A — Supabase에서 로드한 후보 제품.
+ * RankableProduct(랭킹) + 표시·구매링크 필드.
+ * 이미지 컬럼은 프로젝트 코드에 존재하지 않아 포함하지 않는다.
  */
 export interface CandidateProduct extends RankableProduct {
   id: string;
@@ -96,7 +97,16 @@ export interface CandidateProduct extends RankableProduct {
   recommendation_reason: string | null;
   recommendation_reason_ko: string | null;
   recommendation_reason_ja: string | null;
+  /** 제품 slug (results 페이지와 동일 컬럼) */
   slug: string | null;
+  /** 구매/마켓 링크 — results/page.tsx 에서 확인된 컬럼만 */
+  link_sephora: string | null;
+  link_amazon_us: string | null;
+  link_amazon_jp: string | null;
+  link_qoo10: string | null;
+  link_oliveyoung: string | null;
+  link_coupang: string | null;
+  link_yesstyle: string | null;
 }
 
 /** fetchCandidateProducts 옵션 */

@@ -2,10 +2,9 @@ import { supabase } from "@/lib/supabase";
 import type { CandidateProduct, FetchCandidateProductsOptions } from "./types";
 
 /**
- * Supabase select 에 사용하는 컬럼 목록.
- * - RankableProduct 랭킹에 필요: id, key_ingredients*, skin_concern, name, brand, category, price_usd
- * - 표시용: name_ko/ja, skin_tone, recommendation_reason*, slug
- * 코드베이스에 등장하는 products 필드만 사용한다 (마이그레이션 추가 없음).
+ * Supabase select 컬럼.
+ * results/page.tsx ProductRow 와 동일한 products 필드만 사용.
+ * 제품 이미지 컬럼은 코드베이스에 없어 select 하지 않는다.
  */
 const CANDIDATE_PRODUCT_COLUMNS = [
   "id",
@@ -23,6 +22,13 @@ const CANDIDATE_PRODUCT_COLUMNS = [
   "recommendation_reason_ko",
   "recommendation_reason_ja",
   "slug",
+  "link_sephora",
+  "link_amazon_us",
+  "link_amazon_jp",
+  "link_qoo10",
+  "link_oliveyoung",
+  "link_coupang",
+  "link_yesstyle",
 ].join(", ");
 
 /** DB 행의 느슨한 형태 (null / 타입 불확실 대비) */
@@ -42,11 +48,21 @@ type ProductRowRaw = {
   recommendation_reason_ko?: unknown;
   recommendation_reason_ja?: unknown;
   slug?: unknown;
+  link_sephora?: unknown;
+  link_amazon_us?: unknown;
+  link_amazon_jp?: unknown;
+  link_qoo10?: unknown;
+  link_oliveyoung?: unknown;
+  link_coupang?: unknown;
+  link_yesstyle?: unknown;
 };
 
 function asNullableString(value: unknown): string | null {
   if (value == null) return null;
-  if (typeof value === "string") return value;
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
   if (typeof value === "number" || typeof value === "boolean") {
     return String(value);
   }
@@ -123,6 +139,13 @@ export function mapRowToCandidateProduct(
     recommendation_reason_ko: asNullableString(row.recommendation_reason_ko),
     recommendation_reason_ja: asNullableString(row.recommendation_reason_ja),
     slug: asNullableString(row.slug),
+    link_sephora: asNullableString(row.link_sephora),
+    link_amazon_us: asNullableString(row.link_amazon_us),
+    link_amazon_jp: asNullableString(row.link_amazon_jp),
+    link_qoo10: asNullableString(row.link_qoo10),
+    link_oliveyoung: asNullableString(row.link_oliveyoung),
+    link_coupang: asNullableString(row.link_coupang),
+    link_yesstyle: asNullableString(row.link_yesstyle),
   };
 }
 
@@ -177,6 +200,12 @@ export async function fetchCandidateProducts(
   for (const row of data as ProductRowRaw[]) {
     const mapped = mapRowToCandidateProduct(row);
     if (mapped) products.push(mapped);
+  }
+
+  // Sprint 3 Phase 3C: 개발 전용 구매 링크 커버리지
+  if (process.env.NODE_ENV === "development") {
+    const { logPurchaseLinkCoverage } = await import("./auditPurchaseLinks");
+    logPurchaseLinkCoverage(products);
   }
 
   return products;

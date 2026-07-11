@@ -5,6 +5,15 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { useCountry } from "@/hooks/useCountry";
+import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
+import {
+  loadLatestRecommendationPipeline,
+  purgeLegacyRecommendationCaches,
+  type CandidateProduct,
+  type RankedProduct,
+  type Recommendation,
+} from "@/lib/recommend";
 
 type ProductRow = {
   id: string;
@@ -216,6 +225,7 @@ export default function ResultsPage() {
 
 function ResultsPageInner() {
   const searchParams = useSearchParams();
+  const { countryCode } = useCountry();
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -224,6 +234,14 @@ function ResultsPageInner() {
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [openReasonIds, setOpenReasonIds] = useState<string[]>([]);
+
+  // Sprint 4 Phase 1 — LocalStorage 추천 파이프라인 결과
+  const [savedRecommendation, setSavedRecommendation] =
+    useState<Recommendation | null>(null);
+  const [rankedProducts, setRankedProducts] = useState<
+    RankedProduct<CandidateProduct>[]
+  >([]);
+  const [storageReady, setStorageReady] = useState(false);
 
   const tone = searchParams.get("tone");
   const concern = searchParams.get("concern");
@@ -294,6 +312,49 @@ function ResultsPageInner() {
   const aiApplied = searchParams.get("ai") === "1";
   const aiBadgeText =
     locale === "ko" ? "AI 분석 반영됨" : locale === "ja" ? "AIガイド適用" : "AI Guide Applied";
+
+  const hasSavedRecommendation =
+    (savedRecommendation != null &&
+      (savedRecommendation.skinConcerns.length > 0 ||
+        savedRecommendation.recommendedIngredients.length > 0 ||
+        savedRecommendation.confidenceScore > 0)) ||
+    rankedProducts.length > 0;
+
+  // Sprint 4 Phase 2: 항상 최신 skinRecommendation + skinRankedProducts 만 사용
+  useEffect(() => {
+    const refreshFromStorage = () => {
+      purgeLegacyRecommendationCaches();
+      const { recommendation, rankedProducts: ranked } =
+        loadLatestRecommendationPipeline();
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("[results]", {
+          recommendation,
+          rankedProducts: ranked,
+        });
+      }
+
+      setSavedRecommendation(recommendation);
+      setRankedProducts(ranked);
+      setStorageReady(true);
+    };
+
+    refreshFromStorage();
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") refreshFromStorage();
+    };
+
+    window.addEventListener("focus", refreshFromStorage);
+    window.addEventListener("pageshow", refreshFromStorage);
+    document.addEventListener("visibilitychange", onVisible);
+
+    return () => {
+      window.removeEventListener("focus", refreshFromStorage);
+      window.removeEventListener("pageshow", refreshFromStorage);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [searchParams]);
 
   // 즐겨찾기 로드
   useEffect(() => {
@@ -478,7 +539,144 @@ function ResultsPageInner() {
           </div>
         </header>
 
-        {/* Product cards */}
+        {/* Sprint 4 Phase 1 — LocalStorage 기반 AI 추천 결과 */}
+        {storageReady ? (
+          <section className="mb-10" aria-label="AI recommendation">
+            {hasSavedRecommendation ? (
+              <div className="rounded-3xl border border-pink-100 bg-white p-5 shadow-sm sm:p-6">
+                <h2 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900 sm:text-2xl">
+                  {locale === "ko"
+                    ? "AI 추천 결과"
+                    : locale === "ja"
+                      ? "AIおすすめ結果"
+                      : "AI Recommendation"}
+                </h2>
+
+                {savedRecommendation ? (
+                  <div className="mt-4 space-y-4">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+                        {locale === "ko"
+                          ? "피부 고민"
+                          : locale === "ja"
+                            ? "肌悩み"
+                            : "Skin concerns"}
+                      </p>
+                      <div className="mt-1.5 flex flex-wrap gap-1.5">
+                        {savedRecommendation.skinConcerns.length > 0 ? (
+                          savedRecommendation.skinConcerns.map((c) => (
+                            <span
+                              key={c}
+                              className="inline-flex rounded-full bg-pink-50 px-3 py-1 text-xs font-medium text-gray-800"
+                            >
+                              {c}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-xs text-gray-400">—</span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+                        {locale === "ko"
+                          ? "추천 성분"
+                          : locale === "ja"
+                            ? "おすすめ成分"
+                            : "Recommended ingredients"}
+                      </p>
+                      <div className="mt-1.5 flex flex-wrap gap-1.5">
+                        {savedRecommendation.recommendedIngredients.length >
+                        0 ? (
+                          savedRecommendation.recommendedIngredients.map(
+                            (ing) => (
+                              <span
+                                key={ing}
+                                className="inline-flex rounded-full bg-[#C2185B]/10 px-3 py-1 text-xs font-medium text-[#C2185B]"
+                              >
+                                {ing}
+                              </span>
+                            )
+                          )
+                        ) : (
+                          <span className="text-xs text-gray-400">—</span>
+                        )}
+                      </div>
+                    </div>
+
+                    <p className="text-sm text-gray-700">
+                      <span className="font-semibold text-gray-900">
+                        {locale === "ko"
+                          ? "신뢰도"
+                          : locale === "ja"
+                            ? "信頼度"
+                            : "Confidence"}
+                        :
+                      </span>{" "}
+                      {(savedRecommendation.confidenceScore * 100).toFixed(0)}%
+                    </p>
+                  </div>
+                ) : null}
+
+                {rankedProducts.length > 0 ? (
+                  <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {rankedProducts.map((ranked, index) => (
+                      <RecommendedProductCard
+                        key={ranked.product.id}
+                        rank={index + 1}
+                        ranked={ranked}
+                        locale={locale}
+                        countryCode={countryCode}
+                      />
+                    ))}
+                  </div>
+                ) : null}
+
+                <div className="mt-5">
+                  <Link
+                    href="/analyze"
+                    className="text-xs font-semibold text-[#C2185B] underline hover:no-underline"
+                  >
+                    {locale === "ko"
+                      ? "분석 다시 하기"
+                      : locale === "ja"
+                        ? "再分析する"
+                        : "Re-analyze"}
+                  </Link>
+                </div>
+              </div>
+            ) : aiApplied ? (
+              <div className="rounded-3xl border border-pink-100 bg-pink-50/50 p-8 text-center">
+                <p className="text-base font-medium text-gray-800">
+                  {locale === "ko"
+                    ? "저장된 AI 추천 결과가 없습니다"
+                    : locale === "ja"
+                      ? "保存されたAIおすすめがありません"
+                      : "No saved AI recommendation found"}
+                </p>
+                <p className="mt-2 text-sm text-gray-500">
+                  {locale === "ko"
+                    ? "피부 분석을 먼저 진행해 주세요. 결과가 이 페이지에 표시됩니다."
+                    : locale === "ja"
+                      ? "先に肌分析を行ってください。結果がこのページに表示されます。"
+                      : "Run a skin analysis first. Results will appear here."}
+                </p>
+                <Link href="/analyze" className="mt-5 inline-block">
+                  <span className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#a3154f]">
+                    {locale === "ko"
+                      ? "AI 분석으로 이동"
+                      : locale === "ja"
+                        ? "AI分析へ"
+                        : "Go to AI Analyze"}
+                  </span>
+                </Link>
+              </div>
+            ) : null}
+          </section>
+        ) : null}
+
+        {/* Product cards (퀴즈/카탈로그 필터 — 기존 동작 유지) */}
         <section className="flex-1">
           {/* Search + favorites toggle just above grid */}
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

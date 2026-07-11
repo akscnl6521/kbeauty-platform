@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
 import { useLocale } from "@/hooks/useLocale";
+import { useCountry } from "@/hooks/useCountry";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import {
   ANALYSIS_RESULT_STORAGE_KEY,
@@ -15,7 +16,6 @@ import {
   RANKED_PRODUCTS_STORAGE_KEY,
   RECOMMENDATION_STORAGE_KEY,
   parseAnalysisTextToRecommendation,
-  toRecommendation,
   type AnalysisResult,
   type CandidateProduct,
   type RankedProduct,
@@ -109,6 +109,7 @@ async function runRankingPipeline(recommendation: Recommendation) {
 
 export default function AnalyzePage() {
   const { locale } = useLocale();
+  const { countryCode } = useCountry();
   const router = useRouter();
   const [mode, setMode] = useState<InputMode>("photo");
 
@@ -301,17 +302,14 @@ Return JSON only.`,
 
   const canAnalyzePhoto = !!imageBase64 && !loading;
 
-  // Load last analysis from localStorage on mount; rebuild Recommendation for Phase 1+
+  // 분석 UI용 skinAnalysisResult 만 복원.
+  // skinRecommendation 은 파이프라인(persistTopRankedProducts)이 쓴 최신 값만 사용 — 여기서 재생성하지 않음.
   useEffect(() => {
     try {
       const saved = window.localStorage.getItem(ANALYSIS_RESULT_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved) as AnalysisResult;
         setResult(parsed);
-        const savedRec = window.localStorage.getItem(RECOMMENDATION_STORAGE_KEY);
-        if (!savedRec) {
-          persistRecommendation(toRecommendation(parsed));
-        }
       }
     } catch {
       // ignore parse errors
@@ -765,8 +763,10 @@ Return JSON only.`,
               추천 제품
             </h2>
             <p className="mt-2 text-sm text-gray-600">
-              분석·매칭 결과 상위 {rankedProducts.length}개 제품입니다. (구매
-              링크는 아직 제공하지 않습니다)
+              분석·매칭 결과 상위 {rankedProducts.length}개 제품입니다.
+              {countryCode
+                ? ` (구매 링크: ${countryCode} 기준)`
+                : ""}
             </p>
             <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
               {rankedProducts.map((ranked, index) => (
@@ -775,6 +775,7 @@ Return JSON only.`,
                   rank={index + 1}
                   ranked={ranked}
                   locale={locale}
+                  countryCode={countryCode}
                 />
               ))}
             </div>

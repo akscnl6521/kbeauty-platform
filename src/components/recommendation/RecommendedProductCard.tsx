@@ -1,4 +1,11 @@
+"use client";
+
+import { useEffect } from "react";
 import type { CandidateProduct, RankedProduct } from "@/lib/recommend";
+import {
+  logTopProductPurchaseLinkAudit,
+  selectPurchaseLink,
+} from "@/lib/recommend";
 
 export type RecommendedProductCardProps = {
   /** 1부터 시작하는 순위 */
@@ -6,16 +13,19 @@ export type RecommendedProductCardProps = {
   ranked: RankedProduct<CandidateProduct>;
   /** 표시용 로케일 (이름 선택) */
   locale?: "en" | "ja" | "ko";
+  /** LocalStorage countryCode (구매 링크 선택) */
+  countryCode?: string | null;
 };
 
 /**
- * Sprint 3 Phase 1 — 랭킹된 추천 제품 카드.
- * LocalStorage(skinRankedProducts) 항목을 표시한다. 구매 링크는 포함하지 않는다.
+ * 랭킹된 추천 제품 카드.
+ * 유효한 구매 링크가 있을 때만 「구매처 보기」를 표시한다.
  */
 export function RecommendedProductCard({
   rank,
   ranked,
   locale = "en",
+  countryCode = null,
 }: RecommendedProductCardProps) {
   const { product, score, matchedIngredients, excludedIngredients } = ranked;
 
@@ -34,13 +44,19 @@ export function RecommendedProductCard({
   const hasExcluded =
     Array.isArray(excludedIngredients) && excludedIngredients.length > 0;
 
+  const purchase = selectPurchaseLink(product, countryCode);
+
+  // Sprint 3 Phase 3C: 개발 전용 구매 링크 감사 (UI 변경 없음)
+  useEffect(() => {
+    logTopProductPurchaseLinkAudit(product, countryCode, displayName);
+  }, [product, countryCode, displayName]);
+
   return (
     <article
       className="flex flex-col gap-3 rounded-2xl border border-pink-100 bg-white p-4 shadow-sm sm:p-5"
       data-product-id={product.id}
     >
       <div className="flex items-start gap-3">
-        {/* 순위 */}
         <span
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#C2185B] text-xs font-bold text-white"
           aria-label={`순위 ${rank}`}
@@ -65,7 +81,6 @@ export function RecommendedProductCard({
         </div>
       </div>
 
-      {/* 매칭 성분 */}
       <div>
         <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
           매칭 성분
@@ -86,7 +101,6 @@ export function RecommendedProductCard({
         )}
       </div>
 
-      {/* 회피 성분 — 있을 때만 */}
       {hasExcluded ? (
         <div>
           <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-amber-700">
@@ -105,12 +119,28 @@ export function RecommendedProductCard({
         </div>
       ) : null}
 
-      {/* 가격 — 있을 때만 */}
       {price != null ? (
         <p className="text-xs text-gray-600 sm:text-sm">
           <span className="font-medium text-gray-800">USD</span>{" "}
           {price.toFixed(2)}
         </p>
+      ) : null}
+
+      {/* 유효 링크가 있을 때만 구매 버튼 (비활성 버튼은 렌더하지 않음) */}
+      {purchase ? (
+        <div className="mt-1 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[11px] text-gray-500 sm:text-xs">
+            {purchase.marketplace}
+          </p>
+          <a
+            href={purchase.url}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#a3154f]"
+          >
+            구매처 보기
+          </a>
+        </div>
       ) : null}
     </article>
   );
