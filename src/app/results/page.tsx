@@ -3,7 +3,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState, type ReactNode } from "react";
 import { supabase } from "@/lib/supabase";
 import { useCountry } from "@/hooks/useCountry";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
@@ -16,38 +16,15 @@ import {
   type Recommendation,
 } from "@/lib/recommend";
 
-function managementLevelLabel(
-  level: ManagementLevel,
-  locale: "en" | "ja" | "ko"
-): string {
-  const map: Record<ManagementLevel, Record<"en" | "ja" | "ko", string>> = {
-    cosmetic_care: {
-      ko: "화장품 중심 관리 가능",
-      en: "Cosmetic-care focused",
-      ja: "化粧品中心のケアが可能",
-    },
-    observe: {
-      ko: "사용 후 경과 관찰",
-      en: "Observe after use",
-      ja: "使用後の経過観察",
-    },
-    combined_care: {
-      ko: "화장품 관리와 전문가 상담 병행",
-      en: "Combine cosmetics with professional advice",
-      ja: "化粧品ケアと専門家相談の併用",
-    },
-    expert_first: {
-      ko: "전문가 상담 우선",
-      en: "Seek professional advice first",
-      ja: "専門家相談を優先",
-    },
-    urgent_check: {
-      ko: "신속한 의료기관 확인 권장",
-      en: "Prompt medical evaluation recommended",
-      ja: "速やかな医療機関確認を推奨",
-    },
+function managementLevelLabelKo(level: ManagementLevel): string {
+  const map: Record<ManagementLevel, string> = {
+    cosmetic_care: "화장품 중심 관리 가능",
+    observe: "사용 후 경과 관찰",
+    combined_care: "화장품 관리와 전문가 상담 병행",
+    expert_first: "전문가 상담 우선",
+    urgent_check: "신속한 의료기관 확인 권장",
   };
-  return map[level][locale];
+  return map[level];
 }
 
 function isRiskManagementLevel(
@@ -58,6 +35,56 @@ function isRiskManagementLevel(
 
 function pickKoreanSummary(rec: Recommendation): string {
   return (rec.summaryKo ?? "").trim();
+}
+
+function nonEmptyList(value: string[] | undefined | null): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.map((s) => s.trim()).filter(Boolean);
+}
+
+function confidencePercent(score: number): number {
+  if (!Number.isFinite(score)) return 0;
+  const clamped = Math.min(1, Math.max(0, score));
+  return Math.round(clamped * 100);
+}
+
+/** 값이 있을 때만 제목+본문을 렌더 */
+function GuideBlock({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <div>
+      <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
+      <div className="mt-2 text-sm leading-relaxed text-gray-700">{children}</div>
+    </div>
+  );
+}
+
+function BulletList({ items }: { items: string[] }) {
+  return (
+    <ul className="space-y-1.5">
+      {items.map((item, i) => (
+        <li key={`${item}-${i}`} className="flex gap-2">
+          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#C2185B]/70" />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function NumberedList({ items }: { items: string[] }) {
+  return (
+    <ol className="list-decimal space-y-1.5 pl-5">
+      {items.map((item, i) => (
+        <li key={`${item}-${i}`}>{item}</li>
+      ))}
+    </ol>
+  );
 }
 
 type ProductRow = {
@@ -592,361 +619,208 @@ function ResultsPageInner() {
               <div className="space-y-8">
                 {savedRecommendation ? (
                   <div className="space-y-6 border-b border-pink-100 pb-8">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#C2185B]">
-                        {locale === "ko"
-                          ? "AI 피부 분석"
-                          : locale === "ja"
-                            ? "AI肌分析"
-                            : "AI Skin Guide"}
-                      </p>
-                      <h2 className="mt-2 font-['Playfair_Display',serif] text-2xl font-semibold text-gray-900 sm:text-3xl">
-                        {locale === "ko"
-                          ? "피부 관리 가이드"
-                          : locale === "ja"
-                            ? "スキンケアガイド"
-                            : "Skin Care Guide"}
-                      </h2>
-                      <p className="mt-2 text-xs text-gray-500">
-                        {locale === "ko"
-                          ? "의료 진단이 아닌 K-Beauty 정보 안내입니다."
-                          : locale === "ja"
-                            ? "医療診断ではなく、K-Beauty情報ガイドです。"
-                            : "Informational K-Beauty guidance — not a medical diagnosis."}
-                      </p>
-                    </div>
+                    {(() => {
+                      const summaryKo = pickKoreanSummary(savedRecommendation);
+                      const skinType =
+                        savedRecommendation.skinType?.trim() ?? "";
+                      const concerns = nonEmptyList(
+                        savedRecommendation.skinConcerns
+                      );
+                      const recommended = nonEmptyList(
+                        savedRecommendation.recommendedIngredients
+                      );
+                      const avoid = nonEmptyList(
+                        savedRecommendation.ingredientsToAvoid
+                      );
+                      const manageable = nonEmptyList(
+                        savedRecommendation.manageableWithCosmetics
+                      );
+                      const limitations = nonEmptyList(
+                        savedRecommendation.cosmeticLimitations
+                      );
+                      const morning = nonEmptyList(
+                        savedRecommendation.morningRoutine
+                      );
+                      const evening = nonEmptyList(
+                        savedRecommendation.eveningRoutine
+                      );
+                      const precautions = nonEmptyList(
+                        savedRecommendation.precautions
+                      );
+                      const notRecommended = nonEmptyList(
+                        savedRecommendation.notRecommendedReasons
+                      );
+                      const expertReasons = nonEmptyList(
+                        savedRecommendation.expertReferralReasons
+                      );
+                      const level = savedRecommendation.managementLevel;
+                      const risk = isRiskManagementLevel(level);
+                      const confidence = confidencePercent(
+                        savedRecommendation.confidenceScore
+                      );
 
-                    {/* 1. 한국어 분석 요약 */}
-                    {pickKoreanSummary(savedRecommendation) ? (
-                      <div>
-                        <h3 className="text-sm font-semibold text-gray-900">
-                          한국어 분석 요약
-                        </h3>
-                        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-gray-700">
-                          {pickKoreanSummary(savedRecommendation)}
-                        </p>
-                      </div>
-                    ) : null}
+                      return (
+                        <>
+                          <div>
+                            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#C2185B]">
+                              {locale === "ko"
+                                ? "AI 피부 분석"
+                                : locale === "ja"
+                                  ? "AI肌分析"
+                                  : "AI Skin Guide"}
+                            </p>
+                            <h2 className="mt-2 font-['Playfair_Display',serif] text-2xl font-semibold text-gray-900 sm:text-3xl">
+                              {locale === "ko"
+                                ? "피부 관리 가이드"
+                                : locale === "ja"
+                                  ? "スキンケアガイド"
+                                  : "Skin Care Guide"}
+                            </h2>
+                            <p className="mt-2 text-xs text-gray-500">
+                              {locale === "ko"
+                                ? "의료 진단이 아닌 K-Beauty 정보 안내입니다."
+                                : locale === "ja"
+                                  ? "医療診断ではなく、K-Beauty情報ガイドです。"
+                                  : "Informational K-Beauty guidance — not a medical diagnosis."}
+                            </p>
+                          </div>
 
-                    {/* 2. 관리 단계 배지 */}
-                    {savedRecommendation.managementLevel ? (
-                      <div>
-                        <h3 className="text-sm font-semibold text-gray-900">
-                          {locale === "ko"
-                            ? "관리 단계"
-                            : locale === "ja"
-                              ? "ケア段階"
-                              : "Care level"}
-                        </h3>
-                        <p
-                          className={`mt-2 inline-flex max-w-full text-sm font-medium tracking-wide ${
-                            isRiskManagementLevel(
-                              savedRecommendation.managementLevel
-                            )
-                              ? "text-[#8B1E3F]"
-                              : "text-[#C2185B]"
-                          }`}
-                        >
-                          {managementLevelLabel(
-                            savedRecommendation.managementLevel,
-                            locale
+                          {/* 위험 단계: 결과 최상단 강조 */}
+                          {risk ? (
+                            <div
+                              className="border-l-2 border-[#8B1E3F] bg-[#FDF6F8] py-4 pl-4 pr-3"
+                              role="status"
+                            >
+                              <p className="text-sm font-semibold text-[#8B1E3F]">
+                                {managementLevelLabelKo(level)}
+                              </p>
+                              <p className="mt-1.5 text-sm leading-relaxed text-gray-700">
+                                {locale === "ko"
+                                  ? "제품 구매보다 안전한 확인이 먼저입니다. 아래 정보는 참고용이며, 증상을 진단하거나 치료를 대체하지 않습니다."
+                                  : locale === "ja"
+                                    ? "商品購入より安全確認が優先です。以下は参考情報であり、診断や治療の代わりにはなりません。"
+                                    : "Safety checks come before shopping. Guidance below is informational and does not diagnose or treat conditions."}
+                              </p>
+                            </div>
+                          ) : null}
+
+                          {summaryKo ? (
+                            <GuideBlock title="한국어 분석 요약">
+                              <p className="max-w-3xl">{summaryKo}</p>
+                            </GuideBlock>
+                          ) : null}
+
+                          {level ? (
+                            <GuideBlock title="관리 단계">
+                              <p
+                                className={`font-medium tracking-wide ${
+                                  risk ? "text-[#8B1E3F]" : "text-[#C2185B]"
+                                }`}
+                              >
+                                {managementLevelLabelKo(level)}
+                              </p>
+                            </GuideBlock>
+                          ) : null}
+
+                          {skinType ? (
+                            <GuideBlock title="피부 타입">
+                              <p>{skinType}</p>
+                            </GuideBlock>
+                          ) : null}
+
+                          {/* 프로필: 고민·성분 */}
+                          {(concerns.length > 0 ||
+                            recommended.length > 0 ||
+                            avoid.length > 0) && (
+                            <div className="space-y-5">
+                              {concerns.length > 0 ? (
+                                <GuideBlock title="주요 피부 고민">
+                                  <BulletList items={concerns} />
+                                </GuideBlock>
+                              ) : null}
+                              {recommended.length > 0 ? (
+                                <GuideBlock title="추천 성분">
+                                  <BulletList items={recommended} />
+                                </GuideBlock>
+                              ) : null}
+                              {avoid.length > 0 ? (
+                                <GuideBlock title="피해야 할 성분">
+                                  <BulletList items={avoid} />
+                                </GuideBlock>
+                              ) : null}
+                            </div>
                           )}
-                        </p>
-                      </div>
-                    ) : null}
 
-                    {/* 위험 단계 경고 — 제품보다 먼저 */}
-                    {isRiskManagementLevel(
-                      savedRecommendation.managementLevel
-                    ) ? (
-                      <div
-                        className="border-l-2 border-[#8B1E3F] bg-[#FDF6F8] py-4 pl-4 pr-3"
-                        role="status"
-                      >
-                        <p className="text-sm font-semibold text-[#8B1E3F]">
-                          {locale === "ko"
-                            ? "전문가 확인을 우선해 주세요"
-                            : locale === "ja"
-                              ? "専門家への確認を優先してください"
-                              : "Prioritize professional evaluation"}
-                        </p>
-                        <p className="mt-1.5 text-sm leading-relaxed text-gray-700">
-                          {locale === "ko"
-                            ? "현재 안내 단계는 제품 구매보다 안전한 확인이 먼저입니다. 아래 제품은 참고용이며, 증상을 진단하거나 치료를 대체하지 않습니다."
-                            : locale === "ja"
-                              ? "現在の段階では商品購入より安全確認が優先です。以下の商品は参考情報であり、診断や治療の代わりにはなりません。"
-                              : "At this care level, safety checks come before shopping. Products below are for reference only and do not diagnose or treat conditions."}
-                        </p>
-                      </div>
-                    ) : null}
+                          {manageable.length > 0 ? (
+                            <GuideBlock title="화장품으로 관리 가능한 범위">
+                              <BulletList items={manageable} />
+                            </GuideBlock>
+                          ) : null}
 
-                    {/* 3. 피부 타입 */}
-                    {savedRecommendation.skinType?.trim() ? (
-                      <div>
-                        <h3 className="text-sm font-semibold text-gray-900">
-                          {locale === "ko"
-                            ? "피부 타입"
-                            : locale === "ja"
-                              ? "肌タイプ"
-                              : "Skin type"}
-                        </h3>
-                        <p className="mt-2 text-sm text-gray-700">
-                          {savedRecommendation.skinType.trim()}
-                        </p>
-                      </div>
-                    ) : null}
+                          {/* 아침·저녁 루틴 구분 */}
+                          {(morning.length > 0 || evening.length > 0) && (
+                            <div className="space-y-5">
+                              {morning.length > 0 ? (
+                                <GuideBlock title="아침 루틴">
+                                  <NumberedList items={morning} />
+                                </GuideBlock>
+                              ) : null}
+                              {evening.length > 0 ? (
+                                <GuideBlock title="저녁 루틴">
+                                  <NumberedList items={evening} />
+                                </GuideBlock>
+                              ) : null}
+                            </div>
+                          )}
 
-                    {/* 4–6. 고민·성분 묶음 */}
-                    {(savedRecommendation.skinConcerns.length > 0 ||
-                      savedRecommendation.recommendedIngredients.length > 0 ||
-                      (savedRecommendation.ingredientsToAvoid?.length ?? 0) >
-                        0) && (
-                      <div className="space-y-5">
-                        {savedRecommendation.skinConcerns.length > 0 ? (
-                          <div>
-                            <h3 className="text-sm font-semibold text-gray-900">
-                              {locale === "ko"
-                                ? "주요 피부 고민"
-                                : locale === "ja"
-                                  ? "主な肌悩み"
-                                  : "Key concerns"}
-                            </h3>
-                            <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1.5 text-sm text-gray-700">
-                              {savedRecommendation.skinConcerns.map((c) => (
-                                <li key={c}>{c}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        ) : null}
+                          {precautions.length > 0 ? (
+                            <GuideBlock title="주의사항">
+                              <BulletList items={precautions} />
+                            </GuideBlock>
+                          ) : null}
 
-                        {savedRecommendation.recommendedIngredients.length >
-                        0 ? (
-                          <div>
-                            <h3 className="text-sm font-semibold text-gray-900">
-                              {locale === "ko"
-                                ? "추천 성분"
-                                : locale === "ja"
-                                  ? "おすすめ成分"
-                                  : "Recommended ingredients"}
-                            </h3>
-                            <ul className="mt-2 space-y-1 text-sm leading-relaxed text-gray-700">
-                              {savedRecommendation.recommendedIngredients.map(
-                                (ing) => (
-                                  <li key={ing}>{ing}</li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        ) : null}
+                          {notRecommended.length > 0 ? (
+                            <GuideBlock title="추천하지 않는 이유">
+                              <BulletList items={notRecommended} />
+                            </GuideBlock>
+                          ) : null}
 
-                        {(savedRecommendation.ingredientsToAvoid?.length ??
-                          0) > 0 ? (
-                          <div>
-                            <h3 className="text-sm font-semibold text-gray-900">
-                              {locale === "ko"
-                                ? "피해야 할 성분"
-                                : locale === "ja"
-                                  ? "避けたい成分"
-                                  : "Ingredients to ease up on"}
-                            </h3>
-                            <ul className="mt-2 space-y-1 text-sm leading-relaxed text-gray-700">
-                              {savedRecommendation.ingredientsToAvoid!.map(
-                                (ing) => (
-                                  <li key={ing}>{ing}</li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        ) : null}
-                      </div>
-                    )}
+                          {/* 제품 추천보다 먼저: 한계·전문가 상담 */}
+                          {(limitations.length > 0 ||
+                            expertReasons.length > 0) && (
+                            <div className="space-y-5 border-t border-pink-50 pt-5">
+                              {limitations.length > 0 ? (
+                                <GuideBlock title="화장품의 한계">
+                                  <BulletList items={limitations} />
+                                </GuideBlock>
+                              ) : null}
+                              {expertReasons.length > 0 ? (
+                                <GuideBlock title="전문가 상담 이유">
+                                  <BulletList items={expertReasons} />
+                                </GuideBlock>
+                              ) : null}
+                            </div>
+                          )}
 
-                    {/* 7–8. 화장품 범위·한계 */}
-                    {((savedRecommendation.manageableWithCosmetics?.length ??
-                      0) > 0 ||
-                      (savedRecommendation.cosmeticLimitations?.length ?? 0) >
-                        0) && (
-                      <div className="space-y-5">
-                        {(savedRecommendation.manageableWithCosmetics
-                          ?.length ?? 0) > 0 ? (
-                          <div>
-                            <h3 className="text-sm font-semibold text-gray-900">
-                              {locale === "ko"
-                                ? "화장품으로 관리 가능한 범위"
-                                : locale === "ja"
-                                  ? "化粧品でケアしやすい範囲"
-                                  : "What cosmetics may help"}
-                            </h3>
-                            <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-gray-700">
-                              {savedRecommendation.manageableWithCosmetics!.map(
-                                (item) => (
-                                  <li key={item}>{item}</li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        ) : null}
-                        {(savedRecommendation.cosmeticLimitations?.length ??
-                          0) > 0 ? (
-                          <div>
-                            <h3 className="text-sm font-semibold text-gray-900">
-                              {locale === "ko"
-                                ? "화장품의 한계"
-                                : locale === "ja"
-                                  ? "化粧品の限界"
-                                  : "Cosmetic limitations"}
-                            </h3>
-                            <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-gray-700">
-                              {savedRecommendation.cosmeticLimitations!.map(
-                                (item) => (
-                                  <li key={item}>{item}</li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        ) : null}
-                      </div>
-                    )}
+                          {confidence > 0 ? (
+                            <GuideBlock title="분석 신뢰도">
+                              <p>{confidence}%</p>
+                            </GuideBlock>
+                          ) : null}
 
-                    {/* 9–10. 루틴 */}
-                    {((savedRecommendation.morningRoutine?.length ?? 0) > 0 ||
-                      (savedRecommendation.eveningRoutine?.length ?? 0) >
-                        0) && (
-                      <div className="space-y-5">
-                        {(savedRecommendation.morningRoutine?.length ?? 0) >
-                        0 ? (
-                          <div>
-                            <h3 className="text-sm font-semibold text-gray-900">
-                              {locale === "ko"
-                                ? "아침 루틴"
-                                : locale === "ja"
-                                  ? "朝のルーティン"
-                                  : "Morning routine"}
-                            </h3>
-                            <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-sm leading-relaxed text-gray-700">
-                              {savedRecommendation.morningRoutine!.map(
-                                (step) => (
-                                  <li key={step}>{step}</li>
-                                )
-                              )}
-                            </ol>
-                          </div>
-                        ) : null}
-                        {(savedRecommendation.eveningRoutine?.length ?? 0) >
-                        0 ? (
-                          <div>
-                            <h3 className="text-sm font-semibold text-gray-900">
-                              {locale === "ko"
-                                ? "저녁 루틴"
-                                : locale === "ja"
-                                  ? "夜のルーティン"
-                                  : "Evening routine"}
-                            </h3>
-                            <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-sm leading-relaxed text-gray-700">
-                              {savedRecommendation.eveningRoutine!.map(
-                                (step) => (
-                                  <li key={step}>{step}</li>
-                                )
-                              )}
-                            </ol>
-                          </div>
-                        ) : null}
-                      </div>
-                    )}
-
-                    {/* 11–13. 주의·비추천·전문가 */}
-                    {((savedRecommendation.precautions?.length ?? 0) > 0 ||
-                      (savedRecommendation.notRecommendedReasons?.length ??
-                        0) > 0 ||
-                      (savedRecommendation.expertReferralReasons?.length ??
-                        0) > 0) && (
-                      <div className="space-y-5">
-                        {(savedRecommendation.precautions?.length ?? 0) >
-                        0 ? (
-                          <div>
-                            <h3 className="text-sm font-semibold text-gray-900">
-                              {locale === "ko"
-                                ? "주의사항"
-                                : locale === "ja"
-                                  ? "注意事項"
-                                  : "Precautions"}
-                            </h3>
-                            <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-gray-700">
-                              {savedRecommendation.precautions!.map((item) => (
-                                <li key={item}>{item}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        ) : null}
-
-                        {(savedRecommendation.notRecommendedReasons?.length ??
-                          0) > 0 ? (
-                          <div>
-                            <h3 className="text-sm font-semibold text-gray-900">
-                              {locale === "ko"
-                                ? "추천하지 않는 이유"
-                                : locale === "ja"
-                                  ? "おすすめしない理由"
-                                  : "Why products may not be advised"}
-                            </h3>
-                            <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-gray-700">
-                              {savedRecommendation.notRecommendedReasons!.map(
-                                (item) => (
-                                  <li key={item}>{item}</li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        ) : null}
-
-                        {(savedRecommendation.expertReferralReasons?.length ??
-                          0) > 0 ? (
-                          <div>
-                            <h3 className="text-sm font-semibold text-gray-900">
-                              {locale === "ko"
-                                ? "전문가 상담 이유"
-                                : locale === "ja"
-                                  ? "専門家相談の理由"
-                                  : "Why to seek a professional"}
-                            </h3>
-                            <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-gray-700">
-                              {savedRecommendation.expertReferralReasons!.map(
-                                (item) => (
-                                  <li key={item}>{item}</li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        ) : null}
-                      </div>
-                    )}
-
-                    {/* 14. 분석 신뢰도 */}
-                    {savedRecommendation.confidenceScore > 0 ? (
-                      <p className="text-sm text-gray-600">
-                        <span className="font-semibold text-gray-900">
-                          {locale === "ko"
-                            ? "분석 신뢰도"
-                            : locale === "ja"
-                              ? "分析信頼度"
-                              : "Confidence"}
-                        </span>
-                        {" · "}
-                        {(savedRecommendation.confidenceScore * 100).toFixed(0)}
-                        %
-                      </p>
-                    ) : null}
-
-                    <Link
-                      href="/analyze"
-                      className="inline-block text-xs font-semibold text-[#C2185B] underline hover:no-underline"
-                    >
-                      {locale === "ko"
-                        ? "분석 다시 하기"
-                        : locale === "ja"
-                          ? "再分析する"
-                          : "Re-analyze"}
-                    </Link>
+                          <Link
+                            href="/analyze"
+                            className="inline-block text-xs font-semibold text-[#C2185B] underline hover:no-underline"
+                          >
+                            {locale === "ko"
+                              ? "분석 다시 하기"
+                              : locale === "ja"
+                                ? "再分析する"
+                                : "Re-analyze"}
+                          </Link>
+                        </>
+                      );
+                    })()}
                   </div>
                 ) : null}
 
