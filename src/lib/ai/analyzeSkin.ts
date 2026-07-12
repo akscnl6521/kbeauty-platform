@@ -9,6 +9,7 @@ import { AnalyzeSkinError } from "./errors";
 import {
   getRequestAllergyIngredients,
   getRequestAvoidedIngredients,
+  getRequestCurrentProducts,
 } from "./prompt";
 import type {
   AiProviderId,
@@ -16,6 +17,7 @@ import type {
   AnalyzeSkinResponse,
 } from "./types";
 import { applyUserIngredientPreferences } from "@/lib/recommend/applyUserIngredientPreferences";
+import { mergeCurrentRoutineIntoRecommendation } from "@/lib/recommend/currentProduct";
 
 export { AnalyzeSkinError } from "./errors";
 
@@ -142,11 +144,22 @@ function attachUserIngredientPreferences(
   input: AnalyzeSkinRequest,
   result: AnalyzeSkinResponse
 ): AnalyzeSkinResponse {
-  const recommendation = applyUserIngredientPreferences(
+  const allergy = getRequestAllergyIngredients(input);
+  const avoided = getRequestAvoidedIngredients(input);
+  const currentProducts = getRequestCurrentProducts(input);
+
+  let recommendation = applyUserIngredientPreferences(
     result.recommendation,
-    getRequestAllergyIngredients(input),
-    getRequestAvoidedIngredients(input)
+    allergy,
+    avoided
   );
+  recommendation = mergeCurrentRoutineIntoRecommendation(
+    recommendation,
+    currentProducts,
+    allergy,
+    avoided
+  );
+
   return {
     ...result,
     analysis: {

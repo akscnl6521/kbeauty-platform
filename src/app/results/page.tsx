@@ -647,6 +647,44 @@ function ResultsPageInner() {
                         avoidedTags.length > 0 ||
                         safetyExcluded > 0 ||
                         safetyIncomplete > 0;
+                      const currentProducts =
+                        savedRecommendation.currentProducts ?? [];
+                      const currentRoutineIssues = nonEmptyList(
+                        savedRecommendation.currentRoutineIssues
+                      );
+                      const duplicateFunctions = nonEmptyList(
+                        savedRecommendation.duplicateFunctions
+                      );
+                      const routineSimplificationSuggestions = nonEmptyList(
+                        savedRecommendation.routineSimplificationSuggestions
+                      );
+                      const currentProductWarnings = nonEmptyList(
+                        savedRecommendation.currentProductWarnings
+                      );
+                      const suggestedMorningOrder = nonEmptyList(
+                        savedRecommendation.suggestedMorningOrder
+                      );
+                      const suggestedEveningOrder = nonEmptyList(
+                        savedRecommendation.suggestedEveningOrder
+                      );
+                      const hasIrritationReaction = currentProducts.some(
+                        (p) =>
+                          p.reaction === "stinging" ||
+                          p.reaction === "redness" ||
+                          p.reaction === "breakout"
+                      );
+                      const hasNameOnlyProduct = currentProducts.some(
+                        (p) =>
+                          !p.keyIngredients || p.keyIngredients.length === 0
+                      );
+                      const showCurrentRoutine =
+                        currentProducts.length > 0 ||
+                        currentRoutineIssues.length > 0 ||
+                        duplicateFunctions.length > 0 ||
+                        routineSimplificationSuggestions.length > 0 ||
+                        currentProductWarnings.length > 0 ||
+                        suggestedMorningOrder.length > 0 ||
+                        suggestedEveningOrder.length > 0;
                       const manageable = nonEmptyList(
                         savedRecommendation.manageableWithCosmetics
                       );
@@ -815,6 +853,150 @@ function ResultsPageInner() {
                                     ? "製品の全成分は変わることがあるため、購入前に公式全成分を再確認してください。医療的安全性を保証するものではありません。"
                                     : "Full formulas can change — recheck the brand’s official ingredient list before purchase. This does not guarantee medical safety."}
                               </p>
+                            </div>
+                          ) : null}
+
+                          {showCurrentRoutine ? (
+                            <div className="space-y-5 border-t border-pink-100 pt-6">
+                              <div>
+                                <h3 className="text-sm font-semibold text-gray-900">
+                                  {locale === "ko"
+                                    ? "현재 루틴 점검"
+                                    : locale === "ja"
+                                      ? "現在のルーティン点検"
+                                      : "Current Routine Check"}
+                                </h3>
+                                <p className="mt-1 text-xs text-gray-500">
+                                  {locale === "ko"
+                                    ? "등록한 제품과 입력 성분만 근거로 한 참고 안내입니다."
+                                    : locale === "ja"
+                                      ? "登録製品と入力成分のみに基づく参考案内です。"
+                                      : "Guidance based only on products and ingredients you entered."}
+                                </p>
+                              </div>
+
+                              {hasIrritationReaction ? (
+                                <div
+                                  className="border-l-2 border-[#8B1E3F] bg-[#FDF6F8] py-3 pl-4 pr-3"
+                                  role="status"
+                                >
+                                  <p className="text-sm font-semibold text-[#8B1E3F]">
+                                    {locale === "ko"
+                                      ? "자극 반응이 있는 제품이 있습니다"
+                                      : locale === "ja"
+                                        ? "刺激反応がある製品があります"
+                                        : "A product reaction was reported"}
+                                  </p>
+                                  <p className="mt-1 text-sm text-gray-700">
+                                    {locale === "ko"
+                                      ? "새 제품 추가보다 사용 중단 검토와 루틴 단순화를 우선하세요."
+                                      : locale === "ja"
+                                        ? "新しい製品追加より、使用中止の検討とルーティン単純化を優先してください。"
+                                        : "Prioritize pausing and simplifying before adding new products."}
+                                  </p>
+                                </div>
+                              ) : null}
+
+                              {currentProducts.length > 0 ? (
+                                <GuideBlock
+                                  title={
+                                    locale === "ko"
+                                      ? "등록한 현재 제품"
+                                      : locale === "ja"
+                                        ? "登録中の使用製品"
+                                        : "Registered current products"
+                                  }
+                                >
+                                  <ul className="space-y-2">
+                                    {currentProducts.map((p) => (
+                                      <li
+                                        key={p.id}
+                                        className="text-sm text-gray-700"
+                                      >
+                                        <span className="font-medium text-gray-900">
+                                          {p.brandName
+                                            ? `${p.brandName} · ${p.productName}`
+                                            : p.productName}
+                                        </span>
+                                        <span className="mt-0.5 block text-xs text-gray-500">
+                                          {[
+                                            p.category,
+                                            p.usageTime === "morning"
+                                              ? locale === "ko"
+                                                ? "아침"
+                                                : "AM"
+                                              : p.usageTime === "evening"
+                                                ? locale === "ko"
+                                                  ? "저녁"
+                                                  : "PM"
+                                                : p.usageTime === "both"
+                                                  ? locale === "ko"
+                                                    ? "아침·저녁"
+                                                    : "AM/PM"
+                                                  : null,
+                                            p.reaction === "stinging" ||
+                                            p.reaction === "redness" ||
+                                            p.reaction === "breakout"
+                                              ? locale === "ko"
+                                                ? `반응: ${p.reaction}`
+                                                : `reaction: ${p.reaction}`
+                                              : null,
+                                          ]
+                                            .filter(Boolean)
+                                            .join(" · ")}
+                                        </span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </GuideBlock>
+                              ) : null}
+
+                              {hasNameOnlyProduct ? (
+                                <p className="text-xs text-gray-500">
+                                  {locale === "ko"
+                                    ? "제품명만 입력된 항목은 전성분을 추측하지 않았습니다."
+                                    : locale === "ja"
+                                      ? "製品名のみの項目は全成分を推測していません。"
+                                      : "Products with only a name were not assigned guessed full formulas."}
+                                </p>
+                              ) : null}
+
+                              {duplicateFunctions.length > 0 ? (
+                                <GuideBlock title="중복 기능">
+                                  <BulletList items={duplicateFunctions} />
+                                </GuideBlock>
+                              ) : null}
+                              {currentRoutineIssues.length > 0 ? (
+                                <GuideBlock title="현재 루틴 문제">
+                                  <BulletList items={currentRoutineIssues} />
+                                </GuideBlock>
+                              ) : null}
+                              {routineSimplificationSuggestions.length > 0 ? (
+                                <GuideBlock title="단순화 제안">
+                                  <BulletList
+                                    items={routineSimplificationSuggestions}
+                                  />
+                                </GuideBlock>
+                              ) : null}
+                              {currentProductWarnings.length > 0 ? (
+                                <GuideBlock title="현재 제품 주의사항">
+                                  <BulletList items={currentProductWarnings} />
+                                </GuideBlock>
+                              ) : null}
+                              {suggestedMorningOrder.length > 0 ? (
+                                <GuideBlock title="권장 아침 사용 순서">
+                                  <NumberedList
+                                    items={suggestedMorningOrder}
+                                  />
+                                </GuideBlock>
+                              ) : null}
+                              {suggestedEveningOrder.length > 0 ? (
+                                <GuideBlock title="권장 저녁 사용 순서">
+                                  <NumberedList
+                                    items={suggestedEveningOrder}
+                                  />
+                                </GuideBlock>
+                              ) : null}
                             </div>
                           ) : null}
 

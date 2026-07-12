@@ -1,5 +1,6 @@
 import type {
   AnalysisResult,
+  CurrentProductInput,
   ManagementLevel,
   Recommendation,
 } from "@/lib/recommend";
@@ -7,10 +8,11 @@ import type {
 /** 서버 전용 AI_PROVIDER 허용 값 */
 export type AiProviderId = "mock" | "ollama" | "openai" | "anthropic";
 
-/** 사용자 입력 알레르기·회피 성분 (선택) */
+/** 사용자 입력 알레르기·회피 성분 + 현재 사용 제품 (선택) */
 export type AnalyzeIngredientPreferences = {
   allergyIngredients?: string[];
   avoidedIngredients?: string[];
+  currentProducts?: CurrentProductInput[];
 };
 
 /** POST /api/analyze 요청 — 클라이언트는 키·모델 ID를 보내지 않는다. */
@@ -28,6 +30,8 @@ export type AnalyzeSkinRequest =
       concerns: string[];
       sensitivity: string;
     } & AnalyzeIngredientPreferences);
+
+export type { CurrentProductInput };
 
 export type AnalyzeProviderSource = AiProviderId;
 

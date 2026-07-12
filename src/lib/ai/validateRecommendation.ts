@@ -1,4 +1,5 @@
 import type { ManagementLevel, Recommendation } from "@/lib/recommend";
+import { normalizeCurrentProducts } from "@/lib/recommend/currentProduct";
 import { AnalyzeSkinError } from "./errors";
 
 const MANAGEMENT_LEVELS: readonly ManagementLevel[] = [
@@ -196,6 +197,28 @@ export function validateRecommendation(raw: unknown): Recommendation {
   const avoidedIngredients = normalizeStringArray(
     src.avoidedIngredients ?? src.avoided_ingredients
   );
+  const currentRoutineIssues = normalizeStringArray(
+    src.currentRoutineIssues ?? src.current_routine_issues
+  );
+  const duplicateFunctions = normalizeStringArray(
+    src.duplicateFunctions ?? src.duplicate_functions
+  );
+  const routineSimplificationSuggestions = normalizeStringArray(
+    src.routineSimplificationSuggestions ??
+      src.routine_simplification_suggestions
+  );
+  const currentProductWarnings = normalizeStringArray(
+    src.currentProductWarnings ?? src.current_product_warnings
+  );
+  const suggestedMorningOrder = normalizeStringArray(
+    src.suggestedMorningOrder ?? src.suggested_morning_order
+  );
+  const suggestedEveningOrder = normalizeStringArray(
+    src.suggestedEveningOrder ?? src.suggested_evening_order
+  );
+  const currentProducts = normalizeCurrentProducts(
+    src.currentProducts ?? src.current_products
+  );
 
   const hasExtendedHints =
     skinType !== undefined ||
@@ -214,6 +237,20 @@ export function validateRecommendation(raw: unknown): Recommendation {
     "not_recommended_reasons" in src ||
     "expertReferralReasons" in src ||
     "expert_referral_reasons" in src ||
+    "currentRoutineIssues" in src ||
+    "current_routine_issues" in src ||
+    "duplicateFunctions" in src ||
+    "duplicate_functions" in src ||
+    "routineSimplificationSuggestions" in src ||
+    "routine_simplification_suggestions" in src ||
+    "currentProductWarnings" in src ||
+    "current_product_warnings" in src ||
+    "suggestedMorningOrder" in src ||
+    "suggested_morning_order" in src ||
+    "suggestedEveningOrder" in src ||
+    "suggested_evening_order" in src ||
+    "currentProducts" in src ||
+    "current_products" in src ||
     summaryKo !== undefined ||
     summaryEn !== undefined ||
     summaryJa !== undefined;
@@ -225,6 +262,15 @@ export function validateRecommendation(raw: unknown): Recommendation {
     confidenceScore: confidence,
     ...(allergyIngredients.length ? { allergyIngredients } : {}),
     ...(avoidedIngredients.length ? { avoidedIngredients } : {}),
+    ...(currentProducts.length ? { currentProducts } : {}),
+    ...(currentRoutineIssues.length ? { currentRoutineIssues } : {}),
+    ...(duplicateFunctions.length ? { duplicateFunctions } : {}),
+    ...(routineSimplificationSuggestions.length
+      ? { routineSimplificationSuggestions }
+      : {}),
+    ...(currentProductWarnings.length ? { currentProductWarnings } : {}),
+    ...(suggestedMorningOrder.length ? { suggestedMorningOrder } : {}),
+    ...(suggestedEveningOrder.length ? { suggestedEveningOrder } : {}),
   };
 
   // 확장 필드가 전혀 없는 레거시 응답은 필수 4필드만 반환 (하위 호환)

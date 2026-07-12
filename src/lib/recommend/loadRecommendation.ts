@@ -10,6 +10,7 @@ import {
   RANKED_PRODUCTS_STORAGE_KEY,
   RECOMMENDATION_STORAGE_KEY,
 } from "./types";
+import { normalizeCurrentProducts } from "./currentProduct";
 import { loadRankedProductsFromStorage } from "./loadRankedProducts";
 
 const MANAGEMENT_LEVELS: readonly ManagementLevel[] = [
@@ -116,6 +117,29 @@ export function loadRecommendationFromStorage(): Recommendation | null {
         : {}),
     };
 
+    const currentProducts = normalizeCurrentProducts(
+      parsed.currentProducts ?? parsed.current_products
+    );
+    const currentRoutineIssues = asStringArray(
+      parsed.currentRoutineIssues ?? parsed.current_routine_issues
+    );
+    const duplicateFunctions = asStringArray(
+      parsed.duplicateFunctions ?? parsed.duplicate_functions
+    );
+    const routineSimplificationSuggestions = asStringArray(
+      parsed.routineSimplificationSuggestions ??
+        parsed.routine_simplification_suggestions
+    );
+    const currentProductWarnings = asStringArray(
+      parsed.currentProductWarnings ?? parsed.current_product_warnings
+    );
+    const suggestedMorningOrder = asStringArray(
+      parsed.suggestedMorningOrder ?? parsed.suggested_morning_order
+    );
+    const suggestedEveningOrder = asStringArray(
+      parsed.suggestedEveningOrder ?? parsed.suggested_evening_order
+    );
+
     const skinType = asOptionalString(parsed.skinType ?? parsed.skin_type);
     const managementLevel = asManagementLevel(
       parsed.managementLevel ?? parsed.management_level
@@ -151,6 +175,15 @@ export function loadRecommendationFromStorage(): Recommendation | null {
 
     return {
       ...base,
+      ...(currentProducts.length ? { currentProducts } : {}),
+      ...(currentRoutineIssues.length ? { currentRoutineIssues } : {}),
+      ...(duplicateFunctions.length ? { duplicateFunctions } : {}),
+      ...(routineSimplificationSuggestions.length
+        ? { routineSimplificationSuggestions }
+        : {}),
+      ...(currentProductWarnings.length ? { currentProductWarnings } : {}),
+      ...(suggestedMorningOrder.length ? { suggestedMorningOrder } : {}),
+      ...(suggestedEveningOrder.length ? { suggestedEveningOrder } : {}),
       ...(skinType ? { skinType } : {}),
       ...(managementLevel ? { managementLevel } : {}),
       ...(manageableWithCosmetics.length

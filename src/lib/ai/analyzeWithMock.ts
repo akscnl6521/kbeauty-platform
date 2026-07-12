@@ -3,9 +3,11 @@ import {
   type AnalysisResult,
   type Recommendation,
 } from "@/lib/recommend";
+import { reviewCurrentRoutine } from "@/lib/recommend/currentProduct";
 import {
   getRequestAllergyIngredients,
   getRequestAvoidedIngredients,
+  getRequestCurrentProducts,
 } from "./prompt";
 import type { AnalyzeSkinRequest, AnalyzeSkinResponse } from "./types";
 import { validateRecommendation } from "./validateRecommendation";
@@ -46,6 +48,12 @@ function createExpandedMockRecommendation(
 
   const allergy = getRequestAllergyIngredients(input);
   const avoided = getRequestAvoidedIngredients(input);
+  const currentProducts = getRequestCurrentProducts(input);
+  const routineReview = reviewCurrentRoutine(
+    currentProducts,
+    allergy,
+    avoided
+  );
 
   // 의도적으로 알레르기·회피 성분을 추천 목록에 섞어 후처리 필터를 검증한다.
   const recommendedIngredients = [
@@ -64,6 +72,8 @@ function createExpandedMockRecommendation(
     confidenceScore: 0.72,
     allergyIngredients: allergy,
     avoidedIngredients: avoided,
+    currentProducts,
+    ...routineReview,
     skinType: "민감·건성 경향",
     managementLevel: "cosmetic_care",
     manageableWithCosmetics: [

@@ -1,6 +1,9 @@
 export type {
   AnalysisResult,
   CandidateProduct,
+  CurrentProductInput,
+  CurrentProductReaction,
+  CurrentProductUsageTime,
   FetchCandidateProductsOptions,
   ManagementLevel,
   RankableProduct,
@@ -14,6 +17,12 @@ export {
   RANKED_PRODUCTS_TOP_N,
   RECOMMENDATION_STORAGE_KEY,
 } from "./types";
+export {
+  mergeCurrentRoutineIntoRecommendation,
+  normalizeCurrentProducts,
+  reviewCurrentRoutine,
+} from "./currentProduct";
+export type { CurrentRoutineReview } from "./currentProduct";
 export {
   normalizeAnalysisResult,
   parseAnalysisTextToRecommendation,

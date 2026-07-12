@@ -26,6 +26,33 @@ export type ManagementLevel =
   | "expert_first"
   | "urgent_check";
 
+/** 현재 사용 제품 사용 시점 */
+export type CurrentProductUsageTime = "morning" | "evening" | "both";
+
+/** 현재 사용 제품에 대한 사용자 반응 (자가 보고) */
+export type CurrentProductReaction =
+  | "comfortable"
+  | "dryness"
+  | "stinging"
+  | "redness"
+  | "breakout"
+  | "unknown";
+
+/**
+ * 피부 분석 단계에서 사용자가 등록하는 현재 사용 제품.
+ * 이번 단계는 직접 입력만 — 이후 DB 검색 연동을 위해 id·카테고리 필드를 유지한다.
+ */
+export type CurrentProductInput = {
+  id: string;
+  productName: string;
+  brandName?: string;
+  category?: string;
+  usageTime?: CurrentProductUsageTime;
+  usageFrequency?: string;
+  keyIngredients?: string[];
+  reaction?: CurrentProductReaction;
+};
+
 export interface Recommendation {
   /** Normalized skin concerns (e.g. Redness, Dryness). */
   skinConcerns: string[];
@@ -44,6 +71,21 @@ export interface Recommendation {
   safetyExcludedCount?: number;
   /** 성분 정보 부족으로 핵심 추천에서 제외된 후보 수 (선택) */
   safetyIncompleteCount?: number;
+
+  /** 사용자가 등록한 현재 사용 제품 (선택) */
+  currentProducts?: CurrentProductInput[];
+  /** 현재 루틴에서 보이는 문제 */
+  currentRoutineIssues?: string[];
+  /** 중복 기능 안내 */
+  duplicateFunctions?: string[];
+  /** 루틴 단순화 제안 */
+  routineSimplificationSuggestions?: string[];
+  /** 현재 제품 관련 주의 */
+  currentProductWarnings?: string[];
+  /** 권장 아침 사용 순서 */
+  suggestedMorningOrder?: string[];
+  /** 권장 저녁 사용 순서 */
+  suggestedEveningOrder?: string[];
 
   /** 추정 피부 타입 안내 (진단 아님) */
   skinType?: string;

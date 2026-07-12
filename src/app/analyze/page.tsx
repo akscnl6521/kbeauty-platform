@@ -17,6 +17,9 @@ import {
   RECOMMENDATION_STORAGE_KEY,
   type AnalysisResult,
   type CandidateProduct,
+  type CurrentProductInput,
+  type CurrentProductReaction,
+  type CurrentProductUsageTime,
   type RankedProduct,
   type Recommendation,
 } from "@/lib/recommend";
@@ -63,7 +66,79 @@ type AnalyzeApiError = {
 type IngredientPrefBody = {
   allergyIngredients?: string[];
   avoidedIngredients?: string[];
+  currentProducts?: CurrentProductInput[];
 };
+
+const USAGE_TIME_OPTIONS: { value: CurrentProductUsageTime; label: string }[] =
+  [
+    { value: "morning", label: "아침" },
+    { value: "evening", label: "저녁" },
+    { value: "both", label: "아침·저녁" },
+  ];
+
+const REACTION_OPTIONS: { value: CurrentProductReaction; label: string }[] = [
+  { value: "comfortable", label: "편안함" },
+  { value: "dryness", label: "건조함" },
+  { value: "stinging", label: "따가움" },
+  { value: "redness", label: "붉어짐" },
+  { value: "breakout", label: "트러블" },
+  { value: "unknown", label: "잘 모름" },
+];
+
+const CATEGORY_SUGGESTIONS = [
+  "Cleanser",
+  "Toner",
+  "Serum",
+  "Essence",
+  "Cream",
+  "Moisturizer",
+  "SPF",
+  "Other",
+];
+
+function createEmptyCurrentProduct(): CurrentProductInput {
+  const id =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `cp_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+  return { id, productName: "" };
+}
+
+/** Mock 테스트용 샘플 현재 제품 (보습·성분·저녁 중복 예시) */
+function createMockSampleCurrentProducts(): CurrentProductInput[] {
+  return [
+    {
+      id: "mock-cp-1",
+      productName: "진정 크림",
+      brandName: "샘플브랜드A",
+      category: "Cream",
+      usageTime: "both",
+      usageFrequency: "매일",
+      keyIngredients: ["세라마이드", "판테놀"],
+      reaction: "comfortable",
+    },
+    {
+      id: "mock-cp-2",
+      productName: "장벽 보습 로션",
+      brandName: "샘플브랜드B",
+      category: "Moisturizer",
+      usageTime: "evening",
+      usageFrequency: "매일",
+      keyIngredients: ["세라마이드", "히알루론산"],
+      reaction: "comfortable",
+    },
+    {
+      id: "mock-cp-3",
+      productName: "나이트 세럼",
+      brandName: "샘플브랜드C",
+      category: "Serum",
+      usageTime: "evening",
+      usageFrequency: "주 3회",
+      keyIngredients: ["판테놀"],
+      reaction: "unknown",
+    },
+  ];
+}
 
 /** 태그 목록에 성분 추가 (trim · 빈값 제외 · 대소문자 무시 중복 제거) */
 function addIngredientTags(prev: string[], raw: string): string[] {
@@ -138,6 +213,299 @@ function IngredientTagField(props: {
         inputMode="text"
         autoComplete="off"
       />
+    </div>
+  );
+}
+
+function CurrentProductsEditor(props: {
+  products: CurrentProductInput[];
+  onChange: (next: CurrentProductInput[]) => void;
+}) {
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [draft, setDraft] = useState<CurrentProductInput | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  const startAdd = () => {
+    const empty = createEmptyCurrentProduct();
+    setEditingId(empty.id);
+    setDraft(empty);
+    setFormError(null);
+  };
+
+  const startEdit = (product: CurrentProductInput) => {
+    setEditingId(product.id);
+    setDraft({
+      ...product,
+      keyIngredients: [...(product.keyIngredients ?? [])],
+    });
+    setFormError(null);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setDraft(null);
+    setFormError(null);
+  };
+
+  const saveDraft = () => {
+    if (!draft) return;
+    const name = draft.productName.trim();
+    if (!name) {
+      setFormError("제품명은 필수입니다.");
+      return;
+    }
+    const cleaned: CurrentProductInput = {
+      id: draft.id,
+      productName: name,
+    };
+    if (draft.brandName?.trim()) cleaned.brandName = draft.brandName.trim();
+    if (draft.category?.trim()) cleaned.category = draft.category.trim();
+    if (draft.usageTime) cleaned.usageTime = draft.usageTime;
+    if (draft.usageFrequency?.trim()) {
+      cleaned.usageFrequency = draft.usageFrequency.trim();
+    }
+    if (draft.keyIngredients && draft.keyIngredients.length > 0) {
+      cleaned.keyIngredients = draft.keyIngredients;
+    }
+    if (draft.reaction) cleaned.reaction = draft.reaction;
+
+    const exists = props.products.some((p) => p.id === cleaned.id);
+    props.onChange(
+      exists
+        ? props.products.map((p) => (p.id === cleaned.id ? cleaned : p))
+        : [...props.products, cleaned]
+    );
+    cancelEdit();
+  };
+
+  const removeProduct = (id: string) => {
+    props.onChange(props.products.filter((p) => p.id !== id));
+    if (editingId === id) cancelEdit();
+  };
+
+  const fieldClass =
+    "w-full min-h-11 rounded-xl border border-pink-200 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none ring-[#C2185B]/focus:ring-2";
+
+  return (
+    <div className="space-y-3">
+      <div>
+        <p className="mb-1 text-sm font-semibold text-gray-900">
+          현재 사용 중인 제품 (선택)
+        </p>
+        <p className="text-xs text-gray-500">
+          여러 개 등록 가능 · 제품명만 필수로 직접 입력합니다. (DB 검색은 이후
+          연동)
+        </p>
+      </div>
+
+      {props.products.length > 0 ? (
+        <ul className="space-y-2">
+          {props.products.map((p) => (
+            <li
+              key={p.id}
+              className="rounded-2xl border border-pink-100 bg-pink-50/30 px-3 py-3"
+            >
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-gray-900">
+                    {p.brandName ? `${p.brandName} · ` : ""}
+                    {p.productName}
+                  </p>
+                  <p className="mt-1 text-xs text-gray-600">
+                    {[
+                      p.category,
+                      p.usageTime
+                        ? USAGE_TIME_OPTIONS.find((o) => o.value === p.usageTime)
+                            ?.label
+                        : null,
+                      p.usageFrequency,
+                      p.reaction
+                        ? REACTION_OPTIONS.find((o) => o.value === p.reaction)
+                            ?.label
+                        : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ") || "추가 정보 없음"}
+                  </p>
+                  {p.keyIngredients && p.keyIngredients.length > 0 ? (
+                    <p className="mt-1 text-xs text-gray-500">
+                      성분: {p.keyIngredients.join(", ")}
+                    </p>
+                  ) : null}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => startEdit(p)}
+                    className="min-h-9 rounded-full border border-pink-200 bg-white px-3 text-xs font-semibold text-gray-700"
+                  >
+                    수정
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => removeProduct(p.id)}
+                    className="min-h-9 rounded-full border border-pink-200 bg-white px-3 text-xs font-semibold text-gray-700"
+                  >
+                    삭제
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      {draft && editingId ? (
+        <div className="space-y-3 rounded-2xl border border-pink-200 bg-white p-3">
+          <p className="text-xs font-semibold text-[#C2185B]">
+            {props.products.some((p) => p.id === editingId)
+              ? "제품 수정"
+              : "제품 추가"}
+          </p>
+          <label className="block">
+            <span className="mb-1 block text-xs font-semibold text-gray-800">
+              제품명 *
+            </span>
+            <input
+              className={fieldClass}
+              value={draft.productName}
+              onChange={(e) =>
+                setDraft({ ...draft, productName: e.target.value })
+              }
+              placeholder="예: 장벽 크림"
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-semibold text-gray-800">
+              브랜드 (선택)
+            </span>
+            <input
+              className={fieldClass}
+              value={draft.brandName ?? ""}
+              onChange={(e) =>
+                setDraft({ ...draft, brandName: e.target.value })
+              }
+              placeholder="예: 브랜드명"
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-semibold text-gray-800">
+              카테고리 (선택)
+            </span>
+            <input
+              className={fieldClass}
+              list="current-product-categories"
+              value={draft.category ?? ""}
+              onChange={(e) =>
+                setDraft({ ...draft, category: e.target.value })
+              }
+              placeholder="예: Cream, Serum"
+            />
+            <datalist id="current-product-categories">
+              {CATEGORY_SUGGESTIONS.map((c) => (
+                <option key={c} value={c} />
+              ))}
+            </datalist>
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-semibold text-gray-800">
+              사용 시점 (선택)
+            </span>
+            <select
+              className={fieldClass}
+              value={draft.usageTime ?? ""}
+              onChange={(e) => {
+                const v = e.target.value;
+                setDraft({
+                  ...draft,
+                  usageTime: v
+                    ? (v as CurrentProductUsageTime)
+                    : undefined,
+                });
+              }}
+            >
+              <option value="">선택 안 함</option>
+              {USAGE_TIME_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-semibold text-gray-800">
+              사용 빈도 (선택)
+            </span>
+            <input
+              className={fieldClass}
+              value={draft.usageFrequency ?? ""}
+              onChange={(e) =>
+                setDraft({ ...draft, usageFrequency: e.target.value })
+              }
+              placeholder="예: 매일, 주 2회"
+            />
+          </label>
+          <IngredientTagField
+            label="알고 있는 핵심 성분 (선택)"
+            hint="전성분을 추측하지 않습니다. 알고 있는 성분만 입력하세요."
+            tags={draft.keyIngredients ?? []}
+            onChange={(keyIngredients) =>
+              setDraft({ ...draft, keyIngredients })
+            }
+            placeholder="예: 판테놀, 세라마이드"
+          />
+          <label className="block">
+            <span className="mb-1 block text-xs font-semibold text-gray-800">
+              사용 후 반응 (선택)
+            </span>
+            <select
+              className={fieldClass}
+              value={draft.reaction ?? ""}
+              onChange={(e) => {
+                const v = e.target.value;
+                setDraft({
+                  ...draft,
+                  reaction: v ? (v as CurrentProductReaction) : undefined,
+                });
+              }}
+            >
+              <option value="">선택 안 함</option>
+              {REACTION_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          {formError ? (
+            <p className="text-xs text-red-600">{formError}</p>
+          ) : null}
+          <div className="flex flex-wrap gap-2 pt-1">
+            <button
+              type="button"
+              onClick={saveDraft}
+              className="min-h-10 rounded-full bg-[#C2185B] px-4 text-xs font-semibold text-white"
+            >
+              저장
+            </button>
+            <button
+              type="button"
+              onClick={cancelEdit}
+              className="min-h-10 rounded-full border border-pink-200 bg-white px-4 text-xs font-semibold text-gray-700"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={startAdd}
+          className="min-h-11 w-full rounded-xl border border-dashed border-pink-300 bg-white px-3 text-sm font-semibold text-[#C2185B]"
+        >
+          + 제품 추가
+        </button>
+      )}
     </div>
   );
 }
@@ -273,13 +641,17 @@ export default function AnalyzePage() {
   const [manualSensitivity, setManualSensitivity] = useState<SensitivityKo>("보통");
   const [allergyIngredients, setAllergyIngredients] = useState<string[]>([]);
   const [avoidedIngredients, setAvoidedIngredients] = useState<string[]>([]);
+  const [currentProducts, setCurrentProducts] = useState<CurrentProductInput[]>(
+    []
+  );
 
   const ingredientPrefs = useMemo(
     () => ({
       allergyIngredients,
       avoidedIngredients,
+      currentProducts,
     }),
-    [allergyIngredients, avoidedIngredients]
+    [allergyIngredients, avoidedIngredients, currentProducts]
   );
   const resultsTone = useMemo(() => {
     // 사진 분석 모드에서도 results 이동이 필요하므로 기본값을 Medium으로 둠
@@ -497,6 +869,10 @@ export default function AnalyzePage() {
             avoidedIngredients.length > 0
               ? avoidedIngredients
               : ["고함량 알코올"],
+          currentProducts:
+            currentProducts.length > 0
+              ? currentProducts
+              : createMockSampleCurrentProducts(),
         }),
       });
 
@@ -860,6 +1236,11 @@ export default function AnalyzePage() {
                   placeholder="예: 고함량 알코올, 에센셜 오일"
                 />
 
+                <CurrentProductsEditor
+                  products={currentProducts}
+                  onChange={setCurrentProducts}
+                />
+
                 <div className="pt-1">
                   <button
                     type="button"
@@ -874,7 +1255,7 @@ export default function AnalyzePage() {
                     {loading ? "분석 중..." : "AI 분석 시작"}
                   </button>
                   <p className="mt-3 text-xs text-gray-500">
-                    입력한 알레르기·회피 성분은 추천에서 제외하는 참고 정보입니다. 의료 진단이 아닙니다.
+                    입력한 알레르기·회피 성분과 현재 사용 제품은 추천·루틴 점검의 참고 정보입니다. 의료 진단이 아닙니다.
                     AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
                   </p>
                 </div>

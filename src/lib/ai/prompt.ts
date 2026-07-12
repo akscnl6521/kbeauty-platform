@@ -1,4 +1,6 @@
 import type { AnalyzeSkinRequest } from "./types";
+import type { CurrentProductInput } from "@/lib/recommend";
+import { normalizeCurrentProducts } from "@/lib/recommend/currentProduct";
 
 /** 요청 body에서 선택 성분 배열 정규화 (trim·빈값·중복 제거) */
 export function normalizeIngredientTagList(value: unknown): string[] {
@@ -29,6 +31,34 @@ export function getRequestAvoidedIngredients(
   return normalizeIngredientTagList(input.avoidedIngredients);
 }
 
+export function getRequestCurrentProducts(
+  input: AnalyzeSkinRequest
+): CurrentProductInput[] {
+  return normalizeCurrentProducts(input.currentProducts);
+}
+
+function formatCurrentProductsBlock(products: CurrentProductInput[]): string {
+  if (products.length === 0) {
+    return `(none provided — do not invent a current routine)`;
+  }
+  return products
+    .map((p, i) => {
+      const lines = [
+        `${i + 1}. productName: ${p.productName}`,
+        p.brandName ? `   brandName: ${p.brandName}` : null,
+        p.category ? `   category: ${p.category}` : null,
+        p.usageTime ? `   usageTime: ${p.usageTime}` : null,
+        p.usageFrequency ? `   usageFrequency: ${p.usageFrequency}` : null,
+        p.keyIngredients && p.keyIngredients.length > 0
+          ? `   keyIngredients (user-stated only): ${p.keyIngredients.join(", ")}`
+          : `   keyIngredients: (none — do NOT invent full INCI from the product name)`,
+        p.reaction ? `   reaction: ${p.reaction}` : null,
+      ];
+      return lines.filter(Boolean).join("\n");
+    })
+    .join("\n");
+}
+
 /**
  * 기본 정보(텍스트)만 프로바이더에 전달.
  * Phase 2+: 이미지는 전송하지 않는다.
@@ -36,6 +66,7 @@ export function getRequestAvoidedIngredients(
 export function buildBasicInfoUserText(input: AnalyzeSkinRequest): string {
   const allergy = getRequestAllergyIngredients(input);
   const avoided = getRequestAvoidedIngredients(input);
+  const currentProducts = getRequestCurrentProducts(input);
   const allergyLine =
     allergy.length > 0
       ? allergy.join(", ")
@@ -55,7 +86,20 @@ Ingredient safety rules for this request:
 - Exclude avoidedIngredients from recommendedIngredients.
 - Include both allergyIngredients and avoidedIngredients in ingredientsToAvoid.
 - Do not diagnose allergies or medical conditions.
-- If an ingredient conflicts with allergy/avoid lists, exclude it clearly (do not only lower confidenceScore).`;
+- If an ingredient conflicts with allergy/avoid lists, exclude it clearly (do not only lower confidenceScore).
+
+Current products in use (structured; use only stated fields):
+${formatCurrentProductsBlock(currentProducts)}
+
+Current-routine review rules:
+- Do not invent full ingredient lists from product names alone.
+- Use only user-stated keyIngredients as evidence for ingredient overlap.
+- If similar-purpose products look excessive, suggest simplification (not a medical ban).
+- If exfoliating/active-like ingredients appear in multiple products (from stated keys only), warn gently.
+- If reaction is stinging, redness, or breakout, prioritize pause/simplify over adding new products.
+- If stated product ingredients conflict with allergy/avoid lists, warn clearly.
+- Fill optional arrays when useful: currentRoutineIssues, duplicateFunctions, routineSimplificationSuggestions, currentProductWarnings, suggestedMorningOrder, suggestedEveningOrder.
+- Never use diagnostic or absolute contraindication language.`;
 
   if (input.mode === "manual") {
     return `K-Beauty Match — manual skin information (do not invent missing facts).
@@ -108,6 +152,12 @@ Return ONLY one valid JSON object matching this schema (no markdown, no extra te
   "precautions": ["string"],
   "notRecommendedReasons": ["string"],
   "expertReferralReasons": ["string"],
+  "currentRoutineIssues": ["string"],
+  "duplicateFunctions": ["string"],
+  "routineSimplificationSuggestions": ["string"],
+  "currentProductWarnings": ["string"],
+  "suggestedMorningOrder": ["string"],
+  "suggestedEveningOrder": ["string"],
   "summaryKo": "string",
   "summaryEn": "string",
   "summaryJa": "string",
@@ -128,7 +178,9 @@ Safety rules:
 8. Include summaryKo, summaryEn, and summaryJa.
 9. If photo mode without a real image, never claim you saw the photo.
 10. confidenceScore is a number between 0 and 1.
-11. Never recommend user-stated allergyIngredients. Exclude user-stated avoidedIngredients from recommendedIngredients. Put both into ingredientsToAvoid.`;
+11. Never recommend user-stated allergyIngredients. Exclude user-stated avoidedIngredients from recommendedIngredients. Put both into ingredientsToAvoid.
+12. Never invent full INCI from product names. Use only user-stated keyIngredients for current-routine ingredient reasoning.
+13. When current products are provided, fill the current-routine optional arrays when relevant; keep language non-diagnostic.`;
 
 /** 확장 JSON을 위해 여유 토큰 */
-export const DEFAULT_MAX_TOKENS = 1200;
+export const DEFAULT_MAX_TOKENS = 1600;

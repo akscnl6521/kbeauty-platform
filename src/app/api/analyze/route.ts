@@ -5,6 +5,7 @@ import type {
   AnalyzeSkinErrorBody,
   AnalyzeSkinRequest,
 } from "@/lib/ai/types";
+import { normalizeCurrentProducts } from "@/lib/recommend/currentProduct";
 
 export const runtime = "nodejs";
 
@@ -15,10 +16,14 @@ function isNonEmptyString(value: unknown): value is string {
 function parseIngredientPrefs(row: Record<string, unknown>): {
   allergyIngredients: string[];
   avoidedIngredients: string[];
+  currentProducts: ReturnType<typeof normalizeCurrentProducts>;
 } {
   return {
     allergyIngredients: normalizeIngredientTagList(row.allergyIngredients),
     avoidedIngredients: normalizeIngredientTagList(row.avoidedIngredients),
+    currentProducts: normalizeCurrentProducts(
+      row.currentProducts ?? row.current_products
+    ),
   };
 }
 
