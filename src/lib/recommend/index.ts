@@ -31,6 +31,11 @@ export {
   toCanonical,
 } from "./normalizeIngredient";
 export { INGREDIENT_ALIAS_GROUPS } from "./ingredientAliases";
+export {
+  displayIngredientName,
+  displayIngredientNames,
+} from "./displayIngredientName";
+export type { IngredientDisplayLocale } from "./displayIngredientName";
 export { rankProducts } from "./rankProducts";
 export {
   fetchCandidateProducts,

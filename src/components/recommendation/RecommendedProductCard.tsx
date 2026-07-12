@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import type { CandidateProduct, RankedProduct } from "@/lib/recommend";
 import {
+  displayIngredientNames,
   logTopProductPurchaseLinkAudit,
   selectPurchaseLink,
 } from "@/lib/recommend";
@@ -44,9 +45,11 @@ export function RecommendedProductCard({
   const hasExcluded =
     Array.isArray(excludedIngredients) && excludedIngredients.length > 0;
 
+  const matchedLabels = displayIngredientNames(matchedIngredients, locale);
+  const excludedLabels = displayIngredientNames(excludedIngredients, locale);
+
   const purchase = selectPurchaseLink(product, countryCode);
 
-  // Sprint 3 Phase 3C: 개발 전용 구매 링크 감사 (UI 변경 없음)
   useEffect(() => {
     logTopProductPurchaseLinkAudit(product, countryCode, displayName);
   }, [product, countryCode, displayName]);
@@ -83,11 +86,15 @@ export function RecommendedProductCard({
 
       <div>
         <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
-          매칭 성분
+          {locale === "ko"
+            ? "매칭 성분"
+            : locale === "ja"
+              ? "マッチ成分"
+              : "Matched ingredients"}
         </p>
-        {matchedIngredients.length > 0 ? (
+        {matchedLabels.length > 0 ? (
           <div className="flex flex-wrap gap-1.5">
-            {matchedIngredients.map((ing) => (
+            {matchedLabels.map((ing) => (
               <span
                 key={`match-${ing}`}
                 className="inline-flex rounded-full bg-[#C2185B]/10 px-2.5 py-0.5 text-[11px] font-medium text-[#C2185B] sm:text-xs"
@@ -97,17 +104,27 @@ export function RecommendedProductCard({
             ))}
           </div>
         ) : (
-          <p className="text-xs text-gray-400">매칭된 성분 없음</p>
+          <p className="text-xs text-gray-400">
+            {locale === "ko"
+              ? "매칭된 성분 없음"
+              : locale === "ja"
+                ? "マッチ成分なし"
+                : "No matched ingredients"}
+          </p>
         )}
       </div>
 
-      {hasExcluded ? (
+      {hasExcluded && excludedLabels.length > 0 ? (
         <div>
           <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-amber-700">
-            주의 성분
+            {locale === "ko"
+              ? "주의 성분"
+              : locale === "ja"
+                ? "注意成分"
+                : "Watch-outs"}
           </p>
           <div className="flex flex-wrap gap-1.5">
-            {excludedIngredients.map((ing) => (
+            {excludedLabels.map((ing) => (
               <span
                 key={`avoid-${ing}`}
                 className="inline-flex rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-medium text-amber-800 sm:text-xs"
@@ -126,7 +143,6 @@ export function RecommendedProductCard({
         </p>
       ) : null}
 
-      {/* 유효 링크가 있을 때만 구매 버튼 (비활성 버튼은 렌더하지 않음) */}
       {purchase ? (
         <div className="mt-1 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[11px] text-gray-500 sm:text-xs">
@@ -138,7 +154,11 @@ export function RecommendedProductCard({
             rel="noopener noreferrer sponsored"
             className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#a3154f]"
           >
-            구매처 보기
+            {locale === "ko"
+              ? "구매처 보기"
+              : locale === "ja"
+                ? "購入先を見る"
+                : "View retailer"}
           </a>
         </div>
       ) : null}

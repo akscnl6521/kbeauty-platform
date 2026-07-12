@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { useCountry } from "@/hooks/useCountry";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import {
+  displayIngredientNames,
   loadLatestRecommendationPipeline,
   purgeLegacyRecommendationCaches,
   type CandidateProduct,
@@ -198,7 +199,6 @@ function matchesBudget(priceUsd: number | null, budget: string): boolean {
   }
 }
 
-// 결과 카드 속성/성분 한국어 매핑 (locale ko일 때 사용)
 const RESULTS_ATTR_KO: Record<string, string> = {
   Redness: "붉은기",
   Dryness: "건조함",
@@ -223,28 +223,6 @@ const RESULTS_ATTR_KO: Record<string, string> = {
   WARM: "웜톤",
   COOL: "쿨톤",
   NEUTRAL: "중립",
-};
-
-const INGREDIENT_NAME_KO: Record<string, string> = {
-  "Centella Asiatica": "센텔라 아시아티카",
-  "Niacinamide": "나이아신아마이드",
-  "Peptide": "펩타이드",
-  "Peptides": "펩타이드",
-  "Ceramide": "세라마이드",
-  "Ceramides": "세라마이드",
-  "Hyaluronic Acid": "히알루론산",
-  "Vitamin C": "비타민 C",
-  "Retinol": "레티놀",
-  "AHA": "AHA",
-  "BHA": "BHA",
-  "Panthenol": "판테놀",
-  "Green Tea": "녹차",
-  "Snail Mucin": "달팽이 점액",
-  "Cica": "시카",
-  "Centella": "센텔라",
-  "Alpha Arbutin": "알파 아르부틴",
-  "Tranexamic Acid": "트라넥삼산",
-  "Adenosine": "아데노신",
 };
 
 function formatAttributeValue(value: string, locale: Locale): string {
@@ -306,6 +284,9 @@ function ResultsPageInner() {
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [openReasonIds, setOpenReasonIds] = useState<string[]>([]);
+  /** 전체 제품 탐색: 처음엔 일부만, 더 보기로 확장 */
+  const [catalogExpanded, setCatalogExpanded] = useState(false);
+  const CATALOG_PREVIEW_COUNT = 6;
 
   // Sprint 4 Phase 1 — LocalStorage 추천 파이프라인 결과
   const [savedRecommendation, setSavedRecommendation] =
@@ -353,6 +334,17 @@ function ResultsPageInner() {
       return haystack.includes(query);
     });
   }, [quizFilteredProducts, searchQuery, favoriteIds, showFavoritesOnly]);
+
+  /** Top 5와 중복되지 않는 탐색용 목록 */
+  const browseProducts = useMemo(() => {
+    const rankedIds = new Set(rankedProducts.map((r) => r.product.id));
+    return filteredProducts.filter((p) => !rankedIds.has(p.id));
+  }, [filteredProducts, rankedProducts]);
+
+  const visibleBrowseProducts = useMemo(() => {
+    if (catalogExpanded) return browseProducts;
+    return browseProducts.slice(0, CATALOG_PREVIEW_COUNT);
+  }, [browseProducts, catalogExpanded]);
 
   useEffect(() => {
     if (filteredProducts.length > 0) {
@@ -740,12 +732,22 @@ function ResultsPageInner() {
                               ) : null}
                               {recommended.length > 0 ? (
                                 <GuideBlock title="추천 성분">
-                                  <BulletList items={recommended} />
+                                  <BulletList
+                                    items={displayIngredientNames(
+                                      recommended,
+                                      locale
+                                    )}
+                                  />
                                 </GuideBlock>
                               ) : null}
                               {avoid.length > 0 ? (
                                 <GuideBlock title="피해야 할 성분">
-                                  <BulletList items={avoid} />
+                                  <BulletList
+                                    items={displayIngredientNames(
+                                      avoid,
+                                      locale
+                                    )}
+                                  />
                                 </GuideBlock>
                               ) : null}
                             </div>
@@ -824,35 +826,31 @@ function ResultsPageInner() {
                   </div>
                 ) : null}
 
-                {/* 14. 기존 추천 제품 목록 */}
+                {/* AI 핵심 추천 Top 5 */}
                 {rankedProducts.length > 0 ? (
-                  <div>
-                    <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900">
+                  <div className="rounded-2xl border border-[#C2185B]/25 bg-gradient-to-b from-pink-50/80 to-white p-4 sm:p-6">
+                    <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900 sm:text-2xl">
+                      {locale === "ko"
+                        ? "나를 위한 핵심 추천 제품"
+                        : locale === "ja"
+                          ? "あなたへのコアおすすめ"
+                          : "Your core recommendations"}
+                    </h3>
+                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-gray-600">
                       {isRiskManagementLevel(
                         savedRecommendation?.managementLevel
                       )
                         ? locale === "ko"
-                          ? "참고용 제품 목록"
+                          ? "AI 피부 분석 성분 매칭 기반의 참고용 Top 5입니다. 구매 유도가 아닌 정보 안내이며, 의료 진단을 대체하지 않습니다."
                           : locale === "ja"
-                            ? "参考商品リスト"
-                            : "Reference product list"
+                            ? "AI肌分析の成分マッチに基づく参考Top5です。購入誘導ではなく情報案内であり、医療診断の代わりにはなりません。"
+                            : "Top 5 matched from your AI skin analysis. For reference only — not a purchase push or medical diagnosis."
                         : locale === "ko"
-                          ? "추천 제품"
+                          ? "AI 피부 분석을 바탕으로 성분 매칭한 최종 추천 Top 5입니다."
                           : locale === "ja"
-                            ? "おすすめ製品"
-                            : "Recommended products"}
-                    </h3>
-                    {isRiskManagementLevel(
-                      savedRecommendation?.managementLevel
-                    ) ? (
-                      <p className="mt-1 text-xs text-gray-500">
-                        {locale === "ko"
-                          ? "구매 유도가 아닌 정보 참고용입니다."
-                          : locale === "ja"
-                            ? "購入誘導ではなく参考情報です。"
-                            : "For information only — not a purchase push."}
-                      </p>
-                    ) : null}
+                            ? "AI肌分析に基づく成分マッチ最終おすすめTop5です。"
+                            : "Final Top 5 picks matched to your AI skin analysis."}
+                    </p>
                     <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                       {rankedProducts.map((ranked, index) => (
                         <RecommendedProductCard
@@ -912,8 +910,35 @@ function ResultsPageInner() {
           </section>
         ) : null}
 
-        {/* Product cards (퀴즈/카탈로그 필터 — 기존 동작 유지) */}
-        <section className="flex-1">
+        {/* 일반 제품 탐색 — Top 5와 시각적으로 분리 */}
+        <section
+          className="mt-4 flex-1 border-t border-pink-100 pt-10"
+          aria-label="Browse products"
+        >
+          <div className="mb-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gray-400">
+              {locale === "ko"
+                ? "탐색"
+                : locale === "ja"
+                  ? "探索"
+                  : "Browse"}
+            </p>
+            <h2 className="mt-2 font-['Playfair_Display',serif] text-xl font-semibold text-gray-900 sm:text-2xl">
+              {locale === "ko"
+                ? "다른 제품 둘러보기"
+                : locale === "ja"
+                  ? "ほかの製品を見る"
+                  : "Browse more products"}
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm text-gray-500">
+              {locale === "ko"
+                ? "핵심 추천과 별도로, 관심 있는 제품을 검색·즐겨찾기하며 둘러볼 수 있습니다."
+                : locale === "ja"
+                  ? "コアおすすめとは別に、検索やお気に入りで製品を探せます。"
+                  : "Separate from your core picks — search and favorite products to explore."}
+            </p>
+          </div>
+
           {/* Search + favorites toggle just above grid */}
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <input
@@ -951,30 +976,43 @@ function ResultsPageInner() {
               </Link>
             </div>
           </div>
-          {filteredProducts.length === 0 ? (
+          {browseProducts.length === 0 ? (
             <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-8 text-center">
               <p className="text-base font-medium text-gray-700">
-                조건에 맞는 제품이 없습니다
+                {locale === "ko"
+                  ? "더 둘러볼 제품이 없습니다"
+                  : locale === "ja"
+                    ? "他に表示する製品がありません"
+                    : "No more products to browse"}
               </p>
               <p className="mt-2 text-sm text-gray-500">
-                다른 조건으로 퀴즈를 다시 진행해 보세요.
+                {locale === "ko"
+                  ? "검색어를 바꾸거나 퀴즈 조건을 조정해 보세요."
+                  : locale === "ja"
+                    ? "検索条件やクイズ条件を変えてみてください。"
+                    : "Try a different search or quiz filters."}
               </p>
               <Link href="/quiz" className="mt-4 inline-block">
                 <button
                   type="button"
                   className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#a3154f]"
                 >
-                  퀴즈 다시 하기
+                  {locale === "ko"
+                    ? "퀴즈 다시 하기"
+                    : locale === "ja"
+                      ? "クイズをやり直す"
+                      : "Retake quiz"}
                 </button>
               </Link>
             </div>
           ) : (
+          <>
           <div className="grid gap-6 md:grid-cols-3">
-            {filteredProducts.map((product) => {
-              const keyIngredients =
-                locale === "ja" && product.key_ingredients_ja?.length
-                  ? product.key_ingredients_ja
-                  : product.key_ingredients ?? [];
+            {visibleBrowseProducts.map((product) => {
+              const keyIngredients = displayIngredientNames(
+                product.key_ingredients ?? [],
+                locale
+              );
 
               // slug는 항상 영문 key_ingredients[0]을 변환해 사용 (배지 표시는 keyIngredients로 locale 구분)
               const firstIngredientSlug =
@@ -1078,6 +1116,39 @@ function ResultsPageInner() {
               );
             })}
           </div>
+          {!catalogExpanded &&
+          browseProducts.length > CATALOG_PREVIEW_COUNT ? (
+            <div className="mt-8 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setCatalogExpanded(true)}
+                className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-6 py-2.5 text-sm font-semibold text-[#C2185B] transition hover:bg-pink-50"
+              >
+                {locale === "ko"
+                  ? `더 보기 (${browseProducts.length - CATALOG_PREVIEW_COUNT})`
+                  : locale === "ja"
+                    ? `もっと見る (${browseProducts.length - CATALOG_PREVIEW_COUNT})`
+                    : `Show more (${browseProducts.length - CATALOG_PREVIEW_COUNT})`}
+              </button>
+            </div>
+          ) : null}
+          {catalogExpanded &&
+          browseProducts.length > CATALOG_PREVIEW_COUNT ? (
+            <div className="mt-8 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setCatalogExpanded(false)}
+                className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-6 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-pink-50"
+              >
+                {locale === "ko"
+                  ? "접기"
+                  : locale === "ja"
+                    ? "閉じる"
+                    : "Show less"}
+              </button>
+            </div>
+          ) : null}
+          </>
           )}
         </section>
 
