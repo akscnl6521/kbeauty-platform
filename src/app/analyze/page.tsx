@@ -10,12 +10,10 @@ import { RecommendedProductCard } from "@/components/recommendation/RecommendedP
 import {
   ANALYSIS_RESULT_STORAGE_KEY,
   clearPersistedRankedProducts,
-  createMockRecommendation,
   loadRankedProductsFromStorage,
   persistTopRankedProducts,
   RANKED_PRODUCTS_STORAGE_KEY,
   RECOMMENDATION_STORAGE_KEY,
-  parseAnalysisTextToRecommendation,
   type AnalysisResult,
   type CandidateProduct,
   type RankedProduct,
@@ -51,40 +49,67 @@ function toneKoToResultsTone(t: ToneKo): string {
   return "Dark";
 }
 
-async function callAnthropic(
-  payload: unknown
-): Promise<{ analysis: AnalysisResult; recommendation: Recommendation }> {
-  if (!process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY) {
-    throw new Error("Anthropic API key is not configured.");
-  }
+type AnalyzeApiSuccess = {
+  analysis: AnalysisResult;
+  recommendation: Recommendation;
+};
 
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
+type AnalyzeApiError = {
+  error?: string;
+};
+
+/**
+ * Sprint 5 Phase 1 — 브라우저는 Anthropic을 직접 호출하지 않고
+ * 동일 오리진 POST /api/analyze 만 호출한다.
+ */
+async function callAnalyzeApi(
+  body:
+    | {
+        mode: "photo";
+        imageBase64: string;
+        mediaType?: "image/jpeg" | "image/png" | "image/webp" | "image/gif";
+      }
+    | {
+        mode: "manual";
+        skinTone: string;
+        undertone: string;
+        concerns: string[];
+        sensitivity: string;
+      }
+): Promise<AnalyzeApiSuccess> {
+  const response = await fetch("/api/analyze", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY as string,
-      "anthropic-version": "2023-06-01",
-      "anthropic-dangerous-direct-browser-access": "true",
-    },
-    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
   });
 
+  let json: unknown = null;
+  try {
+    json = await response.json();
+  } catch {
+    // ignore — 아래에서 status 기반으로 처리
+  }
+
   if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`Anthropic API error: ${response.status} ${text}`);
+    const errBody = json as AnalyzeApiError | null;
+    const message =
+      errBody && typeof errBody.error === "string" && errBody.error.trim()
+        ? errBody.error
+        : `Analysis failed (${response.status}).`;
+    throw new Error(message);
   }
 
-  const json = await response.json();
-  const contentText: string | undefined =
-    json?.content?.[0]?.text ?? json?.content?.[0]?.text_value;
-
-  if (!contentText) {
-    throw new Error("No content returned from Anthropic.");
+  const data = json as AnalyzeApiSuccess | null;
+  if (
+    !data ||
+    typeof data !== "object" ||
+    !data.analysis ||
+    !data.recommendation
+  ) {
+    throw new Error("Invalid analysis response from server.");
   }
 
-  const { analysis, recommendation } =
-    parseAnalysisTextToRecommendation(contentText);
-  return { analysis, recommendation };
+  return data;
 }
 
 function persistRecommendation(recommendation: Recommendation) {
@@ -194,30 +219,10 @@ export default function AnalyzePage() {
 
     try {
       const { analysis, recommendation: nextRecommendation } =
-        await callAnthropic({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 700,
-          system:
-            "You are a K-beauty skincare information guide. Based on the skin photo provided, analyze and respond ONLY in JSON: {\"skin_type\": \"string\", \"concerns\": [\"string\"], \"ingredients\": [\"string\"], \"summary_ko\": \"Korean summary\", \"summary_en\": \"English summary\", \"summary_ja\": \"Japanese summary\", \"routine_tips\": [\"string\"]}",
-          messages: [
-            {
-              role: "user",
-              content: [
-                {
-                  type: "text",
-                  text: "Analyze this skin photo and return JSON only.",
-                },
-                {
-                  type: "image",
-                  source: {
-                    type: "base64",
-                    media_type: "image/jpeg",
-                    data: imageBase64,
-                  },
-                },
-              ],
-            },
-          ],
+        await callAnalyzeApi({
+          mode: "photo",
+          imageBase64,
+          mediaType: "image/jpeg",
         });
       setResult(analysis);
       persistRecommendation(nextRecommendation);
@@ -239,30 +244,14 @@ export default function AnalyzePage() {
     setResult(null);
 
     try {
-      const payload = {
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 700,
-        system:
-          "You are a K-beauty skincare information guide. Based on the skin information provided, analyze and respond ONLY in JSON: {\"skin_type\": \"string\", \"concerns\": [\"string\"], \"ingredients\": [\"string\"], \"summary_ko\": \"Korean summary\", \"summary_en\": \"English summary\", \"summary_ja\": \"Japanese summary\", \"routine_tips\": [\"string\"]}",
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                text: `Skin info (Korean labels):
-- skin_tone: ${manualTone}
-- undertone: ${manualUndertone}
-- main_concerns: ${manualConcerns.join(", ")}
-- sensitivity: ${manualSensitivity}
-Return JSON only.`,
-              },
-            ],
-          },
-        ],
-      };
       const { analysis, recommendation: nextRecommendation } =
-        await callAnthropic(payload);
+        await callAnalyzeApi({
+          mode: "manual",
+          skinTone: manualTone,
+          undertone: manualUndertone,
+          concerns: manualConcerns,
+          sensitivity: manualSensitivity,
+        });
       setResult(analysis);
       persistRecommendation(nextRecommendation);
       // Phase 3B: 분석 UI와 무관하게 백그라운드로 Top5 랭킹 저장
@@ -342,41 +331,105 @@ Return JSON only.`,
   };
 
   /**
-   * Phase 3C — AI 없이 랭킹 파이프라인만 검증.
-   * mock Recommendation → persistTopRankedProducts → LocalStorage
+   * Phase 3C / Sprint 5 — Mock 버튼도 POST /api/analyze 경유.
+   * 서버 mock Recommendation 수신 후 기존 랭킹 파이프라인만 실행.
    */
   const handleMockRecommendationTest = async () => {
     if (process.env.NODE_ENV !== "development") return;
     setMockTestLoading(true);
     setMockTestMessage(null);
     try {
-      const mockRecommendation = createMockRecommendation();
+      // 1) 서버 라우트만 호출 (클라이언트에서 analyzeSkin / createMock 직접 호출 금지)
+      const response = await fetch("/api/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mode: "manual",
+          skinTone: "중간",
+          undertone: "중립",
+          concerns: ["붉은기", "건조함"],
+          sensitivity: "민감함",
+        }),
+      });
 
-      // 1) skinRecommendation 저장
+      let json: unknown = null;
+      try {
+        json = await response.json();
+      } catch {
+        // ignore
+      }
+
+      if (!response.ok) {
+        const errBody = json as AnalyzeApiError | null;
+        throw new Error(
+          errBody && typeof errBody.error === "string" && errBody.error.trim()
+            ? errBody.error
+            : `Analysis failed (${response.status}).`
+        );
+      }
+
+      // 2) Recommendation 필드만 사용
+      const rawRec =
+        json &&
+        typeof json === "object" &&
+        "recommendation" in json &&
+        (json as { recommendation?: unknown }).recommendation &&
+        typeof (json as { recommendation: unknown }).recommendation === "object"
+          ? ((json as { recommendation: Record<string, unknown> })
+              .recommendation as Record<string, unknown>)
+          : json && typeof json === "object"
+            ? (json as Record<string, unknown>)
+            : null;
+
+      if (!rawRec) {
+        throw new Error("Invalid recommendation response from server.");
+      }
+
+      const recommendation: Recommendation = {
+        skinConcerns: Array.isArray(rawRec.skinConcerns)
+          ? rawRec.skinConcerns.filter((x): x is string => typeof x === "string")
+          : [],
+        recommendedIngredients: Array.isArray(rawRec.recommendedIngredients)
+          ? rawRec.recommendedIngredients.filter(
+              (x): x is string => typeof x === "string"
+            )
+          : [],
+        ingredientsToAvoid: Array.isArray(rawRec.ingredientsToAvoid)
+          ? rawRec.ingredientsToAvoid.filter(
+              (x): x is string => typeof x === "string"
+            )
+          : [],
+        confidenceScore:
+          typeof rawRec.confidenceScore === "number" &&
+          Number.isFinite(rawRec.confidenceScore)
+            ? rawRec.confidenceScore
+            : 0,
+      };
+
+      // 3) 기존 파이프라인 유지: persist → fetchCandidateProducts → rank → Top5
       window.localStorage.setItem(
         RECOMMENDATION_STORAGE_KEY,
-        JSON.stringify(mockRecommendation)
+        JSON.stringify(recommendation)
       );
 
-      // 2) 후보 로드 + 랭킹 + skinRankedProducts 저장
-      const top = await persistTopRankedProducts(mockRecommendation);
+      const top = await persistTopRankedProducts(recommendation);
 
-      // 3) 키가 비어 있지 않도록 한 번 더 보장 (조회 실패 시에도 [])
       window.localStorage.setItem(
         RANKED_PRODUCTS_STORAGE_KEY,
         JSON.stringify(top)
       );
 
-      console.log("Mock recommendation saved");
+      console.log("Mock recommendation saved via /api/analyze");
 
-      // Sprint 3 Phase 1: 카드 목록 갱신
       setRankedProducts(loadRankedProductsFromStorage());
 
       setMockTestMessage({
         type: top.length > 0 ? "success" : "error",
         text:
           top.length > 0
-            ? `Mock 추천 Top${top.length} 저장 완료 (skinRecommendation, skinRankedProducts)`
+            ? `Mock 추천 Top${top.length} 저장 완료 (POST /api/analyze → 랭킹)`
             : "skinRecommendation / skinRankedProducts 저장됨 (랭킹 0건 — DB 후보 확인)",
       });
     } catch (e) {
