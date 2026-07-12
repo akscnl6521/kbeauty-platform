@@ -1,0 +1,2 @@
+offerId,productId,retailerName,retailerType,retailerCountry,shipsToCountries,purchaseUrl,price,currency,stockStatus,verificationStatus,isOfficial,verifiedAt,lastCheckedAt,active
+SAMPLE-OFFER-001,SAMPLE-PRODUCT-001,REPLACE_RETAILER,drugstore,KR,KR,https://example.com/REPLACE_WITH_REAL_PURCHASE_URL,,,unknown,unverified,false,,,true

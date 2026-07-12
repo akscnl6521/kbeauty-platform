@@ -175,6 +175,13 @@ export function normalizeProductOffer(raw: unknown): ProductOffer | null {
     ...(asBoolean(raw.active) !== undefined
       ? { active: asBoolean(raw.active) }
       : {}),
+    ...(asTrimmedString(raw.retailerType ?? raw.retailer_type)
+      ? {
+          retailerType: asTrimmedString(
+            raw.retailerType ?? raw.retailer_type
+          ) as ProductOffer["retailerType"],
+        }
+      : {}),
     ...(asTrimmedString(raw.verifiedAt ?? raw.verified_at)
       ? { verifiedAt: asTrimmedString(raw.verifiedAt ?? raw.verified_at) }
       : {}),

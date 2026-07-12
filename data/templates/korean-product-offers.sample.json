@@ -1,0 +1,22 @@
+{
+  "_comment": "SAMPLE ONLY — 임의 가격·가짜 구매 링크 금지. verificationStatus=unverified, price=null. verified로 올리려면 실측 가격·https URL·verifiedAt 필수.",
+  "offers": [
+    {
+      "offerId": "SAMPLE-OFFER-001",
+      "productId": "SAMPLE-PRODUCT-001",
+      "retailerName": "REPLACE_RETAILER",
+      "retailerType": "drugstore",
+      "retailerCountry": "KR",
+      "shipsToCountries": ["KR"],
+      "purchaseUrl": "https://example.com/REPLACE_WITH_REAL_PURCHASE_URL",
+      "price": null,
+      "currency": null,
+      "stockStatus": "unknown",
+      "verificationStatus": "unverified",
+      "isOfficial": false,
+      "verifiedAt": null,
+      "lastCheckedAt": null,
+      "active": true
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+productId,canonicalBrandName,productNameKo,productNameEn,category,skinTypes,concerns,keyIngredients,fullIngredients,fragranceFree,alcoholFree,productStatus,dataConfidence,verifiedAt,sourceUrl
+SAMPLE-PRODUCT-001,SAMPLE_BRAND_DO_NOT_USE,[SAMPLE] 실제품명으로 교체,[SAMPLE] Replace with real product name,serum,sensitive|dry,redness|dryness,,,,false,false,sample,unverified,,https://example.com/REPLACE_WITH_REAL_SOURCE

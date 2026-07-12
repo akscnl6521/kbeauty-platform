@@ -13,7 +13,11 @@ export type {
 export type {
   CatalogProduct,
   DataConfidence,
+  KoreanProductInput,
+  KoreanProductOfferInput,
   ProductOffer,
+  ProductStatus,
+  RetailerType,
   StockStatus,
 } from "./catalogTypes";
 export { CATALOG_DATA_GOALS, CORE_ALLOWED_STOCK } from "./catalogTypes";
@@ -26,6 +30,32 @@ export {
   resolveProductOffers,
 } from "./productOffer";
 export type { OfferFilterResult } from "./productOffer";
+export {
+  findDuplicateBrandProductNames,
+  findDuplicateProducts,
+} from "./findDuplicateProducts";
+export type {
+  DuplicateIdIssue,
+  DuplicateProductGroup,
+  DuplicateScanResult,
+} from "./findDuplicateProducts";
+export {
+  isSampleOrUnverifiedProduct,
+  meetsKoreanVerifiedOfferRules,
+  parseOptionalBoolean,
+  parseOptionalNumber,
+  parsePipeList,
+  rowToKoreanProductInput,
+  rowToKoreanProductOfferInput,
+  validateCatalogData,
+  validateKoreanProduct,
+  validateKoreanProductOffer,
+} from "./validateCatalogData";
+export type {
+  CatalogValidationIssue,
+  CatalogValidationReport,
+  CatalogValidationSeverity,
+} from "./validateCatalogData";
 export {
   ANALYSIS_RESULT_STORAGE_KEY,
   ANALYZE_SOURCE_STORAGE_KEY,

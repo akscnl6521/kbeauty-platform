@@ -1,0 +1,22 @@
+{
+  "_comment": "SAMPLE ONLY — 실제 제품명·가격·판매 URL을 넣지 마세요. productStatus=sample, dataConfidence=unverified. 핵심 추천에 사용하지 않습니다.",
+  "products": [
+    {
+      "productId": "SAMPLE-PRODUCT-001",
+      "canonicalBrandName": "SAMPLE_BRAND_DO_NOT_USE",
+      "productNameKo": "[SAMPLE] 실제품명으로 교체",
+      "productNameEn": "[SAMPLE] Replace with real product name",
+      "category": "serum",
+      "skinTypes": ["sensitive", "dry"],
+      "concerns": ["redness", "dryness"],
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "fragranceFree": false,
+      "alcoholFree": false,
+      "productStatus": "sample",
+      "dataConfidence": "unverified",
+      "verifiedAt": null,
+      "sourceUrl": "https://example.com/REPLACE_WITH_REAL_SOURCE"
+    }
+  ]
+}
