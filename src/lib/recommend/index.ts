@@ -37,6 +37,9 @@ export {
 } from "./displayIngredientName";
 export type { IngredientDisplayLocale } from "./displayIngredientName";
 export { rankProducts } from "./rankProducts";
+export { applyUserIngredientPreferences } from "./applyUserIngredientPreferences";
+export { filterCandidatesBySafety } from "./filterCandidatesBySafety";
+export type { SafetyFilterResult } from "./filterCandidatesBySafety";
 export {
   fetchCandidateProducts,
   mapRowToCandidateProduct,

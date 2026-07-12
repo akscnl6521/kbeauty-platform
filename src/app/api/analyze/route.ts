@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { AnalyzeSkinError, analyzeSkin } from "@/lib/ai/analyzeSkin";
+import { normalizeIngredientTagList } from "@/lib/ai/prompt";
 import type {
   AnalyzeSkinErrorBody,
   AnalyzeSkinRequest,
@@ -9,6 +10,16 @@ export const runtime = "nodejs";
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function parseIngredientPrefs(row: Record<string, unknown>): {
+  allergyIngredients: string[];
+  avoidedIngredients: string[];
+} {
+  return {
+    allergyIngredients: normalizeIngredientTagList(row.allergyIngredients),
+    avoidedIngredients: normalizeIngredientTagList(row.avoidedIngredients),
+  };
 }
 
 function parseRequestBody(body: unknown): AnalyzeSkinRequest {
@@ -22,6 +33,7 @@ function parseRequestBody(body: unknown): AnalyzeSkinRequest {
 
   const row = body as Record<string, unknown>;
   const mode = row.mode;
+  const prefs = parseIngredientPrefs(row);
 
   if (mode === "photo") {
     // Phase 2: 클라이언트 계약 유지. 이미지는 프로바이더로 전달하지 않음.
@@ -61,6 +73,7 @@ function parseRequestBody(body: unknown): AnalyzeSkinRequest {
         | "image/webp"
         | "image/gif"
         | undefined,
+      ...prefs,
     };
   }
 
@@ -102,6 +115,7 @@ function parseRequestBody(body: unknown): AnalyzeSkinRequest {
       undertone: row.undertone.trim(),
       concerns,
       sensitivity: row.sensitivity.trim(),
+      ...prefs,
     };
   }
 

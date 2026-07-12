@@ -60,24 +60,106 @@ type AnalyzeApiError = {
   error?: string;
 };
 
+type IngredientPrefBody = {
+  allergyIngredients?: string[];
+  avoidedIngredients?: string[];
+};
+
+/** 태그 목록에 성분 추가 (trim · 빈값 제외 · 대소문자 무시 중복 제거) */
+function addIngredientTags(prev: string[], raw: string): string[] {
+  const parts = raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (parts.length === 0) return prev;
+  const next = [...prev];
+  const seen = new Set(prev.map((x) => x.toLowerCase()));
+  for (const part of parts) {
+    const key = part.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    next.push(part);
+  }
+  return next;
+}
+
+function IngredientTagField(props: {
+  label: string;
+  hint: string;
+  tags: string[];
+  onChange: (next: string[]) => void;
+  placeholder: string;
+}) {
+  const [draft, setDraft] = useState("");
+
+  const commitDraft = () => {
+    if (!draft.trim()) return;
+    props.onChange(addIngredientTags(props.tags, draft));
+    setDraft("");
+  };
+
+  return (
+    <div>
+      <p className="mb-1 text-sm font-semibold text-gray-900">{props.label}</p>
+      <p className="mb-2 text-xs text-gray-500">{props.hint}</p>
+      {props.tags.length > 0 ? (
+        <div className="mb-2 flex flex-wrap gap-2">
+          {props.tags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() =>
+                props.onChange(props.tags.filter((t) => t !== tag))
+              }
+              className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-pink-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-800"
+              aria-label={`${tag} 삭제`}
+            >
+              <span>{tag}</span>
+              <span className="text-gray-400" aria-hidden>
+                ×
+              </span>
+            </button>
+          ))}
+        </div>
+      ) : null}
+      <input
+        type="text"
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === ",") {
+            e.preventDefault();
+            commitDraft();
+          }
+        }}
+        onBlur={commitDraft}
+        placeholder={props.placeholder}
+        className="w-full min-h-11 rounded-xl border border-pink-200 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none ring-[#C2185B]/focus:ring-2"
+        inputMode="text"
+        autoComplete="off"
+      />
+    </div>
+  );
+}
+
 /**
  * Sprint 5 — 브라우저는 Anthropic을 직접 호출하지 않고
  * 동일 오리진 POST /api/analyze 만 호출한다.
  */
 async function callAnalyzeApi(
   body:
-    | {
+    | ({
         mode: "photo";
         imageBase64: string;
         mediaType?: "image/jpeg" | "image/png" | "image/webp" | "image/gif";
-      }
-    | {
+      } & IngredientPrefBody)
+    | ({
         mode: "manual";
         skinTone: string;
         undertone: string;
         concerns: string[];
         sensitivity: string;
-      }
+      } & IngredientPrefBody)
 ): Promise<AnalyzeApiSuccess> {
   const response = await fetch("/api/analyze", {
     method: "POST",
@@ -189,7 +271,16 @@ export default function AnalyzePage() {
   const [manualUndertone, setManualUndertone] = useState<UndertoneKo>("중립");
   const [manualConcerns, setManualConcerns] = useState<ConcernKo[]>(["붉은기"]);
   const [manualSensitivity, setManualSensitivity] = useState<SensitivityKo>("보통");
+  const [allergyIngredients, setAllergyIngredients] = useState<string[]>([]);
+  const [avoidedIngredients, setAvoidedIngredients] = useState<string[]>([]);
 
+  const ingredientPrefs = useMemo(
+    () => ({
+      allergyIngredients,
+      avoidedIngredients,
+    }),
+    [allergyIngredients, avoidedIngredients]
+  );
   const resultsTone = useMemo(() => {
     // 사진 분석 모드에서도 results 이동이 필요하므로 기본값을 Medium으로 둠
     return mode === "manual" ? toneKoToResultsTone(manualTone) : "Medium";
@@ -261,6 +352,7 @@ export default function AnalyzePage() {
         mode: "photo",
         imageBase64,
         mediaType: "image/jpeg",
+        ...ingredientPrefs,
       });
       setResult(analysis);
       persistAnalyzeBundle({
@@ -300,6 +392,7 @@ export default function AnalyzePage() {
         undertone: manualUndertone,
         concerns: manualConcerns,
         sensitivity: manualSensitivity,
+        ...ingredientPrefs,
       });
       setResult(analysis);
       persistAnalyzeBundle({
@@ -396,6 +489,14 @@ export default function AnalyzePage() {
           undertone: "중립",
           concerns: ["붉은기", "건조함"],
           sensitivity: "민감함",
+          allergyIngredients:
+            allergyIngredients.length > 0
+              ? allergyIngredients
+              : ["향료"],
+          avoidedIngredients:
+            avoidedIngredients.length > 0
+              ? avoidedIngredients
+              : ["고함량 알코올"],
         }),
       });
 
@@ -743,6 +844,22 @@ export default function AnalyzePage() {
                   </div>
                 </div>
 
+                <IngredientTagField
+                  label="알레르기가 있는 성분 (선택)"
+                  hint="쉼표 또는 Enter로 추가 · 태그 탭하여 삭제"
+                  tags={allergyIngredients}
+                  onChange={setAllergyIngredients}
+                  placeholder="예: 향료, 라놀린"
+                />
+
+                <IngredientTagField
+                  label="사용을 피하고 싶은 성분 (선택)"
+                  hint="쉼표 또는 Enter로 추가 · 태그 탭하여 삭제"
+                  tags={avoidedIngredients}
+                  onChange={setAvoidedIngredients}
+                  placeholder="예: 고함량 알코올, 에센셜 오일"
+                />
+
                 <div className="pt-1">
                   <button
                     type="button"
@@ -757,6 +874,7 @@ export default function AnalyzePage() {
                     {loading ? "분석 중..." : "AI 분석 시작"}
                   </button>
                   <p className="mt-3 text-xs text-gray-500">
+                    입력한 알레르기·회피 성분은 추천에서 제외하는 참고 정보입니다. 의료 진단이 아닙니다.
                     AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
                   </p>
                 </div>

@@ -3,6 +3,10 @@ import {
   type AnalysisResult,
   type Recommendation,
 } from "@/lib/recommend";
+import {
+  getRequestAllergyIngredients,
+  getRequestAvoidedIngredients,
+} from "./prompt";
 import type { AnalyzeSkinRequest, AnalyzeSkinResponse } from "./types";
 import { validateRecommendation } from "./validateRecommendation";
 
@@ -40,16 +44,26 @@ function createExpandedMockRecommendation(
       ? [...input.concerns]
       : ["홍조", "민감성", "건조"];
 
+  const allergy = getRequestAllergyIngredients(input);
+  const avoided = getRequestAvoidedIngredients(input);
+
+  // 의도적으로 알레르기·회피 성분을 추천 목록에 섞어 후처리 필터를 검증한다.
+  const recommendedIngredients = [
+    "센텔라 아시아티카",
+    "판테놀",
+    "세라마이드",
+    "히알루론산",
+    ...allergy.slice(0, 1),
+    ...avoided.slice(0, 1),
+  ];
+
   return {
     skinConcerns: concerns,
-    recommendedIngredients: [
-      "센텔라 아시아티카",
-      "판테놀",
-      "세라마이드",
-      "히알루론산",
-    ],
-    ingredientsToAvoid: ["고함량 알코올", "강한 향료"],
+    recommendedIngredients,
+    ingredientsToAvoid: ["고함량 알코올", "강한 향료", ...allergy, ...avoided],
     confidenceScore: 0.72,
+    allergyIngredients: allergy,
+    avoidedIngredients: avoided,
     skinType: "민감·건성 경향",
     managementLevel: "cosmetic_care",
     manageableWithCosmetics: [

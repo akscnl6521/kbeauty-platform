@@ -624,6 +624,29 @@ function ResultsPageInner() {
                       const avoid = nonEmptyList(
                         savedRecommendation.ingredientsToAvoid
                       );
+                      const allergyTags = nonEmptyList(
+                        savedRecommendation.allergyIngredients
+                      );
+                      const avoidedTags = nonEmptyList(
+                        savedRecommendation.avoidedIngredients
+                      );
+                      const safetyExcluded =
+                        typeof savedRecommendation.safetyExcludedCount ===
+                          "number" &&
+                        savedRecommendation.safetyExcludedCount > 0
+                          ? savedRecommendation.safetyExcludedCount
+                          : 0;
+                      const safetyIncomplete =
+                        typeof savedRecommendation.safetyIncompleteCount ===
+                          "number" &&
+                        savedRecommendation.safetyIncompleteCount > 0
+                          ? savedRecommendation.safetyIncompleteCount
+                          : 0;
+                      const showSafetyNotice =
+                        allergyTags.length > 0 ||
+                        avoidedTags.length > 0 ||
+                        safetyExcluded > 0 ||
+                        safetyIncomplete > 0;
                       const manageable = nonEmptyList(
                         savedRecommendation.manageableWithCosmetics
                       );
@@ -718,6 +741,81 @@ function ResultsPageInner() {
                             <GuideBlock title="피부 타입">
                               <p>{skinType}</p>
                             </GuideBlock>
+                          ) : null}
+
+                          {showSafetyNotice ? (
+                            <div className="space-y-4 border-l-2 border-pink-200 bg-pink-50/40 py-4 pl-4 pr-3">
+                              {allergyTags.length > 0 ? (
+                                <GuideBlock title="입력한 알레르기 성분">
+                                  <BulletList
+                                    items={displayIngredientNames(
+                                      allergyTags,
+                                      locale
+                                    )}
+                                  />
+                                </GuideBlock>
+                              ) : null}
+                              {avoidedTags.length > 0 ? (
+                                <GuideBlock title="입력한 회피 성분">
+                                  <BulletList
+                                    items={displayIngredientNames(
+                                      avoidedTags,
+                                      locale
+                                    )}
+                                  />
+                                </GuideBlock>
+                              ) : null}
+                              <p className="text-sm leading-relaxed text-gray-700">
+                                {locale === "ko"
+                                  ? "입력한 알레르기·회피 성분을 기준으로 추천 후보를 필터링했습니다."
+                                  : locale === "ja"
+                                    ? "入力したアレルギー・回避成分を基準に推薦候補をフィルタリングしました。"
+                                    : "Candidate products were filtered using your allergy and avoided ingredient lists."}
+                              </p>
+                              {safetyExcluded > 0 || safetyIncomplete > 0 ? (
+                                <p className="text-xs text-gray-600">
+                                  {locale === "ko"
+                                    ? [
+                                        safetyExcluded > 0
+                                          ? `알레르기·회피 매칭으로 제외 ${safetyExcluded}건`
+                                          : null,
+                                        safetyIncomplete > 0
+                                          ? `성분 정보 부족으로 핵심 추천에서 제외 ${safetyIncomplete}건`
+                                          : null,
+                                      ]
+                                        .filter(Boolean)
+                                        .join(" · ")
+                                    : locale === "ja"
+                                      ? [
+                                          safetyExcluded > 0
+                                            ? `アレルギー・回避一致で除外 ${safetyExcluded}件`
+                                            : null,
+                                          safetyIncomplete > 0
+                                            ? `成分情報不足でコア推薦から除外 ${safetyIncomplete}件`
+                                            : null,
+                                        ]
+                                          .filter(Boolean)
+                                          .join(" · ")
+                                      : [
+                                          safetyExcluded > 0
+                                            ? `${safetyExcluded} excluded by allergy/avoid match`
+                                            : null,
+                                          safetyIncomplete > 0
+                                            ? `${safetyIncomplete} excluded from core picks (incomplete ingredients)`
+                                            : null,
+                                        ]
+                                          .filter(Boolean)
+                                          .join(" · ")}
+                                </p>
+                              ) : null}
+                              <p className="text-xs text-gray-500">
+                                {locale === "ko"
+                                  ? "제품 전성분은 변경될 수 있으므로, 구매 전 공식 전성분을 다시 확인하세요. 의료적 안전을 보장하지 않습니다."
+                                  : locale === "ja"
+                                    ? "製品の全成分は変わることがあるため、購入前に公式全成分を再確認してください。医療的安全性を保証するものではありません。"
+                                    : "Full formulas can change — recheck the brand’s official ingredient list before purchase. This does not guarantee medical safety."}
+                              </p>
+                            </div>
                           ) : null}
 
                           {/* 프로필: 고민·성분 */}

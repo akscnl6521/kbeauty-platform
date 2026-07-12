@@ -190,6 +190,12 @@ export function validateRecommendation(raw: unknown): Recommendation {
   const expertReferralReasons = normalizeStringArray(
     src.expertReferralReasons ?? src.expert_referral_reasons
   );
+  const allergyIngredients = normalizeStringArray(
+    src.allergyIngredients ?? src.allergy_ingredients
+  );
+  const avoidedIngredients = normalizeStringArray(
+    src.avoidedIngredients ?? src.avoided_ingredients
+  );
 
   const hasExtendedHints =
     skinType !== undefined ||
@@ -217,6 +223,8 @@ export function validateRecommendation(raw: unknown): Recommendation {
     recommendedIngredients,
     ingredientsToAvoid,
     confidenceScore: confidence,
+    ...(allergyIngredients.length ? { allergyIngredients } : {}),
+    ...(avoidedIngredients.length ? { avoidedIngredients } : {}),
   };
 
   // 확장 필드가 전혀 없는 레거시 응답은 필수 4필드만 반환 (하위 호환)

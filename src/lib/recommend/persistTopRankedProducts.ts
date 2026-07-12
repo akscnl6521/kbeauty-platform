@@ -1,4 +1,5 @@
 import { fetchCandidateProducts } from "./fetchCandidateProducts";
+import { filterCandidatesBySafety } from "./filterCandidatesBySafety";
 import { rankProducts } from "./rankProducts";
 import type { CandidateProduct, RankedProduct, Recommendation } from "./types";
 import {
@@ -28,7 +29,7 @@ function writeRecommendationAndRanked(
 }
 
 /**
- * Phase 3B — Recommendation → 후보 로드 → 랭킹 → LocalStorage 저장.
+ * Phase 3B — Recommendation → 후보 로드 → 안전 필터 → 랭킹 → LocalStorage.
  *
  * 반드시 두 키를 모두 저장한다:
  * - skinRecommendation (RECOMMENDATION_STORAGE_KEY)
@@ -46,15 +47,21 @@ export async function persistTopRankedProducts(
   writeRecommendationAndRanked(recommendation, "[]");
 
   try {
-    // 1) Supabase 후보 제품 로드 (Phase 3A)
     const candidates = await fetchCandidateProducts();
+    const { safe, excludedCount, incompleteCount } = filterCandidatesBySafety(
+      candidates,
+      recommendation
+    );
 
-    // 2) 성분 기반 점수 랭킹 (Phase 2)
-    const ranked = rankProducts(recommendation, candidates);
+    const withStats: Recommendation = {
+      ...recommendation,
+      safetyExcludedCount: excludedCount,
+      safetyIncompleteCount: incompleteCount,
+    };
 
-    // 3) 상위 N개 + Recommendation 동시 저장
+    const ranked = rankProducts(withStats, safe);
     const top = ranked.slice(0, RANKED_PRODUCTS_TOP_N);
-    writeRecommendationAndRanked(recommendation, JSON.stringify(top));
+    writeRecommendationAndRanked(withStats, JSON.stringify(top));
 
     return top;
   } catch (e) {

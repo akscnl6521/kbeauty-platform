@@ -6,11 +6,16 @@ import {
 } from "./analyzeWithOllama";
 import { analyzeWithOpenAI } from "./analyzeWithOpenAI";
 import { AnalyzeSkinError } from "./errors";
+import {
+  getRequestAllergyIngredients,
+  getRequestAvoidedIngredients,
+} from "./prompt";
 import type {
   AiProviderId,
   AnalyzeSkinRequest,
   AnalyzeSkinResponse,
 } from "./types";
+import { applyUserIngredientPreferences } from "@/lib/recommend/applyUserIngredientPreferences";
 
 export { AnalyzeSkinError } from "./errors";
 
@@ -133,6 +138,25 @@ async function runProvider(
   }
 }
 
+function attachUserIngredientPreferences(
+  input: AnalyzeSkinRequest,
+  result: AnalyzeSkinResponse
+): AnalyzeSkinResponse {
+  const recommendation = applyUserIngredientPreferences(
+    result.recommendation,
+    getRequestAllergyIngredients(input),
+    getRequestAvoidedIngredients(input)
+  );
+  return {
+    ...result,
+    analysis: {
+      ...result.analysis,
+      ingredients: recommendation.recommendedIngredients,
+    },
+    recommendation,
+  };
+}
+
 /**
  * Sprint 5 Phase 3 — 프로바이더 선택 후 분석.
  * 개발 기본: Ollama → 불가 시 mock. 프로덕션 권장: openai.
@@ -155,6 +179,7 @@ export async function analyzeSkin(
         result = await analyzeWithOllama(input);
         provider = "ollama";
         mockFallback = false;
+        result = attachUserIngredientPreferences(input, result);
         logDevAi({
           provider: "ollama",
           success: true,
@@ -169,6 +194,7 @@ export async function analyzeSkin(
         result = await analyzeWithMock(input);
         provider = "mock";
         mockFallback = true;
+        result = attachUserIngredientPreferences(input, result);
         logDevAi({
           provider: "mock",
           success: true,
@@ -179,6 +205,7 @@ export async function analyzeSkin(
     }
 
     result = await runProvider(resolved.provider, input);
+    result = attachUserIngredientPreferences(input, result);
 
     logDevAi({
       provider,

@@ -1,10 +1,62 @@
 import type { AnalyzeSkinRequest } from "./types";
 
+/** 요청 body에서 선택 성분 배열 정규화 (trim·빈값·중복 제거) */
+export function normalizeIngredientTagList(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const item of value) {
+    if (typeof item !== "string") continue;
+    const trimmed = item.trim();
+    if (!trimmed) continue;
+    const key = trimmed.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(trimmed);
+  }
+  return out;
+}
+
+export function getRequestAllergyIngredients(
+  input: AnalyzeSkinRequest
+): string[] {
+  return normalizeIngredientTagList(input.allergyIngredients);
+}
+
+export function getRequestAvoidedIngredients(
+  input: AnalyzeSkinRequest
+): string[] {
+  return normalizeIngredientTagList(input.avoidedIngredients);
+}
+
 /**
  * 기본 정보(텍스트)만 프로바이더에 전달.
  * Phase 2+: 이미지는 전송하지 않는다.
  */
 export function buildBasicInfoUserText(input: AnalyzeSkinRequest): string {
+  const allergy = getRequestAllergyIngredients(input);
+  const avoided = getRequestAvoidedIngredients(input);
+  const allergyLine =
+    allergy.length > 0
+      ? allergy.join(", ")
+      : "(none provided — do not invent allergies)";
+  const avoidedLine =
+    avoided.length > 0
+      ? avoided.join(", ")
+      : "(none provided — do not invent avoided ingredients)";
+
+  const safetyBlock = `
+User-stated ingredient preferences (use only if provided; do not invent):
+- allergyIngredients: ${allergyLine}
+- avoidedIngredients: ${avoidedLine}
+
+Ingredient safety rules for this request:
+- Never put allergyIngredients into recommendedIngredients.
+- Exclude avoidedIngredients from recommendedIngredients.
+- Include both allergyIngredients and avoidedIngredients in ingredientsToAvoid.
+- Do not diagnose allergies or medical conditions.
+- If an ingredient conflicts with allergy/avoid lists, exclude it clearly (do not only lower confidenceScore).`;
+
   if (input.mode === "manual") {
     return `K-Beauty Match — manual skin information (do not invent missing facts).
 
@@ -13,6 +65,7 @@ Provided fields only:
 - undertone: ${input.undertone}
 - concerns: ${input.concerns.join(", ")}
 - sensitivity: ${input.sensitivity}
+${safetyBlock}
 
 Rules for this request:
 - Do not assume allergies, pregnancy, diagnosed medical conditions, medications, or history that the user did not provide.
@@ -31,7 +84,8 @@ Important:
 - Do NOT invent facial findings from an image.
 - Return only general, safety-first K-beauty guidance JSON for incomplete information.
 - Prefer lower confidenceScore and clear cosmetic limitations.
-- Do not diagnose disease. Respond with one valid JSON object only.`;
+- Do not diagnose disease. Respond with one valid JSON object only.
+${safetyBlock}`;
 }
 
 /**
@@ -64,7 +118,7 @@ managementLevel must be exactly one of:
 "cosmetic_care" | "observe" | "combined_care" | "expert_first" | "urgent_check"
 
 Safety rules:
-1. Do not diagnose skin disease.
+1. Do not diagnose skin disease or confirm allergies.
 2. Do not force product recommendations for every concern.
 3. Separate cosmetic-manageable scope from limitations.
 4. If pain, bleeding, discharge/oozing, sudden swelling, spreading rash, suspected infection, burns, sudden mole changes, eye-interior irritation, ear-interior symptoms, breathing difficulty, or systemic allergic reaction are suggested → use "expert_first" or "urgent_check".
@@ -73,7 +127,8 @@ Safety rules:
 7. Do not present ingredient combinations as medical contraindications.
 8. Include summaryKo, summaryEn, and summaryJa.
 9. If photo mode without a real image, never claim you saw the photo.
-10. confidenceScore is a number between 0 and 1.`;
+10. confidenceScore is a number between 0 and 1.
+11. Never recommend user-stated allergyIngredients. Exclude user-stated avoidedIngredients from recommendedIngredients. Put both into ingredientsToAvoid.`;
 
 /** 확장 JSON을 위해 여유 토큰 */
 export const DEFAULT_MAX_TOKENS = 1200;

@@ -36,6 +36,15 @@ export interface Recommendation {
   /** Confidence in [0, 1]. */
   confidenceScore: number;
 
+  /** 사용자가 입력한 알레르기 성분 (선택) */
+  allergyIngredients?: string[];
+  /** 사용자가 입력한 회피 성분 (선택) */
+  avoidedIngredients?: string[];
+  /** 안전 필터로 제외된 후보 수 (선택) */
+  safetyExcludedCount?: number;
+  /** 성분 정보 부족으로 핵심 추천에서 제외된 후보 수 (선택) */
+  safetyIncompleteCount?: number;
+
   /** 추정 피부 타입 안내 (진단 아님) */
   skinType?: string;
   /** 화장품 관리 가능 수준 분류 */

@@ -80,11 +80,40 @@ export function loadRecommendationFromStorage(): Recommendation | null {
           ? parsed.confidence_score
           : 0;
 
+    const allergyIngredients = asStringArray(
+      parsed.allergyIngredients ?? parsed.allergy_ingredients
+    );
+    const avoidedIngredients = asStringArray(
+      parsed.avoidedIngredients ?? parsed.avoided_ingredients
+    );
+    const safetyExcludedCount =
+      typeof parsed.safetyExcludedCount === "number" &&
+      Number.isFinite(parsed.safetyExcludedCount)
+        ? parsed.safetyExcludedCount
+        : typeof parsed.safety_excluded_count === "number" &&
+            Number.isFinite(parsed.safety_excluded_count)
+          ? parsed.safety_excluded_count
+          : undefined;
+    const safetyIncompleteCount =
+      typeof parsed.safetyIncompleteCount === "number" &&
+      Number.isFinite(parsed.safetyIncompleteCount)
+        ? parsed.safetyIncompleteCount
+        : typeof parsed.safety_incomplete_count === "number" &&
+            Number.isFinite(parsed.safety_incomplete_count)
+          ? parsed.safety_incomplete_count
+          : undefined;
+
     const base: Recommendation = {
       skinConcerns,
       recommendedIngredients,
       ingredientsToAvoid,
       confidenceScore,
+      allergyIngredients,
+      avoidedIngredients,
+      ...(safetyExcludedCount !== undefined ? { safetyExcludedCount } : {}),
+      ...(safetyIncompleteCount !== undefined
+        ? { safetyIncompleteCount }
+        : {}),
     };
 
     const skinType = asOptionalString(parsed.skinType ?? parsed.skin_type);
