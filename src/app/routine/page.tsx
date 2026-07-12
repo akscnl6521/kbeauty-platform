@@ -6,6 +6,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "@/hooks/useLocale";
 import { useExchangeRate } from "@/hooks/useExchangeRate";
 import { supabase } from "@/lib/supabase";
+import {
+  displayBrandName,
+  displayProductTitle,
+} from "@/lib/brand/displayBrandName";
 
 type Locale = "en" | "ja" | "ko";
 
@@ -273,12 +277,13 @@ export default function RoutinePage() {
                         krw,
                         jpy,
                       });
-                      const displayName =
-                        locale === "ko" && p.name_ko
-                          ? p.name_ko
-                          : locale === "ja" && p.name_ja
-                            ? p.name_ja
-                            : p.name;
+                      const displayName = displayProductTitle({
+                        name: p.name,
+                        nameKo: p.name_ko,
+                        nameJa: p.name_ja,
+                        brand: p.brand,
+                        locale,
+                      });
 
                       return (
                         <div
@@ -286,7 +291,7 @@ export default function RoutinePage() {
                           className="flex h-full flex-col rounded-2xl border border-pink-100 bg-pink-50/40 p-4 text-sm"
                         >
                           <p className="mb-1 text-xs font-semibold uppercase tracking-[0.15em] text-[#C2185B]">
-                            {p.brand}
+                            {displayBrandName(p.brand, locale) ?? p.brand}
                           </p>
                           <p className="mb-2 font-semibold text-gray-900">
                             {displayName}

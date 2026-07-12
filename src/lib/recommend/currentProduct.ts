@@ -1,3 +1,4 @@
+import { getCanonicalBrandName } from "@/lib/brand/displayBrandName";
 import { toCanonical } from "./normalizeIngredient";
 import type {
   CurrentProductInput,
@@ -136,7 +137,8 @@ export function normalizeCurrentProducts(value: unknown): CurrentProductInput[] 
     };
 
     if (typeof brandRaw === "string" && brandRaw.trim()) {
-      product.brandName = brandRaw.trim();
+      product.brandName =
+        getCanonicalBrandName(brandRaw) ?? brandRaw.trim();
     }
     if (typeof categoryRaw === "string" && categoryRaw.trim()) {
       product.category = categoryRaw.trim();

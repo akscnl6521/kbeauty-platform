@@ -4,9 +4,14 @@ import { useEffect } from "react";
 import type { CandidateProduct, RankedProduct } from "@/lib/recommend";
 import {
   displayIngredientNames,
+  formatOfferPrice,
   logTopProductPurchaseLinkAudit,
   selectPurchaseLink,
 } from "@/lib/recommend";
+import {
+  displayBrandName,
+  displayProductTitle,
+} from "@/lib/brand/displayBrandName";
 
 export type RecommendedProductCardProps = {
   /** 1부터 시작하는 순위 */
@@ -20,7 +25,7 @@ export type RecommendedProductCardProps = {
 
 /**
  * 랭킹된 추천 제품 카드.
- * 유효한 구매 링크가 있을 때만 「구매처 보기」를 표시한다.
+ * 브랜드명은 번역하지 않고 canonical(또는 공식 검증 KO)만 표시한다.
  */
 export function RecommendedProductCard({
   rank,
@@ -30,18 +35,15 @@ export function RecommendedProductCard({
 }: RecommendedProductCardProps) {
   const { product, score, matchedIngredients, excludedIngredients } = ranked;
 
-  const displayName =
-    locale === "ko" && product.name_ko
-      ? product.name_ko
-      : locale === "ja" && product.name_ja
-        ? product.name_ja
-        : product.name ?? product.name_ko ?? product.name_ja ?? "Untitled product";
+  const displayName = displayProductTitle({
+    name: product.name,
+    nameKo: product.name_ko,
+    nameJa: product.name_ja,
+    brand: product.brand,
+    locale,
+  });
 
-  const brand = product.brand?.trim() || null;
-  const price =
-    typeof product.price_usd === "number" && Number.isFinite(product.price_usd)
-      ? product.price_usd
-      : null;
+  const brand = displayBrandName(product.brand, locale);
   const hasExcluded =
     Array.isArray(excludedIngredients) && excludedIngredients.length > 0;
 
@@ -53,6 +55,17 @@ export function RecommendedProductCard({
   useEffect(() => {
     logTopProductPurchaseLinkAudit(product, countryCode, displayName);
   }, [product, countryCode, displayName]);
+
+  const noPurchaseMessage =
+    locale === "ko"
+      ? "현재 선택한 국가에서 확인 가능한 구매처가 없습니다"
+      : locale === "ja"
+        ? "選択中の国で確認できる購入先がありません"
+        : "No purchase link available for the selected country";
+
+  const offerPriceLabel = purchase
+    ? formatOfferPrice(purchase.price, purchase.currency, locale)
+    : null;
 
   return (
     <article
@@ -136,18 +149,25 @@ export function RecommendedProductCard({
         </div>
       ) : null}
 
-      {price != null ? (
-        <p className="text-xs text-gray-600 sm:text-sm">
-          <span className="font-medium text-gray-800">USD</span>{" "}
-          {price.toFixed(2)}
-        </p>
-      ) : null}
-
       {purchase ? (
-        <div className="mt-1 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[11px] text-gray-500 sm:text-xs">
-            {purchase.marketplace}
-          </p>
+        <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-0.5">
+            <p className="text-[11px] text-gray-500 sm:text-xs">
+              {purchase.retailerName}
+            </p>
+            <p className="text-sm font-semibold text-gray-900">
+              {offerPriceLabel}
+            </p>
+            {purchase.verifiedAt ? (
+              <p className="text-[10px] text-gray-400">
+                {locale === "ko"
+                  ? `검증일 ${purchase.verifiedAt}`
+                  : locale === "ja"
+                    ? `検証日 ${purchase.verifiedAt}`
+                    : `Verified ${purchase.verifiedAt}`}
+              </p>
+            ) : null}
+          </div>
           <a
             href={purchase.url}
             target="_blank"
@@ -161,7 +181,11 @@ export function RecommendedProductCard({
                 : "View retailer"}
           </a>
         </div>
-      ) : null}
+      ) : (
+        <p className="mt-1 text-[11px] leading-relaxed text-gray-500 sm:text-xs">
+          {noPurchaseMessage}
+        </p>
+      )}
     </article>
   );
 }

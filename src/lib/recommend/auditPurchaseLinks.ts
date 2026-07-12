@@ -96,6 +96,12 @@ export function logTopProductPurchaseLinkAudit(
     availableLinks: listAvailableLinks(product),
     selectedMarketplace: selected?.marketplace ?? null,
     selectedUrl: selected?.url ?? null,
+    selectedStatus: selected?.verificationStatus ?? null,
+    selectedReason: selected?.reason ?? null,
     countryCode: countryCode ?? null,
+    note:
+      selected == null
+        ? "no verified link for selected country (Amazon US unverified → hidden)"
+        : undefined,
   });
 }

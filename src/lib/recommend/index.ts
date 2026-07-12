@@ -10,11 +10,30 @@ export type {
   RankedProduct,
   Recommendation,
 } from "./types";
+export type {
+  CatalogProduct,
+  DataConfidence,
+  ProductOffer,
+  StockStatus,
+} from "./catalogTypes";
+export { CATALOG_DATA_GOALS, CORE_ALLOWED_STOCK } from "./catalogTypes";
+export {
+  filterCandidatesByOfferAvailability,
+  isOfferEligibleForCoreRecommendation,
+  normalizeCatalogProduct,
+  normalizeProductOffer,
+  productOfferToPurchaseLink,
+  resolveProductOffers,
+} from "./productOffer";
+export type { OfferFilterResult } from "./productOffer";
 export {
   ANALYSIS_RESULT_STORAGE_KEY,
   ANALYZE_SOURCE_STORAGE_KEY,
+  CORE_RECOMMEND_OFFER_COUNTRY,
   RANKED_PRODUCTS_STORAGE_KEY,
   RANKED_PRODUCTS_TOP_N,
+  RECOMMENDATION_CACHE_VERSION,
+  RECOMMENDATION_CACHE_VERSION_KEY,
   RECOMMENDATION_STORAGE_KEY,
 } from "./types";
 export {
@@ -51,17 +70,26 @@ export { filterCandidatesBySafety } from "./filterCandidatesBySafety";
 export type { SafetyFilterResult } from "./filterCandidatesBySafety";
 export {
   fetchCandidateProducts,
+  fetchOffersByProductIds,
   mapRowToCandidateProduct,
 } from "./fetchCandidateProducts";
 export {
   clearPersistedRankedProducts,
   persistTopRankedProducts,
 } from "./persistTopRankedProducts";
+export type { PersistTopRankedOptions } from "./persistTopRankedProducts";
 export {
   createMockRecommendation,
   MOCK_RECOMMENDATION,
 } from "./mockRecommendation";
 export { loadRankedProductsFromStorage } from "./loadRankedProducts";
+export {
+  discardStaleRankedProductsCache,
+  filterRankedProductsByKrVerifiedOffer,
+  isRecommendationCacheVersionCurrent,
+  productHasKrVerifiedCoreOffer,
+  writeRecommendationCacheVersion,
+} from "./recommendationCache";
 export {
   enrichRecommendationWithAnalysis,
   loadAnalysisResultFromStorage,
@@ -81,6 +109,22 @@ export type {
 } from "./auditIngredientFormats";
 export { selectPurchaseLink } from "./selectPurchaseLink";
 export type { PurchaseLinkSelection } from "./selectPurchaseLink";
+export {
+  buildPurchaseLinksFromProduct,
+  formatOfferPrice,
+  normalizeShippingCountry,
+  selectPurchaseLinkForCountry,
+  selectPurchaseLinkForCountryWithDebug,
+} from "./selectPurchaseLink";
+export type {
+  LegacyPurchaseLinkFields,
+  LinkVerificationStatus,
+  OfferCurrency,
+  PurchaseLink,
+  RetailerCountry,
+  SelectPurchaseLinkDebug,
+  ShippingCountry,
+} from "./selectPurchaseLink";
 export {
   countPurchaseLinkCoverage,
   logPurchaseLinkCoverage,

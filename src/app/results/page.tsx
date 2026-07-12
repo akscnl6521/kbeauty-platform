@@ -10,12 +10,18 @@ import { RecommendedProductCard } from "@/components/recommendation/RecommendedP
 import {
   displayIngredientNames,
   loadLatestRecommendationPipeline,
+  productHasKrVerifiedCoreOffer,
   purgeLegacyRecommendationCaches,
   type CandidateProduct,
   type ManagementLevel,
   type RankedProduct,
   type Recommendation,
 } from "@/lib/recommend";
+import {
+  displayBrandName,
+  displayProductTitle,
+  getCanonicalBrandName,
+} from "@/lib/brand/displayBrandName";
 
 function managementLevelLabelKo(level: ManagementLevel): string {
   const map: Record<ManagementLevel, string> = {
@@ -275,7 +281,7 @@ export default function ResultsPage() {
 
 function ResultsPageInner() {
   const searchParams = useSearchParams();
-  const { countryCode } = useCountry();
+  const { countryCode, setShippingCountry } = useCountry();
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -326,11 +332,11 @@ function ResultsPageInner() {
       const nameEn = p.name ?? "";
       const nameKo = p.name_ko ?? "";
       const nameJa = p.name_ja ?? "";
-      const brand = p.brand ?? "";
+      const brand = displayBrandName(p.brand, "en") ?? p.brand ?? "";
       const ingredientsEn = (p.key_ingredients ?? []).join(" ");
       const ingredientsJa = (p.key_ingredients_ja ?? []).join(" ");
       const haystack =
-        `${nameEn} ${nameKo} ${nameJa} ${brand} ${ingredientsEn} ${ingredientsJa}`.toLowerCase();
+        `${nameEn} ${nameKo} ${nameJa} ${brand} ${p.brand ?? ""} ${ingredientsEn} ${ingredientsJa}`.toLowerCase();
       return haystack.includes(query);
     });
   }, [quizFilteredProducts, searchQuery, favoriteIds, showFavoritesOnly]);
@@ -353,11 +359,13 @@ function ResultsPageInner() {
   }, [filteredProducts, locale]);
 
   const displayProductName = (product: ProductRow) =>
-    locale === "ja" && product.name_ja
-      ? product.name_ja
-      : locale === "ko" && product.name_ko
-      ? product.name_ko
-      : product.name;
+    displayProductTitle({
+      name: product.name,
+      nameKo: product.name_ko,
+      nameJa: product.name_ja,
+      brand: product.brand,
+      locale,
+    });
 
   const messages = LOCALE_MESSAGES[locale];
   const searchPlaceholder =
@@ -483,7 +491,11 @@ function ResultsPageInner() {
           setError(fetchError.message);
           return;
         }
-        setProducts((data as ProductRow[]) ?? []);
+        const rows = ((data as ProductRow[]) ?? []).map((row) => ({
+          ...row,
+          brand: getCanonicalBrandName(row.brand) ?? row.brand,
+        }));
+        setProducts(rows);
       } catch (e) {
         const err = e instanceof Error ? e : new Error(String(e));
         console.error("[Supabase products fetch exception]", err);
@@ -915,7 +927,7 @@ function ResultsPageInner() {
                                       >
                                         <span className="font-medium text-gray-900">
                                           {p.brandName
-                                            ? `${p.brandName} · ${p.productName}`
+                                            ? `${displayBrandName(p.brandName, locale) ?? p.brandName} · ${p.productName}`
                                             : p.productName}
                                         </span>
                                         <span className="mt-0.5 block text-xs text-gray-500">
@@ -1106,7 +1118,7 @@ function ResultsPageInner() {
                   </div>
                 ) : null}
 
-                {/* AI 핵심 추천 Top 5 */}
+                {/* AI 핵심 추천 Top 5 — 한국 verified offer 제품만 */}
                 {rankedProducts.length > 0 ? (
                   <div className="rounded-2xl border border-[#C2185B]/25 bg-gradient-to-b from-pink-50/80 to-white p-4 sm:p-6">
                     <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900 sm:text-2xl">
@@ -1126,11 +1138,51 @@ function ResultsPageInner() {
                             ? "AI肌分析の成分マッチに基づく参考Top5です。購入誘導ではなく情報案内であり、医療診断の代わりにはなりません。"
                             : "Top 5 matched from your AI skin analysis. For reference only — not a purchase push or medical diagnosis."
                         : locale === "ko"
-                          ? "AI 피부 분석을 바탕으로 성분 매칭한 최종 추천 Top 5입니다."
+                          ? "한국에서 판매처·원화 가격·재고·구매 링크가 확인된 제품만 표시합니다."
                           : locale === "ja"
-                            ? "AI肌分析に基づく成分マッチ最終おすすめTop5です。"
-                            : "Final Top 5 picks matched to your AI skin analysis."}
+                            ? "韓国で販売先・KRW価格・在庫・購入リンクが確認できた製品のみ表示します。"
+                            : "Only products with verified KR retailers, KRW price, stock, and purchase links."}
                     </p>
+
+                    <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                      <p className="text-xs font-semibold text-gray-600">
+                        {locale === "ko"
+                          ? "배송 국가 (구매처 기준)"
+                          : locale === "ja"
+                            ? "配送国（購入先基準）"
+                            : "Shipping country (retailers)"}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {(
+                          [
+                            { code: "KR" as const, label: "KR" },
+                            { code: "US" as const, label: "US" },
+                            { code: "JP" as const, label: "JP" },
+                          ] as const
+                        ).map((opt) => (
+                          <button
+                            key={opt.code}
+                            type="button"
+                            onClick={() => setShippingCountry(opt.code)}
+                            className={`min-h-9 rounded-full px-3.5 text-xs font-semibold transition ${
+                              countryCode === opt.code
+                                ? "bg-[#C2185B] text-white"
+                                : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="mt-2 text-[11px] text-gray-500">
+                      {locale === "ko"
+                        ? "핵심 추천은 한국 verified offer 제품만 포함합니다."
+                        : locale === "ja"
+                          ? "コアおすすめは韓国verified offer製品のみです。"
+                          : "Core picks include only KR verified-offer products."}
+                    </p>
+
                     <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                       {rankedProducts.map((ranked, index) => (
                         <RecommendedProductCard
@@ -1138,10 +1190,37 @@ function ResultsPageInner() {
                           rank={index + 1}
                           ranked={ranked}
                           locale={locale}
-                          countryCode={countryCode}
+                          countryCode="KR"
                         />
                       ))}
                     </div>
+                  </div>
+                ) : storageReady && savedRecommendation != null ? (
+                  <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-5 sm:p-6">
+                    <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900">
+                      {locale === "ko"
+                        ? "나를 위한 핵심 추천 제품"
+                        : locale === "ja"
+                          ? "あなたへのコアおすすめ"
+                          : "Your core recommendations"}
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-gray-700">
+                      {locale === "ko"
+                        ? "현재 한국에서 판매처, 원화 가격, 재고와 구매 링크가 확인된 추천 제품이 없습니다. 한국 제품 데이터를 확인 중입니다."
+                        : locale === "ja"
+                          ? "現在、韓国で販売先・KRW価格・在庫・購入リンクが確認できたおすすめ製品がありません。韓国製品データを確認中です。"
+                          : "No core recommendations with verified KR retailers, KRW price, stock, and purchase links yet. We are reviewing Korean product data."}
+                    </p>
+                    <Link
+                      href="/analyze"
+                      className="mt-4 inline-block text-xs font-semibold text-[#C2185B] underline hover:no-underline"
+                    >
+                      {locale === "ko"
+                        ? "분석 다시 하기"
+                        : locale === "ja"
+                          ? "再分析する"
+                          : "Re-analyze"}
+                    </Link>
                   </div>
                 ) : null}
 
@@ -1301,6 +1380,9 @@ function ResultsPageInner() {
                   : "";
 
               const isFavorite = favoriteIds.includes(product.id);
+              const hasKrVerifiedOffer = productHasKrVerifiedCoreOffer(
+                product as CandidateProduct
+              );
 
               return (
                 <article
@@ -1319,8 +1401,17 @@ function ResultsPageInner() {
                     </span>
                   </button>
                   <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#B8860B]">
-                    {product.brand}
+                    {displayBrandName(product.brand, locale) ?? product.brand}
                   </div>
+                  {!hasKrVerifiedOffer ? (
+                    <p className="mb-2 inline-flex w-fit rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[11px] font-semibold text-amber-800">
+                      {locale === "ko"
+                        ? "한국 구매처 미확인"
+                        : locale === "ja"
+                          ? "韓国購入先未確認"
+                          : "KR retailer unverified"}
+                    </p>
+                  ) : null}
                   <h2 className="mb-2 text-lg font-semibold text-gray-900">
                     {displayProductName(product)}
                   </h2>

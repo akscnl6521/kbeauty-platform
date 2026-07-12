@@ -23,6 +23,10 @@ import {
   type RankedProduct,
   type Recommendation,
 } from "@/lib/recommend";
+import {
+  displayBrandName,
+  getCanonicalBrandName,
+} from "@/lib/brand/displayBrandName";
 
 type Locale = "en" | "ja" | "ko";
 
@@ -110,7 +114,7 @@ function createMockSampleCurrentProducts(): CurrentProductInput[] {
     {
       id: "mock-cp-1",
       productName: "진정 크림",
-      brandName: "샘플브랜드A",
+      brandName: "COSRX",
       category: "Cream",
       usageTime: "both",
       usageFrequency: "매일",
@@ -120,7 +124,7 @@ function createMockSampleCurrentProducts(): CurrentProductInput[] {
     {
       id: "mock-cp-2",
       productName: "장벽 보습 로션",
-      brandName: "샘플브랜드B",
+      brandName: "Isntree",
       category: "Moisturizer",
       usageTime: "evening",
       usageFrequency: "매일",
@@ -130,7 +134,7 @@ function createMockSampleCurrentProducts(): CurrentProductInput[] {
     {
       id: "mock-cp-3",
       productName: "나이트 세럼",
-      brandName: "샘플브랜드C",
+      brandName: "Purito",
       category: "Serum",
       usageTime: "evening",
       usageFrequency: "주 3회",
@@ -258,7 +262,10 @@ function CurrentProductsEditor(props: {
       id: draft.id,
       productName: name,
     };
-    if (draft.brandName?.trim()) cleaned.brandName = draft.brandName.trim();
+    if (draft.brandName?.trim()) {
+      cleaned.brandName =
+        getCanonicalBrandName(draft.brandName) ?? draft.brandName.trim();
+    }
     if (draft.category?.trim()) cleaned.category = draft.category.trim();
     if (draft.usageTime) cleaned.usageTime = draft.usageTime;
     if (draft.usageFrequency?.trim()) {
@@ -308,7 +315,9 @@ function CurrentProductsEditor(props: {
               <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-gray-900">
-                    {p.brandName ? `${p.brandName} · ` : ""}
+                    {p.brandName
+                      ? `${displayBrandName(p.brandName, "ko") ?? p.brandName} · `
+                      : ""}
                     {p.productName}
                   </p>
                   <p className="mt-1 text-xs text-gray-600">
@@ -592,10 +601,13 @@ function persistAnalyzeBundle(payload: {
 
 /**
  * Phase 3B 파이프라인:
- * Recommendation → fetchCandidateProducts → rankProducts → Top5 → LocalStorage
+ * Recommendation → offer 적격 → 안전 필터 → rankProducts → Top5 → LocalStorage
  */
-async function runRankingPipeline(recommendation: Recommendation) {
-  await persistTopRankedProducts(recommendation);
+async function runRankingPipeline(
+  recommendation: Recommendation,
+  shippingCountry?: string | null
+) {
+  await persistTopRankedProducts(recommendation, { shippingCountry });
 }
 
 export default function AnalyzePage() {
@@ -732,7 +744,7 @@ export default function AnalyzePage() {
         recommendation: nextRecommendation,
         source,
       });
-      await runRankingPipeline(nextRecommendation);
+      await runRankingPipeline(nextRecommendation, countryCode);
       setRankedProducts(loadRankedProductsFromStorage());
       navigateToResults({
         tone: "Medium",
@@ -772,7 +784,7 @@ export default function AnalyzePage() {
         recommendation: nextRecommendation,
         source,
       });
-      await runRankingPipeline(nextRecommendation);
+      await runRankingPipeline(nextRecommendation, countryCode);
       setRankedProducts(loadRankedProductsFromStorage());
       navigateToResults({
         tone: toneKoToResultsTone(manualTone),
@@ -946,7 +958,9 @@ export default function AnalyzePage() {
         source,
       });
 
-      const top = await persistTopRankedProducts(recommendation);
+      const top = await persistTopRankedProducts(recommendation, {
+        shippingCountry: countryCode,
+      });
 
       window.localStorage.setItem(
         RANKED_PRODUCTS_STORAGE_KEY,
@@ -1387,7 +1401,7 @@ export default function AnalyzePage() {
                   rank={index + 1}
                   ranked={ranked}
                   locale={locale}
-                  countryCode={countryCode}
+                  countryCode="KR"
                 />
               ))}
             </div>

@@ -1,14 +1,25 @@
 import type { CandidateProduct, RankedProduct } from "./types";
 import { RANKED_PRODUCTS_STORAGE_KEY, RANKED_PRODUCTS_TOP_N } from "./types";
+import {
+  discardStaleRankedProductsCache,
+  filterRankedProductsByKrVerifiedOffer,
+  isRecommendationCacheVersionCurrent,
+} from "./recommendationCache";
 
 /**
  * LocalStorage(skinRankedProducts)에서 랭킹 결과를 읽는다.
- * 파싱 실패·빈 값이면 빈 배열. 최대 TOP_N 개만 반환.
+ * - 캐시 버전 불일치 시 Top 5 폐기 후 빈 배열
+ * - 로드 후에도 한국 verified offer 기준으로 재필터
  */
 export function loadRankedProductsFromStorage(): RankedProduct<CandidateProduct>[] {
   if (typeof window === "undefined") return [];
 
   try {
+    if (!isRecommendationCacheVersionCurrent()) {
+      discardStaleRankedProductsCache();
+      return [];
+    }
+
     const raw = window.localStorage.getItem(RANKED_PRODUCTS_STORAGE_KEY);
     if (!raw) return [];
 
@@ -27,17 +38,22 @@ export function loadRankedProductsFromStorage(): RankedProduct<CandidateProduct>
         product: row.product as CandidateProduct,
         score: row.score,
         matchedIngredients: Array.isArray(row.matchedIngredients)
-          ? row.matchedIngredients.filter((x): x is string => typeof x === "string")
+          ? row.matchedIngredients.filter(
+              (x): x is string => typeof x === "string"
+            )
           : [],
         excludedIngredients: Array.isArray(row.excludedIngredients)
-          ? row.excludedIngredients.filter((x): x is string => typeof x === "string")
+          ? row.excludedIngredients.filter(
+              (x): x is string => typeof x === "string"
+            )
           : [],
       });
 
       if (items.length >= RANKED_PRODUCTS_TOP_N) break;
     }
 
-    return items;
+    // 이전 저장분이 offer 없이 남아 있어도 여기서 제거
+    return filterRankedProductsByKrVerifiedOffer(items);
   } catch {
     return [];
   }

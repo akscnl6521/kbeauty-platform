@@ -1,4 +1,7 @@
 import { supabase } from "@/lib/supabase";
+import { getCanonicalBrandName } from "@/lib/brand/displayBrandName";
+import type { ProductOffer } from "./catalogTypes";
+import { normalizeProductOffer } from "./productOffer";
 import type { CandidateProduct, FetchCandidateProductsOptions } from "./types";
 
 /**
@@ -29,6 +32,26 @@ const CANDIDATE_PRODUCT_COLUMNS = [
   "link_oliveyoung",
   "link_coupang",
   "link_yesstyle",
+].join(", ");
+
+const PRODUCT_OFFER_COLUMNS = [
+  "id",
+  "product_id",
+  "retailer_name",
+  "retailer_country",
+  "ships_to_countries",
+  "purchase_url",
+  "price",
+  "currency",
+  "stock_status",
+  "verification_status",
+  "is_official",
+  "verified_at",
+  "last_checked_at",
+  "rating",
+  "review_count",
+  "source",
+  "last_review_sync_at",
 ].join(", ");
 
 /** DB 행의 느슨한 형태 (null / 타입 불확실 대비) */
@@ -128,7 +151,7 @@ export function mapRowToCandidateProduct(
     name: asNullableString(row.name),
     name_ko: asNullableString(row.name_ko),
     name_ja: asNullableString(row.name_ja),
-    brand: asNullableString(row.brand),
+    brand: getCanonicalBrandName(asNullableString(row.brand)),
     category: asNullableString(row.category),
     skin_concern: asNullableString(row.skin_concern),
     skin_tone: asNullableString(row.skin_tone),
@@ -150,15 +173,56 @@ export function mapRowToCandidateProduct(
 }
 
 /**
+ * product_offers 조회. 테이블 미적용·오류 시 빈 Map (레거시 폴백).
+ */
+export async function fetchOffersByProductIds(
+  productIds: string[]
+): Promise<Map<string, ProductOffer[]>> {
+  const map = new Map<string, ProductOffer[]>();
+  if (productIds.length === 0) return map;
+
+  // Supabase .in() 한도 완화: 청크
+  const chunkSize = 200;
+  for (let i = 0; i < productIds.length; i += chunkSize) {
+    const chunk = productIds.slice(i, i + chunkSize);
+    const { data, error } = await supabase
+      .from("product_offers")
+      .select(PRODUCT_OFFER_COLUMNS)
+      .in("product_id", chunk);
+
+    if (error) {
+      if (process.env.NODE_ENV === "development") {
+        console.warn(
+          "[fetchOffersByProductIds] skipped:",
+          error.message,
+          "(using legacy product link columns)"
+        );
+      }
+      return new Map();
+    }
+
+    if (!data || !Array.isArray(data)) continue;
+
+    for (const row of data) {
+      const offer = normalizeProductOffer(row);
+      if (!offer) continue;
+      const list = map.get(offer.productId) ?? [];
+      list.push(offer);
+      map.set(offer.productId, list);
+    }
+  }
+
+  return map;
+}
+
+/**
  * Phase 3A — 추천 엔진용 후보 제품 로더.
  *
  * 기존 `src/lib/supabase` 클라이언트를 재사용해 products 테이블을 조회한다.
- * - UI / AI 프롬프트 / rankProducts 와 연결하지 않음 (호출측에서 사용)
- * - DB에 is_active 컬럼이 코드·마이그레이션에 없으므로,
- *   현재는 anon SELECT 가능한 전체 행을 “활성 후보”로 취급한다.
+ * includeOffers(기본 true) 시 product_offers 를 병합한다.
  *
  * @returns CandidateProduct[] (RankableProduct 호환)
- * @throws Supabase 오류 시 Error
+ * @throws products 조회 Supabase 오류 시 Error
  */
 export async function fetchCandidateProducts(
   options: FetchCandidateProductsOptions = {}
@@ -167,6 +231,7 @@ export async function fetchCandidateProducts(
     typeof options.limit === "number" && options.limit > 0
       ? Math.floor(options.limit)
       : 10000;
+  const includeOffers = options.includeOffers !== false;
 
   const { data, error } = await supabase
     .from("products")
@@ -200,6 +265,21 @@ export async function fetchCandidateProducts(
   for (const row of data as ProductRowRaw[]) {
     const mapped = mapRowToCandidateProduct(row);
     if (mapped) products.push(mapped);
+  }
+
+  if (includeOffers && products.length > 0) {
+    const offersByProduct = await fetchOffersByProductIds(
+      products.map((p) => p.id)
+    );
+    for (let i = 0; i < products.length; i += 1) {
+      const offers = offersByProduct.get(products[i].id);
+      if (offers && offers.length > 0) {
+        products[i] = {
+          ...products[i],
+          offers,
+        };
+      }
+    }
   }
 
   // Sprint 3 Phase 3C: 개발 전용 구매 링크 커버리지

@@ -3,6 +3,9 @@
  * Ranking / product search types will extend these later.
  */
 
+import type { PurchaseLink } from "./selectPurchaseLink";
+import type { ProductOffer } from "./catalogTypes";
+
 /** Raw AI analysis payload shape used by the analyze UI. */
 export type AnalysisResult = {
   skin_type: string;
@@ -120,8 +123,20 @@ export const ANALYZE_SOURCE_STORAGE_KEY = "skinAnalyzeSource";
  */
 export const RANKED_PRODUCTS_STORAGE_KEY = "skinRankedProducts";
 
+/**
+ * 핵심 추천 캐시 버전.
+ * 없거나 다르면 기존 Top 5를 폐기하고 재분석을 요구한다.
+ */
+export const RECOMMENDATION_CACHE_VERSION = "KR_VERIFIED_OFFER_V1";
+
+/** 캐시 버전 localStorage 키 */
+export const RECOMMENDATION_CACHE_VERSION_KEY = "recommendationCacheVersion";
+
 /** Top N 개수 (Phase 3B 고정) */
 export const RANKED_PRODUCTS_TOP_N = 5;
+
+/** 핵심 추천 offer 필터 고정 국가 (한국 verified offer) */
+export const CORE_RECOMMEND_OFFER_COUNTRY = "KR" as const;
 
 /**
  * 랭킹 입력용 최소 제품 형태 (Phase 2).
@@ -186,10 +201,25 @@ export interface CandidateProduct extends RankableProduct {
   link_oliveyoung: string | null;
   link_coupang: string | null;
   link_yesstyle: string | null;
+  /**
+   * 선택: 관리자 검증 구매 링크 배열 (있으면 레거시 컬럼과 함께 사용).
+   * 없으면 레거시 URL 컬럼만으로 휴리스틱 분류한다.
+   */
+  purchase_links?: PurchaseLink[] | null;
+  /**
+   * 국가별 ProductOffer (product_offers 테이블 또는 정규화된 배열).
+   * 핵심 추천은 배송 국가에 verified + 가격·통화·재고 적격 offer가 있는 제품만 사용한다.
+   */
+  offers?: ProductOffer[] | null;
 }
 
 /** fetchCandidateProducts 옵션 */
 export type FetchCandidateProductsOptions = {
   /** 최대 행 수 (기본 10000 — 기존 results 페이지와 동일 상한) */
   limit?: number;
+  /**
+   * true면 product_offers 를 조회해 CandidateProduct.offers 에 병합한다.
+   * 테이블이 없으면 조용히 레거시 링크만 사용한다.
+   */
+  includeOffers?: boolean;
 };
