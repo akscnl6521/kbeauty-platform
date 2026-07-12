@@ -9,6 +9,7 @@ export type {
 } from "./types";
 export {
   ANALYSIS_RESULT_STORAGE_KEY,
+  ANALYZE_SOURCE_STORAGE_KEY,
   RANKED_PRODUCTS_STORAGE_KEY,
   RANKED_PRODUCTS_TOP_N,
   RECOMMENDATION_STORAGE_KEY,
@@ -45,6 +46,8 @@ export {
 } from "./mockRecommendation";
 export { loadRankedProductsFromStorage } from "./loadRankedProducts";
 export {
+  enrichRecommendationWithAnalysis,
+  loadAnalysisResultFromStorage,
   loadLatestRecommendationPipeline,
   loadRecommendationFromStorage,
   purgeLegacyRecommendationCaches,

@@ -9,6 +9,7 @@ import { useCountry } from "@/hooks/useCountry";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import {
   ANALYSIS_RESULT_STORAGE_KEY,
+  ANALYZE_SOURCE_STORAGE_KEY,
   clearPersistedRankedProducts,
   loadRankedProductsFromStorage,
   persistTopRankedProducts,
@@ -52,6 +53,7 @@ function toneKoToResultsTone(t: ToneKo): string {
 type AnalyzeApiSuccess = {
   analysis: AnalysisResult;
   recommendation: Recommendation;
+  source?: string;
 };
 
 type AnalyzeApiError = {
@@ -59,7 +61,7 @@ type AnalyzeApiError = {
 };
 
 /**
- * Sprint 5 Phase 1 — 브라우저는 Anthropic을 직접 호출하지 않고
+ * Sprint 5 — 브라우저는 Anthropic을 직접 호출하지 않고
  * 동일 오리진 POST /api/analyze 만 호출한다.
  */
 async function callAnalyzeApi(
@@ -112,12 +114,27 @@ async function callAnalyzeApi(
   return data;
 }
 
-function persistRecommendation(recommendation: Recommendation) {
+/** analysis + recommendation + source 를 LocalStorage에 저장 */
+function persistAnalyzeBundle(payload: {
+  analysis: AnalysisResult;
+  recommendation: Recommendation;
+  source?: string;
+}) {
   try {
     window.localStorage.setItem(
-      RECOMMENDATION_STORAGE_KEY,
-      JSON.stringify(recommendation)
+      ANALYSIS_RESULT_STORAGE_KEY,
+      JSON.stringify(payload.analysis)
     );
+    window.localStorage.setItem(
+      RECOMMENDATION_STORAGE_KEY,
+      JSON.stringify(payload.recommendation)
+    );
+    if (typeof payload.source === "string" && payload.source.trim()) {
+      window.localStorage.setItem(
+        ANALYZE_SOURCE_STORAGE_KEY,
+        payload.source.trim()
+      );
+    }
   } catch {
     // ignore quota/serialization errors
   }
@@ -126,7 +143,6 @@ function persistRecommendation(recommendation: Recommendation) {
 /**
  * Phase 3B 파이프라인:
  * Recommendation → fetchCandidateProducts → rankProducts → Top5 → LocalStorage
- * 분석 UI는 변경하지 않으며, 제품 목록도 화면에 그리지 않는다.
  */
 async function runRankingPipeline(recommendation: Recommendation) {
   await persistTopRankedProducts(recommendation);
@@ -208,6 +224,25 @@ export default function AnalyzePage() {
     }
   };
 
+  const navigateToResults = (opts?: {
+    tone?: string;
+    concern?: string;
+  }) => {
+    const params = new URLSearchParams();
+    params.set("tone", opts?.tone ?? resultsTone);
+    params.set(
+      "concern",
+      opts?.concern ??
+        (mode === "manual"
+          ? primaryConcernParam
+          : result?.concerns?.[0]
+            ? String(result.concerns[0])
+            : "Redness")
+    );
+    params.set("ai", "1");
+    router.push(`/results?${params.toString()}`);
+  };
+
   const handleAnalyzePhoto = async () => {
     if (!imageBase64) {
       setError(locale === "ko" ? "먼저 사진을 업로드해주세요." : "Please upload an image first.");
@@ -218,18 +253,29 @@ export default function AnalyzePage() {
     setResult(null);
 
     try {
-      const { analysis, recommendation: nextRecommendation } =
-        await callAnalyzeApi({
-          mode: "photo",
-          imageBase64,
-          mediaType: "image/jpeg",
-        });
+      const {
+        analysis,
+        recommendation: nextRecommendation,
+        source,
+      } = await callAnalyzeApi({
+        mode: "photo",
+        imageBase64,
+        mediaType: "image/jpeg",
+      });
       setResult(analysis);
-      persistRecommendation(nextRecommendation);
-      // Phase 3B: 분석 UI와 무관하게 백그라운드로 Top5 랭킹 저장
+      persistAnalyzeBundle({
+        analysis,
+        recommendation: nextRecommendation,
+        source,
+      });
       await runRankingPipeline(nextRecommendation);
-      // Sprint 3 Phase 1: 저장된 랭킹을 화면에 반영
       setRankedProducts(loadRankedProductsFromStorage());
+      navigateToResults({
+        tone: "Medium",
+        concern: analysis.concerns?.[0]
+          ? String(analysis.concerns[0])
+          : "Redness",
+      });
     } catch (e) {
       const err = e instanceof Error ? e : new Error(String(e));
       setError(err.message);
@@ -244,20 +290,29 @@ export default function AnalyzePage() {
     setResult(null);
 
     try {
-      const { analysis, recommendation: nextRecommendation } =
-        await callAnalyzeApi({
-          mode: "manual",
-          skinTone: manualTone,
-          undertone: manualUndertone,
-          concerns: manualConcerns,
-          sensitivity: manualSensitivity,
-        });
+      const {
+        analysis,
+        recommendation: nextRecommendation,
+        source,
+      } = await callAnalyzeApi({
+        mode: "manual",
+        skinTone: manualTone,
+        undertone: manualUndertone,
+        concerns: manualConcerns,
+        sensitivity: manualSensitivity,
+      });
       setResult(analysis);
-      persistRecommendation(nextRecommendation);
-      // Phase 3B: 분석 UI와 무관하게 백그라운드로 Top5 랭킹 저장
+      persistAnalyzeBundle({
+        analysis,
+        recommendation: nextRecommendation,
+        source,
+      });
       await runRankingPipeline(nextRecommendation);
-      // Sprint 3 Phase 1: 저장된 랭킹을 화면에 반영
       setRankedProducts(loadRankedProductsFromStorage());
+      navigateToResults({
+        tone: toneKoToResultsTone(manualTone),
+        concern: primaryConcernParam,
+      });
     } catch (e) {
       const err = e instanceof Error ? e : new Error(String(e));
       setError(err.message);
@@ -268,18 +323,7 @@ export default function AnalyzePage() {
 
   const goToResults = () => {
     if (!result) return;
-    const params = new URLSearchParams();
-    params.set("tone", resultsTone);
-    params.set(
-      "concern",
-      mode === "manual"
-        ? primaryConcernParam
-        : result.concerns?.[0]
-          ? String(result.concerns[0])
-          : "Redness"
-    );
-    params.set("ai", "1");
-    router.push(`/results?${params.toString()}`);
+    navigateToResults();
   };
 
   const summary =
@@ -322,6 +366,7 @@ export default function AnalyzePage() {
     try {
       window.localStorage.removeItem(ANALYSIS_RESULT_STORAGE_KEY);
       window.localStorage.removeItem(RECOMMENDATION_STORAGE_KEY);
+      window.localStorage.removeItem(ANALYZE_SOURCE_STORAGE_KEY);
       clearPersistedRankedProducts();
     } catch {
       // ignore
@@ -370,7 +415,7 @@ export default function AnalyzePage() {
         );
       }
 
-      // 2) Recommendation 필드만 사용
+      // 2) 서버 recommendation 전체 유지 (확장 필드 포함) + analysis 저장
       const rawRec =
         json &&
         typeof json === "object" &&
@@ -387,32 +432,42 @@ export default function AnalyzePage() {
         throw new Error("Invalid recommendation response from server.");
       }
 
-      const recommendation: Recommendation = {
-        skinConcerns: Array.isArray(rawRec.skinConcerns)
-          ? rawRec.skinConcerns.filter((x): x is string => typeof x === "string")
-          : [],
-        recommendedIngredients: Array.isArray(rawRec.recommendedIngredients)
-          ? rawRec.recommendedIngredients.filter(
-              (x): x is string => typeof x === "string"
-            )
-          : [],
-        ingredientsToAvoid: Array.isArray(rawRec.ingredientsToAvoid)
-          ? rawRec.ingredientsToAvoid.filter(
-              (x): x is string => typeof x === "string"
-            )
-          : [],
-        confidenceScore:
-          typeof rawRec.confidenceScore === "number" &&
-          Number.isFinite(rawRec.confidenceScore)
-            ? rawRec.confidenceScore
-            : 0,
-      };
+      const recommendation = rawRec as unknown as Recommendation;
 
-      // 3) 기존 파이프라인 유지: persist → fetchCandidateProducts → rank → Top5
-      window.localStorage.setItem(
-        RECOMMENDATION_STORAGE_KEY,
-        JSON.stringify(recommendation)
-      );
+      if (
+        !Array.isArray(recommendation.skinConcerns) ||
+        !Array.isArray(recommendation.recommendedIngredients) ||
+        typeof recommendation.confidenceScore !== "number"
+      ) {
+        throw new Error("Invalid recommendation shape from server.");
+      }
+
+      const analysisPayload =
+        json &&
+        typeof json === "object" &&
+        "analysis" in json &&
+        (json as { analysis?: unknown }).analysis &&
+        typeof (json as { analysis: unknown }).analysis === "object"
+          ? (json as { analysis: AnalysisResult }).analysis
+          : null;
+
+      const source =
+        json &&
+        typeof json === "object" &&
+        typeof (json as { source?: unknown }).source === "string"
+          ? ((json as { source: string }).source as string)
+          : undefined;
+
+      if (!analysisPayload) {
+        throw new Error("Invalid analysis response from server.");
+      }
+
+      setResult(analysisPayload);
+      persistAnalyzeBundle({
+        analysis: analysisPayload,
+        recommendation,
+        source,
+      });
 
       const top = await persistTopRankedProducts(recommendation);
 
@@ -429,8 +484,13 @@ export default function AnalyzePage() {
         type: top.length > 0 ? "success" : "error",
         text:
           top.length > 0
-            ? `Mock 추천 Top${top.length} 저장 완료 (POST /api/analyze → 랭킹)`
-            : "skinRecommendation / skinRankedProducts 저장됨 (랭킹 0건 — DB 후보 확인)",
+            ? `Mock 추천 Top${top.length} 저장 완료 — 결과 페이지로 이동합니다`
+            : "저장 완료 — 결과 페이지로 이동합니다 (랭킹 0건)",
+      });
+
+      navigateToResults({
+        tone: "Medium",
+        concern: concernKoToParam("붉은기"),
       });
     } catch (e) {
       const err = e instanceof Error ? e : new Error(String(e));

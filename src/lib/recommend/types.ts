@@ -60,6 +60,9 @@ export const RECOMMENDATION_STORAGE_KEY = "skinRecommendation";
 /** Existing analyze UI storage key — keep writing AnalysisResult here. */
 export const ANALYSIS_RESULT_STORAGE_KEY = "skinAnalysisResult";
 
+/** POST /api/analyze 응답 source (mock|ollama|openai|anthropic) 저장 키 */
+export const ANALYZE_SOURCE_STORAGE_KEY = "skinAnalyzeSource";
+
 /**
  * Phase 3B — 랭킹 Top N 제품 저장 키.
  * analyze UI에는 아직 표시하지 않고, 이후 results 연결용으로만 보관한다.

@@ -1,4 +1,10 @@
-import type { CandidateProduct, RankedProduct, Recommendation } from "./types";
+import type {
+  AnalysisResult,
+  CandidateProduct,
+  ManagementLevel,
+  RankedProduct,
+  Recommendation,
+} from "./types";
 import {
   ANALYSIS_RESULT_STORAGE_KEY,
   RANKED_PRODUCTS_STORAGE_KEY,
@@ -6,9 +12,41 @@ import {
 } from "./types";
 import { loadRankedProductsFromStorage } from "./loadRankedProducts";
 
+const MANAGEMENT_LEVELS: readonly ManagementLevel[] = [
+  "cosmetic_care",
+  "observe",
+  "combined_care",
+  "expert_first",
+  "urgent_check",
+] as const;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((x): x is string => typeof x === "string")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function asOptionalString(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const t = value.trim();
+  return t || undefined;
+}
+
+function asManagementLevel(value: unknown): ManagementLevel | undefined {
+  if (typeof value !== "string") return undefined;
+  const v = value.trim() as ManagementLevel;
+  return (MANAGEMENT_LEVELS as readonly string[]).includes(v) ? v : undefined;
+}
+
 /**
  * LocalStorage(skinRecommendation)에서 Recommendation 을 읽는다.
- * skinAnalysisResult 등 레거시 캐시는 절대 읽지 않는다.
+ * 확장 필드(선택)도 함께 복원한다.
  */
 export function loadRecommendationFromStorage(): Recommendation | null {
   if (typeof window === "undefined") return null;
@@ -18,57 +56,210 @@ export function loadRecommendationFromStorage(): Recommendation | null {
     if (!raw) return null;
 
     const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object") return null;
+    if (!isRecord(parsed)) return null;
 
-    const row = parsed as Partial<Recommendation>;
-    const skinConcerns = Array.isArray(row.skinConcerns)
-      ? row.skinConcerns.filter((x): x is string => typeof x === "string")
-      : [];
-    const recommendedIngredients = Array.isArray(row.recommendedIngredients)
-      ? row.recommendedIngredients.filter(
-          (x): x is string => typeof x === "string"
-        )
-      : [];
-    const ingredientsToAvoid = Array.isArray(row.ingredientsToAvoid)
-      ? row.ingredientsToAvoid.filter((x): x is string => typeof x === "string")
-      : [];
+    const skinConcerns = asStringArray(
+      parsed.skinConcerns ?? parsed.skin_concerns ?? parsed.concerns
+    );
+    const recommendedIngredients = asStringArray(
+      parsed.recommendedIngredients ??
+        parsed.recommended_ingredients ??
+        parsed.ingredients
+    );
+    const ingredientsToAvoid = asStringArray(
+      parsed.ingredientsToAvoid ??
+        parsed.ingredients_to_avoid ??
+        parsed.avoid_ingredients
+    );
     const confidenceScore =
-      typeof row.confidenceScore === "number" &&
-      Number.isFinite(row.confidenceScore)
-        ? row.confidenceScore
-        : 0;
+      typeof parsed.confidenceScore === "number" &&
+      Number.isFinite(parsed.confidenceScore)
+        ? parsed.confidenceScore
+        : typeof parsed.confidence_score === "number" &&
+            Number.isFinite(parsed.confidence_score)
+          ? parsed.confidence_score
+          : 0;
 
-    return {
+    const base: Recommendation = {
       skinConcerns,
       recommendedIngredients,
       ingredientsToAvoid,
       confidenceScore,
+    };
+
+    const skinType = asOptionalString(parsed.skinType ?? parsed.skin_type);
+    const managementLevel = asManagementLevel(
+      parsed.managementLevel ?? parsed.management_level
+    );
+    const manageableWithCosmetics = asStringArray(
+      parsed.manageableWithCosmetics ?? parsed.manageable_with_cosmetics
+    );
+    const cosmeticLimitations = asStringArray(
+      parsed.cosmeticLimitations ?? parsed.cosmetic_limitations
+    );
+    const morningRoutine = asStringArray(
+      parsed.morningRoutine ?? parsed.morning_routine
+    );
+    const eveningRoutine = asStringArray(
+      parsed.eveningRoutine ?? parsed.evening_routine
+    );
+    const precautions = asStringArray(parsed.precautions);
+    const notRecommendedReasons = asStringArray(
+      parsed.notRecommendedReasons ?? parsed.not_recommended_reasons
+    );
+    const expertReferralReasons = asStringArray(
+      parsed.expertReferralReasons ?? parsed.expert_referral_reasons
+    );
+    const summaryKo = asOptionalString(
+      parsed.summaryKo ?? parsed.summary_ko
+    );
+    const summaryEn = asOptionalString(
+      parsed.summaryEn ?? parsed.summary_en
+    );
+    const summaryJa = asOptionalString(
+      parsed.summaryJa ?? parsed.summary_ja
+    );
+
+    return {
+      ...base,
+      ...(skinType ? { skinType } : {}),
+      ...(managementLevel ? { managementLevel } : {}),
+      ...(manageableWithCosmetics.length
+        ? { manageableWithCosmetics }
+        : {}),
+      ...(cosmeticLimitations.length ? { cosmeticLimitations } : {}),
+      ...(morningRoutine.length ? { morningRoutine } : {}),
+      ...(eveningRoutine.length ? { eveningRoutine } : {}),
+      ...(precautions.length ? { precautions } : {}),
+      ...(notRecommendedReasons.length ? { notRecommendedReasons } : {}),
+      ...(expertReferralReasons.length ? { expertReferralReasons } : {}),
+      ...(summaryKo ? { summaryKo } : {}),
+      ...(summaryEn ? { summaryEn } : {}),
+      ...(summaryJa ? { summaryJa } : {}),
     };
   } catch {
     return null;
   }
 }
 
+/** 분석 UI용 skinAnalysisResult — 요약 폴백용 */
+export function loadAnalysisResultFromStorage(): AnalysisResult | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(ANALYSIS_RESULT_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    if (!isRecord(parsed)) return null;
+    return {
+      skin_type:
+        typeof parsed.skin_type === "string"
+          ? parsed.skin_type
+          : typeof parsed.skinType === "string"
+            ? parsed.skinType
+            : "",
+      concerns: asStringArray(
+        parsed.concerns ?? parsed.skinConcerns ?? parsed.skin_concerns
+      ),
+      ingredients: asStringArray(
+        parsed.ingredients ??
+          parsed.recommendedIngredients ??
+          parsed.recommended_ingredients
+      ),
+      summary_en:
+        typeof parsed.summary_en === "string"
+          ? parsed.summary_en
+          : typeof parsed.summaryEn === "string"
+            ? parsed.summaryEn
+            : "",
+      summary_ko:
+        typeof parsed.summary_ko === "string"
+          ? parsed.summary_ko
+          : typeof parsed.summaryKo === "string"
+            ? parsed.summaryKo
+            : "",
+      summary_ja:
+        typeof parsed.summary_ja === "string"
+          ? parsed.summary_ja
+          : typeof parsed.summaryJa === "string"
+            ? parsed.summaryJa
+            : "",
+      routine_tips: asStringArray(
+        parsed.routine_tips ?? parsed.routineTips
+      ),
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * recommendation 이 비어 있는 요약/타입을 analysis 로 보강.
+ * 랭킹 필드는 변경하지 않는다.
+ */
+export function enrichRecommendationWithAnalysis(
+  recommendation: Recommendation | null,
+  analysis: AnalysisResult | null
+): Recommendation | null {
+  if (!recommendation) return null;
+  if (!analysis) return recommendation;
+
+  return {
+    ...recommendation,
+    skinType:
+      recommendation.skinType?.trim() ||
+      analysis.skin_type?.trim() ||
+      recommendation.skinType,
+    summaryKo:
+      recommendation.summaryKo?.trim() ||
+      analysis.summary_ko?.trim() ||
+      recommendation.summaryKo,
+    summaryEn:
+      recommendation.summaryEn?.trim() ||
+      analysis.summary_en?.trim() ||
+      recommendation.summaryEn,
+    summaryJa:
+      recommendation.summaryJa?.trim() ||
+      analysis.summary_ja?.trim() ||
+      recommendation.summaryJa,
+    skinConcerns:
+      recommendation.skinConcerns.length > 0
+        ? recommendation.skinConcerns
+        : analysis.concerns,
+    recommendedIngredients:
+      recommendation.recommendedIngredients.length > 0
+        ? recommendation.recommendedIngredients
+        : analysis.ingredients,
+  };
+}
+
 export type RecommendationPipelineSnapshot = {
   recommendation: Recommendation | null;
   rankedProducts: RankedProduct<CandidateProduct>[];
+  analysis: AnalysisResult | null;
 };
 
 /**
- * 추천 파이프라인의 단일 진실 원천 스냅샷.
- * - skinRecommendation
+ * 추천 파이프라인 스냅샷.
+ * - skinRecommendation (+ analysis 폴백)
  * - skinRankedProducts
+ * - skinAnalysisResult
  */
 export function loadLatestRecommendationPipeline(): RecommendationPipelineSnapshot {
+  const analysis = loadAnalysisResultFromStorage();
+  const recommendation = enrichRecommendationWithAnalysis(
+    loadRecommendationFromStorage(),
+    analysis
+  );
   return {
-    recommendation: loadRecommendationFromStorage(),
+    recommendation,
     rankedProducts: loadRankedProductsFromStorage(),
+    analysis,
   };
 }
 
 /**
  * 예전에 쓰이던 추천 관련 키 제거.
- * skinAnalysisResult 는 분석 UI용으로 유지하되, 추천 소스로는 쓰지 않는다.
+ * skinAnalysisResult 는 분석 UI·요약 폴백용으로 유지한다.
  */
 export function purgeLegacyRecommendationCaches(): void {
   if (typeof window === "undefined") return;
@@ -95,6 +286,6 @@ export function purgeLegacyRecommendationCaches(): void {
 export const RECOMMENDATION_SOURCE_KEYS = {
   recommendation: RECOMMENDATION_STORAGE_KEY,
   rankedProducts: RANKED_PRODUCTS_STORAGE_KEY,
-  /** 분석 UI 전용 — 추천 SoT 아님 */
+  /** 분석 UI + 요약 폴백 */
   analysisUiOnly: ANALYSIS_RESULT_STORAGE_KEY,
 } as const;
