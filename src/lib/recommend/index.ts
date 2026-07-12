@@ -2,6 +2,7 @@ export type {
   AnalysisResult,
   CandidateProduct,
   FetchCandidateProductsOptions,
+  ManagementLevel,
   RankableProduct,
   RankedProduct,
   Recommendation,

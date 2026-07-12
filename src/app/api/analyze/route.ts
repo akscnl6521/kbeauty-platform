@@ -133,10 +133,11 @@ export async function POST(request: Request) {
   try {
     const input = parseRequestBody(json);
     const result = await analyzeSkin(input);
-    // 클라이언트에는 프로바이더 식별자(source)를 노출하지 않음
+    // analysis / recommendation / source 계약 유지
     return NextResponse.json({
       analysis: result.analysis,
       recommendation: result.recommendation,
+      source: result.source,
     });
   } catch (e) {
     if (e instanceof AnalyzeSkinError) {

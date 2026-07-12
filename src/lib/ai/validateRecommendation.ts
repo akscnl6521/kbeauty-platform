@@ -1,6 +1,13 @@
-import type { Recommendation } from "@/lib/recommend";
+import type { ManagementLevel, Recommendation } from "@/lib/recommend";
 import { AnalyzeSkinError } from "./errors";
-import type { NormalizedRecommendation } from "./types";
+
+const MANAGEMENT_LEVELS: readonly ManagementLevel[] = [
+  "cosmetic_care",
+  "observe",
+  "combined_care",
+  "expert_first",
+  "urgent_check",
+] as const;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -46,9 +53,31 @@ function readConfidence(raw: Record<string, unknown>): number | null {
   return null;
 }
 
+function readOptionalString(
+  src: Record<string, unknown>,
+  ...keys: string[]
+): string | undefined {
+  for (const key of keys) {
+    const v = src[key];
+    if (typeof v === "string") return v.trim();
+  }
+  return undefined;
+}
+
+function readManagementLevel(src: Record<string, unknown>): ManagementLevel {
+  const raw = src.managementLevel ?? src.management_level;
+  if (typeof raw === "string") {
+    const v = raw.trim() as ManagementLevel;
+    if ((MANAGEMENT_LEVELS as readonly string[]).includes(v)) {
+      return v;
+    }
+  }
+  return "observe";
+}
+
 /**
  * 프로바이더 원본 → Recommendation 검증·정규화.
- * 잘못된 형태면 PARSE 오류.
+ * 필수 4필드만 엄격 검증. Master Plan 확장 필드는 선택·관대 정규화.
  */
 export function validateRecommendation(raw: unknown): Recommendation {
   if (!isRecord(raw)) {
@@ -78,7 +107,6 @@ export function validateRecommendation(raw: unknown): Recommendation {
       src.avoidIngredients
   );
 
-  // 배열 필드가 아예 없으면(키·값 모두 없음) 거절 — 세 배열이 전부 비어도 거절
   const hasConcernKey =
     "skinConcerns" in src ||
     "skin_concerns" in src ||
@@ -122,12 +150,93 @@ export function validateRecommendation(raw: unknown): Recommendation {
     );
   }
 
-  const normalized: NormalizedRecommendation = {
+  const skinType = readOptionalString(src, "skinType", "skin_type");
+  const summaryKo = readOptionalString(
+    src,
+    "summaryKo",
+    "summary_ko",
+    "summaryKO"
+  );
+  const summaryEn = readOptionalString(
+    src,
+    "summaryEn",
+    "summary_en",
+    "summaryEN"
+  );
+  const summaryJa = readOptionalString(
+    src,
+    "summaryJa",
+    "summary_ja",
+    "summaryJA"
+  );
+
+  // 새 배열 필드: 없거나 잘못되면 빈 배열 (오류 아님)
+  const manageableWithCosmetics = normalizeStringArray(
+    src.manageableWithCosmetics ?? src.manageable_with_cosmetics
+  );
+  const cosmeticLimitations = normalizeStringArray(
+    src.cosmeticLimitations ?? src.cosmetic_limitations
+  );
+  const morningRoutine = normalizeStringArray(
+    src.morningRoutine ?? src.morning_routine
+  );
+  const eveningRoutine = normalizeStringArray(
+    src.eveningRoutine ?? src.evening_routine
+  );
+  const precautions = normalizeStringArray(src.precautions);
+  const notRecommendedReasons = normalizeStringArray(
+    src.notRecommendedReasons ?? src.not_recommended_reasons
+  );
+  const expertReferralReasons = normalizeStringArray(
+    src.expertReferralReasons ?? src.expert_referral_reasons
+  );
+
+  const hasExtendedHints =
+    skinType !== undefined ||
+    "managementLevel" in src ||
+    "management_level" in src ||
+    "manageableWithCosmetics" in src ||
+    "manageable_with_cosmetics" in src ||
+    "cosmeticLimitations" in src ||
+    "cosmetic_limitations" in src ||
+    "morningRoutine" in src ||
+    "morning_routine" in src ||
+    "eveningRoutine" in src ||
+    "evening_routine" in src ||
+    "precautions" in src ||
+    "notRecommendedReasons" in src ||
+    "not_recommended_reasons" in src ||
+    "expertReferralReasons" in src ||
+    "expert_referral_reasons" in src ||
+    summaryKo !== undefined ||
+    summaryEn !== undefined ||
+    summaryJa !== undefined;
+
+  const base: Recommendation = {
     skinConcerns,
     recommendedIngredients,
     ingredientsToAvoid,
     confidenceScore: confidence,
   };
 
-  return normalized;
+  // 확장 필드가 전혀 없는 레거시 응답은 필수 4필드만 반환 (하위 호환)
+  if (!hasExtendedHints) {
+    return base;
+  }
+
+  return {
+    ...base,
+    skinType: skinType ?? "",
+    managementLevel: readManagementLevel(src),
+    manageableWithCosmetics,
+    cosmeticLimitations,
+    morningRoutine,
+    eveningRoutine,
+    precautions,
+    notRecommendedReasons,
+    expertReferralReasons,
+    summaryKo: summaryKo ?? "",
+    summaryEn: summaryEn ?? "",
+    summaryJa: summaryJa ?? "",
+  };
 }

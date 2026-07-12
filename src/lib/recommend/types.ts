@@ -16,8 +16,16 @@ export type AnalysisResult = {
 
 /**
  * Structured recommendation derived from AI analysis.
- * Product search / ranking consume this in later phases.
+ * Product search / ranking consume the required fields;
+ * optional Master Plan fields are additive for UI/care guidance.
  */
+export type ManagementLevel =
+  | "cosmetic_care"
+  | "observe"
+  | "combined_care"
+  | "expert_first"
+  | "urgent_check";
+
 export interface Recommendation {
   /** Normalized skin concerns (e.g. Redness, Dryness). */
   skinConcerns: string[];
@@ -27,6 +35,23 @@ export interface Recommendation {
   ingredientsToAvoid: string[];
   /** Confidence in [0, 1]. */
   confidenceScore: number;
+
+  /** 추정 피부 타입 안내 (진단 아님) */
+  skinType?: string;
+  /** 화장품 관리 가능 수준 분류 */
+  managementLevel?: ManagementLevel;
+  /** 화장품으로 관리 가능해 보이는 범위 */
+  manageableWithCosmetics?: string[];
+  /** 화장품만으로 한계가 있는 부분 */
+  cosmeticLimitations?: string[];
+  morningRoutine?: string[];
+  eveningRoutine?: string[];
+  precautions?: string[];
+  notRecommendedReasons?: string[];
+  expertReferralReasons?: string[];
+  summaryKo?: string;
+  summaryEn?: string;
+  summaryJa?: string;
 }
 
 /** localStorage key for the structured recommendation (Phase 1). */

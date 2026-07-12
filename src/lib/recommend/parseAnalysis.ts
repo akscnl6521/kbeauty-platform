@@ -104,9 +104,16 @@ export function normalizeAnalysisResult(raw: unknown): AnalysisResult {
         : typeof obj.summaryJa === "string"
           ? obj.summaryJa
           : "",
-    routine_tips: toStringArray(
-      obj.routine_tips ?? obj.routineTips ?? obj.routine_tip
-    ),
+    routine_tips: (() => {
+      const tips = toStringArray(
+        obj.routine_tips ?? obj.routineTips ?? obj.routine_tip
+      );
+      if (tips.length > 0) return tips;
+      return [
+        ...toStringArray(obj.morningRoutine ?? obj.morning_routine),
+        ...toStringArray(obj.eveningRoutine ?? obj.evening_routine),
+      ];
+    })(),
   };
 }
 
