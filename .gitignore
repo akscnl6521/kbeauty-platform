@@ -48,3 +48,4 @@ supabase/.temp/
 /data/pipeline/runtime/
 /data/pipeline/logs/
 /data/pipeline/operation-overrides.json
+/data/pipeline/operations-alerts.json

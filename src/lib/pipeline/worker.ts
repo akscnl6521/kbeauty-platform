@@ -261,6 +261,19 @@ async function runAutonomousGatedCandidateIntake(input: {
         batchId: commit.batchId,
         ...productReeval,
       });
+
+      if (input.config.monitoring?.autoRecoveryEnabled) {
+        const { runSafeAutoRecovery } = await import(
+          "@/lib/admin/operations/recovery"
+        );
+        const recovery = await runSafeAutoRecovery(client, {
+          batchId: commit.batchId,
+        });
+        pipelineLog("info", "safe auto recovery", {
+          applied: recovery.applied,
+          counts: recovery.counts,
+        });
+      }
     } catch (e) {
       pipelineLog("warn", "product reevaluation skipped", {
         message: e instanceof Error ? e.message : String(e),
