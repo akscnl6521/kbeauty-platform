@@ -64,7 +64,7 @@
 - [x] 자율 제품 검증·활성화·verified catalog 추천 연결 (코드 완료, worker 다음 스케줄 적용)
 - [x] 운영 모니터링·알림센터·safe recovery (코드 완료, worker 다음 스케줄 적용)
 - [x] Continuous Care 1차 (`/my` · check-ins · progress · referral · admin care 집계 · docs/123~132 BLOCKER)
-- [ ] care_* Supabase migration 승인·적용 (사용자)
+- [x] Continuous Care 서버 영속화 (migration 적용 · CarePersistence · `/api/care/*` · worker tick · docs/133~137)
 - [ ] Windows Task Scheduler 인자를 고정 `run-pipeline.ps1`로 1회 정렬 (필요 시)
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)

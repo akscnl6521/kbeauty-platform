@@ -20,7 +20,8 @@
 | Draft 정책 | `products.active=false` → 게이트 통과 시 active+verified_at · publish 금지 |
 | Operations | /admin/operations health/alerts · file-based dedupe |
 | Offers | draft에도 verified offer 허용 · Top5는 active verified product만 |
-| Care | localStore UX · Day 3/7/15/30 · migration `docs/131` 미적용(BLOCKER) |
+| Care | Supabase 영속화 적용 · `/api/care/*` · 익명 local fallback · migration `20260713113851` |
+| Working tree | Continuous Care server persistence |
 
 ## 제품 데이터 전략
 
@@ -130,15 +131,16 @@
 
 ## 다음 작업
 
-1. care migration `docs/131` 승인·적용 (사용자) — 서버 영속화
+1. 일반 사용자 로그인 UX와 `/my` 서버 동기화 E2E (사용자)
 2. 운영 UI에서 실제 후보 1건 E2E (사용자)
 3. COSRX 파이프라인 적용 (승인 후)
 4. main 병합은 별도 승인 후
 
 ## 참고 문서
 
-- `docs/123`~`docs/130` — Continuous Care
-- `docs/131` / `docs/132` — care migration BLOCKER / rollback
+- `docs/133`~`docs/137` — Care DB/RLS/연결/worker/retention
+- `docs/123`~`docs/130` — Continuous Care 정책
+- `docs/131` / `docs/132` — migration 상태 포인터 / rollback
 - `docs/43`~`docs/65` — 관리자 인증·읽기·쓰기 콘솔
 - `docs/61`~`docs/65` — Search-to-Verified 쓰기
 - `docs/29-korean-product-data-guide.md` — 한국 데이터 입력

@@ -6,6 +6,13 @@
 
 ## 2026-07-13
 
+### Continuous Care 서버 영속화
+
+- migration `create_continuous_care_persistence` 원격 적용 + DELETE privilege revoke
+- CarePersistence · `/api/care/*` · 익명 local fallback · attach 연결
+- worker care tick (due/expired/알림/audit) · `/admin/care` DB 집계
+- docs/133~137 · Cursor 운영 worker 미실행
+
 ### Continuous Care (3·7·15·30일 지속 관리)
 
 - `/my` 대시보드 · 분석 snapshot · 루틴 · 체크인 · 변화 · 설정

@@ -18,8 +18,9 @@
 
 ## 저장
 
-- **현재(코드)**: `localStorage` 키 `kbeautyCareStoreV1` — UX·테스트 가능
-- **서버(BLOCKER)**: `docs/131-care-migration-blocker.sql` 승인 후 Supabase
+- **로그인 사용자**: Supabase (`CarePersistence` + `/api/care/*`)
+- **익명**: `localStorage` 키 `kbeautyCareStoreV1`
+- **Migration**: `create_continuous_care_persistence` 적용 완료 (`docs/133`)
 
 ## 금지
 
