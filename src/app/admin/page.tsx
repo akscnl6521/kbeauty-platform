@@ -36,6 +36,12 @@ const QUICK_LINKS: Array<{
     note: "기존 제품·검증 상태 확인",
   },
   {
+    href: "/admin/discovery/import",
+    label: "URL로 빠른 등록",
+    ready: true,
+    note: "제품 URL 붙여넣기 자동 후보 등록",
+  },
+  {
     href: "/admin/discovery",
     label: "Discovery",
     ready: true,

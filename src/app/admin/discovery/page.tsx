@@ -393,12 +393,20 @@ export default async function AdminDiscoveryPage({
           <div className="flex shrink-0 flex-col items-end gap-2">
             <AdminLogoutButton className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-1.5 text-sm font-medium text-gray-800" />
             {caps.canCreateDiscovery ? (
-              <Link
-                href="/admin/discovery/new"
-                className="rounded-lg bg-[#8B6914] px-3 py-1.5 text-sm font-medium text-white"
-              >
-                후보 등록
-              </Link>
+              <>
+                <Link
+                  href="/admin/discovery/import"
+                  className="rounded-lg bg-[#8B6914] px-3 py-1.5 text-sm font-medium text-white"
+                >
+                  URL로 빠른 등록
+                </Link>
+                <Link
+                  href="/admin/discovery/new"
+                  className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-1.5 text-sm font-medium text-gray-800"
+                >
+                  후보 등록
+                </Link>
+              </>
             ) : null}
           </div>
         </div>
