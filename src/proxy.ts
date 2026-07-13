@@ -2,7 +2,8 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * Next.js 16 proxy: shallow Supabase cookie refresh for /admin and /api/admin.
+ * Next.js 16 proxy: shallow Supabase cookie refresh for admin, admin APIs,
+ * and the PKCE auth callback path.
  * Sets x-pathname for admin layout public-path skip.
  * Does NOT query admin_users or decide roles.
  */
@@ -50,5 +51,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*"],
+  matcher: ["/admin/:path*", "/api/admin/:path*", "/auth/callback"],
 };

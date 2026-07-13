@@ -39,7 +39,10 @@
 - [x] 검색 우선·검증 후 등록 원칙을 Master Plan / Project Rule에 공식화
 - [x] Search-to-Verified 11테이블 + admin_users/history migration·bootstrap
 - [x] 관리자 인증 가드 최소 구현 (clients / proxy / layout / auth-check)
-- [ ] 관리자 로그인 페이지 최소 구현
+- [x] 관리자 로그인 페이지 최소 구현 (`/admin/login`, logout)
+- [x] 관리자 비밀번호 재설정 최소 구현 (`/admin/forgot-password`, `/admin/reset-password`)
+- [x] 비밀번호 재설정 PKCE callback (`/auth/callback` → cookie 세션)
+- [ ] 로컬 SERVICE_ROLE 설정 후 관리자 E2E
 - [ ] Search-to-Verified 관리자 UI/API
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)
@@ -49,9 +52,9 @@
 
 - 제품 데이터 전략: **검색 우선·검증 후 등록**
 - GitHub 백업 브랜치: 존재
-- Supabase `product_offers`: **적용 완료** (행 0)
-- 관리자 auth 테이블·첫 admin: **완료**
-- 관리자 세션 가드 코드: **로컬 구현** (로그인 UI·SERVICE_ROLE env는 BLOCKER)
+- 관리자 auth·로그인·비밀번호 재설정·PKCE callback: **로컬 구현**
+- Dashboard Redirect URL (`/auth/callback`): **수동 추가 필요**
+- `SUPABASE_SERVICE_ROLE_KEY`: 로컬 설정 여부에 따라 E2E 가능
 - main 병합: **아직 안 함**
 
 ---

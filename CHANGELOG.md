@@ -6,6 +6,38 @@
 
 ## 2026-07-13
 
+### 관리자 비밀번호 재설정 — PKCE callback 수정
+
+- 원인: `redirectTo`가 `/admin/reset-password` 직행 → client code 교환으로 쿠키 세션 미성립
+- `GET /auth/callback` — 서버 `exchangeCodeForSession` 후 cookie + redirect
+- `redirectTo` → `/auth/callback?next=/admin/reset-password`
+- reset-password는 `getUser`만 (code 교환 제거)
+- proxy matcher에 `/auth/callback` 추가
+- Dashboard Redirect URL: `http://localhost:3000/auth/callback` 수동 추가 필요
+- `docs/51` 갱신 · commit/push 없음
+
+### 관리자 비밀번호 재설정 최소 구현
+
+- `/admin/forgot-password` — `resetPasswordForEmail` (origin 기반 redirectTo)
+- `/admin/reset-password` — recovery 세션 확인 후 `updateUser({ password })`
+- 로그인 화면 「비밀번호를 잊으셨나요?」 링크
+- layout 가드 제외: forgot/reset-password (무한 redirect 방지)
+- `docs/51-admin-password-reset.md`
+- Dashboard Redirect URL은 수동 확인만 (자동 변경 없음)
+- commit/push·원격 DB 변경 없음
+
+### 관리자 로그인 페이지 최소 구현
+
+- `/admin/login` — Supabase `signInWithPassword`
+- `POST /admin/logout` — 세션 종료 후 로그인으로 이동
+- 미로그인 `/admin` → `/admin/login`
+- 비관리자 → `/admin/forbidden` (+ 로그아웃)
+- 설정 누락 → `/admin/unavailable`
+- 로그인 성공만으로 admin 인정하지 않음 (`admin_users` 재검증)
+- `docs/50-admin-login-implementation.md`
+- `SUPABASE_SERVICE_ROLE_KEY` 로컬 missing → E2E BLOCKER
+- commit/push·원격 DB 변경 없음
+
 ### 관리자 인증 가드 최소 구현
 
 - `@supabase/ssr` / `server-only` 추가
