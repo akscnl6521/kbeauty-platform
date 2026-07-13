@@ -1,0 +1,19 @@
+-- Follow-up: explicitly revoke DELETE on care tables (RLS already has no DELETE policies).
+REVOKE DELETE ON public.care_analysis_sessions FROM authenticated;
+REVOKE DELETE ON public.care_routines FROM authenticated;
+REVOKE DELETE ON public.care_routine_items FROM authenticated;
+REVOKE DELETE ON public.care_check_ins FROM authenticated;
+REVOKE DELETE ON public.care_suggestions FROM authenticated;
+REVOKE DELETE ON public.care_notifications FROM authenticated;
+REVOKE DELETE ON public.care_feedback FROM authenticated;
+REVOKE DELETE ON public.care_progress_snapshots FROM authenticated;
+REVOKE DELETE ON public.care_audit_events FROM authenticated;
+REVOKE DELETE ON public.care_analysis_sessions FROM anon;
+REVOKE DELETE ON public.care_routines FROM anon;
+REVOKE DELETE ON public.care_routine_items FROM anon;
+REVOKE DELETE ON public.care_check_ins FROM anon;
+REVOKE DELETE ON public.care_suggestions FROM anon;
+REVOKE DELETE ON public.care_notifications FROM anon;
+REVOKE DELETE ON public.care_feedback FROM anon;
+REVOKE DELETE ON public.care_progress_snapshots FROM anon;
+REVOKE DELETE ON public.care_audit_events FROM anon;
