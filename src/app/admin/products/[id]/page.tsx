@@ -166,11 +166,38 @@ function DetailBody({ data }: { data: AdminProductDetailPayload }) {
               <BoolLabel value={statusSummary.recommendationEligible} />
             </dd>
           </div>
+          <div>
+            <dt className="text-gray-500">KR eligible offers</dt>
+            <dd className="tabular-nums">
+              {statusSummary.countryEligibleOfferCountKr}
+            </dd>
+          </div>
         </dl>
+        {statusSummary.verificationBlockers.length > 0 ? (
+          <div className="mt-3 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+            <p className="font-medium">검증 실패/미충족</p>
+            <ul className="mt-1 list-disc pl-5">
+              {statusSummary.verificationBlockers.map((b) => (
+                <li key={b}>{b}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {statusSummary.recommendationBlockers.length > 0 ? (
+          <div className="mt-3 rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-800">
+            <p className="font-medium">추천 eligibility 실패 이유</p>
+            <ul className="mt-1 list-disc pl-5">
+              {statusSummary.recommendationBlockers.map((b) => (
+                <li key={b}>{b}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         {!statusSummary.recommendationEligible ? (
           <p className="mt-3 text-sm text-amber-800">
             현재 추천 엔진 사용 불가. active·product verified·approved 구조화
-            성분·verified in-stock offer가 모두 필요합니다.
+            성분·KR verified in-stock offer가 모두 필요합니다. (가짜 Top5 패딩
+            없음)
           </p>
         ) : null}
       </Section>

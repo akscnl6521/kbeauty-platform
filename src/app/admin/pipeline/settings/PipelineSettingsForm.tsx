@@ -17,11 +17,15 @@ type Config = {
   allowSkinScoreUpsert: boolean;
   allowQualityScoreUpsert: boolean;
   allowCandidateAutoChecks: boolean;
+  allowProductAutoVerify: boolean;
+  allowProductAutoActivate: boolean;
+  allowProductReevaluation: boolean;
   allowProductInsert: boolean;
   allowOfferInsert: boolean;
   allowPublish: boolean;
   allowDelete: boolean;
   allowExistingProductOverwrite: boolean;
+  allowProductDemotion: boolean;
 };
 
 /**
@@ -71,6 +75,9 @@ export function PipelineSettingsForm() {
           allowSkinScoreUpsert: config.allowSkinScoreUpsert,
           allowQualityScoreUpsert: config.allowQualityScoreUpsert,
           allowCandidateAutoChecks: config.allowCandidateAutoChecks,
+          allowProductAutoVerify: config.allowProductAutoVerify,
+          allowProductAutoActivate: config.allowProductAutoActivate,
+          allowProductReevaluation: config.allowProductReevaluation,
           scheduleHint: config.scheduleHint,
         }),
       });
@@ -239,12 +246,52 @@ export function PipelineSettingsForm() {
         />
         product_ingredients 자동 연결
       </label>
+      <label className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={config.allowProductAutoVerify ?? true}
+          onChange={(e) =>
+            setConfig({
+              ...config,
+              allowProductAutoVerify: e.target.checked,
+            })
+          }
+        />
+        제품 자동 검증 (quality A/B)
+      </label>
+      <label className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={config.allowProductAutoActivate ?? true}
+          onChange={(e) =>
+            setConfig({
+              ...config,
+              allowProductAutoActivate: e.target.checked,
+            })
+          }
+        />
+        제품 자동 활성화 (active=true + verified_at)
+      </label>
+      <label className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={config.allowProductReevaluation ?? true}
+          onChange={(e) =>
+            setConfig({
+              ...config,
+              allowProductReevaluation: e.target.checked,
+            })
+          }
+        />
+        제품 재평가 (강등 없음)
+      </label>
 
       <div className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-amber-950">
         <p className="font-medium">변경 불가 (하드 락)</p>
         <ul className="mt-1 list-disc pl-5 text-xs">
           <li>allowProductInsert / allowOfferInsert / allowVerifiedOfferInsert = false</li>
           <li>allowPublish / allowDelete / allowExistingProductOverwrite = false</li>
+          <li>allowProductDemotion / allowUnverifiedPurchaseRecommendation = false</li>
           <li>allowUnverifiedIngredientInsert = false</li>
         </ul>
       </div>

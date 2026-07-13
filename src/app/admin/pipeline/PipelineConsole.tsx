@@ -30,6 +30,10 @@ type Ops = {
   blockedBrands: number;
   autonomousCandidates: number;
   pendingDuplicateQueues: number;
+  verifiedOffers: number;
+  draftProducts: number;
+  verifiedActiveProducts: number;
+  productVerifyReviewQueues: number;
   latestBatchId: string | null;
   latestStatus: string | null;
   latestHeartbeat: string | null;
@@ -137,6 +141,19 @@ export function PipelineConsole({ canRun }: { canRun: boolean }) {
           <div>
             <p className="text-xs text-gray-500">duplicate 큐 pending</p>
             <p className="font-medium tabular-nums">{ops.pendingDuplicateQueues}</p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500">verified offers</p>
+            <p className="font-medium tabular-nums">{ops.verifiedOffers}</p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500">제품 검증</p>
+            <p>
+              draft {ops.draftProducts} · verified {ops.verifiedActiveProducts}
+            </p>
+            <p className="text-xs text-gray-600">
+              verify queue {ops.productVerifyReviewQueues}
+            </p>
           </div>
         </section>
       ) : null}

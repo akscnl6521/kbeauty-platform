@@ -153,6 +153,10 @@ export type AdminProductStatusSummary = {
   variantCount: number;
   legacyKeyIngredientCount: number;
   legacyFullIngredientCount: number;
+  /** Why auto-verify / recommendation failed */
+  verificationBlockers: string[];
+  recommendationBlockers: string[];
+  countryEligibleOfferCountKr: number;
 };
 
 export type AdminProductDetail = {
@@ -492,11 +496,35 @@ export async function getAdminProductDetail(
       (item) => item.qualifiesAsVerifiedOffer
     ).length;
     const hasVerifiedOffer = verifiedOfferCount > 0;
+
+    const verificationBlockers: string[] = [];
+    if (!active) verificationBlockers.push("product_not_active");
+    if (!productVerified) verificationBlockers.push("product_not_verified");
+    if (!structuredIngredientsComplete) {
+      verificationBlockers.push("structured_ingredients_incomplete");
+    }
+    if (!hasVerifiedOffer) verificationBlockers.push("verified_offer_missing");
+
+    const countryEligibleOfferCountKr = offers.filter(
+      (o) =>
+        o.qualifiesAsVerifiedOffer &&
+        o.retailerCountry === "KR" &&
+        o.shipsToCountries.includes("KR") &&
+        o.currency === "KRW" &&
+        o.stockStatus === "in_stock"
+    ).length;
+
+    const recommendationBlockers: string[] = [...verificationBlockers];
+    if (countryEligibleOfferCountKr < 1) {
+      recommendationBlockers.push("no_kr_country_eligible_verified_offer");
+    }
+
     const recommendationEligible =
       active &&
       productVerified &&
       structuredIngredientsComplete &&
-      hasVerifiedOffer;
+      hasVerifiedOffer &&
+      countryEligibleOfferCountKr > 0;
 
     const product: AdminProductDetail = {
       id: Number(productRecord.id),
@@ -575,6 +603,9 @@ export async function getAdminProductDetail(
       variantCount: variants.length,
       legacyKeyIngredientCount: keyIngredients.length,
       legacyFullIngredientCount: fullIngredients.length,
+      verificationBlockers,
+      recommendationBlockers,
+      countryEligibleOfferCountKr,
     };
 
     return {

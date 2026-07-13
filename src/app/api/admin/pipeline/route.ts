@@ -23,6 +23,10 @@ export const GET = withAdminAuth(async () => {
       blockedSites,
       candidatesPipeline,
       queuePending,
+      verifiedOffers,
+      draftProducts,
+      verifiedProducts,
+      productVerifyQueues,
     ] = await Promise.all([
       client.from("brand_official_site_state").select("id", { count: "exact", head: true }),
       client
@@ -46,6 +50,26 @@ export const GET = withAdminAuth(async () => {
         .select("id", { count: "exact", head: true })
         .eq("status", "pending")
         .eq("review_type", "duplicate"),
+      client
+        .from("product_offers")
+        .select("id", { count: "exact", head: true })
+        .eq("verification_status", "verified"),
+      client
+        .from("products")
+        .select("id", { count: "exact", head: true })
+        .eq("active", false)
+        .is("verified_at", null),
+      client
+        .from("products")
+        .select("id", { count: "exact", head: true })
+        .eq("active", true)
+        .not("verified_at", "is", null),
+      client
+        .from("verification_queue")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "pending")
+        .eq("review_type", "other")
+        .ilike("reason", "%product_verify_fail%"),
     ]);
 
     const dryRuns = batches.filter((b) => b.mode === "dry_run").length;
@@ -67,6 +91,10 @@ export const GET = withAdminAuth(async () => {
         blockedBrands: blockedSites.count ?? 0,
         autonomousCandidates: candidatesPipeline.count ?? 0,
         pendingDuplicateQueues: queuePending.count ?? 0,
+        verifiedOffers: verifiedOffers.count ?? 0,
+        draftProducts: draftProducts.count ?? 0,
+        verifiedActiveProducts: verifiedProducts.count ?? 0,
+        productVerifyReviewQueues: productVerifyQueues.count ?? 0,
         latestBatchId: latest?.batchId ?? null,
         latestStatus: latest?.status ?? null,
         latestHeartbeat: latest?.lockHeartbeatAt ?? null,

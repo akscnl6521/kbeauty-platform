@@ -25,10 +25,14 @@ export const GET = withAdminAuth(async () => {
       immutable: {
         allowProductInsert: false,
         allowOfferInsert: false,
+        allowVerifiedOfferInsert: false,
         allowPublish: false,
         allowDelete: false,
         allowIngredientWrite: false,
         allowExistingCandidateBulkUpdate: false,
+        allowExistingProductOverwrite: false,
+        allowProductDemotion: false,
+        allowUnverifiedPurchaseRecommendation: false,
       },
       schedulerFixedCommand: "node scripts/run-pipeline-worker.mjs",
     });
@@ -59,6 +63,45 @@ export const PATCH = withAdminAuth(async (req: NextRequest, _ctx, session) => {
     }
     if (typeof body.allowAuditInsert === "boolean") {
       patch.allowAuditInsert = body.allowAuditInsert;
+    }
+    if (typeof body.allowDraftProductInsert === "boolean") {
+      patch.allowDraftProductInsert = body.allowDraftProductInsert;
+    }
+    if (typeof body.allowVariantInsert === "boolean") {
+      patch.allowVariantInsert = body.allowVariantInsert;
+    }
+    if (typeof body.allowProductIngredientInsert === "boolean") {
+      patch.allowProductIngredientInsert = body.allowProductIngredientInsert;
+    }
+    if (typeof body.allowSkinScoreUpsert === "boolean") {
+      patch.allowSkinScoreUpsert = body.allowSkinScoreUpsert;
+    }
+    if (typeof body.allowQualityScoreUpsert === "boolean") {
+      patch.allowQualityScoreUpsert = body.allowQualityScoreUpsert;
+    }
+    if (typeof body.allowCandidateAutoChecks === "boolean") {
+      patch.allowCandidateAutoChecks = body.allowCandidateAutoChecks;
+    }
+    if (typeof body.allowOfferCandidateInsert === "boolean") {
+      patch.allowOfferCandidateInsert = body.allowOfferCandidateInsert;
+    }
+    if (typeof body.allowVerifiedOfferUpsert === "boolean") {
+      patch.allowVerifiedOfferUpsert = body.allowVerifiedOfferUpsert;
+    }
+    if (typeof body.allowOfferFreshnessUpdate === "boolean") {
+      patch.allowOfferFreshnessUpdate = body.allowOfferFreshnessUpdate;
+    }
+    if (typeof body.allowOfferReviewQueue === "boolean") {
+      patch.allowOfferReviewQueue = body.allowOfferReviewQueue;
+    }
+    if (typeof body.allowProductAutoVerify === "boolean") {
+      patch.allowProductAutoVerify = body.allowProductAutoVerify;
+    }
+    if (typeof body.allowProductAutoActivate === "boolean") {
+      patch.allowProductAutoActivate = body.allowProductAutoActivate;
+    }
+    if (typeof body.allowProductReevaluation === "boolean") {
+      patch.allowProductReevaluation = body.allowProductReevaluation;
     }
     if (typeof body.scheduleHint === "string") {
       patch.scheduleHint = body.scheduleHint.slice(0, 80);
