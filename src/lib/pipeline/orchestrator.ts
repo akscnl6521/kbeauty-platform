@@ -2,7 +2,6 @@ import "server-only";
 
 import { randomUUID } from "node:crypto";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { tryInsertWriteAudit } from "@/lib/admin/audit-log";
 import { extractDomain } from "@/lib/admin/import/normalize";
 import { getPipelinePersistence } from "@/lib/pipeline/persistence";
 import { seedBrandsFromCatalog } from "@/lib/pipeline/brand-discovery";
@@ -19,11 +18,13 @@ import { discoverOfficialSiteAndProducts } from "@/lib/pipeline/site-crawler";
 import { parseIngredientList } from "@/lib/pipeline/ingredient-normalize";
 import { linkIngredientSafetyHints } from "@/lib/pipeline/evidence-link";
 import { emptyProgress, recomputeProgress } from "@/lib/pipeline/progress";
+import { commitDiscoveryCandidateGated } from "@/lib/pipeline/candidate-commit";
 import type {
   PipelineBatch,
   PipelineJob,
   PipelineMode,
 } from "@/lib/pipeline/types";
+import type { OfficialSiteResolution } from "@/lib/pipeline/official-site-resolver";
 
 function store(mode?: PipelineMode) {
   return getPipelinePersistence({
@@ -52,7 +53,11 @@ export async function createPipelineBatch(input: {
     productLimitPerBrand,
   });
 
-  const brands = await seedBrandsFromCatalog(brandLimit);
+  const brandsRaw = await seedBrandsFromCatalog(brandLimit);
+  const { enrichBrandSeedsWithOfficialSites } = await import(
+    "@/lib/pipeline/brand-discovery"
+  );
+  const brands = await enrichBrandSeedsWithOfficialSites(brandsRaw);
   const jobs: PipelineJob[] = brands.map((brand) => ({
     jobId: randomUUID(),
     batchId: batch.batchId,
@@ -96,56 +101,38 @@ export async function createPipelineBatch(input: {
 
 async function maybeCommitCandidate(input: {
   mode: PipelineMode;
-  productName: string;
+  product: import("@/lib/pipeline/types").ExtractedCatalogProduct;
   brandName: string;
-  canonicalUrl: string;
-  country: string | null;
-  sourceType: string;
-  notes: string;
-}): Promise<{ candidateId: string | null; skippedReason: string | null }> {
+  batchId: string;
+  siteResolution: OfficialSiteResolution | null;
+  dedupe: import("@/lib/pipeline/types").DedupeDecision;
+  quality: import("@/lib/pipeline/types").QualityScore;
+  officialConfidence: number;
+}): Promise<{
+  candidateId: string | null;
+  queueId: string | null;
+  skippedReason: string | null;
+  committed: boolean;
+}> {
   if (input.mode !== "commit") {
-    return { candidateId: null, skippedReason: "dry_run" };
+    return {
+      candidateId: null,
+      queueId: null,
+      skippedReason: "dry_run",
+      committed: false,
+    };
   }
 
   const client = createSupabaseAdminClient();
-  const { data, error } = await client
-    .from("product_discovery_candidates")
-    .insert({
-      discovered_name: input.productName,
-      discovered_brand: input.brandName,
-      discovered_url: input.canonicalUrl,
-      discovered_country: input.country,
-      source_type: input.sourceType,
-      notes: input.notes.slice(0, 2000),
-      workflow_status: "discovered",
-      duplicate_check_status: "pending",
-      sale_check_status: "pending",
-      ingredient_check_status: "pending",
-      evidence_check_status: "pending",
-      safety_check_status: "pending",
-      linked_product_id: null,
-      assigned_to: null,
-    })
-    .select("id")
-    .single();
-
-  if (error || !data) {
-    return { candidateId: null, skippedReason: "insert_failed" };
-  }
-
-  const id = (data as { id: string }).id;
-  await tryInsertWriteAudit(client, {
-    action: "candidate_imported_from_url",
-    productId: null,
-    actorRole: "admin",
-    metadata: {
-      candidateId: id,
-      domain: extractDomain(input.canonicalUrl),
-      via: "autonomous_pipeline",
-    },
+  return commitDiscoveryCandidateGated(client, {
+    product: input.product,
+    brandName: input.brandName,
+    batchId: input.batchId,
+    site: input.siteResolution,
+    dedupe: input.dedupe,
+    quality: input.quality,
+    officialConfidence: input.officialConfidence,
   });
-
-  return { candidateId: id, skippedReason: null };
 }
 
 /**
@@ -238,11 +225,13 @@ export async function tickPipelineBatch(
               : null,
             verificationStatus: site.blocked
               ? "blocked"
-              : site.needsReview
-                ? "needs_review"
-                : site.verified
-                  ? "verified"
-                  : "unverified",
+              : site.resolution?.classification === "verified_official"
+                ? "verified"
+                : site.needsReview
+                  ? "needs_review"
+                  : site.verified
+                    ? "verified"
+                    : "unverified",
             connector: site.connector,
             confidence: site.confidence,
             crawlStatus: site.blocked
@@ -250,10 +239,28 @@ export async function tickPipelineBatch(
               : site.productUrls.length
                 ? "urls_found"
                 : "no_urls",
+            robotsStatus: site.sitemapUrls.length ? "sitemap_found" : null,
+            sitemapStatus: site.sitemapUrls.length
+              ? `${site.sitemapUrls.length}_sitemaps`
+              : null,
             lastErrorCode: site.blocked ? "HTTP_403" : null,
-            safeErrorMessage: site.reasons[0] ?? null,
-            sourceMetadata: { reasons: site.reasons },
+            safeErrorMessage: site.blocked
+              ? site.reasons[0] ?? null
+              : site.productUrls.length === 0
+                ? "제품 URL 미수집"
+                : null,
+            sourceMetadata: {
+              reasons: site.reasons,
+              classification: site.resolution?.classification ?? null,
+              productUrlCount: site.productUrls.length,
+            },
           });
+
+          current.checkpoint = {
+            ...current.checkpoint,
+            site,
+            resolution: site.resolution ?? null,
+          };
 
           if (site.blocked) {
             current = applyJobFailure(current, "HTTP_403", "사이트 차단/챌린지");
@@ -290,7 +297,12 @@ export async function tickPipelineBatch(
               completedAt: null,
               failureCode: null,
               safeFailureMessage: null,
-              checkpoint: { brand, url, site },
+              checkpoint: {
+                brand,
+                url,
+                site,
+                resolution: site.resolution ?? null,
+              },
               warnings: [],
               resultSummary: null,
             }));
@@ -306,6 +318,11 @@ export async function tickPipelineBatch(
               warnings: site.reasons,
               claimedBy: null,
               claimHeartbeatAt: null,
+              resultSummary: {
+                ...current.resultSummary,
+                productUrlCount: urls.length,
+                classification: site.resolution?.classification ?? null,
+              },
             };
           }
         } else if (current.stage === "product_urls_collected") {
@@ -314,7 +331,9 @@ export async function tickPipelineBatch(
             (current.checkpoint.brand as { canonicalName?: string })
               ?.canonicalName ?? "Unknown"
           );
-          const extracted = await extractCatalogProductFromUrl(url);
+          const extracted = await extractCatalogProductFromUrl(url, {
+            fallbackBrand: brandName !== "Unknown" ? brandName : null,
+          });
           if (!extracted.ok) {
             current = applyJobFailure(
               current,
@@ -332,11 +351,19 @@ export async function tickPipelineBatch(
             );
             const skin = classifySkinMatch(extracted.product);
             const tone = scoreToneUndertone(extracted.product);
+            const siteMeta = current.checkpoint.site as
+              | { verified?: boolean; confidence?: number }
+              | undefined;
+            const resolution = (current.checkpoint.resolution ??
+              null) as OfficialSiteResolution | null;
+            const officialConfidence =
+              resolution?.confidence ?? siteMeta?.confidence ?? 0;
+
             const quality = computeQualityScore({
               product: extracted.product,
               hasIngredients: ingredients.normalized.length > 0,
               hasOfficialSource: Boolean(
-                (current.checkpoint.site as { verified?: boolean })?.verified
+                siteMeta?.verified || resolution?.allowCrawl
               ),
               dedupeOk: dedupe.action !== "needs_review",
               offerCount: 0,
@@ -366,19 +393,16 @@ export async function tickPipelineBatch(
             });
 
             let commitMeta: Record<string, unknown> = { mode: batch.mode };
-            if (
-              batch.mode === "commit" &&
-              dedupe.action === "create_candidate" &&
-              extracted.product.confidence >= 0.5
-            ) {
+            if (batch.mode === "commit") {
               const saved = await maybeCommitCandidate({
                 mode: batch.mode,
-                productName: extracted.product.productName,
+                product: extracted.product,
                 brandName: extracted.product.brandName || brandName,
-                canonicalUrl: extracted.product.canonicalUrl,
-                country: extracted.product.country,
-                sourceType: extracted.product.sourceType || "search_result",
-                notes: `pipeline ${batch.batchId}; quality=${quality.grade}`,
+                batchId: batch.batchId,
+                siteResolution: resolution,
+                dedupe,
+                quality,
+                officialConfidence,
               });
               commitMeta = { ...commitMeta, ...saved };
             }
@@ -401,20 +425,38 @@ export async function tickPipelineBatch(
               publishEligible: false,
               skinTypes: skin.skinTypes,
               toneRelevance: tone.toneRelevance,
+              committed: Boolean(
+                (commitMeta as { committed?: boolean }).committed
+              ),
+              candidateId:
+                (commitMeta as { candidateId?: string | null }).candidateId ??
+                null,
             };
 
             const safetyReview = safetyHints.some((h) => h.needsReview);
+            const commitSkipped =
+              batch.mode === "commit" &&
+              !(commitMeta as { committed?: boolean }).committed &&
+              dedupe.action === "create_candidate";
+
             if (
               dedupe.action === "needs_review" ||
               skin.marketingOnly ||
-              safetyReview
+              safetyReview ||
+              commitSkipped
             ) {
               current = {
                 ...current,
                 status: "needs_review",
                 stage: "product_deduplicated",
                 completedAt: new Date().toISOString(),
-                warnings: [...dedupe.reasons, ...skin.reasons],
+                warnings: [
+                  ...dedupe.reasons,
+                  ...skin.reasons,
+                  ...((commitMeta as { skippedReason?: string }).skippedReason
+                    ? [String((commitMeta as { skippedReason?: string }).skippedReason)]
+                    : []),
+                ],
                 claimedBy: null,
                 claimHeartbeatAt: null,
               };

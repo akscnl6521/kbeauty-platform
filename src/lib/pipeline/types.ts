@@ -122,6 +122,13 @@ export type SiteDiscoveryResult = {
   reasons: string[];
   sitemapUrls: string[];
   productUrls: string[];
+  resolution?: {
+    classification: string;
+    confidence: number;
+    allowCrawl: boolean;
+    selectedUrl: string | null;
+    reasons: string[];
+  };
 };
 
 export type ExtractedCatalogProduct = {

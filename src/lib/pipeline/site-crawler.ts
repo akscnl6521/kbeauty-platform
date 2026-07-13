@@ -1,25 +1,10 @@
 import "server-only";
 
 import { fetchPublicHtmlPage } from "@/lib/admin/import/fetch-page";
-import {
-  assertSafePublicHttpsUrl,
-} from "@/lib/admin/import/ssrf";
+import { assertSafePublicHttpsUrl } from "@/lib/admin/import/ssrf";
+import { resolveOfficialSite } from "@/lib/pipeline/official-site-resolver";
+import { looksLikeProductUrl } from "@/lib/pipeline/product-page";
 import type { BrandSeed, SiteDiscoveryResult } from "@/lib/pipeline/types";
-
-const CONNECTORS = [
-  "generic_sitemap",
-  "generic_shopify",
-  "generic_woocommerce",
-  "generic_nextjs",
-  "generic_static",
-  "custom_fallback",
-] as const;
-
-function guessOfficialCandidates(brand: BrandSeed): string[] {
-  if (brand.officialWebsite) return [brand.officialWebsite];
-  // No invented domains — without officialWebsite we cannot auto-crawl
-  return [];
-}
 
 function extractSitemapsFromRobots(text: string): string[] {
   const out: string[] = [];
@@ -41,54 +26,50 @@ function extractLocsFromSitemap(xml: string, max = 200): string[] {
   return locs;
 }
 
-function looksLikeProductUrl(url: string): boolean {
-  const u = url.toLowerCase();
-  if (/(collection|collections|category|categories|blog|news|about|contact|cart|account|search)(\/|$|\?)/.test(u)) {
-    return false;
-  }
-  return (
-    /\/products?\//.test(u) ||
-    /\/product\//.test(u) ||
-    /\/goods\//.test(u) ||
-    /\/item\//.test(u) ||
-    /\/p\//.test(u)
-  );
-}
-
 /**
- * Resolve official site + collect product URL candidates.
- * Does not bypass blocks/captchas. Dry-run safe (no DB writes).
+ * Resolve official site (improved) + collect product URLs when crawl allowed.
  */
 export async function discoverOfficialSiteAndProducts(
   brand: BrandSeed,
-  options?: { maxProductUrls?: number }
+  options?: { maxProductUrls?: number; maxPages?: number }
 ): Promise<SiteDiscoveryResult> {
-  const maxProductUrls = options?.maxProductUrls ?? 500;
-  const candidates = guessOfficialCandidates(brand);
+  const maxProductUrls = Math.min(50, options?.maxProductUrls ?? 50);
+  const maxPages = options?.maxPages ?? 200;
 
-  if (!candidates.length) {
+  const resolution = await resolveOfficialSite(brand);
+
+  if (!resolution.allowCrawl || !resolution.selectedUrl) {
     return {
       brandKey: brand.brandKey,
-      candidateUrl: null,
-      verified: false,
-      confidence: brand.confidence,
+      candidateUrl: resolution.selectedUrl,
+      verified: resolution.classification === "verified_official",
+      confidence: resolution.confidence,
       connector: null,
-      blocked: false,
+      blocked: resolution.classification === "blocked",
       needsReview: true,
       reasons: [
-        "공식 사이트 URL이 없어 자동 crawl을 시작하지 않습니다 (needs_review)",
+        ...resolution.reasons,
+        resolution.allowCrawl
+          ? "crawl 허용이나 URL 없음"
+          : `자동 crawl 비허용 (${resolution.classification})`,
       ],
       sitemapUrls: [],
       productUrls: [],
+      resolution: {
+        classification: resolution.classification,
+        confidence: resolution.confidence,
+        allowCrawl: resolution.allowCrawl,
+        selectedUrl: resolution.selectedUrl,
+        reasons: resolution.reasons,
+      },
     };
   }
 
-  const siteUrl = candidates[0]!;
-  const safe = await assertSafePublicHttpsUrl(siteUrl);
+  const safe = await assertSafePublicHttpsUrl(resolution.selectedUrl);
   if (!safe.ok) {
     return {
       brandKey: brand.brandKey,
-      candidateUrl: siteUrl,
+      candidateUrl: resolution.selectedUrl,
       verified: false,
       confidence: 0,
       connector: null,
@@ -97,65 +78,60 @@ export async function discoverOfficialSiteAndProducts(
       reasons: [safe.message],
       sitemapUrls: [],
       productUrls: [],
+      resolution: {
+        classification: resolution.classification,
+        confidence: resolution.confidence,
+        allowCrawl: false,
+        selectedUrl: resolution.selectedUrl,
+        reasons: resolution.reasons,
+      },
     };
   }
 
   const origin = new URL(safe.normalizedHref).origin;
-  const reasons: string[] = [];
-  let connector: string = "generic_sitemap";
+  const reasons = [...resolution.reasons];
+  let connector = "generic_sitemap";
   let blocked = false;
   const sitemapUrls: string[] = [];
   const productUrls: string[] = [];
+  let pagesFetched = 0;
 
-  // robots.txt
   const robots = await fetchPublicHtmlPage(`${origin}/robots.txt`, {
     timeoutMs: 6000,
   });
+  pagesFetched += 1;
   if (robots.ok) {
     sitemapUrls.push(...extractSitemapsFromRobots(robots.html));
-  } else if (robots.code === "FETCH_FAILED") {
-    // continue
   }
+  if (!sitemapUrls.length) sitemapUrls.push(`${origin}/sitemap.xml`);
 
-  if (!sitemapUrls.length) {
-    sitemapUrls.push(`${origin}/sitemap.xml`);
-  }
-
-  for (const sm of sitemapUrls.slice(0, 5)) {
+  for (const sm of [...new Set(sitemapUrls)].slice(0, 8)) {
+    if (pagesFetched >= maxPages) break;
     const smSafe = await assertSafePublicHttpsUrl(sm);
     if (!smSafe.ok) continue;
     const page = await fetchPublicHtmlPage(smSafe.normalizedHref, {
       timeoutMs: 8000,
     });
-    if (!page.ok) {
-      if (page.code === "FETCH_FAILED") {
-        // possible 403
-        blocked = blocked || false;
-      }
-      continue;
-    }
+    pagesFetched += 1;
+    if (!page.ok) continue;
     if (/captcha|cf-challenge|attention required/i.test(page.html)) {
       blocked = true;
-      reasons.push("challenge/captcha 감지 — 우회하지 않음");
+      reasons.push("challenge/captcha — 우회 안 함");
       break;
     }
-    const locs = extractLocsFromSitemap(page.html, 2000);
-    // sitemap index
-    for (const loc of locs) {
-      if (/sitemap/i.test(loc) && sitemapUrls.length < 20) {
-        sitemapUrls.push(loc);
-      }
+    for (const loc of extractLocsFromSitemap(page.html, 2000)) {
+      if (/sitemap/i.test(loc) && sitemapUrls.length < 24) sitemapUrls.push(loc);
     }
   }
 
-  // second pass product sitemaps
-  for (const sm of [...new Set(sitemapUrls)].slice(0, 12)) {
-    if (productUrls.length >= maxProductUrls) break;
+  for (const sm of [...new Set(sitemapUrls)].slice(0, 16)) {
+    if (productUrls.length >= maxProductUrls || pagesFetched >= maxPages) break;
     const smSafe = await assertSafePublicHttpsUrl(sm);
     if (!smSafe.ok) continue;
     const page = await fetchPublicHtmlPage(smSafe.normalizedHref, {
       timeoutMs: 8000,
     });
+    pagesFetched += 1;
     if (!page.ok) continue;
     for (const loc of extractLocsFromSitemap(page.html, 2000)) {
       if (productUrls.length >= maxProductUrls) break;
@@ -163,11 +139,11 @@ export async function discoverOfficialSiteAndProducts(
     }
   }
 
-  // Shopify products.json hint
-  if (productUrls.length < 5) {
+  if (productUrls.length < 5 && pagesFetched < maxPages) {
     const shopify = await fetchPublicHtmlPage(`${origin}/products.json`, {
       timeoutMs: 6000,
     });
+    pagesFetched += 1;
     if (shopify.ok && shopify.html.trim().startsWith("{")) {
       connector = "generic_shopify";
       try {
@@ -185,27 +161,75 @@ export async function discoverOfficialSiteAndProducts(
     }
   }
 
-  const uniqueProducts = [...new Set(productUrls)].slice(0, maxProductUrls);
-  const verified = Boolean(brand.officialWebsite) && !blocked;
-  const needsReview = blocked || !verified || uniqueProducts.length === 0;
-
-  if (!uniqueProducts.length) {
-    reasons.push("제품 URL을 충분히 수집하지 못함");
+  // Homepage + common collection paths for product links
+  if (productUrls.length < maxProductUrls && pagesFetched < maxPages) {
+    const pathHints = [
+      "/",
+      "/collections/all",
+      "/collections/products",
+      "/shop",
+      "/products",
+      "/product/list.html",
+      "/goods/goods_list.php",
+      "/shop/shopbrand.html",
+      "/shop/shopbrand.html?xcode=ALL&type=X&mcode=001",
+    ];
+    for (const p of pathHints) {
+      if (productUrls.length >= maxProductUrls || pagesFetched >= maxPages) break;
+      const page = await fetchPublicHtmlPage(`${origin}${p}`, {
+        timeoutMs: 8000,
+      });
+      pagesFetched += 1;
+      if (!page.ok) continue;
+      if (/captcha|cf-challenge|attention required/i.test(page.html)) {
+        blocked = true;
+        reasons.push("challenge on listing page — 우회 안 함");
+        break;
+      }
+      const hrefRe = /href=["']([^"']+)["']/gi;
+      let hm: RegExpExecArray | null;
+      while ((hm = hrefRe.exec(page.html)) && productUrls.length < maxProductUrls) {
+        const raw = hm[1];
+        if (!raw || raw.startsWith("#") || raw.startsWith("javascript:")) continue;
+        let abs = raw;
+        try {
+          abs = new URL(raw, origin).href;
+        } catch {
+          continue;
+        }
+        if (!abs.startsWith(origin)) continue;
+        if (looksLikeProductUrl(abs)) productUrls.push(abs);
+      }
+    }
   }
-  if (verified) reasons.push("brands/products 출처 공식 URL 사용");
+
+  const uniqueProducts = [...new Set(productUrls)].slice(0, maxProductUrls);
+  const verified = resolution.classification === "verified_official" && !blocked;
+  const needsReview =
+    blocked ||
+    !verified ||
+    uniqueProducts.length === 0 ||
+    resolution.classification === "likely_official";
+
+  if (!uniqueProducts.length) reasons.push("제품 URL 수집 부족");
 
   return {
     brandKey: brand.brandKey,
     candidateUrl: origin,
     verified,
-    confidence: verified ? Math.max(brand.confidence, 0.75) : brand.confidence,
-    connector: CONNECTORS.includes(connector as never)
-      ? connector
-      : "custom_fallback",
+    confidence: resolution.confidence,
+    connector,
     blocked,
     needsReview,
     reasons,
     sitemapUrls: [...new Set(sitemapUrls)].slice(0, 30),
     productUrls: uniqueProducts,
+    resolution: {
+      classification: resolution.classification,
+      confidence: resolution.confidence,
+      allowCrawl: resolution.allowCrawl,
+      selectedUrl: resolution.selectedUrl,
+      reasons: resolution.reasons,
+    },
   };
 }

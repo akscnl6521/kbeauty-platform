@@ -1,0 +1,28 @@
+{
+  "_meta": {
+    "note": "Known public official brand site seeds for catalog brands. Verified at crawl time; not invented marketplace URLs. Config data — not code branching.",
+    "updatedAt": "2026-07-13"
+  },
+  "seeds": [
+    { "brandKey": "cosrx", "urls": ["https://www.cosrx.co.kr", "https://www.cosrx.com"] },
+    { "brandKey": "innisfree", "urls": ["https://www.innisfree.com"] },
+    { "brandKey": "beauty of joseon", "urls": ["https://beautyofjoseon.com"] },
+    { "brandKey": "purito", "urls": ["https://purito.com", "https://puritoseoul.com"] },
+    { "brandKey": "skin1004", "urls": ["https://skin1004.com"] },
+    { "brandKey": "anua", "urls": ["https://anuabeauty.com", "https://anua.shop"] },
+    { "brandKey": "round lab", "urls": ["https://roundlab.com"] },
+    { "brandKey": "klairs", "urls": ["https://www.klairs.com"] },
+    { "brandKey": "laneige", "urls": ["https://www.laneige.com"] },
+    { "brandKey": "missha", "urls": ["https://www.missha.com"] },
+    { "brandKey": "torriden", "urls": ["https://torriden.com"] },
+    { "brandKey": "isntree", "urls": ["https://isntree.com"] },
+    { "brandKey": "abib", "urls": ["https://abib.com"] },
+    { "brandKey": "axis-y", "urls": ["https://axis-y.com"] },
+    { "brandKey": "haruharu wonder", "urls": ["https://haruharuwonder.com"] },
+    { "brandKey": "some by mi", "urls": ["https://somebymi.com"] },
+    { "brandKey": "dr. jart+", "urls": ["https://www.drjart.com"] },
+    { "brandKey": "etude house", "urls": ["https://www.etude.com"] },
+    { "brandKey": "goodal", "urls": ["https://goodalcosmetic.com", "https://goodal.com"] },
+    { "brandKey": "the ordinary", "urls": ["https://theordinary.com"] }
+  ]
+}

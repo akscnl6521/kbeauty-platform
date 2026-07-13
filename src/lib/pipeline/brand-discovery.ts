@@ -99,3 +99,37 @@ export async function seedBrandsFromCatalog(limit = 10): Promise<BrandSeed[]> {
     .sort((a, b) => b.productCount - a.productCount || b.confidence - a.confidence)
     .slice(0, Math.max(1, limit));
 }
+
+/**
+ * Enrich seed brands with official website from seed config when missing (no network).
+ */
+export async function enrichBrandSeedsWithOfficialSites(
+  brands: BrandSeed[]
+): Promise<BrandSeed[]> {
+  const { readFile } = await import("node:fs/promises");
+  const path = await import("node:path");
+  let seeds: Array<{ brandKey: string; urls: string[] }> = [];
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), "data", "pipeline", "brand-official-seeds.json"),
+      "utf8"
+    );
+    seeds = (JSON.parse(raw) as { seeds?: typeof seeds }).seeds ?? [];
+  } catch {
+    seeds = [];
+  }
+
+  return brands.map((brand) => {
+    if (brand.officialWebsite) return brand;
+    const match = seeds.find(
+      (s) => normalizeTextKey(s.brandKey) === brand.brandKey
+    );
+    const url = match?.urls?.[0];
+    if (!url) return brand;
+    return {
+      ...brand,
+      officialWebsite: url,
+      confidence: Math.max(brand.confidence, 0.75),
+    };
+  });
+}

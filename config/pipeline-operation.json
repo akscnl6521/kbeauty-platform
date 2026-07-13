@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "mode": "gated_commit",
+  "paused": false,
+  "scheduleHint": "every_6_hours",
+  "brandsPerRun": 10,
+  "productsPerBrand": 50,
+  "tickLimit": 5,
+  "maxTicks": 60,
+  "allowCandidateInsert": true,
+  "allowQueueInsert": true,
+  "allowAuditInsert": true,
+  "allowProductInsert": false,
+  "allowOfferInsert": false,
+  "allowPublish": false,
+  "allowDelete": false,
+  "allowIngredientWrite": false,
+  "allowExistingCandidateBulkUpdate": false,
+  "notes": [
+    "Scheduler must run only: node scripts/run-pipeline-worker.mjs",
+    "No CLI secrets, brands, products, or allowCommit flags",
+    "Cursor develops; worker operates; humans review needs_review only"
+  ]
+}
