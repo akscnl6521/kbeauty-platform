@@ -35,5 +35,6 @@ discovered_name/brand/url/country, source_type, notes, duplicate_check_status, l
 
 ## UI
 
-- `/admin/discovery/new`
-- 목록 「후보 등록」버튼 (권한 역할만)
+- `/admin/discovery/new` — 수동 등록
+- `/admin/discovery/import` — **URL/CSV 빠른 등록** (`docs/66`~`68`)
+- 목록 「후보 등록」·「URL로 빠른 등록」버튼 (권한 역할만)

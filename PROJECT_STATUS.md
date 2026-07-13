@@ -13,7 +13,7 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | Search-to-Verified 쓰기 콘솔 1차 완료 |
+| Working tree | URL 기반 discovery 빠른 등록 완료 |
 | 빌드 | `npm run build` 성공 |
 
 ## 제품 데이터 전략
@@ -64,6 +64,7 @@
 | `/admin/products` | 제품 목록 (읽기 전용 · 검색/필터/페이지) |
 | `/admin/products/[id]` | 제품 상세 (읽기 전용) |
 | `/admin/discovery` | 발견 후보 목록 (읽기 전용) |
+| `/admin/discovery/import` | URL/CSV 빠른 후보 등록 |
 | `/admin/discovery/new` | 제품 후보 수동 등록 (쓰기) |
 | `/admin/discovery/[id]` | 발견 후보 상세 + 제한 쓰기 |
 | `/admin/ingredients` | 성분 목록 (읽기 전용) |

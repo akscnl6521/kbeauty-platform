@@ -54,6 +54,7 @@
 - [x] 관리자 verification 상세 1차 (읽기 전용 /admin/verification/[id] + API)
 - [x] 관리자 읽기 전용 운영 콘솔 내비 정리 (AdminSubnav)
 - [x] Search-to-Verified 관리자 쓰기 UI/API 1차 (권한·후보·큐·검토·workflow)
+- [x] URL/CSV 기반 discovery 빠른 등록 (preview·commit·SSRF)
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)
 - [ ] `data/backups` JSON 백업

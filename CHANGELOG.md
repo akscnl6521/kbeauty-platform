@@ -6,6 +6,15 @@
 
 ## 2026-07-13
 
+### URL 기반 discovery 빠른 등록
+
+- `/admin/discovery/import` — URL 붙여넣기·CSV·미리보기·선택 등록
+- `POST .../import/preview` · `POST .../import/commit`
+- cheerio HTML 추출 (JSON-LD → OG → meta → title → path)
+- SSRF 방어 · 중복 검사 · 부분 성공 · duplicate 큐 옵션
+- `docs/66`~`docs/68`
+- migration/DELETE/원격 테스트 INSERT 없음
+
 ### Search-to-Verified 쓰기 콘솔 1차
 
 - 역할별 쓰기 권한 (`admin-permissions` / `write-guard`)

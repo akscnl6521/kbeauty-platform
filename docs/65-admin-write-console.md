@@ -4,7 +4,9 @@
 
 ## 범위
 
-Search-to-Verified **1차 쓰기 콘솔** (승인된 INSERT/UPDATE만).
+Search-to-Verified **1차 쓰기 콘솔** + **URL/CSV 빠른 등록**.
+
+빠른 등록: `/admin/discovery/import` · `docs/66`~`68`
 
 ## 감사 로그
 
