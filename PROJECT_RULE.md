@@ -50,6 +50,7 @@
 12. pipeline 운영: 고정 worker + `config/pipeline-operation.json`. draft=`active=false`. 스케줄러 가변 인자 금지.
 13. DELETE/TRUNCATE/RLS 완화/차단 우회/main 병합은 중단 조건.
 14. 사람은 needs_review만 확인 · offer 없으면 추천 eligibility=false · marketplace seller 제외.
+15. 제품 자동 검증: quality A/B + 공식 전성분 + verified offer → active/verified_at. published·강등 금지.
 
 상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`, `docs/82-pipeline-database-persistence.md`
 

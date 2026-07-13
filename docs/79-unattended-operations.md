@@ -25,13 +25,14 @@ Pending approval 루프를 만들지 않는다.
 - provenance / quality / skin score
 - audit INSERT
 - **draft** `products` INSERT (`active=false` only, `allowDraftProductInsert`)
+- 게이트 통과 시 `products.active=true` + `verified_at` (published 아님)
 - `product_variants` (pending, inactive)
-- `product_ingredients` (exact/alias match only)
-- `product_offers` candidate (`unverified`) 및 게이트 통과 시 `verified` UPSERT
+- `product_ingredients` (exact/alias match; verify 시 official pending → approved)
+- `product_offers` candidate (`unverified`) 및 게이트 통과 시 `verified` UPSERT (draft 허용)
 
 ## 금지
 
-- 자동 published · ungated offer insert · marketplace seller · DELETE · overwrite · unverified purchase recommendation
+- 자동 published · ungated offer insert · marketplace seller · DELETE · overwrite · unverified purchase recommendation · product demotion
 
 ## Rollback SQL
 

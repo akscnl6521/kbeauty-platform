@@ -6,6 +6,16 @@
 
 ## 2026-07-13
 
+### 자율 제품 검증 · 활성화 · 추천 연결
+
+- quality A/B draft → active=true + verified_at (published 금지)
+- verified offer·공식 전성분·구조화 ingredients 필수
+- stale/OOS는 제품 강등 없이 eligibility만 false
+- Top5 패딩 금지 · fetchCandidateProducts는 verified catalog만
+- config v4: allowProductAutoVerify/Activate/Reevaluation
+- docs/104~109
+- Cursor 운영 worker/SQL 미실행
+
 ### 자율 offer discovery · verification
 
 - 판매처 등급·JSON-LD Offer 추출·가격/재고/배송 게이트

@@ -13,19 +13,19 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | draft catalog enrichment · INCI link · Cursor/worker 분리 |
+| Working tree | product auto-verify · activation · verified catalog recommend |
 | 빌드 | `npm run test:pipeline` · `npm run build` |
-| Pipeline ops | config v2 `allowDraftProductInsert` 등 · `/admin/pipeline/settings` |
+| Pipeline ops | config v4 `allowProductAutoVerify` 등 · `/admin/pipeline/settings` |
 | Scheduler | 고정 `run-pipeline-worker.mjs` (에이전트 미실행) |
-| Draft 정책 | `products.active=false` · 추천 pool 제외 · publish 금지 |
-| Offers | 게이트된 candidate/verified upsert 경로 · `/admin/offers` |
+| Draft 정책 | `products.active=false` → 게이트 통과 시 active+verified_at · publish 금지 |
+| Offers | draft에도 verified offer 허용 · Top5는 active verified product만 |
 
 ## 제품 데이터 전략
 
 - Search-to-Verified + **Autonomous Catalog Pipeline** (`docs/69`~`79`)
 - 사람이 모든 URL을 등록하지 않음 · needs_review만 검토
-- 자동 `published` 금지 · `product_offers` 0이면 publish 불가
-- 1차 job 상태는 `data/pipeline/runtime` (운영 DB 지속성 = BLOCKER migration)
+- 자동 `published` 금지 · verified offer 없으면 제품 활성화 불가 · Top5 패딩 금지
+- 기존 verified 제품 자동 강등 금지 (stale offer → eligibility만 false)
 - 공식 API는 선택적 보조 수단 (필수 아님)
 - 이중 저장(GitHub + Supabase) 원칙 유지
 
