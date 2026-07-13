@@ -22,6 +22,12 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function asTrimmedString(value: unknown): string | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return String(value);
+  }
+  if (typeof value === "bigint") {
+    return String(value);
+  }
   if (typeof value !== "string") return undefined;
   const t = value.trim();
   return t || undefined;

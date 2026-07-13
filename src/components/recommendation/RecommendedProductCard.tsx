@@ -30,7 +30,7 @@ export type RecommendedProductCardProps = {
 export function RecommendedProductCard({
   rank,
   ranked,
-  locale = "en",
+  locale = "ko",
   countryCode = null,
 }: RecommendedProductCardProps) {
   const { product, score, matchedIngredients, excludedIngredients } = ranked;
@@ -56,12 +56,24 @@ export function RecommendedProductCard({
     logTopProductPurchaseLinkAudit(product, countryCode, displayName);
   }, [product, countryCode, displayName]);
 
+  const lastChecked =
+    purchase?.verifiedAt ??
+    product.offers?.find((o) => o.lastCheckedAt)?.lastCheckedAt ??
+    product.offers?.[0]?.verifiedAt ??
+    null;
+
   const noPurchaseMessage =
     locale === "ko"
-      ? "현재 선택한 국가에서 확인 가능한 구매처가 없습니다"
+      ? `현재 확인된 판매처 정보가 없습니다.${
+          lastChecked ? ` 마지막 확인: ${lastChecked}` : " 마지막 확인: 미확인"
+        }`
       : locale === "ja"
-        ? "選択中の国で確認できる購入先がありません"
-        : "No purchase link available for the selected country";
+        ? `確認済みの販売先情報がありません。${
+            lastChecked ? `最終確認: ${lastChecked}` : "最終確認: 未確認"
+          }`
+        : `No verified retailer information available.${
+            lastChecked ? ` Last checked: ${lastChecked}` : " Last checked: unknown"
+          }`;
 
   const offerPriceLabel = purchase
     ? formatOfferPrice(purchase.price, purchase.currency, locale)
@@ -89,7 +101,7 @@ export function RecommendedProductCard({
         </div>
         <div className="shrink-0 text-right">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
-            Score
+            {locale === "ko" ? "점수" : locale === "ja" ? "スコア" : "Score"}
           </p>
           <p className="text-sm font-bold text-[#C2185B] sm:text-base">
             {score.toFixed(2)}
@@ -154,9 +166,21 @@ export function RecommendedProductCard({
           <div className="space-y-0.5">
             <p className="text-[11px] text-gray-500 sm:text-xs">
               {purchase.retailerName}
+              {purchase.verificationStatus === "verified"
+                ? locale === "ko"
+                  ? " · 검증됨"
+                  : locale === "ja"
+                    ? " · 検証済"
+                    : " · Verified"
+                : ""}
             </p>
             <p className="text-sm font-semibold text-gray-900">
-              {offerPriceLabel}
+              {offerPriceLabel ??
+                (locale === "ko"
+                  ? "가격 미확인"
+                  : locale === "ja"
+                    ? "価格未確認"
+                    : "Price unverified")}
             </p>
             {purchase.verifiedAt ? (
               <p className="text-[10px] text-gray-400">
