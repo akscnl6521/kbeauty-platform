@@ -420,6 +420,7 @@ export async function tickPipelineBatch(
                         classification: resolution.classification,
                         confidence: resolution.confidence,
                         allowCrawl: resolution.allowCrawl,
+                        selectedUrl: resolution.selectedUrl,
                       }
                     : siteMeta
                       ? {

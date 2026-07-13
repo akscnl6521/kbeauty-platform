@@ -3,6 +3,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { materializeDraftProduct } from "@/lib/pipeline/draft-product";
 import { linkProductIngredients } from "@/lib/pipeline/ingredient-link";
+import { discoverAndPersistOffers } from "@/lib/pipeline/offers/offer-persist";
 import { loadPipelineOperationConfig } from "@/lib/pipeline/operation-config";
 import type {
   DedupeDecision,
@@ -16,12 +17,12 @@ import type {
 export type CatalogEnrichResult = {
   draft: Awaited<ReturnType<typeof materializeDraftProduct>>;
   ingredients: Awaited<ReturnType<typeof linkProductIngredients>> | null;
+  offers: Awaited<ReturnType<typeof discoverAndPersistOffers>> | null;
   recommendationEligible: false;
 };
 
 /**
- * After gated candidate commit: optional draft product + ingredient links.
- * Scores are persisted by orchestrator via persistence layer.
+ * After gated candidate commit: draft product, ingredients, offers.
  */
 export async function enrichCatalogAfterCandidate(
   client: SupabaseClient,
@@ -34,6 +35,7 @@ export async function enrichCatalogAfterCandidate(
       classification?: string;
       confidence?: number;
       allowCrawl?: boolean;
+      selectedUrl?: string | null;
     } | null;
     dedupe: DedupeDecision;
     quality: QualityScore;
@@ -41,6 +43,7 @@ export async function enrichCatalogAfterCandidate(
     parsedIngredients: IngredientParseResult;
     skin: SkinClassification;
     tone: ToneMatchResult;
+    pageHtml?: string | null;
   }
 ): Promise<CatalogEnrichResult> {
   const op = loadPipelineOperationConfig();
@@ -74,7 +77,6 @@ export async function enrichCatalogAfterCandidate(
     input.parsedIngredients.normalized.length === 0 &&
     op.allowQueueInsert
   ) {
-    // ingredients_missing → needs_review queue only
     const { data: open } = await client
       .from("verification_queue")
       .select("id")
@@ -97,9 +99,49 @@ export async function enrichCatalogAfterCandidate(
     }
   }
 
+  let offers: CatalogEnrichResult["offers"] = null;
+  if (
+    draft.productId &&
+    (op.allowOfferCandidateInsert || op.allowVerifiedOfferUpsert)
+  ) {
+    let html = input.pageHtml ?? null;
+    if (!html) {
+      const { fetchPublicHtmlPage } = await import(
+        "@/lib/admin/import/fetch-page"
+      );
+      const page = await fetchPublicHtmlPage(input.product.canonicalUrl);
+      if (page.ok) html = page.html;
+    }
+
+    if (html) {
+      let officialHost: string | null = null;
+      try {
+        officialHost = input.site?.selectedUrl
+          ? new URL(input.site.selectedUrl).hostname.replace(/^www\./i, "")
+          : new URL(input.product.canonicalUrl).hostname.replace(/^www\./i, "");
+      } catch {
+        officialHost = null;
+      }
+
+      offers = await discoverAndPersistOffers(client, {
+        productId: draft.productId,
+        productName: input.product.productName,
+        brandName: input.brandName,
+        // Newly created drafts are always inactive; linked existing unknown → null
+        productActive: draft.created ? false : draft.linkedExisting ? null : false,
+        pageHtml: html,
+        pageUrl: input.product.canonicalUrl,
+        officialHost,
+        batchId: input.batchId,
+        sizeLabel: input.product.sizeLabel,
+      });
+    }
+  }
+
   return {
     draft,
     ingredients,
+    offers,
     recommendationEligible: false,
   };
 }

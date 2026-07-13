@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "mode": "gated_commit",
   "paused": false,
   "scheduleHint": "every_6_hours",
@@ -17,10 +17,24 @@
   "allowSkinScoreUpsert": true,
   "allowQualityScoreUpsert": true,
   "allowCandidateAutoChecks": true,
+  "allowOfferCandidateInsert": true,
+  "allowVerifiedOfferUpsert": true,
+  "allowOfferFreshnessUpdate": true,
+  "allowOfferChangeCandidate": true,
+  "allowOfferReviewQueue": true,
+  "allowMarketplaceOfficialStore": true,
+  "allowMarketplaceSeller": false,
+  "allowUnverifiedPurchaseRecommendation": false,
   "maxNewProductsPerRun": 20,
   "maxNewIngredientsPerRun": 5,
+  "maxOffersPerRun": 30,
+  "maxRetailersPerProduct": 5,
+  "offerFreshnessHours": 48,
+  "officialOfferConfidenceThreshold": 0.8,
+  "authorizedRetailerThreshold": 0.75,
   "ingredientMatchThreshold": 0.85,
   "draftProductQualityThreshold": 0.65,
+  "shippingCountriesPriority": ["KR", "US", "JP"],
   "allowProductInsert": false,
   "allowOfferInsert": false,
   "allowVerifiedOfferInsert": false,
@@ -32,7 +46,7 @@
   "allowBulkStatusRewrite": false,
   "notes": [
     "Scheduler: node scripts/run-pipeline-worker.mjs only",
-    "Draft products use active=false; never published; no verified offers",
-    "Cursor develops; worker operates; humans review needs_review only"
+    "Offers: gated verified upsert; marketplace sellers excluded",
+    "allowOfferInsert/allowVerifiedOfferInsert remain false (ungated writes forbidden)"
   ]
 }
