@@ -1,8 +1,8 @@
--- BLOCKER: Autonomous pipeline persistence
--- DO NOT APPLY without explicit user approval.
--- Rollback: DROP TABLE IF EXISTS in reverse order (see bottom).
--- Existing product/offer data: no destructive changes intended.
--- RLS: service_role / admin-only; no public SELECT of crawl state.
+-- APPLIED remotely as create_autonomous_pipeline_persistence (version 20260713084701).
+-- Canonical SQL: supabase/migrations/20260713100000_create_autonomous_pipeline_persistence.sql
+-- Rollback: docs/81-pipeline-migration-rollback.sql (manual only).
+-- This file remains as historical BLOCKER draft; do not re-apply blindly.
+
 
 -- 1) pipeline_batches
 CREATE TABLE IF NOT EXISTS public.pipeline_batches (
