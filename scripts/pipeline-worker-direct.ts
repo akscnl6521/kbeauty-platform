@@ -1,6 +1,11 @@
 /**
- * Direct pipeline worker — no admin cookie, uses .env.local + Supabase service role.
- * Usage: npx tsx scripts/pipeline-worker-direct.ts --mode=dry_run --brands=3 --tick=3 --maxTicks=20
+ * Direct pipeline worker — fixed entry for Task Scheduler.
+ *
+ * Always:
+ *   node scripts/run-pipeline-worker.mjs
+ *
+ * Reads config/pipeline-operation.json (+ data/pipeline/operation-overrides.json).
+ * Does not accept brands/products/allowCommit/secrets from CLI.
  */
 import { loadEnvLocal, hasRequiredPipelineEnv } from "./load-env-local.mjs";
 
@@ -13,36 +18,34 @@ if (!hasRequiredPipelineEnv()) {
   process.exit(1);
 }
 
-const args = Object.fromEntries(
-  process.argv.slice(2).map((a) => {
-    const [k, v] = a.replace(/^--/, "").split("=");
-    return [k, v ?? "true"];
-  })
+const argv = process.argv.slice(2);
+const forbidden = argv.filter((a) =>
+  /--(brands|products|allowCommit|allowGatedCandidateInsert|mode|batch|cookie|email|uuid)=/i.test(
+    a
+  )
 );
-
-const mode = args.mode === "commit" ? "commit" : "dry_run";
-if (mode === "commit" && args.allowCommit !== "true") {
+if (forbidden.length) {
   console.error(
-    "[pipeline-worker] commit mode requires --allowCommit=true (scheduler stays dry_run)"
+    "[pipeline-worker] refusing CLI overrides (use config/pipeline-operation.json):",
+    forbidden.map((f) => f.split("=")[0]).join(", ")
   );
   process.exit(1);
 }
 
 async function main() {
-  const { runPipelineWorker } = await import("../src/lib/pipeline/worker");
-  const result = await runPipelineWorker({
-    mode,
-    brandLimit: Number(args.brands ?? 3),
-    productLimitPerBrand: Number(args.products ?? 5),
-    tickLimit: Number(args.tick ?? 3),
-    maxTicks: Number(args.maxTicks ?? 30),
-    batchId: args.batch || undefined,
-    workerId: args.workerId || `scheduler-${process.pid}`,
+  const { runPipelineWorkerFromConfig } = await import(
+    "../src/lib/pipeline/worker"
+  );
+  const result = await runPipelineWorkerFromConfig({
+    workerId: `scheduler-${process.pid}`,
+    triggerType: "scheduler",
   });
   console.log("[pipeline-worker] done", {
     batchId: result.batchId,
     ticks: result.ticks,
-    mode,
+    mode: "mode" in result ? result.mode : undefined,
+    writeScope: "writeScope" in result ? result.writeScope : undefined,
+    skipped: "skipped" in result ? result.skipped : undefined,
   });
 }
 

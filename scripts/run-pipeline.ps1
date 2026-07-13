@@ -1,21 +1,6 @@
-# K-Beauty Match unattended pipeline worker (PowerShell)
-# Reads .env.local via Node script — never pass secrets as arguments.
-#
-# Examples:
-#   .\scripts\run-pipeline.ps1
-#   .\scripts\run-pipeline.ps1 -Mode dry_run -Brands 3 -Tick 3
-#   .\scripts\run-pipeline.ps1 -Batch <uuid>
-
-param(
-  [ValidateSet("dry_run", "commit")]
-  [string]$Mode = "dry_run",
-  [int]$Brands = 3,
-  [int]$Products = 5,
-  [int]$Tick = 3,
-  [int]$MaxTicks = 30,
-  [string]$Batch = "",
-  [switch]$AllowCommit
-)
+# Fixed unattended entry for Task Scheduler.
+# Always: node scripts/run-pipeline-worker.mjs (no CLI knobs / secrets).
+# Limits & mode: config/pipeline-operation.json (+ optional overrides).
 
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
@@ -48,24 +33,14 @@ try {
   if (-not (Test-Path (Join-Path $root ".env.local"))) {
     throw ".env.local missing (existence check only; contents not logged)"
   }
-
-  $nodeArgs = @(
-    "--mode=$Mode",
-    "--brands=$Brands",
-    "--products=$Products",
-    "--tick=$Tick",
-    "--maxTicks=$MaxTicks"
-  )
-  if ($Batch) { $nodeArgs += "--batch=$Batch" }
-  if ($Mode -eq "commit") {
-    if (-not $AllowCommit) { throw "commit requires -AllowCommit" }
-    $nodeArgs += "--allowCommit=true"
+  if (-not (Test-Path (Join-Path $root "config\pipeline-operation.json"))) {
+    throw "config/pipeline-operation.json missing"
   }
 
-  "[{0}] start mode={1} brands={2}" -f (Get-Date).ToString("o"), $Mode, $Brands |
+  "[{0}] start fixed worker (config-driven)" -f (Get-Date).ToString("o") |
     Tee-Object -FilePath $logFile -Append
 
-  & node (Join-Path $root "scripts\run-pipeline-worker.mjs") @nodeArgs 2>&1 |
+  & node (Join-Path $root "scripts\run-pipeline-worker.mjs") 2>&1 |
     Tee-Object -FilePath $logFile -Append
   $code = $LASTEXITCODE
   "[{0}] exit=$code" -f (Get-Date).ToString("o") | Tee-Object -FilePath $logFile -Append

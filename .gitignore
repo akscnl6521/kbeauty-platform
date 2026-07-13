@@ -47,3 +47,4 @@ supabase/.temp/
 # autonomous pipeline runtime checkpoints (local worker state)
 /data/pipeline/runtime/
 /data/pipeline/logs/
+/data/pipeline/operation-overrides.json
