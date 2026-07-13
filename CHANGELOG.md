@@ -6,6 +6,14 @@
 
 ## 2026-07-13
 
+### 자율 offer discovery · verification
+
+- 판매처 등급·JSON-LD Offer 추출·가격/재고/배송 게이트
+- `allowOfferCandidateInsert` / `allowVerifiedOfferUpsert` (ungated offer insert는 hard false)
+- `/admin/offers` · marketplace seller 제외
+- docs/98~103
+- Cursor는 운영 worker/SQL 미실행
+
 ### 자율 draft catalog · 전성분 enrichment
 
 - `allowDraftProductInsert` 등 config v2

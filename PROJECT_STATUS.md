@@ -18,6 +18,7 @@
 | Pipeline ops | config v2 `allowDraftProductInsert` 등 · `/admin/pipeline/settings` |
 | Scheduler | 고정 `run-pipeline-worker.mjs` (에이전트 미실행) |
 | Draft 정책 | `products.active=false` · 추천 pool 제외 · publish 금지 |
+| Offers | 게이트된 candidate/verified upsert 경로 · `/admin/offers` |
 
 ## 제품 데이터 전략
 
