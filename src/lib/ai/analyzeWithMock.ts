@@ -11,6 +11,7 @@ import {
 } from "./prompt";
 import type { AnalyzeSkinRequest, AnalyzeSkinResponse } from "./types";
 import { validateRecommendation } from "./validateRecommendation";
+import { applyRednessObservationToRecommendation } from "./rednessObservation";
 
 function createDevMockAnalysis(input: AnalyzeSkinRequest): AnalysisResult {
   const concernLabel =
@@ -55,6 +56,11 @@ function createExpandedMockRecommendation(
     avoided
   );
 
+  const rednessNote =
+    input.mode === "manual" && input.rednessObservation
+      ? " 사용자가 밝힌 붉어 보이는 상황에 대한 관찰 정보를 참고했으며, 원인을 진단한 결과는 아닙니다."
+      : "";
+
   // 의도적으로 알레르기·회피 성분을 추천 목록에 섞어 후처리 필터를 검증한다.
   const recommendedIngredients = [
     "센텔라 아시아티카",
@@ -65,7 +71,7 @@ function createExpandedMockRecommendation(
     ...avoided.slice(0, 1),
   ];
 
-  return {
+  const base: Recommendation = {
     skinConcerns: concerns,
     recommendedIngredients,
     ingredientsToAvoid: ["고함량 알코올", "강한 향료", ...allergy, ...avoided],
@@ -101,12 +107,17 @@ function createExpandedMockRecommendation(
     notRecommendedReasons: [],
     expertReferralReasons: [],
     summaryKo:
-      "제공된 정보만으로 정리한 일반 스킨케어 안내입니다. 의료 진단이 아니며, 증상이 심하거나 지속되면 전문가 상담을 권합니다.",
+      `제공된 정보만으로 정리한 일반 스킨케어 안내입니다. 의료 진단이 아니며, 증상이 심하거나 지속되면 전문가 상담을 권합니다.${rednessNote}`,
     summaryEn:
       "General skincare guidance based only on the information provided. This is not a medical diagnosis; seek professional care if symptoms are severe or persistent.",
     summaryJa:
       "提供された情報のみに基づく一般的なスキンケア案内です。医療診断ではなく、症状が強い・続く場合は専門家への相談を検討してください。",
   };
+
+  return applyRednessObservationToRecommendation(
+    base,
+    input.mode === "manual" ? input.rednessObservation : undefined
+  );
 }
 
 /** 개발용 mock 프로바이더 — 유료 API 없이 확장 Recommendation 계약 유지 */

@@ -18,6 +18,7 @@ import type {
 } from "./types";
 import { applyUserIngredientPreferences } from "@/lib/recommend/applyUserIngredientPreferences";
 import { mergeCurrentRoutineIntoRecommendation } from "@/lib/recommend/currentProduct";
+import { applyRednessObservationToRecommendation } from "./rednessObservation";
 
 export { AnalyzeSkinError } from "./errors";
 
@@ -158,6 +159,10 @@ function attachUserIngredientPreferences(
     currentProducts,
     allergy,
     avoided
+  );
+  recommendation = applyRednessObservationToRecommendation(
+    recommendation,
+    input.rednessObservation
   );
 
   return {

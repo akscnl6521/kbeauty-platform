@@ -3,6 +3,7 @@
  * Ranking / product search types will extend these later.
  */
 
+import type { RednessObservation } from "@/lib/ai/rednessObservation";
 import type { PurchaseLink } from "./selectPurchaseLink";
 import type { ProductOffer } from "./catalogTypes";
 
@@ -106,6 +107,11 @@ export interface Recommendation {
   summaryKo?: string;
   summaryEn?: string;
   summaryJa?: string;
+  /**
+   * 사용자가 입력한 붉은기 관찰 상태 (선택, 비진단).
+   * 없으면 구버전 localStorage와 호환.
+   */
+  rednessObservation?: RednessObservation;
 }
 
 /** localStorage key for the structured recommendation (Phase 1). */

@@ -759,6 +759,15 @@ function ResultsPageInner() {
                                   ? "医療診断ではなく、K-Beauty情報ガイドです。"
                                   : "Informational K-Beauty guidance — not a medical diagnosis."}
                             </p>
+                            {savedRecommendation.rednessObservation ? (
+                              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-gray-600">
+                                {locale === "ko"
+                                  ? "입력하신 내용은 붉어 보이는 피부 상태에 대한 참고 정보이며, 원인을 진단한 결과는 아닙니다."
+                                  : locale === "ja"
+                                    ? "入力内容は赤みに見える肌状態の参考情報であり、原因を診断した結果ではありません。"
+                                    : "Your inputs are reference notes about how redness appears — not a diagnosis of its cause."}
+                              </p>
+                            ) : null}
                           </div>
 
                           {/* 위험 단계: 결과 최상단 강조 */}

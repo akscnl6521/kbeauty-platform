@@ -12,6 +12,7 @@ import {
 } from "./types";
 import { normalizeCurrentProducts } from "./currentProduct";
 import { loadRankedProductsFromStorage } from "./loadRankedProducts";
+import { parseRednessObservation } from "@/lib/ai/rednessObservation";
 
 const MANAGEMENT_LEVELS: readonly ManagementLevel[] = [
   "cosmetic_care",
@@ -172,6 +173,9 @@ export function loadRecommendationFromStorage(): Recommendation | null {
     const summaryJa = asOptionalString(
       parsed.summaryJa ?? parsed.summary_ja
     );
+    const rednessObservation = parseRednessObservation(
+      parsed.rednessObservation ?? parsed.redness_observation
+    );
 
     return {
       ...base,
@@ -198,6 +202,7 @@ export function loadRecommendationFromStorage(): Recommendation | null {
       ...(summaryKo ? { summaryKo } : {}),
       ...(summaryEn ? { summaryEn } : {}),
       ...(summaryJa ? { summaryJa } : {}),
+      ...(rednessObservation ? { rednessObservation } : {}),
     };
   } catch {
     return null;

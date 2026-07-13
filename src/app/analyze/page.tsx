@@ -7,6 +7,11 @@ import { useMemo, useState, useEffect } from "react";
 import { useLocale } from "@/hooks/useLocale";
 import { useCountry } from "@/hooks/useCountry";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
+import { RednessObservationFields } from "@/components/analyze/RednessObservationFields";
+import {
+  parseRednessObservation,
+  type RednessObservation,
+} from "@/lib/ai/rednessObservation";
 import {
   ANALYSIS_RESULT_STORAGE_KEY,
   ANALYZE_SOURCE_STORAGE_KEY,
@@ -71,6 +76,7 @@ type IngredientPrefBody = {
   allergyIngredients?: string[];
   avoidedIngredients?: string[];
   currentProducts?: CurrentProductInput[];
+  rednessObservation?: RednessObservation;
 };
 
 const USAGE_TIME_OPTIONS: { value: CurrentProductUsageTime; label: string }[] =
@@ -651,11 +657,19 @@ export default function AnalyzePage() {
   const [manualUndertone, setManualUndertone] = useState<UndertoneKo>("중립");
   const [manualConcerns, setManualConcerns] = useState<ConcernKo[]>(["붉은기"]);
   const [manualSensitivity, setManualSensitivity] = useState<SensitivityKo>("보통");
+  const [rednessObservation, setRednessObservation] =
+    useState<RednessObservation>({});
   const [allergyIngredients, setAllergyIngredients] = useState<string[]>([]);
   const [avoidedIngredients, setAvoidedIngredients] = useState<string[]>([]);
   const [currentProducts, setCurrentProducts] = useState<CurrentProductInput[]>(
     []
   );
+
+  const showRednessDetails = manualConcerns.includes("붉은기");
+  const rednessPayload = useMemo(() => {
+    if (!showRednessDetails) return undefined;
+    return parseRednessObservation(rednessObservation) ?? undefined;
+  }, [showRednessDetails, rednessObservation]);
 
   const ingredientPrefs = useMemo(
     () => ({
@@ -776,6 +790,7 @@ export default function AnalyzePage() {
         undertone: manualUndertone,
         concerns: manualConcerns,
         sensitivity: manualSensitivity,
+        ...(rednessPayload ? { rednessObservation: rednessPayload } : {}),
         ...ingredientPrefs,
       });
       setResult(analysis);
@@ -1209,10 +1224,16 @@ export default function AnalyzePage() {
                           type="button"
                           onClick={() => {
                             setManualConcerns((prev) => {
-                              const next = selected
+                              const next: ConcernKo[] = selected
                                 ? prev.filter((x) => x !== v)
                                 : [...prev, v];
-                              return next.length ? next : ["붉은기"];
+                              const resolved: ConcernKo[] = next.length
+                                ? next
+                                : ["붉은기"];
+                              if (!resolved.includes("붉은기")) {
+                                setRednessObservation({});
+                              }
+                              return resolved;
                             });
                           }}
                           className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
@@ -1227,6 +1248,13 @@ export default function AnalyzePage() {
                     })}
                   </div>
                 </div>
+
+                {showRednessDetails ? (
+                  <RednessObservationFields
+                    value={rednessObservation}
+                    onChange={setRednessObservation}
+                  />
+                ) : null}
 
                 <div>
                   <p className="mb-2 text-sm font-semibold text-gray-900">
