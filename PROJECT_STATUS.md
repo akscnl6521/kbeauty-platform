@@ -1,84 +1,99 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-12
+최종 갱신: 2026-07-13
 
 ## 현재 컴퓨터 / 경로
 
 | 항목 | 값 |
 |------|-----|
 | 현재 컴퓨터 | 보조컴퓨터 |
-| 프로젝트 경로 | `C:\Users\조병선\Desktop\K뷰티사업\kbeauty-platform` |
+| 프로젝트 경로 | `C:\Users\조병선\Desktop\k뷰티사업\kbeauty-platform` |
 | GitHub 저장소 | https://github.com/akscnl6521/kbeauty-platform.git |
-| 현재 브랜치 | `main` |
-| 최근 정상 커밋 | `1895221` — Sprint 8: Separate core recommendations and normalize ingredient names |
-| Working tree | 문서 3개 신규 상태 (코드 working tree는 Sprint 8 기준 clean이었음) |
+| 현재 브랜치 | `backup-sprint14-20260713` |
+| 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
+| main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
+| Working tree | 문서 복구 작업 중 (본 갱신 포함, commit/push 전) |
 | 빌드 | `npm run build` 성공 |
 
-## 환경 / 시크릿
+## Supabase
 
 | 항목 | 값 |
 |------|-----|
-| `.env.local` 위치 | `C:\Users\조병선\Desktop\K뷰티사업\kbeauty-platform\.env.local` |
-| 현재 AI 실행 방식 | 서버 `POST /api/analyze` — 현재 **mock fallback** (실제 Anthropic/OpenAI/Ollama 연결 전) |
-| 비고 | 브라우저는 AI API 키를 직접 사용하지 않음. 프로바이더 선택은 서버만 담당 |
+| Project ref | `rhfrmvkjsummaylpzmns` |
+| MCP | 연결 완료, 쓰기 도구(`apply_migration`, `execute_sql`) 사용 가능 |
+| 원격 테이블 | `products` 186 / `ingredients` 40 / `profiles` 1 / `invite_codes` 3 |
+| `product_offers` | **아직 없음** (로컬 migration 준비됨, 원격 미적용) |
+| `products.id` | `bigint` (IDENTITY ALWAYS) |
+
+## 로컬 제품 데이터
+
+| 항목 | 값 |
+|------|-----|
+| COSRX 제품 | 3개 (`data/catalog/kr/cosrx-products.json`) |
+| COSRX offer | 3개 (`data/catalog/kr/cosrx-offers.json`) |
+| offer 상태 | `verificationStatus=unverified`, `stockStatus=unknown`, `verifiedAt=null` |
+| 가격 | 23,000 / 23,000 / 24,000 KRW (공식 확인가) |
+| 핵심 추천 포함 | **불가** (검증 대기) |
+| `data/backups` | **미생성** |
 
 ## 실행 가능한 페이지
 
 | 경로 | 역할 |
 |------|------|
-| `/` | 메인페이지 |
+| `/` | 메인 |
 | `/analyze` | AI 피부 분석 (사진·수동·Mock) |
-| `/results` | 분석 가이드 + 핵심 추천 Top 5 + 제품 탐색 |
+| `/results` | 분석 가이드 + Top 5 + 제품 탐색 |
 | `/quiz` | 설문 |
 | `/routine` | 루틴 |
 | `/face-explorer` | 얼굴 영역 탐색 |
 | `/ingredients/[slug]` | 성분 상세 |
-| `/privacy` | 개인정보 |
-| `/terms` | 약관 |
+| `/admin/catalog-review` | 카탈로그 검증 대기 (development only) |
+| `/privacy`, `/terms` | 약관 |
 | `/api/analyze` | 서버 AI 분석 API |
 
-## 현재 작동 기능
+## 현재 주요 기능
 
-- 메인페이지
-- 피부 분석
-- Mock AI 분석
-- 분석 결과 저장 (LocalStorage)
-- `/results` 자동 이동
-- 피부 타입 및 고민 표시
-- 추천 성분 및 피해야 할 성분 표시
-- 화장품 관리 가능 범위와 한계 표시
-- 아침·저녁 루틴 표시
-- 주의사항과 신뢰도 표시
-- 핵심 추천 제품 Top 5
-- 다른 제품 둘러보기
-- 성분명 표준화
-- 제품 검색
-- 즐겨찾기
-- 구매처 링크
-- 한국어·영어·일본어 구조
+- 피부 분석 (Mock AI 포함)
+- 추천 결과 (핵심 Top 5 + 둘러보기)
+- 알레르기·회피 성분 안전 필터
+- 현재 제품 등록
+- 루틴 점검
+- 브랜드명 표준화 (`canonicalBrandName`, 번역 차단)
+- 한국 offer 구조·적격 필터
+- 관리자 catalog review
+- 한국 카탈로그 입력 템플릿·검증 유틸
 
-## 현재 미완성 기능
+## 환경 / AI
 
-- 실제 Anthropic / OpenAI / Ollama 연결
-- 알레르기 및 회피 성분 입력
-- 현재 사용 제품 등록
-- 국가·언어·통화 자동 감지
-- 분석 결과 DB 저장
-- 3일·7일·15일·30일 안부 확인
-- 관리자 시스템
-- 사진 분석 (비전 픽셀 전달)
-- 깨진 한글 소스 주석 정리
+| 항목 | 값 |
+|------|-----|
+| `.env.local` | 프로젝트 루트 (GitHub 커밋 금지) |
+| AI 실행 | 서버 `POST /api/analyze` — 현재 **mock fallback** 가능 |
+| 비고 | 브라우저 직접 AI 키 사용 없음 |
+
+## 현재 문제
+
+1. `product_offers` 원격 미적용
+2. `data/backups` 폴더 미생성
+3. (이전) 문서 불일치 → 본 Sprint에서 문서 복구 중
+4. COSRX 로컬 데이터는 등록됐으나 Supabase 미반영
+5. 실제 Anthropic / OpenAI / Ollama 연결 미완
 
 ## 다음 작업
 
-1. 소스 파일의 깨진 한글 주석 UTF-8 정리
-2. 알레르기 및 회피 성분 입력 추가
-3. 현재 사용 제품 등록 구조 추가
-4. 안전 필터와 전문가 상담 분기 강화
-5. 실제 AI 공급자 연결
+1. **문서 복구 완료** (본 작업)
+2. main 병합 검토
+3. `product_offers` migration 안전 적용 준비
+4. 원격 검증
+5. COSRX 3개 데이터 반영
+6. JSON 백업 생성 (`data/backups/YYYY-MM-DD/`)
+7. GitHub 최종 push
 
 ## 참고 문서
 
-- `ROADMAP.md` — 완료 / 진행 중 / 다음 작업 / 이후 단계
-- `CHANGELOG.md` — Sprint 변경 이력
-- `docs/` — 비전·아키텍처 등 상세 초안 (일부 As-Is 서술은 구버전일 수 있음 → 본 파일 우선)
+- `MASTER_PLAN.md` — Master Plan v3.1
+- `PROJECT_RULE.md` — 운영 규칙
+- `ROADMAP.md` — 완료 / 진행 / 다음
+- `CHANGELOG.md` — Sprint 이력
+- `docs/29-korean-product-data-guide.md` — 한국 데이터 입력
+- `docs/30-github-supabase-backup.md` — 백업 연동

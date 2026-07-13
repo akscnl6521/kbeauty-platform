@@ -4,7 +4,63 @@
 
 ---
 
+## 2026-07-13
+
+### 문서 복구 — Master Plan v3.1 / 운영 규칙 / 상태 동기화
+
+- `MASTER_PLAN.md` 신설 (v3.1: 한국 MVP, 이중 저장, 검증 우선, 즉흥 수정 금지)
+- `PROJECT_RULE.md` 신설 (GitHub/Supabase 규칙, 작업 순서, 백업 경로, 승인 절차)
+- `PROJECT_STATUS.md` / `ROADMAP.md` / `CHANGELOG.md`를 실제 Sprint 진행에 맞게 갱신
+
+### GitHub 백업 브랜치
+
+- 브랜치 `backup-sprint14-20260713` 생성
+- 커밋 `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration
+- `main` 미병합, Supabase 미적용 상태로 로컬 작업 보존
+- Supabase MCP 연결 완료 (쓰기 도구 사용 가능, 본 단계에서는 미사용)
+- 원격 `product_offers` **미적용** 상태 유지
+
+### Sprint 14 — COSRX 1차 등록·검증 대기 (진행 중)
+
+- 로컬 `data/catalog/kr/cosrx-products.json` / `cosrx-offers.json` — 실제품 3개·offer 3개
+- 가격 23,000 / 23,000 / 24,000 KRW, 공식몰 URL, 성분 임의 기입 없음
+- offer: `unverified` + `stock unknown` → 핵심 Top 5 제외
+- `/admin/catalog-review` 개발 전용 검증 대기 UI
+- `product_offers` migration: `product_id bigint` FK, 최소 권한 RLS 준비
+
+---
+
 ## 2026-07-12
+
+### `514f0f9` — Sprint 13
+한국 카탈로그 템플릿·검증 도구
+
+- `validateCatalogData` / `findDuplicateProducts`
+- 한국 제품·offer CSV/JSON 템플릿 및 sample
+- `docs/29-korean-product-data-guide.md`
+- 가짜 실상품·임의 가격 없이 입력·검증 구조만 구축
+
+### `f9ca6e7` — Sprint 12
+canonical 브랜드명 표준화
+
+- `displayBrandName` / `BrandDisplayName` 레지스트리
+- 오번역·오타 복구 (Peach Slices, Beauty of Joseon 등)
+- 제품명·브랜드명 분리 표시
+- 브랜드명 자동 번역 차단
+
+### `e001baf` — Sprint 10
+현재 제품 등록과 루틴 점검
+
+- `CurrentProductInput` 및 analyze CRUD UI
+- `reviewCurrentRoutine` / 결과 페이지 「현재 루틴 점검」
+- 프롬프트·mock과 연동
+
+### `7136a88` — Sprint 9
+알레르기·회피 성분 안전 필터
+
+- 알레르기/회피 성분 입력·저장
+- `filterCandidatesBySafety` 등 추천 전 안전 필터
+- 결과 UI 반영
 
 ### `1895221` — Sprint 8
 핵심 추천 제품 분리와 성분 표시명 표준화
