@@ -43,3 +43,6 @@ next-env.d.ts
 
 # supabase local/link cache (project secrets live here)
 supabase/.temp/
+
+# autonomous pipeline runtime checkpoints (local worker state)
+/data/pipeline/runtime/
