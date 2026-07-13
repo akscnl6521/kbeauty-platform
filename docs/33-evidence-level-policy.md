@@ -34,7 +34,7 @@
 보조 필드:
 
 - `evidence_type`: `cosmetic_study` | `drug_study` | `guideline` | `claim`  
-- `review_status`: `pending` | `approved` | `rejected` | `needs_review`  
+- `review_status`: `pending` | `in_review` | `approved` | `rejected` | `needs_review`  
 - `conflict_of_interest`: `none` | `disclosed` | `unknown` | `high`
 
 ---
@@ -126,6 +126,7 @@
 
 1. Evidence는 **성분–고민 매칭 힌트**이지 제품 점수 확정이 아니다.  
 2. `review_status != approved`인 evidence는 추천 근거로 쓰지 않는다.  
+   클라이언트 공개는 approved + reviewed_at + (source_url|PMID|DOI)를 요구한다.  
 3. `manufacturer_claim`만 있는 성분은 핵심 효능 문구에 사용하지 않는다.  
 4. 제품 published 게이트는 판매·전성분·안전·관리자 승인이 우선이며, evidence는 그 다음이다.  
 5. 가짜 PMID/DOI·존재하지 않는 논문 생성 금지.

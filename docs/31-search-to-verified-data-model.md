@@ -95,9 +95,9 @@
 | name_ja | text | YES | NULL | |
 | official_website | text | YES | NULL | HTTPS |
 | country_code | text | YES | NULL | KR/US/JP/… |
-| verification_status | text | NO | `'unverified'` | verified/unverified/invalid |
+| verification_status | text | NO | `'pending'` | pending / in_review / approved / rejected / needs_review |
 | source_url | text | YES | NULL | |
-| verified_at | timestamptz | YES | NULL | |
+| verified_at | timestamptz | YES | NULL | 관리자 승인 시각(메타). offer의 verified와 혼동 금지 |
 | active | boolean | NO | true | |
 | created_at | timestamptz | NO | now() | |
 | updated_at | timestamptz | NO | now() | |
@@ -120,12 +120,14 @@
 | package_version | text | YES | NULL | |
 | launch_date | date | YES | NULL | |
 | discontinued_at | date | YES | NULL | |
+| verification_status | text | NO | `'pending'` | pending…needs_review (관리자 검토) |
 | active | boolean | NO | true | |
 | created_at | timestamptz | NO | now() | |
 | updated_at | timestamptz | NO | now() | |
 
-- UNIQUE 후보: `(product_id, country_code, size_value, size_unit, formula_version)` (NULL 처리 주의)  
-- INDEX: `(product_id)`, `(country_code)`, `(active)`  
+- UNIQUE 후보: `(product_id, country_code, variant_name, formula_version)` (NULL은 COALESCE 인덱스)
+- INDEX: `(product_id)`, `(country_code)`, `(active)`, `(verification_status)`
+- 클라이언트 SELECT: `active = true AND verification_status = 'approved'`
 - 리뉴얼·국가별 용량 차이는 variant로만 표현. 제품 본체는 하나로 유지.
 
 ### 3.3 product_ingredients
@@ -143,13 +145,14 @@
 | concentration_disclosed | boolean | NO | false | |
 | source_url | text | YES | NULL | |
 | source_type | text | YES | NULL | label/official/retailer/admin |
-| verified_at | timestamptz | YES | NULL | |
-| verification_status | text | NO | `'unverified'` | |
+| verified_at | timestamptz | YES | NULL | approved 시 필수 |
+| verification_status | text | NO | `'pending'` | pending…needs_review (**approved만 공개**. offer verified와 혼용 금지) |
 | created_at | timestamptz | NO | now() | |
 
-- UNIQUE: `(product_id, COALESCE(variant_id, '000…0'), ingredient_order)`  
-- UNIQUE 후보: 동일 variant에서 동일 ingredient 중복 방지 `(product_id, variant_id, ingredient_id)` (용매 반복 등 예외는 운영 규칙)  
-- INDEX: `(product_id, ingredient_order)`, `(ingredient_id)`, `(verification_status)`  
+- UNIQUE: `(product_id, COALESCE(variant_id, sentinel), ingredient_order)` — variant_id NULL도 순서 중복 방지  
+- INDEX: `(product_id, ingredient_order)`, `(ingredient_id)`, `(verification_status)`, `(product_id, variant_id)`  
+- approved 시 CHECK: `verified_at` + 비어 있지 않은 `source_url` + `source_type ∈ (official_brand_page, official_label, official_retailer)`  
+- 클라이언트 SELECT: approved + 공식 출처 + verified_at  
 - **전성분 순서 보존이 핵심.** 공식 출처 없는 전성분은 published 금지 조건에 사용.
 
 ### 3.4 ingredient_aliases
@@ -162,10 +165,13 @@
 | language_code | text | YES | NULL | ko/en/ja/inci |
 | alias_type | text | NO | `'synonym'` | inci/common/ko/en/ja/misspelling |
 | normalized_alias | text | NO | — | 소문자·공백 정규화 키 |
+| active | boolean | NO | true | |
+| review_status | text | NO | `'pending'` | pending…needs_review |
 | created_at | timestamptz | NO | now() | |
 
-- UNIQUE: `(normalized_alias)` 전역 또는 `(ingredient_id, normalized_alias, alias_type)`  
-- INDEX: `(ingredient_id)`, `(normalized_alias)`
+- UNIQUE: `(normalized_alias, COALESCE(language_code,''))`  
+- INDEX: `(ingredient_id)`, `(normalized_alias)`, `(active)`, `(review_status)`  
+- 클라이언트 SELECT: `active = true AND review_status = 'approved'` (검토 전 alias 비공개)
 
 ### 3.5 skin_concerns
 
@@ -178,9 +184,11 @@
 | category | text | YES | NULL | cosmetic / borderline / refer_expert |
 | medical_boundary | text | YES | NULL | 전문가 상담 우선 사유 |
 | active | boolean | NO | true | |
+| review_status | text | NO | `'pending'` | pending…needs_review (운영 기준 데이터) |
 | created_at | timestamptz | NO | now() | |
 
 - UNIQUE: `code`  
+- 클라이언트 SELECT: `active = true AND review_status = 'approved'`  
 - `products.skin_concern text[]`와 병행. 점진적으로 code 매핑.
 
 ### 3.6 ingredient_evidence
@@ -207,11 +215,14 @@
 | source_url | text | YES | NULL | |
 | reviewed_by | text | YES | NULL | 운영자 표시명 (개인정보 최소) |
 | reviewed_at | timestamptz | YES | NULL | |
-| review_status | text | NO | `'pending'` | pending/approved/rejected/needs_review |
+| review_status | text | NO | `'pending'` | pending / in_review / approved / rejected / needs_review |
 | created_at | timestamptz | NO | now() | |
 | updated_at | timestamptz | NO | now() | |
 
-- INDEX: `(ingredient_id, concern_id)`, `(evidence_level)`, `(review_status)`  
+- INDEX: `(ingredient_id, concern_id)`, `(evidence_level)`, `(review_status)`, `(publication_year)`  
+- Partial UNIQUE: 비어 있지 않은 `pmid` / `doi` 각각 unique (둘 다 NULL 허용)  
+- approved 시 CHECK: `reviewed_at` + (`source_url` OR `pmid` OR `doi`)  
+- 클라이언트 SELECT: 동일 조건  
 - **제품 추천 테이블이 아님.** 성분–고민 근거만 저장.  
 - `evidence_level` ≠ `review_status` (분리 필수).  
 - 논문 1건으로 제품 효능 확정 금지 (앱·운영 규칙).
@@ -226,11 +237,16 @@
 | severity | text | NO | `'moderate'` | low/moderate/high/refer_expert |
 | condition | text | YES | NULL | 적용 조건 |
 | description | text | NO | — | |
-| evidence_source | text | YES | NULL | |
-| reviewed_at | timestamptz | YES | NULL | |
+| evidence_source | text | YES | NULL | approved 시 필수 |
+| reviewed_at | timestamptz | YES | NULL | approved 시 필수 |
+| review_status | text | NO | `'pending'` | pending…needs_review |
 | active | boolean | NO | true | |
+| created_at | timestamptz | NO | now() | |
 
-- INDEX: `(ingredient_id, caution_type)`, `(severity, active)`
+- INDEX: `(ingredient_id, caution_type)`, `(severity, active)`, `(review_status)`  
+- approved 시 CHECK: `reviewed_at` + 비어 있지 않은 `evidence_source`  
+- 클라이언트 SELECT: active + approved + evidence_source + reviewed_at  
+- 근거·검토일 없는 주의사항은 공개하지 않는다.
 
 ### 3.8 product_discovery_candidates
 
@@ -272,7 +288,7 @@
 | entity_id | text | NO | — | uuid 또는 bigint 문자열 (다형) |
 | review_type | text | NO | — | sale/ingredients/evidence/safety/publish |
 | priority | integer | NO | 100 | 낮을수록 우선 |
-| status | text | NO | `'open'` | open/in_review/approved/rejected/deferred |
+| status | text | NO | `'pending'` | pending / in_review / approved / rejected / needs_review |
 | assigned_to | text | YES | NULL | |
 | reason | text | YES | NULL | |
 | reviewer_notes | text | YES | NULL | |
@@ -321,17 +337,25 @@
 
 ## 4. 상태값 정리
 
+### 공통 검토 상태 (신규 테이블)
+
+`pending` | `in_review` | `approved` | `rejected` | `needs_review`
+
+- 관리자 검토 결과 공개 게이트는 **`approved`**  
+- **`verified`와 `approved`를 혼용하지 않는다**
+
 | 대상 | 필드 | 값 |
 |------|------|-----|
-| 후보/제품 파이프라인 | workflow_status / pipeline_status | discovered → sale_checked → ingredients_checked → evidence_checked → safety_checked → verified → published (+ rejected, needs_review) |
-| offer | verification_status | verified / unverified / invalid / unavailable (기존) |
+| 후보 파이프라인 | workflow_status | discovered → … → **verified**(단계명) → published (+ rejected, needs_review). 여기서 verified는 **파이프라인 단계**이며 offer verified와 다름 |
+| brands / variants / product_ingredients | verification_status | 공통 검토 상태. 공개는 **approved** |
+| aliases / skin_concerns / evidence / cautions | review_status | 공통 검토 상태. 공개는 **approved** (+ 표별 추가 조건) |
+| offer (기존) | verification_status | **verified** / unverified / invalid / unavailable (변경 없음) |
 | offer | stock_status | in_stock / out_of_stock / unknown (기존) |
-| evidence | evidence_level | docs/33 |
-| evidence | review_status | pending / approved / rejected / needs_review |
-| queue | status | open / in_review / approved / rejected / deferred |
+| evidence | evidence_level | docs/33 (+ insufficient) |
+| queue | status | 공통 검토 상태 |
 
-**verified ≠ published**  
-관리자 승인(verified) 후, 판매·전성분·공개 조건을 충족할 때만 published.  
+**workflow verified ≠ published ≠ offer verified**  
+관리자 게이트(approved / workflow verified) 후, 판매·전성분·공개 조건을 충족할 때만 published.  
 핵심 추천: **published 제품 + 국가별 verified offer**만.
 
 ---
@@ -340,16 +364,17 @@
 
 | 테이블 | anon/authenticated | 쓰기 |
 |--------|-------------------|------|
-| products (향후) | `pipeline_status = 'published' AND active` 권장 (현재는 전체 SELECT — 점진 강화) | service_role |
+| products (향후) | pipeline published 권장 (현재 전체 SELECT — 점진 강화) | service_role |
 | ingredients | 공개 마스터 SELECT 유지 가능 | service_role |
-| product_offers | 기존: active+verified+in_stock | service_role |
-| brands | active+verified만 SELECT | service_role |
-| product_variants | 연결된 product published일 때만 | service_role |
-| product_ingredients | product published + verification_status verified | service_role |
-| ingredient_evidence | review_status=approved만 | service_role |
-| ingredient_cautions | active=true | service_role |
-| discovery / queue / history | **SELECT 금지** | service_role |
-| data_sources | active만 SELECT 가능(선택) | service_role |
+| product_offers | 기존: active+**verified**+in_stock | service_role |
+| brands | active + verification_status=**approved** | service_role |
+| product_variants | active + verification_status=**approved** | service_role |
+| product_ingredients | **approved** + 공식 출처 + verified_at | service_role |
+| ingredient_aliases | active + review_status=**approved** | service_role |
+| skin_concerns | active + review_status=**approved** | service_role |
+| ingredient_evidence | **approved** + (url\|pmid\|doi) + reviewed_at | service_role |
+| ingredient_cautions | active + **approved** + evidence_source + reviewed_at | service_role |
+| discovery / queue / history / data_sources | **SELECT 금지** | service_role |
 
 개인정보·운영자 계정 테이블은 이번 설계 범위 밖.
 

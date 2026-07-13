@@ -38,12 +38,19 @@ discovered
 | ingredients_checked | 전성분 수집·표준화 | 불가 |
 | evidence_checked | 성분–고민 근거 연결 | 불가 |
 | safety_checked | 자극·알레르기·회피 검토 | 불가 |
-| verified | 관리자 승인 | 불가 (아직 공개 전) |
+| verified | 관리자 게이트 통과(파이프라인 단계). 행 공개는 각 테이블 `approved` | 불가 (아직 공개 전) |
 | published | 공개·추천 가능 | **가능** (offer 조건 별도) |
 | needs_review | 보류 | 불가 |
 | rejected | 반려 | 불가 |
 
-**verified ≠ published.**  
+**용어 구분**
+
+- 공통 검토 상태: `pending` / `in_review` / `approved` / `rejected` / `needs_review`  
+- 관리자 검토 결과 공개 게이트: **`approved`** (verified와 혼용 금지)  
+- `product_offers.verification_status=verified`: 판매처 검증 (기존 유지)  
+- `workflow_status=verified`: 파이프라인 단계명 (offer verified와 다름)  
+
+**workflow verified ≠ published ≠ offer verified**  
 관리자 승인 후에도 판매·전성분·출처 게이트를 통과해야 published.
 
 저장 위치:

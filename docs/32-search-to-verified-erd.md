@@ -58,6 +58,8 @@ erDiagram
     text country_code
     numeric size_value
     text formula_version
+    text verification_status
+    boolean active
   }
 
   product_offers {
@@ -89,12 +91,16 @@ erDiagram
     uuid id PK
     bigint ingredient_id FK
     text normalized_alias
+    text review_status
+    boolean active
   }
 
   skin_concerns {
     uuid id PK
     text code UK
     text medical_boundary
+    text review_status
+    boolean active
   }
 
   ingredient_evidence {
@@ -112,6 +118,8 @@ erDiagram
     bigint ingredient_id FK
     text caution_type
     text severity
+    text review_status
+    boolean active
   }
 
   product_discovery_candidates {
@@ -190,7 +198,7 @@ flowchart TD
   L --> M[ingredient_cautions / 안전 검토]
   M --> N[safety_checked]
   N --> Q[verification_queue]
-  Q --> O[관리자 verified]
+  Q --> O[관리자 approved / workflow verified]
   O --> P{판매+전성분+승인 OK?}
   P -->|yes| PUB[published + offer verified]
   P -->|no| R
