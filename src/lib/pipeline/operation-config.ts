@@ -5,6 +5,8 @@
 
 import { readFileSync, existsSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
+import type { MonitoringConfig } from "@/lib/admin/operations/types";
+import { DEFAULT_MONITORING_CONFIG } from "@/lib/admin/operations/types";
 
 export type PipelineOperationMode = "dry_run" | "gated_commit";
 
@@ -65,6 +67,7 @@ export type PipelineOperationConfig = {
   allowExistingCandidateBulkUpdate: boolean;
   allowExistingProductOverwrite: boolean;
   allowBulkStatusRewrite: boolean;
+  monitoring: MonitoringConfig;
   notes?: string[];
 };
 
@@ -84,7 +87,7 @@ const HARD_FALSE_KEYS = [
 ] as const;
 
 export const DEFAULT_PIPELINE_OPERATION: PipelineOperationConfig = {
-  version: 4,
+  version: 5,
   mode: "gated_commit",
   paused: false,
   scheduleHint: "every_6_hours",
@@ -137,6 +140,7 @@ export const DEFAULT_PIPELINE_OPERATION: PipelineOperationConfig = {
   allowExistingCandidateBulkUpdate: false,
   allowExistingProductOverwrite: false,
   allowBulkStatusRewrite: false,
+  monitoring: { ...DEFAULT_MONITORING_CONFIG },
 };
 
 function projectRoot(): string {
@@ -157,6 +161,67 @@ function asBool(v: unknown, fallback: boolean): boolean {
 
 function asNum(v: unknown, fallback: number): number {
   return typeof v === "number" && Number.isFinite(v) ? v : fallback;
+}
+
+function parseMonitoring(raw: unknown): MonitoringConfig {
+  const d = DEFAULT_MONITORING_CONFIG;
+  if (!raw || typeof raw !== "object") return { ...d };
+  const m = raw as Record<string, unknown>;
+  return {
+    enabled: asBool(m.enabled, d.enabled),
+    healthCheckIntervalMinutes: asNum(
+      m.healthCheckIntervalMinutes,
+      d.healthCheckIntervalMinutes
+    ),
+    noRecentRunMinutes: asNum(m.noRecentRunMinutes, d.noRecentRunMinutes),
+    staleHeartbeatMinutes: asNum(
+      m.staleHeartbeatMinutes,
+      d.staleHeartbeatMinutes
+    ),
+    stuckJobMinutes: asNum(m.stuckJobMinutes, d.stuckJobMinutes),
+    retryBacklogWarning: asNum(m.retryBacklogWarning, d.retryBacklogWarning),
+    retryBacklogCritical: asNum(m.retryBacklogCritical, d.retryBacklogCritical),
+    batchFailureRateWarning: asNum(
+      m.batchFailureRateWarning,
+      d.batchFailureRateWarning
+    ),
+    batchFailureRateCritical: asNum(
+      m.batchFailureRateCritical,
+      d.batchFailureRateCritical
+    ),
+    reviewBacklogWarning: asNum(m.reviewBacklogWarning, d.reviewBacklogWarning),
+    reviewBacklogCritical: asNum(
+      m.reviewBacklogCritical,
+      d.reviewBacklogCritical
+    ),
+    reviewAgeWarningHours: asNum(
+      m.reviewAgeWarningHours,
+      d.reviewAgeWarningHours
+    ),
+    reviewAgeCriticalHours: asNum(
+      m.reviewAgeCriticalHours,
+      d.reviewAgeCriticalHours
+    ),
+    recommendationEligibleMinimum: asNum(
+      m.recommendationEligibleMinimum,
+      d.recommendationEligibleMinimum
+    ),
+    verifiedOfferMinimum: asNum(m.verifiedOfferMinimum, d.verifiedOfferMinimum),
+    ingredientMatchMinimum: asNum(
+      m.ingredientMatchMinimum,
+      d.ingredientMatchMinimum
+    ),
+    officialSiteResolutionMinimum: asNum(
+      m.officialSiteResolutionMinimum,
+      d.officialSiteResolutionMinimum
+    ),
+    shippingCoverageMinimum: asNum(
+      m.shippingCoverageMinimum,
+      d.shippingCoverageMinimum
+    ),
+    alertCooldownMinutes: asNum(m.alertCooldownMinutes, d.alertCooldownMinutes),
+    autoRecoveryEnabled: asBool(m.autoRecoveryEnabled, d.autoRecoveryEnabled),
+  };
 }
 
 export function validatePipelineOperationConfig(
@@ -340,6 +405,7 @@ export function validatePipelineOperationConfig(
     allowExistingCandidateBulkUpdate: false,
     allowExistingProductOverwrite: false,
     allowBulkStatusRewrite: false,
+    monitoring: parseMonitoring(o.monitoring),
     notes: Array.isArray(o.notes)
       ? o.notes.filter((n): n is string => typeof n === "string")
       : d.notes,
@@ -404,6 +470,7 @@ export type PipelineOperationAdminPatch = {
   allowProductAutoVerify?: boolean;
   allowProductAutoActivate?: boolean;
   allowProductReevaluation?: boolean;
+  monitoring?: Partial<MonitoringConfig>;
   scheduleHint?: string;
 };
 
@@ -414,6 +481,10 @@ export function savePipelineOperationOverrides(
   const nextRaw = {
     ...current,
     ...patch,
+    monitoring: parseMonitoring({
+      ...current.monitoring,
+      ...(patch.monitoring ?? {}),
+    }),
     allowProductInsert: false,
     allowOfferInsert: false,
     allowVerifiedOfferInsert: false,
@@ -471,6 +542,7 @@ export function savePipelineOperationOverrides(
         ingredientMatchThreshold: c.ingredientMatchThreshold,
         draftProductQualityThreshold: c.draftProductQualityThreshold,
         productVerifyQualityGrades: c.productVerifyQualityGrades,
+        monitoring: c.monitoring,
         allowMarketplaceSeller: false,
         allowUnverifiedPurchaseRecommendation: false,
         allowProductDemotion: false,

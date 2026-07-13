@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "mode": "gated_commit",
   "paused": false,
   "scheduleHint": "every_6_hours",
@@ -43,6 +43,28 @@
   "draftProductQualityThreshold": 0.65,
   "productVerifyQualityGrades": ["A", "B"],
   "shippingCountriesPriority": ["KR", "US", "JP"],
+  "monitoring": {
+    "enabled": true,
+    "healthCheckIntervalMinutes": 30,
+    "noRecentRunMinutes": 720,
+    "staleHeartbeatMinutes": 45,
+    "stuckJobMinutes": 180,
+    "retryBacklogWarning": 20,
+    "retryBacklogCritical": 50,
+    "batchFailureRateWarning": 0.35,
+    "batchFailureRateCritical": 0.6,
+    "reviewBacklogWarning": 30,
+    "reviewBacklogCritical": 80,
+    "reviewAgeWarningHours": 48,
+    "reviewAgeCriticalHours": 168,
+    "recommendationEligibleMinimum": 5,
+    "verifiedOfferMinimum": 3,
+    "ingredientMatchMinimum": 0.5,
+    "officialSiteResolutionMinimum": 0.4,
+    "shippingCoverageMinimum": 0.3,
+    "alertCooldownMinutes": 60,
+    "autoRecoveryEnabled": true
+  },
   "allowProductInsert": false,
   "allowOfferInsert": false,
   "allowVerifiedOfferInsert": false,
@@ -54,8 +76,7 @@
   "allowBulkStatusRewrite": false,
   "notes": [
     "Scheduler: node scripts/run-pipeline-worker.mjs only",
-    "Product auto-verify: quality A/B + official ingredients + verified offer → active=true, verified_at set",
-    "Never auto-publish; never demote verified products; stale offers only affect recommendation eligibility",
-    "allowOfferInsert/allowVerifiedOfferInsert/allowProductDemotion remain false"
+    "Monitoring: admin /operations health + file-based alert dedupe",
+    "Never auto-publish; never demote; auto recovery allowlist only"
   ]
 }
