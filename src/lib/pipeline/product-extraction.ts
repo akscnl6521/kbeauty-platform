@@ -2,6 +2,8 @@ import "server-only";
 
 import { fetchPublicHtmlPage } from "@/lib/admin/import/fetch-page";
 import { extractProductFromHtml } from "@/lib/admin/import/extract-product";
+import { classifyProductCategory } from "@/lib/pipeline/category-classify";
+import { extractIngredientsFromHtml } from "@/lib/pipeline/ingredient-extract";
 import {
   htmlLooksLikeProductPage,
   isPlaceholderBrand,
@@ -74,13 +76,35 @@ export async function extractCatalogProductFromUrl(
     }
 
     const resolvedBrand = brandName as string;
+    const ingredients = extractIngredientsFromHtml(page.html);
+    const category = classifyProductCategory({
+      productName: extracted.productName,
+      brandName: resolvedBrand,
+      canonicalUrl: extracted.canonicalUrl,
+      category: null,
+      imageUrl: extracted.imageUrl,
+      description: extracted.description,
+      fullIngredientsText: ingredients.fullIngredientsText,
+      keyIngredients: ingredients.keyIngredients,
+      sizeLabel: null,
+      priceReference: extracted.price,
+      currency: extracted.currency,
+      availabilityReference: extracted.availability,
+      country: extracted.detectedCountry,
+      sourceType: extracted.sourceType,
+      confidence: 0.5,
+      extractionMethod: "jsonld_og_meta_title",
+      fieldConfidence: {},
+    });
 
     const fieldConfidence: Record<string, number> = {
-      productName: extracted.productName ? 0.8 : 0,
-      brandName: brandFromPage ? 0.6 : brandFallback ? 0.5 : 0.2,
+      productName: 0.8,
+      brandName: brandFromPage ? 0.6 : 0.5,
       canonicalUrl: 0.9,
       description: extracted.description ? 0.5 : 0,
       imageUrl: extracted.imageUrl ? 0.6 : 0,
+      ingredients: ingredients.confidence,
+      category: category.confidence,
     };
 
     const confidence =
@@ -91,11 +115,11 @@ export async function extractCatalogProductFromUrl(
       productName: extracted.productName,
       brandName: resolvedBrand,
       canonicalUrl: extracted.canonicalUrl,
-      category: null,
+      category: category.category,
       imageUrl: extracted.imageUrl,
       description: extracted.description,
-      fullIngredientsText: null,
-      keyIngredients: [],
+      fullIngredientsText: ingredients.fullIngredientsText,
+      keyIngredients: ingredients.keyIngredients,
       sizeLabel: null,
       priceReference: extracted.price,
       currency: extracted.currency,
@@ -103,7 +127,7 @@ export async function extractCatalogProductFromUrl(
       country: extracted.detectedCountry,
       sourceType: extracted.sourceType,
       confidence,
-      extractionMethod: "jsonld_og_meta_title",
+      extractionMethod: `${extracted.sourceType}+${ingredients.method}`,
       fieldConfidence,
     };
 
