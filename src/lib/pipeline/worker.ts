@@ -274,6 +274,17 @@ async function runAutonomousGatedCandidateIntake(input: {
           counts: recovery.counts,
         });
       }
+
+      try {
+        const { runCareWorkerTick } = await import("@/lib/care/worker-tasks");
+        const careTick = await runCareWorkerTick(client);
+        pipelineLog("info", "care worker tick", careTick);
+      } catch (careErr) {
+        pipelineLog("warn", "care worker tick skipped", {
+          message:
+            careErr instanceof Error ? careErr.message : String(careErr),
+        });
+      }
     } catch (e) {
       pipelineLog("warn", "product reevaluation skipped", {
         message: e instanceof Error ? e.message : String(e),
