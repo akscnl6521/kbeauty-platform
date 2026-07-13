@@ -19,6 +19,12 @@ import {
 } from "@/lib/pipeline/operation-config";
 import { classifyProductCategory } from "@/lib/pipeline/category-classify";
 import { attachIngredientMatches } from "@/lib/pipeline/ingredient-normalize";
+import { classifyOfferSource } from "@/lib/pipeline/offers/offer-source-class";
+import { parseOfferPrice } from "@/lib/pipeline/offers/offer-price";
+import { parseStockStatus } from "@/lib/pipeline/offers/offer-stock";
+import { matchOfferToProduct } from "@/lib/pipeline/offers/offer-identity";
+import { evaluateOfferVerificationGate } from "@/lib/pipeline/offers/offer-gate";
+import { extractOffersFromHtml } from "@/lib/pipeline/offers/offer-extract";
 import type { ExtractedCatalogProduct } from "@/lib/pipeline/types";
 
 function assert(cond: boolean, msg: string) {
@@ -198,6 +204,60 @@ export function runPipelineSelftests(): { ok: true; checks: number } {
   assert(cat.needsReview === false || cat.confidence >= 0.7, "serum confidence");
   const toneSk = scoreToneUndertone(sampleProduct());
   assert(toneSk.toneRelevance === "not_applicable", "skincare tone n/a again");
+  checks += 1;
+
+  const seller = classifyOfferSource({
+    purchaseUrl: "https://www.amazon.com/dp/x",
+    marketplaceOfficialStoreEvidence: false,
+  });
+  assert(seller.grade === "marketplace_seller", "exclude marketplace seller");
+  const official = classifyOfferSource({
+    purchaseUrl: "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1",
+    sameAsOfficialBrandHost: true,
+  });
+  assert(official.grade === "official_brand_store", "official brand store");
+
+  const price = parseOfferPrice({ priceText: "19,800원", currencyHint: "KRW" });
+  assert(price.price === 19800 && price.currency === "KRW", "krw price");
+  const stock = parseStockStatus({
+    availability: "https://schema.org/InStock",
+  });
+  assert(stock.stockStatus === "in_stock", "schema instock");
+  const buttonOnly = parseStockStatus({ buttonText: "Add to cart" });
+  assert(buttonOnly.stockStatus === "unknown", "button not enough");
+
+  const idMatch = matchOfferToProduct({
+    productName: "Snail Mucin 96",
+    brandName: "COSRX",
+    offerTitle: "COSRX Snail Mucin 96",
+    offerBrand: "COSRX",
+  });
+  assert(
+    idMatch.match === "exact_match" || idMatch.match === "strong_match",
+    "identity match"
+  );
+
+  const offerGateFail = evaluateOfferVerificationGate({
+    grade: "marketplace_seller",
+    identity: "exact_match",
+    identityConfidence: 0.95,
+    purchaseUrl: "https://amazon.com/x",
+    price: 10,
+    currency: "USD",
+    stockStatus: "in_stock",
+    stockConfidence: 0.9,
+    shipsToCountries: ["US"],
+    shippingConfidence: 0.8,
+    officialConfidenceThreshold: 0.8,
+    productActive: true,
+  });
+  assert(offerGateFail.schemaStatus === "invalid", "seller invalid");
+
+  const htmlOffers = extractOffersFromHtml(
+    `<script type="application/ld+json">{"@type":"Offer","price":"12.00","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://example.com/p"}</script>`,
+    "https://example.com/p"
+  );
+  assert(htmlOffers.some((o) => o.method === "jsonld_offer"), "jsonld offer");
   checks += 1;
 
   return { ok: true, checks };
