@@ -11,10 +11,17 @@ type Config = {
   allowCandidateInsert: boolean;
   allowQueueInsert: boolean;
   allowAuditInsert: boolean;
+  allowDraftProductInsert: boolean;
+  allowVariantInsert: boolean;
+  allowProductIngredientInsert: boolean;
+  allowSkinScoreUpsert: boolean;
+  allowQualityScoreUpsert: boolean;
+  allowCandidateAutoChecks: boolean;
   allowProductInsert: boolean;
   allowOfferInsert: boolean;
   allowPublish: boolean;
   allowDelete: boolean;
+  allowExistingProductOverwrite: boolean;
 };
 
 /**
@@ -58,6 +65,12 @@ export function PipelineSettingsForm() {
           allowCandidateInsert: config.allowCandidateInsert,
           allowQueueInsert: config.allowQueueInsert,
           allowAuditInsert: config.allowAuditInsert,
+          allowDraftProductInsert: config.allowDraftProductInsert,
+          allowVariantInsert: config.allowVariantInsert,
+          allowProductIngredientInsert: config.allowProductIngredientInsert,
+          allowSkinScoreUpsert: config.allowSkinScoreUpsert,
+          allowQualityScoreUpsert: config.allowQualityScoreUpsert,
+          allowCandidateAutoChecks: config.allowCandidateAutoChecks,
           scheduleHint: config.scheduleHint,
         }),
       });
@@ -193,14 +206,46 @@ export function PipelineSettingsForm() {
         />
         audit 저장
       </label>
+      <label className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={config.allowDraftProductInsert}
+          onChange={(e) =>
+            setConfig({ ...config, allowDraftProductInsert: e.target.checked })
+          }
+        />
+        draft product 자동 생성 (active=false)
+      </label>
+      <label className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={config.allowVariantInsert}
+          onChange={(e) =>
+            setConfig({ ...config, allowVariantInsert: e.target.checked })
+          }
+        />
+        variant 자동 생성
+      </label>
+      <label className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={config.allowProductIngredientInsert}
+          onChange={(e) =>
+            setConfig({
+              ...config,
+              allowProductIngredientInsert: e.target.checked,
+            })
+          }
+        />
+        product_ingredients 자동 연결
+      </label>
 
       <div className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-amber-950">
         <p className="font-medium">변경 불가 (하드 락)</p>
         <ul className="mt-1 list-disc pl-5 text-xs">
-          <li>allowProductInsert = false</li>
-          <li>allowOfferInsert = false</li>
-          <li>allowPublish = false</li>
-          <li>allowDelete = false</li>
+          <li>allowProductInsert / allowOfferInsert / allowVerifiedOfferInsert = false</li>
+          <li>allowPublish / allowDelete / allowExistingProductOverwrite = false</li>
+          <li>allowUnverifiedIngredientInsert = false</li>
         </ul>
       </div>
 

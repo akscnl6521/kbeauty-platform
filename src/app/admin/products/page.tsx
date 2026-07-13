@@ -44,9 +44,11 @@ function formatVerifiedAt(value: string | null): string {
 }
 
 function StatusCell({ item }: { item: AdminProductListItem }) {
-  const activeLabel = item.active === false ? "inactive" : "active";
+  const draft = item.active === false;
+  const activeLabel = draft ? "draft" : "active";
   const verifiedLabel = item.verifiedAt ? "verified" : "unverified";
   const offerLabel = item.offerCount > 0 ? "offer 있음" : "offer 없음";
+  const recommendEligible = !draft && Boolean(item.verifiedAt) && item.offerCount > 0;
 
   return (
     <div className="space-y-1 text-xs text-gray-700">
@@ -56,6 +58,9 @@ function StatusCell({ item }: { item: AdminProductListItem }) {
         <span>{verifiedLabel}</span>
       </div>
       <div className="text-gray-500">{offerLabel}</div>
+      <div className={recommendEligible ? "text-emerald-800" : "text-amber-800"}>
+        추천 {recommendEligible ? "가능" : "불가"}
+      </div>
     </div>
   );
 }
