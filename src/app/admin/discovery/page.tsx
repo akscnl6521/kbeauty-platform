@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { requireAdminUser } from "@/lib/auth/admin";
+import { getAdminWriteCapabilityFlags } from "@/lib/auth/admin-permissions";
 import { AdminConfigurationError } from "@/lib/auth/errors";
 import {
   getAdminDiscoveryCandidates,
@@ -350,7 +351,8 @@ export default async function AdminDiscoveryPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  await requireAdminUser();
+  const session = await requireAdminUser();
+  const caps = getAdminWriteCapabilityFlags(session.role);
 
   const params = parseAdminDiscoveryListParams(await searchParams);
 
@@ -388,7 +390,17 @@ export default async function AdminDiscoveryPage({
             </p>
             <AdminSubnav current="discovery" />
           </div>
-          <AdminLogoutButton className="shrink-0 rounded-lg border border-[#E8DFD8] bg-white px-3 py-1.5 text-sm font-medium text-gray-800" />
+          <div className="flex shrink-0 flex-col items-end gap-2">
+            <AdminLogoutButton className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-1.5 text-sm font-medium text-gray-800" />
+            {caps.canCreateDiscovery ? (
+              <Link
+                href="/admin/discovery/new"
+                className="rounded-lg bg-[#8B6914] px-3 py-1.5 text-sm font-medium text-white"
+              >
+                후보 등록
+              </Link>
+            ) : null}
+          </div>
         </div>
 
         {loadFailed || !result ? (

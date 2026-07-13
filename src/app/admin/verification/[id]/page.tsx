@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { requireAdminUser } from "@/lib/auth/admin";
+import { getAdminWriteCapabilityFlags } from "@/lib/auth/admin-permissions";
 import { AdminConfigurationError } from "@/lib/auth/errors";
 import {
   getAdminVerificationDetail,
@@ -10,6 +11,7 @@ import {
 } from "@/lib/admin/verification-detail";
 import { AdminLogoutButton } from "../../AdminLogoutButton";
 import { AdminSubnav } from "../../AdminSubnav";
+import { VerificationReviewPanel } from "../VerificationReviewPanel";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -325,25 +327,20 @@ function DetailBody({ data }: { data: AdminVerificationDetailPayload }) {
       </Section>
 
       <LinkedEntitySection data={data} />
-
-      <Section title="액션">
-        <p className="text-sm text-gray-500">
-          읽기 전용입니다. 승인·반려·상태변경 버튼은 제공하지 않습니다.
-        </p>
-      </Section>
     </>
   );
 }
 
 /**
- * Read-only verification detail. No status mutation UI.
+ * Verification detail with controlled review actions.
  */
 export default async function AdminVerificationDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await requireAdminUser();
+  const session = await requireAdminUser();
+  const caps = getAdminWriteCapabilityFlags(session.role);
 
   const { id: rawId } = await params;
   const queueId = parseAdminVerificationId(rawId);
@@ -374,7 +371,7 @@ export default async function AdminVerificationDetailPage({
             <div className="mt-2 flex flex-wrap items-center gap-2">
               <h1 className="text-3xl font-bold tracking-tight">검증 큐 상세</h1>
               <span className="rounded border border-[#E8DFD8] bg-white px-2 py-0.5 text-xs font-medium text-gray-700">
-                읽기 전용
+                읽기 + 검토 쓰기
               </span>
             </div>
             {data ? (
@@ -408,7 +405,16 @@ export default async function AdminVerificationDetailPage({
             </Link>
           </div>
         ) : (
-          <DetailBody data={data} />
+          <>
+            <DetailBody data={data} />
+            <VerificationReviewPanel
+              queueId={data.queue.id}
+              status={data.queue.status}
+              reviewType={data.queue.reviewType}
+              canReview={caps.canReviewQueue}
+              canPublish={caps.canPublish}
+            />
+          </>
         )}
       </div>
     </main>

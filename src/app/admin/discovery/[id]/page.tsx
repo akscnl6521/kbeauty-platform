@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { requireAdminUser } from "@/lib/auth/admin";
+import { getAdminWriteCapabilityFlags } from "@/lib/auth/admin-permissions";
 import { AdminConfigurationError } from "@/lib/auth/errors";
 import {
   getAdminDiscoveryDetail,
@@ -9,6 +10,8 @@ import {
   type AdminDiscoveryDetailPayload,
 } from "@/lib/admin/discovery-detail";
 import { AdminLogoutButton } from "../../AdminLogoutButton";
+import { AdminSubnav } from "../../AdminSubnav";
+import { DiscoveryWritePanel } from "../DiscoveryWritePanel";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -309,7 +312,7 @@ function DetailBody({ data }: { data: AdminDiscoveryDetailPayload }) {
         <ul className="list-disc space-y-2 pl-5 text-sm text-amber-900">
           <li>검색 결과만으로 verified/published가 아닙니다.</li>
           <li>판매 확인, 공식 전성분, 근거, 안전성 검토가 필요합니다.</li>
-          <li>이 화면은 읽기 전용입니다. 승인·reject·publish·상태 변경 버튼이 없습니다.</li>
+          <li>쓰기 작업은 권한 있는 역할에만 표시되며 서버에서 재검증합니다.</li>
         </ul>
       </Section>
     </>
@@ -317,14 +320,15 @@ function DetailBody({ data }: { data: AdminDiscoveryDetailPayload }) {
 }
 
 /**
- * Read-only discovery candidate detail page.
+ * Discovery candidate detail (read + controlled write panel).
  */
 export default async function AdminDiscoveryDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await requireAdminUser();
+  const session = await requireAdminUser();
+  const caps = getAdminWriteCapabilityFlags(session.role);
 
   const { id: rawId } = await params;
   const candidateId = parseAdminDiscoveryId(rawId);
@@ -348,6 +352,14 @@ export default async function AdminDiscoveryDetailPage({
     notFound();
   }
 
+  const hasOpenDuplicateQueue = Boolean(
+    data?.queue.some(
+      (item) =>
+        item.reviewType === "duplicate" &&
+        ["pending", "in_review"].includes(item.status)
+    )
+  );
+
   return (
     <main className="min-h-screen bg-[#FAF7F5] px-4 py-10 text-gray-900 sm:px-6">
       <div className="mx-auto max-w-5xl">
@@ -361,9 +373,10 @@ export default async function AdminDiscoveryDetailPage({
                 {data?.candidate.candidateName ?? "제품 발견 후보"}
               </h1>
               <span className="rounded border border-[#E8DFD8] bg-white px-2 py-0.5 text-xs font-medium text-gray-700">
-                읽기 전용
+                읽기 + 제한 쓰기
               </span>
             </div>
+            <AdminSubnav current="discovery" />
           </div>
           <AdminLogoutButton className="shrink-0 rounded-lg border border-[#E8DFD8] bg-white px-3 py-1.5 text-sm font-medium text-gray-800" />
         </div>
@@ -374,9 +387,6 @@ export default async function AdminDiscoveryDetailPage({
             className="font-medium text-[#8B6914] underline"
           >
             목록으로 돌아가기
-          </Link>
-          <Link href="/admin" className="font-medium text-[#8B6914] underline">
-            대시보드로 돌아가기
           </Link>
         </p>
 
@@ -391,7 +401,33 @@ export default async function AdminDiscoveryDetailPage({
             </Link>
           </div>
         ) : (
-          <DetailBody data={data} />
+          <>
+            <DetailBody data={data} />
+            <DiscoveryWritePanel
+              candidateId={data.candidate.id}
+              caps={{
+                canUpdateDiscovery: caps.canUpdateDiscovery,
+                canLinkProduct: caps.canLinkProduct,
+                canCreateQueue: caps.canCreateQueue,
+                canPublish: caps.canPublish,
+              }}
+              initial={{
+                discoveredName: data.candidate.candidateName,
+                discoveredBrand: data.candidate.brandName,
+                discoveredUrl: data.candidate.sourceUrl,
+                discoveredCountry: data.candidate.country,
+                sourceType: data.candidate.sourceType,
+                notes: data.candidate.notes,
+                duplicateCheckStatus: data.candidate.duplicateStatus,
+                linkedProductId: data.candidate.linkedProductId,
+                workflowStatus: data.candidate.workflowStatus,
+              }}
+              openQueueCount={data.queue.filter((q) =>
+                ["pending", "in_review", "needs_review"].includes(q.status)
+              ).length}
+              hasOpenDuplicateQueue={hasOpenDuplicateQueue}
+            />
+          </>
         )}
       </div>
     </main>
