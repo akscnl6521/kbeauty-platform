@@ -3,6 +3,7 @@ import Link from "next/link";
 const LINKS: Array<{ href: string; label: string; key: string }> = [
   { href: "/admin", label: "대시보드", key: "dashboard" },
   { href: "/admin/products", label: "Products", key: "products" },
+  { href: "/admin/offers", label: "Offers", key: "offers" },
   { href: "/admin/discovery", label: "Discovery", key: "discovery" },
   { href: "/admin/ingredients", label: "Ingredients", key: "ingredients" },
   { href: "/admin/verification", label: "Verification", key: "verification" },
