@@ -67,6 +67,7 @@
 - [x] Continuous Care 서버 영속화 (migration 적용 · CarePersistence · `/api/care/*` · worker tick · docs/133~137)
 - [x] 일반 사용자 인증·온보딩·Care E2E (`/login` `/signup` · `/my` 보호 · link-local · docs/138~142)
 - [x] Phase 8 여정 통합 · 공개 내비 · production check · journey tests (docs/143~148)
+- [x] Phase 9 staging/release 준비 · env/health/smoke/security · headers/SEO/error pages (docs/149~154)
 - [ ] Windows Task Scheduler 인자를 고정 `run-pipeline.ps1`로 1회 정렬 (필요 시)
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)
@@ -77,6 +78,7 @@
 - 관리자 읽기 + **제한 쓰기** 콘솔: discovery/verification
 - verification_queue / candidates: 운영 E2E는 사용자 직접 등록
 - main 병합: **안 함**
+- 배포 준비: Vercel 권장 · `kbeautymatch.com` apex canonical · preview smoke 후 별도 승인 배포
 
 ---
 

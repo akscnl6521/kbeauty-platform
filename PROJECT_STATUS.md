@@ -13,8 +13,8 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | Phase 8 journey integration · launch readiness |
-| 빌드 | `npm run test:pipeline` · `test:journey` · `check:production` · `build` |
+| Working tree | Phase 9 staging/release 준비 (로컬 수정, 미배포) |
+| 빌드 | `test:pipeline` · `test:journey` · `check:production` · `check:deployment-env` · `check:release-security` · `test:smoke` · `build` |
 | Pipeline ops | config v5 monitoring `allowProductAutoVerify` 등 · `/admin/pipeline/settings` |
 | Scheduler | 고정 `run-pipeline-worker.mjs` (에이전트 미실행) |
 | Draft 정책 | `products.active=false` → 게이트 통과 시 active+verified_at · publish 금지 |
@@ -23,6 +23,7 @@
 | Care | Supabase 영속화 · `/api/care/*` · `/my` 로그인 필수 · 익명→attach |
 | Customer auth | `/login` `/signup` `/forgot-password` `/reset-password` `/logout` `/onboarding` |
 | Journey | SiteHeader · 상태 머신 · `test:journey` · `check:production` |
+| Release prep | `/api/health` · 환경/보안/스모크 점검 · CSP/SEO/error pages · docs/149~154 |
 
 ## 제품 데이터 전략
 

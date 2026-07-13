@@ -6,6 +6,13 @@
 
 ## 2026-07-13
 
+### Phase 9 Staging · Release 준비
+
+- 환경 변수 presence 검증 · `/api/health` · static/HTTP smoke test · release security check
+- 공개 보안 헤더/CSP · SEO metadata/robots · 사용자 오류 화면
+- docs/149~154: Vercel 권장, 일반 Node `next start`, apex `kbeautymatch.com` canonical
+- 배포·worker·실메일·운영 DB 쓰기·main 병합 미실행
+
 ### Phase 8 고객 여정 통합 · 실서비스 준비
 
 - 공개 SiteHeader/Footer · 분석 중심 홈 · 여정 상태 머신

@@ -55,6 +55,8 @@
 17. Care: Day 3/7/15/30 자동 체크인 · 정상 자동 · 위험/정보부족만 강조 · 진단 금지 · 루틴 강제 변경 금지 · 관리자 집계만(PII 비노출) · 로그인 사용자 Supabase 영속화 · 익명 local fallback · 삭제 API 미지원.
 18. 일반 사용자 인증은 `/login` 이메일 흐름 · `/admin`과 분리 · `/my` 보호 · open redirect 차단 · 소셜 UI는 provider 없으면 미제공.
 19. 공개 사이트 여정은 `resolveUserJourney` 공통 상태 · production check · Cursor는 실메일/운영 DB/worker 미실행.
+20. 릴리스 전에는 환경 presence·보안·정적/HTTP smoke를 점검하고, health 응답·로그·문서에 비밀값·프로젝트 식별자·사용자 데이터를 기록하지 않는다.
+21. 배포는 별도 승인 작업이며 Vercel을 권장한다. canonical은 `https://kbeautymatch.com` apex를 선호하고 `www`는 redirect로 정리한다.
 
 상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`, `docs/82-pipeline-database-persistence.md`, `docs/123-user-care-lifecycle.md`, `docs/133-care-database-persistence.md`, `docs/138-user-authentication.md`, `docs/144-end-to-end-user-journey.md`
 
