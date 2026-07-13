@@ -8,7 +8,7 @@ import {
   setPipelineBatchStatus,
   tickPipelineBatch,
 } from "@/lib/pipeline/orchestrator";
-import { listBatches } from "@/lib/pipeline/checkpoint";
+import { getPipelinePersistence } from "@/lib/pipeline/persistence";
 import { jsonFail, jsonFromCaughtError, jsonOk } from "@/lib/admin/api-response";
 
 export const runtime = "nodejs";
@@ -20,8 +20,9 @@ export const maxDuration = 60;
  */
 export const GET = withAdminAuth(async () => {
   try {
-    const batches = await listBatches();
-    return jsonOk({ items: batches });
+    const persistence = getPipelinePersistence({ requireSupabase: true });
+    const batches = await persistence.listBatches(50);
+    return jsonOk({ backend: persistence.backend, items: batches });
   } catch (error) {
     return jsonFromCaughtError(error);
   }
@@ -29,7 +30,6 @@ export const GET = withAdminAuth(async () => {
 
 /**
  * POST /api/admin/pipeline/batches
- * body: { action, batchId?, mode?, brandLimit?, productLimitPerBrand?, tickLimit? }
  */
 export const POST = withAdminAuth(async (request: NextRequest, _ctx, session) => {
   try {
@@ -48,8 +48,8 @@ export const POST = withAdminAuth(async (request: NextRequest, _ctx, session) =>
         mode: body.mode === "commit" ? "commit" : "dry_run",
         brandLimit: Number(body.brandLimit ?? 10),
         productLimitPerBrand: Number(body.productLimitPerBrand ?? 20),
+        triggerType: "api",
       });
-      // auto first tick
       const tick = await tickPipelineBatch(batch.batchId, {
         limit: Number(body.tickLimit ?? 3),
       });

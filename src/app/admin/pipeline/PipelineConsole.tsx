@@ -79,7 +79,8 @@ export function PipelineConsole({ canRun }: { canRun: boolean }) {
           <li>정상 데이터는 자동 처리 · 낮은 신뢰도만 needs_review</li>
           <li>브랜드/제품마다 승인 요청하지 않음</li>
           <li>자동 published 금지 · offer 0이면 publish 불가</li>
-          <li>1차 상태는 파일 체크포인트 (`data/pipeline/runtime`)</li>
+          <li>운영 상태는 Supabase `pipeline_*` 테이블 (service role)</li>
+          <li>스케줄러 기본 모드: dry_run</li>
         </ul>
       </section>
 

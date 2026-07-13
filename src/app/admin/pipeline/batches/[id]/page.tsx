@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireAdminUser } from "@/lib/auth/admin";
-import { listJobs, loadBatch } from "@/lib/pipeline/checkpoint";
+import { getPipelinePersistence } from "@/lib/pipeline/persistence";
 import { AdminLogoutButton } from "../../../AdminLogoutButton";
 import { AdminSubnav } from "../../../AdminSubnav";
 
@@ -18,10 +18,12 @@ export default async function AdminPipelineBatchPage({
 }) {
   await requireAdminUser();
   const { id } = await params;
-  const batch = await loadBatch(id);
+  const persistence = getPipelinePersistence({ requireSupabase: true });
+  const batch = await persistence.getBatch(id);
   if (!batch) notFound();
-  const jobs = await listJobs(id);
+  const jobs = await persistence.listJobs(id);
   const review = jobs.filter((j) => j.status === "needs_review");
+  const retryWait = jobs.filter((j) => j.status === "retry_wait");
 
   return (
     <main className="min-h-screen bg-[#FAF7F5] px-4 py-10 text-gray-900 sm:px-6">
@@ -35,8 +37,11 @@ export default async function AdminPipelineBatchPage({
               배치 {batch.batchId.slice(0, 8)}…
             </h1>
             <p className="mt-2 text-sm text-gray-600">
-              {batch.mode} · {batch.status} · processed {batch.progress.processedItems}/
-              {batch.progress.totalItems}
+              {batch.mode} · {batch.status} · {batch.triggerType ?? "manual"} ·
+              processed {batch.progress.processedItems}/{batch.progress.totalItems}
+              {batch.lockHeartbeatAt
+                ? ` · heartbeat ${batch.lockHeartbeatAt}`
+                : ""}
             </p>
             <AdminSubnav current="pipeline" />
           </div>
@@ -47,7 +52,15 @@ export default async function AdminPipelineBatchPage({
           <Link href="/admin/pipeline" className="font-medium text-[#8B6914] underline">
             파이프라인 목록
           </Link>
+          <span className="mx-2 text-gray-400">·</span>
+          backend={persistence.backend} · retry_wait={retryWait.length}
         </p>
+
+        {batch.safeErrorMessage ? (
+          <p className="mt-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800">
+            {batch.safeErrorCode}: {batch.safeErrorMessage}
+          </p>
+        ) : null}
 
         <section className="mt-8">
           <h2 className="text-lg font-semibold">needs_review ({review.length})</h2>
