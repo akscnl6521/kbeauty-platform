@@ -1,0 +1,8 @@
+{
+  "dryRun": true,
+  "autoPromote": false,
+  "maxProductsPerSource": 20,
+  "maxProductsTotal": 50,
+  "cronEnabled": false,
+  "notes": "Preview defaults. Coupang/Olive Young require MANUAL_AUTHORIZATION_REQUIRED before live fetch."
+}
