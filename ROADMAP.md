@@ -46,7 +46,8 @@
 - [x] 관리자 대시보드 1차 (읽기 전용 `/admin` + `/api/admin/dashboard`)
 - [x] 관리자 제품 목록 1차 (읽기 전용 `/admin/products` + API)
 - [x] 관리자 제품 상세 1차 (읽기 전용 /admin/products/[id] + API)
-- [ ] 읽기 전용 ingredients / discovery 목록
+- [x] 관리자 discovery 목록 1차 (읽기 전용 /admin/discovery + API)
+- [ ] 읽기 전용 discovery 상세 / ingredients 목록
 - [ ] Search-to-Verified 관리자 쓰기 UI/API
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)

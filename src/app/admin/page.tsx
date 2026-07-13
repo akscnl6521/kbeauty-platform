@@ -34,7 +34,12 @@ const QUICK_LINKS: Array<{
     ready: true,
     note: "기존 제품·검증 상태 확인",
   },
-  { label: "Discovery", ready: false },
+  {
+    href: "/admin/discovery",
+    label: "Discovery",
+    ready: true,
+    note: "판매 제품 발견 후보와 검증 상태 확인",
+  },
   { label: "Ingredients", ready: false },
   { label: "Verification", ready: false },
 ];

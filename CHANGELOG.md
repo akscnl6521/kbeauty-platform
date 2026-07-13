@@ -6,6 +6,16 @@
 
 ## 2026-07-13
 
+### 관리자 discovery 목록 1차 — 읽기 전용
+
+- `getAdminDiscoveryCandidates` — candidates + queue count (N+1 방지)
+- `GET /api/admin/discovery` — 검색·필터·정렬·페이지네이션
+- `/admin/discovery` UI — 0건 빈 상태 정상
+- 대시보드 Discovery 링크 활성화
+- 상세/상태변경/seed 없음
+- `docs/55-admin-discovery-readonly.md`
+- 쓰기·migration·commit/push 없음
+
 ### 관리자 제품 상세 1차 — 읽기 전용
 
 - `getAdminProductDetail` — products + offers + variants + product_ingredients SELECT
