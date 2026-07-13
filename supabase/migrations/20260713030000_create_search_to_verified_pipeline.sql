@@ -17,7 +17,9 @@
 -- New table PKs: uuid DEFAULT gen_random_uuid()
 -- FKs to products/ingredients: bigint
 -- RLS: minimum privilege; admin tables have no client SELECT policy.
+-- Privileges: REVOKE ALL from anon/authenticated on all 11 tables, then GRANT SELECT on 7 only.
 -- No DROP / TRUNCATE / DELETE / UPDATE of existing data.
+-- No new SEQUENCE (uuid PKs via gen_random_uuid).
 -- Policy upsert unsupported in Postgres; use DO + EXISTS + CREATE POLICY / ALTER POLICY.
 --
 -- NOTE: CREATE TABLE IF NOT EXISTS does not add missing columns to an already-created
@@ -44,7 +46,14 @@ CREATE TABLE IF NOT EXISTS public.brands (
   active boolean NOT NULL DEFAULT true,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now(),
-  CONSTRAINT brands_canonical_name_key UNIQUE (canonical_name)
+  CONSTRAINT brands_canonical_name_key UNIQUE (canonical_name),
+  CONSTRAINT brands_canonical_name_nonempty_chk CHECK (btrim(canonical_name) <> ''),
+  CONSTRAINT brands_official_website_nonempty_chk CHECK (
+    official_website IS NULL OR btrim(official_website) <> ''
+  ),
+  CONSTRAINT brands_source_url_nonempty_chk CHECK (
+    source_url IS NULL OR btrim(source_url) <> ''
+  )
 );
 
 CREATE INDEX IF NOT EXISTS brands_verification_status_idx
@@ -75,17 +84,33 @@ CREATE TABLE IF NOT EXISTS public.product_variants (
     )),
   active boolean NOT NULL DEFAULT true,
   created_at timestamptz NOT NULL DEFAULT now(),
-  updated_at timestamptz NOT NULL DEFAULT now()
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  -- Empty string forbidden: use NULL for unknown (distinct from '')
+  CONSTRAINT product_variants_country_nonempty_chk CHECK (
+    country_code IS NULL OR btrim(country_code) <> ''
+  ),
+  CONSTRAINT product_variants_variant_name_nonempty_chk CHECK (
+    variant_name IS NULL OR btrim(variant_name) <> ''
+  ),
+  CONSTRAINT product_variants_formula_version_nonempty_chk CHECK (
+    formula_version IS NULL OR btrim(formula_version) <> ''
+  ),
+  CONSTRAINT product_variants_package_version_nonempty_chk CHECK (
+    package_version IS NULL OR btrim(package_version) <> ''
+  ),
+  CONSTRAINT product_variants_size_unit_nonempty_chk CHECK (
+    size_unit IS NULL OR btrim(size_unit) <> ''
+  )
 );
 
--- NULL-safe uniqueness: product + country + variant_name + formula_version
+-- NULLS NOT DISTINCT: unknown (NULL) fields participate in uniqueness without COALESCE('', '')
 CREATE UNIQUE INDEX IF NOT EXISTS product_variants_identity_uidx
   ON public.product_variants (
     product_id,
-    COALESCE(country_code, ''),
-    COALESCE(variant_name, ''),
-    COALESCE(formula_version, '')
-  );
+    country_code,
+    variant_name,
+    formula_version
+  ) NULLS NOT DISTINCT;
 
 CREATE INDEX IF NOT EXISTS product_variants_product_id_idx
   ON public.product_variants (product_id);
@@ -139,6 +164,9 @@ CREATE TABLE IF NOT EXISTS public.product_ingredients (
       'pending', 'in_review', 'approved', 'rejected', 'needs_review'
     )),
   created_at timestamptz NOT NULL DEFAULT now(),
+  CONSTRAINT product_ingredients_source_url_nonempty_chk CHECK (
+    source_url IS NULL OR btrim(source_url) <> ''
+  ),
   -- When approved: official source URL + verified_at required
   CONSTRAINT product_ingredients_approved_source_chk CHECK (
     verification_status <> 'approved'
@@ -155,7 +183,7 @@ CREATE TABLE IF NOT EXISTS public.product_ingredients (
   )
 );
 
--- NULL variant_id: COALESCE sentinel keeps ingredient_order unique for shared formula
+-- Intentional: NULL variant_id = product-common formula; sentinel keeps order unique
 CREATE UNIQUE INDEX IF NOT EXISTS product_ingredients_order_uidx
   ON public.product_ingredients (
     product_id,
@@ -195,15 +223,18 @@ CREATE TABLE IF NOT EXISTS public.ingredient_aliases (
     CHECK (review_status IN (
       'pending', 'in_review', 'approved', 'rejected', 'needs_review'
     )),
-  created_at timestamptz NOT NULL DEFAULT now()
+  created_at timestamptz NOT NULL DEFAULT now(),
+  CONSTRAINT ingredient_aliases_alias_nonempty_chk CHECK (btrim(alias) <> ''),
+  CONSTRAINT ingredient_aliases_normalized_nonempty_chk CHECK (btrim(normalized_alias) <> ''),
+  CONSTRAINT ingredient_aliases_language_nonempty_chk CHECK (
+    language_code IS NULL OR btrim(language_code) <> ''
+  )
 );
 
--- Empty language_code coalesced so multiple NULL langs cannot collide incorrectly
+-- NULL language_code = unspecified; empty string forbidden. NULLS NOT DISTINCT for uniqueness.
 CREATE UNIQUE INDEX IF NOT EXISTS ingredient_aliases_normalized_lang_uidx
-  ON public.ingredient_aliases (
-    normalized_alias,
-    COALESCE(language_code, '')
-  );
+  ON public.ingredient_aliases (normalized_alias, language_code)
+  NULLS NOT DISTINCT;
 
 CREATE INDEX IF NOT EXISTS ingredient_aliases_ingredient_id_idx
   ON public.ingredient_aliases (ingredient_id);
@@ -297,6 +328,15 @@ CREATE TABLE IF NOT EXISTS public.ingredient_evidence (
     )),
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now(),
+  CONSTRAINT ingredient_evidence_pmid_nonempty_chk CHECK (
+    pmid IS NULL OR btrim(pmid) <> ''
+  ),
+  CONSTRAINT ingredient_evidence_doi_nonempty_chk CHECK (
+    doi IS NULL OR btrim(doi) <> ''
+  ),
+  CONSTRAINT ingredient_evidence_source_url_nonempty_chk CHECK (
+    source_url IS NULL OR btrim(source_url) <> ''
+  ),
   CONSTRAINT ingredient_evidence_approved_citation_chk CHECK (
     review_status <> 'approved'
     OR (
@@ -310,15 +350,14 @@ CREATE TABLE IF NOT EXISTS public.ingredient_evidence (
   )
 );
 
--- Partial unique: NULL / blank PMID or DOI allowed (multiple rows); non-empty unique
+-- Partial unique: NULL / blank blocked by CHECK; non-empty PMID/DOI unique
 CREATE UNIQUE INDEX IF NOT EXISTS ingredient_evidence_pmid_uidx
   ON public.ingredient_evidence (pmid)
-  WHERE pmid IS NOT NULL AND btrim(pmid) <> '';
+  WHERE pmid IS NOT NULL;
 
 CREATE UNIQUE INDEX IF NOT EXISTS ingredient_evidence_doi_uidx
   ON public.ingredient_evidence (doi)
-  WHERE doi IS NOT NULL AND btrim(doi) <> '';
-
+  WHERE doi IS NOT NULL;
 CREATE INDEX IF NOT EXISTS ingredient_evidence_ingredient_id_idx
   ON public.ingredient_evidence (ingredient_id);
 CREATE INDEX IF NOT EXISTS ingredient_evidence_concern_id_idx
@@ -438,13 +477,16 @@ CREATE TABLE IF NOT EXISTS public.product_discovery_candidates (
   assigned_to text DEFAULT NULL,
   notes text DEFAULT NULL,
   created_at timestamptz NOT NULL DEFAULT now(),
-  updated_at timestamptz NOT NULL DEFAULT now()
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  CONSTRAINT product_discovery_candidates_url_nonempty_chk CHECK (
+    discovered_url IS NULL OR btrim(discovered_url) <> ''
+  )
 );
 
--- Partial unique: multiple NULL URLs OK; non-empty URL unique
+-- Partial unique: NULL URL OK (multiple); non-empty URL unique
 CREATE UNIQUE INDEX IF NOT EXISTS product_discovery_candidates_url_uidx
   ON public.product_discovery_candidates (discovered_url)
-  WHERE discovered_url IS NOT NULL AND btrim(discovered_url) <> '';
+  WHERE discovered_url IS NOT NULL;
 
 CREATE INDEX IF NOT EXISTS product_discovery_candidates_workflow_status_idx
   ON public.product_discovery_candidates (workflow_status);
@@ -527,13 +569,18 @@ CREATE TABLE IF NOT EXISTS public.data_sources (
     CHECK (trust_level IN ('high', 'medium', 'low')),
   official boolean NOT NULL DEFAULT false,
   active boolean NOT NULL DEFAULT true,
-  created_at timestamptz NOT NULL DEFAULT now()
+  created_at timestamptz NOT NULL DEFAULT now(),
+  CONSTRAINT data_sources_name_nonempty_chk CHECK (btrim(source_name) <> ''),
+  CONSTRAINT data_sources_base_url_nonempty_chk CHECK (
+    base_url IS NULL OR btrim(base_url) <> ''
+  )
 );
 
--- Partial unique: NULL base_url rows allowed; non-empty (source_type, base_url) unique
+-- Partial unique: NULL base_url = unknown (multiple OK); non-empty URL unique per type
+-- Empty string blocked by CHECK above, so WHERE base_url IS NOT NULL is enough
 CREATE UNIQUE INDEX IF NOT EXISTS data_sources_type_url_uidx
   ON public.data_sources (source_type, base_url)
-  WHERE base_url IS NOT NULL AND btrim(base_url) <> '';
+  WHERE base_url IS NOT NULL;
 
 CREATE INDEX IF NOT EXISTS data_sources_country_code_idx
   ON public.data_sources (country_code);
@@ -797,30 +844,33 @@ BEGIN
 END $$;
 
 -- =============================================================================
--- Privileges: revoke client writes; grant SELECT only where policies exist
--- Admin tables: revoke ALL from anon/authenticated (RLS + no policy = deny)
+-- Privileges (defeats public default ACL arwdDxtm for anon/authenticated)
+-- 1) REVOKE ALL on every new table (removes INSERT/UPDATE/DELETE/TRUNCATE/…)
+-- 2) GRANT SELECT only on the 7 client-readable tables
+-- 3) Admin 4 tables: no GRANT (remain inaccessible to anon/authenticated)
+-- Do NOT revoke service_role.
+-- RLS policies still filter rows on SELECT.
 -- =============================================================================
 
-REVOKE ALL ON public.product_discovery_candidates FROM anon, authenticated;
-REVOKE ALL ON public.verification_queue FROM anon, authenticated;
-REVOKE ALL ON public.data_sources FROM anon, authenticated;
-REVOKE ALL ON public.product_change_history FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.brands FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.product_variants FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.product_ingredients FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.ingredient_aliases FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.skin_concerns FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.ingredient_evidence FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.ingredient_cautions FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.product_discovery_candidates FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.verification_queue FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.data_sources FROM anon, authenticated;
+REVOKE ALL PRIVILEGES ON TABLE public.product_change_history FROM anon, authenticated;
 
-REVOKE INSERT, UPDATE, DELETE ON public.brands FROM anon, authenticated;
-REVOKE INSERT, UPDATE, DELETE ON public.product_variants FROM anon, authenticated;
-REVOKE INSERT, UPDATE, DELETE ON public.product_ingredients FROM anon, authenticated;
-REVOKE INSERT, UPDATE, DELETE ON public.ingredient_aliases FROM anon, authenticated;
-REVOKE INSERT, UPDATE, DELETE ON public.skin_concerns FROM anon, authenticated;
-REVOKE INSERT, UPDATE, DELETE ON public.ingredient_evidence FROM anon, authenticated;
-REVOKE INSERT, UPDATE, DELETE ON public.ingredient_cautions FROM anon, authenticated;
-
-GRANT SELECT ON public.brands TO anon, authenticated;
-GRANT SELECT ON public.product_variants TO anon, authenticated;
-GRANT SELECT ON public.product_ingredients TO anon, authenticated;
-GRANT SELECT ON public.ingredient_aliases TO anon, authenticated;
-GRANT SELECT ON public.skin_concerns TO anon, authenticated;
-GRANT SELECT ON public.ingredient_evidence TO anon, authenticated;
-GRANT SELECT ON public.ingredient_cautions TO anon, authenticated;
+GRANT SELECT ON TABLE public.brands TO anon, authenticated;
+GRANT SELECT ON TABLE public.product_variants TO anon, authenticated;
+GRANT SELECT ON TABLE public.product_ingredients TO anon, authenticated;
+GRANT SELECT ON TABLE public.ingredient_aliases TO anon, authenticated;
+GRANT SELECT ON TABLE public.skin_concerns TO anon, authenticated;
+GRANT SELECT ON TABLE public.ingredient_evidence TO anon, authenticated;
+GRANT SELECT ON TABLE public.ingredient_cautions TO anon, authenticated;
 
 -- Example insert shapes intentionally omitted (no seed data in this migration).
 -- Apply only after human review + GitHub backup. Do not run against production yet.

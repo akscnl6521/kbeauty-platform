@@ -35,11 +35,13 @@ Migration 파일: `supabase/migrations/20260713030000_create_search_to_verified_
 | 5 | skin_concerns | `active` AND `review_status='approved'` |
 | 6 | ingredient_evidence | `review_status='approved'` AND `reviewed_at` AND (`source_url` OR `pmid` OR `doi`) |
 | 7 | ingredient_cautions | `active` AND `review_status='approved'` AND `reviewed_at` AND 비어 있지 않은 `evidence_source` |
-| 8–11 | discovery / queue / data_sources / history | **비공개** (정책 없음 + REVOKE ALL) |
+| 8–11 | discovery / queue / data_sources / history | **비공개** (REVOKE ALL, GRANT 없음) |
 
-- 모든 신규 테이블: anon/authenticated INSERT·UPDATE·DELETE REVOKE  
-- service_role: RLS bypass (관리자 쓰기 유지)  
-- 기존 `products` / `ingredients` / `product_offers`: ALTER 없음  
+- 신규 11테이블 전부: `REVOKE ALL PRIVILEGES … FROM anon, authenticated`  
+- 공개 7테이블만: `GRANT SELECT`  
+- 관리자 4테이블: GRANT 없음 → TRUNCATE 포함 클라이언트 권한 없음  
+- `service_role` REVOKE 없음  
+- SELECT만으로 미승인 행 공개 안 됨 (RLS USING 유지) 
 
 ---
 
@@ -57,22 +59,35 @@ Migration 파일: `supabase/migrations/20260713030000_create_search_to_verified_
 
 ---
 
-## 4. 제약조건 검토
+## 4. 제약조건 · NULL · 권한 검토
 
 | 제약 | 처리 |
 |------|------|
-| PMID/DOI unique | **partial unique** `WHERE … IS NOT NULL AND btrim <> ''` → 둘 다 NULL인 여러 행 허용 |
-| discovered_url unique | 동일 partial unique |
-| data_sources (type, url) | partial unique (NULL url 허용) |
-| aliases (normalized, lang) | `COALESCE(language_code,'')` unique index |
-| product_ingredients order | `COALESCE(variant_id, sentinel uuid)` → **NULL variant에서도 order 중복 방지** |
-| approved 무결성 | product_ingredients / evidence / cautions에 CHECK로 쓰기 단계 강제 |
+| PMID/DOI unique | partial unique `WHERE … IS NOT NULL` + 빈문자열 CHECK 금지 |
+| discovered_url / data_sources base_url | 동일 |
+| aliases / variants identity | **`NULLS NOT DISTINCT`** + 빈문자열 CHECK (COALESCE('', '') 제거) |
+| product_ingredients order | `COALESCE(variant_id, sentinel)` **의도적 유지** (NULL=공통 전성분) |
+| approved 무결성 | product_ingredients / evidence / cautions CHECK |
+
+### 권한 (default ACL 대응)
+
+```
+REVOKE ALL PRIVILEGES ON TABLE public.<each of 11> FROM anon, authenticated;
+GRANT SELECT ON TABLE public.<each of 7 public> TO anon, authenticated;
+-- admin 4: no GRANT
+```
+
+→ anon/authenticated에 **TRUNCATE 없음**. service_role 유지.
+
+### SEQUENCE
+
+신규 PK는 uuid/`gen_random_uuid()` → **신규 sequence 없음**.
 
 ### CREATE TABLE IF NOT EXISTS 한계
 
-- 이미 존재하는 **불완전 테이블**에 새 컬럼을 추가하지 **않는다**.  
-- 원격에는 현재 이 11테이블이 **없으므로 최초 적용은 가능**.  
-- 부분 실패 후 재적용 시 컬럼 드리프트가 있으면 **별도 ALTER migration** 필요.
+- 이미 존재하는 불완전 테이블에 새 컬럼을 추가하지 않는다.  
+- 원격에 현재 이 11테이블이 없으므로 최초 적용은 가능.  
+- 부분 실패 후 재적용 시 컬럼 드리프트가 있으면 별도 ALTER migration 필요.
 
 ---
 
@@ -144,8 +159,9 @@ UNION ALL SELECT 'product_offers', count(*) FROM product_offers;
 |------|------|
 | workflow `verified` 용어 혼동 | 문서·주석으로 offer verified와 구분 |
 | IF NOT EXISTS 컬럼 미추가 | §4 명시, 최초 적용만 가정 |
-| sentinel uuid for NULL variant | 실제 variant id와 충돌 없음(nil UUID 예약) |
-| 조기 원격 적용 | 승인·백업 전 금지 |
+| sentinel uuid for NULL variant | 의도적 (공통 전성분); nil UUID 예약 |
+| ON DELETE RESTRICT | 의도적 — hard delete 전 연결 정리 |
+| default ACL | REVOKE ALL + GRANT SELECT로 대응 완료 |
 
 ---
 
