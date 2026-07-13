@@ -24,37 +24,57 @@
 - [x] **Sprint 10** — 현재 제품 등록·루틴 점검
 - [x] **Sprint 12** — canonical 브랜드명 표준화 (오번역 복구)
 - [x] **Sprint 13** — 한국 카탈로그 템플릿·검증 도구
+- [x] `product_offers` 원격 migration 적용 (`20260713022607`)
 
 ---
 
 ## 2. 진행 중 — Sprint 14
 
-- [x] COSRX 실제품 3개·offer 3개 로컬 등록 (검증 대기)
+방향: 단순 COSRX 수동 입력에서 **Search-to-Verified-Product Pipeline** 설계로 확장.
+
+- [x] COSRX 실제품 3개·offer 3개 로컬 등록 (검증 대기 사례)
 - [x] `/admin/catalog-review` 개발용 검토 UI
-- [x] `product_offers` migration 로컬 정리 (bigint FK, 최소 권한 RLS)
-- [x] GitHub 백업 브랜치 `backup-sprint14-20260713` 생성·push
-- [ ] 최상위 문서 복구·최신화 (`MASTER_PLAN` / `PROJECT_RULE` / status·roadmap·changelog)
-- [ ] `product_offers` 원격 적용
-- [ ] COSRX 데이터 원격 반영
+- [x] `product_offers` migration (bigint FK, 최소 권한 RLS) 원격 적용
+- [x] GitHub 백업 브랜치 `backup-sprint14-20260713`
+- [x] 검색 우선·검증 후 등록 원칙을 Master Plan / Project Rule에 공식화
+- [ ] Search-to-Verified-Product Pipeline 데이터 모델·화면 설계
+- [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
+- [ ] Supabase 제품/offer 반영 (승인 후)
 - [ ] `data/backups` JSON 백업
 
 ### 현재 단계 (2026-07-13)
 
-- GitHub 백업: **완료** (`c73c135` on `backup-sprint14-20260713`)
-- Supabase migration: **미적용** (`product_offers` 원격 없음)
+- 제품 데이터 전략: **검색 우선·검증 후 등록**
+- GitHub 백업 브랜치: 존재
+- Supabase `product_offers`: **적용 완료** (행 0)
 - main 병합: **아직 안 함**
 
 ---
 
-## 3. 다음 순서
+## 3. 다음 순서 (Search-to-Verified-Product Pipeline)
 
-1. 문서 복구 (본 작업)
-2. main 병합 검토
-3. `product_offers` migration 적용
-4. 원격 검증 (테이블·RLS·정책·인덱스)
-5. COSRX 3개 데이터 반영
-6. JSON 백업 생성 (`data/backups/YYYY-MM-DD/`)
-7. GitHub 최종 push
+1. 파이프라인 데이터 모델 설계  
+2. 검색 후보 저장 구조  
+3. 판매 검증 상태  
+4. 전성분 구조  
+5. 논문 근거 DB  
+6. 관리자 검증 화면  
+7. COSRX 3개를 첫 실제 검증 사례로 적용  
+8. Supabase 반영  
+9. JSON 백업  
+10. GitHub push  
+
+세부 개발 항목:
+
+- 실제 제품 검색 계층  
+- 판매 상태 검증  
+- 전성분 수집  
+- 성분 표준화  
+- 논문 근거 연결  
+- 중복 검사  
+- 관리자 승인  
+- Supabase 등록  
+- 정기 재검증  
 
 ---
 

@@ -6,6 +6,24 @@
 
 ## 2026-07-13
 
+### 제품 DB 구축 원칙 변경 — Search-to-Verified-Product Pipeline
+
+- 브랜드별 대량 DB 선구축을 중단하고 **검색 우선·판매 확인·성분·논문 검증 후 등록** 방식 채택
+- 공식 파이프라인명: **Search-to-Verified-Product Pipeline**
+- 제품 상태 단계: `discovered` → `sale_checked` → `ingredients_checked` → `evidence_checked` → `safety_checked` → `verified` → `published`
+- `published`만 핵심 추천 사용; 판매 미확인·가짜 데이터·근거 없는 효능 단정 금지
+- Product / ProductVariant / ProductOffer / ProductIngredient / IngredientEvidence 분리
+- 공식 API는 필수 아님 — 가격·재고 갱신·피드·비용 대비 효과가 충분할 때만 선택 사용
+- `MASTER_PLAN.md` / `PROJECT_RULE.md` / `ROADMAP.md` / `PROJECT_STATUS.md` 동기화
+- `docs/20-data-source-verification.md` / `docs/11-product-retailer-offer.md` 신설
+- `.cursor/rules/search-to-verified-product.mdc` 신설
+- Sprint 14 방향: COSRX 수동 입력 → 파이프라인 설계로 확장 (COSRX 3개는 첫 검증 사례)
+
+### Supabase — product_offers migration 적용
+
+- 원격 migration `20260713022607` (`create_product_offers_and_catalog_extensions`) 적용 완료
+- `product_offers` 테이블 존재, 행 0; RLS: verified + in_stock + active만 SELECT
+
 ### 문서 복구 — Master Plan v3.1 / 운영 규칙 / 상태 동기화
 
 - `MASTER_PLAN.md` 신설 (v3.1: 한국 MVP, 이중 저장, 검증 우선, 즉흥 수정 금지)
@@ -16,9 +34,8 @@
 
 - 브랜치 `backup-sprint14-20260713` 생성
 - 커밋 `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration
-- `main` 미병합, Supabase 미적용 상태로 로컬 작업 보존
-- Supabase MCP 연결 완료 (쓰기 도구 사용 가능, 본 단계에서는 미사용)
-- 원격 `product_offers` **미적용** 상태 유지
+- `main` 미병합 상태로 로컬 작업 보존
+- Supabase MCP 연결 완료 (쓰기 전 사용자 승인)
 
 ### Sprint 14 — COSRX 1차 등록·검증 대기 (진행 중)
 
@@ -26,7 +43,7 @@
 - 가격 23,000 / 23,000 / 24,000 KRW, 공식몰 URL, 성분 임의 기입 없음
 - offer: `unverified` + `stock unknown` → 핵심 Top 5 제외
 - `/admin/catalog-review` 개발 전용 검증 대기 UI
-- `product_offers` migration: `product_id bigint` FK, 최소 권한 RLS 준비
+- `product_offers` migration: `product_id bigint` FK, 최소 권한 RLS (원격 적용 완료)
 
 ---
 
