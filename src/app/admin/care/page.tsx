@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireAdminUser } from "@/lib/auth/admin";
 import { AdminConfigurationError } from "@/lib/auth/errors";
 import { getAdminCareOpsSummary } from "@/lib/admin/care-ops";
+import { fmtCount, fmtRate } from "@/lib/admin/care-display";
 import { AdminLogoutButton } from "../AdminLogoutButton";
 import { AdminSubnav } from "../AdminSubnav";
 
@@ -41,17 +42,22 @@ export default async function AdminCarePage() {
       </div>
 
       <p className="mt-4 text-sm text-amber-900">{data.note}</p>
+      {data.kAnonymityNotes.length ? (
+        <p className="mt-2 text-xs text-gray-500">
+          {data.kAnonymityNotes.join(" · ")}
+        </p>
+      ) : null}
 
       <section className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 text-sm">
         {[
-          ["scheduled", data.scheduledCheckIns],
-          ["due", data.dueCheckIns],
-          ["completed", data.completedCheckIns],
-          ["expired", data.expiredCheckIns],
-          ["completion rate", `${(data.completionRate * 100).toFixed(0)}%`],
-          ["referral promptly", data.referralPromptly],
-          ["referral emergency", data.referralEmergency],
-          ["routines", data.routinesSaved],
+          ["scheduled", fmtCount(data.scheduledCheckIns)],
+          ["due", fmtCount(data.dueCheckIns)],
+          ["completed", fmtCount(data.completedCheckIns)],
+          ["expired", fmtCount(data.expiredCheckIns)],
+          ["completion rate", fmtRate(data.completionRate)],
+          ["referral promptly", fmtCount(data.referralPromptly)],
+          ["referral emergency", fmtCount(data.referralEmergency)],
+          ["routines", fmtCount(data.routinesSaved)],
         ].map(([k, v]) => (
           <div
             key={String(k)}
