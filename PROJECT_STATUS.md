@@ -13,8 +13,8 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | 비밀번호 재설정 token_hash callback 보완 (commit/push 전) |
-| 빌드 | `npm run build` (verifyOtp 보완 후 재검증) |
+| Working tree | 관리자 제품 목록 1차 읽기 전용 (commit/push 전) |
+| 빌드 | `npm run build` (products 목록 구현 후 재검증) |
 
 ## 제품 데이터 전략
 
@@ -60,7 +60,8 @@
 | `/routine` | 루틴 |
 | `/face-explorer` | 얼굴 영역 탐색 |
 | `/ingredients/[slug]` | 성분 상세 |
-| `/admin` | 관리자 홈 (admin_users 필수) |
+| `/admin` | 관리자 대시보드 (읽기 전용 count) |
+| `/admin/products` | 제품 목록 (읽기 전용 · 검색/필터/페이지) |
 | `/admin/login` | 관리자 이메일/비밀번호 로그인 |
 | `/admin/forgot-password` | 관리자 비밀번호 재설정 메일 요청 |
 | `/admin/reset-password` | 메일 링크 후 새 비밀번호 설정 |
@@ -71,6 +72,8 @@
 | `/privacy`, `/terms` | 약관 |
 | `/api/analyze` | 서버 AI 분석 API |
 | `/api/admin/auth-check` | 관리자 세션 테스트 (GET) |
+| `/api/admin/dashboard` | 관리자 대시보드 count (GET, 읽기 전용) |
+| `/api/admin/products` | 관리자 제품 목록 (GET, 읽기 전용) |
 
 ## 현재 주요 기능
 
@@ -96,11 +99,12 @@
 
 ## 다음 작업
 
-1. **Email Template Reset Password 링크를 token_hash URL로 바꾼 뒤 새 메일 E2E**
-2. 로컬 SERVICE_ROLE 설정 후 관리자 로그인·auth-check E2E
-3. Search-to-Verified 관리자 UI/API (`docs/38`~`42`)
-4. COSRX 3개 파이프라인 적용
-5. JSON 백업 · GitHub push (승인 시)
+1. **`/admin/products` 로그인 후 검색·필터·페이지 E2E**
+2. 읽기 전용 제품 상세 `/admin/products/[id]`
+3. 읽기 전용 discovery/ingredients 목록
+4. Search-to-Verified 관리자 쓰기 UI/API (별도 승인)
+5. COSRX 3개 파이프라인 적용
+6. JSON 백업 · GitHub push (승인 시)
 
 ## 참고 문서
 
@@ -108,7 +112,7 @@
 - `PROJECT_RULE.md` — 운영 규칙
 - `ROADMAP.md` — 완료 / 진행 / 다음
 - `CHANGELOG.md` — Sprint 이력
-- `docs/43`~`docs/51` — 관리자 인증·로그인·비밀번호 재설정
+- `docs/43`~`docs/53` — 관리자 인증·대시보드·제품 목록
 - `docs/11-product-retailer-offer.md` — Product/Offer 분리
 - `docs/20-data-source-verification.md` — 검색·검증 파이프라인
 - `docs/29-korean-product-data-guide.md` — 한국 데이터 입력

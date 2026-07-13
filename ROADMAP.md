@@ -43,8 +43,11 @@
 - [x] 관리자 비밀번호 재설정 최소 구현 (`/admin/forgot-password`, `/admin/reset-password`)
 - [x] 비밀번호 재설정 PKCE callback (`/auth/callback` → cookie 세션)
 - [x] 비밀번호 재설정 `token_hash` + `verifyOtp(recovery)` 보완
-- [ ] 로컬 SERVICE_ROLE 설정 후 관리자 E2E
-- [ ] Search-to-Verified 관리자 UI/API
+- [x] 관리자 대시보드 1차 (읽기 전용 `/admin` + `/api/admin/dashboard`)
+- [x] 관리자 제품 목록 1차 (읽기 전용 `/admin/products` + API)
+- [ ] 읽기 전용 제품 상세
+- [ ] 읽기 전용 discovery/ingredients 목록
+- [ ] Search-to-Verified 관리자 쓰기 UI/API
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)
 - [ ] `data/backups` JSON 백업
@@ -52,12 +55,9 @@
 ### 현재 단계 (2026-07-13)
 
 - 제품 데이터 전략: **검색 우선·검증 후 등록**
-- GitHub 백업 브랜치: 존재
-- 관리자 auth·로그인·비밀번호 재설정·callback(`token_hash`/`code`): **로컬 구현**
-- Email Template Reset Password (token_hash URL): **수동 변경 필요**
-- Dashboard Redirect URL (`/auth/callback`): 유지
-- `SUPABASE_SERVICE_ROLE_KEY`: 로컬 설정 여부에 따라 E2E 가능
-- main 병합: **아직 안 함**
+- 관리자 대시보드·제품 목록(읽기 전용): **로컬 구현**
+- products 186 · offers 0 · verified_at 전부 0
+- main 병합 / 이번 작업 commit·push: **아직 안 함**
 
 ---
 

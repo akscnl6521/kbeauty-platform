@@ -6,6 +6,25 @@
 
 ## 2026-07-13
 
+### 관리자 제품 목록 1차 — 읽기 전용
+
+- `getAdminProducts` — products SELECT + offer count (N+1 방지)
+- `GET /api/admin/products` — 검색·필터·정렬·페이지네이션
+- `/admin/products` UI — 읽기 전용 테이블
+- 대시보드 Products 링크 활성화
+- 쓰기·migration·원격 schema 변경 없음
+- `docs/53-admin-products-readonly.md`
+- commit/push 없음
+
+### 관리자 대시보드 1차 — 읽기 전용 운영 현황
+
+- `getAdminDashboardData()` — service_role SELECT/count만
+- `GET /api/admin/dashboard` — 전 관리자 역할 허용
+- `/admin` UI — catalog / pipeline / queue / quality / system
+- 쓰기·migration·seed·원격 schema 변경 없음
+- `docs/52-admin-dashboard-implementation.md`
+- commit/push 없음
+
 ### 관리자 비밀번호 재설정 — token_hash verifyOtp 보완
 
 - 실패 원인: 기본 ConfirmationURL → PKCE `code` 교환이 실패해 `recovery_failed` 반복
