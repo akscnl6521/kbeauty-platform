@@ -1,0 +1,32 @@
+---
+description: Separate Cursor development from pipeline operations
+alwaysApply: true
+---
+
+# Cursor Agent — Development vs Operations Separation
+
+## Cursor MAY (auto, no ops approval loops)
+
+- Edit/create source, config, docs
+- `npm run test:pipeline` / unit tests / `npm run build`
+- git commit + push to backup branch when the task includes Git
+
+## Cursor MUST NOT run during agent sessions
+
+- `node scripts/run-pipeline-worker.mjs` / `run-pipeline.ps1` (operational intake)
+- Windows Task Scheduler register / update / check loops
+- Supabase operational INSERT/UPDATE/DELETE on live catalog/pipeline data
+- migrations / ad-hoc operational SQL writes
+- Anything that triggers repeated Pending approval for ops
+
+## Operations owner
+
+- Fixed Task: `KBeautyMatch-Pipeline`
+- Fixed command: `node scripts/run-pipeline-worker.mjs` (via `scripts/run-pipeline.ps1`)
+- Limits/mode: `config/pipeline-operation.json` + optional overrides
+- Humans: review `needs_review` only
+
+## If scheduler args must change once
+
+- Keep `scripts/update-pipeline-task.ps1` in the repo
+- Do **not** execute it from Cursor; document one elevated command for the operator

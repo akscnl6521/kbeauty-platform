@@ -6,6 +6,14 @@
 
 ## 2026-07-13
 
+### Cursor / worker 운영 분리
+
+- `config/pipeline-operation.json` 고정 운영 설정
+- 스케줄러 고정 명령: `node scripts/run-pipeline-worker.mjs` (가변 CLI 금지)
+- `/admin/pipeline/settings` + overrides 파일
+- Cursor는 개발·테스트·build·git만 · 운영 worker/Task/SQL 미실행
+- `docs/79`, `docs/83`, `.cursor/rules/dev-ops-separation.mdc`
+
 ### 자율 파이프라인 무인 운영 전환
 
 - migration `create_autonomous_pipeline_persistence` 원격 적용

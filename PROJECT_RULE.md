@@ -13,6 +13,10 @@
 1. Cursor 수정은 **로컬 수정**일 뿐 자동 반영이 아니다.
 2. GitHub push, Supabase migration/SQL 적용, 배포는 각각 별도 작업이다.
 3. “코드가 바뀌었다” ≠ “원격 DB/운영에 반영됐다”.
+4. **Cursor = 개발 도구**, **worker/Task Scheduler = 운영 실행기**.
+5. Cursor 세션에서 운영 worker 실행 · Task Scheduler 반복 조회/수정 · 운영 SQL 쓰기를 하지 않는다 (Pending approval 루프 금지).
+6. 단위 테스트·build·문서·commit·backup 브랜치 push는 Cursor가 수행한다.
+7. 운영 설정은 `config/pipeline-operation.json` / `/admin/pipeline/settings`에서 관리한다.
 
 ---
 
@@ -43,8 +47,9 @@
 9. 성분 하나 논문만으로 제품 전체 효과를 단정하지 않는다. 의약품·화장품 연구를 구분한다.
 10. 홍조·심한 염증·통증·진물·지속 악화는 추천보다 전문가 상담 분기를 우선한다.
 11. 자율 파이프라인: 브랜드/제품별 승인 없음 · 정상 자동 저장 · needs_review만 사람 · **자동 published 금지**.
-12. pipeline 운영 상태는 Supabase `pipeline_*` 테이블(service role). 스케줄러 기본 dry_run.
+12. pipeline 운영: 고정 worker(`run-pipeline-worker.mjs`) + `config/pipeline-operation.json`. 스케줄러에 가변 인자 금지.
 13. DELETE/TRUNCATE/RLS 완화/차단 우회/main 병합은 중단 조건.
+14. 사람은 needs_review만 확인 · 브랜드/제품별 승인 없음 · 자동 published 금지.
 
 상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`, `docs/82-pipeline-database-persistence.md`
 

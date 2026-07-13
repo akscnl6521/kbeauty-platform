@@ -45,7 +45,8 @@ K-Beauty Match는 사용자의 피부 상태·고민·성분 선호를 바탕으
 K-Beauty Match는 **검증 정확도**를 유지하면서, 사람이 모든 URL을 수동 등록하지 않도록  
 **자율 카탈로그 파이프라인**으로 후보를 대량 구축한다.
 
-- **자율 카탈로그 파이프라인**: Supabase 영구 저장 + dry_run 스케줄 준비 (`docs/69`, `docs/82`~`85`)
+- **자율 카탈로그 파이프라인**: 고정 worker + `config/pipeline-operation.json` (`docs/69`, `docs/79`, `docs/82`~`85`)
+- Cursor는 개발만 · 운영 실행은 Task Scheduler/worker · 사람은 needs_review만
 - 정상 데이터: 자동 저장 (후보·관계·점수·큐)
 - 낮은 신뢰도/충돌: `needs_review`만 사람 검토
 - **자동 `published` 금지** · 가짜 offer/가격/성분 금지
@@ -183,7 +184,7 @@ API는 다음 경우에만 선택적으로 사용한다.
 | **GitHub** | 코드, 문서, migration, 비개인 카탈로그 원본(JSON/CSV), 백업 스냅샷 |
 | **Supabase** | 실제 제품·성분·판매처·가격·재고·검증 상태 등 운영 데이터 |
 
-1. Cursor 수정은 로컬 수정일 뿐 자동 반영이 아니다.
+1. Cursor 수정은 로컬 수정일 뿐 자동 반영이 아니다. Cursor는 운영 worker/Task/SQL을 실행하지 않는다.
 2. GitHub와 Supabase 중 **한쪽만** 반영된 상태는 완료가 아니다.
 3. Supabase 쓰기 전 GitHub 백업을 확인하고, **사용자 승인**을 받는다.
 4. 중요 비개인 데이터는 `data/backups/YYYY-MM-DD/` 에도 JSON으로 남긴다.
