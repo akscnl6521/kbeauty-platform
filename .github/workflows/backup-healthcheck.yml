@@ -1,0 +1,29 @@
+# 일일 코드 스냅샷이 GitHub에 있는지 확인하는 가벼운 백업 헬스체크.
+# 실제 백업 본체는 git history + supabase/migrations 이다.
+
+name: Backup Healthcheck
+
+on:
+  schedule:
+    # UTC 01:00 ≈ KST 10:00
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+jobs:
+  healthcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify critical backup paths
+        run: |
+          set -e
+          test -f package.json
+          test -d src
+          test -d supabase/migrations
+          echo "repo_ok=true"
+          echo "latest_commit=$(git rev-parse --short HEAD)"
+          echo "migration_files=$(find supabase/migrations -name '*.sql' | wc -l)"

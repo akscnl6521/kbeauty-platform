@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "sprint": 14,
+    "note": "COSRX 공식몰에서 제품명·공식가가 확인된 실제품. 재고·구매 가능 여부는 미검증 → offer는 unverified/unknown. 핵심 추천 Top5 제외. 성분은 임의 기입하지 않음.",
+    "sourceCheckedAt": "2026-07-12"
+  },
+  "products": [
+    {
+      "productId": "cosrx-advanced-snail-96-essence-100ml",
+      "canonicalBrandName": "COSRX",
+      "productNameKo": "어드벤스드 스네일 96 뮤신 파워 에센스 100ml",
+      "productNameEn": "Advanced Snail 96 Mucin Power Essence",
+      "category": "essence",
+      "skinTypes": [],
+      "concerns": [],
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "fragranceFree": null,
+      "alcoholFree": null,
+      "productStatus": "active",
+      "dataConfidence": "medium",
+      "verifiedAt": null,
+      "sourceUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=196",
+      "notes": "공식 확인가 23,000원(할인 전). 재고·구매 가능 여부 검증 대기."
+    },
+    {
+      "productId": "cosrx-advanced-snail-92-cream-100g",
+      "canonicalBrandName": "COSRX",
+      "productNameKo": "스네일 92 올인원 크림 100g",
+      "productNameEn": "Advanced Snail 92 All In One Cream",
+      "category": "cream",
+      "skinTypes": [],
+      "concerns": [],
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "fragranceFree": null,
+      "alcoholFree": null,
+      "productStatus": "active",
+      "dataConfidence": "medium",
+      "verifiedAt": null,
+      "sourceUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+      "notes": "공식 확인가 23,000원(할인 전). 재고·구매 가능 여부 검증 대기."
+    },
+    {
+      "productId": "cosrx-one-step-original-blemish-pad-100",
+      "canonicalBrandName": "COSRX",
+      "productNameKo": "원스텝 오리지널 블레미쉬 모공 클리어 패드 100매",
+      "productNameEn": "One Step Original Blemish Clear Pad",
+      "category": "toner_pad",
+      "skinTypes": [],
+      "concerns": [],
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "fragranceFree": null,
+      "alcoholFree": null,
+      "productStatus": "active",
+      "dataConfidence": "medium",
+      "verifiedAt": null,
+      "sourceUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177512",
+      "notes": "공식 확인가 24,000원(할인 전). 재고·구매 가능 여부 검증 대기."
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+# Schema backup lives in git (supabase/migrations).
+# Applying to remote is manual-first: workflow_dispatch only.
+# Set repository secrets before enabling:
+#   SUPABASE_ACCESS_TOKEN  - https://supabase.com/dashboard/account/tokens
+#   SUPABASE_PROJECT_ID    - project ref (e.g. rhfrmvkjsummaylpzmns)
+#   SUPABASE_DB_PASSWORD   - database password (Settings → Database)
+
+name: Supabase Migrations
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type apply to push local migrations to the linked remote project'
+        required: true
+        default: ''
+
+jobs:
+  push-migrations:
+    name: supabase db push
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'apply'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Supabase CLI
+        run: npm install -g supabase
+
+      - name: Link project
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+          SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+        run: |
+          test -n "$SUPABASE_ACCESS_TOKEN"
+          test -n "$SUPABASE_PROJECT_ID"
+          test -n "$SUPABASE_DB_PASSWORD"
+          supabase link --project-ref "$SUPABASE_PROJECT_ID" -p "$SUPABASE_DB_PASSWORD"
+
+      - name: Push migrations
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: supabase db push -p "$SUPABASE_DB_PASSWORD"
