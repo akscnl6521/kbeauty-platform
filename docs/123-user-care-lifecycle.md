@@ -18,9 +18,10 @@
 
 ## 저장
 
-- **로그인 사용자**: Supabase (`CarePersistence` + `/api/care/*`)
-- **익명**: `localStorage` 키 `kbeautyCareStoreV1`
+- **로그인 사용자**: Supabase (`CarePersistence` + `/api/care/*`) · `/my` 인증 필수
+- **익명**: 분석/결과는 localStorage · `/my` 진입 전 로그인 · attach로 계정 연결
 - **Migration**: `create_continuous_care_persistence` 적용 완료 (`docs/133`)
+- **인증**: `docs/138` · 온보딩 `docs/139`
 
 ## 금지
 

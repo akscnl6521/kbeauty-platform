@@ -20,8 +20,9 @@
 | Draft 정책 | `products.active=false` → 게이트 통과 시 active+verified_at · publish 금지 |
 | Operations | /admin/operations health/alerts · file-based dedupe |
 | Offers | draft에도 verified offer 허용 · Top5는 active verified product만 |
-| Care | Supabase 영속화 적용 · `/api/care/*` · 익명 local fallback · migration `20260713113851` |
-| Working tree | Continuous Care server persistence |
+| Care | Supabase 영속화 · `/api/care/*` · `/my` 로그인 필수 · 익명→attach |
+| Customer auth | `/login` `/signup` `/forgot-password` `/reset-password` `/logout` `/onboarding` |
+| Working tree | Customer auth + onboarding + Care E2E |
 
 ## 제품 데이터 전략
 
@@ -89,7 +90,10 @@
 | `/admin/brands/[id]` | 브랜드 seed 상세 |
 | `/admin/forbidden` | 비관리자 안내 |
 | `/admin/unavailable` | 서버 설정 누락 안내 |
-| `/my` | 개인 케어 홈 (오늘 할 일) |
+| `/login` · `/signup` · `/forgot-password` · `/reset-password` · `/logout` | 일반 사용자 인증 |
+| `/onboarding` | 케어 온보딩 |
+| `/auth/link-local` | 익명 기록 → 계정 연결 |
+| `/my` | 개인 케어 홈 (로그인 필수) |
 | `/my/analyses` · `/my/routine` · `/my/check-ins` · `/my/progress` | 케어 하위 |
 | `/my/recommendations` · `/my/settings` | 추천·알림 설정 |
 | `/admin/care` | Care 운영 집계 (PII 비노출) |
@@ -131,17 +135,17 @@
 
 ## 다음 작업
 
-1. 일반 사용자 로그인 UX와 `/my` 서버 동기화 E2E (사용자)
-2. 운영 UI에서 실제 후보 1건 E2E (사용자)
-3. COSRX 파이프라인 적용 (승인 후)
+1. Supabase Auth 이메일 템플릿·Redirect URL에 `/auth/callback` 확인 (사용자)
+2. 일반 사용자 가입→온보딩→/my E2E (사용자)
+3. 운영 UI에서 실제 후보 1건 E2E (사용자)
 4. main 병합은 별도 승인 후
 
 ## 참고 문서
 
+- `docs/138`~`docs/142` — 고객 인증·온보딩·연결·E2E·설정
 - `docs/133`~`docs/137` — Care DB/RLS/연결/worker/retention
 - `docs/123`~`docs/130` — Continuous Care 정책
 - `docs/131` / `docs/132` — migration 상태 포인터 / rollback
 - `docs/43`~`docs/65` — 관리자 인증·읽기·쓰기 콘솔
-- `docs/61`~`docs/65` — Search-to-Verified 쓰기
 - `docs/29-korean-product-data-guide.md` — 한국 데이터 입력
 - `docs/30-github-supabase-backup.md` — 백업 연동

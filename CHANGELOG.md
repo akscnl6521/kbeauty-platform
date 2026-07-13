@@ -6,6 +6,13 @@
 
 ## 2026-07-13
 
+### 일반 사용자 인증 · 온보딩 · Care E2E
+
+- `/login` `/signup` `/forgot-password` `/reset-password` `/logout`
+- `/my`·`/onboarding` 보호 · safe `next` · `/auth/link-local` 익명 기록 연결
+- `/onboarding` 단계형 · results CTA “내 피부 관리 시작하기”
+- docs/138~142 · Cursor 운영/실메일 E2E 미실행
+
 ### Continuous Care 서버 영속화
 
 - migration `create_continuous_care_persistence` 원격 적용 + DELETE privilege revoke

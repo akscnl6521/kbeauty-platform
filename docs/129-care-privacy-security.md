@@ -17,5 +17,5 @@
 
 ## Migration
 
-적용 금지(자동). 승인 후: `docs/131-care-migration-blocker.sql`  
-Rollback: `docs/132-care-migration-rollback.sql`
+원격 적용 완료 (`create_continuous_care_persistence`). Rollback 문서: `docs/132` (수동).
+고객 인증·`/my` 보호: `docs/138`.
