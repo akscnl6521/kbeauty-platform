@@ -45,10 +45,11 @@ K-Beauty Match는 사용자의 피부 상태·고민·성분 선호를 바탕으
 K-Beauty Match는 **검증 정확도**를 유지하면서, 사람이 모든 URL을 수동 등록하지 않도록  
 **자율 카탈로그 파이프라인**으로 후보를 대량 구축한다.
 
+- **자율 카탈로그 파이프라인**: Supabase 영구 저장 + dry_run 스케줄 준비 (`docs/69`, `docs/82`~`85`)
 - 정상 데이터: 자동 저장 (후보·관계·점수·큐)
 - 낮은 신뢰도/충돌: `needs_review`만 사람 검토
 - **자동 `published` 금지** · 가짜 offer/가격/성분 금지
-- 상세: `docs/69-autonomous-catalog-pipeline.md` ~ `docs/79-unattended-operations.md`
+- 상세: `docs/69-autonomous-catalog-pipeline.md` ~ `docs/85-pipeline-commit-mode-policy.md`
 
 ### 3.0 기존 Search-to-Verified (유지)
 

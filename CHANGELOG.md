@@ -6,6 +6,16 @@
 
 ## 2026-07-13
 
+### 자율 파이프라인 무인 운영 전환
+
+- migration `create_autonomous_pipeline_persistence` 원격 적용
+- Supabase persistence adapter · claim/lock/heartbeat
+- 관리자 pipeline 콘솔 DB 연결
+- 쿠키 없는 로컬 worker (`run-pipeline-worker.mjs`)
+- Task Scheduler 스크립트 (UAC 시 수동 1줄)
+- dry_run 1회 검증 (products 186 / ingredients 40 유지, discovery INSERT 0)
+- `docs/81`~`docs/85`
+
 ### 자율 카탈로그 파이프라인 1차
 
 - 오케스트레이터·파일 checkpoint·retry/resume (`src/lib/pipeline/*`)

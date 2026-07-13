@@ -24,20 +24,21 @@ K-Beauty Match는 **사람이 제품을 일일이 등록하는 도구**가 아�
 
 ## 실행 모드
 
-- `dry_run` (기본): 추출·분류·중복 결과만 파일 checkpoint
-- `commit`: 품질 조건 통과 시 discovery candidate / 관계 / 큐만 (정책 범위 내)
+- `dry_run` (기본·스케줄러): 추출·분류·점수·job 상태를 DB에 저장, discovery/products INSERT 없음
+- `commit`: 명시적 배치만 candidate/queue (published 금지). 자동 dry_run→commit 전환 없음.
 
-## 상태 저장 (1차)
+## 상태 저장
 
-- 파일: `data/pipeline/runtime/` (gitignore)
-- 운영 다중 인스턴스 / 원격 지속성 → **BLOCKER migration** (`docs/69` 부록 / `docs/79`)
+- **운영 기본: Supabase** (`create_autonomous_pipeline_persistence`)
+- 파일 `data/pipeline/runtime/` 는 비상/개발 fallback
+- Rollback: `docs/81-pipeline-migration-rollback.sql` (자동 실행 금지)
 
 ## 중단 조건
 
-migration/RLS/DELETE/대량 덮어쓰기/자동 published 정책 변경/유료 API/차단 우회/main 병합
+DELETE/TRUNCATE/대량 덮어쓰기/RLS 완화/자동 published 정책 변경/유료 API/차단 우회/main 병합
 
-## 관련 코드
+## 관련
 
-- `src/lib/pipeline/*`
+- `src/lib/pipeline/*`, `docs/82`~`docs/85`
 - `/admin/pipeline`, `/admin/brands`
-- `scripts/run-pipeline.*`
+- `scripts/run-pipeline.ps1`, Task `KBeautyMatch-Pipeline`

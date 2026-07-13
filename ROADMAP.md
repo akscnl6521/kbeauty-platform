@@ -56,7 +56,9 @@
 - [x] Search-to-Verified 관리자 쓰기 UI/API 1차 (권한·후보·큐·검토·workflow)
 - [x] URL/CSV 기반 discovery 빠른 등록 (preview·commit·SSRF)
 - [x] 자율 카탈로그 파이프라인 1차 (orchestrator·crawl·extract·dedupe·score·admin·worker·docs)
-- [ ] pipeline DB migration 승인·적용 (`docs/80-pipeline-migration-blocker.sql`)
+- [x] pipeline DB migration 적용 (`create_autonomous_pipeline_persistence`)
+- [x] Supabase persistence + dry_run worker 1회 검증
+- [ ] Windows Task Scheduler 등록 (UAC 시 관리자 PowerShell 1줄)
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)
 - [ ] `data/backups` JSON 백업

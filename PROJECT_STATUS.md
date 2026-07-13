@@ -13,8 +13,10 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | 자율 카탈로그 파이프라인 1차 (파일 checkpoint) |
+| Working tree | 자율 파이프라인 DB persistence + dry_run worker 운영 전환 |
 | 빌드 | `npm run build` 성공 · `npm run test:pipeline` 통과 |
+| Pipeline migration | `create_autonomous_pipeline_persistence` 적용 (`20260713084701`) |
+| dry_run 검증 | batch `22758d87-…` · jobs 2 · needs_review 2 · candidates/offers INSERT 0 |
 
 ## 제품 데이터 전략
 

@@ -43,9 +43,10 @@
 9. 성분 하나 논문만으로 제품 전체 효과를 단정하지 않는다. 의약품·화장품 연구를 구분한다.
 10. 홍조·심한 염증·통증·진물·지속 악화는 추천보다 전문가 상담 분기를 우선한다.
 11. 자율 파이프라인: 브랜드/제품별 승인 없음 · 정상 자동 저장 · needs_review만 사람 · **자동 published 금지**.
-12. migration/RLS/DELETE/차단 우회는 상시 승인 범위 밖 — BLOCKER로 보고.
+12. pipeline 운영 상태는 Supabase `pipeline_*` 테이블(service role). 스케줄러 기본 dry_run.
+13. DELETE/TRUNCATE/RLS 완화/차단 우회/main 병합은 중단 조건.
 
-상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`
+상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`, `docs/82-pipeline-database-persistence.md`
 
 ---
 

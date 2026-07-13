@@ -1,36 +1,21 @@
 # 79 — Unattended Operations
 
+## 현재 상태 (2026-07-13)
+
+- DB 영구 저장 **적용됨** (`create_autonomous_pipeline_persistence` / remote `20260713084701`)
+- 운영 기본: Supabase persistence
+- 스케줄러 기본: dry_run
+- 자동 published 금지
+- Task Scheduler: 스크립트 준비 · UAC 시 관리자 PowerShell 1회 등록 필요 가능
+
 ## 운영 원칙
 
 - 정상 항목 자동 저장 (범위 내)
 - needs_review만 사람
 - 단일 실패로 배치 중단 금지
 - idempotent · resume · checkpoint
-- 자동 published 금지 · DELETE 금지
+- DELETE 금지
 
-## 1차 한계 (BLOCKER)
+## Rollback
 
-파일 checkpoint는 단일 워크스테이션에는 적합하나  
-다중 worker / 원격 감사 / 필드 provenance / quality·skin score 영구 저장에는 **DB 테이블 필요**.
-
-### 필요 migration (승인 전 적용 금지)
-
-신규 테이블 초안:
-
-1. `pipeline_batches`
-2. `pipeline_jobs`
-3. `pipeline_checkpoints` (optional JSON blob)
-4. `brand_official_sites` (또는 brands 확장)
-5. `product_field_provenance`
-6. `product_quality_scores`
-7. `product_skin_match_scores`
-8. `product_change_candidates`
-
-상세 SQL: `docs/80-pipeline-migration-blocker.sql` (참고용, 미적용)
-
-## Windows
-
-1. `npm run build && npm run start`
-2. 관리자 로그인 후 `/admin/pipeline` dry_run
-3. worker: `.\scripts\run-pipeline.ps1`
-4. Task Scheduler는 사용자가 수동 등록
+`docs/81-pipeline-migration-rollback.sql` — 승인 전 자동 실행 금지
