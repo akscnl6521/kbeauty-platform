@@ -13,8 +13,8 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | 관리자 읽기 전용 콘솔 완료 (ingredients·verification) |
-| 빌드 | `npm run build` 검증 |
+| Working tree | Search-to-Verified 쓰기 콘솔 1차 완료 |
+| 빌드 | `npm run build` 성공 |
 
 ## 제품 데이터 전략
 
@@ -64,7 +64,8 @@
 | `/admin/products` | 제품 목록 (읽기 전용 · 검색/필터/페이지) |
 | `/admin/products/[id]` | 제품 상세 (읽기 전용) |
 | `/admin/discovery` | 발견 후보 목록 (읽기 전용) |
-| `/admin/discovery/[id]` | 발견 후보 상세 (읽기 전용) |
+| `/admin/discovery/new` | 제품 후보 수동 등록 (쓰기) |
+| `/admin/discovery/[id]` | 발견 후보 상세 + 제한 쓰기 |
 | `/admin/ingredients` | 성분 목록 (읽기 전용) |
 | `/admin/ingredients/[id]` | 성분 상세 (읽기 전용) |
 | `/admin/verification` | 검증 큐 목록 (읽기 전용) |
@@ -109,23 +110,18 @@
 4. COSRX 로컬 데이터는 등록됐으나 Supabase 미반영
 5. `data/backups` 폴더 미생성
 6. 실제 AI 공급자 연결 미완
-7. 관리자 **쓰기** UI/API 미구현 (읽기 전용 콘솔까지 완료)
+7. 관리자 쓰기 콘솔 1차 완료 (discovery/verification). offers 자동생성·대량수정·DELETE 미지원
 
 ## 다음 작업
 
-1. Search-to-Verified 관리자 쓰기 UI/API (별도 승인)
-2. COSRX 3개 파이프라인 적용
-3. JSON 백업
+1. 운영 UI에서 실제 후보 1건 E2E (사용자)
+2. COSRX 파이프라인 적용 (승인 후)
+3. offer 생성·게시 전제조건 강화 (승인 후)
 4. main 병합은 별도 승인 후
 
 ## 참고 문서
 
-- `MASTER_PLAN.md` — Master Plan v3.1
-- `PROJECT_RULE.md` — 운영 규칙
-- `ROADMAP.md` — 완료 / 진행 / 다음
-- `CHANGELOG.md` — Sprint 이력
-- `docs/43`~`docs/60` — 관리자 인증·대시보드·제품·discovery·ingredients·verification
-- `docs/11-product-retailer-offer.md` — Product/Offer 분리
-- `docs/20-data-source-verification.md` — 검색·검증 파이프라인
+- `docs/43`~`docs/65` — 관리자 인증·읽기·쓰기 콘솔
+- `docs/61`~`docs/65` — Search-to-Verified 쓰기
 - `docs/29-korean-product-data-guide.md` — 한국 데이터 입력
 - `docs/30-github-supabase-backup.md` — 백업 연동

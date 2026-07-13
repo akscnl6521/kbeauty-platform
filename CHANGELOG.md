@@ -6,6 +6,16 @@
 
 ## 2026-07-13
 
+### Search-to-Verified 쓰기 콘솔 1차
+
+- 역할별 쓰기 권한 (`admin-permissions` / `write-guard`)
+- POST/PATCH discovery · POST/PATCH verification
+- workflow 서버 검증 (`workflow.ts`)
+- 감사 로그: `product_change_history` (safe metadata, PII 없음)
+- UI: `/admin/discovery/new`, discovery/verification 쓰기 패널
+- DELETE·migration·가짜 offer/가격·main 병합 없음
+- `docs/61`~`docs/65`
+
 ### 관리자 읽기 전용 운영 콘솔 완료
 
 - ingredients 상세 · verification 목록/상세 · 대시보드 Verification 링크

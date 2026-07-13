@@ -53,17 +53,16 @@
 - [x] 관리자 verification 목록 1차 (읽기 전용 /admin/verification + API)
 - [x] 관리자 verification 상세 1차 (읽기 전용 /admin/verification/[id] + API)
 - [x] 관리자 읽기 전용 운영 콘솔 내비 정리 (AdminSubnav)
-- [ ] Search-to-Verified 관리자 쓰기 UI/API
+- [x] Search-to-Verified 관리자 쓰기 UI/API 1차 (권한·후보·큐·검토·workflow)
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)
 - [ ] `data/backups` JSON 백업
 
 ### 현재 단계 (2026-07-13)
 
-- 제품 데이터 전략: **검색 우선·검증 후 등록**
-- 관리자 읽기 전용 콘솔: **dashboard · products · discovery · ingredients · verification**
-- products 186 · ingredients 40 · verification_queue 0 · offers 0
-- main 병합: **안 함** (현재 브랜치 push만)
+- 관리자 읽기 + **제한 쓰기** 콘솔: discovery/verification
+- verification_queue / candidates: 운영 E2E는 사용자 직접 등록
+- main 병합: **안 함**
 
 ---
 
