@@ -12,8 +12,24 @@ import {
 import { detectRoutineConflicts } from "@/lib/care/conflicts";
 import {
   buildCheckInDueNotification,
+  checkInDueFingerprint,
   mergeNotifications,
 } from "@/lib/care/notifications";
+import { sanitizeMemo } from "@/lib/care/sanitize";
+import {
+  buildProgressSummaryPayload,
+  localNotificationAttachFingerprint,
+  localSessionAttachFingerprint,
+  mapCheckInRowToDomain,
+  mapNotificationRowToDomain,
+  mapSaveSessionInputToRow,
+  mapSessionRowToDomain,
+} from "@/lib/care/persistence/mappers";
+import type {
+  CareAnalysisSessionRow,
+  CareCheckInRow,
+  CareNotificationRow,
+} from "@/lib/care/persistence/types";
 import type {
   CareCheckInAnswers,
   CareRoutine,
@@ -170,6 +186,118 @@ export function runCareSelftests(): { ok: true; checks: number } {
   const completed = { ...checkIn, status: "completed" as const };
   const noRe = mergeNotifications([n1], [n2], [completed]);
   assert(noRe.length === 1, "no renotify completed");
+  checks += 1;
+
+  const memo = sanitizeMemo("<b>hello</b>   world " + "x".repeat(600));
+  assert(memo === "hello world " + "x".repeat(488), "sanitize memo strips html+cap");
+  checks += 1;
+
+  const sessionRow: CareAnalysisSessionRow = {
+    id: "s1",
+    user_id: "u1",
+    anonymous_session_id: "dev1",
+    timezone: "Asia/Seoul",
+    country: "KR",
+    age_band: null,
+    skin_type: "dry",
+    sensitivity: null,
+    concerns: ["dryness"],
+    tone_depth: null,
+    undertone: null,
+    allergy_ingredients: [],
+    avoided_ingredients: [],
+    current_products: [],
+    budget_band: null,
+    texture_preference: null,
+    fragrance_preference: null,
+    analysis_snapshot: { a: 1 },
+    recommendation_snapshot: { b: 2 },
+    ranked_product_ids: ["10"],
+    data_confidence: 0.8,
+    referral_level: "none",
+    referral_reasons: [],
+    dermatology_hints: [],
+    consent_status: "granted",
+    consented_at: start,
+    consent_care_tracking: true,
+    linked_account: true,
+    started_at: start,
+    completed_at: null,
+    created_at: start,
+    updated_at: start,
+  };
+  const mapped = mapSessionRowToDomain(sessionRow);
+  assert(mapped.id === "s1" && mapped.linkedAccount === true, "session mapper");
+  const insertRow = mapSaveSessionInputToRow(
+    {
+      timezone: tz,
+      country: "KR",
+      skinType: "dry",
+      sensitivity: null,
+      concerns: [],
+      toneDepth: null,
+      undertone: null,
+      allergyIngredients: [],
+      avoidedIngredients: [],
+      analysisSnapshot: {},
+      recommendationSnapshot: {},
+      rankedProductIds: [],
+      consentCareTracking: true,
+    },
+    "u1"
+  );
+  assert(insertRow.user_id === "u1" && insertRow.linked_account === true, "save input mapper");
+  checks += 1;
+
+  const checkInRow: CareCheckInRow = {
+    id: "ci1",
+    user_id: "u1",
+    analysis_session_id: "s1",
+    routine_id: "r1",
+    day: 3,
+    status: "completed",
+    scheduled_for: d3,
+    due_at: d3,
+    completed_at: d3,
+    timezone: tz,
+    answers: answers,
+    progress_summary: buildProgressSummaryPayload(deltas),
+    referral_level: "none",
+    referral_reasons: [],
+    created_at: start,
+    updated_at: start,
+  };
+  const mappedCi = mapCheckInRowToDomain(checkInRow, ["sg1"]);
+  assert(mappedCi.suggestionIds[0] === "sg1", "checkin suggestion ids");
+  assert(mappedCi.progressDelta?.metric === deltas[0]?.metric, "progress primary");
+  checks += 1;
+
+  const fp1 = checkInDueFingerprint("ci1");
+  const fp2 = checkInDueFingerprint("ci1");
+  assert(fp1 === fp2, "checkin due fingerprint idempotent");
+  const attachFp = localNotificationAttachFingerprint("u1", fp1);
+  assert(attachFp.includes("u1"), "attach notif fingerprint scoped");
+  assert(localSessionAttachFingerprint("an_local") === "attach_session:an_local", "session attach fp");
+  checks += 1;
+
+  const notifRow: CareNotificationRow = {
+    id: "n1",
+    user_id: "u1",
+    check_in_id: "ci1",
+    notification_type: "checkin_due",
+    kind: "checkin_due",
+    title: "t",
+    message: "m",
+    related_check_in_id: "ci1",
+    fingerprint: fp1,
+    status: "unread",
+    read: false,
+    due_at: d3,
+    created_at: start,
+    read_at: null,
+  };
+  const mappedN = mapNotificationRowToDomain(notifRow);
+  assert(mappedN.fingerprint === fp1 && !mappedN.read, "notification mapper");
   checks += 1;
 
   return { ok: true, checks };
