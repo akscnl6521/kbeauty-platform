@@ -13,6 +13,17 @@ import {
   type RednessObservation,
 } from "@/lib/ai/rednessObservation";
 import {
+  analyzeInputSnapshotsEqual,
+  clearAnalyzeInputSnapshot,
+  loadAnalyzeInputSnapshot,
+  saveAnalyzeInputSnapshot,
+  type AnalyzeInputSnapshot,
+} from "@/lib/ai/analyzeInputSnapshot";
+import {
+  buildAnalyzeReferencePreview,
+  type CurrentAnalyzeInput,
+} from "@/lib/ai/analyzeReferencePreview";
+import {
   ANALYSIS_RESULT_STORAGE_KEY,
   ANALYZE_SOURCE_STORAGE_KEY,
   clearPersistedRankedProducts,
@@ -54,6 +65,40 @@ function concernKoToParam(c: ConcernKo): string {
     case "노화방지":
       return "Anti-aging";
   }
+}
+
+const TONE_KO = ["밝은", "중간", "어두운"] as const;
+const UNDERTONE_KO = ["웜톤", "쿨톤", "중립"] as const;
+const CONCERN_KO = [
+  "붉은기",
+  "건조함",
+  "여드름",
+  "칙칙함",
+  "노화방지",
+] as const;
+const SENSITIVITY_KO = ["민감함", "보통", "강한편"] as const;
+
+function asToneKo(v: string): ToneKo | null {
+  return (TONE_KO as readonly string[]).includes(v) ? (v as ToneKo) : null;
+}
+function asUndertoneKo(v: string): UndertoneKo | null {
+  return (UNDERTONE_KO as readonly string[]).includes(v)
+    ? (v as UndertoneKo)
+    : null;
+}
+function asSensitivityKo(v: string): SensitivityKo | null {
+  return (SENSITIVITY_KO as readonly string[]).includes(v)
+    ? (v as SensitivityKo)
+    : null;
+}
+function asConcernKoList(values: string[]): ConcernKo[] {
+  const out: ConcernKo[] = [];
+  for (const v of values) {
+    if ((CONCERN_KO as readonly string[]).includes(v)) {
+      out.push(v as ConcernKo);
+    }
+  }
+  return out.length > 0 ? out : ["붉은기"];
 }
 
 function toneKoToResultsTone(t: ToneKo): string {
@@ -648,11 +693,6 @@ export default function AnalyzePage() {
     setShowMockButton(process.env.NODE_ENV === "development");
   }, []);
 
-  /** 마운트 시 저장된 랭킹 결과 복원 */
-  useEffect(() => {
-    setRankedProducts(loadRankedProductsFromStorage());
-  }, []);
-
   const [manualTone, setManualTone] = useState<ToneKo>("중간");
   const [manualUndertone, setManualUndertone] = useState<UndertoneKo>("중립");
   const [manualConcerns, setManualConcerns] = useState<ConcernKo[]>(["붉은기"]);
@@ -664,12 +704,79 @@ export default function AnalyzePage() {
   const [currentProducts, setCurrentProducts] = useState<CurrentProductInput[]>(
     []
   );
+  /** 스냅샷·폼 복원 전에는 stale 무효화를 돌리지 않음 */
+  const [selectionHydrated, setSelectionHydrated] = useState(false);
 
   const showRednessDetails = manualConcerns.includes("붉은기");
   const rednessPayload = useMemo(() => {
     if (!showRednessDetails) return undefined;
     return parseRednessObservation(rednessObservation) ?? undefined;
   }, [showRednessDetails, rednessObservation]);
+
+  const currentInputSnapshot = useMemo((): AnalyzeInputSnapshot => {
+    if (mode === "photo") {
+      return {
+        mode: "photo",
+        skinTone: "",
+        undertone: "",
+        concerns: [],
+        sensitivity: "",
+        rednessObservation: null,
+      };
+    }
+    return {
+      mode: "manual",
+      skinTone: manualTone,
+      undertone: manualUndertone,
+      concerns: [...manualConcerns],
+      sensitivity: manualSensitivity,
+      rednessObservation: showRednessDetails
+        ? { ...rednessObservation }
+        : null,
+    };
+  }, [
+    mode,
+    manualTone,
+    manualUndertone,
+    manualConcerns,
+    manualSensitivity,
+    showRednessDetails,
+    rednessObservation,
+  ]);
+
+  /** 수동 입력 현재값 — 규칙형 참고 미리보기 전용 */
+  const currentAnalyzeInput = useMemo((): CurrentAnalyzeInput => {
+    return {
+      skinTone: manualTone,
+      undertone: manualUndertone,
+      concerns: [...manualConcerns],
+      sensitivity: manualSensitivity,
+      ...(showRednessDetails
+        ? { rednessObservation: { ...rednessObservation } }
+        : {}),
+    };
+  }, [
+    manualTone,
+    manualUndertone,
+    manualConcerns,
+    manualSensitivity,
+    showRednessDetails,
+    rednessObservation,
+  ]);
+
+  const referencePreview = useMemo(
+    () => buildAnalyzeReferencePreview(currentAnalyzeInput),
+    [currentAnalyzeInput]
+  );
+
+  /** C. 확정 AI 결과 — 스냅샷과 입력이 일치할 때만 표시 */
+  const showConfirmedAnalysis = useMemo(() => {
+    if (!result) return false;
+    return analyzeInputSnapshotsEqual(
+      currentInputSnapshot,
+      loadAnalyzeInputSnapshot()
+    );
+  }, [result, currentInputSnapshot, selectionHydrated]);
 
   const ingredientPrefs = useMemo(
     () => ({
@@ -752,6 +859,14 @@ export default function AnalyzePage() {
         mediaType: "image/jpeg",
         ...ingredientPrefs,
       });
+      saveAnalyzeInputSnapshot({
+        mode: "photo",
+        skinTone: "",
+        undertone: "",
+        concerns: [],
+        sensitivity: "",
+        rednessObservation: null,
+      });
       setResult(analysis);
       persistAnalyzeBundle({
         analysis,
@@ -793,6 +908,16 @@ export default function AnalyzePage() {
         ...(rednessPayload ? { rednessObservation: rednessPayload } : {}),
         ...ingredientPrefs,
       });
+      saveAnalyzeInputSnapshot({
+        mode: "manual",
+        skinTone: manualTone,
+        undertone: manualUndertone,
+        concerns: [...manualConcerns],
+        sensitivity: manualSensitivity,
+        rednessObservation: showRednessDetails
+          ? { ...rednessObservation }
+          : null,
+      });
       setResult(analysis);
       persistAnalyzeBundle({
         analysis,
@@ -815,21 +940,64 @@ export default function AnalyzePage() {
 
   const goToResults = () => {
     if (!result) return;
+    if (
+      !analyzeInputSnapshotsEqual(
+        currentInputSnapshot,
+        loadAnalyzeInputSnapshot()
+      )
+    ) {
+      return;
+    }
     navigateToResults();
   };
 
   const summary =
-    locale === "ko"
-      ? result?.summary_ko
-      : locale === "ja"
-        ? result?.summary_ja
-        : result?.summary_en;
+    showConfirmedAnalysis && result
+      ? locale === "ko"
+        ? result.summary_ko
+        : locale === "ja"
+          ? result.summary_ja
+          : result.summary_en
+      : null;
 
   const canAnalyzePhoto = !!imageBase64 && !loading;
 
-  // 분석 UI용 skinAnalysisResult 만 복원.
-  // skinRecommendation 은 파이프라인(persistTopRankedProducts)이 쓴 최신 값만 사용 — 여기서 재생성하지 않음.
+  const clearResult = () => {
+    try {
+      window.localStorage.removeItem(ANALYSIS_RESULT_STORAGE_KEY);
+      window.localStorage.removeItem(RECOMMENDATION_STORAGE_KEY);
+      window.localStorage.removeItem(ANALYZE_SOURCE_STORAGE_KEY);
+      clearPersistedRankedProducts();
+      clearAnalyzeInputSnapshot();
+    } catch {
+      // ignore
+    }
+    setResult(null);
+    setRankedProducts([]);
+  };
+
+  /**
+   * 마운트: 입력 스냅샷으로 폼 복원 후 분석/랭킹 복원.
+   * skinRecommendation 은 파이프라인이 쓴 값만 사용 — 여기서 재생성하지 않음.
+   */
   useEffect(() => {
+    const snap = loadAnalyzeInputSnapshot();
+    if (snap?.mode === "manual") {
+      setMode("manual");
+      const tone = asToneKo(snap.skinTone);
+      const undertone = asUndertoneKo(snap.undertone);
+      const sensitivity = asSensitivityKo(snap.sensitivity);
+      if (tone) setManualTone(tone);
+      if (undertone) setManualUndertone(undertone);
+      if (sensitivity) setManualSensitivity(sensitivity);
+      setManualConcerns(asConcernKoList(snap.concerns));
+      if (snap.rednessObservation) {
+        setRednessObservation(snap.rednessObservation);
+      }
+    } else if (snap?.mode === "photo") {
+      setMode("photo");
+    }
+
     try {
       const saved = window.localStorage.getItem(ANALYSIS_RESULT_STORAGE_KEY);
       if (saved) {
@@ -839,6 +1007,8 @@ export default function AnalyzePage() {
     } catch {
       // ignore parse errors
     }
+    setRankedProducts(loadRankedProductsFromStorage());
+    setSelectionHydrated(true);
   }, []);
 
   // Persist analysis result (text only) to localStorage — UI contract unchanged
@@ -854,18 +1024,14 @@ export default function AnalyzePage() {
     }
   }, [result]);
 
-  const clearResult = () => {
-    try {
-      window.localStorage.removeItem(ANALYSIS_RESULT_STORAGE_KEY);
-      window.localStorage.removeItem(RECOMMENDATION_STORAGE_KEY);
-      window.localStorage.removeItem(ANALYZE_SOURCE_STORAGE_KEY);
-      clearPersistedRankedProducts();
-    } catch {
-      // ignore
-    }
-    setResult(null);
-    setRankedProducts([]);
-  };
+  /** 선택값이 마지막 분석과 다르면 preview·제품 storage 무효화 */
+  useEffect(() => {
+    if (!selectionHydrated) return;
+    if (!result && rankedProducts.length === 0) return;
+    const snap = loadAnalyzeInputSnapshot();
+    if (analyzeInputSnapshotsEqual(currentInputSnapshot, snap)) return;
+    clearResult();
+  }, [selectionHydrated, currentInputSnapshot, result, rankedProducts.length]);
 
   /**
    * Phase 3C / Sprint 5 — Mock 버튼도 POST /api/analyze 경유.
@@ -1323,14 +1489,13 @@ export default function AnalyzePage() {
             {error ? <p className="mt-4 text-xs text-red-600">{error}</p> : null}
           </div>
 
-          {/* Right: result */}
+          {/* Right: 확정 AI 결과 또는 규칙형 참고 미리보기 (절대 혼합 금지) */}
           <div className="rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
-            {!result ? (
-              <p className="text-sm text-gray-500">
-                입력 후 AI 분석을 실행하면 피부 타입, 고민, 추천 성분, 루틴 가이드가 표시됩니다.
-              </p>
-            ) : (
+            {showConfirmedAnalysis && result ? (
               <div className="space-y-4">
+                <h3 className="font-['Playfair_Display',serif] text-lg font-semibold text-[#C2185B]">
+                  AI 분석 결과
+                </h3>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-700">
@@ -1419,12 +1584,155 @@ export default function AnalyzePage() {
                   AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
                 </p>
               </div>
+            ) : mode === "manual" ? (
+              <div className="space-y-4">
+                <div>
+                  <h3 className="font-['Playfair_Display',serif] text-lg font-semibold text-gray-900">
+                    현재 선택 기준 미리보기
+                  </h3>
+                  <p className="mt-1 text-xs text-gray-500">
+                    AI 분석 전 참고용 정보입니다.
+                  </p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-dashed border-pink-200 bg-pink-50/30 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-700">
+                      참고 프로필
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-gray-900">
+                      {referencePreview.skin_type}
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-dashed border-pink-200 bg-pink-50/30 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-700">
+                      주요 고민
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {referencePreview.concerns.map((c, idx) => (
+                        <span
+                          key={`${c}-${idx}`}
+                          className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-800"
+                        >
+                          {c}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-dashed border-pink-200 bg-pink-50/30 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-700">
+                      참고 성분
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {referencePreview.ingredients.map((ing, idx) => (
+                        <span
+                          key={`${ing}-${idx}`}
+                          className="inline-flex rounded-full bg-[#C2185B]/90 px-3 py-1 text-xs font-medium text-white"
+                        >
+                          {ing}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-dashed border-pink-200 bg-pink-50/30 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-700">
+                      아침 루틴 참고
+                    </p>
+                    <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-700">
+                      {referencePreview.morning_tips.map((tip, idx) => (
+                        <li key={`am-${idx}`}>{tip}</li>
+                      ))}
+                    </ul>
+                    <p className="mt-3 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700">
+                      저녁 루틴 참고
+                    </p>
+                    <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-700">
+                      {referencePreview.evening_tips.map((tip, idx) => (
+                        <li key={`pm-${idx}`}>{tip}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {referencePreview.cautionIngredients.length > 0 ? (
+                  <div className="rounded-2xl border border-amber-100 bg-amber-50/50 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-800">
+                      주의해서 볼 성분
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {referencePreview.cautionIngredients.map((ing, idx) => (
+                        <span
+                          key={`caution-${idx}`}
+                          className="inline-flex rounded-full border border-amber-200 bg-white px-3 py-1 text-xs font-medium text-amber-900"
+                        >
+                          {ing}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {referencePreview.avoidHints.length > 0 ? (
+                  <div className="rounded-2xl border border-amber-100 bg-amber-50/50 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-800">
+                      민감도 기준 참고
+                    </p>
+                    <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-amber-900/80">
+                      {referencePreview.avoidHints.map((hint, idx) => (
+                        <li key={idx}>{hint}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {referencePreview.counselingNote_ko ? (
+                  <div
+                    className="rounded-2xl border border-[#8B1E3F]/20 bg-[#FDF6F8] p-4"
+                    role="status"
+                  >
+                    <p className="text-sm font-medium text-[#8B1E3F]">
+                      {referencePreview.counselingNote_ko}
+                    </p>
+                  </div>
+                ) : null}
+
+                <div className="rounded-2xl border border-gray-100 bg-white p-4">
+                  <p className="text-sm leading-relaxed text-gray-800">
+                    {referencePreview.summary_ko}
+                  </p>
+                  <p className="mt-2 text-xs text-gray-500">
+                    {referencePreview.toneNote_ko}
+                  </p>
+                </div>
+
+                <div className="space-y-2 pt-1">
+                  <button
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    className="inline-flex cursor-not-allowed items-center justify-center rounded-full bg-gray-300 px-5 py-2 text-xs font-semibold text-white"
+                  >
+                    AI 분석 후 제품 정보 보기
+                  </button>
+                  <p className="text-xs text-gray-500">
+                    분석을 실행하면 현재 선택 기준 제품 정보를 확인할 수
+                    있습니다.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500">
+                사진을 업로드한 뒤 AI 분석을 실행하면 결과가 표시됩니다. 선택값
+                기반 참고 미리보기는 「직접 입력」모드에서 볼 수 있습니다.
+              </p>
             )}
           </div>
         </section>
 
-        {/* Sprint 3 Phase 1 — LocalStorage 랭킹 제품 표시 (기존 분석 레이아웃 아래) */}
-        {rankedProducts.length > 0 ? (
+        {/* 확정 분석 + snapshot 일치 시에만 이전 랭킹 제품 표시 */}
+        {showConfirmedAnalysis && rankedProducts.length > 0 ? (
           <section
             className="mt-10 border-t border-pink-100 pt-8"
             aria-label="추천 제품"
