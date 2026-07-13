@@ -1,5 +1,14 @@
 # Verifies catalog staging env without printing secrets.
-# Usage: .\scripts\verify-catalog-staging-env.ps1
+# Usage:
+#   .\scripts\verify-catalog-staging-env.ps1
+#   .\scripts\verify-catalog-staging-env.ps1 -EnvFile .env.preview.staging
+#
+# Exit 0 + READY_FOR_STAGING_MIGRATION when staging is isolated and gated for dry-run.
+# Exit 2 on blocked / mismatch states.
+
+param(
+  [string]$EnvFile = ""
+)
 
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
@@ -8,7 +17,7 @@ Set-Location $root
 function Get-DotEnvValue {
   param([string]$Path, [string]$Key)
   if (-not (Test-Path $Path)) { return $null }
-  foreach ($line in Get-Content $Path) {
+  foreach ($line in Get-Content -LiteralPath $Path -Encoding utf8) {
     $t = $line.Trim()
     if (-not $t -or $t.StartsWith("#")) { continue }
     $i = $t.IndexOf("=")
@@ -36,65 +45,99 @@ function Extract-RefFromUrl {
   if ([string]::IsNullOrWhiteSpace($Url)) { return $null }
   try {
     $u = [Uri]$Url
-    $host = $u.Host
-    $parts = $host.Split(".")
+    $parts = $u.Host.Split(".")
     if ($parts.Length -gt 0) { return $parts[0] }
   } catch {}
   return $null
 }
 
-$envLocal = Join-Path $root ".env.local"
-$appEnv = $env:APP_ENV
-if (-not $appEnv) { $appEnv = Get-DotEnvValue $envLocal "APP_ENV" }
-$catalogDb = $env:CATALOG_DATABASE_ENV
-if (-not $catalogDb) { $catalogDb = Get-DotEnvValue $envLocal "CATALOG_DATABASE_ENV" }
-$ingestion = $env:CATALOG_INGESTION_ENABLED
-if (-not $ingestion) { $ingestion = Get-DotEnvValue $envLocal "CATALOG_INGESTION_ENABLED" }
-$dryRun = $env:CATALOG_DRY_RUN
-if (-not $dryRun) { $dryRun = Get-DotEnvValue $envLocal "CATALOG_DRY_RUN" }
-$autoPromote = $env:CATALOG_AUTO_PROMOTE
-if (-not $autoPromote) { $autoPromote = Get-DotEnvValue $envLocal "CATALOG_AUTO_PROMOTE" }
+function Resolve-Value {
+  param([string]$Key, [string]$FilePath)
+  $fromEnv = [Environment]::GetEnvironmentVariable($Key)
+  if (-not [string]::IsNullOrWhiteSpace($fromEnv)) { return $fromEnv }
+  if ($FilePath) {
+    $fromFile = Get-DotEnvValue $FilePath $Key
+    if (-not [string]::IsNullOrWhiteSpace($fromFile)) { return $fromFile }
+  }
+  return $null
+}
 
-$projRef = $env:SUPABASE_PROJECT_REF
-if (-not $projRef) { $projRef = Get-DotEnvValue $envLocal "SUPABASE_PROJECT_REF" }
+$candidates = @()
+if ($EnvFile) { $candidates += (Join-Path $root $EnvFile) }
+$candidates += (Join-Path $root ".env.preview.staging")
+$candidates += (Join-Path $root ".env.local")
+
+$envPath = $null
+foreach ($c in $candidates) {
+  if (Test-Path -LiteralPath $c) {
+    $envPath = $c
+    break
+  }
+}
+
+$appEnv = Resolve-Value "APP_ENV" $envPath
+$catalogDb = Resolve-Value "CATALOG_DATABASE_ENV" $envPath
+$ingestion = Resolve-Value "CATALOG_INGESTION_ENABLED" $envPath
+$cronEnabled = Resolve-Value "CATALOG_CRON_ENABLED" $envPath
+$dryRun = Resolve-Value "CATALOG_DRY_RUN" $envPath
+$autoPromote = Resolve-Value "CATALOG_AUTO_PROMOTE" $envPath
+$maxPerSource = Resolve-Value "CATALOG_MAX_PRODUCTS_PER_SOURCE" $envPath
+
+$projRef = Resolve-Value "SUPABASE_PROJECT_REF" $envPath
 if (-not $projRef) {
-  $url = $env:NEXT_PUBLIC_SUPABASE_URL
-  if (-not $url) { $url = Get-DotEnvValue $envLocal "NEXT_PUBLIC_SUPABASE_URL" }
+  $url = Resolve-Value "NEXT_PUBLIC_SUPABASE_URL" $envPath
   $projRef = Extract-RefFromUrl $url
 }
 
-$prodRef = $env:PRODUCTION_SUPABASE_PROJECT_REF
-if (-not $prodRef) { $prodRef = Get-DotEnvValue $envLocal "PRODUCTION_SUPABASE_PROJECT_REF" }
+$prodRef = Resolve-Value "PRODUCTION_SUPABASE_PROJECT_REF" $envPath
 if (-not $prodRef) { $prodRef = "rhfrmvkjsummaylpzmns" }
+
+$serviceKey = Resolve-Value "SUPABASE_SERVICE_ROLE_KEY" $envPath
+$serviceKeyPresent = -not [string]::IsNullOrWhiteSpace($serviceKey)
 
 $same = ($projRef -eq $prodRef)
 $gate = "blocked"
 $code = "STAGING_DATABASE_REQUIRED"
+
 if ($appEnv -eq "production") {
-  $code = "PRODUCTION_ENV"
-} elseif ($same -or [string]::IsNullOrWhiteSpace($projRef)) {
+  $code = "PRODUCTION_DATABASE_DETECTED"
+} elseif ($same) {
+  $code = "PRODUCTION_DATABASE_DETECTED"
+} elseif ([string]::IsNullOrWhiteSpace($projRef)) {
   $code = "STAGING_DATABASE_REQUIRED"
 } elseif ($catalogDb -ne "staging") {
-  $code = "STAGING_DATABASE_REQUIRED"
+  $code = "ENVIRONMENT_MISMATCH"
+} elseif ($appEnv -ne "preview") {
+  $code = "ENVIRONMENT_MISMATCH"
+} elseif (-not $serviceKeyPresent) {
+  $code = "SERVICE_KEY_MISSING"
 } elseif ($ingestion -ne "true") {
-  $code = "INGESTION_DISABLED"
+  $code = "ENVIRONMENT_MISMATCH"
+} elseif ($cronEnabled -eq "true") {
+  $code = "ENVIRONMENT_MISMATCH"
 } elseif ($dryRun -eq "false") {
-  $code = "DRY_RUN_REQUIRED"
+  $code = "ENVIRONMENT_MISMATCH"
 } elseif ($autoPromote -eq "true") {
-  $code = "INGESTION_DISABLED"
+  $code = "ENVIRONMENT_MISMATCH"
 } else {
   $gate = "allowed"
-  $code = "STAGING_READY"
+  $code = "READY_FOR_STAGING_MIGRATION"
 }
 
+$envFileLabel = if ($envPath) { Split-Path -Leaf $envPath } else { "none" }
+
+Write-Host "env_file=$envFileLabel"
 Write-Host "APP_ENV=$appEnv"
 Write-Host "CATALOG_DATABASE_ENV=$catalogDb"
 Write-Host "project_ref_masked=$(Mask-Ref $projRef)"
 Write-Host "production_ref_masked=$(Mask-Ref $prodRef)"
 Write-Host "refs_differ=$(-not $same)"
 Write-Host "CATALOG_INGESTION_ENABLED=$ingestion"
+Write-Host "CATALOG_CRON_ENABLED=$cronEnabled"
 Write-Host "CATALOG_DRY_RUN=$dryRun"
 Write-Host "CATALOG_AUTO_PROMOTE=$autoPromote"
+Write-Host "CATALOG_MAX_PRODUCTS_PER_SOURCE=$maxPerSource"
+Write-Host "service_key_present=$serviceKeyPresent"
 Write-Host "ingestion_gate=$gate"
 Write-Host "gate_code=$code"
 

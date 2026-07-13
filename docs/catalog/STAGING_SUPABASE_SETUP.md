@@ -55,15 +55,21 @@ Preview 환경에만 설정 (Production은 기존 프로젝트 유지):
 
 ## 5. migration 적용 (staging만)
 
-게이트 통과 후에만:
+게이트 통과 후에만. **반드시 staging project로 link된 상태인지 확인**한 뒤:
 
 ```powershell
-# 예시 — 실제 CLI는 로컬 supabase link 후
-npx supabase db push --project-ref <STAGING_REF>
+.\scripts\verify-catalog-staging-env.ps1 -EnvFile .env.preview.staging
+npx supabase db push --dry-run
+npx supabase db push
 ```
+
+빈 Staging DB에는 `products`/`ingredients` 등 기반 테이블이 없으므로
+`20250315000000_bootstrap_core_schema_for_empty_staging.sql`가 먼저 적용됩니다.
+(Production에는 이미 동일 테이블이 있어 `IF NOT EXISTS`로 무해합니다.)
 
 포함 파일 예:
 
+- `20250315000000_bootstrap_core_schema_for_empty_staging.sql`
 - `20260714010000_create_catalog_staging_automation.sql`
 - `20260714020000_catalog_staging_fixture_isolation.sql`
 - `20260714030000_add_scalp_hair_catalog_fields.sql`
