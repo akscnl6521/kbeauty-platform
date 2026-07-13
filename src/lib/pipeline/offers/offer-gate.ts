@@ -66,9 +66,9 @@ export function evaluateOfferVerificationGate(
   if (!canAutoVerifyOffer(input.grade)) {
     blockers.push(`grade_${input.grade}_not_auto_verify`);
   }
-  if (input.productActive === false) {
-    blockers.push("product_is_draft");
-  }
+  // Draft products (active=false) MAY receive verified offers.
+  // Product activation + Top5 still require products.active + verified_at.
+  void input.productActive;
 
   if (input.grade === "marketplace_seller") {
     return {

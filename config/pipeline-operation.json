@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "mode": "gated_commit",
   "paused": false,
   "scheduleHint": "every_6_hours",
@@ -25,15 +25,23 @@
   "allowMarketplaceOfficialStore": true,
   "allowMarketplaceSeller": false,
   "allowUnverifiedPurchaseRecommendation": false,
+  "allowProductAutoVerify": true,
+  "allowProductAutoActivate": true,
+  "allowProductReevaluation": true,
+  "allowAutoApproveOfficialIngredients": true,
+  "allowProductVerifyReviewQueue": true,
+  "allowProductDemotion": false,
   "maxNewProductsPerRun": 20,
   "maxNewIngredientsPerRun": 5,
   "maxOffersPerRun": 30,
   "maxRetailersPerProduct": 5,
+  "maxProductVerificationsPerRun": 20,
   "offerFreshnessHours": 48,
   "officialOfferConfidenceThreshold": 0.8,
   "authorizedRetailerThreshold": 0.75,
   "ingredientMatchThreshold": 0.85,
   "draftProductQualityThreshold": 0.65,
+  "productVerifyQualityGrades": ["A", "B"],
   "shippingCountriesPriority": ["KR", "US", "JP"],
   "allowProductInsert": false,
   "allowOfferInsert": false,
@@ -46,7 +54,8 @@
   "allowBulkStatusRewrite": false,
   "notes": [
     "Scheduler: node scripts/run-pipeline-worker.mjs only",
-    "Offers: gated verified upsert; marketplace sellers excluded",
-    "allowOfferInsert/allowVerifiedOfferInsert remain false (ungated writes forbidden)"
+    "Product auto-verify: quality A/B + official ingredients + verified offer → active=true, verified_at set",
+    "Never auto-publish; never demote verified products; stale offers only affect recommendation eligibility",
+    "allowOfferInsert/allowVerifiedOfferInsert/allowProductDemotion remain false"
   ]
 }

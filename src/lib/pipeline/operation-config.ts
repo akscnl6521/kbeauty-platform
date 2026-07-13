@@ -35,15 +35,23 @@ export type PipelineOperationConfig = {
   allowMarketplaceOfficialStore: boolean;
   allowMarketplaceSeller: boolean;
   allowUnverifiedPurchaseRecommendation: boolean;
+  allowProductAutoVerify: boolean;
+  allowProductAutoActivate: boolean;
+  allowProductReevaluation: boolean;
+  allowAutoApproveOfficialIngredients: boolean;
+  allowProductVerifyReviewQueue: boolean;
+  allowProductDemotion: boolean;
   maxNewProductsPerRun: number;
   maxNewIngredientsPerRun: number;
   maxOffersPerRun: number;
   maxRetailersPerProduct: number;
+  maxProductVerificationsPerRun: number;
   offerFreshnessHours: number;
   officialOfferConfidenceThreshold: number;
   authorizedRetailerThreshold: number;
   ingredientMatchThreshold: number;
   draftProductQualityThreshold: number;
+  productVerifyQualityGrades: string[];
   shippingCountriesPriority: string[];
   /** Hard false: ungated live product insert (use draft flag instead). */
   allowProductInsert: boolean;
@@ -72,10 +80,11 @@ const HARD_FALSE_KEYS = [
   "allowBulkStatusRewrite",
   "allowMarketplaceSeller",
   "allowUnverifiedPurchaseRecommendation",
+  "allowProductDemotion",
 ] as const;
 
 export const DEFAULT_PIPELINE_OPERATION: PipelineOperationConfig = {
-  version: 3,
+  version: 4,
   mode: "gated_commit",
   paused: false,
   scheduleHint: "every_6_hours",
@@ -101,15 +110,23 @@ export const DEFAULT_PIPELINE_OPERATION: PipelineOperationConfig = {
   allowMarketplaceOfficialStore: true,
   allowMarketplaceSeller: false,
   allowUnverifiedPurchaseRecommendation: false,
+  allowProductAutoVerify: true,
+  allowProductAutoActivate: true,
+  allowProductReevaluation: true,
+  allowAutoApproveOfficialIngredients: true,
+  allowProductVerifyReviewQueue: true,
+  allowProductDemotion: false,
   maxNewProductsPerRun: 20,
   maxNewIngredientsPerRun: 5,
   maxOffersPerRun: 30,
   maxRetailersPerProduct: 5,
+  maxProductVerificationsPerRun: 20,
   offerFreshnessHours: 48,
   officialOfferConfidenceThreshold: 0.8,
   authorizedRetailerThreshold: 0.75,
   ingredientMatchThreshold: 0.85,
   draftProductQualityThreshold: 0.65,
+  productVerifyQualityGrades: ["A", "B"],
   shippingCountriesPriority: ["KR", "US", "JP"],
   allowProductInsert: false,
   allowOfferInsert: false,
@@ -170,6 +187,7 @@ export function validatePipelineOperationConfig(
   num("maxNewIngredientsPerRun", 0, 100);
   num("maxOffersPerRun", 0, 200);
   num("maxRetailersPerProduct", 1, 20);
+  num("maxProductVerificationsPerRun", 0, 200);
   num("offerFreshnessHours", 1, 720);
   num("officialOfferConfidenceThreshold", 0.5, 1);
   num("authorizedRetailerThreshold", 0.5, 1);
@@ -251,6 +269,27 @@ export function validatePipelineOperationConfig(
     ),
     allowMarketplaceSeller: false,
     allowUnverifiedPurchaseRecommendation: false,
+    allowProductAutoVerify: asBool(
+      o.allowProductAutoVerify,
+      d.allowProductAutoVerify
+    ),
+    allowProductAutoActivate: asBool(
+      o.allowProductAutoActivate,
+      d.allowProductAutoActivate
+    ),
+    allowProductReevaluation: asBool(
+      o.allowProductReevaluation,
+      d.allowProductReevaluation
+    ),
+    allowAutoApproveOfficialIngredients: asBool(
+      o.allowAutoApproveOfficialIngredients,
+      d.allowAutoApproveOfficialIngredients
+    ),
+    allowProductVerifyReviewQueue: asBool(
+      o.allowProductVerifyReviewQueue,
+      d.allowProductVerifyReviewQueue
+    ),
+    allowProductDemotion: false,
     maxNewProductsPerRun: asNum(o.maxNewProductsPerRun, d.maxNewProductsPerRun),
     maxNewIngredientsPerRun: asNum(
       o.maxNewIngredientsPerRun,
@@ -260,6 +299,10 @@ export function validatePipelineOperationConfig(
     maxRetailersPerProduct: asNum(
       o.maxRetailersPerProduct,
       d.maxRetailersPerProduct
+    ),
+    maxProductVerificationsPerRun: asNum(
+      o.maxProductVerificationsPerRun,
+      d.maxProductVerificationsPerRun
     ),
     offerFreshnessHours: asNum(o.offerFreshnessHours, d.offerFreshnessHours),
     officialOfferConfidenceThreshold: asNum(
@@ -278,6 +321,11 @@ export function validatePipelineOperationConfig(
       o.draftProductQualityThreshold,
       d.draftProductQualityThreshold
     ),
+    productVerifyQualityGrades: Array.isArray(o.productVerifyQualityGrades)
+      ? (o.productVerifyQualityGrades as unknown[]).filter(
+          (x): x is string => typeof x === "string"
+        )
+      : d.productVerifyQualityGrades,
     shippingCountriesPriority: Array.isArray(o.shippingCountriesPriority)
       ? (o.shippingCountriesPriority as unknown[]).filter(
           (x): x is string => typeof x === "string"
@@ -353,6 +401,9 @@ export type PipelineOperationAdminPatch = {
   allowVerifiedOfferUpsert?: boolean;
   allowOfferFreshnessUpdate?: boolean;
   allowOfferReviewQueue?: boolean;
+  allowProductAutoVerify?: boolean;
+  allowProductAutoActivate?: boolean;
+  allowProductReevaluation?: boolean;
   scheduleHint?: string;
 };
 
@@ -375,6 +426,7 @@ export function savePipelineOperationOverrides(
     allowUnverifiedIngredientInsert: false,
     allowMarketplaceSeller: false,
     allowUnverifiedPurchaseRecommendation: false,
+    allowProductDemotion: false,
     updatedAt: new Date().toISOString(),
   };
   const validated = validatePipelineOperationConfig(nextRaw);
@@ -408,14 +460,20 @@ export function savePipelineOperationOverrides(
         allowVerifiedOfferUpsert: c.allowVerifiedOfferUpsert,
         allowOfferFreshnessUpdate: c.allowOfferFreshnessUpdate,
         allowOfferReviewQueue: c.allowOfferReviewQueue,
+        allowProductAutoVerify: c.allowProductAutoVerify,
+        allowProductAutoActivate: c.allowProductAutoActivate,
+        allowProductReevaluation: c.allowProductReevaluation,
         scheduleHint: c.scheduleHint,
         maxNewProductsPerRun: c.maxNewProductsPerRun,
         maxOffersPerRun: c.maxOffersPerRun,
+        maxProductVerificationsPerRun: c.maxProductVerificationsPerRun,
         offerFreshnessHours: c.offerFreshnessHours,
         ingredientMatchThreshold: c.ingredientMatchThreshold,
         draftProductQualityThreshold: c.draftProductQualityThreshold,
+        productVerifyQualityGrades: c.productVerifyQualityGrades,
         allowMarketplaceSeller: false,
         allowUnverifiedPurchaseRecommendation: false,
+        allowProductDemotion: false,
         allowProductInsert: false,
         allowOfferInsert: false,
         allowVerifiedOfferInsert: false,
