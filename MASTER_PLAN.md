@@ -52,6 +52,15 @@ K-Beauty Match는 **검증 정확도**를 유지하면서, 사람이 모든 URL�
 - **자동 `published` 금지** · 가짜 offer/가격/성분 금지 · Top5 패딩/제품 강등 금지
 - 상세: `docs/69-autonomous-catalog-pipeline.md` ~ `docs/122-operations-alert-rollback.sql`
 
+### 3.5 Continuous Care (사용자 지속 관리)
+
+분석 이후 Day 3/7/15/30 체크인 · 루틴 저장 · 변화 추적 · 안전한 조정 제안 · 상담 권고.
+
+- 정상 흐름 자동화 · 위험 신호·정보 부족만 강조
+- 의료 진단 금지 · 동의 없는 루틴 강제 변경 금지
+- 현재 UX: 기기 local store · 서버 영속화는 migration BLOCKER (`docs/131`)
+- 문서: `docs/123`~`docs/130` · rollback `docs/132`
+
 ### 3.0 기존 Search-to-Verified (유지)
 
 제품 등록보다 **검증 정확도를 우선**한다.

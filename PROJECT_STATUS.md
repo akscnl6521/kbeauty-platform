@@ -13,12 +13,14 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | operations monitoring + alerts · activation · verified catalog recommend |
-| 빌드 | `npm run test:pipeline` · `npm run build` |
+| Working tree | Continuous Care (`/my`, `/admin/care`) · ops monitoring |
+| 빌드 | `npm run test:pipeline` · `npm run build` 통과 |
 | Pipeline ops | config v5 monitoring `allowProductAutoVerify` 등 · `/admin/pipeline/settings` |
 | Scheduler | 고정 `run-pipeline-worker.mjs` (에이전트 미실행) |
 | Draft 정책 | `products.active=false` → 게이트 통과 시 active+verified_at · publish 금지 |
-| Operations | /admin/operations health/alerts · file-based dedupe |\n| Offers | draft에도 verified offer 허용 · Top5는 active verified product만 |
+| Operations | /admin/operations health/alerts · file-based dedupe |
+| Offers | draft에도 verified offer 허용 · Top5는 active verified product만 |
+| Care | localStore UX · Day 3/7/15/30 · migration `docs/131` 미적용(BLOCKER) |
 
 ## 제품 데이터 전략
 
@@ -86,8 +88,13 @@
 | `/admin/brands/[id]` | 브랜드 seed 상세 |
 | `/admin/forbidden` | 비관리자 안내 |
 | `/admin/unavailable` | 서버 설정 누락 안내 |
+| `/my` | 개인 케어 홈 (오늘 할 일) |
+| `/my/analyses` · `/my/routine` · `/my/check-ins` · `/my/progress` | 케어 하위 |
+| `/my/recommendations` · `/my/settings` | 추천·알림 설정 |
+| `/admin/care` | Care 운영 집계 (PII 비노출) |
 | `/privacy`, `/terms` | 약관 |
 | `/api/analyze` | 서버 AI 분석 API |
+| `/api/admin/care` | Care 익명 집계 API |
 | `/api/admin/auth-check` | 관리자 세션 테스트 (GET) |
 | `/api/admin/dashboard` | 관리자 대시보드 count (GET, 읽기 전용) |
 | `/api/admin/products` | 관리자 제품 목록 (GET, 읽기 전용) |
@@ -123,13 +130,15 @@
 
 ## 다음 작업
 
-1. 운영 UI에서 실제 후보 1건 E2E (사용자)
-2. COSRX 파이프라인 적용 (승인 후)
-3. offer 생성·게시 전제조건 강화 (승인 후)
+1. care migration `docs/131` 승인·적용 (사용자) — 서버 영속화
+2. 운영 UI에서 실제 후보 1건 E2E (사용자)
+3. COSRX 파이프라인 적용 (승인 후)
 4. main 병합은 별도 승인 후
 
 ## 참고 문서
 
+- `docs/123`~`docs/130` — Continuous Care
+- `docs/131` / `docs/132` — care migration BLOCKER / rollback
 - `docs/43`~`docs/65` — 관리자 인증·읽기·쓰기 콘솔
 - `docs/61`~`docs/65` — Search-to-Verified 쓰기
 - `docs/29-korean-product-data-guide.md` — 한국 데이터 입력

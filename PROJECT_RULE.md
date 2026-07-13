@@ -52,8 +52,9 @@
 14. 사람은 needs_review만 확인 · offer 없으면 추천 eligibility=false · marketplace seller 제외.
 15. 제품 자동 검증: quality A/B + 공식 전성분 + verified offer → active/verified_at. published·강등 금지.
 16. 운영: 정상은 개입 없음 · 장애/품질/적체만 알림 · destructive 자동 복구 금지 · Cursor는 운영 명령 미실행.
+17. Care: Day 3/7/15/30 자동 체크인 · 정상 자동 · 위험/정보부족만 강조 · 진단 금지 · 루틴 강제 변경 금지 · 관리자 집계만(PII 비노출) · care migration은 승인 전 BLOCKER.
 
-상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`, `docs/82-pipeline-database-persistence.md`
+상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`, `docs/82-pipeline-database-persistence.md`, `docs/123-user-care-lifecycle.md`
 
 ---
 

@@ -6,6 +6,14 @@
 
 ## 2026-07-13
 
+### Continuous Care (3·7·15·30일 지속 관리)
+
+- `/my` 대시보드 · 분석 snapshot · 루틴 · 체크인 · 변화 · 설정
+- Day 3/7/15/30 자동 일정 · 사이트 내 알림 · 루틴 조정 제안(확인 후 적용)
+- 피부과 상담 권고 규칙(진단 아님) · `/admin/care` 익명 집계
+- local store UX · 서버 스키마는 `docs/131` BLOCKER / `docs/132` rollback
+- docs/123~130 · Cursor 운영 worker/SQL 미실행
+
 ### 운영 모니터링 · 알림센터
 
 - /admin/operations health/alerts · rule registry · fingerprint 중복 억제
