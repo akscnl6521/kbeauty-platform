@@ -1,5 +1,3 @@
-import "server-only";
-
 export class CareOwnershipError extends Error {
   readonly code = "NOT_FOUND" as const;
 
