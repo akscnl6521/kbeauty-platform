@@ -22,7 +22,8 @@ function formatPrice(price: number | null | undefined, currency: string | null) 
 
 /**
  * 개발 전용 — 한국 카탈로그 검증 대기 목록.
- * 로그인/권한 없음. production 에서는 404.
+ * `/admin/layout.tsx`에서 active admin_users 세션 필수.
+ * production(NODE_ENV !== development)에서는 404 유지.
  */
 export default function CatalogReviewPage() {
   if (process.env.NODE_ENV !== "development") {
@@ -39,7 +40,7 @@ export default function CatalogReviewPage() {
       <div className="mx-auto max-w-6xl">
         <header className="mb-8 border-b border-[#E8DFD8] pb-6">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6914]">
-            Dev only · Sprint 14
+            Dev only · Sprint 14 · Admin required
           </p>
           <h1 className="mt-2 font-[family-name:var(--font-display,Playfair_Display,serif)] text-3xl font-bold tracking-tight text-gray-900">
             카탈로그 검증 대기
@@ -202,7 +203,8 @@ export default function CatalogReviewPage() {
           <code className="rounded bg-white px-1 py-0.5">
             data/catalog/kr/cosrx-*.json
           </code>
-          · production 빌드에서는 이 경로가 404입니다.
+          · production 빌드에서는 이 경로가 404입니다. 개발에서도 활성
+          admin_users 세션이 필요합니다.
         </p>
       </div>
     </main>

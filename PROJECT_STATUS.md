@@ -13,8 +13,8 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | Search-to-Verified 문서 원칙 반영 중 (commit/push 전) |
-| 빌드 | `npm run build` 성공 (2026-07-13, 문서 작업 후) |
+| Working tree | 관리자 인증 가드 최소 구현 (commit/push 전) |
+| 빌드 | `npm run build` (관리자 auth 구현 후 재검증) |
 
 ## 제품 데이터 전략
 
@@ -31,6 +31,8 @@
 | Project ref | `rhfrmvkjsummaylpzmns` |
 | MCP | 연결 가능 (쓰기 전 사용자 승인) |
 | 원격 테이블 | `products` 186 / `ingredients` 40 / `profiles` 1 / `invite_codes` 3 / `product_offers` **0행** |
+| Search-to-Verified | 11테이블 적용 완료 (`20260713034442`) |
+| 관리자 인증 테이블 | `admin_users` / `admin_role_history` (`20260713041018`), 첫 admin bootstrap 완료 |
 | `product_offers` | **적용 완료** (migration `20260713022607` / `create_product_offers_and_catalog_extensions`) |
 | RLS | verified + in_stock + active 만 클라이언트 SELECT |
 | `products.id` | `bigint` (IDENTITY ALWAYS) |
@@ -58,9 +60,13 @@
 | `/routine` | 루틴 |
 | `/face-explorer` | 얼굴 영역 탐색 |
 | `/ingredients/[slug]` | 성분 상세 |
-| `/admin/catalog-review` | 카탈로그 검증 대기 (development only) |
+| `/admin` | 관리자 인증 확인 (admin_users 필수) |
+| `/admin/catalog-review` | 카탈로그 검증 대기 (development + admin 필수) |
+| `/admin/unauthorized` | 미로그인 안내 |
+| `/admin/forbidden` | 비관리자 안내 |
 | `/privacy`, `/terms` | 약관 |
 | `/api/analyze` | 서버 AI 분석 API |
+| `/api/admin/auth-check` | 관리자 세션 테스트 (GET) |
 
 ## 현재 주요 기능
 
@@ -76,20 +82,20 @@
 
 ## 현재 문제
 
-1. Search-to-Verified-Product Pipeline 구현 미착수 (문서 원칙만 반영)
-2. COSRX 로컬 데이터는 등록됐으나 Supabase 미반영
-3. `data/backups` 폴더 미생성
-4. 실제 AI 공급자 연결 미완
-5. ProductVariant / ProductIngredient / IngredientEvidence 스키마 미도입
+1. 관리자 **로그인 UI 없음** → 세션 E2E 차단
+2. 로컬 `SUPABASE_SERVICE_ROLE_KEY` 미설정 시 admin 가드 configuration 오류
+3. COSRX 로컬 데이터는 등록됐으나 Supabase 미반영
+4. `data/backups` 폴더 미생성
+5. 실제 AI 공급자 연결 미완
+6. 관리자 검증 UI/API 본체 미구현
 
 ## 다음 작업
 
-1. **Search-to-Verified-Product Pipeline 설계** (데이터 모델·상태·검증 화면)
-2. 검색 후보 저장 구조
-3. 판매 검증·전성분·논문 근거 구조
-4. COSRX 3개를 첫 실제 검증 사례로 적용
-5. 승인 후 Supabase 반영
-6. JSON 백업 · GitHub push
+1. **관리자 로그인 페이지 최소 구현**
+2. SERVICE_ROLE 로컬 설정 후 `/admin` · `/api/admin/auth-check` E2E
+3. Search-to-Verified 관리자 UI/API (`docs/38`~`42`)
+4. COSRX 3개 파이프라인 적용
+5. JSON 백업 · GitHub push (승인 시)
 
 ## 참고 문서
 
@@ -97,6 +103,7 @@
 - `PROJECT_RULE.md` — 운영 규칙
 - `ROADMAP.md` — 완료 / 진행 / 다음
 - `CHANGELOG.md` — Sprint 이력
+- `docs/43`~`docs/49` — 관리자 인증
 - `docs/11-product-retailer-offer.md` — Product/Offer 분리
 - `docs/20-data-source-verification.md` — 검색·검증 파이프라인
 - `docs/29-korean-product-data-guide.md` — 한국 데이터 입력

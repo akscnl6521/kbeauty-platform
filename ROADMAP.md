@@ -37,7 +37,10 @@
 - [x] `product_offers` migration (bigint FK, 최소 권한 RLS) 원격 적용
 - [x] GitHub 백업 브랜치 `backup-sprint14-20260713`
 - [x] 검색 우선·검증 후 등록 원칙을 Master Plan / Project Rule에 공식화
-- [ ] Search-to-Verified-Product Pipeline 데이터 모델·화면 설계
+- [x] Search-to-Verified 11테이블 + admin_users/history migration·bootstrap
+- [x] 관리자 인증 가드 최소 구현 (clients / proxy / layout / auth-check)
+- [ ] 관리자 로그인 페이지 최소 구현
+- [ ] Search-to-Verified 관리자 UI/API
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)
 - [ ] `data/backups` JSON 백업
@@ -47,6 +50,8 @@
 - 제품 데이터 전략: **검색 우선·검증 후 등록**
 - GitHub 백업 브랜치: 존재
 - Supabase `product_offers`: **적용 완료** (행 0)
+- 관리자 auth 테이블·첫 admin: **완료**
+- 관리자 세션 가드 코드: **로컬 구현** (로그인 UI·SERVICE_ROLE env는 BLOCKER)
 - main 병합: **아직 안 함**
 
 ---

@@ -6,6 +6,18 @@
 
 ## 2026-07-13
 
+### 관리자 인증 가드 최소 구현
+
+- `@supabase/ssr` / `server-only` 추가
+- browser / server session / admin(service_role) client 분리
+- `src/proxy.ts` — `/admin`, `/api/admin` 쿠키 갱신만 (role 판정 없음)
+- `requireAdminUser` / `withAdminAuth` / `GET /api/admin/auth-check`
+- `/admin` 가드 레이아웃 + unauthorized/forbidden
+- `/admin/catalog-review` — development + **admin_users 필수**
+- `profiles.role` 권한 판정 사용 안 함
+- 문서: `docs/49-admin-auth-implementation.md`
+- 로그인 UI·commit/push·원격 DB 변경 없음
+
 ### 제품 DB 구축 원칙 변경 — Search-to-Verified-Product Pipeline
 
 - 브랜드별 대량 DB 선구축을 중단하고 **검색 우선·판매 확인·성분·논문 검증 후 등록** 방식 채택
