@@ -6,6 +6,17 @@
 
 ## 2026-07-13
 
+### 관리자 discovery 상세 1차 — 읽기 전용
+
+- `getAdminDiscoveryDetail` — candidate + linked product + queue SELECT
+- `GET /api/admin/discovery/[id]` — 400/404/401
+- `/admin/discovery/[id]` UI — 기본/출처/workflow/중복/queue
+- `canProceedToNextStage` 참고값만 (버튼 없음)
+- 목록 상세 링크 연결
+- `docs/56-admin-discovery-detail-readonly.md`
+- 후보 0건 → 상세 200 E2E 미실행 (seed 금지)
+- 쓰기·migration·commit/push 없음
+
 ### 관리자 discovery 목록 1차 — 읽기 전용
 
 - `getAdminDiscoveryCandidates` — candidates + queue count (N+1 방지)

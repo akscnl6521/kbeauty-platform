@@ -13,8 +13,8 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | 관리자 discovery 목록 1차 읽기 전용 (commit/push 전) |
-| 빌드 | `npm run build` (discovery 목록 구현 후 재검증) |
+| Working tree | 관리자 discovery 상세 1차 읽기 전용 (commit/push 전) |
+| 빌드 | `npm run build` (discovery detail 구현 후 재검증) |
 
 ## 제품 데이터 전략
 
@@ -64,6 +64,7 @@
 | `/admin/products` | 제품 목록 (읽기 전용 · 검색/필터/페이지) |
 | `/admin/products/[id]` | 제품 상세 (읽기 전용) |
 | `/admin/discovery` | 발견 후보 목록 (읽기 전용) |
+| `/admin/discovery/[id]` | 발견 후보 상세 (읽기 전용) |
 | `/admin/login` | 관리자 이메일/비밀번호 로그인 |
 | `/admin/forgot-password` | 관리자 비밀번호 재설정 메일 요청 |
 | `/admin/reset-password` | 메일 링크 후 새 비밀번호 설정 |
@@ -78,6 +79,7 @@
 | `/api/admin/products` | 관리자 제품 목록 (GET, 읽기 전용) |
 | `/api/admin/products/[id]` | 관리자 제품 상세 (GET, 읽기 전용) |
 | `/api/admin/discovery` | 관리자 discovery 목록 (GET, 읽기 전용) |
+| `/api/admin/discovery/[id]` | 관리자 discovery 상세 (GET, 읽기 전용) |
 
 ## 현재 주요 기능
 
@@ -103,11 +105,10 @@
 
 ## 다음 작업
 
-1. **`/admin/discovery` 0건 빈 상태·API E2E**
-2. 읽기 전용 discovery 상세 또는 ingredients 목록
-3. Search-to-Verified 관리자 쓰기 UI/API (별도 승인)
-4. COSRX 3개 파이프라인 적용
-5. JSON 백업 · GitHub push (승인 시)
+1. **읽기 전용 ingredients 목록**
+2. Search-to-Verified 관리자 쓰기 UI/API (별도 승인)
+3. COSRX 3개 파이프라인 적용
+4. JSON 백업 · GitHub push (승인 시)
 
 ## 참고 문서
 
@@ -115,7 +116,7 @@
 - `PROJECT_RULE.md` — 운영 규칙
 - `ROADMAP.md` — 완료 / 진행 / 다음
 - `CHANGELOG.md` — Sprint 이력
-- `docs/43`~`docs/55` — 관리자 인증·대시보드·제품·discovery
+- `docs/43`~`docs/56` — 관리자 인증·대시보드·제품·discovery
 - `docs/11-product-retailer-offer.md` — Product/Offer 분리
 - `docs/20-data-source-verification.md` — 검색·검증 파이프라인
 - `docs/29-korean-product-data-guide.md` — 한국 데이터 입력

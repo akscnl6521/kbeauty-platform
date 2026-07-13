@@ -103,9 +103,12 @@ function DiscoveryTable({ items }: { items: AdminDiscoveryListItem[] }) {
           {items.map((item) => (
             <tr key={item.id} className="border-b border-[#F0E8E2] last:border-0">
               <td className="px-3 py-2">
-                <div className="font-medium text-gray-900">
+                <Link
+                  href={`/admin/discovery/${item.id}`}
+                  className="font-medium text-gray-900 underline decoration-[#E8DFD8] underline-offset-2 hover:text-[#8B6914]"
+                >
                   {item.candidateName}
-                </div>
+                </Link>
                 <div className="mt-0.5 text-xs text-gray-500">
                   duplicate: {item.duplicateStatus}
                   {item.isAssigned ? " · assigned" : ""}
@@ -152,7 +155,12 @@ function DiscoveryTable({ items }: { items: AdminDiscoveryListItem[] }) {
                 {formatDate(item.createdAt)}
               </td>
               <td className="px-3 py-2">
-                <span className="text-xs text-gray-400">상세 준비 중</span>
+                <Link
+                  href={`/admin/discovery/${item.id}`}
+                  className="text-sm font-medium text-[#8B6914] underline"
+                >
+                  상세
+                </Link>
               </td>
             </tr>
           ))}
