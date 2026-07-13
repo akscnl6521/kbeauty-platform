@@ -72,27 +72,25 @@ Request /admin/* or /api/admin/*
 
 ## 7. 로그인 페이지
 
-- **없음** (앱에 Auth 로그인 UI 미구현)
-- 미로그인 → `/admin/unauthorized` 안내
-- BLOCKER: 세션을 브라우저에 넣는 최소 로그인 페이지 필요
+- **구현됨:** `/admin/login` (email/password)
+- 미로그인 → `/admin/login`
+- 상세: `docs/50-admin-login-implementation.md`
 
 ## 8. 테스트 결과 (구현 시점)
 
 | 항목 | 결과 |
 |------|------|
 | `npm run build` | 실행·보고 |
-| 무세션 `/api/admin/auth-check` | 401 기대 |
-| 무세션 `/admin` | unauthorized 리다이렉트 |
-| SERVICE_ROLE 미설정 시 admin 조회 | configuration → forbidden |
+| 무세션 `/admin` | `/admin/login` |
+| SERVICE_ROLE | **missing** → `/admin`은 unavailable |
 | 원격 DB 변경 | 없음 |
-| profiles.role 참조 | 코드상 권한 경로 0 |
+| profiles.role 참조 | 권한 경로 0 |
 
 ## 9. 남은 BLOCKER
 
-1. **관리자 로그인 UI 없음** → 실제 admin 세션 E2E 어려움  
-2. 로컬 `.env.local`에 `SUPABASE_SERVICE_ROLE_KEY` 미설정 시 관리자 가드가 configuration 오류  
-3. 제품 관리 UI / discovery API는 의도적으로 미구현  
+1. **`SUPABASE_SERVICE_ROLE_KEY` missing** → admin_users 조회·E2E 불가  
+2. 제품 관리 UI / discovery API는 의도적으로 미구현  
 
 ## 10. 다음 작업
 
-**관리자 로그인 페이지 최소 구현** (이메일/비밀번호 또는 매직링크) → 세션 쿠키 확보 후 `/admin`·`auth-check` E2E.
+로컬에 `SUPABASE_SERVICE_ROLE_KEY` 설정 후 첫 admin으로 로그인·`/api/admin/auth-check` E2E.

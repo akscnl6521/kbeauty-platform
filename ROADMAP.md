@@ -48,7 +48,11 @@
 - [x] 관리자 제품 상세 1차 (읽기 전용 /admin/products/[id] + API)
 - [x] 관리자 discovery 목록 1차 (읽기 전용 /admin/discovery + API)
 - [x] 관리자 discovery 상세 1차 (읽기 전용 /admin/discovery/[id] + API)
-- [ ] 읽기 전용 ingredients 목록
+- [x] 관리자 성분 목록 1차 (읽기 전용 /admin/ingredients + API)
+- [x] 관리자 성분 상세 1차 (읽기 전용 /admin/ingredients/[id] + API)
+- [x] 관리자 verification 목록 1차 (읽기 전용 /admin/verification + API)
+- [x] 관리자 verification 상세 1차 (읽기 전용 /admin/verification/[id] + API)
+- [x] 관리자 읽기 전용 운영 콘솔 내비 정리 (AdminSubnav)
 - [ ] Search-to-Verified 관리자 쓰기 UI/API
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)
@@ -57,9 +61,9 @@
 ### 현재 단계 (2026-07-13)
 
 - 제품 데이터 전략: **검색 우선·검증 후 등록**
-- 관리자 대시보드·제품 목록(읽기 전용): **로컬 구현**
-- products 186 · offers 0 · verified_at 전부 0
-- main 병합 / 이번 작업 commit·push: **아직 안 함**
+- 관리자 읽기 전용 콘솔: **dashboard · products · discovery · ingredients · verification**
+- products 186 · ingredients 40 · verification_queue 0 · offers 0
+- main 병합: **안 함** (현재 브랜치 push만)
 
 ---
 

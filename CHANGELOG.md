@@ -6,6 +6,45 @@
 
 ## 2026-07-13
 
+### 관리자 읽기 전용 운영 콘솔 완료
+
+- ingredients 상세 · verification 목록/상세 · 대시보드 Verification 링크
+- `AdminSubnav` 공통 내비 · `src/lib/admin/query.ts` 공통 헬퍼
+- `docs/57`~`docs/60` · PROJECT_STATUS / ROADMAP / CHANGELOG 갱신
+- Supabase 쓰기·migration·main 병합 없음
+
+### 관리자 verification 상세 1차 — 읽기 전용
+
+- `getAdminVerificationDetail` — queue + entity 연결 SELECT
+- `GET /api/admin/verification/[id]` — 400/404/401
+- `/admin/verification/[id]` UI — 승인/반려 버튼 없음
+- `assigned_to` → `isAssigned`만
+- `docs/60-admin-verification-detail-readonly.md`
+
+### 관리자 verification 목록 1차 — 읽기 전용
+
+- `getAdminVerificationQueue` — 검색·필터·정렬·페이지네이션
+- `GET /api/admin/verification` · `/admin/verification`
+- 큐 0건 빈 상태 정상 (seed 금지)
+- `docs/59-admin-verification-readonly.md`
+
+### 관리자 성분 상세 1차 — 읽기 전용
+
+- `getAdminIngredientDetail` — aliases/evidence/cautions/linked products
+- `GET /api/admin/ingredients/[id]` · `/admin/ingredients/[id]`
+- verified vs evidence 존재 구분 · https URL만 활성
+- `docs/58-admin-ingredient-detail-readonly.md`
+
+### 관리자 성분 목록 1차 — 읽기 전용
+
+- `getAdminIngredients` — ingredients + alias/evidence/caution/product counts
+- `GET /api/admin/ingredients` — 검색·필터·정렬·페이지네이션
+- `/admin/ingredients` UI — 실제 40건 조회
+- ingredients에 active/verified_at/inci_name 컬럼 없음 → 필터·표시 규칙 문서화
+- 대시보드 Ingredients 링크 활성화
+- `docs/57-admin-ingredients-readonly.md`
+- 쓰기·migration 없음
+
 ### 관리자 discovery 상세 1차 — 읽기 전용
 
 - `getAdminDiscoveryDetail` — candidate + linked product + queue SELECT

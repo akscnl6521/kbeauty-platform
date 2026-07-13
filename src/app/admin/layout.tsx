@@ -15,14 +15,19 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
+/** Paths that must not run requireAdminUser (avoid redirect loops). */
 const PUBLIC_ADMIN_PATHS = new Set([
+  "/admin/login",
+  "/admin/forgot-password",
+  "/admin/reset-password",
   "/admin/unauthorized",
   "/admin/forbidden",
+  "/admin/unavailable",
 ]);
 
 /**
- * Server admin guard for all /admin/* routes except unauthorized/forbidden.
- * Proxy refreshes cookies only; final role check is here via admin_users.
+ * Server admin guard for /admin/* except public auth pages.
+ * Final authority is admin_users via service-role server client.
  */
 export default async function AdminLayout({
   children,
@@ -36,13 +41,15 @@ export default async function AdminLayout({
       await requireAdminUser();
     } catch (error) {
       if (error instanceof AuthenticationRequiredError) {
-        redirect("/admin/unauthorized");
+        redirect("/admin/login");
+      }
+      if (error instanceof AdminConfigurationError) {
+        redirect("/admin/unavailable");
       }
       if (
         error instanceof AdminAccessDeniedError ||
         error instanceof AdminInactiveError ||
-        error instanceof AdminRoleDeniedError ||
-        error instanceof AdminConfigurationError
+        error instanceof AdminRoleDeniedError
       ) {
         redirect("/admin/forbidden");
       }

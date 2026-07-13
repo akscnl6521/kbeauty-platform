@@ -3,6 +3,9 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { AdminConfigurationError } from "@/lib/auth/errors";
+import { isSafeHttpsUrl } from "@/lib/admin/query";
+
+export { isSafeHttpsUrl };
 
 const MAX_BIGINT = Number.MAX_SAFE_INTEGER;
 
@@ -205,16 +208,6 @@ export function parseAdminProductId(
   const value = Number(trimmed);
   if (!Number.isSafeInteger(value) || value < 1) return null;
   return value;
-}
-
-export function isSafeHttpsUrl(url: string | null | undefined): boolean {
-  if (!url || typeof url !== "string") return false;
-  try {
-    const parsed = new URL(url.trim());
-    return parsed.protocol === "https:";
-  } catch {
-    return false;
-  }
 }
 
 function asStringArray(value: unknown): string[] {

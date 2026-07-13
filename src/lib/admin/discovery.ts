@@ -3,6 +3,15 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { AdminConfigurationError } from "@/lib/auth/errors";
+import {
+  escapeIlike,
+  isSafeHttpsUrl,
+  normalizeBoolFilter,
+  normalizeText,
+  parsePositiveInt,
+} from "@/lib/admin/query";
+
+export { isSafeHttpsUrl };
 
 export const DISCOVERY_WORKFLOW_STATUSES = [
   "discovered",
@@ -129,30 +138,6 @@ const CANDIDATE_SELECT = [
   "updated_at",
 ].join(", ");
 
-function parsePositiveInt(
-  value: number | string | null | undefined,
-  fallback: number,
-  max?: number
-): number {
-  const n =
-    typeof value === "number" ? value : Number.parseInt(String(value ?? ""), 10);
-  if (!Number.isFinite(n) || n < 1) return fallback;
-  const floored = Math.floor(n);
-  if (max != null) return Math.min(floored, max);
-  return floored;
-}
-
-function normalizeText(value: string | null | undefined): string {
-  return typeof value === "string" ? value.trim() : "";
-}
-
-function normalizeBoolFilter(
-  value: string | null | undefined
-): "" | "true" | "false" {
-  if (value === "true" || value === "false") return value;
-  return "";
-}
-
 function normalizeSort(value: string | null | undefined): AdminDiscoverySort {
   if (value && ALLOWED_SORTS.has(value as AdminDiscoverySort)) {
     return value as AdminDiscoverySort;
@@ -178,25 +163,6 @@ function normalizeSourceType(
     return trimmed as DiscoverySourceType;
   }
   return "";
-}
-
-function escapeIlike(value: string): string {
-  return value
-    .replace(/\\/g, "\\\\")
-    .replace(/%/g, "\\%")
-    .replace(/_/g, "\\_")
-    .replace(/,/g, " ")
-    .replace(/"/g, "");
-}
-
-export function isSafeHttpsUrl(url: string | null | undefined): boolean {
-  if (!url || typeof url !== "string") return false;
-  try {
-    const parsed = new URL(url.trim());
-    return parsed.protocol === "https:";
-  } catch {
-    return false;
-  }
 }
 
 async function loadFilterOptions(client: SupabaseClient): Promise<{

@@ -9,6 +9,7 @@ import {
   type AdminProductSort,
 } from "@/lib/admin/products";
 import { AdminLogoutButton } from "../AdminLogoutButton";
+import { AdminSubnav } from "../AdminSubnav";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -329,15 +330,10 @@ export default async function AdminProductsPage({
               기존 products를 검색·필터로 확인합니다. 자동 published 하지
               않습니다.
             </p>
+            <AdminSubnav current="products" />
           </div>
           <AdminLogoutButton className="shrink-0 rounded-lg border border-[#E8DFD8] bg-white px-3 py-1.5 text-sm font-medium text-gray-800" />
         </div>
-
-        <p className="mt-4 text-sm">
-          <Link href="/admin" className="font-medium text-[#8B6914] underline">
-            대시보드로 돌아가기
-          </Link>
-        </p>
 
         {loadFailed || !result ? (
           <div

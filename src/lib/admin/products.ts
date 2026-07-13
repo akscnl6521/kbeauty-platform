@@ -3,6 +3,12 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { AdminConfigurationError } from "@/lib/auth/errors";
+import {
+  escapeIlike,
+  normalizeBoolFilter,
+  normalizeText,
+  parsePositiveInt,
+} from "@/lib/admin/query";
 
 export type AdminProductListItem = {
   id: number;
@@ -84,44 +90,11 @@ const ALLOWED_SORTS = new Set<AdminProductSort>([
 const PRODUCT_SELECT =
   "id, name, slug, brand, category, active, verified_at, data_confidence, key_ingredients, full_ingredients";
 
-function parsePositiveInt(
-  value: number | string | null | undefined,
-  fallback: number,
-  max?: number
-): number {
-  const n =
-    typeof value === "number" ? value : Number.parseInt(String(value ?? ""), 10);
-  if (!Number.isFinite(n) || n < 1) return fallback;
-  const floored = Math.floor(n);
-  if (max != null) return Math.min(floored, max);
-  return floored;
-}
-
-function normalizeText(value: string | null | undefined): string {
-  return typeof value === "string" ? value.trim() : "";
-}
-
-function normalizeBoolFilter(
-  value: string | null | undefined
-): "" | "true" | "false" {
-  if (value === "true" || value === "false") return value;
-  return "";
-}
-
 function normalizeSort(value: string | null | undefined): AdminProductSort {
   if (value && ALLOWED_SORTS.has(value as AdminProductSort)) {
     return value as AdminProductSort;
   }
   return DEFAULT_SORT;
-}
-
-/** Escape characters that break PostgREST `or` / `ilike` filters. */
-function escapeIlike(value: string): string {
-  return value
-    .replace(/\\/g, "\\\\")
-    .replace(/%/g, "\\%")
-    .replace(/_/g, "\\_")
-    .replace(/,/g, " ");
 }
 
 function arrayLength(value: string[] | null | undefined): number {

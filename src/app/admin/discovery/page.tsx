@@ -10,6 +10,7 @@ import {
   type DiscoveryWorkflowStatus,
 } from "@/lib/admin/discovery";
 import { AdminLogoutButton } from "../AdminLogoutButton";
+import { AdminSubnav } from "../AdminSubnav";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -385,15 +386,10 @@ export default async function AdminDiscoveryPage({
               product_discovery_candidates와 검토 큐 현황을 확인합니다. 상태
               변경·승인·publish는 이 화면에서 하지 않습니다.
             </p>
+            <AdminSubnav current="discovery" />
           </div>
           <AdminLogoutButton className="shrink-0 rounded-lg border border-[#E8DFD8] bg-white px-3 py-1.5 text-sm font-medium text-gray-800" />
         </div>
-
-        <p className="mt-4 text-sm">
-          <Link href="/admin" className="font-medium text-[#8B6914] underline">
-            대시보드로 돌아가기
-          </Link>
-        </p>
 
         {loadFailed || !result ? (
           <div

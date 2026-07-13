@@ -7,6 +7,7 @@ import {
 } from "@/lib/admin/dashboard";
 import { AdminConfigurationError } from "@/lib/auth/errors";
 import { AdminLogoutButton } from "./AdminLogoutButton";
+import { AdminSubnav } from "./AdminSubnav";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -40,8 +41,18 @@ const QUICK_LINKS: Array<{
     ready: true,
     note: "판매 제품 발견 후보와 검증 상태 확인",
   },
-  { label: "Ingredients", ready: false },
-  { label: "Verification", ready: false },
+  {
+    href: "/admin/ingredients",
+    label: "Ingredients",
+    ready: true,
+    note: "성분, 근거, 주의사항, 제품 연결 상태 확인",
+  },
+  {
+    href: "/admin/verification",
+    label: "Verification",
+    ready: true,
+    note: "검증 큐 읽기 전용",
+  },
 ];
 
 function Section({
@@ -221,6 +232,7 @@ export default async function AdminHomePage() {
               역할: <span className="font-medium text-gray-900">{session.role}</span>
               {session.active ? " · active" : null}
             </p>
+            <AdminSubnav current="dashboard" />
           </div>
           <AdminLogoutButton className="shrink-0 rounded-lg border border-[#E8DFD8] bg-white px-3 py-1.5 text-sm font-medium text-gray-800" />
         </div>
