@@ -1,11 +1,12 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 import { ADMIN_ROLES } from "@/lib/auth/roles";
 import { withAdminAuth } from "@/lib/auth/withAdminAuth";
-import { isAdminAuthError } from "@/lib/auth/errors";
 import {
   getAdminDiscoveryDetail,
   parseAdminDiscoveryId,
 } from "@/lib/admin/discovery-detail";
+import { updateDiscoveryCandidate } from "@/lib/admin/discovery-write";
+import { jsonFail, jsonFromCaughtError, jsonOk } from "@/lib/admin/api-response";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,68 +15,72 @@ type RouteContext = {
   params?: Promise<Record<string, string | string[]>>;
 };
 
+async function readId(context: RouteContext): Promise<string | null> {
+  const params = (await context.params) ?? {};
+  const rawId = params.id;
+  return Array.isArray(rawId) ? rawId[0] ?? null : rawId ?? null;
+}
+
 /**
- * Read-only admin discovery candidate detail.
- * GET /api/admin/discovery/[id]
+ * GET /api/admin/discovery/[id] — read-only detail
  */
 export const GET = withAdminAuth(
   async (_request: NextRequest, context: RouteContext) => {
     try {
-      const params = (await context.params) ?? {};
-      const rawId = params.id;
-      const idValue = Array.isArray(rawId) ? rawId[0] : rawId;
-      const candidateId = parseAdminDiscoveryId(idValue);
-
+      const candidateId = parseAdminDiscoveryId(await readId(context));
       if (!candidateId) {
-        return NextResponse.json(
-          {
-            ok: false,
-            error: {
-              code: "INVALID_DISCOVERY_ID",
-              message: "Invalid discovery candidate id.",
-            },
-          },
-          { status: 400 }
-        );
+        return jsonFail(400, "INVALID_INPUT", "Invalid discovery candidate id.");
       }
 
       const data = await getAdminDiscoveryDetail(candidateId);
-
       if (!data) {
-        return NextResponse.json(
-          {
-            ok: false,
-            error: {
-              code: "DISCOVERY_NOT_FOUND",
-              message: "Discovery candidate not found.",
-            },
-          },
-          { status: 404 }
-        );
+        return jsonFail(404, "NOT_FOUND", "Discovery candidate not found.");
       }
 
-      return NextResponse.json({ ok: true, data });
+      return jsonOk(data);
     } catch (error) {
-      if (isAdminAuthError(error)) {
-        return NextResponse.json(
-          {
-            ok: false,
-            error: { code: error.code, message: error.message },
-          },
-          { status: error.httpStatus }
-        );
+      return jsonFromCaughtError(error);
+    }
+  },
+  ADMIN_ROLES
+);
+
+/**
+ * PATCH /api/admin/discovery/[id] — limited updates + product link
+ */
+export const PATCH = withAdminAuth(
+  async (request: NextRequest, context: RouteContext, session) => {
+    try {
+      const idValue = await readId(context);
+      if (!idValue) {
+        return jsonFail(400, "INVALID_INPUT", "Invalid discovery candidate id.");
       }
 
-      return NextResponse.json(
-        {
-          ok: false,
-          error: {
-            code: "DISCOVERY_DETAIL_UNAVAILABLE",
-            message: "Unable to load admin discovery detail.",
-          },
-        },
-        { status: 500 }
-      );
+      let body: unknown;
+      try {
+        body = await request.json();
+      } catch {
+        return jsonFail(400, "INVALID_INPUT", "JSON body가 필요합니다.");
+      }
+
+      const payload = (body ?? {}) as Record<string, unknown>;
+      const updated = await updateDiscoveryCandidate(session, idValue, {
+        discoveredName: payload.discoveredName ?? payload.discovered_name,
+        discoveredBrand: payload.discoveredBrand ?? payload.discovered_brand,
+        discoveredUrl: payload.discoveredUrl ?? payload.discovered_url,
+        discoveredCountry:
+          payload.discoveredCountry ?? payload.discovered_country,
+        sourceType: payload.sourceType ?? payload.source_type,
+        notes: payload.notes,
+        linkedProductId:
+          payload.linkedProductId ?? payload.linked_product_id,
+        duplicateCheckStatus:
+          payload.duplicateCheckStatus ?? payload.duplicate_check_status,
+      });
+
+      return jsonOk(updated);
+    } catch (error) {
+      return jsonFromCaughtError(error);
     }
   },
   ADMIN_ROLES
