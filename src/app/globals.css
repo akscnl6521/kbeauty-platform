@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf7f5;
+  --foreground: #1a1a1a;
+  --brand: #c2185b;
+  --site-header-height: 3.5rem; /* 56px — mobile */
+  --site-content-max: 72rem; /* max-w-6xl */
+}
+
+@media (min-width: 768px) {
+  :root {
+    --site-header-height: 4rem; /* 64px — desktop */
+  }
 }
 
 @theme inline {
@@ -12,15 +21,50 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-padding-top: calc(var(--site-header-height) + 0.75rem);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+
+/* Focus for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.public-main {
+  min-width: 0;
+}
+
+.public-main h1,
+.public-main h2,
+.public-main [data-scroll-target] {
+  scroll-margin-top: calc(var(--site-header-height) + 0.75rem);
+}
+
+.skip-to-content {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  border-radius: 9999px;
+  background: var(--brand);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.skip-to-content:focus {
+  top: 0.75rem;
+}
+
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
 }
