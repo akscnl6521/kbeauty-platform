@@ -10,6 +10,7 @@ import { useLocale } from "@/hooks/useLocale";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import {
   displayIngredientNames,
+  getShippingCountryLabel,
   loadLatestRecommendationPipeline,
   productHasKrVerifiedCoreOffer,
   purgeLegacyRecommendationCaches,
@@ -1163,9 +1164,9 @@ function ResultsPageInner() {
                       <div className="flex flex-wrap gap-2">
                         {(
                           [
-                            { code: "KR" as const, label: "KR" },
-                            { code: "US" as const, label: "US" },
-                            { code: "JP" as const, label: "JP" },
+                            { code: "KR" as const },
+                            { code: "US" as const },
+                            { code: "JP" as const },
                           ] as const
                         ).map((opt) => (
                           <button
@@ -1178,7 +1179,7 @@ function ResultsPageInner() {
                                 : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
                             }`}
                           >
-                            {opt.label}
+                            {getShippingCountryLabel(opt.code, locale)}
                           </button>
                         ))}
                       </div>

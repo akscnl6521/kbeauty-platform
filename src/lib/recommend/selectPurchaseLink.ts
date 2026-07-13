@@ -44,6 +44,9 @@ export type PurchaseLinkSelection = {
   price?: number;
   currency?: OfferCurrency;
   verifiedAt?: string;
+  /** 표시용 — 선택 로직 불변, UI locale 변환에만 사용 */
+  retailerCountry?: RetailerCountry;
+  isOfficial?: boolean;
   /** 개발 로그용 선택 이유 */
   reason: string;
 };
@@ -675,6 +678,8 @@ export function selectPurchaseLinkForCountryWithDebug(
     ...(best.price != null ? { price: best.price } : {}),
     ...(best.currency ? { currency: best.currency } : {}),
     ...(best.verifiedAt ? { verifiedAt: best.verifiedAt } : {}),
+    retailerCountry: best.retailerCountry,
+    ...(best.isOfficial !== undefined ? { isOfficial: best.isOfficial } : {}),
     reason: `best verified for ${shipping} via ${best.sourceField ?? "purchase_links"}`,
   };
 

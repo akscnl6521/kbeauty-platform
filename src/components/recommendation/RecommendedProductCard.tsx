@@ -6,6 +6,7 @@ import {
   displayIngredientNames,
   formatOfferPrice,
   formatVerifiedAtForDisplay,
+  getRetailerDisplayName,
   logTopProductPurchaseLinkAudit,
   selectPurchaseLink,
 } from "@/lib/recommend";
@@ -181,7 +182,12 @@ export function RecommendedProductCard({
         <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-0.5">
             <p className="text-[11px] text-gray-500 sm:text-xs">
-              {purchase.retailerName}
+              {getRetailerDisplayName({
+                retailerName: purchase.retailerName,
+                retailerCountry: purchase.retailerCountry ?? null,
+                isOfficial: purchase.isOfficial,
+                locale,
+              })}
               {purchase.verificationStatus === "verified"
                 ? locale === "ko"
                   ? " · 검증됨"

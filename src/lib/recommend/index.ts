@@ -92,8 +92,11 @@ export { INGREDIENT_ALIAS_GROUPS } from "./ingredientAliases";
 export {
   displayIngredientName,
   displayIngredientNames,
+  getIngredientDisplayName,
 } from "./displayIngredientName";
 export type { IngredientDisplayLocale } from "./displayIngredientName";
+export { getRetailerDisplayName } from "./getRetailerDisplayName";
+export { getShippingCountryLabel } from "./getShippingCountryLabel";
 export { rankProducts } from "./rankProducts";
 export { toCanonicalConcern } from "./concernAliases";
 export {
