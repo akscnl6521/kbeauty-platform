@@ -16,6 +16,8 @@ import {
   RECOMMENDATION_STORAGE_KEY,
 } from "@/lib/recommend/types";
 import { MyCareNav } from "./MyCareNav";
+import { journeyActionHref } from "@/lib/user/next-action";
+import { resolveUserJourney } from "@/lib/user/journey";
 
 /**
  * Personal care home — what to do today.
@@ -141,6 +143,20 @@ export default function MyCareHomePage() {
     dashboard?.activeRoutine?.items.filter((i) => i.active).length ?? 0;
   const sourceLabel =
     hydrated?.source === "server" ? "서버 동기화" : "이 기기(local)";
+  const referralLevel = dashboard?.checkIns.find((checkIn) => checkIn.referralLevel !== "none")?.referralLevel ?? "none";
+  const journey = resolveUserJourney({
+    authenticated: true,
+    emailConfirmed: true,
+    hasLocalAnalysis:
+      typeof window !== "undefined" &&
+      Boolean(window.localStorage.getItem(RECOMMENDATION_STORAGE_KEY)),
+    hasLocalCare: Boolean(dashboard?.sessions.length),
+    onboardingComplete: Boolean(dashboard?.sessions.length),
+    hasRoutine: Boolean(dashboard?.activeRoutine),
+    hasDueCheckIn: Boolean(due),
+    referralLevel,
+    syncError: hydrated?.source === "local",
+  });
 
   return (
     <main className="mx-auto min-h-screen max-w-3xl bg-[#FAF7F5] px-4 py-10 text-gray-900">
@@ -161,8 +177,15 @@ export default function MyCareHomePage() {
         </p>
       ) : null}
 
-      <section className="mt-8 rounded-lg border border-[#E8DFD8] bg-white px-4 py-4">
-        <h2 className="text-lg font-semibold">다음 할 일</h2>
+      <section className="mt-8 rounded-lg border border-pink-200 bg-white px-4 py-4">
+        <h2 className="text-lg font-semibold">지금 할 일</h2>
+        <p className="mt-2 text-sm text-gray-600">{journey.label}</p>
+        <Link href={journeyActionHref(journey.primaryAction)} className="mt-3 inline-block rounded-lg bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white">
+          {journey.label}
+        </Link>
+      </section>
+      <section className="mt-6 rounded-lg border border-[#E8DFD8] bg-white px-4 py-4">
+        <h2 className="text-lg font-semibold">케어 현황</h2>
         {due ? (
           <div className="mt-3 text-sm">
             <p>
