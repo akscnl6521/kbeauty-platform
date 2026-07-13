@@ -24,33 +24,60 @@ type UseLocaleResult = {
 
 const LOCALE_STORAGE_KEY = "locale";
 
+function parseStoredLocale(raw: string | null): SupportedLocale | null {
+  if (raw === "en" || raw === "ja" || raw === "ko") return raw;
+  return null;
+}
+
+/** 브라우저 언어 → 지원 locale (명시 선택 없을 때만). */
+function localeFromBrowser(): SupportedLocale | null {
+  if (typeof navigator === "undefined") return null;
+  const candidates = [
+    navigator.language,
+    ...(Array.isArray(navigator.languages) ? navigator.languages : []),
+  ];
+  for (const tag of candidates) {
+    const lower = String(tag ?? "").toLowerCase();
+    if (lower.startsWith("ko")) return "ko";
+    if (lower.startsWith("ja")) return "ja";
+    if (lower.startsWith("en")) return "en";
+  }
+  return null;
+}
+
+/**
+ * 우선순위:
+ * 1) 사용자 명시 선택 (localStorage)
+ * 2) 브라우저 언어 ko/ja/en
+ * 3) 배송/국가 코드 KR→ko, JP→ja
+ * 4) 기본 ko (한국 MVP)
+ */
+export function resolvePreferredLocale(
+  countryCode: string | null | undefined,
+  stored?: string | null
+): SupportedLocale {
+  const fromStorage = parseStoredLocale(stored ?? null);
+  if (fromStorage) return fromStorage;
+
+  const fromBrowser = localeFromBrowser();
+  if (fromBrowser === "ko" || countryCode === "KR") return "ko";
+  if (fromBrowser === "ja" || countryCode === "JP") return "ja";
+  if (fromBrowser === "en") return "en";
+  return "ko";
+}
+
 export function useLocale(): UseLocaleResult {
   const { countryCode } = useCountry();
-  const [locale, setLocaleState] = useState<SupportedLocale>("en");
+  const [locale, setLocaleState] = useState<SupportedLocale>("ko");
 
-  // 초기 로딩: localStorage → countryCode 기반 추론
   useEffect(() => {
-    let initial: SupportedLocale | null = null;
+    let stored: string | null = null;
     try {
-      const saved = window.localStorage.getItem(LOCALE_STORAGE_KEY);
-      if (saved === "en" || saved === "ja" || saved === "ko") {
-        initial = saved;
-      }
+      stored = window.localStorage.getItem(LOCALE_STORAGE_KEY);
     } catch {
       // ignore
     }
-
-    if (!initial) {
-      if (countryCode === "KR") {
-        initial = "ko";
-      } else if (countryCode === "JP") {
-        initial = "ja";
-      } else {
-        initial = "en";
-      }
-    }
-
-    setLocaleState(initial);
+    setLocaleState(resolvePreferredLocale(countryCode, stored));
   }, [countryCode]);
 
   const setLocale = (next: SupportedLocale) => {
@@ -62,10 +89,7 @@ export function useLocale(): UseLocaleResult {
     }
   };
 
-  const messages = useMemo(() => {
-    return messagesMap[locale];
-  }, [locale]);
+  const messages = useMemo(() => messagesMap[locale], [locale]);
 
   return { locale, messages, setLocale };
 }
-

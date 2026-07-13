@@ -997,17 +997,33 @@ export default function AnalyzePage() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
       <Head>
-        <title>AI Skin Guide | KBEAUTY GUIDE</title>
+        <title>
+          {locale === "ko"
+            ? "AI 피부 가이드 | K-Beauty Match"
+            : locale === "ja"
+              ? "AIスキンガイド | K-Beauty Match"
+              : "AI Skin Guide | K-Beauty Match"}
+        </title>
         <meta
           name="description"
-          content="AI-powered K-beauty skin information guide."
+          content={
+            locale === "ko"
+              ? "사진 또는 기본 정보로 피부 타입·고민·관심 성분을 정리하는 K-뷰티 분석 가이드입니다."
+              : locale === "ja"
+                ? "写真または基本情報から肌タイプ・悩み・成分を整理するK-Beauty分析ガイドです。"
+                : "AI-powered K-beauty skin information guide."
+          }
         />
       </Head>
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
         {/* Page intro */}
         <header className="mb-8">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C2185B]">
-            AI SKIN GUIDE
+            {locale === "ko"
+              ? "AI 피부 가이드"
+              : locale === "ja"
+                ? "AIスキンガイド"
+                : "AI SKIN GUIDE"}
           </p>
           <h1 className="mt-3 font-['Playfair_Display',serif] text-3xl font-bold tracking-tight md:text-4xl">
             AI로 피부 정보를 더 빠르게 확인해보세요
