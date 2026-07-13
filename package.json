@@ -10,6 +10,9 @@
     "test:pipeline": "node scripts/test-pipeline-core.mjs",
     "test:journey": "node scripts/test-customer-journey.mjs",
     "check:production": "node scripts/check-production-readiness.mjs",
+    "check:deployment-env": "node scripts/check-deployment-env.mjs",
+    "test:smoke": "node scripts/smoke-test.mjs",
+    "check:release-security": "node scripts/security-release-check.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs"
   },
   "dependencies": {
