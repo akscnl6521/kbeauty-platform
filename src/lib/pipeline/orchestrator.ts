@@ -405,6 +405,40 @@ export async function tickPipelineBatch(
                 officialConfidence,
               });
               commitMeta = { ...commitMeta, ...saved };
+
+              if (saved.committed || dedupe.action === "link_existing") {
+                const { enrichCatalogAfterCandidate } = await import(
+                  "@/lib/pipeline/catalog-enrich"
+                );
+                const enrich = await enrichCatalogAfterCandidate(client, {
+                  product: extracted.product,
+                  brandName: extracted.product.brandName || brandName,
+                  batchId: batch.batchId,
+                  candidateId: saved.candidateId,
+                  site: resolution
+                    ? {
+                        classification: resolution.classification,
+                        confidence: resolution.confidence,
+                        allowCrawl: resolution.allowCrawl,
+                      }
+                    : siteMeta
+                      ? {
+                          classification: siteMeta.verified
+                            ? "verified_official"
+                            : undefined,
+                          confidence: siteMeta.confidence,
+                          allowCrawl: Boolean(siteMeta.verified),
+                        }
+                      : null,
+                  dedupe,
+                  quality,
+                  officialConfidence,
+                  parsedIngredients: ingredients,
+                  skin,
+                  tone,
+                });
+                commitMeta = { ...commitMeta, enrich };
+              }
             }
 
             current.checkpoint = {

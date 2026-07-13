@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "mode": "gated_commit",
   "paused": false,
   "scheduleHint": "every_6_hours",
@@ -10,15 +10,29 @@
   "allowCandidateInsert": true,
   "allowQueueInsert": true,
   "allowAuditInsert": true,
+  "allowDraftProductInsert": true,
+  "allowVariantInsert": true,
+  "allowProductIngredientInsert": true,
+  "allowUnverifiedIngredientInsert": false,
+  "allowSkinScoreUpsert": true,
+  "allowQualityScoreUpsert": true,
+  "allowCandidateAutoChecks": true,
+  "maxNewProductsPerRun": 20,
+  "maxNewIngredientsPerRun": 5,
+  "ingredientMatchThreshold": 0.85,
+  "draftProductQualityThreshold": 0.65,
   "allowProductInsert": false,
   "allowOfferInsert": false,
+  "allowVerifiedOfferInsert": false,
   "allowPublish": false,
   "allowDelete": false,
   "allowIngredientWrite": false,
   "allowExistingCandidateBulkUpdate": false,
+  "allowExistingProductOverwrite": false,
+  "allowBulkStatusRewrite": false,
   "notes": [
-    "Scheduler must run only: node scripts/run-pipeline-worker.mjs",
-    "No CLI secrets, brands, products, or allowCommit flags",
+    "Scheduler: node scripts/run-pipeline-worker.mjs only",
+    "Draft products use active=false; never published; no verified offers",
     "Cursor develops; worker operates; humans review needs_review only"
   ]
 }
