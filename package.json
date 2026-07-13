@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test:pipeline": "node scripts/test-pipeline-core.mjs",
+    "test:journey": "node scripts/test-customer-journey.mjs",
+    "check:production": "node scripts/check-production-readiness.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs"
   },
   "dependencies": {
