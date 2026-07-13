@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { PublicChrome } from "@/components/site/PublicChrome";
 
 export const metadata: Metadata = {
   title: "KBEAUTY GUIDE - Find Your Perfect K-Beauty Match",
@@ -26,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -41,7 +42,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-[#FAFAF8] text-[#1A1A1A] font-['DM_Sans',system-ui,sans-serif]">
-        {children}
+        <PublicChrome>{children}</PublicChrome>
       </body>
     </html>
   );
