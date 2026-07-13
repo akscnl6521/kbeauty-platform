@@ -51,12 +51,16 @@ export type PipelineJob = {
   batchId: string;
   entityType: "brand" | "product_url" | "product" | "ingredient" | "system";
   entityId: string;
+  sourceKey?: string | null;
+  brandName?: string | null;
   entityLabel: string;
   stage: PipelineStage;
   status: PipelineJobStatus;
   attempts: number;
   maxAttempts: number;
   nextRetryAt: string | null;
+  claimedBy?: string | null;
+  claimHeartbeatAt?: string | null;
   startedAt: string | null;
   completedAt: string | null;
   failureCode: string | null;
@@ -79,16 +83,22 @@ export type PipelineBatch = {
   batchId: string;
   mode: PipelineMode;
   status: PipelineBatchStatus;
+  triggerType?: "manual" | "scheduler" | "api" | "resume" | "retry";
   createdAt: string;
   updatedAt: string;
   startedAt: string | null;
+  pausedAt?: string | null;
   completedAt: string | null;
   brandLimit: number;
   productLimitPerBrand: number;
   progress: PipelineProgress;
   stagesCompleted: PipelineStage[];
   notes: string[];
+  checkpoint?: Record<string, unknown>;
   lockOwner: string | null;
+  lockHeartbeatAt?: string | null;
+  safeErrorCode?: string | null;
+  safeErrorMessage?: string | null;
 };
 
 export type BrandSeed = {
