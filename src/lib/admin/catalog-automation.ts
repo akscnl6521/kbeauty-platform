@@ -60,19 +60,64 @@ export async function listCatalogJobs(limit = 50) {
   return data ?? [];
 }
 
-export async function listStagingProducts(limit = 100) {
+export async function listStagingProducts(options?: {
+  limit?: number;
+  dataKind?: "all" | "real" | "fixture";
+  brand?: string | null;
+  category?: string | null;
+  ingredientsStatus?: string | null;
+}) {
+  const limit = options?.limit ?? 100;
   const client = createSupabaseAdminClient();
-  const { data, error } = await client
+  let query = client
     .from("catalog_staging_products")
     .select(
-      "id, brand_raw, brand_canonical, product_name_raw, product_name_ko, category_canonical, size_value, size_unit, product_status, ingredients_status, official_product_url, primary_image_url, duplicate_group_key, created_at"
+      "id, brand_raw, brand_canonical, product_name_raw, product_name_ko, category_canonical, size_value, size_unit, product_status, ingredients_status, official_product_url, primary_image_url, duplicate_group_key, is_fixture, test_only, created_at"
     )
     .order("created_at", { ascending: false })
     .limit(limit);
+
+  if (options?.dataKind === "fixture") {
+    query = query.eq("is_fixture", true);
+  } else if (options?.dataKind === "real") {
+    query = query.eq("is_fixture", false);
+  }
+  if (options?.brand?.trim()) {
+    query = query.ilike("brand_canonical", `%${options.brand.trim()}%`);
+  }
+  if (options?.category?.trim()) {
+    query = query.eq("category_canonical", options.category.trim());
+  }
+  if (options?.ingredientsStatus?.trim()) {
+    query = query.eq("ingredients_status", options.ingredientsStatus.trim());
+  }
+
+  const { data, error } = await query;
   if (error) {
     throw new AdminConfigurationError("Unable to load staging products.");
   }
   return data ?? [];
+}
+
+export async function getStagingDataKindCounts(): Promise<{
+  real: number;
+  fixture: number;
+  total: number;
+}> {
+  const client = createSupabaseAdminClient();
+  const { count: total, error: e1 } = await client
+    .from("catalog_staging_products")
+    .select("id", { count: "exact", head: true });
+  const { count: fixture, error: e2 } = await client
+    .from("catalog_staging_products")
+    .select("id", { count: "exact", head: true })
+    .eq("is_fixture", true);
+  if (e1 || e2) {
+    throw new AdminConfigurationError("Unable to count staging products.");
+  }
+  const t = total ?? 0;
+  const f = fixture ?? 0;
+  return { total: t, fixture: f, real: Math.max(0, t - f) };
 }
 
 export async function listStagingIngredients(limit = 200) {

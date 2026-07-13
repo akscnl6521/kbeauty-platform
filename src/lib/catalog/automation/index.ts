@@ -1,3 +1,4 @@
+export * from "./ingestionGate";
 export * from "./types";
 export * from "./validators";
 export * from "./ingredientParser";

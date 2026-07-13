@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-07-13T18:35:00.000Z",
+  "decision": "STAGING DATABASE REQUIRED",
+  "supabase": {
+    "projectRefMasked": "rhfr***mns",
+    "previewProductionSameDb": true,
+    "migrationProjects": [
+      "20260714010000_create_catalog_staging_automation",
+      "20260714020000_catalog_staging_fixture_isolation"
+    ],
+    "realIngestionAllowed": false,
+    "reason": "Local .env.local, MCP, and project docs all resolve to the same shared Supabase project used for operational products/offers/admin. No dedicated Preview staging DB was found."
+  },
+  "fixture": {
+    "dryRunRows": 5,
+    "excludedFromRealCounts": true,
+    "promotionAllowed": false,
+    "deleted": false
+  },
+  "realProducts": {
+    "discovered": 0,
+    "fetched": 0,
+    "parsed": 0,
+    "staged": 0
+  },
+  "coupang": {
+    "authorization": "api_credentials_required",
+    "liveProducts": 0
+  },
+  "oliveYoung": {
+    "authorization": "manual_review",
+    "liveProducts": 0
+  },
+  "nextRequired": [
+    "Create a dedicated Preview/staging Supabase project",
+    "Point Preview env NEXT_PUBLIC_SUPABASE_URL to staging only",
+    "Keep Production on the current shared project",
+    "Re-run Real Official Beauty Catalog Ingestion Sprint against staging"
+  ]
+}

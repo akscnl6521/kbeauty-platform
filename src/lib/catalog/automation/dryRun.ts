@@ -29,6 +29,8 @@ export type DryRunProductResult = {
   needsReview: boolean;
   rejected: boolean;
   authorizationBlocked: boolean;
+  /** Dry-run fixtures are never real catalog rows. */
+  isFixture: boolean;
   errors: string[];
   product?: ParsedCatalogProduct;
   ingredients?: ParsedIngredientSource | null;
@@ -48,6 +50,8 @@ export type DryRunSummary = {
   products: DryRunProductResult[];
   totals: {
     discovered: number;
+    fixtureDiscovered: number;
+    realDiscovered: number;
     productVerified: number;
     ingredientsFound: number;
     offersFound: number;
@@ -347,6 +351,7 @@ export async function runCatalogAutomationDryRun(options?: {
           needsReview: true,
           rejected: false,
           authorizationBlocked: true,
+          isFixture: true,
           errors: [fetched.reason],
         });
         continue;
@@ -368,6 +373,7 @@ export async function runCatalogAutomationDryRun(options?: {
           needsReview: false,
           rejected: true,
           authorizationBlocked: false,
+          isFixture: true,
           errors: ["parse_failed"],
         });
         continue;
@@ -387,6 +393,7 @@ export async function runCatalogAutomationDryRun(options?: {
         !ingredients?.tokens.length;
 
       // Dry-run stages in memory only — never writes products/product_offers
+      // All dry-run fixture outputs are marked isFixture (not real catalog).
       products.push({
         sourceName: source.name,
         category: parsed.categoryCanonical ?? parsed.categoryRaw ?? null,
@@ -399,6 +406,7 @@ export async function runCatalogAutomationDryRun(options?: {
         needsReview,
         rejected: productValidation.errors.includes("official_url_is_search_or_category"),
         authorizationBlocked: false,
+        isFixture: true,
         errors: [
           ...productValidation.errors,
           ...offers.flatMap((o) => o._validation.errors),
@@ -410,19 +418,24 @@ export async function runCatalogAutomationDryRun(options?: {
     }
   }
 
+  const fixtureProducts = products.filter((p) => p.isFixture);
+  const realProducts = products.filter((p) => !p.isFixture);
+
   const totals = {
     discovered: products.length,
-    productVerified: products.filter((p) => p.productVerified).length,
-    ingredientsFound: products.filter((p) => p.ingredientsFound).length,
-    offersFound: products.reduce((n, p) => n + p.offersFound, 0),
+    fixtureDiscovered: fixtureProducts.length,
+    realDiscovered: realProducts.length,
+    productVerified: realProducts.filter((p) => p.productVerified).length,
+    ingredientsFound: realProducts.filter((p) => p.ingredientsFound).length,
+    offersFound: realProducts.reduce((n, p) => n + p.offersFound, 0),
     coupangOfferCandidates: 0,
     oliveYoungOfferCandidates: 0,
-    brandStoreOffers: products
+    brandStoreOffers: realProducts
       .filter((p) => p.sourceName.includes("COSRX") || p.sourceName.includes("Manual"))
       .reduce((n, p) => n + p.offersFound, 0),
-    staged: products.filter((p) => p.staged).length,
-    needsReview: products.filter((p) => p.needsReview).length,
-    rejected: products.filter((p) => p.rejected).length,
+    staged: realProducts.filter((p) => p.staged).length,
+    needsReview: realProducts.filter((p) => p.needsReview).length,
+    rejected: realProducts.filter((p) => p.rejected).length,
     authorizationRequiredSources: authRequiredSources,
   };
 

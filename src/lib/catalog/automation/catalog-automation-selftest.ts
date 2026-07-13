@@ -21,6 +21,12 @@ import {
   validateStagingProduct,
 } from "./validators";
 import type { CatalogSourceRecord } from "./types";
+import {
+  assessCatalogEnvironment,
+  canPromoteStagingProduct,
+  countRealStagingProducts,
+  KNOWN_SHARED_SUPABASE_REF,
+} from "./ingestionGate";
 import { COLOR_MAKEUP_CATEGORIES } from "./types";
 import { rankProducts } from "@/lib/recommend/rankProducts";
 import type { RankableProduct, Recommendation } from "@/lib/recommend/types";
@@ -34,6 +40,26 @@ export async function runCatalogAutomationSelftests(): Promise<{
   checks: number;
 }> {
   let checks = 0;
+
+  // Environment gate: shared DB blocks real ingest
+  const blocked = assessCatalogEnvironment({
+    projectRef: KNOWN_SHARED_SUPABASE_REF,
+  });
+  assert(blocked.previewProductionSameDb === true, "shared db detected");
+  assert(blocked.realIngestionAllowed === false, "real ingest blocked");
+  assert(
+    !canPromoteStagingProduct({ is_fixture: true }).ok,
+    "fixture promotion blocked"
+  );
+  assert(
+    countRealStagingProducts([
+      { is_fixture: true },
+      { is_fixture: false },
+      { is_fixture: true },
+    ]).real === 1,
+    "real count excludes fixtures"
+  );
+  checks += 1;
 
   // Source policy / SSRF shape
   assert(!assertCatalogFetchUrl("http://example.com/x").ok, "http blocked");
@@ -211,6 +237,8 @@ export async function runCatalogAutomationSelftests(): Promise<{
   assert(dry.config.dryRun === true, "dry run");
   assert(dry.totals.authorizationRequiredSources >= 2, "auth sources counted");
   assert(dry.totals.discovered > 0, "discovered from fixtures");
+  assert(dry.totals.fixtureDiscovered === dry.totals.discovered, "all dry-run are fixtures");
+  assert(dry.totals.realDiscovered === 0, "no real products in fixture dry-run");
   assert(dry.totals.coupangOfferCandidates === 0, "no coupang offers without auth");
   checks += 1;
 
