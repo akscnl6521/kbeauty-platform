@@ -6,6 +6,16 @@
 
 ## 2026-07-13
 
+### 관리자 제품 상세 1차 — 읽기 전용
+
+- `getAdminProductDetail` — products + offers + variants + product_ingredients SELECT
+- `GET /api/admin/products/[id]` — 400/404/401 처리
+- `/admin/products/[id]` UI — 기본/검증/성분/offer/레거시/variant
+- `recommendationEligible` 엄격 계산 (레거시 링크만으로 true 금지)
+- 목록 ID·제품명 상세 링크 연결
+- `docs/54-admin-product-detail-readonly.md`
+- 쓰기·migration·commit/push 없음
+
 ### 관리자 제품 목록 1차 — 읽기 전용
 
 - `getAdminProducts` — products SELECT + offer count (N+1 방지)

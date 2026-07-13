@@ -79,10 +79,21 @@ function ProductsTable({ items }: { items: AdminProductListItem[] }) {
         <tbody>
           {items.map((item) => (
             <tr key={item.id} className="border-b border-[#F0E8E2] last:border-0">
-              <td className="px-3 py-2 tabular-nums text-gray-700">{item.id}</td>
+              <td className="px-3 py-2 tabular-nums text-gray-700">
+                <Link
+                  href={`/admin/products/${item.id}`}
+                  className="font-medium text-[#8B6914] underline"
+                >
+                  {item.id}
+                </Link>
+              </td>
               <td className="px-3 py-2">
-                <div className="font-medium text-gray-900">{item.name}</div>
-                <div className="mt-0.5 text-xs text-gray-400">상세 준비 중</div>
+                <Link
+                  href={`/admin/products/${item.id}`}
+                  className="font-medium text-gray-900 underline decoration-[#E8DFD8] underline-offset-2 hover:text-[#8B6914]"
+                >
+                  {item.name}
+                </Link>
               </td>
               <td className="px-3 py-2 text-gray-800">{item.brand}</td>
               <td className="px-3 py-2 text-gray-700">{item.category ?? "—"}</td>
