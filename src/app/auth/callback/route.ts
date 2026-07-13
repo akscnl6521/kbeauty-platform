@@ -1,21 +1,12 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { sanitizeNextPath } from "@/lib/auth/safe-next";
 
-const DEFAULT_NEXT = "/admin/reset-password";
-const FAILURE_PATH = "/admin/forgot-password?error=recovery_failed";
+const ADMIN_DEFAULT_NEXT = "/admin/reset-password";
 
 /**
  * Allow only same-origin relative paths. Blocks open redirects.
  */
-function sanitizeNext(raw: string | null): string {
-  if (!raw) return DEFAULT_NEXT;
-  if (!raw.startsWith("/")) return DEFAULT_NEXT;
-  if (raw.startsWith("//")) return DEFAULT_NEXT;
-  if (raw.includes("://")) return DEFAULT_NEXT;
-  if (raw.includes("\\")) return DEFAULT_NEXT;
-  return raw;
-}
-
 function createCookieClient(
   request: NextRequest,
   response: NextResponse,
@@ -50,9 +41,15 @@ export async function GET(request: NextRequest) {
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type");
   const code = searchParams.get("code");
-  const next = sanitizeNext(searchParams.get("next"));
-
-  const failRedirect = NextResponse.redirect(new URL(FAILURE_PATH, origin));
+  const rawNext = searchParams.get("next");
+  const adminFlow = rawNext?.startsWith("/admin") ?? false;
+  const next = sanitizeNextPath(rawNext, adminFlow ? ADMIN_DEFAULT_NEXT : "/my");
+  const failurePath = adminFlow
+    ? "/admin/forgot-password?error=recovery_failed"
+    : type === "recovery"
+      ? "/forgot-password?error=recovery_failed"
+      : "/login?error=auth";
+  const failRedirect = NextResponse.redirect(new URL(failurePath, origin));
   const successRedirect = NextResponse.redirect(new URL(next, origin));
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -64,11 +61,11 @@ export async function GET(request: NextRequest) {
 
   const supabase = createCookieClient(request, successRedirect, url, anonKey);
 
-  // A. Email-template recovery: token_hash + type=recovery
-  if (tokenHash && type === "recovery") {
+  // A. Email-template recovery or email confirmation.
+  if (tokenHash && (type === "recovery" || type === "signup" || type === "email")) {
     const { error } = await supabase.auth.verifyOtp({
       token_hash: tokenHash,
-      type: "recovery",
+      type: type as "recovery" | "signup" | "email",
     });
 
     if (error) {
