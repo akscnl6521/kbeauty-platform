@@ -54,10 +54,16 @@ const QUICK_LINKS: Array<{
     note: "성분, 근거, 주의사항, 제품 연결 상태 확인",
   },
   {
+    href: "/admin/pipeline",
+    label: "Pipeline",
+    ready: true,
+    note: "무인 카탈로그 자동화",
+  },
+  {
     href: "/admin/verification",
     label: "Verification",
     ready: true,
-    note: "검증 큐 읽기 전용",
+    note: "검증 큐",
   },
 ];
 

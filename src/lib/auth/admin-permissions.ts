@@ -15,7 +15,9 @@ export type AdminWriteAction =
   | "discovery.replace_link"
   | "verification.create"
   | "verification.review"
-  | "candidate.publish";
+  | "candidate.publish"
+  | "pipeline.run"
+  | "pipeline.manage";
 
 const ROLE_ACTIONS: Record<AdminRole, ReadonlySet<AdminWriteAction>> = {
   admin: new Set([
@@ -26,17 +28,22 @@ const ROLE_ACTIONS: Record<AdminRole, ReadonlySet<AdminWriteAction>> = {
     "verification.create",
     "verification.review",
     "candidate.publish",
+    "pipeline.run",
+    "pipeline.manage",
   ]),
   catalog_manager: new Set([
     "discovery.create",
     "discovery.update_basic",
     "discovery.link_product",
     "verification.create",
+    "pipeline.run",
+    "pipeline.manage",
   ]),
   researcher: new Set([
     "discovery.create",
     "discovery.update_basic",
     "verification.create",
+    "pipeline.run",
   ]),
   reviewer: new Set(["verification.review"]),
   read_only: new Set(),
@@ -106,5 +113,7 @@ export function getAdminWriteCapabilityFlags(role: AdminRole) {
     canCreateQueue: canCreateVerificationQueue(role),
     canReviewQueue: canReviewVerificationQueue(role),
     canPublish: canPublishCandidate(role),
+    canRunPipeline: canPerformAdminWrite(role, "pipeline.run"),
+    canManagePipeline: canPerformAdminWrite(role, "pipeline.manage"),
   };
 }
