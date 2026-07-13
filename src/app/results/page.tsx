@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState, type ReactNode } from "react";
 import { supabase } from "@/lib/supabase";
 import { useCountry } from "@/hooks/useCountry";
+import { useLocale } from "@/hooks/useLocale";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import {
   displayIngredientNames,
@@ -270,7 +271,7 @@ export default function ResultsPage() {
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center bg-white">
-          <p className="text-sm text-gray-500">Loading recommendations...</p>
+          <p className="text-sm text-gray-500">추천을 불러오는 중…</p>
         </div>
       }
     >
@@ -282,10 +283,10 @@ export default function ResultsPage() {
 function ResultsPageInner() {
   const searchParams = useSearchParams();
   const { countryCode, setShippingCountry } = useCountry();
+  const { locale, setLocale } = useLocale();
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [locale, setLocale] = useState<Locale>("en");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -466,17 +467,6 @@ function ResultsPageInner() {
   };
 
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem("locale");
-      if (saved === "en" || saved === "ja" || saved === "ko") {
-        setLocale(saved);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  useEffect(() => {
     async function fetchProducts() {
       try {
         const { data, error: fetchError } = await supabase
@@ -511,7 +501,13 @@ function ResultsPageInner() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-white">
-        <p className="text-sm text-gray-500">Loading recommendations...</p>
+        <p className="text-sm text-gray-500">
+          {locale === "ko"
+            ? "추천을 불러오는 중…"
+            : locale === "ja"
+              ? "おすすめを読み込み中…"
+              : "Loading recommendations..."}
+        </p>
       </div>
     );
   }
@@ -524,7 +520,11 @@ function ResultsPageInner() {
           href="/quiz"
           className="text-sm font-semibold text-[#C2185B] underline hover:no-underline"
         >
-          Back to Quiz
+          {locale === "ko"
+            ? "퀴즈로 돌아가기"
+            : locale === "ja"
+              ? "クイズに戻る"
+              : "Back to Quiz"}
         </Link>
       </div>
     );
@@ -533,10 +533,22 @@ function ResultsPageInner() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
       <Head>
-        <title>Your K-Beauty Matches | KBEAUTY GUIDE</title>
+        <title>
+          {locale === "ko"
+            ? `${messages.results_title} | K-Beauty Match`
+            : locale === "ja"
+              ? `${messages.results_title} | K-Beauty Match`
+              : `${messages.results_title} | K-Beauty Match`}
+        </title>
         <meta
           name="description"
-          content="Personalized K-beauty product recommendations with ingredient research and where to buy in your country."
+          content={
+            locale === "ko"
+              ? "피부 분석과 성분 정보를 바탕으로 정리한 K-뷰티 추천 결과입니다."
+              : locale === "ja"
+                ? "肌分析と成分情報をもとに整理したK-Beautyおすすめ結果です。"
+                : "Personalized K-beauty product recommendations with ingredient research and where to buy in your country."
+          }
         />
       </Head>
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col overflow-x-hidden px-4 py-8 sm:px-6 sm:py-10">
@@ -544,7 +556,11 @@ function ResultsPageInner() {
         <header className="mb-6 flex min-w-0 flex-col gap-4 sm:mb-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#B8860B]">
-              K-Beauty Recommendations
+              {locale === "ko"
+                ? "K-뷰티 추천"
+                : locale === "ja"
+                  ? "K-Beautyおすすめ"
+                  : "K-Beauty Recommendations"}
             </p>
             <h1 className="mt-3 font-['Playfair_Display',serif] text-2xl font-semibold tracking-tight text-[#1A1A1A] sm:text-3xl md:text-4xl">
               {messages.results_title}
@@ -567,14 +583,7 @@ function ResultsPageInner() {
           <div className="flex shrink-0 items-center gap-2 text-sm">
             <button
               type="button"
-              onClick={() => {
-                setLocale("en");
-                try {
-                  window.localStorage.setItem("locale", "en");
-                } catch {
-                  // ignore
-                }
-              }}
+              onClick={() => setLocale("en")}
               className={`rounded-full px-3 py-1 transition ${
                 locale === "en"
                   ? "bg-[#C2185B] text-white"
@@ -585,14 +594,7 @@ function ResultsPageInner() {
             </button>
             <button
               type="button"
-              onClick={() => {
-                setLocale("ja");
-                try {
-                  window.localStorage.setItem("locale", "ja");
-                } catch {
-                  // ignore
-                }
-              }}
+              onClick={() => setLocale("ja")}
               className={`rounded-full px-3 py-1 transition ${
                 locale === "ja"
                   ? "bg-[#C2185B] text-white"
@@ -603,14 +605,7 @@ function ResultsPageInner() {
             </button>
             <button
               type="button"
-              onClick={() => {
-                setLocale("ko");
-                try {
-                  window.localStorage.setItem("locale", "ko");
-                } catch {
-                  // ignore
-                }
-              }}
+              onClick={() => setLocale("ko")}
               className={`rounded-full px-3 py-1 transition ${
                 locale === "ko"
                   ? "bg-[#C2185B] text-white"
@@ -715,6 +710,15 @@ function ResultsPageInner() {
                       const evening = nonEmptyList(
                         savedRecommendation.eveningRoutine
                       );
+                      // suggested*가 있으면 일반 루틴과 중복 노출하지 않음 (섹션당 1회)
+                      const morningSteps =
+                        suggestedMorningOrder.length > 0
+                          ? suggestedMorningOrder
+                          : morning;
+                      const eveningSteps =
+                        suggestedEveningOrder.length > 0
+                          ? suggestedEveningOrder
+                          : evening;
                       const precautions = nonEmptyList(
                         savedRecommendation.precautions
                       );
@@ -1001,20 +1005,6 @@ function ResultsPageInner() {
                                   <BulletList items={currentProductWarnings} />
                                 </GuideBlock>
                               ) : null}
-                              {suggestedMorningOrder.length > 0 ? (
-                                <GuideBlock title="권장 아침 사용 순서">
-                                  <NumberedList
-                                    items={suggestedMorningOrder}
-                                  />
-                                </GuideBlock>
-                              ) : null}
-                              {suggestedEveningOrder.length > 0 ? (
-                                <GuideBlock title="권장 저녁 사용 순서">
-                                  <NumberedList
-                                    items={suggestedEveningOrder}
-                                  />
-                                </GuideBlock>
-                              ) : null}
                             </div>
                           ) : null}
 
@@ -1057,17 +1047,29 @@ function ResultsPageInner() {
                             </GuideBlock>
                           ) : null}
 
-                          {/* 아침·저녁 루틴 구분 */}
-                          {(morning.length > 0 || evening.length > 0) && (
+                          {/* 아침·저녁 루틴: suggested* 우선, 없으면 morning/evening (중복 섹션 금지) */}
+                          {(morningSteps.length > 0 || eveningSteps.length > 0) && (
                             <div className="space-y-5">
-                              {morning.length > 0 ? (
-                                <GuideBlock title="아침 루틴">
-                                  <NumberedList items={morning} />
+                              {morningSteps.length > 0 ? (
+                                <GuideBlock
+                                  title={
+                                    suggestedMorningOrder.length > 0
+                                      ? "권장 아침 사용 순서"
+                                      : "아침 루틴"
+                                  }
+                                >
+                                  <NumberedList items={morningSteps} />
                                 </GuideBlock>
                               ) : null}
-                              {evening.length > 0 ? (
-                                <GuideBlock title="저녁 루틴">
-                                  <NumberedList items={evening} />
+                              {eveningSteps.length > 0 ? (
+                                <GuideBlock
+                                  title={
+                                    suggestedEveningOrder.length > 0
+                                      ? "권장 저녁 사용 순서"
+                                      : "저녁 루틴"
+                                  }
+                                >
+                                  <NumberedList items={eveningSteps} />
                                 </GuideBlock>
                               ) : null}
                             </div>
@@ -1196,7 +1198,7 @@ function ResultsPageInner() {
                           rank={index + 1}
                           ranked={ranked}
                           locale={locale}
-                          countryCode="KR"
+                          countryCode={countryCode ?? "KR"}
                         />
                       ))}
                     </div>
@@ -1212,10 +1214,10 @@ function ResultsPageInner() {
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-gray-700">
                       {locale === "ko"
-                        ? "현재 한국에서 판매처, 원화 가격, 재고와 구매 링크가 확인된 추천 제품이 없습니다. 한국 제품 데이터를 확인 중입니다."
+                        ? "현재 확인된 판매처 정보가 없습니다. 마지막 확인: 미확인 (한국 verified offer·원화 가격·재고가 확인된 추천 제품이 아직 없습니다)."
                         : locale === "ja"
-                          ? "現在、韓国で販売先・KRW価格・在庫・購入リンクが確認できたおすすめ製品がありません。韓国製品データを確認中です。"
-                          : "No core recommendations with verified KR retailers, KRW price, stock, and purchase links yet. We are reviewing Korean product data."}
+                          ? "確認済みの販売先情報がありません。最終確認: 未確認（韓国verified offer・KRW価格・在庫が確認できたおすすめはまだありません）。"
+                          : "No verified retailer information available. Last checked: unknown (no core picks with verified KR offers yet)."}
                     </p>
                     <Link
                       href="/analyze"
@@ -1412,10 +1414,10 @@ function ResultsPageInner() {
                   {!hasKrVerifiedOffer ? (
                     <p className="mb-2 inline-flex w-fit rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[11px] font-semibold text-amber-800">
                       {locale === "ko"
-                        ? "한국 구매처 미확인"
+                        ? "현재 확인된 판매처 정보가 없습니다"
                         : locale === "ja"
-                          ? "韓国購入先未確認"
-                          : "KR retailer unverified"}
+                          ? "確認済みの販売先情報がありません"
+                          : "No verified retailer information"}
                     </p>
                   ) : null}
                   <h2 className="mb-2 text-lg font-semibold text-gray-900">
@@ -1532,15 +1534,22 @@ function ResultsPageInner() {
         {/* Footer actions */}
         <footer className="mt-12 flex items-center justify-between border-t border-gray-100 pt-6">
           <p className="text-xs text-gray-500">
-            These recommendations are a starting point. Always patch test new
-            products.
+            {locale === "ko"
+              ? "이 추천은 참고용 출발점입니다. 새 제품은 반드시 패치 테스트를 하세요."
+              : locale === "ja"
+                ? "このおすすめは参考の出発点です。新しい製品は必ずパッチテストを。"
+                : "These recommendations are a starting point. Always patch test new products."}
           </p>
           <Link href="/quiz">
             <button
               type="button"
               className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-5 py-2 text-xs font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              Start Over
+              {locale === "ko"
+                ? "처음부터 다시"
+                : locale === "ja"
+                  ? "最初から"
+                  : "Start Over"}
             </button>
           </Link>
         </footer>
