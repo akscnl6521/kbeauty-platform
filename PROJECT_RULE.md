@@ -27,10 +27,10 @@
 
 ---
 
-## 3. Search-to-Verified-Product Pipeline
+## 3. Search-to-Verified + Autonomous Catalog
 
-제품 DB를 브랜드별로 무작정 대량 구축하지 않는다.  
-**검색 우선 → 판매·성분·논문·안전 검증 → 관리자 승인 → Supabase 등록 → 추천 사용.**
+제품 DB를 브랜드별로 무작정·무검증 대량 구축하지 않는다.  
+**자율 파이프라인이 후보를 모으되**, 판매·성분·논문·안전 검증 후 관리자(needs_review) → `published`만 핵심 추천.
 
 1. 검색 노출만으로 재고·판매 가능을 단정하지 않는다.
 2. 판매 상태 확인 전·`published` 이전 제품은 핵심 추천에 넣지 않는다.
@@ -42,8 +42,10 @@
 8. 추천 근거 순서: 피부 상태 → 전성분 → 논문 → 제형·농도·부위 → 자극 → 알레르기/회피 → 구매 가능성.
 9. 성분 하나 논문만으로 제품 전체 효과를 단정하지 않는다. 의약품·화장품 연구를 구분한다.
 10. 홍조·심한 염증·통증·진물·지속 악화는 추천보다 전문가 상담 분기를 우선한다.
+11. 자율 파이프라인: 브랜드/제품별 승인 없음 · 정상 자동 저장 · needs_review만 사람 · **자동 published 금지**.
+12. migration/RLS/DELETE/차단 우회는 상시 승인 범위 밖 — BLOCKER로 보고.
 
-상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`
+상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`
 
 ---
 

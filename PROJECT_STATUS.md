@@ -13,14 +13,15 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | URL 기반 discovery 빠른 등록 완료 |
-| 빌드 | `npm run build` 성공 |
+| Working tree | 자율 카탈로그 파이프라인 1차 (파일 checkpoint) |
+| 빌드 | `npm run build` 성공 · `npm run test:pipeline` 통과 |
 
 ## 제품 데이터 전략
 
-- **검색 우선·검증 후 등록** (Search-to-Verified-Product Pipeline)
-- 브랜드별 대량 DB 선구축 금지
-- 판매 확인·전성분·논문·안전·관리자 검증 후 `published`만 핵심 추천
+- Search-to-Verified + **Autonomous Catalog Pipeline** (`docs/69`~`79`)
+- 사람이 모든 URL을 등록하지 않음 · needs_review만 검토
+- 자동 `published` 금지 · `product_offers` 0이면 publish 불가
+- 1차 job 상태는 `data/pipeline/runtime` (운영 DB 지속성 = BLOCKER migration)
 - 공식 API는 선택적 보조 수단 (필수 아님)
 - 이중 저장(GitHub + Supabase) 원칙 유지
 
@@ -75,7 +76,10 @@
 | `/admin/forgot-password` | 관리자 비밀번호 재설정 메일 요청 |
 | `/admin/reset-password` | 메일 링크 후 새 비밀번호 설정 |
 | `/auth/callback` | 복구: `verifyOtp(recovery)` + PKCE `code` fallback |
-| `/admin/catalog-review` | 카탈로그 검증 대기 (development + admin 필수) |
+| `/admin/pipeline` | 자율 카탈로그 파이프라인 콘솔 (dry_run/commit) |
+| `/admin/pipeline/batches/[id]` | 배치·job 진행 |
+| `/admin/brands` | 브랜드 seed 목록 (products/brands 자동) |
+| `/admin/brands/[id]` | 브랜드 seed 상세 |
 | `/admin/forbidden` | 비관리자 안내 |
 | `/admin/unavailable` | 서버 설정 누락 안내 |
 | `/privacy`, `/terms` | 약관 |

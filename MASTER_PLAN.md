@@ -40,9 +40,18 @@ K-Beauty Match는 사용자의 피부 상태·고민·성분 선호를 바탕으
 
 ---
 
-## 3. Search-to-Verified-Product Pipeline (공식)
+## 3. Search-to-Verified + Autonomous Catalog Pipeline
 
-K-Beauty Match는 브랜드별 제품 DB를 **무작정 먼저 대량 구축하지 않는다.**  
+K-Beauty Match는 **검증 정확도**를 유지하면서, 사람이 모든 URL을 수동 등록하지 않도록  
+**자율 카탈로그 파이프라인**으로 후보를 대량 구축한다.
+
+- 정상 데이터: 자동 저장 (후보·관계·점수·큐)
+- 낮은 신뢰도/충돌: `needs_review`만 사람 검토
+- **자동 `published` 금지** · 가짜 offer/가격/성분 금지
+- 상세: `docs/69-autonomous-catalog-pipeline.md` ~ `docs/79-unattended-operations.md`
+
+### 3.0 기존 Search-to-Verified (유지)
+
 제품 등록보다 **검증 정확도를 우선**한다.
 
 공식 파이프라인 이름: **Search-to-Verified-Product Pipeline**

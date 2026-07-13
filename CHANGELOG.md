@@ -6,6 +6,16 @@
 
 ## 2026-07-13
 
+### 자율 카탈로그 파이프라인 1차
+
+- 오케스트레이터·파일 checkpoint·retry/resume (`src/lib/pipeline/*`)
+- 브랜드 seed (products/brands) · 사이트 crawl · 추출 · 중복 · 성분 · skin/tone/quality 점수
+- 관리자 `/admin/pipeline` · `/admin/brands` · pipeline/brands API
+- 로컬 worker 스크립트 · Task Scheduler 명령 생성만 (자동 등록 없음)
+- 기본 dry_run · 자동 published 금지 · DELETE/migration 미적용
+- BLOCKER SQL: `docs/80-pipeline-migration-blocker.sql`
+- `docs/69`~`docs/79`
+
 ### URL 기반 discovery 빠른 등록
 
 - `/admin/discovery/import` — URL 붙여넣기·CSV·미리보기·선택 등록
