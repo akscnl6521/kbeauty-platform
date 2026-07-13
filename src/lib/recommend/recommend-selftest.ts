@@ -46,7 +46,7 @@ function baseProduct(
 }
 
 const EMPTY_CORE_KO =
-  "현재 입력하신 피부 정보와 성분 기준에 맞으면서 한국 판매처까지 확인된 제품이 아직 없습니다.";
+  "현재 조건에 맞고 판매처까지 확인된 제품을 준비 중입니다.";
 
 export function runRecommendScoreFixSelftests(): { ok: true; checks: number } {
   let checks = 0;
@@ -131,7 +131,7 @@ export function runRecommendScoreFixSelftests(): { ok: true; checks: number } {
   const coreC = filterRankedByMatchEvidence(rankedC);
   assert(coreC.length === 0, "C: empty core");
   assert(!coreC[0] && !coreC[1], "C: no fake rank 1/2");
-  assert(EMPTY_CORE_KO.includes("한국 판매처"), "C: empty-state copy ready");
+  assert(EMPTY_CORE_KO.includes("판매처까지 확인"), "C: empty-state copy ready");
   checks += 1;
 
   // 혼합: 매칭 1 + 0점 1 → 핵심에는 매칭만

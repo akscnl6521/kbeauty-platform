@@ -16,8 +16,15 @@ import {
 } from "@/lib/brand/displayBrandName";
 import {
   displayProductFormLabel,
-  parseSizeFromProductName,
+  getProductTrustStatus,
+  productTrustStatusLabel,
 } from "@/lib/recommend/displayProductMeta";
+import { resolveDisplaySizeLabel } from "@/lib/catalog/verifiedDisplayOverrides";
+import { isOfferEligibleForCoreRecommendation } from "@/lib/recommend/productOffer";
+import {
+  normalizeShippingCountry,
+  type ShippingCountry,
+} from "@/lib/recommend/selectPurchaseLink";
 
 export type RecommendedProductCardProps = {
   /** 1부터 시작하는 순위 */
@@ -53,14 +60,28 @@ export function RecommendedProductCard({
   });
 
   const brand = displayBrandName(product.brand, locale);
-  const sizeLabel =
-    parseSizeFromProductName(product.name_ko)?.label ??
-    parseSizeFromProductName(product.name)?.label ??
-    null;
+  const sizeLabel = resolveDisplaySizeLabel({
+    productId: product.id,
+    name: product.name,
+    nameKo: product.name_ko,
+  });
   const formLabel = displayProductFormLabel(
     (product as { category?: string | null }).category ?? null,
     locale
   );
+  const shipping = normalizeShippingCountry(countryCode) as ShippingCountry;
+  const hasVerifiedOffer = Boolean(
+    product.offers?.some((o) => isOfferEligibleForCoreRecommendation(o, shipping))
+  );
+  const trustStatus = getProductTrustStatus({
+    productVerifiedAt: (product as { verified_at?: string | null }).verified_at,
+    hasVerifiedOffer,
+    hasAnyOffer: Boolean(product.offers?.length),
+  });
+  const trustLabel =
+    trustStatus === "manual_review"
+      ? null
+      : productTrustStatusLabel(trustStatus, locale);
   const hasExcluded =
     Array.isArray(excludedIngredients) && excludedIngredients.length > 0;
 
@@ -147,6 +168,9 @@ export function RecommendedProductCard({
               {[sizeLabel, formLabel].filter(Boolean).join(" · ")}
             </p>
           )}
+          {trustLabel ? (
+            <p className="mt-1 text-[11px] text-gray-500">{trustLabel}</p>
+          ) : null}
         </div>
         <div className="shrink-0 text-right">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">

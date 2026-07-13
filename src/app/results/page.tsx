@@ -1355,17 +1355,17 @@ function ResultsPageInner() {
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-gray-700">
                       {locale === "ko"
-                        ? "현재 입력하신 피부 정보와 성분 기준에 맞으면서 한국 판매처까지 확인된 제품이 아직 없습니다."
+                        ? "현재 조건에 맞고 판매처까지 확인된 제품을 준비 중입니다."
                         : locale === "ja"
-                          ? "入力された肌情報・成分基準に合い、かつ韓国販売先まで確認できた製品はまだありません。"
-                          : "No products yet that match your skin and ingredients and also have a confirmed KR retailer."}
+                          ? "現在の条件に合い、販売先まで確認できた製品を準備中です。"
+                          : "We're preparing products that match your criteria and have a verified retailer."}
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-gray-600">
                       {locale === "ko"
-                        ? "판매처가 확인된 일반 제품은 아래 ‘다른 제품 둘러보기’에서 확인할 수 있습니다."
+                        ? "일반 제품 정보는 아래 ‘다른 제품 둘러보기’에서 확인할 수 있습니다. 구매 추천이 아닙니다."
                         : locale === "ja"
-                          ? "販売先が確認された一般製品は、下の「他の製品を見る」から確認できます。"
-                          : "Retailer-confirmed catalog products may still appear under Browse below."}
+                          ? "一般製品情報は下の「他の製品を見る」から確認できます。購入おすすめではありません。"
+                          : "Browse catalog info below. This is not a purchase recommendation."}
                     </p>
                     <Link
                       href="/analyze"

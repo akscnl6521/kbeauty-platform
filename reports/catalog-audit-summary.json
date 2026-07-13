@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2026-07-13T18:15:31.599Z",
+  "totalProducts": 186,
+  "activeProducts": 186,
+  "verifiedProducts": 2,
+  "unverifiedProducts": 184,
+  "missingName": 0,
+  "missingNameKo": 0,
+  "missingBrand": 0,
+  "missingIngredients": 0,
+  "missingSkinConcern": 0,
+  "missingImage": 186,
+  "sizeParsable": 2,
+  "sizeUnparsable": 184,
+  "duplicateCandidateProducts": 2,
+  "productsWithAnyOffer": 2,
+  "strictKrOffers": 2,
+  "strictUsOffers": 0,
+  "strictJpOffers": 0,
+  "byStatus": {
+    "verified_ready": 2,
+    "product_verified_no_offer": 0,
+    "offer_pending": 0,
+    "product_info_incomplete": 0,
+    "manual_review": 182,
+    "duplicate_candidate": 2
+  },
+  "country": {
+    "KR": {
+      "strictOffers": 2,
+      "productsWithStrict": 2
+    },
+    "US": {
+      "strictOffers": 0,
+      "productsWithStrict": 0
+    },
+    "JP": {
+      "strictOffers": 0,
+      "productsWithStrict": 0
+    }
+  }
+}

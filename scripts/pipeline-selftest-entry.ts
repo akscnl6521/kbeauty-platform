@@ -5,6 +5,7 @@ import { runLocalizationDisplaySelftests } from "../src/lib/recommend/localizati
 import { runRednessObservationSelftests } from "../src/lib/ai/redness-selftest";
 import { runAnalyzeInputSnapshotSelftests } from "../src/lib/ai/analyze-input-snapshot-selftest";
 import { runAnalyzeReferencePreviewSelftests } from "../src/lib/ai/analyze-reference-preview-selftest";
+import { runCatalogAuditSelftests } from "../src/lib/catalog/catalog-audit-selftest";
 
 const result = runPipelineSelftests();
 const journey = runJourneySelftests();
@@ -13,6 +14,7 @@ const localization = runLocalizationDisplaySelftests();
 const redness = runRednessObservationSelftests();
 const analyzeInput = runAnalyzeInputSnapshotSelftests();
 const referencePreview = runAnalyzeReferencePreviewSelftests();
+const catalogAudit = runCatalogAuditSelftests();
 console.log("[pipeline-selftest] ok", {
   ...result,
   journeyChecks: journey.checks,
@@ -21,4 +23,5 @@ console.log("[pipeline-selftest] ok", {
   rednessChecks: redness.checks,
   analyzeInputChecks: analyzeInput.checks,
   referencePreviewChecks: referencePreview.checks,
+  catalogAuditChecks: catalogAudit.checks,
 });

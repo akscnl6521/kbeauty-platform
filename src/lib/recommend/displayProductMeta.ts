@@ -12,10 +12,11 @@ export type ParsedProductSize = {
 };
 
 export type ProductTrustStatus =
-  | "verified_product_and_offer"
-  | "verified_product_no_offer"
-  | "unverified_product"
-  | "pending_review";
+  | "verified_ready"
+  | "product_verified_no_offer"
+  | "offer_pending"
+  | "product_info_incomplete"
+  | "manual_review";
 
 const SIZE_TRAILING_RE =
   /[\s\-–—]*(?:(\d+(?:\.\d+)?)\s*(ml|mL|ML|g|G|매|sheets?))\s*$/i;
@@ -111,30 +112,32 @@ export function displayProductFormLabel(
 export type ProductTrustInput = {
   productVerifiedAt?: string | null;
   hasVerifiedOffer?: boolean;
+  hasAnyOffer?: boolean;
   dataConfidence?: string | null;
   productStatus?: string | null;
+  infoIncomplete?: boolean;
 };
 
 export function getProductTrustStatus(
   input: ProductTrustInput
 ): ProductTrustStatus {
+  if (input.infoIncomplete) return "product_info_incomplete";
   const hasProductVerified = Boolean(
     input.productVerifiedAt && String(input.productVerifiedAt).trim()
   );
-  if (hasProductVerified && input.hasVerifiedOffer) {
-    return "verified_product_and_offer";
-  }
+  if (input.hasVerifiedOffer) return "verified_ready";
   if (hasProductVerified && !input.hasVerifiedOffer) {
-    return "verified_product_no_offer";
+    return "product_verified_no_offer";
   }
+  if (input.hasAnyOffer) return "offer_pending";
   if (
     input.productStatus === "draft" ||
     input.productStatus === "sample" ||
     input.dataConfidence === "unverified"
   ) {
-    return "pending_review";
+    return "manual_review";
   }
-  return "unverified_product";
+  return "manual_review";
 }
 
 export function productTrustStatusLabel(
@@ -143,36 +146,42 @@ export function productTrustStatusLabel(
 ): string {
   if (locale === "ko") {
     switch (status) {
-      case "verified_product_and_offer":
-        return "검증된 판매처";
-      case "verified_product_no_offer":
-        return "현재 확인된 판매처가 없습니다.";
-      case "pending_review":
-        return "검토 대기";
+      case "verified_ready":
+        return "제품 및 판매처 확인 완료";
+      case "product_verified_no_offer":
+        return "제품 정보 확인됨 · 판매처 확인 중";
+      case "offer_pending":
+        return "판매처 확인 중";
+      case "product_info_incomplete":
+        return "제품 정보 확인 중";
       default:
-        return "판매처 미확인";
+        return "제품 정보 확인 중";
     }
   }
   if (locale === "ja") {
     switch (status) {
-      case "verified_product_and_offer":
-        return "確認済み販売先";
-      case "verified_product_no_offer":
-        return "確認済みの販売先がありません。";
-      case "pending_review":
-        return "審査待ち";
+      case "verified_ready":
+        return "製品・販売先確認済み";
+      case "product_verified_no_offer":
+        return "製品情報確認済み · 販売先確認中";
+      case "offer_pending":
+        return "販売先確認中";
+      case "product_info_incomplete":
+        return "製品情報確認中";
       default:
-        return "販売先未確認";
+        return "製品情報確認中";
     }
   }
   switch (status) {
-    case "verified_product_and_offer":
-      return "Verified retailer";
-    case "verified_product_no_offer":
-      return "No verified retailer available.";
-    case "pending_review":
-      return "Pending review";
+    case "verified_ready":
+      return "Product and retailer verified";
+    case "product_verified_no_offer":
+      return "Product verified · retailer pending";
+    case "offer_pending":
+      return "Retailer verification pending";
+    case "product_info_incomplete":
+      return "Product information pending";
     default:
-      return "Retailer unverified";
+      return "Product information pending";
   }
 }
