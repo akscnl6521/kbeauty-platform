@@ -6,6 +6,13 @@
 
 ## 2026-07-13
 
+### Phase 8 고객 여정 통합 · 실서비스 준비
+
+- 공개 SiteHeader/Footer · 분석 중심 홈 · 여정 상태 머신
+- auth callback 강화 · 온보딩 draft · 루틴 초안 `/my/routine/new`
+- `test:journey` · `check:production` · docs/143~148
+- Cursor 운영/실메일/운영 DB 쓰기 미실행
+
 ### 일반 사용자 인증 · 온보딩 · Care E2E
 
 - `/login` `/signup` `/forgot-password` `/reset-password` `/logout`

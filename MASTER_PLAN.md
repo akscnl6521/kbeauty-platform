@@ -58,8 +58,8 @@ K-Beauty Match는 **검증 정확도**를 유지하면서, 사람이 모든 URL�
 
 - 정상 흐름 자동화 · 위험 신호·정보 부족만 강조
 - 의료 진단 금지 · 동의 없는 루틴 강제 변경 금지
-- 현재 UX: 로그인=Supabase · `/my` 인증 필수 · 익명 분석은 local → 로그인 후 attach · migration 적용됨 (`docs/133`)
-- 문서: `docs/123`~`docs/142` · rollback `docs/132` (수동)
+- 현재 UX: 로그인=Supabase · `/my` 인증 필수 · 공개 SiteHeader · 여정 상태 머신 · migration 적용됨
+- 문서: `docs/123`~`docs/148` · rollback `docs/132` (수동)
 
 ### 3.0 기존 Search-to-Verified (유지)
 
