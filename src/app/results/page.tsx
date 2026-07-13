@@ -557,6 +557,12 @@ function ResultsPageInner() {
                 </span>
               </div>
             ) : null}
+            <Link
+              href="/login?next=%2Fonboarding"
+              className="mt-4 inline-flex rounded-lg bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
+            >
+              내 피부 관리 시작하기
+            </Link>
           </div>
           <div className="flex items-center gap-2 text-sm">
             <button
