@@ -5,19 +5,49 @@ import {
   applySuggestionToRoutine,
   loadCareStore,
   saveCareStore,
-  type CareStoreSnapshot,
 } from "@/lib/care";
+import { hydrateCareDashboard } from "@/lib/care/client-hydrate";
+import type { CareRoutine, CareStoreSnapshot, CareSuggestion } from "@/lib/care/types";
 import { MyCareNav } from "../MyCareNav";
 
 export default function MyRoutinePage() {
-  const [store, setStore] = useState<CareStoreSnapshot | null>(null);
-  useEffect(() => setStore(loadCareStore()), []);
-  const routine = store?.routines[0];
+  const [routine, setRoutine] = useState<CareRoutine | null>(null);
+  const [suggestions, setSuggestions] = useState<CareSuggestion[]>([]);
+  const [source, setSource] = useState<"server" | "local">("local");
+  const [localStore, setLocalStore] = useState<CareStoreSnapshot | null>(null);
 
-  function applyFirstPending() {
-    if (!store || !routine) return;
-    const sug = store.suggestions.find((s) => !s.applied);
-    if (!sug) return;
+  useEffect(() => {
+    void hydrateCareDashboard().then((h) => {
+      setRoutine(h.dashboard.activeRoutine);
+      setSuggestions(h.dashboard.suggestions);
+      setSource(h.source);
+      setLocalStore(h.localStore);
+    });
+  }, []);
+
+  async function applyFirstPending() {
+    const sug = suggestions.find((s) => !s.applied);
+    if (!sug || !routine) return;
+
+    if (source === "server") {
+      const res = await fetch(`/api/care/suggestions/${sug.id}/accept`, {
+        method: "POST",
+        credentials: "include",
+      });
+      if (res.ok) {
+        const json = (await res.json()) as {
+          ok: boolean;
+          data?: { routine: CareRoutine };
+        };
+        if (json.data?.routine) setRoutine(json.data.routine);
+        setSuggestions((prev) =>
+          prev.map((s) => (s.id === sug.id ? { ...s, applied: true } : s))
+        );
+      }
+      return;
+    }
+
+    const store = localStore ?? loadCareStore();
     const nextRoutine = applySuggestionToRoutine(routine, sug);
     const next: CareStoreSnapshot = {
       ...store,
@@ -29,7 +59,9 @@ export default function MyRoutinePage() {
       ),
     };
     saveCareStore(next);
-    setStore(next);
+    setRoutine(nextRoutine);
+    setSuggestions(next.suggestions);
+    setLocalStore(next);
   }
 
   return (
@@ -67,7 +99,7 @@ export default function MyRoutinePage() {
           ) : null}
           <button
             type="button"
-            onClick={applyFirstPending}
+            onClick={() => void applyFirstPending()}
             className="mt-4 rounded-lg border border-[#E8DFD8] px-3 py-2 text-sm"
           >
             대기 중 제안 1건 적용

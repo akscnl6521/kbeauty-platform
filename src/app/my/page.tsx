@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   countdownLabel,
-  loadCareStore,
-  nextDueCheckIn,
-  refreshCareDueState,
   saveAnalysisSessionFromLocalRecommendation,
-  type CareStoreSnapshot,
 } from "@/lib/care";
+import {
+  hydrateCareDashboard,
+  type CareHydrateResult,
+} from "@/lib/care/client-hydrate";
 import {
   ANALYSIS_RESULT_STORAGE_KEY,
   RANKED_PRODUCTS_STORAGE_KEY,
@@ -21,11 +21,11 @@ import { MyCareNav } from "./MyCareNav";
  * Personal care home — what to do today.
  */
 export default function MyCareHomePage() {
-  const [store, setStore] = useState<CareStoreSnapshot | null>(null);
+  const [hydrated, setHydrated] = useState<CareHydrateResult | null>(null);
   const [savedMsg, setSavedMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    setStore(refreshCareDueState());
+    void hydrateCareDashboard().then(setHydrated);
   }, []);
 
   function importLatestAnalysis() {
@@ -50,31 +50,97 @@ export default function MyCareHomePage() {
             )
             .filter(Boolean)
         : [];
-      const next = saveAnalysisSessionFromLocalRecommendation({
-        analysis: analysis && typeof analysis === "object" ? analysis : {},
-        recommendation,
-        rankedProductIds: rankedIds,
-        allergyIngredients: recommendation.allergyIngredients ?? [],
-        avoidedIngredients: recommendation.avoidedIngredients ?? [],
-        concerns: recommendation.skinConcerns ?? [],
-        skinType: null,
-        sensitivity: null,
-        undertone: null,
-        toneDepth: null,
-        country: "KR",
-        consentCareTracking: true,
-      });
-      setStore(next);
-      setSavedMsg("분석을 케어 기록으로 저장하고 Day 3/7/15/30 체크인을 예약했습니다.");
+
+      if (hydrated?.source === "server") {
+        void fetch("/api/care/analyses", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            timezone:
+              Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Seoul",
+            country: "KR",
+            skinType: null,
+            sensitivity: null,
+            concerns: recommendation.skinConcerns ?? [],
+            toneDepth: null,
+            undertone: null,
+            allergyIngredients: recommendation.allergyIngredients ?? [],
+            avoidedIngredients: recommendation.avoidedIngredients ?? [],
+            analysisSnapshot:
+              analysis && typeof analysis === "object" ? analysis : {},
+            recommendationSnapshot: recommendation,
+            rankedProductIds: rankedIds,
+            dataConfidence:
+              typeof recommendation.confidenceScore === "number"
+                ? recommendation.confidenceScore
+                : null,
+            consentCareTracking: true,
+          }),
+        }).then(async (res) => {
+          if (res.ok) {
+            const next = await hydrateCareDashboard();
+            setHydrated(next);
+            setSavedMsg("서버에 분석을 저장하고 체크인을 예약했습니다.");
+          } else {
+            setSavedMsg("서버 저장에 실패했습니다. 로컬에 저장합니다.");
+            saveLocal();
+          }
+        });
+        return;
+      }
+
+      saveLocal();
+
+      function saveLocal() {
+        const next = saveAnalysisSessionFromLocalRecommendation({
+          analysis: analysis && typeof analysis === "object" ? analysis : {},
+          recommendation,
+          rankedProductIds: rankedIds,
+          allergyIngredients: recommendation.allergyIngredients ?? [],
+          avoidedIngredients: recommendation.avoidedIngredients ?? [],
+          concerns: recommendation.skinConcerns ?? [],
+          skinType: null,
+          sensitivity: null,
+          undertone: null,
+          toneDepth: null,
+          country: "KR",
+          consentCareTracking: true,
+        });
+        setHydrated({
+          source: "local",
+          dashboard: {
+            linkedAccount: false,
+            source: "server",
+            sessions: next.sessions,
+            activeRoutine: next.routines[0] ?? null,
+            checkIns: next.checkIns,
+            suggestions: next.suggestions,
+            notifications: next.notifications,
+            progressSummary: [],
+            unreadNotifications: next.notifications.filter((n) => !n.read)
+              .length,
+            nextDueCheckIn: next.checkIns.find((c) => c.status === "due") ?? null,
+            settings: next.settings,
+          },
+          localStore: next,
+        });
+        setSavedMsg(
+          "분석을 케어 기록으로 저장하고 Day 3/7/15/30 체크인을 예약했습니다."
+        );
+      }
     } catch {
       setSavedMsg("가져오기에 실패했습니다.");
     }
   }
 
-  const due = store ? nextDueCheckIn(store.checkIns) : null;
-  const unread = store?.notifications.filter((n) => !n.read).length ?? 0;
+  const dashboard = hydrated?.dashboard;
+  const due = dashboard?.nextDueCheckIn ?? null;
+  const unread = dashboard?.unreadNotifications ?? 0;
   const activeItems =
-    store?.routines[0]?.items.filter((i) => i.active).length ?? 0;
+    dashboard?.activeRoutine?.items.filter((i) => i.active).length ?? 0;
+  const sourceLabel =
+    hydrated?.source === "server" ? "서버 동기화" : "이 기기(local)";
 
   return (
     <main className="mx-auto min-h-screen max-w-3xl bg-[#FAF7F5] px-4 py-10 text-gray-900">
@@ -83,6 +149,8 @@ export default function MyCareHomePage() {
         오늘은 무엇을 하면 될까요? 정상 흐름은 자동으로, 위험 신호만 강조합니다.
       </p>
       <MyCareNav current="/my" />
+
+      <p className="mt-2 text-xs text-gray-500">데이터 출처: {sourceLabel}</p>
 
       {savedMsg ? (
         <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-900">
@@ -130,15 +198,15 @@ export default function MyCareHomePage() {
         <div className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-3">
           <p className="text-xs text-gray-500">분석 기록</p>
           <p className="text-xl font-semibold tabular-nums">
-            {store?.sessions.length ?? 0}
+            {dashboard?.sessions.length ?? 0}
           </p>
         </div>
       </section>
 
       <p className="mt-8 text-xs text-gray-500">
         의료 진단·치료를 제공하지 않습니다. 심한 증상은 전문가·응급서비스에
-        문의하세요. 데이터는 현재 이 기기(local)에 저장되며, 서버 저장은
-        migration 승인 후 활성화됩니다.
+        문의하세요. 로그인 시 서버에 저장되며, 미로그인 시 이 기기에만
+        저장됩니다.
       </p>
     </main>
   );

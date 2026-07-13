@@ -2,13 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { loadCareStore, type CareStoreSnapshot } from "@/lib/care";
+import { hydrateCareDashboard } from "@/lib/care/client-hydrate";
+import type { CareAnalysisSession } from "@/lib/care/types";
 import { MyCareNav } from "../MyCareNav";
 
 export default function MyRecommendationsPage() {
-  const [store, setStore] = useState<CareStoreSnapshot | null>(null);
-  useEffect(() => setStore(loadCareStore()), []);
-  const session = store?.sessions[0];
+  const [session, setSession] = useState<CareAnalysisSession | null>(null);
+
+  useEffect(() => {
+    void hydrateCareDashboard().then((h) =>
+      setSession(h.dashboard.sessions[0] ?? null)
+    );
+  }, []);
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
       <h1 className="text-2xl font-bold">최근 추천</h1>

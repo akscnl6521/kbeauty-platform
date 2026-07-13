@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-  completeCheckIn,
-  loadCareStore,
-  type CareCheckInAnswers,
-  type CareStoreSnapshot,
-} from "@/lib/care";
+import { hydrateCareDashboard } from "@/lib/care/client-hydrate";
+import { completeCheckIn } from "@/lib/care";
+import type {
+  CareCheckIn,
+  CareCheckInAnswers,
+  CareSuggestion,
+} from "@/lib/care/types";
 import { MyCareNav } from "../../MyCareNav";
 
 const emptyAnswers = (): CareCheckInAnswers => ({
@@ -30,18 +31,55 @@ const emptyAnswers = (): CareCheckInAnswers => ({
 export default function MyCheckInDetailPage() {
   const params = useParams();
   const id = String(params.id ?? "");
-  const [store, setStore] = useState<CareStoreSnapshot | null>(null);
+  const [checkIn, setCheckIn] = useState<CareCheckIn | null>(null);
+  const [suggestions, setSuggestions] = useState<CareSuggestion[]>([]);
+  const [source, setSource] = useState<"server" | "local">("local");
   const [answers, setAnswers] = useState(emptyAnswers());
   const [done, setDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => setStore(loadCareStore()), []);
+  useEffect(() => {
+    void hydrateCareDashboard().then((h) => {
+      setSource(h.source);
+      const found = h.dashboard.checkIns.find((c) => c.id === id) ?? null;
+      setCheckIn(found);
+      setSuggestions(
+        h.dashboard.suggestions.filter((s) => s.checkInId === id)
+      );
+      if (found?.status === "completed") setDone(true);
+    });
+  }, [id]);
 
-  const checkIn = store?.checkIns.find((c) => c.id === id);
+  async function submit() {
+    setSubmitting(true);
+    if (source === "server") {
+      const res = await fetch(`/api/care/check-ins/${id}/complete`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers }),
+      });
+      setSubmitting(false);
+      if (res.ok) {
+        const json = (await res.json()) as {
+          ok: boolean;
+          data?: { checkIn: CareCheckIn; suggestions: CareSuggestion[] };
+        };
+        if (json.data) {
+          setCheckIn(json.data.checkIn);
+          setSuggestions(json.data.suggestions);
+        }
+        setDone(true);
+      }
+      return;
+    }
 
-  function submit() {
     const next = completeCheckIn(id, answers);
-    setStore(next);
+    const found = next.checkIns.find((c) => c.id === id) ?? null;
+    setCheckIn(found);
+    setSuggestions(next.suggestions.filter((s) => s.checkInId === id));
     setDone(true);
+    setSubmitting(false);
   }
 
   if (!checkIn) {
@@ -71,25 +109,23 @@ export default function MyCheckInDetailPage() {
           <Link href="/my/progress" className="text-[#8B6914] underline">
             변화 보기
           </Link>
-          {(store?.suggestions ?? [])
-            .filter((s) => s.checkInId === id)
-            .map((s) => (
-              <div
-                key={s.id}
-                className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-3"
-              >
-                <p className="font-medium">{s.title}</p>
-                <p className="text-gray-700">{s.reason}</p>
-                <p className="text-xs text-gray-500">{s.expectedEffect}</p>
-              </div>
-            ))}
+          {suggestions.map((s) => (
+            <div
+              key={s.id}
+              className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-3"
+            >
+              <p className="font-medium">{s.title}</p>
+              <p className="text-gray-700">{s.reason}</p>
+              <p className="text-xs text-gray-500">{s.expectedEffect}</p>
+            </div>
+          ))}
         </div>
       ) : (
         <form
           className="mt-6 space-y-4 text-sm"
           onSubmit={(e) => {
             e.preventDefault();
-            submit();
+            void submit();
           }}
         >
           {(
@@ -107,9 +143,7 @@ export default function MyCheckInDetailPage() {
             ] as const
           ).map(([key, label]) => (
             <label key={key} className="block">
-              <span className="text-gray-700">
-                {label} (0–10)
-              </span>
+              <span className="text-gray-700">{label} (0–10)</span>
               <input
                 type="range"
                 min={0}
@@ -137,9 +171,10 @@ export default function MyCheckInDetailPage() {
           </label>
           <button
             type="submit"
-            className="rounded-lg bg-[#8B6914] px-4 py-2 text-white"
+            disabled={submitting}
+            className="rounded-lg bg-[#8B6914] px-4 py-2 text-white disabled:opacity-50"
           >
-            저장
+            {submitting ? "저장 중…" : "저장"}
           </button>
         </form>
       )}

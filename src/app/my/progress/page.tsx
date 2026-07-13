@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { loadCareStore, summarizeProgress, type CareStoreSnapshot } from "@/lib/care";
+import { hydrateCareDashboard } from "@/lib/care/client-hydrate";
+import type { CareProgressDelta } from "@/lib/care/types";
 import { MyCareNav } from "../MyCareNav";
 
 const TREND_KO = {
@@ -12,9 +13,13 @@ const TREND_KO = {
 } as const;
 
 export default function MyProgressPage() {
-  const [store, setStore] = useState<CareStoreSnapshot | null>(null);
-  useEffect(() => setStore(loadCareStore()), []);
-  const deltas = store ? summarizeProgress(store.checkIns) : [];
+  const [deltas, setDeltas] = useState<CareProgressDelta[]>([]);
+
+  useEffect(() => {
+    void hydrateCareDashboard().then((h) =>
+      setDeltas(h.dashboard.progressSummary)
+    );
+  }, []);
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
