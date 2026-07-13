@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { sanitizeCustomerNextPath } from "@/lib/auth/safe-next";
 
 /**
  * Next.js 16 proxy: shallow Supabase cookie refresh for admin, admin APIs,
@@ -45,11 +46,39 @@ export async function proxy(request: NextRequest) {
     },
   });
 
-  await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
+  const pathname = request.nextUrl.pathname;
+  const loggedIn = Boolean(data.user);
+  const isProtected = pathname.startsWith("/my") || pathname.startsWith("/onboarding");
+
+  if (isProtected && !loggedIn) {
+    const login = request.nextUrl.clone();
+    login.pathname = "/login";
+    login.searchParams.set("next", `${pathname}${request.nextUrl.search}`);
+    return NextResponse.redirect(login);
+  }
+
+  if ((pathname === "/login" || pathname === "/signup") && loggedIn) {
+    const destination = sanitizeCustomerNextPath(request.nextUrl.searchParams.get("next"));
+    return NextResponse.redirect(new URL(destination, request.url));
+  }
 
   return supabaseResponse;
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*", "/auth/callback"],
+  matcher: [
+    "/admin/:path*",
+    "/api/admin/:path*",
+    "/my/:path*",
+    "/api/care/:path*",
+    "/login",
+    "/signup",
+    "/forgot-password",
+    "/reset-password",
+    "/logout",
+    "/onboarding/:path*",
+    "/auth/link-local",
+    "/auth/callback",
+  ],
 };
