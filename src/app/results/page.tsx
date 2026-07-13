@@ -539,14 +539,14 @@ function ResultsPageInner() {
           content="Personalized K-beauty product recommendations with ingredient research and where to buy in your country."
         />
       </Head>
-      <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
+      <main className="mx-auto flex min-h-screen max-w-5xl flex-col overflow-x-hidden px-4 py-8 sm:px-6 sm:py-10">
         {/* Header */}
-        <header className="mb-6 flex items-center justify-between">
-          <div>
+        <header className="mb-6 flex min-w-0 flex-col gap-4 sm:mb-8 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#B8860B]">
               K-Beauty Recommendations
             </p>
-            <h1 className="mt-3 font-['Playfair_Display',serif] text-3xl font-semibold tracking-tight text-[#1A1A1A] md:text-4xl">
+            <h1 className="mt-3 font-['Playfair_Display',serif] text-2xl font-semibold tracking-tight text-[#1A1A1A] sm:text-3xl md:text-4xl">
               {messages.results_title}
             </h1>
             <p className="mt-2 text-sm text-gray-500">{subtitle}</p>
@@ -559,12 +559,12 @@ function ResultsPageInner() {
             ) : null}
             <Link
               href="/login?next=%2Fonboarding"
-              className="mt-4 inline-flex rounded-lg bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
+              className="touch-target mt-4 inline-flex items-center rounded-lg bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
             >
               내 피부 관리 시작하기
             </Link>
           </div>
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex shrink-0 items-center gap-2 text-sm">
             <button
               type="button"
               onClick={() => {

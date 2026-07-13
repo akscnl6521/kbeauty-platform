@@ -177,14 +177,17 @@ export default function MyCareHomePage() {
         </p>
       ) : null}
 
-      <section className="mt-8 rounded-lg border border-pink-200 bg-white px-4 py-4">
+      <section className="mt-8 rounded-2xl border border-pink-200 bg-white px-4 py-4">
         <h2 className="text-lg font-semibold">지금 할 일</h2>
         <p className="mt-2 text-sm text-gray-600">{journey.label}</p>
-        <Link href={journeyActionHref(journey.primaryAction)} className="mt-3 inline-block rounded-lg bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white">
+        <Link
+          href={journeyActionHref(journey.primaryAction)}
+          className="touch-target mt-3 inline-flex items-center rounded-lg bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
+        >
           {journey.label}
         </Link>
       </section>
-      <section className="mt-6 rounded-lg border border-[#E8DFD8] bg-white px-4 py-4">
+      <section className="mt-6 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4">
         <h2 className="text-lg font-semibold">케어 현황</h2>
         {due ? (
           <div className="mt-3 text-sm">
@@ -193,7 +196,7 @@ export default function MyCareHomePage() {
             </p>
             <Link
               href={`/my/check-ins/${due.id}`}
-              className="mt-3 inline-block rounded-lg bg-[#8B6914] px-4 py-2 text-white"
+              className="touch-target mt-3 inline-flex items-center rounded-lg bg-[#C2185B] px-4 py-2 font-semibold text-white"
             >
               체크인 하기
             </Link>
@@ -211,7 +214,7 @@ export default function MyCareHomePage() {
         <button
           type="button"
           onClick={importLatestAnalysis}
-          className="mt-4 rounded-lg border border-[#E8DFD8] px-3 py-2 text-sm"
+          className="touch-target mt-4 rounded-lg border border-[#E8DFD8] px-3 py-2 text-sm"
         >
           최근 분석 결과 저장·추적 시작
         </button>
