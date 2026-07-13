@@ -127,7 +127,7 @@ export const RANKED_PRODUCTS_STORAGE_KEY = "skinRankedProducts";
  * 핵심 추천 캐시 버전.
  * 없거나 다르면 기존 Top 5를 폐기하고 재분석을 요구한다.
  */
-export const RECOMMENDATION_CACHE_VERSION = "KR_VERIFIED_OFFER_V1";
+export const RECOMMENDATION_CACHE_VERSION = "KR_MATCH_EVIDENCE_V2";
 
 /** 캐시 버전 localStorage 키 */
 export const RECOMMENDATION_CACHE_VERSION_KEY = "recommendationCacheVersion";
@@ -149,8 +149,10 @@ export interface RankableProduct {
   key_ingredients?: string[] | string | null;
   /** 일본어 성분 표기가 있으면 매칭에 함께 사용 */
   key_ingredients_ja?: string[] | string | null;
-  /** 피부 고민 태그 (선택 — 향후 가산에 사용 가능) */
-  skin_concern?: string | null;
+  /** 피부 고민 태그 (문자열 또는 DB 배열) */
+  skin_concern?: string | string[] | null;
+  /** 피부 톤 태그 (문자열 또는 DB 배열) */
+  skin_tone?: string | string[] | null;
   name?: string | null;
   brand?: string | null;
   category?: string | null;
@@ -183,8 +185,8 @@ export interface CandidateProduct extends RankableProduct {
   name_ja: string | null;
   brand: string | null;
   category: string | null;
-  skin_concern: string | null;
-  skin_tone: string | null;
+  skin_concern: string | string[] | null;
+  skin_tone: string | string[] | null;
   key_ingredients: string[] | null;
   key_ingredients_ja: string[] | null;
   price_usd: number | null;

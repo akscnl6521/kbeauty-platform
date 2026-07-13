@@ -143,6 +143,8 @@ export const INGREDIENT_ALIAS_GROUPS: readonly (readonly string[])[] = [
     "Snail Secretion Filtrate",
     "달팽이점액여과물",
     "달팽이점액",
+    "달팽이 뮤신",
+    "달팽이뮤신",
     "スネイルムチン",
   ],
   ["Propolis", "프로폴리스", "プロポリス"],

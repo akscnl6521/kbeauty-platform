@@ -95,9 +95,16 @@ export {
 } from "./displayIngredientName";
 export type { IngredientDisplayLocale } from "./displayIngredientName";
 export { rankProducts } from "./rankProducts";
+export { toCanonicalConcern } from "./concernAliases";
+export {
+  filterRankedByMatchEvidence,
+  hasCoreRecommendMatchEvidence,
+} from "./filterRankedByMatchEvidence";
+export { formatVerifiedAtForDisplay } from "./formatVerifiedAt";
 export { applyUserIngredientPreferences } from "./applyUserIngredientPreferences";
 export { filterCandidatesBySafety } from "./filterCandidatesBySafety";
 export type { SafetyFilterResult } from "./filterCandidatesBySafety";
+export { asConcernOrToneField } from "./asConcernOrToneField";
 export {
   fetchCandidateProducts,
   fetchOffersByProductIds,

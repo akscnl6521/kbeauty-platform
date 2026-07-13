@@ -5,6 +5,7 @@ import type { CandidateProduct, RankedProduct } from "@/lib/recommend";
 import {
   displayIngredientNames,
   formatOfferPrice,
+  formatVerifiedAtForDisplay,
   logTopProductPurchaseLinkAudit,
   selectPurchaseLink,
 } from "@/lib/recommend";
@@ -56,23 +57,38 @@ export function RecommendedProductCard({
     logTopProductPurchaseLinkAudit(product, countryCode, displayName);
   }, [product, countryCode, displayName]);
 
-  const lastChecked =
+  const lastCheckedRaw =
     purchase?.verifiedAt ??
     product.offers?.find((o) => o.lastCheckedAt)?.lastCheckedAt ??
     product.offers?.[0]?.verifiedAt ??
     null;
+  const lastCheckedLabel =
+    formatVerifiedAtForDisplay(lastCheckedRaw, locale) ??
+    (lastCheckedRaw
+      ? locale === "ko"
+        ? "확인일 정보 없음"
+        : locale === "ja"
+          ? "確認日情報なし"
+          : "Verification date unavailable"
+      : null);
 
   const noPurchaseMessage =
     locale === "ko"
       ? `현재 확인된 판매처 정보가 없습니다.${
-          lastChecked ? ` 마지막 확인: ${lastChecked}` : " 마지막 확인: 미확인"
+          lastCheckedLabel
+            ? ` 마지막 확인: ${lastCheckedLabel}`
+            : " 마지막 확인: 미확인"
         }`
       : locale === "ja"
         ? `確認済みの販売先情報がありません。${
-            lastChecked ? `最終確認: ${lastChecked}` : "最終確認: 未確認"
+            lastCheckedLabel
+              ? `最終確認: ${lastCheckedLabel}`
+              : "最終確認: 未確認"
           }`
         : `No verified retailer information available.${
-            lastChecked ? ` Last checked: ${lastChecked}` : " Last checked: unknown"
+            lastCheckedLabel
+              ? ` Last checked: ${lastCheckedLabel}`
+              : " Last checked: unknown"
           }`;
 
   const offerPriceLabel = purchase
@@ -184,13 +200,22 @@ export function RecommendedProductCard({
             </p>
             {purchase.verifiedAt ? (
               <p className="text-[10px] text-gray-400">
-                {locale === "ko"
-                  ? `검증일 ${purchase.verifiedAt}`
-                  : locale === "ja"
-                    ? `検証日 ${purchase.verifiedAt}`
-                    : `Verified ${purchase.verifiedAt}`}
+                {formatVerifiedAtForDisplay(purchase.verifiedAt, locale) ??
+                  (locale === "ko"
+                    ? "확인일 정보 없음"
+                    : locale === "ja"
+                      ? "確認日情報なし"
+                      : "Verification date unavailable")}
               </p>
-            ) : null}
+            ) : (
+              <p className="text-[10px] text-gray-400">
+                {locale === "ko"
+                  ? "확인일 정보 없음"
+                  : locale === "ja"
+                    ? "確認日情報なし"
+                    : "Verification date unavailable"}
+              </p>
+            )}
           </div>
           <a
             href={purchase.url}

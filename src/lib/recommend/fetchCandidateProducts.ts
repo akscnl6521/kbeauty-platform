@@ -1,8 +1,11 @@
 import { supabase } from "@/lib/supabase";
 import { getCanonicalBrandName } from "@/lib/brand/displayBrandName";
 import type { ProductOffer } from "./catalogTypes";
+import { asConcernOrToneField } from "./asConcernOrToneField";
 import { normalizeProductOffer } from "./productOffer";
 import type { CandidateProduct, FetchCandidateProductsOptions } from "./types";
+
+export { asConcernOrToneField } from "./asConcernOrToneField";
 
 /**
  * Supabase select 컬럼.
@@ -155,8 +158,8 @@ export function mapRowToCandidateProduct(
     name_ja: asNullableString(row.name_ja),
     brand: getCanonicalBrandName(asNullableString(row.brand)),
     category: asNullableString(row.category),
-    skin_concern: asNullableString(row.skin_concern),
-    skin_tone: asNullableString(row.skin_tone),
+    skin_concern: asConcernOrToneField(row.skin_concern),
+    skin_tone: asConcernOrToneField(row.skin_tone),
     key_ingredients: asIngredientArray(row.key_ingredients),
     key_ingredients_ja: asIngredientArray(row.key_ingredients_ja),
     price_usd: asNullableNumber(row.price_usd),

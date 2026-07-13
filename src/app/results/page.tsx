@@ -1185,10 +1185,10 @@ function ResultsPageInner() {
                     </div>
                     <p className="mt-2 text-[11px] text-gray-500">
                       {locale === "ko"
-                        ? "핵심 추천은 한국 verified offer 제품만 포함합니다."
+                        ? "피부 적합도와 성분 매칭을 통과하고, 한국 판매처·가격·재고가 확인된 제품만 핵심 추천에 표시합니다."
                         : locale === "ja"
-                          ? "コアおすすめは韓国verified offer製品のみです。"
-                          : "Core picks include only KR verified-offer products."}
+                          ? "肌適合度と成分マッチを通過し、韓国の販売先・価格・在庫が確認できた製品のみコアおすすめに表示します。"
+                          : "Core picks require skin-fit and ingredient match plus confirmed KR retailer, price, and stock."}
                     </p>
 
                     <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -1214,10 +1214,17 @@ function ResultsPageInner() {
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-gray-700">
                       {locale === "ko"
-                        ? "현재 확인된 판매처 정보가 없습니다. 마지막 확인: 미확인 (한국 verified offer·원화 가격·재고가 확인된 추천 제품이 아직 없습니다)."
+                        ? "현재 입력하신 피부 정보와 성분 기준에 맞으면서 한국 판매처까지 확인된 제품이 아직 없습니다."
                         : locale === "ja"
-                          ? "確認済みの販売先情報がありません。最終確認: 未確認（韓国verified offer・KRW価格・在庫が確認できたおすすめはまだありません）。"
-                          : "No verified retailer information available. Last checked: unknown (no core picks with verified KR offers yet)."}
+                          ? "入力された肌情報・成分基準に合い、かつ韓国販売先まで確認できた製品はまだありません。"
+                          : "No products yet that match your skin and ingredients and also have a confirmed KR retailer."}
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                      {locale === "ko"
+                        ? "판매처가 확인된 일반 제품은 아래 ‘다른 제품 둘러보기’에서 확인할 수 있습니다."
+                        : locale === "ja"
+                          ? "販売先が確認された一般製品は、下の「他の製品を見る」から確認できます。"
+                          : "Retailer-confirmed catalog products may still appear under Browse below."}
                     </p>
                     <Link
                       href="/analyze"

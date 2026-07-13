@@ -1,6 +1,7 @@
 import { clampTopNWithoutPadding } from "@/lib/recommend/clampTopN";
 import { fetchCandidateProducts } from "./fetchCandidateProducts";
 import { filterCandidatesBySafety } from "./filterCandidatesBySafety";
+import { filterRankedByMatchEvidence } from "./filterRankedByMatchEvidence";
 import { filterCandidatesByOfferAvailability } from "./productOffer";
 import { writeRecommendationCacheVersion } from "./recommendationCache";
 import { rankProducts } from "./rankProducts";
@@ -77,7 +78,9 @@ export async function persistTopRankedProducts(
     };
 
     const ranked = rankProducts(withStats, safe);
-    const top = clampTopNWithoutPadding(ranked, RANKED_PRODUCTS_TOP_N);
+    // 판매처 적격과 분리: 성분 매칭·점수 근거 있는 제품만 핵심 Top
+    const withEvidence = filterRankedByMatchEvidence(ranked);
+    const top = clampTopNWithoutPadding(withEvidence, RANKED_PRODUCTS_TOP_N);
 
     if (process.env.NODE_ENV === "development") {
       console.log("[coreRecommend]", {
@@ -86,6 +89,7 @@ export async function persistTopRankedProducts(
         offerExcluded: offerExcludedCount,
         allergyFilterPass: safe.length,
         finalRankedCount: ranked.length,
+        matchEvidencePass: withEvidence.length,
         topNSaved: top.length,
         padded: false,
         offerCountry: CORE_RECOMMEND_OFFER_COUNTRY,
