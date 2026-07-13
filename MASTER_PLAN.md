@@ -50,7 +50,7 @@ K-Beauty Match는 **검증 정확도**를 유지하면서, 사람이 모든 URL�
 - 정상 데이터: 자동 저장 (후보·관계·점수·큐)
 - 낮은 신뢰도/충돌: `needs_review`만 사람 검토
 - **자동 `published` 금지** · 가짜 offer/가격/성분 금지 · Top5 패딩/제품 강등 금지
-- 상세: `docs/69-autonomous-catalog-pipeline.md` ~ `docs/109-offer-gate-draft-compatibility.md`
+- 상세: `docs/69-autonomous-catalog-pipeline.md` ~ `docs/122-operations-alert-rollback.sql`
 
 ### 3.0 기존 Search-to-Verified (유지)
 

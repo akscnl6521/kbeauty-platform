@@ -6,6 +6,14 @@
 
 ## 2026-07-13
 
+### 운영 모니터링 · 알림센터
+
+- /admin/operations health/alerts · rule registry · fingerprint 중복 억제
+- 파일 기반 acknowledgement · durable alert migration은 BLOCKER SQL만
+- safe auto-recovery allowlist · external adapter stub
+- config v5 monitoring · docs/116~122
+- Cursor 운영 worker/SQL 미실행
+
 ### 자율 제품 검증 · 활성화 · 추천 연결
 
 - quality A/B draft → active=true + verified_at (published 금지)

@@ -13,12 +13,12 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | product auto-verify · activation · verified catalog recommend |
+| Working tree | operations monitoring + alerts · activation · verified catalog recommend |
 | 빌드 | `npm run test:pipeline` · `npm run build` |
-| Pipeline ops | config v4 `allowProductAutoVerify` 등 · `/admin/pipeline/settings` |
+| Pipeline ops | config v5 monitoring `allowProductAutoVerify` 등 · `/admin/pipeline/settings` |
 | Scheduler | 고정 `run-pipeline-worker.mjs` (에이전트 미실행) |
 | Draft 정책 | `products.active=false` → 게이트 통과 시 active+verified_at · publish 금지 |
-| Offers | draft에도 verified offer 허용 · Top5는 active verified product만 |
+| Operations | /admin/operations health/alerts · file-based dedupe |\n| Offers | draft에도 verified offer 허용 · Top5는 active verified product만 |
 
 ## 제품 데이터 전략
 
