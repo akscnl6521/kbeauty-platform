@@ -17,6 +17,7 @@ export type AuditAction =
   | "discovery_candidate_created"
   | "discovery_candidate_updated"
   | "candidate_linked_to_product"
+  | "candidate_imported_from_url"
   | "verification_queue_created"
   | "verification_review_started"
   | "verification_approved"
@@ -36,6 +37,7 @@ function mapChangeType(action: AuditAction): AuditChangeType {
     case "verification_review_started":
       return "status";
     case "discovery_candidate_created":
+    case "candidate_imported_from_url":
       return "source";
     default:
       return "other";
