@@ -17,6 +17,7 @@ export type WorkerRunOptions = {
   maxTicks?: number;
   batchId?: string;
   workerId?: string;
+  triggerType?: "manual" | "scheduler" | "api" | "resume" | "retry";
 };
 
 /**
@@ -27,16 +28,23 @@ export async function runPipelineWorker(options: WorkerRunOptions = {}) {
   const workerId = options.workerId ?? `local-${process.pid}`;
   const tickLimit = options.tickLimit ?? 5;
   const maxTicks = options.maxTicks ?? 50;
+  const mode = options.mode ?? "dry_run";
 
+  // Commit requires explicit mode on the batch; never flip dry_run→commit here.
   let batchId = options.batchId;
   if (!batchId) {
     const batch = await createPipelineBatch({
-      mode: options.mode ?? "dry_run",
+      mode,
       brandLimit: options.brandLimit ?? 10,
       productLimitPerBrand: options.productLimitPerBrand ?? 20,
+      triggerType: options.triggerType ?? "scheduler",
     });
     batchId = batch.batchId;
-    pipelineLog("info", "worker created batch", { batchId, workerId });
+    pipelineLog("info", "worker created batch", {
+      batchId,
+      workerId,
+      mode,
+    });
   }
 
   let ticks = 0;

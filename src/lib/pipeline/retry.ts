@@ -43,7 +43,8 @@ export function applyJobFailure(
   code: string,
   message: string
 ): PipelineJob {
-  const attempts = job.attempts + 1;
+  // attempts already incremented by claimNextJobs
+  const attempts = job.attempts;
   if (isRetryableFailure(code) && attempts < job.maxAttempts) {
     return {
       ...job,
@@ -53,6 +54,8 @@ export function applyJobFailure(
       safeFailureMessage: message,
       nextRetryAt: computeNextRetryAt(attempts),
       completedAt: null,
+      claimedBy: null,
+      claimHeartbeatAt: null,
     };
   }
 
@@ -67,6 +70,8 @@ export function applyJobFailure(
     safeFailureMessage: message,
     nextRetryAt: null,
     completedAt: new Date().toISOString(),
+    claimedBy: null,
+    claimHeartbeatAt: null,
   };
 }
 

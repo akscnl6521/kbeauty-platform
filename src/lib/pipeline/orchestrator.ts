@@ -4,19 +4,12 @@ import { randomUUID } from "node:crypto";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { tryInsertWriteAudit } from "@/lib/admin/audit-log";
 import { extractDomain } from "@/lib/admin/import/normalize";
-import {
-  acquireBatchLock,
-  listJobs,
-  loadBatch,
-  releaseBatchLock,
-  saveBatch,
-  saveJob,
-} from "@/lib/pipeline/checkpoint";
+import { getPipelinePersistence } from "@/lib/pipeline/persistence";
 import { seedBrandsFromCatalog } from "@/lib/pipeline/brand-discovery";
 import { decideProductDedupe } from "@/lib/pipeline/dedupe";
 import { pipelineLog } from "@/lib/pipeline/logger";
 import { extractCatalogProductFromUrl } from "@/lib/pipeline/product-extraction";
-import { applyJobFailure, canRunJobNow } from "@/lib/pipeline/retry";
+import { applyJobFailure } from "@/lib/pipeline/retry";
 import {
   classifySkinMatch,
   computeQualityScore,
@@ -32,10 +25,17 @@ import type {
   PipelineMode,
 } from "@/lib/pipeline/types";
 
+function store(mode?: PipelineMode) {
+  return getPipelinePersistence({
+    requireSupabase: mode === "commit",
+  });
+}
+
 export async function createPipelineBatch(input: {
   mode?: PipelineMode;
   brandLimit?: number;
   productLimitPerBrand?: number;
+  triggerType?: PipelineBatch["triggerType"];
 }): Promise<PipelineBatch> {
   const mode: PipelineMode = input.mode === "commit" ? "commit" : "dry_run";
   const brandLimit = Math.min(50, Math.max(1, input.brandLimit ?? 10));
@@ -44,40 +44,30 @@ export async function createPipelineBatch(input: {
     Math.max(1, input.productLimitPerBrand ?? 20)
   );
 
-  const batchId = randomUUID();
-  const now = new Date().toISOString();
-  const batch: PipelineBatch = {
-    batchId,
+  const persistence = store(mode);
+  const batch = await persistence.createBatch({
     mode,
-    status: "queued",
-    createdAt: now,
-    updatedAt: now,
-    startedAt: null,
-    completedAt: null,
+    triggerType: input.triggerType ?? "manual",
     brandLimit,
     productLimitPerBrand,
-    progress: emptyProgress(),
-    stagesCompleted: [],
-    notes: [
-      mode === "dry_run"
-        ? "dry_run: 원격 INSERT 없이 추출·분류·중복 결과만 저장"
-        : "commit: 품질 조건을 통과한 candidate/queue만 저장 (published 금지)",
-    ],
-    lockOwner: null,
-  };
+  });
 
   const brands = await seedBrandsFromCatalog(brandLimit);
   const jobs: PipelineJob[] = brands.map((brand) => ({
     jobId: randomUUID(),
-    batchId,
+    batchId: batch.batchId,
     entityType: "brand" as const,
     entityId: brand.brandKey,
+    sourceKey: `brand:${brand.brandKey}:brand_seed`,
+    brandName: brand.canonicalName,
     entityLabel: brand.canonicalName,
     stage: "brand_seed" as const,
     status: "queued" as const,
     attempts: 0,
     maxAttempts: 3,
     nextRetryAt: null,
+    claimedBy: null,
+    claimHeartbeatAt: null,
     startedAt: null,
     completedAt: null,
     failureCode: null,
@@ -87,22 +77,21 @@ export async function createPipelineBatch(input: {
     resultSummary: null,
   }));
 
-  await saveBatch({
-    ...batch,
-    progress: { ...emptyProgress(), totalItems: jobs.length },
-  });
-  for (const job of jobs) await saveJob(job);
-
-  pipelineLog("info", "batch created", {
-    batchId,
-    mode,
-    brands: brands.length,
-  });
-
-  return {
+  await persistence.createJobs(jobs);
+  const withProgress: PipelineBatch = {
     ...batch,
     progress: { ...emptyProgress(), totalItems: jobs.length },
   };
+  await persistence.updateBatch(withProgress);
+
+  pipelineLog("info", "batch created", {
+    batchId: batch.batchId,
+    mode,
+    backend: persistence.backend,
+    brands: brands.length,
+  });
+
+  return withProgress;
 }
 
 async function maybeCommitCandidate(input: {
@@ -160,7 +149,7 @@ async function maybeCommitCandidate(input: {
 }
 
 /**
- * Process up to `limit` runnable jobs for a batch.
+ * Process up to `limit` runnable jobs for a batch (DB claim + persistence).
  */
 export async function tickPipelineBatch(
   batchId: string,
@@ -168,16 +157,17 @@ export async function tickPipelineBatch(
 ): Promise<{ batch: PipelineBatch; processed: number }> {
   const workerId = options?.workerId ?? `worker-${process.pid}`;
   const limit = options?.limit ?? 5;
+  const persistence = store();
 
-  const locked = await acquireBatchLock(batchId, workerId);
+  const locked = await persistence.acquireWorkerLock(batchId, workerId);
   if (!locked) {
-    const batch = await loadBatch(batchId);
+    const batch = await persistence.getBatch(batchId);
     if (!batch) throw new Error("batch not found");
     return { batch, processed: 0 };
   }
 
   try {
-    let batch = await loadBatch(batchId);
+    let batch = await persistence.getBatch(batchId);
     if (!batch) throw new Error("batch not found");
     if (batch.status === "paused" || batch.status === "cancelled") {
       return { batch, processed: 0 };
@@ -191,25 +181,19 @@ export async function tickPipelineBatch(
         startedAt: batch.startedAt ?? now,
         updatedAt: now,
         lockOwner: workerId,
+        lockHeartbeatAt: now,
       };
-      await saveBatch(batch);
+      await persistence.updateBatch(batch);
+    } else {
+      await persistence.heartbeat(batchId, workerId);
     }
 
-    const jobs = await listJobs(batchId);
-    const runnable = jobs
-      .filter((j) => canRunJobNow(j) && (j.status === "queued" || j.status === "retry_wait"))
-      .slice(0, limit);
-
+    const claimed = await persistence.claimNextJobs(batchId, workerId, limit);
     let processed = 0;
-    for (const job of runnable) {
+
+    for (const job of claimed) {
       processed += 1;
-      let current: PipelineJob = {
-        ...job,
-        status: "running",
-        startedAt: job.startedAt ?? new Date().toISOString(),
-        attempts: job.attempts,
-      };
-      await saveJob(current);
+      let current: PipelineJob = { ...job };
 
       try {
         if (current.stage === "brand_seed") {
@@ -244,6 +228,33 @@ export async function tickPipelineBatch(
             connector: site.connector,
           };
 
+          await persistence.saveBrandResolution({
+            brandKey: brand.brandKey,
+            canonicalName: brand.canonicalName,
+            candidateUrl: site.candidateUrl,
+            verifiedUrl: site.verified ? site.candidateUrl : null,
+            officialDomain: site.candidateUrl
+              ? extractDomain(site.candidateUrl)
+              : null,
+            verificationStatus: site.blocked
+              ? "blocked"
+              : site.needsReview
+                ? "needs_review"
+                : site.verified
+                  ? "verified"
+                  : "unverified",
+            connector: site.connector,
+            confidence: site.confidence,
+            crawlStatus: site.blocked
+              ? "blocked"
+              : site.productUrls.length
+                ? "urls_found"
+                : "no_urls",
+            lastErrorCode: site.blocked ? "HTTP_403" : null,
+            safeErrorMessage: site.reasons[0] ?? null,
+            sourceMetadata: { reasons: site.reasons },
+          });
+
           if (site.blocked) {
             current = applyJobFailure(current, "HTTP_403", "사이트 차단/챌린지");
           } else if (site.needsReview && site.productUrls.length === 0) {
@@ -255,32 +266,35 @@ export async function tickPipelineBatch(
               warnings: site.reasons,
               failureCode: "NEEDS_REVIEW",
               safeFailureMessage: site.reasons[0] ?? "공식 사이트 검토 필요",
+              claimedBy: null,
+              claimHeartbeatAt: null,
             };
           } else {
-            // Spawn product URL jobs (file store) — limited
             const urls = site.productUrls.slice(0, batch.productLimitPerBrand);
-            for (const url of urls) {
-              const child: PipelineJob = {
-                jobId: randomUUID(),
-                batchId,
-                entityType: "product_url",
-                entityId: url,
-                entityLabel: `${brand.canonicalName} · ${url.slice(0, 60)}`,
-                stage: "product_urls_collected",
-                status: "queued",
-                attempts: 0,
-                maxAttempts: 3,
-                nextRetryAt: null,
-                startedAt: null,
-                completedAt: null,
-                failureCode: null,
-                safeFailureMessage: null,
-                checkpoint: { brand, url, site },
-                warnings: [],
-                resultSummary: null,
-              };
-              await saveJob(child);
-            }
+            const children: PipelineJob[] = urls.map((url) => ({
+              jobId: randomUUID(),
+              batchId,
+              entityType: "product_url" as const,
+              entityId: url,
+              sourceKey: `product_url:${url}:product_urls_collected`,
+              brandName: brand.canonicalName,
+              entityLabel: `${brand.canonicalName} · ${url.slice(0, 60)}`,
+              stage: "product_urls_collected" as const,
+              status: "queued" as const,
+              attempts: 0,
+              maxAttempts: 3,
+              nextRetryAt: null,
+              claimedBy: null,
+              claimHeartbeatAt: null,
+              startedAt: null,
+              completedAt: null,
+              failureCode: null,
+              safeFailureMessage: null,
+              checkpoint: { brand, url, site },
+              warnings: [],
+              resultSummary: null,
+            }));
+            await persistence.createJobs(children);
 
             current = {
               ...current,
@@ -290,6 +304,8 @@ export async function tickPipelineBatch(
               stage: "sitemap_discovered",
               completedAt: new Date().toISOString(),
               warnings: site.reasons,
+              claimedBy: null,
+              claimHeartbeatAt: null,
             };
           }
         } else if (current.stage === "product_urls_collected") {
@@ -324,6 +340,29 @@ export async function tickPipelineBatch(
               ),
               dedupeOk: dedupe.action !== "needs_review",
               offerCount: 0,
+            });
+
+            const entityKey = `url:${extracted.product.canonicalUrl}`;
+
+            await persistence.saveFieldProvenance({
+              entityType: "job",
+              entityId: current.jobId,
+              fieldName: "productName",
+              valueSummary: extracted.product.productName,
+              sourceUrl: extracted.product.canonicalUrl,
+              sourceDomain: extractDomain(extracted.product.canonicalUrl),
+              extractionMethod: extracted.product.extractionMethod,
+              confidence: extracted.product.confidence,
+            });
+
+            await persistence.saveQualityScore({
+              entityKey,
+              quality,
+            });
+            await persistence.saveSkinMatchScore({
+              entityKey,
+              skin,
+              tone,
             });
 
             let commitMeta: Record<string, unknown> = { mode: batch.mode };
@@ -376,6 +415,8 @@ export async function tickPipelineBatch(
                 stage: "product_deduplicated",
                 completedAt: new Date().toISOString(),
                 warnings: [...dedupe.reasons, ...skin.reasons],
+                claimedBy: null,
+                claimHeartbeatAt: null,
               };
             } else if (dedupe.action === "link_existing") {
               current = {
@@ -384,6 +425,8 @@ export async function tickPipelineBatch(
                 stage: "product_deduplicated",
                 completedAt: new Date().toISOString(),
                 warnings: dedupe.reasons,
+                claimedBy: null,
+                claimHeartbeatAt: null,
               };
             } else {
               current = {
@@ -391,6 +434,8 @@ export async function tickPipelineBatch(
                 status: "completed",
                 stage: "skin_match_scored",
                 completedAt: new Date().toISOString(),
+                claimedBy: null,
+                claimHeartbeatAt: null,
               };
             }
           }
@@ -400,6 +445,8 @@ export async function tickPipelineBatch(
             status: "completed",
             completedAt: new Date().toISOString(),
             warnings: [...current.warnings, "unsupported stage skipped"],
+            claimedBy: null,
+            claimHeartbeatAt: null,
           };
         }
       } catch {
@@ -410,10 +457,11 @@ export async function tickPipelineBatch(
         );
       }
 
-      await saveJob(current);
+      await persistence.updateJob(current);
+      await persistence.heartbeat(batchId, workerId);
     }
 
-    const allJobs = await listJobs(batchId);
+    const allJobs = await persistence.listJobs(batchId);
     const progress = recomputeProgress(allJobs);
     const pending = allJobs.some((j) =>
       ["queued", "running", "retry_wait"].includes(j.status)
@@ -430,11 +478,12 @@ export async function tickPipelineBatch(
           : "completed",
       completedAt: pending ? null : new Date().toISOString(),
       lockOwner: workerId,
+      lockHeartbeatAt: new Date().toISOString(),
     };
-    await saveBatch(batch);
+    await persistence.updateBatch(batch);
     return { batch, processed };
   } finally {
-    await releaseBatchLock(batchId);
+    await persistence.releaseWorkerLock(batchId, workerId);
   }
 }
 
@@ -442,40 +491,49 @@ export async function setPipelineBatchStatus(
   batchId: string,
   status: "paused" | "cancelled" | "queued"
 ): Promise<PipelineBatch | null> {
-  const batch = await loadBatch(batchId);
+  const persistence = store();
+  const batch = await persistence.getBatch(batchId);
   if (!batch) return null;
   const next: PipelineBatch = {
     ...batch,
     status: status === "queued" ? "queued" : status,
+    pausedAt: status === "paused" ? new Date().toISOString() : batch.pausedAt,
     updatedAt: new Date().toISOString(),
-    completedAt: status === "cancelled" ? new Date().toISOString() : batch.completedAt,
+    completedAt:
+      status === "cancelled" ? new Date().toISOString() : batch.completedAt,
+    lockOwner: status === "paused" || status === "cancelled" ? null : batch.lockOwner,
   };
-  await saveBatch(next);
+  await persistence.updateBatch(next);
   return next;
 }
 
 export async function retryFailedJobs(batchId: string): Promise<number> {
-  const jobs = await listJobs(batchId);
+  const persistence = store();
+  const jobs = await persistence.listJobs(batchId);
   let count = 0;
   for (const job of jobs) {
     if (job.status !== "failed" && job.status !== "retry_wait") continue;
-    await saveJob({
+    await persistence.updateJob({
       ...job,
       status: "queued",
       nextRetryAt: null,
       failureCode: null,
       safeFailureMessage: null,
       completedAt: null,
+      claimedBy: null,
+      claimHeartbeatAt: null,
     });
     count += 1;
   }
-  const batch = await loadBatch(batchId);
+  const batch = await persistence.getBatch(batchId);
   if (batch) {
-    await saveBatch({
+    await persistence.updateBatch({
       ...batch,
       status: "queued",
+      triggerType: "retry",
       updatedAt: new Date().toISOString(),
       completedAt: null,
+      pausedAt: null,
     });
   }
   return count;
