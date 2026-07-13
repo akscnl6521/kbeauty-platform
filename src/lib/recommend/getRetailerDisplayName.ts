@@ -46,7 +46,12 @@ export function getRetailerDisplayName(
   // 정확 매핑 (official 플래그 누락 대비 — 표시만, DB 불변)
   if (locale === "ko") {
     const key = name.toLowerCase().replace(/\s+/g, " ");
-    if (key === "cosrx official kr" || key === "cosrx official korea") {
+    if (
+      key === "cosrx official kr" ||
+      key === "cosrx official korea" ||
+      key === "cosrx 공식몰" ||
+      key === "cosrx 한국 공식몰"
+    ) {
       return "COSRX 한국 공식몰";
     }
   }

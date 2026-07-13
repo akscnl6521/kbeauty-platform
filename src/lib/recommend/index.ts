@@ -98,6 +98,18 @@ export {
 } from "./displayIngredientName";
 export type { IngredientDisplayLocale } from "./displayIngredientName";
 export { getRetailerDisplayName } from "./getRetailerDisplayName";
+export {
+  displayProductFormLabel,
+  formatProductSizeLabel,
+  getProductTrustStatus,
+  parseSizeFromProductName,
+  productTrustStatusLabel,
+  stripTrailingSizeFromProductName,
+} from "./displayProductMeta";
+export type {
+  ParsedProductSize,
+  ProductTrustStatus,
+} from "./displayProductMeta";
 export { getShippingCountryLabel } from "./getShippingCountryLabel";
 export { rankProducts } from "./rankProducts";
 export { toCanonicalConcern } from "./concernAliases";

@@ -14,6 +14,10 @@ import {
   displayBrandName,
   displayProductTitle,
 } from "@/lib/brand/displayBrandName";
+import {
+  displayProductFormLabel,
+  parseSizeFromProductName,
+} from "@/lib/recommend/displayProductMeta";
 
 export type RecommendedProductCardProps = {
   /** 1부터 시작하는 순위 */
@@ -49,6 +53,14 @@ export function RecommendedProductCard({
   });
 
   const brand = displayBrandName(product.brand, locale);
+  const sizeLabel =
+    parseSizeFromProductName(product.name_ko)?.label ??
+    parseSizeFromProductName(product.name)?.label ??
+    null;
+  const formLabel = displayProductFormLabel(
+    (product as { category?: string | null }).category ?? null,
+    locale
+  );
   const hasExcluded =
     Array.isArray(excludedIngredients) && excludedIngredients.length > 0;
 
@@ -78,26 +90,36 @@ export function RecommendedProductCard({
 
   const noPurchaseMessage =
     locale === "ko"
-      ? `현재 확인된 판매처 정보가 없습니다.${
+      ? `현재 확인된 판매처가 없습니다.${
           lastCheckedLabel
             ? ` 마지막 확인: ${lastCheckedLabel}`
-            : " 마지막 확인: 미확인"
+            : ""
         }`
       : locale === "ja"
-        ? `確認済みの販売先情報がありません。${
-            lastCheckedLabel
-              ? `最終確認: ${lastCheckedLabel}`
-              : "最終確認: 未確認"
+        ? `確認済みの販売先がありません。${
+            lastCheckedLabel ? `最終確認: ${lastCheckedLabel}` : ""
           }`
-        : `No verified retailer information available.${
-            lastCheckedLabel
-              ? ` Last checked: ${lastCheckedLabel}`
-              : " Last checked: unknown"
+        : `No verified retailer available.${
+            lastCheckedLabel ? ` Last checked: ${lastCheckedLabel}` : ""
           }`;
 
   const offerPriceLabel = purchase
     ? formatOfferPrice(purchase.price, purchase.currency, locale)
     : null;
+  const hasDisplayablePrice =
+    Boolean(offerPriceLabel) &&
+    offerPriceLabel !== "가격 정보 없음" &&
+    offerPriceLabel !== "価格情報なし" &&
+    offerPriceLabel !== "Price unavailable";
+
+  const retailerLabel = purchase
+    ? getRetailerDisplayName({
+        retailerName: purchase.retailerName,
+        retailerCountry: purchase.retailerCountry ?? null,
+        isOfficial: purchase.isOfficial,
+        locale,
+      })
+    : "";
 
   return (
     <article
@@ -112,12 +134,19 @@ export function RecommendedProductCard({
           {rank}
         </span>
         <div className="min-w-0 flex-1">
-          <h3 className="text-sm font-semibold leading-snug text-gray-900 sm:text-base">
+          {brand ? (
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-500 sm:text-xs">
+              {brand}
+            </p>
+          ) : null}
+          <h3 className="mt-0.5 text-sm font-semibold leading-snug text-gray-900 sm:text-base">
             {displayName}
           </h3>
-          {brand ? (
-            <p className="mt-0.5 text-xs text-gray-500 sm:text-sm">{brand}</p>
-          ) : null}
+          {(sizeLabel || formLabel) && (
+            <p className="mt-0.5 text-xs text-gray-500">
+              {[sizeLabel, formLabel].filter(Boolean).join(" · ")}
+            </p>
+          )}
         </div>
         <div className="shrink-0 text-right">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
@@ -184,29 +213,35 @@ export function RecommendedProductCard({
       {purchase && !hidePurchaseCta ? (
         <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-0.5">
-            <p className="text-[11px] text-gray-500 sm:text-xs">
-              {getRetailerDisplayName({
-                retailerName: purchase.retailerName,
-                retailerCountry: purchase.retailerCountry ?? null,
-                isOfficial: purchase.isOfficial,
-                locale,
-              })}
-              {purchase.verificationStatus === "verified"
+            <p className="text-[11px] font-medium text-gray-700 sm:text-xs">
+              {locale === "ko" ? "검증된 판매처" : locale === "ja" ? "確認済み販売先" : "Verified retailer"}
+              {purchase.isOfficial
                 ? locale === "ko"
-                  ? " · 검증됨"
+                  ? " · 공식몰"
                   : locale === "ja"
-                    ? " · 検証済"
-                    : " · Verified"
+                    ? " · 公式"
+                    : " · Official"
                 : ""}
             </p>
-            <p className="text-sm font-semibold text-gray-900">
-              {offerPriceLabel ??
-                (locale === "ko"
-                  ? "가격 미확인"
-                  : locale === "ja"
-                    ? "価格未確認"
-                    : "Price unverified")}
+            <p className="text-[11px] text-gray-500 sm:text-xs">
+              {retailerLabel}
+              {purchase.retailerCountry
+                ? ` · ${purchase.retailerCountry}`
+                : ""}
             </p>
+            {hasDisplayablePrice ? (
+              <p className="text-sm font-semibold text-gray-900">
+                {offerPriceLabel}
+              </p>
+            ) : (
+              <p className="text-xs text-gray-500">
+                {locale === "ko"
+                  ? "가격 정보 없음"
+                  : locale === "ja"
+                    ? "価格情報なし"
+                    : "Price unavailable"}
+              </p>
+            )}
             {purchase.verifiedAt ? (
               <p className="text-[10px] text-gray-400">
                 {formatVerifiedAtForDisplay(purchase.verifiedAt, locale) ??

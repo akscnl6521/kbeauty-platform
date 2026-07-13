@@ -8,6 +8,12 @@ import {
 } from "./displayIngredientName";
 import { getRetailerDisplayName } from "./getRetailerDisplayName";
 import { getShippingCountryLabel } from "./getShippingCountryLabel";
+import { formatOfferPrice } from "./selectPurchaseLink";
+import {
+  parseSizeFromProductName,
+  stripTrailingSizeFromProductName,
+} from "./displayProductMeta";
+import { displayProductTitle } from "@/lib/brand/displayBrandName";
 import { rankProducts } from "./rankProducts";
 import type { RankableProduct, Recommendation } from "./types";
 
@@ -151,6 +157,47 @@ export function runLocalizationDisplaySelftests(): {
     ranked[0]!.matchedIngredients[0] === "Sodium Hyaluronate" ||
       ranked[0]!.matchedIngredients[0] === "Panthenol",
     "matchedIngredients array content unchanged by display helper"
+  );
+  checks += 1;
+
+  // --- 가격 0 / 용량 표시 / 제품명 ---
+  assert(
+    formatOfferPrice(0, "KRW", "ko") === "가격 정보 없음",
+    "price 0 not shown as won"
+  );
+  assert(
+    formatOfferPrice(23000, "KRW", "ko") === "₩23,000",
+    "krw format"
+  );
+  assert(
+    stripTrailingSizeFromProductName(
+      "어드밴스드 스네일 96 뮤신 파워 에센스 100ml"
+    ) === "어드밴스드 스네일 96 뮤신 파워 에센스",
+    "strip trailing size keeps concentration"
+  );
+  assert(
+    parseSizeFromProductName("크림 100 g")?.label === "100 g",
+    "parse size label"
+  );
+  assert(
+    displayProductTitle({
+      name: "Advanced Snail 96 Mucin Power Essence",
+      nameKo: "어드밴스드 스네일 96 뮤신 파워 에센스 100ml",
+      locale: "ko",
+    }) === "어드밴스드 스네일 96 뮤신 파워 에센스",
+    "ko title strips size"
+  );
+  assert(
+    displayProductTitle({ name: "", nameKo: "", locale: "ko" }) ===
+      "제품명 확인 중",
+    "ko pending title"
+  );
+  assert(
+    getRetailerDisplayName({
+      retailerName: "COSRX 공식몰",
+      locale: "ko",
+    }) === "COSRX 한국 공식몰",
+    "cosrx official mall ko alias"
   );
   checks += 1;
 

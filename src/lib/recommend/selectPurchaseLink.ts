@@ -110,7 +110,12 @@ export function formatOfferPrice(
   currency: OfferCurrency | undefined,
   locale: "en" | "ja" | "ko" = "ko"
 ): string {
-  if (price == null || !Number.isFinite(price) || !currency) {
+  if (
+    price == null ||
+    !Number.isFinite(price) ||
+    price <= 0 ||
+    !currency
+  ) {
     return locale === "ko"
       ? "가격 정보 없음"
       : locale === "ja"
@@ -634,6 +639,14 @@ export function selectPurchaseLinkForCountryWithDebug(
       excluded.push({
         retailerName: link.retailerName,
         reason: `unknown status=${link.verificationStatus}`,
+      });
+      continue;
+    }
+    // 가격이 명시된 경우 0 이하는 CTA에서 제외 (미확인은 허용하되 가격 미표시)
+    if (typeof link.price === "number" && link.price <= 0) {
+      excluded.push({
+        retailerName: link.retailerName,
+        reason: "price <= 0",
       });
       continue;
     }

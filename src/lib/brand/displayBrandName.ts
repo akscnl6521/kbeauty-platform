@@ -1,3 +1,5 @@
+import { stripTrailingSizeFromProductName } from "@/lib/recommend/displayProductMeta";
+
 /**
  * 브랜드명 표시·정규화 (단일 소스).
  *
@@ -286,7 +288,11 @@ export function stripMistranslatedBrandFromProductName(
 
 /**
  * 제품명 표시 (브랜드와 분리).
- * 브랜드 번역/치환을 제품명에 적용하지 않는다.
+ * 우선순위:
+ * - ko: nameKo → name → nameJa → 확인 중
+ * - en: name → nameKo → nameJa → pending
+ * - ja: nameJa → name → nameKo → pending
+ * 끝 용량(100 ml 등)은 표시에서만 제거해 중복 노출을 줄인다.
  */
 export function displayProductTitle(options: {
   name?: string | null;
@@ -297,23 +303,42 @@ export function displayProductTitle(options: {
 }): string {
   const locale = options.locale ?? "en";
 
-  let rawTitle =
-    locale === "ko" && options.nameKo
-      ? options.nameKo
-      : locale === "ja" && options.nameJa
-        ? options.nameJa
-        : options.name ?? options.nameKo ?? options.nameJa ?? "";
-
-  rawTitle = stripMistranslatedBrandFromProductName(rawTitle, options.brand);
-
-  if (!rawTitle && options.name) {
-    rawTitle = stripMistranslatedBrandFromProductName(
-      options.name,
-      options.brand
+  const pickRaw = (): string => {
+    if (locale === "ko") {
+      return (
+        options.nameKo?.trim() ||
+        options.name?.trim() ||
+        options.nameJa?.trim() ||
+        ""
+      );
+    }
+    if (locale === "ja") {
+      return (
+        options.nameJa?.trim() ||
+        options.name?.trim() ||
+        options.nameKo?.trim() ||
+        ""
+      );
+    }
+    return (
+      options.name?.trim() ||
+      options.nameKo?.trim() ||
+      options.nameJa?.trim() ||
+      ""
     );
+  };
+
+  let rawTitle = pickRaw();
+  rawTitle = stripMistranslatedBrandFromProductName(rawTitle, options.brand);
+  rawTitle = stripTrailingSizeFromProductName(rawTitle);
+
+  if (!rawTitle) {
+    return locale === "ko"
+      ? "제품명 확인 중"
+      : "Product name pending verification";
   }
 
-  return rawTitle || "Untitled product";
+  return rawTitle;
 }
 
 /** 개발·감사: 레지스트리 canonical 목록 */
