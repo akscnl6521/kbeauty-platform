@@ -20,14 +20,17 @@ Pending approval 루프를 만들지 않는다.
 ## 허용 DB 쓰기 (worker만)
 
 - 신규 `product_discovery_candidates` INSERT
-- 신규 duplicate `verification_queue` INSERT
+- 신규 duplicate / ingredients `verification_queue` INSERT (needs_review만)
 - pipeline batch/job/checkpoint
 - provenance / quality / skin score
 - audit INSERT
+- **draft** `products` INSERT (`active=false` only, `allowDraftProductInsert`)
+- `product_variants` (pending, inactive)
+- `product_ingredients` (exact/alias match only)
 
 ## 금지
 
-- 자동 published · offer verified · products/ingredients 쓰기 · DELETE · 기존 candidate 대량 UPDATE
+- 자동 published · verified offer · live `allowProductInsert` · DELETE · 기존 product overwrite · unverified ingredient 자동 생성
 
 ## Rollback SQL
 

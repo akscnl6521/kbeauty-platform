@@ -6,6 +6,14 @@
 
 ## 2026-07-13
 
+### 자율 draft catalog · 전성분 enrichment
+
+- `allowDraftProductInsert` 등 config v2
+- draft product (`active=false`) · variant · product_ingredients 자동 연결
+- INCI 파서/매칭 · 카테고리 분류 · 추천 pool에서 draft 제외
+- docs/90~97
+- Cursor는 worker/SQL 미실행 (다음 스케줄부터 worker 적용)
+
 ### Cursor / worker 운영 분리
 
 - `config/pipeline-operation.json` 고정 운영 설정

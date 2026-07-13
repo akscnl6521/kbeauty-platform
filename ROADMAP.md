@@ -58,7 +58,9 @@
 - [x] 자율 카탈로그 파이프라인 1차 (orchestrator·crawl·extract·dedupe·score·admin·worker·docs)
 - [x] pipeline DB migration 적용 (`create_autonomous_pipeline_persistence`)
 - [x] Supabase persistence + dry_run worker 1회 검증
-- [ ] Windows Task Scheduler 등록 (UAC 시 관리자 PowerShell 1줄)
+- [x] Cursor/worker 분리 · config-driven 고정 스케줄러 진입점
+- [x] 자율 draft catalog · INCI 연결 · 추천 pool draft 제외 (코드 완료, worker 다음 스케줄 적용)
+- [ ] Windows Task Scheduler 인자를 고정 `run-pipeline.ps1`로 1회 정렬 (필요 시)
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)
 - [ ] `data/backups` JSON 백업

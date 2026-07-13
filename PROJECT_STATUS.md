@@ -13,11 +13,11 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | Cursor↔worker 운영 분리 · config-driven fixed scheduler |
-| 빌드 | `npm run test:pipeline` · `npm run build` (개발 세션에서만) |
-| Pipeline ops | `config/pipeline-operation.json` · `/admin/pipeline/settings` |
-| Scheduler | `KBeautyMatch-Pipeline` → 고정 `run-pipeline-worker.mjs` (에이전트 미실행) |
-| dry_run / gated | worker가 config `mode`로 자체 판단 |
+| Working tree | draft catalog enrichment · INCI link · Cursor/worker 분리 |
+| 빌드 | `npm run test:pipeline` · `npm run build` |
+| Pipeline ops | config v2 `allowDraftProductInsert` 등 · `/admin/pipeline/settings` |
+| Scheduler | 고정 `run-pipeline-worker.mjs` (에이전트 미실행) |
+| Draft 정책 | `products.active=false` · 추천 pool 제외 · publish 금지 |
 
 ## 제품 데이터 전략
 
