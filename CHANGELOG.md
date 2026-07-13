@@ -6,6 +6,14 @@
 
 ## 2026-07-13
 
+### 관리자 비밀번호 재설정 — token_hash verifyOtp 보완
+
+- 실패 원인: 기본 ConfirmationURL → PKCE `code` 교환이 실패해 `recovery_failed` 반복
+- `/auth/callback`: `token_hash` + `type=recovery` → `verifyOtp` 우선
+- `code` → `exchangeCodeForSession` fallback 유지
+- Email Template 권장 URL을 `docs/51`에 문서화 (변수만)
+- commit/push·원격 DB 변경 없음
+
 ### 관리자 비밀번호 재설정 — PKCE callback 수정
 
 - 원인: `redirectTo`가 `/admin/reset-password` 직행 → client code 교환으로 쿠키 세션 미성립

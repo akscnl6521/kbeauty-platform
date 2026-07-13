@@ -13,8 +13,8 @@
 | 최근 백업 커밋 | `c73c135d92149f1c67b2b4c8209b750850792a03` — Backup Sprint 14 local work before Supabase migration |
 | 문서 복구 커밋 | `fd1840e` — Docs: Restore project governance and Sprint 14 status |
 | main 최근 커밋 | `514f0f9` — Sprint 13: Add Korean catalog data templates and validation |
-| Working tree | 관리자 비밀번호 재설정 PKCE callback 수정 (commit/push 전) |
-| 빌드 | `npm run build` (callback 수정 후 재검증) |
+| Working tree | 비밀번호 재설정 token_hash callback 보완 (commit/push 전) |
+| 빌드 | `npm run build` (verifyOtp 보완 후 재검증) |
 
 ## 제품 데이터 전략
 
@@ -64,7 +64,7 @@
 | `/admin/login` | 관리자 이메일/비밀번호 로그인 |
 | `/admin/forgot-password` | 관리자 비밀번호 재설정 메일 요청 |
 | `/admin/reset-password` | 메일 링크 후 새 비밀번호 설정 |
-| `/auth/callback` | PKCE code → cookie 세션 교환 (비밀번호 복구) |
+| `/auth/callback` | 복구: `verifyOtp(recovery)` + PKCE `code` fallback |
 | `/admin/catalog-review` | 카탈로그 검증 대기 (development + admin 필수) |
 | `/admin/forbidden` | 비관리자 안내 |
 | `/admin/unavailable` | 서버 설정 누락 안내 |
@@ -86,16 +86,17 @@
 
 ## 현재 문제
 
-1. Supabase Redirect URLs에 `http://localhost:3000/auth/callback` **수동 추가 필요**
-2. 로컬 `SUPABASE_SERVICE_ROLE_KEY` **missing** 가능 → 관리자 영역 E2E 차단
-3. COSRX 로컬 데이터는 등록됐으나 Supabase 미반영
-4. `data/backups` 폴더 미생성
-5. 실제 AI 공급자 연결 미완
-6. 관리자 검증 UI/API 본체 미구현
+1. Supabase Reset Password 이메일 템플릿을 token_hash URL로 **수동 변경 필요**
+2. Redirect URLs에 `http://localhost:3000/auth/callback` 유지 필요
+3. 로컬 `SUPABASE_SERVICE_ROLE_KEY` **missing** 가능 → 관리자 영역 E2E 차단
+4. COSRX 로컬 데이터는 등록됐으나 Supabase 미반영
+5. `data/backups` 폴더 미생성
+6. 실제 AI 공급자 연결 미완
+7. 관리자 검증 UI/API 본체 미구현
 
 ## 다음 작업
 
-1. **Dashboard에 `/auth/callback` 추가 후 새 재설정 메일로 A–I 수동 E2E**
+1. **Email Template Reset Password 링크를 token_hash URL로 바꾼 뒤 새 메일 E2E**
 2. 로컬 SERVICE_ROLE 설정 후 관리자 로그인·auth-check E2E
 3. Search-to-Verified 관리자 UI/API (`docs/38`~`42`)
 4. COSRX 3개 파이프라인 적용
