@@ -109,11 +109,20 @@ export default async function CatalogStagingPage({ searchParams }: PageProps) {
             className="mt-1 w-full rounded border border-[#E8DFD8] px-2 py-1.5 text-sm"
           >
             <option value="">전체</option>
-            <option value="face">face</option>
-            <option value="scalp">scalp</option>
-            <option value="hair">hair</option>
-            <option value="hair_loss_support">hair_loss_support</option>
+            <option value="face_skincare">face_skincare</option>
+            <option value="sun_care">sun_care</option>
+            <option value="lip_care">lip_care</option>
+            <option value="lip_color">lip_color</option>
+            <option value="base_makeup">base_makeup</option>
             <option value="color_makeup">color_makeup</option>
+            <option value="eye_makeup">eye_makeup</option>
+            <option value="scalp_care">scalp_care</option>
+            <option value="hair_care">hair_care</option>
+            <option value="hair_loss_support">hair_loss_support</option>
+            <option value="body_care">body_care</option>
+            <option value="face">face (legacy)</option>
+            <option value="scalp">scalp (legacy)</option>
+            <option value="hair">hair (legacy)</option>
           </select>
         </label>
         <label className="text-xs text-gray-600">

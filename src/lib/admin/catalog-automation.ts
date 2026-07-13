@@ -103,16 +103,18 @@ export async function listStagingProducts(options?: {
 
   let rows = data ?? [];
   if (options?.domain?.trim()) {
-    const { catalogDomainForCategory } = await import(
-      "@/lib/catalog/scalpHair/categories"
+    const { beautyDomainForCategory, expandLegacyDomainFilter } = await import(
+      "@/lib/catalog/taxonomy/domains"
     );
     const want = options.domain.trim();
-    rows = rows.filter(
-      (r) =>
-        catalogDomainForCategory(
-          r.category_canonical == null ? null : String(r.category_canonical)
-        ) === want
-    );
+    const allowed = expandLegacyDomainFilter(want);
+    rows = rows.filter((r) => {
+      const d = beautyDomainForCategory(
+        r.category_canonical == null ? null : String(r.category_canonical)
+      );
+      if (allowed) return allowed.includes(d);
+      return d === want;
+    });
   }
   if (options?.claimStatus === "needs_review") {
     rows = rows.filter((r) => {

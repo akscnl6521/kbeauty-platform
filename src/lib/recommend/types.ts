@@ -182,7 +182,7 @@ export interface RankedProduct<T extends RankableProduct = RankableProduct> {
 /**
  * Phase 3A / Sprint 3 Phase 3A — Supabase에서 로드한 후보 제품.
  * RankableProduct(랭킹) + 표시·구매링크 필드.
- * 이미지 컬럼은 프로젝트 코드에 존재하지 않아 포함하지 않는다.
+ * 공식 검증 이미지는 optional — 없으면 카드 fallback.
  */
 export interface CandidateProduct extends RankableProduct {
   id: string;
@@ -191,6 +191,9 @@ export interface CandidateProduct extends RankableProduct {
   name_ja: string | null;
   brand: string | null;
   category: string | null;
+  /** Verified official product image URL only (never AI/search placeholders). */
+  image_url?: string | null;
+  image_verified?: boolean | null;
   skin_concern: string | string[] | null;
   skin_tone: string | string[] | null;
   key_ingredients: string[] | null;

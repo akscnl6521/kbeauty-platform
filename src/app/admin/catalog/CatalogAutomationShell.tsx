@@ -9,6 +9,10 @@ const TABS = [
   { href: "/admin/catalog/staging", label: "Staging" },
   { href: "/admin/catalog/ingredients", label: "Ingredients" },
   { href: "/admin/catalog/offers", label: "Offers" },
+  { href: "/admin/catalog/media", label: "Media" },
+  { href: "/admin/catalog/variants", label: "Variants" },
+  { href: "/admin/catalog/taxonomy", label: "Taxonomy" },
+  { href: "/admin/catalog/domain-review", label: "Domains" },
   { href: "/admin/catalog/review", label: "Review" },
 ] as const;
 

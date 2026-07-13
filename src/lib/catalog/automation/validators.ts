@@ -120,38 +120,15 @@ export function validateStagingProduct(product: ParsedCatalogProduct): {
   return { ok: true, status: "parsed", errors, warnings };
 }
 
-import { normalizeScalpHairCategoryAlias } from "@/lib/catalog/scalpHair/categories";
+import { normalizeBeautyCategory } from "@/lib/catalog/taxonomy/aliases";
 
 export function normalizeCategoryAlias(raw: string | null | undefined): string | null {
   if (!raw) return null;
-  const scalpHair = normalizeScalpHairCategoryAlias(raw);
-  if (scalpHair.category) return scalpHair.category;
-  // Ambiguous scalp/hair marketing → keep raw token for review (caller may inspect needsReview)
-  if (scalpHair.needsReview) return null;
-
-  const t = raw.trim().toLowerCase().replace(/[\s\-]+/g, "_");
-  const map: Record<string, string> = {
-    cleanser: "cleanser",
-    toner: "toner",
-    essence: "essence",
-    serum: "serum",
-    ampoule: "ampoule",
-    cream: "cream",
-    lotion: "lotion",
-    sunscreen: "sunscreen",
-    sun_stick: "sun_stick",
-    sunstick: "sun_stick",
-    lip_balm: "lip_balm",
-    lipbalm: "lip_balm",
-    lipstick: "lipstick",
-    lip_tint: "lip_tint",
-    liptint: "lip_tint",
-    foundation: "foundation",
-    cushion: "cushion",
-    mascara: "mascara",
-    mask: "mask",
-  };
-  return map[t] ?? t;
+  const n = normalizeBeautyCategory(raw);
+  if (n.category) return n.category;
+  // Ambiguous / needs_review → null (do not invent category)
+  if (n.needsReview) return null;
+  return null;
 }
 
 export function parseSpfFromText(text: string | null | undefined): number | null {

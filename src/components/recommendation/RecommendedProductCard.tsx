@@ -142,11 +142,50 @@ export function RecommendedProductCard({
       })
     : "";
 
+  const verifiedImage =
+    product.image_verified === true && product.image_url?.trim()
+      ? product.image_url.trim()
+      : null;
+  const imageAlt = `${[brand, displayName].filter(Boolean).join(" ")} 제품 이미지`.trim();
+  const imageFallback =
+    locale === "ko"
+      ? "제품 이미지 준비 중"
+      : locale === "ja"
+        ? "製品画像準備中"
+        : "Product image coming soon";
+
   return (
     <article
       className="flex flex-col gap-3 rounded-2xl border border-pink-100 bg-white p-4 shadow-sm sm:p-5"
       data-product-id={product.id}
     >
+      <div className="overflow-hidden rounded-xl bg-[#F7F1EC]">
+        <div className="relative aspect-square w-full sm:aspect-[4/3]">
+          {verifiedImage ? (
+            // eslint-disable-next-line @next/next/no-img-element -- remote official URLs; domain allowlist follows staging media policy
+            <img
+              src={verifiedImage}
+              alt={imageAlt}
+              className="h-full w-full object-contain p-3"
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+                const fb = e.currentTarget.nextElementSibling;
+                if (fb instanceof HTMLElement) fb.hidden = false;
+              }}
+            />
+          ) : null}
+          <div
+            className="flex h-full w-full items-center justify-center px-4 text-center text-xs text-gray-500"
+            hidden={Boolean(verifiedImage)}
+            role="img"
+            aria-label={imageFallback}
+          >
+            {imageFallback}
+          </div>
+        </div>
+      </div>
+
       <div className="flex items-start gap-3">
         <span
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#C2185B] text-xs font-bold text-white"

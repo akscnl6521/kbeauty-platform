@@ -9,7 +9,7 @@ import type {
   ScalpConcern,
   ScalpType,
 } from "./types";
-import { catalogDomainForCategory } from "./categories";
+import { beautyDomainForCategory } from "@/lib/catalog/taxonomy/domains";
 import { assessHairLossObservationSafety } from "./types";
 import type { HairLossObservation } from "./types";
 
@@ -77,8 +77,8 @@ export function rankScalpProducts(
 
   const out: RankedScalpHairProduct<ScalpRankableProduct>[] = [];
   for (const p of products) {
-    const domain = catalogDomainForCategory(p.category);
-    if (domain !== "scalp" && domain !== "hair_loss_support") {
+    const domain = beautyDomainForCategory(p.category);
+    if (domain !== "scalp_care" && domain !== "hair_loss_support") {
       out.push({
         product: p,
         score: 0,
@@ -139,8 +139,8 @@ export function rankHairProducts(
 ): RankedScalpHairProduct<HairRankableProduct>[] {
   const out: RankedScalpHairProduct<HairRankableProduct>[] = [];
   for (const p of products) {
-    const domain = catalogDomainForCategory(p.category);
-    if (domain !== "hair") {
+    const domain = beautyDomainForCategory(p.category);
+    if (domain !== "hair_care") {
       out.push({
         product: p,
         score: 0,

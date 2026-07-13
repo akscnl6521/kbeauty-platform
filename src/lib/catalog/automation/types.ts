@@ -187,42 +187,29 @@ export const DEFAULT_AUTOMATION_CONFIG: AutomationRuntimeConfig = {
   cronEnabled: false,
 };
 
-/** Makeup categories excluded from skincare rankProducts. */
-export const COLOR_MAKEUP_CATEGORIES = new Set([
-  "lipstick",
-  "lip_tint",
-  "lip_gloss",
-  "lip_liner",
-  "primer",
-  "foundation",
-  "cushion",
-  "concealer",
-  "powder",
-  "setting_spray",
-  "blusher",
-  "highlighter",
-  "contour",
-  "eyeshadow",
-  "eyeliner",
-  "mascara",
-  "brow",
+import {
+  BASE_MAKEUP_CATEGORIES,
+  BROW_MAKEUP_CATEGORIES,
+  COLOR_MAKEUP_CATEGORIES as COLOR_FACE_CATEGORIES,
+  EYE_MAKEUP_CATEGORIES,
+  FACE_SKINCARE_CATEGORIES,
+  LIP_COLOR_CATEGORIES,
+  SUN_CARE_CATEGORIES,
+} from "@/lib/catalog/taxonomy/domains";
+
+/** Makeup / color categories excluded from face_skincare rank pools. */
+export const COLOR_MAKEUP_CATEGORIES = new Set<string>([
+  ...LIP_COLOR_CATEGORIES,
+  ...BASE_MAKEUP_CATEGORIES,
+  ...COLOR_FACE_CATEGORIES,
+  ...EYE_MAKEUP_CATEGORIES,
+  ...BROW_MAKEUP_CATEGORIES,
 ]);
 
-export const SKINCARE_CATEGORIES = new Set([
-  "cleanser",
-  "makeup_remover",
-  "toner",
-  "essence",
-  "serum",
-  "ampoule",
-  "lotion",
-  "cream",
-  "eye_cream",
-  "mask",
-  "sunscreen",
-  "sun_stick",
-  "lip_balm",
-  "lip_mask",
-  "bodycare",
-  "haircare",
+/** Face skincare only — sun/lip/body/hair intentionally excluded. */
+export const SKINCARE_CATEGORIES = new Set<string>([
+  ...FACE_SKINCARE_CATEGORIES,
 ]);
+
+/** Sun care is its own recommendation domain. */
+export const SUN_CARE_CATEGORY_SET = new Set<string>([...SUN_CARE_CATEGORIES]);
