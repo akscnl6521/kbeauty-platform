@@ -19,26 +19,28 @@ const LINKS: Array<{ href: string; label: string; key: string }> = [
 export function AdminSubnav({ current }: { current: string }) {
   return (
     <nav
-      className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-sm"
+      className="-mx-1 mt-4 overflow-x-auto px-1"
       aria-label="관리자 메뉴"
     >
-      {LINKS.map((item) => {
-        const active = item.key === current;
-        return (
-          <Link
-            key={item.key}
-            href={item.href}
-            className={
-              active
-                ? "font-semibold text-gray-900"
-                : "font-medium text-[#8B6914] underline"
-            }
-            aria-current={active ? "page" : undefined}
-          >
-            {item.label}
-          </Link>
-        );
-      })}
+      <div className="flex min-w-max flex-wrap gap-x-3 gap-y-1 text-sm sm:flex-wrap">
+        {LINKS.map((item) => {
+          const active = item.key === current;
+          return (
+            <Link
+              key={item.key}
+              href={item.href}
+              className={
+                active
+                  ? "touch-target inline-flex items-center font-semibold text-gray-900"
+                  : "touch-target inline-flex items-center font-medium text-[#8B6914] underline"
+              }
+              aria-current={active ? "page" : undefined}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }
