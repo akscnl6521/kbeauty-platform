@@ -238,8 +238,9 @@ export async function fetchCandidateProducts(
   const { data, error } = await supabase
     .from("products")
     .select(CANDIDATE_PRODUCT_COLUMNS)
-    // Draft catalog rows use active=false — never enter Top5 scoring pool
-    .or("active.eq.true,active.is.null")
+    // Core recommendation pool: active verified catalog only (drafts excluded)
+    .eq("active", true)
+    .not("verified_at", "is", null)
     .limit(limit);
 
   if (error) {

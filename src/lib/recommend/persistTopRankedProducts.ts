@@ -1,3 +1,4 @@
+import { clampTopNWithoutPadding } from "@/lib/recommend/clampTopN";
 import { fetchCandidateProducts } from "./fetchCandidateProducts";
 import { filterCandidatesBySafety } from "./filterCandidatesBySafety";
 import { filterCandidatesByOfferAvailability } from "./productOffer";
@@ -42,14 +43,10 @@ function writeRecommendationAndRanked(
 }
 
 /**
- * Phase 3B — Recommendation → KR offer 적격 → 안전 필터 → 랭킹 → 저장.
+ * Phase 3B / Phase 4 — verified catalog → KR offer → allergy hard filter → rank.
+ * Never pads Top N with fake products when fewer than 5 qualify.
  *
- * 1) filterCandidatesByOfferAvailability(..., "KR")
- * 2) 알레르기·회피 안전 필터
- * 3) 피부 적합도 점수 (기존 rankProducts)
- * 한국 verified offer가 없으면 Top 5는 빈 배열로 저장한다.
- *
- * @returns 저장된 Top N (실패·후보 0이면 빈 배열)
+ * @returns 저장된 Top N (실패·후보 0이면 []; 1~4개도 그대로 저장)
  */
 export async function persistTopRankedProducts(
   recommendation: Recommendation,
@@ -80,7 +77,7 @@ export async function persistTopRankedProducts(
     };
 
     const ranked = rankProducts(withStats, safe);
-    const top = ranked.slice(0, RANKED_PRODUCTS_TOP_N);
+    const top = clampTopNWithoutPadding(ranked, RANKED_PRODUCTS_TOP_N);
 
     if (process.env.NODE_ENV === "development") {
       console.log("[coreRecommend]", {
@@ -90,6 +87,7 @@ export async function persistTopRankedProducts(
         allergyFilterPass: safe.length,
         finalRankedCount: ranked.length,
         topNSaved: top.length,
+        padded: false,
         offerCountry: CORE_RECOMMEND_OFFER_COUNTRY,
       });
     }
