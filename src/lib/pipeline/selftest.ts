@@ -30,6 +30,7 @@ import {
   shouldDemoteVerifiedProduct,
 } from "@/lib/pipeline/product-verify/product-verify-gate";
 import { runCareSelftests } from "@/lib/care/selftest";
+import { runCustomerAuthSelftests } from "@/lib/auth/customer-selftest";
 import { runOperationsSelftests } from "@/lib/admin/operations/selftest";
 import { clampTopNWithoutPadding } from "@/lib/recommend/clampTopN";
 import type { ExtractedCatalogProduct } from "@/lib/pipeline/types";
@@ -362,6 +363,8 @@ export function runPipelineSelftests(): { ok: true; checks: number } {
 
   const care = runCareSelftests();
   checks += care.checks;
+  const customerAuth = runCustomerAuthSelftests();
+  checks += customerAuth.checks;
 
   return { ok: true, checks };
 }
