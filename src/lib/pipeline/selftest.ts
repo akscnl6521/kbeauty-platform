@@ -25,6 +25,11 @@ import { parseStockStatus } from "@/lib/pipeline/offers/offer-stock";
 import { matchOfferToProduct } from "@/lib/pipeline/offers/offer-identity";
 import { evaluateOfferVerificationGate } from "@/lib/pipeline/offers/offer-gate";
 import { extractOffersFromHtml } from "@/lib/pipeline/offers/offer-extract";
+import {
+  evaluateProductVerificationGate,
+  shouldDemoteVerifiedProduct,
+} from "@/lib/pipeline/product-verify/product-verify-gate";
+import { clampTopNWithoutPadding } from "@/lib/recommend/clampTopN";
 import type { ExtractedCatalogProduct } from "@/lib/pipeline/types";
 
 function assert(cond: boolean, msg: string) {
@@ -258,6 +263,95 @@ export function runPipelineSelftests(): { ok: true; checks: number } {
     "https://example.com/p"
   );
   assert(htmlOffers.some((o) => o.method === "jsonld_offer"), "jsonld offer");
+  checks += 1;
+
+  // Phase 4: draft products may still get verified offers (activation uses them)
+  const draftOfferGate = evaluateOfferVerificationGate({
+    grade: "official_brand_store",
+    identity: "exact_match",
+    identityConfidence: 0.95,
+    purchaseUrl: "https://example.com/p",
+    price: 12000,
+    currency: "KRW",
+    stockStatus: "in_stock",
+    stockConfidence: 0.9,
+    shipsToCountries: ["KR"],
+    shippingConfidence: 0.9,
+    officialConfidenceThreshold: 0.8,
+    productActive: false,
+  });
+  assert(draftOfferGate.passVerified === true, "draft may verify offer");
+  assert(
+    !draftOfferGate.blockers.includes("product_is_draft"),
+    "no product_is_draft blocker"
+  );
+  checks += 1;
+
+  const productGatePass = evaluateProductVerificationGate({
+    active: false,
+    verifiedAt: null,
+    qualityGrade: "A",
+    allowedGrades: ["A", "B"],
+    hasOfficialIngredientsText: true,
+    structuredOfficialIngredientCount: 3,
+    ambiguousIngredientCount: 0,
+    unmatchedIngredientCount: 0,
+    safetyConflict: false,
+    verifiedInStockOfferCount: 1,
+    countryEligibleOfferCount: 1,
+    allowPublish: false,
+    allowProductDemotion: false,
+  });
+  assert(productGatePass.canActivate === true, "product gate A pass");
+
+  const productGateFail = evaluateProductVerificationGate({
+    active: false,
+    verifiedAt: null,
+    qualityGrade: "C",
+    allowedGrades: ["A", "B"],
+    hasOfficialIngredientsText: true,
+    structuredOfficialIngredientCount: 3,
+    ambiguousIngredientCount: 0,
+    unmatchedIngredientCount: 0,
+    safetyConflict: false,
+    verifiedInStockOfferCount: 1,
+    countryEligibleOfferCount: 1,
+    allowPublish: false,
+    allowProductDemotion: false,
+  });
+  assert(productGateFail.canActivate === false, "grade C blocked");
+  assert(productGateFail.needsReview === true, "grade C needs review");
+
+  assert(
+    shouldDemoteVerifiedProduct({
+      hadVerifiedOffers: true,
+      nowHasEligibleOffers: false,
+      allowProductDemotion: false,
+    }) === false,
+    "no demotion"
+  );
+
+  assert(
+    clampTopNWithoutPadding([1, 2, 3], 5).length === 3,
+    "no top5 padding"
+  );
+
+  const cfgBad = validatePipelineOperationConfig({
+    ...DEFAULT_PIPELINE_OPERATION,
+    allowPublish: true,
+  });
+  assert(cfgBad.ok === false, "publish hard false");
+
+  const cfgOk = validatePipelineOperationConfig({
+    ...DEFAULT_PIPELINE_OPERATION,
+    version: 4,
+    allowProductAutoVerify: true,
+  });
+  assert(cfgOk.ok === true, "config v4 ok");
+  if (cfgOk.ok) {
+    assertHardWritePolicy(cfgOk.config);
+    assert(cfgOk.config.allowProductDemotion === false, "demotion hard false");
+  }
   checks += 1;
 
   return { ok: true, checks };
