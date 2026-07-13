@@ -6,6 +6,13 @@
 
 ## 2026-07-13
 
+### Phase 10 UI · 반응형 · 접근성 최종
+
+- sticky 헤더 높이 변수 · Hero overlap 수정 · skip link
+- 홈/결과/온보딩/로그인/my UI 정리 · `check:responsive`
+- docs/155~158 · Preview 수용·main 병합 준비 기록
+- Cursor production 배포·main 병합 미실행
+
 ### Phase 9 Staging · Release 준비
 
 - 환경 변수 presence 검증 · `/api/health` · static/HTTP smoke test · release security check

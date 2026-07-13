@@ -57,8 +57,9 @@
 19. 공개 사이트 여정은 `resolveUserJourney` 공통 상태 · production check · Cursor는 실메일/운영 DB/worker 미실행.
 20. 릴리스 전에는 환경 presence·보안·정적/HTTP smoke를 점검하고, health 응답·로그·문서에 비밀값·프로젝트 식별자·사용자 데이터를 기록하지 않는다.
 21. 배포는 별도 승인 작업이며 Vercel을 권장한다. canonical은 `https://kbeautymatch.com` apex를 선호하고 `www`는 redirect로 정리한다.
+22. 공개 UI는 `--site-header-height`로 sticky 헤더 offset을 공유하고, Hero/본문이 헤더에 가리지 않게 한다. 가짜 후기·통계·그래프·미구현 CTA 금지.
 
-상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`, `docs/82-pipeline-database-persistence.md`, `docs/123-user-care-lifecycle.md`, `docs/133-care-database-persistence.md`, `docs/138-user-authentication.md`, `docs/144-end-to-end-user-journey.md`
+상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`, `docs/82-pipeline-database-persistence.md`, `docs/123-user-care-lifecycle.md`, `docs/133-care-database-persistence.md`, `docs/138-user-authentication.md`, `docs/144-end-to-end-user-journey.md`, `docs/155-ui-responsive-final-review.md`
 
 ---
 

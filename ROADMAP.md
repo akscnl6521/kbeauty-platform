@@ -68,6 +68,7 @@
 - [x] 일반 사용자 인증·온보딩·Care E2E (`/login` `/signup` · `/my` 보호 · link-local · docs/138~142)
 - [x] Phase 8 여정 통합 · 공개 내비 · production check · journey tests (docs/143~148)
 - [x] Phase 9 staging/release 준비 · env/health/smoke/security · headers/SEO/error pages (docs/149~154)
+- [x] Phase 10 UI·반응형·접근성 최종 · header/Hero · check:responsive · docs/155~158
 - [ ] Windows Task Scheduler 인자를 고정 `run-pipeline.ps1`로 1회 정렬 (필요 시)
 - [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
 - [ ] Supabase 제품/offer 반영 (승인 후)

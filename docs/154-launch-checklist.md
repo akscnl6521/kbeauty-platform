@@ -12,11 +12,12 @@
 ## 사용자 (배포 전)
 
 - [ ] Staging 배포 · HTTP smoke · `/api/health`
+- [ ] Preview Hero/헤더 overlap 재확인 (docs/157)
 - [ ] Auth Site/Redirect URL staging·production
 - [ ] 실계정 E2E: 가입→온보딩→/my→체크인
 - [ ] www/apex DNS
 - [ ] worker/Task Scheduler 운영 PC 정렬 (웹과 분리)
-- [ ] main 병합 **별도 승인**
+- [ ] main 병합 **별도 승인** (docs/158)
 
 ## 금지 확인
 
