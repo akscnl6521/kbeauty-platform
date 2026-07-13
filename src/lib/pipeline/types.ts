@@ -167,6 +167,13 @@ export type IngredientParseResult = {
     confidence: number;
     matchedIngredientId: number | null;
     needsReview: boolean;
+    matchKind?:
+      | "exact"
+      | "alias"
+      | "normalized"
+      | "ambiguous"
+      | "unmatched";
+    order?: number;
   }>;
 };
 
