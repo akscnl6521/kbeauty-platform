@@ -1,11 +1,12 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 import { ADMIN_ROLES } from "@/lib/auth/roles";
 import { withAdminAuth } from "@/lib/auth/withAdminAuth";
-import { isAdminAuthError } from "@/lib/auth/errors";
 import {
   getAdminVerificationDetail,
   parseAdminVerificationId,
 } from "@/lib/admin/verification-detail";
+import { applyVerificationReview } from "@/lib/admin/verification-write";
+import { jsonFail, jsonFromCaughtError, jsonOk } from "@/lib/admin/api-response";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,68 +15,63 @@ type RouteContext = {
   params?: Promise<Record<string, string | string[]>>;
 };
 
+async function readId(context: RouteContext): Promise<string | null> {
+  const params = (await context.params) ?? {};
+  const rawId = params.id;
+  return Array.isArray(rawId) ? rawId[0] ?? null : rawId ?? null;
+}
+
 /**
- * Read-only admin verification queue detail.
  * GET /api/admin/verification/[id]
  */
 export const GET = withAdminAuth(
   async (_request: NextRequest, context: RouteContext) => {
     try {
-      const params = (await context.params) ?? {};
-      const rawId = params.id;
-      const idValue = Array.isArray(rawId) ? rawId[0] : rawId;
-      const queueId = parseAdminVerificationId(idValue);
-
+      const queueId = parseAdminVerificationId(await readId(context));
       if (!queueId) {
-        return NextResponse.json(
-          {
-            ok: false,
-            error: {
-              code: "INVALID_VERIFICATION_ID",
-              message: "Invalid verification queue id.",
-            },
-          },
-          { status: 400 }
-        );
+        return jsonFail(400, "INVALID_INPUT", "Invalid verification queue id.");
       }
 
       const data = await getAdminVerificationDetail(queueId);
-
       if (!data) {
-        return NextResponse.json(
-          {
-            ok: false,
-            error: {
-              code: "VERIFICATION_NOT_FOUND",
-              message: "Verification queue item not found.",
-            },
-          },
-          { status: 404 }
-        );
+        return jsonFail(404, "NOT_FOUND", "Verification queue item not found.");
       }
 
-      return NextResponse.json({ ok: true, data });
+      return jsonOk(data);
     } catch (error) {
-      if (isAdminAuthError(error)) {
-        return NextResponse.json(
-          {
-            ok: false,
-            error: { code: error.code, message: error.message },
-          },
-          { status: error.httpStatus }
-        );
+      return jsonFromCaughtError(error);
+    }
+  },
+  ADMIN_ROLES
+);
+
+/**
+ * PATCH /api/admin/verification/[id] — review actions
+ */
+export const PATCH = withAdminAuth(
+  async (request: NextRequest, context: RouteContext, session) => {
+    try {
+      const idValue = await readId(context);
+      if (!idValue) {
+        return jsonFail(400, "INVALID_INPUT", "Invalid verification queue id.");
       }
 
-      return NextResponse.json(
-        {
-          ok: false,
-          error: {
-            code: "VERIFICATION_DETAIL_UNAVAILABLE",
-            message: "Unable to load admin verification detail.",
-          },
-        },
-        { status: 500 }
-      );
+      let body: unknown;
+      try {
+        body = await request.json();
+      } catch {
+        return jsonFail(400, "INVALID_INPUT", "JSON body가 필요합니다.");
+      }
+
+      const payload = (body ?? {}) as Record<string, unknown>;
+      const result = await applyVerificationReview(session, idValue, {
+        action: payload.action,
+        reviewerNotes: payload.reviewerNotes ?? payload.reviewer_notes,
+      });
+
+      return jsonOk(result);
+    } catch (error) {
+      return jsonFromCaughtError(error);
     }
   },
   ADMIN_ROLES

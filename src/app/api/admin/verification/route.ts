@@ -1,18 +1,18 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 import { ADMIN_ROLES } from "@/lib/auth/roles";
 import { withAdminAuth } from "@/lib/auth/withAdminAuth";
-import { isAdminAuthError } from "@/lib/auth/errors";
 import {
   getAdminVerificationQueue,
   parseAdminVerificationListParams,
 } from "@/lib/admin/verification";
+import { createVerificationQueueItem } from "@/lib/admin/verification-write";
+import { jsonFail, jsonFromCaughtError, jsonOk } from "@/lib/admin/api-response";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * Read-only admin verification queue list.
- * Allowed: all admin roles. SELECT only.
+ * GET /api/admin/verification — list
  */
 export const GET = withAdminAuth(async (request: NextRequest) => {
   try {
@@ -21,39 +21,44 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
     );
     const result = await getAdminVerificationQueue(params);
 
-    return NextResponse.json({
-      ok: true,
-      data: {
-        items: result.items,
-        pagination: {
-          page: result.page,
-          pageSize: result.pageSize,
-          total: result.total,
-          totalPages: result.totalPages,
-        },
-        filters: result.filters,
+    return jsonOk({
+      items: result.items,
+      pagination: {
+        page: result.page,
+        pageSize: result.pageSize,
+        total: result.total,
+        totalPages: result.totalPages,
       },
+      filters: result.filters,
     });
   } catch (error) {
-    if (isAdminAuthError(error)) {
-      return NextResponse.json(
-        {
-          ok: false,
-          error: { code: error.code, message: error.message },
-        },
-        { status: error.httpStatus }
-      );
+    return jsonFromCaughtError(error);
+  }
+}, ADMIN_ROLES);
+
+/**
+ * POST /api/admin/verification — create queue item
+ */
+export const POST = withAdminAuth(async (request: NextRequest, _ctx, session) => {
+  try {
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return jsonFail(400, "INVALID_INPUT", "JSON body가 필요합니다.");
     }
 
-    return NextResponse.json(
-      {
-        ok: false,
-        error: {
-          code: "VERIFICATION_UNAVAILABLE",
-          message: "Unable to load admin verification queue.",
-        },
-      },
-      { status: 503 }
-    );
+    const payload = (body ?? {}) as Record<string, unknown>;
+    const created = await createVerificationQueueItem(session, {
+      entityType: payload.entityType ?? payload.entity_type,
+      entityId: payload.entityId ?? payload.entity_id,
+      reviewType: payload.reviewType ?? payload.review_type,
+      priority: payload.priority,
+      reason: payload.reason,
+    });
+
+    return jsonOk(created, 201);
+  } catch (error) {
+    return jsonFromCaughtError(error);
   }
 }, ADMIN_ROLES);
