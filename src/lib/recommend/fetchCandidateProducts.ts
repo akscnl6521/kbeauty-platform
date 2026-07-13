@@ -32,6 +32,8 @@ const CANDIDATE_PRODUCT_COLUMNS = [
   "link_oliveyoung",
   "link_coupang",
   "link_yesstyle",
+  "active",
+  "verified_at",
 ].join(", ");
 
 const PRODUCT_OFFER_COLUMNS = [
@@ -236,6 +238,8 @@ export async function fetchCandidateProducts(
   const { data, error } = await supabase
     .from("products")
     .select(CANDIDATE_PRODUCT_COLUMNS)
+    // Draft catalog rows use active=false — never enter Top5 scoring pool
+    .or("active.eq.true,active.is.null")
     .limit(limit);
 
   if (error) {

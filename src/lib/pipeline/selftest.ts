@@ -17,6 +17,8 @@ import {
   DEFAULT_PIPELINE_OPERATION,
   validatePipelineOperationConfig,
 } from "@/lib/pipeline/operation-config";
+import { classifyProductCategory } from "@/lib/pipeline/category-classify";
+import { attachIngredientMatches } from "@/lib/pipeline/ingredient-normalize";
 import type { ExtractedCatalogProduct } from "@/lib/pipeline/types";
 
 function assert(cond: boolean, msg: string) {
@@ -152,12 +154,50 @@ export function runPipelineSelftests(): { ok: true; checks: number } {
     assert(valid.config.allowOfferInsert === false, "no offer insert");
     assert(valid.config.allowPublish === false, "no publish");
     assert(valid.config.allowDelete === false, "no delete");
+    assert(valid.config.allowDraftProductInsert === true, "draft insert on");
+    assert(
+      valid.config.allowUnverifiedIngredientInsert === false,
+      "no unverified ingredient"
+    );
+    assert(valid.config.allowExistingProductOverwrite === false, "no overwrite");
   }
   const bad = validatePipelineOperationConfig({
     ...DEFAULT_PIPELINE_OPERATION,
     allowPublish: true,
   });
   assert(bad.ok === false, "reject allowPublish true");
+  checks += 1;
+
+  const inci = parseIngredientList(
+    "Aqua, Glycerin, Niacinamide, CI 77491, Parfum, Centella Asiatica Extract (and) Water"
+  );
+  assert(inci.normalized.length >= 5, "inci token count");
+  assert(
+    inci.normalized.some((n) => n.normalizedName.includes("ci 77491")),
+    "ci pigment"
+  );
+  assert(
+    inci.normalized.some((n) => n.normalizedName === "fragrance"),
+    "fragrance alias"
+  );
+  const matched = attachIngredientMatches(
+    parseIngredientList("Water, Glycerin"),
+    new Map([
+      ["water", 1],
+      ["glycerin", 2],
+    ])
+  );
+  assert(matched.normalized[0]?.matchedIngredientId === 1, "exact water match");
+  assert(matched.normalized[0]?.matchKind === "exact", "exact kind");
+  checks += 1;
+
+  const cat = classifyProductCategory(
+    sampleProduct({ productName: "Hydrating Serum", category: null })
+  );
+  assert(cat.category === "serum", "serum category");
+  assert(cat.needsReview === false || cat.confidence >= 0.7, "serum confidence");
+  const toneSk = scoreToneUndertone(sampleProduct());
+  assert(toneSk.toneRelevance === "not_applicable", "skincare tone n/a again");
   checks += 1;
 
   return { ok: true, checks };
