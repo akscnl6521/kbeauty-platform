@@ -42,13 +42,19 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get("type");
   const code = searchParams.get("code");
   const rawNext = searchParams.get("next");
-  const adminFlow = rawNext?.startsWith("/admin") ?? false;
-  const next = sanitizeNextPath(rawNext, adminFlow ? ADMIN_DEFAULT_NEXT : "/my");
+  const adminFlow = sanitizeNextPath(rawNext, "").startsWith("/admin");
+  const defaultNext =
+    type === "recovery"
+      ? adminFlow
+        ? ADMIN_DEFAULT_NEXT
+        : "/reset-password"
+      : type === "signup" || type === "email"
+        ? "/auth/link-local?next=/onboarding"
+        : "/my";
+  const next = sanitizeNextPath(rawNext, defaultNext);
   const failurePath = adminFlow
     ? "/admin/forgot-password?error=recovery_failed"
-    : type === "recovery"
-      ? "/forgot-password?error=recovery_failed"
-      : "/login?error=auth";
+    : `/auth/error?code=${type === "recovery" ? "recovery_failed" : "auth_failed"}`;
   const failRedirect = NextResponse.redirect(new URL(failurePath, origin));
   const successRedirect = NextResponse.redirect(new URL(next, origin));
 
