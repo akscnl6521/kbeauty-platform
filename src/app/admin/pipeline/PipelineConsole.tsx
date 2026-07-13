@@ -19,11 +19,29 @@ type Batch = {
   notes?: string[];
 };
 
+type Ops = {
+  dryRunBatches: number;
+  commitBatches: number;
+  reviewItemsRecent: number;
+  failedItemsRecent: number;
+  brandSites: number;
+  verifiedOfficialBrands: number;
+  needsReviewBrands: number;
+  blockedBrands: number;
+  autonomousCandidates: number;
+  pendingDuplicateQueues: number;
+  latestBatchId: string | null;
+  latestStatus: string | null;
+  latestHeartbeat: string | null;
+  schedulerHint: string;
+};
+
 /**
  * Pipeline operations console (client).
  */
 export function PipelineConsole({ canRun }: { canRun: boolean }) {
   const [batches, setBatches] = useState<Batch[]>([]);
+  const [ops, setOps] = useState<Ops | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [mode, setMode] = useState<"dry_run" | "commit">("dry_run");
@@ -36,6 +54,7 @@ export function PipelineConsole({ canRun }: { canRun: boolean }) {
       return;
     }
     setBatches(json.data.batches ?? []);
+    setOps(json.data.ops ?? null);
     setError(null);
   }, []);
 
@@ -79,10 +98,48 @@ export function PipelineConsole({ canRun }: { canRun: boolean }) {
           <li>정상 데이터는 자동 처리 · 낮은 신뢰도만 needs_review</li>
           <li>브랜드/제품마다 승인 요청하지 않음</li>
           <li>자동 published 금지 · offer 0이면 publish 불가</li>
-          <li>운영 상태는 Supabase `pipeline_*` 테이블 (service role)</li>
-          <li>스케줄러 기본 모드: dry_run</li>
+          <li>스케줄러: autonomous (dry_run → 게이트 → candidate commit)</li>
         </ul>
       </section>
+
+      {ops ? (
+        <section className="grid gap-3 rounded-lg border border-[#E8DFD8] bg-white px-4 py-4 text-sm sm:grid-cols-2 lg:grid-cols-3">
+          <div>
+            <p className="text-xs text-gray-500">스케줄러</p>
+            <p className="font-medium">{ops.schedulerHint}</p>
+            <p className="text-xs text-gray-600">
+              latest {ops.latestStatus ?? "—"} · heartbeat{" "}
+              {ops.latestHeartbeat ?? "—"}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500">배치</p>
+            <p>
+              dry_run {ops.dryRunBatches} · commit {ops.commitBatches}
+            </p>
+            <p className="text-xs text-gray-600">
+              review {ops.reviewItemsRecent} · fail {ops.failedItemsRecent}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500">브랜드 사이트</p>
+            <p>
+              total {ops.brandSites} · verified {ops.verifiedOfficialBrands}
+            </p>
+            <p className="text-xs text-gray-600">
+              needs_review {ops.needsReviewBrands} · blocked {ops.blockedBrands}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500">자동 후보</p>
+            <p className="font-medium tabular-nums">{ops.autonomousCandidates}</p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500">duplicate 큐 pending</p>
+            <p className="font-medium tabular-nums">{ops.pendingDuplicateQueues}</p>
+          </div>
+        </section>
+      ) : null}
 
       {canRun ? (
         <section className="flex flex-wrap items-end gap-3">

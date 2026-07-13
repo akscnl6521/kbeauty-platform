@@ -23,7 +23,8 @@ export type AuditAction =
   | "verification_approved"
   | "verification_rejected"
   | "verification_needs_review"
-  | "workflow_status_changed";
+  | "workflow_status_changed"
+  | "pipeline_operation_settings_updated";
 
 type AuditChangeType = "status" | "source" | "other";
 

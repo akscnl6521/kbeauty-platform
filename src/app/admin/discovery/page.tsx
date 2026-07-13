@@ -65,9 +65,13 @@ function workflowBadgeClass(status: string): string {
 }
 
 function SourceCell({ item }: { item: AdminDiscoveryListItem }) {
+  const autonomous = item.sourceType === "official_brand_page";
   return (
     <div className="space-y-1 text-xs">
       <div className="text-gray-700">{item.sourceType ?? "—"}</div>
+      {autonomous ? (
+        <div className="font-medium text-[#8B6914]">autonomous pipeline</div>
+      ) : null}
       {item.sourceUrlSafeHttps && item.sourceUrl ? (
         <a
           href={item.sourceUrl}
