@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { loadCareStore, saveCareStore } from "@/lib/care";
 import {
@@ -9,12 +10,17 @@ import {
 import type { CareStoreSnapshot } from "@/lib/care/types";
 import { MyCareNav } from "../MyCareNav";
 
+/**
+ * Account & care preferences. No UID display. No DELETE actions.
+ */
 export default function MyCareSettingsPage() {
   const [store, setStore] = useState<CareStoreSnapshot | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
   const [linked, setLinked] = useState(false);
   const [source, setSource] = useState<"server" | "local">("local");
   const [attachMsg, setAttachMsg] = useState<string | null>(null);
   const [attaching, setAttaching] = useState(false);
+  const [country, setCountry] = useState("KR");
 
   useEffect(() => {
     void hydrateCareDashboard().then((h) => {
@@ -22,9 +28,23 @@ export default function MyCareSettingsPage() {
       setSource(h.source);
       setStore(h.localStore ?? loadCareStore());
     });
+    void fetch("/api/care/me", { credentials: "include" })
+      .then((r) => r.json())
+      .then((j) => {
+        if (j?.ok && typeof j.data?.email === "string") setEmail(j.data.email);
+      })
+      .catch(() => {
+        /* ignore */
+      });
   }, []);
 
-  if (!store) return null;
+  if (!store) {
+    return (
+      <main className="mx-auto max-w-3xl px-4 py-10 text-gray-900">
+        <p className="text-sm text-gray-500">설정을 불러오는 중…</p>
+      </main>
+    );
+  }
 
   function patch(p: Partial<CareStoreSnapshot["settings"]>) {
     const next = {
@@ -55,35 +75,62 @@ export default function MyCareSettingsPage() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold">케어 설정</h1>
+    <main className="mx-auto min-h-screen max-w-3xl bg-[#FAF7F5] px-4 py-10 text-gray-900">
+      <h1 className="text-2xl font-bold tracking-tight">계정 · 케어 설정</h1>
+      <p className="mt-1 text-sm text-gray-600">
+        본인 계정 정보만 표시됩니다. 관리자 화면에 이메일이 노출되지 않습니다.
+      </p>
       <MyCareNav current="/my/settings" />
-      <div className="mt-4 rounded-lg border border-[#E8DFD8] bg-white px-3 py-3 text-sm">
-        <p>
-          계정 연결:{" "}
-          <span className="font-medium">
-            {linked ? "연결됨 (서버)" : "미연결 (로컬만)"}
-          </span>
+
+      <section className="mt-6 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
+        <h2 className="font-semibold">계정</h2>
+        <p className="mt-2">
+          이메일:{" "}
+          <span className="font-medium">{email ?? "불러오는 중…"}</span>
         </p>
-        <p className="mt-1 text-xs text-gray-500">
-          현재 데이터 출처: {source === "server" ? "서버" : "이 기기"}
-        </p>
-        {source === "local" ? (
-          <button
-            type="button"
-            disabled={attaching}
-            onClick={() => void handleAttach()}
-            className="mt-3 rounded-lg border border-[#E8DFD8] px-3 py-2 text-sm disabled:opacity-50"
+        <div className="mt-3 flex flex-wrap gap-3">
+          <Link
+            href="/forgot-password"
+            className="text-[#C2185B] underline"
           >
-            {attaching ? "연결 중…" : "로컬 데이터 계정에 연결"}
-          </button>
-        ) : null}
-        {attachMsg ? (
-          <p className="mt-2 text-xs text-gray-700">{attachMsg}</p>
-        ) : null}
-      </div>
-      <div className="mt-6 space-y-3 text-sm">
-        <label className="flex items-center gap-2">
+            비밀번호 재설정
+          </Link>
+          <Link href="/logout" className="text-gray-700 underline">
+            로그아웃
+          </Link>
+        </div>
+      </section>
+
+      <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
+        <h2 className="font-semibold">지역 · 시간</h2>
+        <label className="mt-3 block">
+          국가
+          <select
+            className="mt-1 w-full rounded-lg border border-[#E8DFD8] bg-white px-3 py-2"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            aria-label="국가"
+          >
+            <option value="KR">한국 (KR)</option>
+            <option value="US">미국 (US)</option>
+            <option value="JP">일본 (JP)</option>
+            <option value="OTHER">기타</option>
+          </select>
+        </label>
+        <label className="mt-3 block">
+          시간대
+          <input
+            className="mt-1 w-full rounded-lg border border-[#E8DFD8] bg-white px-3 py-2"
+            value={store.settings.timezone}
+            onChange={(e) => patch({ timezone: e.target.value })}
+            aria-label="시간대"
+          />
+        </label>
+      </section>
+
+      <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
+        <h2 className="font-semibold">알림 · Care 동의</h2>
+        <label className="mt-3 flex items-center gap-2">
           <input
             type="checkbox"
             checked={store.settings.notificationsEnabled}
@@ -91,20 +138,72 @@ export default function MyCareSettingsPage() {
           />
           사이트 내 알림
         </label>
-        <label className="flex items-center gap-2">
+        <label className="mt-2 flex items-center gap-2">
           <input
             type="checkbox"
             checked={store.settings.emailOptIn}
             onChange={(e) => patch({ emailOptIn: e.target.checked })}
           />
-          이메일 알림 (외부 발송은 credential 있을 때만)
+          이메일 알림 희망 (외부 발송은 설정 시에만)
         </label>
-        <p className="text-xs text-gray-500">
-          야간 회피: {store.settings.quietHoursStart}:00–
-          {store.settings.quietHoursEnd}:00 · timezone{" "}
-          {store.settings.timezone}
+        <p className="mt-2 text-xs text-gray-500">
+          야간 회피 {store.settings.quietHoursStart}:00–
+          {store.settings.quietHoursEnd}:00 · 진단이 아닌 관리 안내만 제공합니다.
         </p>
-      </div>
+      </section>
+
+      <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
+        <h2 className="font-semibold">기기 기록 연결</h2>
+        <p className="mt-2">
+          상태:{" "}
+          <span className="font-medium">
+            {linked ? "계정에 연결됨" : "로컬 기록 별도 유지 가능"}
+          </span>
+        </p>
+        <p className="mt-1 text-xs text-gray-500">
+          데이터 출처: {source === "server" ? "서버" : "이 기기(로컬)"}
+        </p>
+        <button
+          type="button"
+          disabled={attaching}
+          onClick={() => void handleAttach()}
+          className="mt-3 rounded-lg bg-[#C2185B] px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
+        >
+          {attaching ? "연결 중…" : "이 기기의 기록을 계정에 연결"}
+        </button>
+        {attachMsg ? (
+          <p className="mt-2 text-xs text-gray-700">{attachMsg}</p>
+        ) : null}
+        <p className="mt-2 text-xs text-gray-500">
+          연결해도 로컬 데이터는 자동 삭제되지 않습니다.
+        </p>
+      </section>
+
+      <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
+        <h2 className="font-semibold">데이터 요청</h2>
+        <p className="mt-2 text-xs text-gray-600">
+          다운로드·삭제는 이번 단계에서 실행되지 않습니다. 요청만 준비 중이며,
+          운영자가 별도 절차로 처리합니다.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button
+            type="button"
+            disabled
+            className="rounded-lg border border-[#E8DFD8] px-3 py-2 text-xs text-gray-400"
+            title="준비 중"
+          >
+            데이터 다운로드 요청 (준비 중)
+          </button>
+          <button
+            type="button"
+            disabled
+            className="rounded-lg border border-[#E8DFD8] px-3 py-2 text-xs text-gray-400"
+            title="준비 중"
+          >
+            계정 삭제 요청 (준비 중)
+          </button>
+        </div>
+      </section>
     </main>
   );
 }

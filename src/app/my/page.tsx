@@ -151,6 +151,9 @@ export default function MyCareHomePage() {
       <MyCareNav current="/my" />
 
       <p className="mt-2 text-xs text-gray-500">데이터 출처: {sourceLabel}</p>
+      {hydrated?.source === "local" ? (
+        <p className="mt-2 text-xs text-rose-700">서버 동기화 실패, 잠시 후 다시 시도해 주세요.</p>
+      ) : null}
 
       {savedMsg ? (
         <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-900">
@@ -174,9 +177,14 @@ export default function MyCareHomePage() {
           </div>
         ) : (
           <p className="mt-3 text-sm text-gray-600">
-            예정된 체크인이 없습니다. 분석을 저장하면 자동 예약됩니다.
+            아직 시작한 케어가 없습니다. 피부 정보를 설정하고 내 루틴을 시작해 보세요.
           </p>
         )}
+        {!dashboard?.sessions.length ? (
+          <Link href="/onboarding" className="mt-3 inline-block text-sm font-medium text-[#C2185B] underline">
+            피부 관리 설정하기
+          </Link>
+        ) : null}
         <button
           type="button"
           onClick={importLatestAnalysis}
