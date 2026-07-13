@@ -66,16 +66,20 @@ export async function listStagingProducts(options?: {
   brand?: string | null;
   category?: string | null;
   ingredientsStatus?: string | null;
+  domain?: string | null;
+  claimStatus?: string | null;
 }) {
   const limit = options?.limit ?? 100;
   const client = createSupabaseAdminClient();
+  // Do not select scalp/hair columns until staging migration is applied.
+  // Domain/claim filters use category_canonical in-memory when columns are absent.
   let query = client
     .from("catalog_staging_products")
     .select(
-      "id, brand_raw, brand_canonical, product_name_raw, product_name_ko, category_canonical, size_value, size_unit, product_status, ingredients_status, official_product_url, primary_image_url, duplicate_group_key, is_fixture, test_only, created_at"
+      "id, brand_raw, brand_canonical, product_name_raw, product_name_ko, category_canonical, size_value, size_unit, product_status, ingredients_status, official_product_url, primary_image_url, duplicate_group_key, is_fixture, test_only, validation_warnings, created_at"
     )
     .order("created_at", { ascending: false })
-    .limit(limit);
+    .limit(Math.max(limit, 200));
 
   if (options?.dataKind === "fixture") {
     query = query.eq("is_fixture", true);
@@ -96,7 +100,29 @@ export async function listStagingProducts(options?: {
   if (error) {
     throw new AdminConfigurationError("Unable to load staging products.");
   }
-  return data ?? [];
+
+  let rows = data ?? [];
+  if (options?.domain?.trim()) {
+    const { catalogDomainForCategory } = await import(
+      "@/lib/catalog/scalpHair/categories"
+    );
+    const want = options.domain.trim();
+    rows = rows.filter(
+      (r) =>
+        catalogDomainForCategory(
+          r.category_canonical == null ? null : String(r.category_canonical)
+        ) === want
+    );
+  }
+  if (options?.claimStatus === "needs_review") {
+    rows = rows.filter((r) => {
+      const w = r.validation_warnings;
+      return Array.isArray(w)
+        ? w.some((x) => String(x).includes("functional") || String(x).includes("hair_loss"))
+        : false;
+    });
+  }
+  return rows.slice(0, limit);
 }
 
 export async function getStagingDataKindCounts(): Promise<{

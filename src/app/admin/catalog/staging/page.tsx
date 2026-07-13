@@ -35,6 +35,8 @@ export default async function CatalogStagingPage({ searchParams }: PageProps) {
   const brand = pick(sp, "brand");
   const category = pick(sp, "category");
   const ingredientsStatus = pick(sp, "ingredients");
+  const domain = pick(sp, "domain");
+  const claimStatus = pick(sp, "claim");
 
   let rows: Awaited<ReturnType<typeof listStagingProducts>> = [];
   let counts = { real: 0, fixture: 0, total: 0 };
@@ -45,6 +47,8 @@ export default async function CatalogStagingPage({ searchParams }: PageProps) {
       brand,
       category,
       ingredientsStatus,
+      domain,
+      claimStatus,
       limit: 200,
     });
     counts = await getStagingDataKindCounts();
@@ -83,7 +87,7 @@ export default async function CatalogStagingPage({ searchParams }: PageProps) {
 
       <form
         method="get"
-        className="mb-4 grid gap-3 rounded-xl border border-[#E8DFD8] bg-white p-4 sm:grid-cols-2 lg:grid-cols-5"
+        className="mb-4 grid gap-3 rounded-xl border border-[#E8DFD8] bg-white p-4 sm:grid-cols-2 lg:grid-cols-6"
       >
         <label className="text-xs text-gray-600">
           데이터 종류
@@ -95,6 +99,21 @@ export default async function CatalogStagingPage({ searchParams }: PageProps) {
             <option value="all">전체</option>
             <option value="real">실제만</option>
             <option value="fixture">fixture/테스트만</option>
+          </select>
+        </label>
+        <label className="text-xs text-gray-600">
+          도메인
+          <select
+            name="domain"
+            defaultValue={domain}
+            className="mt-1 w-full rounded border border-[#E8DFD8] px-2 py-1.5 text-sm"
+          >
+            <option value="">전체</option>
+            <option value="face">face</option>
+            <option value="scalp">scalp</option>
+            <option value="hair">hair</option>
+            <option value="hair_loss_support">hair_loss_support</option>
+            <option value="color_makeup">color_makeup</option>
           </select>
         </label>
         <label className="text-xs text-gray-600">
@@ -112,7 +131,7 @@ export default async function CatalogStagingPage({ searchParams }: PageProps) {
             name="category"
             defaultValue={category}
             className="mt-1 w-full rounded border border-[#E8DFD8] px-2 py-1.5 text-sm"
-            placeholder="serum"
+            placeholder="scalp_shampoo"
           />
         </label>
         <label className="text-xs text-gray-600">
@@ -124,7 +143,18 @@ export default async function CatalogStagingPage({ searchParams }: PageProps) {
             placeholder="source_verified"
           />
         </label>
-        <div className="flex items-end">
+        <label className="text-xs text-gray-600">
+          기능성 주장
+          <select
+            name="claim"
+            defaultValue={claimStatus}
+            className="mt-1 w-full rounded border border-[#E8DFD8] px-2 py-1.5 text-sm"
+          >
+            <option value="">전체</option>
+            <option value="needs_review">needs_review</option>
+          </select>
+        </label>
+        <div className="flex items-end lg:col-span-6">
           <button
             type="submit"
             className="rounded bg-[#8B6914] px-3 py-2 text-sm font-medium text-white"
@@ -133,6 +163,24 @@ export default async function CatalogStagingPage({ searchParams }: PageProps) {
           </button>
         </div>
       </form>
+
+      <p className="mb-3 text-xs text-gray-500">
+        scalp/hair 컬럼 migration은 staging DB에만 적용합니다. 공유 Production
+        DB에는 적용하지 않습니다. 탈모 기능성 배지는 공식 출처 검증 후에만
+        표시합니다. 이 화면은 읽기 전용입니다.
+      </p>
+
+      <div className="mb-4 rounded-xl border border-[#E8DFD8] bg-[#FBF7F3] px-4 py-3 text-xs text-gray-700">
+        <p className="font-medium text-gray-900">Review queue 사유 (수동 검수)</p>
+        <ul className="mt-2 list-disc space-y-1 pl-4">
+          <li>공식 기능성 주장 확인 필요</li>
+          <li>국가별 규정 확인 필요</li>
+          <li>의약품 가능성</li>
+          <li>성분 누락</li>
+          <li>두피/모발 카테고리 불명확</li>
+          <li>탈모 치료 표현 위험</li>
+        </ul>
+      </div>
 
       {errorMsg ? <p className="text-sm text-red-700">{errorMsg}</p> : null}
       {!errorMsg && rows.length === 0 ? (

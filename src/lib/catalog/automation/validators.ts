@@ -120,8 +120,15 @@ export function validateStagingProduct(product: ParsedCatalogProduct): {
   return { ok: true, status: "parsed", errors, warnings };
 }
 
+import { normalizeScalpHairCategoryAlias } from "@/lib/catalog/scalpHair/categories";
+
 export function normalizeCategoryAlias(raw: string | null | undefined): string | null {
   if (!raw) return null;
+  const scalpHair = normalizeScalpHairCategoryAlias(raw);
+  if (scalpHair.category) return scalpHair.category;
+  // Ambiguous scalp/hair marketing → keep raw token for review (caller may inspect needsReview)
+  if (scalpHair.needsReview) return null;
+
   const t = raw.trim().toLowerCase().replace(/[\s\-]+/g, "_");
   const map: Record<string, string> = {
     cleanser: "cleanser",

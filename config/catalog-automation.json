@@ -4,5 +4,7 @@
   "maxProductsPerSource": 20,
   "maxProductsTotal": 50,
   "cronEnabled": false,
-  "notes": "Preview defaults. Coupang/Olive Young require MANUAL_AUTHORIZATION_REQUIRED before live fetch."
+  "ingestionEnabled": false,
+  "catalogDatabaseEnv": "production",
+  "notes": "Shared Production DB: keep ingestionEnabled=false until Preview points at kbeauty-match-staging. Scalp/hair migration file is staged in repo only."
 }
