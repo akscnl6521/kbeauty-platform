@@ -30,6 +30,7 @@ import {
   shouldDemoteVerifiedProduct,
 } from "@/lib/pipeline/product-verify/product-verify-gate";
 import { clampTopNWithoutPadding } from "@/lib/recommend/clampTopN";
+import { runOperationsSelftests } from "@/lib/admin/operations/selftest";
 import type { ExtractedCatalogProduct } from "@/lib/pipeline/types";
 
 function assert(cond: boolean, msg: string) {
@@ -344,15 +345,19 @@ export function runPipelineSelftests(): { ok: true; checks: number } {
 
   const cfgOk = validatePipelineOperationConfig({
     ...DEFAULT_PIPELINE_OPERATION,
-    version: 4,
+    version: 5,
     allowProductAutoVerify: true,
   });
-  assert(cfgOk.ok === true, "config v4 ok");
+  assert(cfgOk.ok === true, "config v5 ok");
   if (cfgOk.ok) {
     assertHardWritePolicy(cfgOk.config);
     assert(cfgOk.config.allowProductDemotion === false, "demotion hard false");
+    assert(cfgOk.config.monitoring?.enabled === true, "monitoring enabled");
   }
   checks += 1;
+
+  const ops = runOperationsSelftests();
+  checks += ops.checks;
 
   return { ok: true, checks };
 }
