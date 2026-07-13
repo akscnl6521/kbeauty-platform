@@ -5,6 +5,8 @@ import {
   getAdminDashboardData,
   type AdminDashboardData,
 } from "@/lib/admin/dashboard";
+import { getOperationsHealthSnapshot } from "@/lib/admin/operations/health";
+import type { HealthGrade } from "@/lib/admin/operations/types";
 import { AdminConfigurationError } from "@/lib/auth/errors";
 import { AdminLogoutButton } from "./AdminLogoutButton";
 import { AdminSubnav } from "./AdminSubnav";
@@ -52,6 +54,12 @@ const QUICK_LINKS: Array<{
     label: "Ingredients",
     ready: true,
     note: "성분, 근거, 주의사항, 제품 연결 상태 확인",
+  },
+  {
+    href: "/admin/operations",
+    label: "Operations",
+    ready: true,
+    note: "운영 상태·알림·요약",
   },
   {
     href: "/admin/pipeline",
@@ -218,6 +226,9 @@ export default async function AdminHomePage() {
 
   let data: AdminDashboardData | null = null;
   let loadFailed = false;
+  let opsGrade: HealthGrade | null = null;
+  let opsCritical = 0;
+  let opsWarning = 0;
 
   try {
     data = await getAdminDashboardData();
@@ -227,6 +238,15 @@ export default async function AdminHomePage() {
     } else {
       loadFailed = true;
     }
+  }
+
+  try {
+    const ops = await getOperationsHealthSnapshot({ persistAlerts: true });
+    opsGrade = ops.grade;
+    opsCritical = ops.openCritical;
+    opsWarning = ops.openWarning;
+  } catch {
+    opsGrade = "unknown";
   }
 
   return (
@@ -253,6 +273,26 @@ export default async function AdminHomePage() {
           읽기 전용 운영 현황입니다. 이 화면에서는 생성·수정·publish를 하지
           않습니다.
         </p>
+
+        <div className="mt-6 rounded-lg border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <p className="text-xs text-gray-500">파이프라인 운영 상태</p>
+              <p className="mt-1 text-lg font-semibold text-gray-900">
+                {opsGrade ?? "unknown"}
+              </p>
+              <p className="text-xs text-gray-600">
+                critical {opsCritical} · warning {opsWarning}
+              </p>
+            </div>
+            <Link
+              href="/admin/operations"
+              className="font-medium text-[#8B6914] underline"
+            >
+              운영센터 열기
+            </Link>
+          </div>
+        </div>
 
         {loadFailed || !data ? (
           <div
