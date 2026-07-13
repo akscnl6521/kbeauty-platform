@@ -4,6 +4,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { materializeDraftProduct } from "@/lib/pipeline/draft-product";
 import { linkProductIngredients } from "@/lib/pipeline/ingredient-link";
 import { discoverAndPersistOffers } from "@/lib/pipeline/offers/offer-persist";
+import { verifyAndActivateProduct } from "@/lib/pipeline/product-verify/product-activate";
 import { loadPipelineOperationConfig } from "@/lib/pipeline/operation-config";
 import type {
   DedupeDecision,
@@ -18,11 +19,12 @@ export type CatalogEnrichResult = {
   draft: Awaited<ReturnType<typeof materializeDraftProduct>>;
   ingredients: Awaited<ReturnType<typeof linkProductIngredients>> | null;
   offers: Awaited<ReturnType<typeof discoverAndPersistOffers>> | null;
-  recommendationEligible: false;
+  activation: Awaited<ReturnType<typeof verifyAndActivateProduct>> | null;
+  recommendationEligible: boolean;
 };
 
 /**
- * After gated candidate commit: draft product, ingredients, offers.
+ * After gated candidate commit: draft → ingredients → offers → auto-verify/activate.
  */
 export async function enrichCatalogAfterCandidate(
   client: SupabaseClient,
@@ -44,6 +46,7 @@ export async function enrichCatalogAfterCandidate(
     skin: SkinClassification;
     tone: ToneMatchResult;
     pageHtml?: string | null;
+    safetyConflict?: boolean;
   }
 ): Promise<CatalogEnrichResult> {
   const op = loadPipelineOperationConfig();
@@ -127,7 +130,7 @@ export async function enrichCatalogAfterCandidate(
         productId: draft.productId,
         productName: input.product.productName,
         brandName: input.brandName,
-        // Newly created drafts are always inactive; linked existing unknown → null
+        // Drafts may still receive verified offers (activation gate uses them)
         productActive: draft.created ? false : draft.linkedExisting ? null : false,
         pageHtml: html,
         pageUrl: input.product.canonicalUrl,
@@ -138,10 +141,27 @@ export async function enrichCatalogAfterCandidate(
     }
   }
 
+  let activation: CatalogEnrichResult["activation"] = null;
+  if (
+    draft.productId &&
+    draft.created &&
+    (op.allowProductAutoVerify || op.allowProductAutoActivate)
+  ) {
+    activation = await verifyAndActivateProduct(client, {
+      productId: draft.productId,
+      batchId: input.batchId,
+      extracted: input.product,
+      ambiguousIngredientCount: ingredients?.ambiguous ?? 0,
+      unmatchedIngredientCount: ingredients?.unmatched ?? 0,
+      safetyConflict: input.safetyConflict ?? false,
+    });
+  }
+
   return {
     draft,
     ingredients,
     offers,
-    recommendationEligible: false,
+    activation,
+    recommendationEligible: Boolean(activation?.recommendationEligiblePreview),
   };
 }

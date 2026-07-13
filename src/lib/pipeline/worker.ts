@@ -235,6 +235,39 @@ async function runAutonomousGatedCandidateIntake(input: {
     workerId: `${input.workerId}-gated-candidates`,
   });
 
+  let productReeval: Awaited<
+    ReturnType<
+      typeof import("@/lib/pipeline/product-verify/product-reeval").reevaluateProductsForActivation
+    >
+  > | null = null;
+
+  if (
+    input.config.allowProductReevaluation ||
+    input.config.allowProductAutoVerify
+  ) {
+    try {
+      const { createSupabaseAdminClient } = await import(
+        "@/lib/supabase/admin"
+      );
+      const { reevaluateProductsForActivation } = await import(
+        "@/lib/pipeline/product-verify/product-reeval"
+      );
+      const client = createSupabaseAdminClient();
+      productReeval = await reevaluateProductsForActivation(client, {
+        batchId: commit.batchId,
+        limit: input.config.maxProductVerificationsPerRun,
+      });
+      pipelineLog("info", "product reevaluation complete", {
+        batchId: commit.batchId,
+        ...productReeval,
+      });
+    } catch (e) {
+      pipelineLog("warn", "product reevaluation skipped", {
+        message: e instanceof Error ? e.message : String(e),
+      });
+    }
+  }
+
   return {
     batchId: dry.batchId,
     ticks: dryResult.ticks + commitResult.ticks,
@@ -242,6 +275,7 @@ async function runAutonomousGatedCandidateIntake(input: {
     mode: "autonomous" as const,
     committed: true,
     writeScope: "gated_new_candidates" as const,
+    productReeval,
   };
 }
 
