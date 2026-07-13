@@ -92,7 +92,9 @@ export { INGREDIENT_ALIAS_GROUPS } from "./ingredientAliases";
 export {
   displayIngredientName,
   displayIngredientNames,
+  getIngredientCanonicalKey,
   getIngredientDisplayName,
+  isMoreSpecificIngredientLabel,
 } from "./displayIngredientName";
 export type { IngredientDisplayLocale } from "./displayIngredientName";
 export { getRetailerDisplayName } from "./getRetailerDisplayName";

@@ -128,19 +128,67 @@ export function getIngredientDisplayName(
   return displayIngredientName(name, locale);
 }
 
+/** 표시용 canonical 키 (매칭 로직과 동일 toCanonical — 배열/점수 변경 없음) */
+export function getIngredientCanonicalKey(name: string): string {
+  const trimmed = name.trim();
+  if (!trimmed) return "";
+
+  // "Centella Asiatica (Cica)"처럼 괄호 별칭이 붙은 표기는
+  // 괄호를 제거한 기본명 canonical을 우선해 동일 성분으로 묶는다.
+  const withoutParen = trimmed
+    .replace(/\s*[([{（][^)\]}）]*[)\]}）]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const keyFull = toCanonical(trimmed);
+  const keyBase =
+    withoutParen && withoutParen !== trimmed ? toCanonical(withoutParen) : "";
+
+  if (keyBase && keyFull && keyBase !== keyFull) {
+    if (keyFull.startsWith(keyBase) || keyFull.includes(keyBase)) {
+      return keyBase;
+    }
+  }
+
+  return keyFull || keyBase || ingredientDisplayLookupKey(trimmed);
+}
+
+/**
+ * 더 구체적인 표시 라벨 우선 (괄호 부가명·더 긴 표기).
+ * 서로 다른 성분을 합치지 않는다 — 동일 canonical 안에서만 비교.
+ */
+export function isMoreSpecificIngredientLabel(
+  candidate: string,
+  previous: string
+): boolean {
+  const a = candidate.trim();
+  const b = previous.trim();
+  if (!a) return false;
+  if (!b) return true;
+  const aParen = a.includes("(") || a.includes("（");
+  const bParen = b.includes("(") || b.includes("（");
+  if (aParen !== bParen) return aParen;
+  return a.length > b.length;
+}
+
+/**
+ * 화면 표시용 성분명 목록.
+ * 동일 canonical은 하나로 합치고, 구체 라벨을 남긴다.
+ * matchedIngredients / score 계산에는 쓰지 말 것.
+ */
 export function displayIngredientNames(
   names: string[],
   locale: IngredientDisplayLocale = "en"
 ): string[] {
-  const out: string[] = [];
-  const seen = new Set<string>();
+  const byCanonical = new Map<string, string>();
   for (const name of names) {
     const label = displayIngredientName(name, locale);
     if (!label) continue;
-    const key = label.toLowerCase();
-    if (seen.has(key)) continue;
-    seen.add(key);
-    out.push(label);
+    const canonicalKey = getIngredientCanonicalKey(name);
+    const key = canonicalKey || label.toLowerCase();
+    const previous = byCanonical.get(key);
+    if (!previous || isMoreSpecificIngredientLabel(label, previous)) {
+      byCanonical.set(key, label);
+    }
   }
-  return out;
+  return [...byCanonical.values()];
 }

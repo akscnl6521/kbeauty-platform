@@ -23,6 +23,8 @@ export type RecommendedProductCardProps = {
   locale?: "en" | "ja" | "ko";
   /** LocalStorage countryCode (구매 링크 선택) */
   countryCode?: string | null;
+  /** expert_first 등: 구매처 링크·가격 강조 숨김 (데이터는 유지) */
+  hidePurchaseCta?: boolean;
 };
 
 /**
@@ -34,6 +36,7 @@ export function RecommendedProductCard({
   ranked,
   locale = "ko",
   countryCode = null,
+  hidePurchaseCta = false,
 }: RecommendedProductCardProps) {
   const { product, score, matchedIngredients, excludedIngredients } = ranked;
 
@@ -178,7 +181,7 @@ export function RecommendedProductCard({
         </div>
       ) : null}
 
-      {purchase ? (
+      {purchase && !hidePurchaseCta ? (
         <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-0.5">
             <p className="text-[11px] text-gray-500 sm:text-xs">
@@ -236,6 +239,14 @@ export function RecommendedProductCard({
                 : "View retailer"}
           </a>
         </div>
+      ) : hidePurchaseCta ? (
+        <p className="mt-1 text-[11px] leading-relaxed text-gray-500 sm:text-xs">
+          {locale === "ko"
+            ? "지금은 제품 구매보다 상태 확인이 우선입니다."
+            : locale === "ja"
+              ? "今は購入より状態確認が優先です。"
+              : "Confirming your skin status comes before shopping right now."}
+        </p>
       ) : (
         <p className="mt-1 text-[11px] leading-relaxed text-gray-500 sm:text-xs">
           {noPurchaseMessage}

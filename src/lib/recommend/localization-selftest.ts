@@ -3,6 +3,7 @@
  */
 import {
   displayIngredientName,
+  displayIngredientNames,
   getIngredientDisplayName,
 } from "./displayIngredientName";
 import { getRetailerDisplayName } from "./getRetailerDisplayName";
@@ -92,6 +93,31 @@ export function runLocalizationDisplaySelftests(): {
     }) === "Olive Young",
     "generic retailer kept"
   );
+  checks += 1;
+
+  // --- 표시 단계 canonical dedupe (매칭 배열은 그대로) ---
+  const centellaAliases = [
+    "Centella Asiatica (Cica)",
+    "Centella Asiatica",
+    "센텔라",
+  ];
+  const centellaDisplay = displayIngredientNames(centellaAliases, "ko");
+  assert(
+    centellaDisplay.length === 1,
+    `centella aliases dedupe to 1, got ${centellaDisplay.length}: ${centellaDisplay.join("|")}`
+  );
+  assert(
+    centellaDisplay[0]!.includes("센텔라"),
+    "centella display keeps korean label"
+  );
+  // 구체 표기(괄호) 우선
+  assert(
+    centellaDisplay[0] === "센텔라 아시아티카(시카)" ||
+      centellaDisplay[0]!.includes("시카"),
+    "prefer more specific cica label when present"
+  );
+  // 원본 배열 불변 스모크
+  assert(centellaAliases.length === 3, "input array length unchanged");
   checks += 1;
 
   // --- 추천 로직 보존: 표시 번역이 matchedIngredients 원문을 바꾸지 않음 ---
