@@ -13,6 +13,7 @@
     "check:deployment-env": "node scripts/check-deployment-env.mjs",
     "test:smoke": "node scripts/smoke-test.mjs",
     "check:release-security": "node scripts/security-release-check.mjs",
+    "check:responsive": "node scripts/check-responsive-layout.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs"
   },
   "dependencies": {
