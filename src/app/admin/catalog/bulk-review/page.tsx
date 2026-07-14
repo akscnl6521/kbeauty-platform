@@ -3,6 +3,7 @@ import { AdminConfigurationError } from "@/lib/auth/errors";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { CatalogAutomationShell } from "../CatalogAutomationShell";
 import { BulkReviewFilters } from "./BulkReviewFilters";
+import { BulkReviewActions } from "./BulkReviewActions";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -96,6 +97,12 @@ export default async function BulkCatalogReviewPage({ searchParams }: PageProps)
       description="오류 유형·필터 단위로 검수합니다. 대량 승인은 Staging candidate 상태만 변경하며 공개 verified/publish는 실행하지 않습니다."
     >
       <BulkReviewFilters
+        brand={brand}
+        domain={domain}
+        status={status}
+        missing={missing}
+      />
+      <BulkReviewActions
         brand={brand}
         domain={domain}
         status={status}

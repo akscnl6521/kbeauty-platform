@@ -63,6 +63,8 @@ export function BulkReviewFilters({
           <option value="">전체</option>
           <option value="inci">전성분 누락</option>
           <option value="image">이미지 누락</option>
+          <option value="pdp">공식 PDP 미확인</option>
+          <option value="source_conflict">출처 충돌</option>
         </select>
       </label>
       <div className="flex items-end">

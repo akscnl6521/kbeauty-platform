@@ -17,13 +17,15 @@
 - [x] Preview 자동 스모크 (`check:preview-quality`) — Deployment Protection → **SSO 수동 승인 대기**
 - [x] Preview SSO 대체 검증 (`check:preview-substitute`) — Staging linked 카탈로그 8고민 E2E
 - [x] **Full Beauty 스프린트** — 카테고리·35브랜드·1161후보 Staging · 메이크업/헤어 랭커 · bulk-review · Preview
+- [x] **Discovery 보강** — 플레이스홀더 1085 rejected · 전 브랜드 enrich 완료 · 문진 4종 · bulk API · Preview
+- [ ] 공개 전성분/공식 라벨 확보율 개선 (JSON-LD에 INCI 부재)
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/bulk-review`)
-- [ ] 브랜드 terms/robots 승인 후 live crawl ON · 공식 INCI·이미지 Storage 수집
+- [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인
 - [ ] **A안:** Staging 한국 COSRX 시드 Production 반영 (승인 후)
 - [ ] main 병합 · Production 배포 — **승인 후**
-- 판정: **BLOCKED** (Preview SSO · INCI 수집 · Production 출시 항목)
+- 판정: **BLOCKED** (전성분 확보 · Preview SSO · Production 출시 항목)
 
 
 ---

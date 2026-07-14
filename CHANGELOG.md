@@ -4,6 +4,17 @@
 
 ---
 
+## 2026-07-15
+
+### Discovery 보강 스프린트 1차
+
+- 플레이스홀더 1085건 Staging `rejected` (추천 제외)
+- robots 준수 공식 JSON-LD 수집 · `official_matched` 5 · 전성분 추측 저장 없음
+- 브랜드 체크포인트 `data/catalog/enrichment/checkpoint.json` (재개: romand)
+- 문진 `/quiz/mascara|lip|base|hair` · bulk API `/api/admin/catalog/bulk`
+- Preview https://kbeauty-platform-7k9e5hhex-akscnl6521s-projects.vercel.app
+- Production · main 미변경
+
 ## 2026-07-14
 
 ### Full Beauty 플랫폼 스프린트

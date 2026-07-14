@@ -1,11 +1,27 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-14
+최종 갱신: 2026-07-15
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO 수동 검수 → 공식 INCI/라이브 수집 승인 브랜드 확대 → 승인 시 A안/main/Production.  
-**방금 완료:** Full Beauty 플랫폼 스프린트 (카테고리·수집 파이프라인·Staging 1161·추천 확장·Preview).
+**다음 작업:** Preview SSO 검수 · 공식 전성분 라벨/공개 피드 확보 채널 추가 · 승인 시 A안/main/Production.  
+**방금 완료:** Discovery 보강 스프린트 (플레이스홀더 1085 rejected · 전 브랜드 enrich 완료 · 문진/대량검수/Preview).
+
+### 2026-07-15 Discovery 보강 스프린트
+
+| 항목 | 값 |
+|------|-----|
+| 플레이스홀더 제거 | **1085** (`rejected` / 추천 제외) |
+| 공식 PDP 매칭 | **5** (`official_matched` · recommendable) |
+| needs_review | **71** (robots/404/JSON-LD 부재 등) |
+| 전성분 확보 | **0%** (공개 JSON-LD에 INCI 거의 없음 · 추측 저장 안 함) |
+| 이미지 | Staging 비-rejected 중 remote URL 일부 · Storage 복제 없음 |
+| 재개 지점 | **완료** (`resumeBrandId=null`) · 재실행 시 멱등 업데이트 |
+| 문진 | `/quiz/mascara` `/quiz/lip` `/quiz/base` `/quiz/hair` |
+| Admin | `/admin/catalog/bulk-review` 대량 예상/적용 (Staging only) |
+| Preview | https://kbeauty-platform-7k9e5hhex-akscnl6521s-projects.vercel.app |
+| Production / main | 미변경 |
+| 명령 | `npm run catalog:enrich` · `npm run test:enrichment` |
 
 ### 2026-07-14 Full Beauty 플랫폼 스프린트
 

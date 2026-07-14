@@ -62,3 +62,5 @@ supabase/.temp/
 /data/catalog/full-beauty/**/processed-catalog.json
 /data/catalog/full-beauty/**/raw-catalog.json
 /data/backups/full-beauty-*/
+/data/catalog/enrichment/**/sql/
+/data/catalog/enrichment/checkpoint.json

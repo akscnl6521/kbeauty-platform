@@ -100,6 +100,11 @@ export function ResultsDomainTabs({
               메이크업은 피부톤·언더톤·속성 매칭을 우선합니다. 논문 근거가 없는
               표현은 사실처럼 단정하지 않습니다.
             </p>
+            <div className="flex flex-wrap gap-2 text-xs">
+              <a className="rounded-full border border-[#E8DFD8] px-3 py-1.5" href="/quiz/mascara">마스카라 문진</a>
+              <a className="rounded-full border border-[#E8DFD8] px-3 py-1.5" href="/quiz/lip">립 문진</a>
+              <a className="rounded-full border border-[#E8DFD8] px-3 py-1.5" href="/quiz/base">베이스 문진</a>
+            </div>
             <div>
               <p className="font-semibold text-gray-900">마스카라 힌트</p>
               <ul className="mt-1 list-disc pl-5">
@@ -120,6 +125,10 @@ export function ResultsDomainTabs({
                 )}
               </ul>
             </div>
+            <p className="rounded-xl bg-[#F7F1EC] px-3 py-2 text-xs text-gray-600">
+              공식 PDP가 확인되고 recommendable인 Staging 후보만 이후 공개 추천
+              검토 대상입니다. 플레이스홀더는 노출되지 않습니다.
+            </p>
           </div>
         ) : null}
         {tab === "hair" ? (
@@ -127,6 +136,12 @@ export function ResultsDomainTabs({
             <p className="text-gray-600">
               두피·모발 추천은 스킨케어 랭킹과 분리된 도메인에서만 매칭합니다.
             </p>
+            <a
+              className="mt-2 inline-flex rounded-full border border-[#E8DFD8] px-3 py-1.5 text-xs"
+              href="/quiz/hair"
+            >
+              샴푸·두피 문진
+            </a>
             <ul className="mt-2 list-disc pl-5">
               {(scalpHints.length
                 ? scalpHints
