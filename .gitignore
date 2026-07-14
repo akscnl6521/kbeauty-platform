@@ -55,3 +55,10 @@ supabase/.temp/
 /data/pipeline/logs/
 /data/pipeline/operation-overrides.json
 /data/pipeline/operations-alerts.json
+
+# full-beauty catalog sprint heavy artifacts (keep manifests only)
+/data/catalog/full-beauty/**/sql/
+/data/catalog/full-beauty/**/processed-full.json
+/data/catalog/full-beauty/**/processed-catalog.json
+/data/catalog/full-beauty/**/raw-catalog.json
+/data/backups/full-beauty-*/

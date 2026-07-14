@@ -9,12 +9,21 @@
 ## 0. 지금 할 일 (단일)
 
 - [x] 출시 직전 로컬 검사 · 브랜치 push (`1181edd`)
+- [x] Staging `products` anon SELECT 권한·RLS 수정 (`permission denied` 해소)
+- [x] Evidence Layer 1차: 증상→성분 공개 근거 → 추천/결과 UI (Staging 시드 8건)
+- [x] Evidence Layer 2차: admin Evidence CRUD API·UI · DB 승인 근거 조회 · acne 시드
+- [x] Evidence Layer 2차 보강: 색소·주름·모공·UV · acne(살리실산) · 고민별 주의·랭킹 분기 검증
+- [x] Evidence·한국 제품 추천 품질 회귀 (`test:quality` · Staging `check:staging-quality`)
+- [x] Preview 자동 스모크 (`check:preview-quality`) — Deployment Protection → **SSO 수동 승인 대기**
+- [x] Preview SSO 대체 검증 (`check:preview-substitute`) — Staging linked 카탈로그 8고민 E2E
+- [x] **Full Beauty 스프린트** — 카테고리·35브랜드·1161후보 Staging · 메이크업/헤어 랭커 · bulk-review · Preview
+- [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/bulk-review`)
+- [ ] 브랜드 terms/robots 승인 후 live crawl ON · 공식 INCI·이미지 Storage 수집
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인
-- [ ] Preview SSO 수동 확인 (사용자 1회 체크리스트)
-- [ ] **A안:** Staging 한국 COSRX 시드 Production 반영 (승인 후) — 계획: `docs/RELEASE_KR_CATALOG_PRODUCTION_PLAN.md`
+- [ ] **A안:** Staging 한국 COSRX 시드 Production 반영 (승인 후)
 - [ ] main 병합 · Production 배포 — **승인 후**
-- 판정: **BLOCKED**
+- 판정: **BLOCKED** (Preview SSO · INCI 수집 · Production 출시 항목)
 
 
 ---
@@ -106,7 +115,7 @@
 2. 검색 후보 저장 구조  
 3. 판매 검증 상태  
 4. 전성분 구조  
-5. 논문 근거 DB  
+5. 논문 근거 DB — Staging 시드·정적 카탈로그·관리자 Evidence CRUD 연결 완료  
 6. 관리자 검증 화면  
 7. COSRX 3개를 첫 실제 검증 사례로 적용  
 8. Supabase 반영  
@@ -119,7 +128,7 @@
 - 판매 상태 검증  
 - 전성분 수집  
 - 성분 표준화  
-- 논문 근거 연결  
+- 논문 근거 연결 — 추천/결과 + `/admin/evidence` 완료 (Preview SSO 수동 확인 대기)  
 - 중복 검사  
 - 관리자 승인  
 - Supabase 등록  

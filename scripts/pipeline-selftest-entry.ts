@@ -2,6 +2,7 @@ import { runPipelineSelftests } from "../src/lib/pipeline/selftest";
 import { runJourneySelftests } from "../src/lib/user/journey-selftest";
 import { runRecommendScoreFixSelftests } from "../src/lib/recommend/recommend-selftest";
 import { runLocalizationDisplaySelftests } from "../src/lib/recommend/localization-selftest";
+import { runRecommendQualityRegressionSelftests } from "../src/lib/recommend/quality-regression-selftest";
 import { runRednessObservationSelftests } from "../src/lib/ai/redness-selftest";
 import { runAnalyzeInputSnapshotSelftests } from "../src/lib/ai/analyze-input-snapshot-selftest";
 import { runAnalyzeReferencePreviewSelftests } from "../src/lib/ai/analyze-reference-preview-selftest";
@@ -16,6 +17,7 @@ async function main() {
   const journey = runJourneySelftests();
   const recommend = runRecommendScoreFixSelftests();
   const localization = runLocalizationDisplaySelftests();
+  const quality = runRecommendQualityRegressionSelftests();
   const redness = runRednessObservationSelftests();
   const analyzeInput = runAnalyzeInputSnapshotSelftests();
   const referencePreview = runAnalyzeReferencePreviewSelftests();
@@ -29,6 +31,8 @@ async function main() {
     journeyChecks: journey.checks,
     recommendChecks: recommend.checks,
     localizationChecks: localization.checks,
+    qualityRegressionChecks: quality.checks,
+    qualityConcerns: quality.concerns,
     rednessChecks: redness.checks,
     analyzeInputChecks: analyzeInput.checks,
     referencePreviewChecks: referencePreview.checks,
@@ -39,7 +43,6 @@ async function main() {
     productCreateChecks: productCreate.checks,
   });
 }
-
 
 main().catch((err) => {
   console.error(err);

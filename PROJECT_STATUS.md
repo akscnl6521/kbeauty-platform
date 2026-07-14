@@ -4,7 +4,97 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** 아래 출시 차단 4항 해소 후 사용자 승인 → (권고) **A안** Production 한국 제품 반영 → main 병합 → Production 배포.
+**다음 작업:** Preview SSO 수동 검수 → 공식 INCI/라이브 수집 승인 브랜드 확대 → 승인 시 A안/main/Production.  
+**방금 완료:** Full Beauty 플랫폼 스프린트 (카테고리·수집 파이프라인·Staging 1161·추천 확장·Preview).
+
+### 2026-07-14 Full Beauty 플랫폼 스프린트
+
+| 항목 | 값 |
+|------|-----|
+| 브랜드 | **35** (KR 공식 도메인 allowlist, live crawl OFF) |
+| 제품 후보 | **1161** (known_hero/shade + category discovery) |
+| Staging | discovery 1161 · staging `data_complete` 76 · `needs_review` 1085 |
+| 확보율 | 이미지 6.5% · 전성분 0% · 판매처힌트 6.5% · Evidence 연결 1.9% |
+| 원인 | live crawl/terms 미승인 → discovery placeholder 다수 · INCI 미파싱 |
+| 추천 | 마스카라·립·베이스 undertone 랭커 · 두피/헤어 기존 랭커 selftest |
+| Admin | `/admin/catalog/bulk-review` 대량 필터 검수 |
+| UI | `/results` 도메인 탭 · 홈 카피 확장 |
+| 테스트 | `npm run test:full-beauty` · `tsc` · `build` 통과 |
+| Preview | https://kbeauty-platform-4mf5tlnjm-akscnl6521s-projects.vercel.app |
+| 정책 | 공개 verified 자동 승격 없음 · 이미지 external_link_only · Production/main 미변경 |
+| 명령 | `npm run catalog:full-beauty` · `npm run test:full-beauty` |
+
+### 2026-07-14 Preview SSO 대체 검증 (Staging)
+
+| 항목 | 값 |
+|------|-----|
+| 명령 | `npm run check:preview-substitute` |
+| 방식 | linked Staging SQL 카탈로그 → Evidence/KR offer/랭킹 (`.env.local` 미사용) |
+| 결과 | 8고민 fingerprint 유일 · probe 0 · counseling `expert_first` |
+| Preview HTTP | `check:preview-quality` → **SSO_MANUAL_REQUIRED** |
+| 주의 | 로컬 `.env.local`의 Supabase URL이 Production ref를 가리킬 수 있음 → 스크립트는 linked Staging만 사용 |
+| Production / main | 미변경 |
+
+### 2026-07-14 Preview 자동 스모크 (SSO 한도)
+
+| 항목 | 값 |
+|------|-----|
+| Preview | https://kbeauty-platform-55z9iwaqj-akscnl6521s-projects.vercel.app · status Ready · target preview |
+| 자동 | `check:preview-quality` → Deployment Protection으로 **SSO_MANUAL_REQUIRED** (bypass secret 없음) |
+| 로컬·Staging | `test:quality` · `check:staging-quality` 통과 유지 |
+| 수동 남음 | SSO 승인 → 8고민 results · `/admin/evidence` |
+| Production / main | 미변경 |
+
+### 2026-07-14 추천 품질 회귀 테스트
+
+| 항목 | 값 |
+|------|-----|
+| 로컬 | `npm run test:quality` · 8고민 fingerprint 유일 · probe/미검수 실패 |
+| 파이프라인 | `test:pipeline`에 quality regression 포함 |
+| Staging | `npm run check:staging-quality` · 공개 probe 0 · PMID set 8개 상이 |
+| Preview | https://kbeauty-platform-55z9iwaqj-akscnl6521s-projects.vercel.app |
+| Production / main | 미변경 |
+
+### 2026-07-14 Evidence Layer 2차 보강 (색소·주름·모공·UV·acne)
+
+| 항목 | 값 |
+|------|-----|
+| 신규 concerns | pigmentation · antiaging · pores · uv |
+| acne 보강 | salicylic-acid PMID `37941097` (기존 `17147561` 유지) |
+| 주의 조건 | `concernGuidance` → precautions / ingredientsToAvoid |
+| Staging | approved evidence **18** · PMID set 고민별 상이 |
+| Preview | https://kbeauty-platform-jxdrqgj1a-akscnl6521s-projects.vercel.app |
+| Production / main | 미변경 |
+
+### 2026-07-14 Evidence Layer 2차
+
+| 항목 | 값 |
+|------|-----|
+| Admin API | `GET/POST /api/admin/evidence`, `PATCH /api/admin/evidence/[id]` |
+| Admin UI | `/admin/evidence` · 성분 상세 등록 폼 |
+| 런타임 | `resolveApprovedEvidenceForConcerns` = Staging DB approved ∪ 정적 폴백 |
+| Staging | concerns +acne · evidence approved 9 (PMID 17147561) |
+| Preview | https://kbeauty-platform-36yxo76cr-akscnl6521s-projects.vercel.app |
+| Production / main | 미변경 |
+
+### 2026-07-14 Evidence Layer 연결
+
+| 항목 | 값 |
+|------|-----|
+| 카탈로그 | `data/evidence/concern-ingredient-evidence.json` |
+| 연동 | analyze + persistTopRanked → 증상→승인 근거 성분→한국 제품 매칭 |
+| UI | 결과 가이드「증상 → 성분 공개 근거」·카드 PMID 링크 |
+| Staging | concerns 3 · evidence approved 8 · Production 미변경 |
+
+### 2026-07-14 Staging products 공개 SELECT 수정
+
+| 항목 | 값 |
+|------|-----|
+| 증상 | Preview AI 분석 후 `permission denied for table products` |
+| 원인 | anon/authenticated에 `products` SELECT 권한 없음 (RLS만 존재) |
+| 조치 | Staging만 컬럼 단위 GRANT + RLS(`active=true` ∧ `verified_at IS NOT NULL`) · `data_confidence` 제외 |
+| 검증 | anon REST 200·verified 5행 · `data_confidence` 401 · inactive 0행 · Production/main 미변경 |
+| migration | `20260714070000_grant_anon_select_verified_active_products.sql` |
 
 ### 2026-07-14 출시 차단 4항 최종
 

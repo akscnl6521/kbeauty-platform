@@ -46,6 +46,110 @@ function asManagementLevel(value: unknown): ManagementLevel | undefined {
   return (MANAGEMENT_LEVELS as readonly string[]).includes(v) ? v : undefined;
 }
 
+function asEvidenceLinks(
+  value: unknown
+): NonNullable<Recommendation["evidenceLinks"]> {
+  if (!Array.isArray(value)) return [];
+  const out: NonNullable<Recommendation["evidenceLinks"]> = [];
+  for (const row of value) {
+    if (!isRecord(row)) continue;
+    const id = typeof row.id === "string" ? row.id.trim() : "";
+    const concernCode =
+      typeof row.concernCode === "string"
+        ? row.concernCode.trim()
+        : typeof row.concern_code === "string"
+          ? row.concern_code.trim()
+          : "";
+    const ingredientSlug =
+      typeof row.ingredientSlug === "string"
+        ? row.ingredientSlug.trim()
+        : typeof row.ingredient_slug === "string"
+          ? row.ingredient_slug.trim()
+          : "";
+    const ingredientNameEn =
+      typeof row.ingredientNameEn === "string"
+        ? row.ingredientNameEn.trim()
+        : typeof row.ingredient_name_en === "string"
+          ? row.ingredient_name_en.trim()
+          : "";
+    const ingredientNameKo =
+      typeof row.ingredientNameKo === "string"
+        ? row.ingredientNameKo.trim()
+        : typeof row.ingredient_name_ko === "string"
+          ? row.ingredient_name_ko.trim()
+          : ingredientNameEn;
+    const evidenceLevel =
+      typeof row.evidenceLevel === "string"
+        ? row.evidenceLevel.trim()
+        : typeof row.evidence_level === "string"
+          ? row.evidence_level.trim()
+          : "";
+    const evidenceType =
+      typeof row.evidenceType === "string"
+        ? row.evidenceType.trim()
+        : typeof row.evidence_type === "string"
+          ? row.evidence_type.trim()
+          : "cosmetic_study";
+    if (!id || !concernCode || !ingredientSlug || !ingredientNameEn || !evidenceLevel) {
+      continue;
+    }
+    out.push({
+      id,
+      concernCode,
+      concernNameKo:
+        typeof row.concernNameKo === "string" ? row.concernNameKo : undefined,
+      ingredientSlug,
+      ingredientNameEn,
+      ingredientNameKo: ingredientNameKo || ingredientNameEn,
+      aliases: asStringArray(row.aliases),
+      evidenceLevel: evidenceLevel as NonNullable<
+        Recommendation["evidenceLinks"]
+      >[number]["evidenceLevel"],
+      evidenceType: evidenceType as NonNullable<
+        Recommendation["evidenceLinks"]
+      >[number]["evidenceType"],
+      outcomeSummary:
+        typeof row.outcomeSummary === "string"
+          ? row.outcomeSummary
+          : typeof row.outcome_summary === "string"
+            ? row.outcome_summary
+            : "",
+      pmid:
+        typeof row.pmid === "string"
+          ? row.pmid
+          : row.pmid == null
+            ? null
+            : String(row.pmid),
+      doi:
+        typeof row.doi === "string"
+          ? row.doi
+          : row.doi == null
+            ? null
+            : String(row.doi),
+      sourceUrl:
+        typeof row.sourceUrl === "string"
+          ? row.sourceUrl
+          : typeof row.source_url === "string"
+            ? row.source_url
+            : null,
+      journal: typeof row.journal === "string" ? row.journal : null,
+      publicationYear:
+        typeof row.publicationYear === "number"
+          ? row.publicationYear
+          : typeof row.publication_year === "number"
+            ? row.publication_year
+            : null,
+      conflictOfInterest:
+        typeof row.conflictOfInterest === "string"
+          ? row.conflictOfInterest
+          : typeof row.conflict_of_interest === "string"
+            ? row.conflict_of_interest
+            : null,
+    });
+  }
+  return out;
+}
+
 /**
  * LocalStorage(skinRecommendation)에서 Recommendation 을 읽는다.
  * 확장 필드(선택)도 함께 복원한다.
@@ -176,6 +280,9 @@ export function loadRecommendationFromStorage(): Recommendation | null {
     const rednessObservation = parseRednessObservation(
       parsed.rednessObservation ?? parsed.redness_observation
     );
+    const evidenceLinks = asEvidenceLinks(
+      parsed.evidenceLinks ?? parsed.evidence_links
+    );
 
     return {
       ...base,
@@ -203,6 +310,7 @@ export function loadRecommendationFromStorage(): Recommendation | null {
       ...(summaryEn ? { summaryEn } : {}),
       ...(summaryJa ? { summaryJa } : {}),
       ...(rednessObservation ? { rednessObservation } : {}),
+      ...(evidenceLinks.length ? { evidenceLinks } : {}),
     };
   } catch {
     return null;

@@ -8,6 +8,7 @@ const LINKS: Array<{ href: string; label: string; key: string }> = [
   { href: "/admin/offers", label: "Offers", key: "offers" },
   { href: "/admin/discovery", label: "Discovery", key: "discovery" },
   { href: "/admin/ingredients", label: "Ingredients", key: "ingredients" },
+  { href: "/admin/evidence", label: "Evidence", key: "evidence" },
   { href: "/admin/verification", label: "Verification", key: "verification" },
   { href: "/admin/pipeline", label: "Pipeline", key: "pipeline" },
   { href: "/admin/operations", label: "Operations", key: "operations" },

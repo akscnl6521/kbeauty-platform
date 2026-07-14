@@ -23,7 +23,14 @@ import {
   displayBrandName,
   displayProductTitle,
   getCanonicalBrandName,
+  isKoreanBeautyBrand,
 } from "@/lib/brand/displayBrandName";
+import {
+  evidenceCitationHref,
+  evidenceLevelLabelKo,
+} from "@/lib/evidence";
+import { filterPublicCatalogProducts } from "@/lib/recommend/publicCatalogFilter";
+import { ResultsDomainTabs } from "@/components/results/ResultsDomainTabs";
 
 function managementLevelLabelKo(level: ManagementLevel): string {
   const map: Record<ManagementLevel, string> = {
@@ -535,6 +542,8 @@ function ResultsPageInner() {
           .select(
             "id, name, name_ja, name_ko, brand, category, skin_concern, skin_tone, key_ingredients, key_ingredients_ja, price_usd, recommendation_reason, recommendation_reason_ko, recommendation_reason_ja, slug, link_sephora, link_amazon_us, link_amazon_jp, link_qoo10, link_oliveyoung, link_coupang, link_yesstyle"
           )
+          .eq("active", true)
+          .not("verified_at", "is", null)
           .limit(10000);
 
         if (fetchError) {
@@ -542,10 +551,12 @@ function ResultsPageInner() {
           setError(fetchError.message);
           return;
         }
-        const rows = ((data as ProductRow[]) ?? []).map((row) => ({
-          ...row,
-          brand: getCanonicalBrandName(row.brand) ?? row.brand,
-        }));
+        const rows = filterPublicCatalogProducts(
+          ((data as ProductRow[]) ?? []).map((row) => ({
+            ...row,
+            brand: getCanonicalBrandName(row.brand) ?? row.brand,
+          }))
+        );
         setProducts(rows);
       } catch (e) {
         const err = e instanceof Error ? e : new Error(String(e));
@@ -685,6 +696,37 @@ function ResultsPageInner() {
               <div className="space-y-8">
                 {savedRecommendation ? (
                   <div className="space-y-6 border-b border-pink-100 pb-8">
+                    <ResultsDomainTabs
+                      skinTone={savedRecommendation.skinType?.trim() ?? ""}
+                      undertone={
+                        typeof (savedRecommendation as { undertone?: string })
+                          .undertone === "string"
+                          ? (savedRecommendation as { undertone?: string })
+                              .undertone
+                          : undefined
+                      }
+                      hasSkincare={rankedProducts.length > 0}
+                      mascaraHints={[
+                        "워터프루프·컬링·볼륨·롱래쉬 선호를 문진과 함께 반영합니다.",
+                        "민감한 눈이면 워터프루프 세정 난이도를 먼저 확인하세요.",
+                      ]}
+                      lipHints={[
+                        "언더톤·매트/글로시·착색 선호로 립 후보를 좁힙니다.",
+                        "건조한 입술이면 매트보다 보습·글로시 속성을 우선합니다.",
+                      ]}
+                      scalpHints={[
+                        "건성·지성·민감 두피와 비듬·손상·열 손상은 헤어 도메인에서 별도 매칭합니다.",
+                      ]}
+                      morningSteps={nonEmptyList(
+                        savedRecommendation.suggestedMorningOrder
+                      )}
+                      eveningSteps={nonEmptyList(
+                        savedRecommendation.suggestedEveningOrder
+                      )}
+                      cautions={nonEmptyList(
+                        savedRecommendation.ingredientsToAvoid
+                      ).slice(0, 6)}
+                    />
                     {(() => {
                       const summaryKo = pickKoreanSummary(savedRecommendation);
                       const skinType =
@@ -1150,6 +1192,59 @@ function ResultsPageInner() {
                                   />
                                 </GuideBlock>
                               ) : null}
+                              {(savedRecommendation.evidenceLinks?.length ??
+                                0) > 0 ? (
+                                <GuideBlock title="증상 → 성분 공개 근거">
+                                  <p className="mb-2 max-w-3xl text-sm leading-relaxed text-gray-600">
+                                    {locale === "ko"
+                                      ? "논문·공식 공개 출처를 성분–고민 힌트로만 표시합니다. 제품 전체 효능을 단정하지 않습니다."
+                                      : "Public ingredient–concern citations only — not product cure claims."}
+                                  </p>
+                                  <ul className="space-y-2 text-sm text-gray-700">
+                                    {(savedRecommendation.evidenceLinks ?? [])
+                                      .slice(0, 6)
+                                      .map((ev) => {
+                                        const href = evidenceCitationHref(ev);
+                                        return (
+                                          <li key={ev.id}>
+                                            <span className="font-medium">
+                                              {ev.concernNameKo ??
+                                                ev.concernCode}
+                                            </span>
+                                            {" → "}
+                                            <span>
+                                              {ev.ingredientNameKo ||
+                                                ev.ingredientNameEn}
+                                            </span>
+                                            {" · "}
+                                            <span className="text-gray-500">
+                                              {evidenceLevelLabelKo(
+                                                ev.evidenceLevel
+                                              )}
+                                            </span>
+                                            {ev.pmid ? (
+                                              <>
+                                                {" · "}
+                                                {href ? (
+                                                  <a
+                                                    href={href}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-[#C2185B] underline hover:no-underline"
+                                                  >
+                                                    PMID {ev.pmid}
+                                                  </a>
+                                                ) : (
+                                                  <span>PMID {ev.pmid}</span>
+                                                )}
+                                              </>
+                                            ) : null}
+                                          </li>
+                                        );
+                                      })}
+                                  </ul>
+                                </GuideBlock>
+                              ) : null}
                               {avoid.length > 0 ? (
                                 <GuideBlock title="피해야 할 성분">
                                   <BulletList
@@ -1258,23 +1353,57 @@ function ResultsPageInner() {
                   </div>
                 ) : null}
 
-                {/* AI 핵심 추천 — expert_first는 카드·구매 CTA 숨기고 안내만 */}
+                {/* AI 핵심 추천 — expert_first는 구매 권유 대신 보조 관리용 한국 제품 */}
                 {isRiskResults ? (
-                  <div className="rounded-2xl border border-[#8B1E3F]/20 bg-[#FDF6F8] p-5 sm:p-6">
-                    <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900 sm:text-2xl">
-                      {locale === "ko"
-                        ? "현재는 제품 선택보다 상태 확인이 우선입니다"
-                        : locale === "ja"
-                          ? "今は製品選びより状態確認が優先です"
-                          : "Confirming your status comes before product choices"}
-                    </h3>
-                    <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-700">
-                      {locale === "ko"
-                        ? "새 제품 구매는 전문가 상담 또는 상태가 안정된 뒤 검토하세요."
-                        : locale === "ja"
-                          ? "新しい製品の購入は、専門家相談後または状態が安定してから検討してください。"
-                          : "Review new products after expert counseling or once your skin has stabilized."}
-                    </p>
+                  <div className="space-y-4">
+                    <div className="rounded-2xl border border-[#8B1E3F]/20 bg-[#FDF6F8] p-5 sm:p-6">
+                      <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900 sm:text-2xl">
+                        {locale === "ko"
+                          ? "현재는 제품 선택보다 상태 확인이 우선입니다"
+                          : locale === "ja"
+                            ? "今は製品選びより状態確認が優先です"
+                            : "Confirming your status comes before product choices"}
+                      </h3>
+                      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-700">
+                        {locale === "ko"
+                          ? "새 제품 구매는 전문가 상담 또는 상태가 안정된 뒤 검토하세요. 아래는 구매 권유가 아닌 보조 관리용 한국 제품 참고입니다."
+                          : locale === "ja"
+                            ? "新しい製品の購入は、専門家相談後または状態が安定してから検討してください。以下は購入推奨ではなく補助ケア用の韓国製品参考です。"
+                            : "Review new purchases after counseling or once skin has stabilized. Below are supportive Korean-product references — not purchase pushes."}
+                      </p>
+                    </div>
+                    {rankedProducts.length > 0 ? (
+                      <div className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
+                        <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900 sm:text-2xl">
+                          {locale === "ko"
+                            ? "보조 관리용 한국 제품"
+                            : locale === "ja"
+                              ? "補助ケア用の韓国製品"
+                              : "Supportive Korean products"}
+                        </h3>
+                        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-gray-600">
+                          {locale === "ko"
+                            ? "자극이 강한 활성 성분은 제외했습니다. 성분·선택 항목과의 연결만 참고하세요."
+                            : locale === "ja"
+                              ? "刺激の強い活性成分は除外しています。成分と選択項目のつながりだけ参考にしてください。"
+                              : "Strong actives are excluded. Use ingredient–selection links as reference only."}
+                        </p>
+                        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                          {rankedProducts.map((ranked, index) => (
+                            <RecommendedProductCard
+                              key={ranked.product.id}
+                              rank={index + 1}
+                              ranked={ranked}
+                              locale={locale}
+                              countryCode={countryCode ?? "KR"}
+                              hidePurchaseCta
+                              softCareMode
+                              recommendation={savedRecommendation}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 ) : rankedProducts.length > 0 ? (
                   <div className="rounded-2xl border border-[#C2185B]/25 bg-gradient-to-b from-pink-50/80 to-white p-4 sm:p-6">
@@ -1340,6 +1469,7 @@ function ResultsPageInner() {
                           ranked={ranked}
                           locale={locale}
                           countryCode={countryCode ?? "KR"}
+                          recommendation={savedRecommendation}
                         />
                       ))}
                     </div>
@@ -1616,9 +1746,16 @@ function ResultsPageInner() {
                               {"🔖"}
                             </span>
                           </button>
-                          <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#B8860B]">
-                            {displayBrandName(product.brand, locale) ??
-                              product.brand}
+                          <div className="mb-3 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#B8860B]">
+                            <span>
+                              {displayBrandName(product.brand, locale) ??
+                                product.brand}
+                            </span>
+                            {isKoreanBeautyBrand(product.brand) ? (
+                              <span className="rounded-md border border-[#C2185B]/25 bg-[#C2185B]/08 px-1.5 py-0.5 text-[10px] font-semibold normal-case tracking-normal text-[#C2185B]">
+                                {locale === "ko" ? "한국 브랜드" : "K-Beauty"}
+                              </span>
+                            ) : null}
                           </div>
                           {!isRiskResults && !hasKrVerifiedOffer ? (
                             <p className="mb-2 inline-flex w-fit rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[11px] font-semibold text-amber-800">

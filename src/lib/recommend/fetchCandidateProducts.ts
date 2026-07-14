@@ -3,6 +3,7 @@ import { getCanonicalBrandName } from "@/lib/brand/displayBrandName";
 import type { ProductOffer } from "./catalogTypes";
 import { asConcernOrToneField } from "./asConcernOrToneField";
 import { normalizeProductOffer } from "./productOffer";
+import { isExcludedFromPublicCatalog } from "./publicCatalogFilter";
 import type { CandidateProduct, FetchCandidateProductsOptions } from "./types";
 
 export { asConcernOrToneField } from "./asConcernOrToneField";
@@ -276,7 +277,9 @@ export async function fetchCandidateProducts(
   const products: CandidateProduct[] = [];
   for (const row of data as ProductRowRaw[]) {
     const mapped = mapRowToCandidateProduct(row);
-    if (mapped) products.push(mapped);
+    if (!mapped) continue;
+    if (isExcludedFromPublicCatalog(mapped)) continue;
+    products.push(mapped);
   }
 
   if (includeOffers && products.length > 0) {

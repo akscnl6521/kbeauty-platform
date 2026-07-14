@@ -10,6 +10,7 @@ import {
 } from "@/lib/admin/ingredient-detail";
 import { AdminLogoutButton } from "../../AdminLogoutButton";
 import { AdminSubnav } from "../../AdminSubnav";
+import { EvidenceCreateForm } from "../../evidence/EvidenceActions";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -258,8 +259,11 @@ function DetailBody({ data }: { data: AdminIngredientDetailPayload }) {
 
       <Section
         title="Evidence"
-        description="evidence 존재 ≠ ingredient verified"
+        description="evidence 존재 ≠ ingredient verified · 신규 등록은 researcher/admin"
       >
+        <div className="mb-6">
+          <EvidenceCreateForm defaultIngredientId={ingredient.id} />
+        </div>
         {evidence.length === 0 ? (
           <p className="text-sm text-gray-500">evidence 없음</p>
         ) : (

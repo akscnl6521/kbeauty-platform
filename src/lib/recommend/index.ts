@@ -20,6 +20,13 @@ export type {
   RetailerType,
   StockStatus,
 } from "./catalogTypes";
+export {
+  filterPublicCatalogProducts,
+  filterOutStimulatingActives,
+  hasStimulatingActives,
+  isExcludedFromPublicCatalog,
+} from "./publicCatalogFilter";
+export { buildMatchReason, buildEvidenceCitationItems } from "./buildMatchReason";
 export { CATALOG_DATA_GOALS, CORE_ALLOWED_STOCK } from "./catalogTypes";
 export {
   filterCandidatesByOfferAvailability,

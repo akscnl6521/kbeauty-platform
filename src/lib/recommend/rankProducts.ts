@@ -7,11 +7,14 @@ import {
   type CanonicalIngredientRef,
 } from "./normalizeIngredient";
 import { toCanonicalConcern } from "./concernAliases";
+import { isKoreanBeautyBrand } from "@/lib/brand/displayBrandName";
 import type { RankableProduct, RankedProduct, Recommendation } from "./types";
 
 const MATCH_WEIGHT = 1;
 const AVOID_PENALTY = 1.25;
 const AVOID_RATIO_PENALTY = 0.35;
+/** 한국 브랜드 가산 — 동일 매칭일 때 KR 제품 우선 */
+const KR_BRAND_BOOST = 0.35;
 
 const DEV_LOG_LIMIT = 5;
 let devLogCount = 0;
@@ -106,6 +109,10 @@ function scoreOneProduct<T extends RankableProduct>(
   if (avoidCount > 0) {
     score -= avoidCount * AVOID_PENALTY;
     score -= avoidCount * AVOID_RATIO_PENALTY;
+  }
+
+  if (isKoreanBeautyBrand(product.brand ?? null)) {
+    score += KR_BRAND_BOOST;
   }
 
   const confidenceFactor = 0.85 + 0.15 * recommendation.confidenceScore;

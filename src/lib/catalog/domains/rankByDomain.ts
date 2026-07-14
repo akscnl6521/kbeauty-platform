@@ -218,3 +218,9 @@ export function rankScalpDomain(input: ScalpRankInput, products: ScalpRankablePr
 export function rankHairDomain(input: HairRankInput, products: HairRankableProduct[]) {
   return rankHairProducts(input, products);
 }
+
+export {
+  rankMascaraProducts,
+  rankLipProducts,
+  rankBaseMakeupByUndertone,
+} from "@/lib/catalog/makeup";

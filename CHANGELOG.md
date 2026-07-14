@@ -6,6 +6,70 @@
 
 ## 2026-07-14
 
+### Full Beauty 플랫폼 스프린트
+
+- 카테고리·Staging migration `20260714100000_full_beauty_catalog_attributes.sql`
+- KR 브랜드 35 · 후보 1161 · Staging discovery/staging upsert (`catalog:full-beauty`)
+- 메이크업(마스카라·립·베이스) · 헤어/두피 랭커 selftest (`test:full-beauty`)
+- Evidence 속성 가이드 `data/evidence/makeup-hair-attribute-guidance.json`
+- Admin `/admin/catalog/bulk-review` · Results 도메인 탭 · 홈 카피 확장
+- Preview https://kbeauty-platform-4mf5tlnjm-akscnl6521s-projects.vercel.app
+- 공개 verified 자동 승격 없음 · Production · main 미변경
+
+### Preview SSO 대체 검증 (Staging linked)
+
+- `npm run check:preview-substitute` — Staging 제품 9 · offer 9 로 8고민 랭킹/근거/상담 분기
+- `.env.local` 미사용 (Production URL 혼입 방지)
+- Preview 브라우저 SSO는 여전히 수동
+- Production · main 미변경
+
+### Preview 품질 스모크 (SSO 한도)
+
+- `npm run check:preview-quality` (`PREVIEW_BASE_URL=…`)
+- Vercel Deployment Protection → SSO 수동 승인 대기 (bypass secret 없음)
+- 로컬 `test:quality` · Staging `check:staging-quality` 회귀 유지
+- Production · main 미변경
+
+### Evidence·한국 제품 추천 품질 회귀
+
+- `npm run test:quality` — 8고민 증상→근거→KR 랭킹→이유→주의→상담 분기
+- 실패 조건: 테스트/미검수 제품 노출, 고민별 동일 fingerprint
+- Staging: `npm run check:staging-quality` (probe leak 0 · PMID set 유일)
+- `test:pipeline`에 quality regression 포함
+- Production · main 미변경
+
+### Evidence Layer 2차 보강 (색소·주름·모공·UV·acne)
+
+- 정적 카탈로그·Staging 시드: pigmentation / antiaging / pores / uv + acne salicylic 보강
+- `concernGuidance`로 고민별 주의사항 → `/results`
+- 퀴즈 칩: 색소침착·주름·모공·자외선
+- 검증: `evidence-concern-diff-selftest` · `staging-verify-evidence-concern-diff`
+- Production · main 미변경
+
+### Evidence Layer 2차 (admin CRUD + DB 조회)
+
+- `GET/POST /api/admin/evidence`, `PATCH …/[id]` (approve/reject)
+- `/admin/evidence` 목록·등록·승인 UI · 성분 상세 등록 폼
+- 런타임: Staging 승인 근거 DB 우선, 정적 카탈로그 폴백
+- acne concern + niacinamide PMID 17147561 Staging 시드
+- Production · main 미변경
+
+### Evidence Layer → 추천·결과 UI 연결
+
+- 정적 카탈로그 `data/evidence/concern-ingredient-evidence.json` (실 PMID)
+- `applyEvidenceToRecommendation` → `recommendedIngredients` 보강 + `evidenceLinks`
+- `/results`·추천 카드에 증상→성분 citation (PMID) 표시 · 제품 효능 단정 금지
+- Staging 시드: `skin_concerns` 3 · `ingredient_evidence` approved 8
+- Production · main 미변경
+
+### Staging: products 공개 SELECT 권한 수정
+
+- 원인: anon 클라이언트 `products` 조회 시 table privilege 없음 → `permission denied for table products`
+- Staging RLS: `active IS TRUE AND verified_at IS NOT NULL` (anon/authenticated SELECT)
+- 컬럼 GRANT만 허용 · `data_confidence` 비공개 · INSERT/UPDATE/DELETE 거부
+- `results` 페이지도 active+verified 필터 정렬 · probe `scripts/probe-staging-products-anon.mjs` 통과
+- Production · main · Production DB 미변경
+
 ### 출시 차단 4항 판정
 
 - AI_PROVIDER: Production에 설정 **존재**, 값(mock 여부) **미확인** → Dashboard 확인 필요

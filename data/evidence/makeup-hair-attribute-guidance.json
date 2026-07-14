@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "note": "Attribute-based makeup/hair guidance — not clinical claims. Marketing phrases are not treated as evidence.",
+  "hairConcernEvidence": [
+    {
+      "concernCode": "sensitive_scalp",
+      "preferredAttributes": ["fragrance_free", "sulfate_free_claim"],
+      "ingredientHints": ["panthenol", "centella-asiatica"],
+      "evidenceLevel": "attribute_plus_ingredient_hint",
+      "disclaimerKo": "민감 두피 표현은 제품 속성과 성분 힌트 기준이며 의료 진단이 아닙니다."
+    },
+    {
+      "concernCode": "dry_scalp",
+      "preferredAttributes": ["moisturizing", "gentle_surfactant"],
+      "ingredientHints": ["glycerin", "ceramide"],
+      "evidenceLevel": "attribute_hint",
+      "disclaimerKo": "건성 두피용 표현은 속성 매칭 참고입니다."
+    },
+    {
+      "concernCode": "oily_scalp",
+      "preferredAttributes": ["clarifying", "lightweight"],
+      "ingredientHints": [],
+      "evidenceLevel": "attribute_hint",
+      "disclaimerKo": "지성 두피용 표현은 속성 힌트이며 피지 질환 진단이 아닙니다."
+    },
+    {
+      "concernCode": "dandruff",
+      "preferredAttributes": ["anti_dandruff"],
+      "ingredientHints": ["salicylic-acid", "zinc-pyrithione"],
+      "evidenceLevel": "ingredient_hint_needs_label_verify",
+      "disclaimerKo": "비듬 관련 성분은 라벨 확인 전까지 단정하지 않습니다."
+    },
+    {
+      "concernCode": "damaged_hair",
+      "preferredAttributes": ["protein", "bond_care"],
+      "ingredientHints": [],
+      "evidenceLevel": "attribute_hint",
+      "disclaimerKo": "손상 모발 케어는 화장품적 관리 범위입니다."
+    },
+    {
+      "concernCode": "heat_damage",
+      "preferredAttributes": ["heat_protectant"],
+      "ingredientHints": [],
+      "evidenceLevel": "attribute_hint",
+      "disclaimerKo": "열 보호는 제품 표시 속성 기준 참고입니다."
+    }
+  ],
+  "makeupAttributeGuidance": [
+    {
+      "attribute": "undertone_fit",
+      "values": ["cool", "warm", "neutral"],
+      "usageKo": "베이스·립 쉐이드 적합도 힌트. 단일 정답이 아닙니다.",
+      "evidenceLevel": "attribute_match"
+    },
+    {
+      "attribute": "mascara_effects",
+      "values": ["curl", "volume", "longlash"],
+      "usageKo": "마스카라 효과 태그 매칭. 임상 효능 단정 금지.",
+      "evidenceLevel": "attribute_match"
+    },
+    {
+      "attribute": "lip_effects",
+      "values": ["matte", "gloss", "stain"],
+      "usageKo": "립 표현 선호도 매칭.",
+      "evidenceLevel": "attribute_match"
+    },
+    {
+      "attribute": "waterproof",
+      "values": ["true", "false"],
+      "usageKo": "워터프루프 필요·민감 눈 세정 난이도 참고.",
+      "evidenceLevel": "attribute_match"
+    }
+  ]
+}

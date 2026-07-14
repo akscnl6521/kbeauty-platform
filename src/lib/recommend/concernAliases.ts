@@ -4,12 +4,13 @@
  */
 
 const CONCERN_ALIAS_GROUPS: readonly (readonly string[])[] = [
-  ["dryness", "dry", "dehydrated", "건조", "건성", "수분부족", "乾燥"],
+  ["dryness", "dry", "dehydrated", "건조", "건조함", "건성", "수분부족", "乾燥"],
   [
     "antiaging",
     "anti-aging",
     "aging",
     "wrinkle",
+    "wrinkles",
     "elasticity",
     "firmness",
     "노화방지",
@@ -28,7 +29,34 @@ const CONCERN_ALIAS_GROUPS: readonly (readonly string[])[] = [
     "자극",
     "敏感",
   ],
-  ["dullness", "dull", "tone", "칙기", "칙음", "くすみ"],
+  [
+    "pigmentation",
+    "hyperpigmentation",
+    "melasma",
+    "spot",
+    "dullness",
+    "dull",
+    "tone",
+    "색소침착",
+    "색소",
+    "기미",
+    "잡티",
+    "칙칙함",
+    "칙기",
+    "칙음",
+    "くすみ",
+  ],
+  ["pores", "pore", "모공", "毛穴"],
+  [
+    "uv",
+    "ultraviolet",
+    "sun",
+    "sunscreen",
+    "spf",
+    "자외선",
+    "선크림",
+    "광노화",
+  ],
 ];
 
 function normalizeConcernToken(value: string): string {

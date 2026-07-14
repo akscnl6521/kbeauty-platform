@@ -39,6 +39,10 @@ type ConcernKey =
   | "붉은기"
   | "건조함"
   | "여드름"
+  | "색소침착"
+  | "주름"
+  | "모공"
+  | "자외선"
   | "칙칙함"
   | "노화방지";
 
@@ -62,6 +66,15 @@ const CONCERN_INGREDIENTS: Record<ConcernKey, readonly string[]> = {
     "Centella Asiatica (Cica)",
     "Panthenol",
   ],
+  색소침착: [
+    "Niacinamide",
+    "Ascorbic Acid",
+    "Vitamin C Derivative",
+    "Alpha Arbutin",
+  ],
+  주름: ["Retinol", "Adenosine", "Peptide", "Ceramide"],
+  모공: ["Niacinamide", "Salicylic Acid", "Zinc PCA", "Panthenol"],
+  자외선: ["Zinc Oxide", "Ascorbic Acid", "Niacinamide", "Panthenol"],
   칙칙함: [
     "Niacinamide",
     "Vitamin C Derivative",
@@ -74,6 +87,7 @@ const MAX_INGREDIENTS = 6;
 
 const SALICYLIC = "Salicylic Acid";
 const RETINOID = "Retinoid";
+const RETINOL = "Retinol";
 
 type RoutineStep = { key: string; label: string };
 
@@ -113,7 +127,10 @@ function collectConcernIngredients(
     const list = CONCERN_INGREDIENTS[c as ConcernKey];
     if (!list) continue;
     for (const ing of list) {
-      if (highSensitivity && (ing === SALICYLIC || ing === RETINOID)) {
+      if (
+        highSensitivity &&
+        (ing === SALICYLIC || ing === RETINOID || ing === RETINOL)
+      ) {
         if (!caution.includes(ing)) caution.push(ing);
         continue;
       }
@@ -121,7 +138,7 @@ function collectConcernIngredients(
     }
   }
 
-  if (highSensitivity && concerns.includes("칙칙함")) {
+  if (highSensitivity && (concerns.includes("색소침착") || concerns.includes("칙칙함"))) {
     const hint = "고함량 비타민 C·강한 산성 제형 주의";
     if (!caution.includes(hint)) caution.push(hint);
   }
@@ -131,13 +148,20 @@ function collectConcernIngredients(
     MAX_INGREDIENTS
   );
   const cautionIngredients = displayIngredientNames(
-    caution.filter((c) => c === SALICYLIC || c === RETINOID),
+    caution.filter(
+      (c) => c === SALICYLIC || c === RETINOID || c === RETINOL
+    ),
     "ko"
   );
 
   // 비성분 주의 문구는 KO 라벨 변환 없이 유지
   for (const c of caution) {
-    if (c !== SALICYLIC && c !== RETINOID && !cautionIngredients.includes(c)) {
+    if (
+      c !== SALICYLIC &&
+      c !== RETINOID &&
+      c !== RETINOL &&
+      !cautionIngredients.includes(c)
+    ) {
       cautionIngredients.push(c);
     }
   }
@@ -174,9 +198,13 @@ function buildRoutines(
     const addOn: Partial<Record<ConcernKey, RoutineStep>> = {
       건조함: { key: "serum-moisture", label: "보습 세럼" },
       붉은기: { key: "serum-calm", label: "진정 세럼" },
+      색소침착: { key: "serum-bright", label: "저자극 브라이트닝 세럼" },
       칙칙함: { key: "serum-bright", label: "저자극 브라이트닝 세럼" },
+      주름: { key: "serum-age", label: "저자극 기능성 제품" },
       노화방지: { key: "serum-age", label: "저자극 기능성 제품" },
       여드름: { key: "spot-care", label: "저자극 국소·각질 관리(참고)" },
+      모공: { key: "pore-care", label: "저자극 각질·피지 관리(참고)" },
+      자외선: { key: "spf-boost", label: "자외선 차단 재확인" },
     };
     // 고민 선택 순서대로 최대 1단계(첫 매칭 고민만)
     for (const c of concerns) {

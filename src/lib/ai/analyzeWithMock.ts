@@ -67,6 +67,8 @@ function createExpandedMockRecommendation(
     "판테놀",
     "세라마이드",
     "히알루론산",
+    "나이아신아마이드",
+    "알란토인",
     ...allergy.slice(0, 1),
     ...avoided.slice(0, 1),
   ];

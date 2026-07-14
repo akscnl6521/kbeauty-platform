@@ -35,19 +35,20 @@ export default function Home() {
           K-Beauty Match
         </p>
         <h1 className="mt-4 max-w-3xl text-balance text-3xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-          내 피부 정보에서 시작하는,
-          <br className="hidden sm:block" /> 더 신중한 K-뷰티 선택
+          피부·메이크업·헤어까지,
+          <br className="hidden sm:block" /> 한곳에서 맞추는 K-뷰티
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-gray-600 sm:mt-6 sm:text-lg sm:leading-8">
-          피부 고민과 성분 선호를 정리하고, 확인된 근거와 판매 정보를 바탕으로
-          다음 관리 행동을 안내합니다. 진단·치료를 약속하지 않습니다.
+          사진과 문진으로 피부 상태를 정리하고, 스킨케어·메이크업·헤어·두피까지
+          한국 제품 후보를 근거와 함께 안내합니다. 의료 진단·치료를 대체하지
+          않습니다.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
             href="/analyze"
             className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-6 py-3 text-sm font-semibold text-white sm:text-base"
           >
-            피부 분석 시작하기
+            분석 시작하기
           </Link>
           {loggedIn ? (
             <Link
@@ -77,8 +78,8 @@ export default function Home() {
 
       <section className="mx-auto grid max-w-[var(--site-content-max)] gap-4 px-5 pb-14 sm:px-6 md:grid-cols-3">
         {[
-          ["1", "피부 정보 정리", "고민·민감도·회피 성분을 짧게 정리합니다."],
-          ["2", "성분·근거 확인", "전성분과 공개된 근거를 검토합니다."],
+          ["1", "피부·메이크업·헤어 정리", "고민·톤·두피·선호를 짧게 정리합니다."],
+          ["2", "성분·속성·근거", "전성분과 제품 속성, 공개 근거를 검토합니다."],
           ["3", "루틴과 체크인", "3·7·15·30일로 사용감을 기록합니다."],
         ].map(([n, title, body]) => (
           <div

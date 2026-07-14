@@ -13,7 +13,10 @@ import {
 import {
   displayBrandName,
   displayProductTitle,
+  isKoreanBeautyBrand,
 } from "@/lib/brand/displayBrandName";
+import { buildMatchReason, buildEvidenceCitationItems } from "@/lib/recommend/buildMatchReason";
+import type { Recommendation } from "@/lib/recommend";
 import {
   displayProductFormLabel,
   getProductTrustStatus,
@@ -36,6 +39,10 @@ export type RecommendedProductCardProps = {
   countryCode?: string | null;
   /** expert_first 등: 구매처 링크·가격 강조 숨김 (데이터는 유지) */
   hidePurchaseCta?: boolean;
+  /** 사용자 분석/선택 기반 연결 이유 (있으면 표시) */
+  recommendation?: Recommendation | null;
+  /** 보조 관리 모드 라벨 */
+  softCareMode?: boolean;
 };
 
 /**
@@ -48,6 +55,8 @@ export function RecommendedProductCard({
   locale = "ko",
   countryCode = null,
   hidePurchaseCta = false,
+  recommendation = null,
+  softCareMode = false,
 }: RecommendedProductCardProps) {
   const { product, score, matchedIngredients, excludedIngredients } = ranked;
 
@@ -60,6 +69,23 @@ export function RecommendedProductCard({
   });
 
   const brand = displayBrandName(product.brand, locale);
+  const showKoreanBadge = isKoreanBeautyBrand(product.brand);
+  const matchReason =
+    recommendation != null
+      ? buildMatchReason({
+          recommendation,
+          matchedIngredients,
+          product,
+          locale,
+        })
+      : null;
+  const evidenceCitations =
+    recommendation != null
+      ? buildEvidenceCitationItems({
+          recommendation,
+          matchedIngredients,
+        })
+      : [];
   const sizeLabel = resolveDisplaySizeLabel({
     productId: product.id,
     name: product.name,
@@ -195,9 +221,29 @@ export function RecommendedProductCard({
         </span>
         <div className="min-w-0 flex-1">
           {brand ? (
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-500 sm:text-xs">
-              {brand}
-            </p>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-500 sm:text-xs">
+                {brand}
+              </p>
+              {showKoreanBadge ? (
+                <span className="inline-flex rounded-md border border-[#C2185B]/25 bg-[#C2185B]/08 px-1.5 py-0.5 text-[10px] font-semibold text-[#C2185B]">
+                  {locale === "ko"
+                    ? "한국 브랜드"
+                    : locale === "ja"
+                      ? "K-Beauty"
+                      : "K-Beauty"}
+                </span>
+              ) : null}
+              {softCareMode ? (
+                <span className="inline-flex rounded-md border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium text-gray-600">
+                  {locale === "ko"
+                    ? "보조 관리 참고"
+                    : locale === "ja"
+                      ? "補助ケア参考"
+                      : "Supportive care"}
+                </span>
+              ) : null}
+            </div>
           ) : null}
           <h3 className="mt-0.5 text-sm font-semibold leading-snug text-gray-900 sm:text-base">
             {displayName}
@@ -250,6 +296,41 @@ export function RecommendedProductCard({
           </p>
         )}
       </div>
+
+      {matchReason ? (
+        <div>
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+            {locale === "ko"
+              ? "추천 이유"
+              : locale === "ja"
+                ? "おすすめ理由"
+                : "Why this product"}
+          </p>
+          <p className="text-xs leading-relaxed text-gray-700">{matchReason}</p>
+          {evidenceCitations.length > 0 ? (
+            <ul className="mt-2 space-y-1">
+              {evidenceCitations.map((c) => (
+                <li key={c.label} className="text-[11px] text-gray-600">
+                  <span className="font-medium text-gray-700">{c.levelKo}</span>
+                  {" · "}
+                  {c.href ? (
+                    <a
+                      href={c.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#C2185B] underline hover:no-underline"
+                    >
+                      {c.label}
+                    </a>
+                  ) : (
+                    <span>{c.label}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+      ) : null}
 
       {hasExcluded && excludedLabels.length > 0 ? (
         <div>

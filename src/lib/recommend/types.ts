@@ -112,6 +112,11 @@ export interface Recommendation {
    * 없으면 구버전 localStorage와 호환.
    */
   rednessObservation?: RednessObservation;
+  /**
+   * 승인된 성분–고민 Evidence Layer 링크 (논문·공식 근거).
+   * 제품 효능 단정이 아니라 추천 힌트·citation용.
+   */
+  evidenceLinks?: import("@/lib/evidence").ApprovedEvidenceLink[];
 }
 
 /** localStorage key for the structured recommendation (Phase 1). */

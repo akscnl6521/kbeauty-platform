@@ -49,7 +49,14 @@ type Locale = "en" | "ja" | "ko";
 type InputMode = "photo" | "manual";
 type ToneKo = "밝은" | "중간" | "어두운";
 type UndertoneKo = "웜톤" | "쿨톤" | "중립";
-type ConcernKo = "붉은기" | "건조함" | "여드름" | "칙칙함" | "노화방지";
+type ConcernKo =
+  | "붉은기"
+  | "건조함"
+  | "여드름"
+  | "색소침착"
+  | "주름"
+  | "모공"
+  | "자외선";
 type SensitivityKo = "민감함" | "보통" | "강한편";
 
 function concernKoToParam(c: ConcernKo): string {
@@ -60,10 +67,14 @@ function concernKoToParam(c: ConcernKo): string {
       return "Dryness";
     case "여드름":
       return "Acne";
-    case "칙칙함":
-      return "Dullness";
-    case "노화방지":
+    case "색소침착":
+      return "Pigmentation";
+    case "주름":
       return "Anti-aging";
+    case "모공":
+      return "Pores";
+    case "자외선":
+      return "UV";
   }
 }
 
@@ -73,8 +84,10 @@ const CONCERN_KO = [
   "붉은기",
   "건조함",
   "여드름",
-  "칙칙함",
-  "노화방지",
+  "색소침착",
+  "주름",
+  "모공",
+  "자외선",
 ] as const;
 const SENSITIVITY_KO = ["민감함", "보통", "강한편"] as const;
 
@@ -91,12 +104,17 @@ function asSensitivityKo(v: string): SensitivityKo | null {
     ? (v as SensitivityKo)
     : null;
 }
+function normalizeLegacyConcern(v: string): ConcernKo | null {
+  if ((CONCERN_KO as readonly string[]).includes(v)) return v as ConcernKo;
+  if (v === "칙칙함") return "색소침착";
+  if (v === "노화방지") return "주름";
+  return null;
+}
 function asConcernKoList(values: string[]): ConcernKo[] {
   const out: ConcernKo[] = [];
   for (const v of values) {
-    if ((CONCERN_KO as readonly string[]).includes(v)) {
-      out.push(v as ConcernKo);
-    }
+    const n = normalizeLegacyConcern(v);
+    if (n && !out.includes(n)) out.push(n);
   }
   return out.length > 0 ? out : ["붉은기"];
 }
@@ -1381,7 +1399,15 @@ export default function AnalyzePage() {
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {(
-                      ["붉은기", "건조함", "여드름", "칙칙함", "노화방지"] as ConcernKo[]
+                      [
+                        "붉은기",
+                        "건조함",
+                        "여드름",
+                        "색소침착",
+                        "주름",
+                        "모공",
+                        "자외선",
+                      ] as ConcernKo[]
                     ).map((v) => {
                       const selected = manualConcerns.includes(v);
                       return (

@@ -18,6 +18,8 @@ import type {
 } from "./types";
 import { applyUserIngredientPreferences } from "@/lib/recommend/applyUserIngredientPreferences";
 import { mergeCurrentRoutineIntoRecommendation } from "@/lib/recommend/currentProduct";
+import { applyEvidenceToRecommendation } from "@/lib/evidence";
+import { resolveApprovedEvidenceForConcerns } from "@/lib/evidence/loadApprovedEvidence";
 import { applyRednessObservationToRecommendation } from "./rednessObservation";
 
 export { AnalyzeSkinError } from "./errors";
@@ -141,10 +143,10 @@ async function runProvider(
   }
 }
 
-function attachUserIngredientPreferences(
+async function attachUserIngredientPreferences(
   input: AnalyzeSkinRequest,
   result: AnalyzeSkinResponse
-): AnalyzeSkinResponse {
+): Promise<AnalyzeSkinResponse> {
   const allergy = getRequestAllergyIngredients(input);
   const avoided = getRequestAvoidedIngredients(input);
   const currentProducts = getRequestCurrentProducts(input);
@@ -163,6 +165,13 @@ function attachUserIngredientPreferences(
   recommendation = applyRednessObservationToRecommendation(
     recommendation,
     input.rednessObservation
+  );
+  const evidenceLinks = await resolveApprovedEvidenceForConcerns(
+    recommendation.skinConcerns ?? []
+  );
+  recommendation = applyEvidenceToRecommendation(
+    recommendation,
+    evidenceLinks
   );
 
   return {
@@ -197,7 +206,7 @@ export async function analyzeSkin(
         result = await analyzeWithOllama(input);
         provider = "ollama";
         mockFallback = false;
-        result = attachUserIngredientPreferences(input, result);
+        result = await attachUserIngredientPreferences(input, result);
         logDevAi({
           provider: "ollama",
           success: true,
@@ -212,7 +221,7 @@ export async function analyzeSkin(
         result = await analyzeWithMock(input);
         provider = "mock";
         mockFallback = true;
-        result = attachUserIngredientPreferences(input, result);
+        result = await attachUserIngredientPreferences(input, result);
         logDevAi({
           provider: "mock",
           success: true,
@@ -223,7 +232,7 @@ export async function analyzeSkin(
     }
 
     result = await runProvider(resolved.provider, input);
-    result = attachUserIngredientPreferences(input, result);
+    result = await attachUserIngredientPreferences(input, result);
 
     logDevAi({
       provider,

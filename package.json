@@ -9,12 +9,19 @@
     "lint": "eslint",
     "test:pipeline": "node scripts/test-pipeline-core.mjs",
     "test:journey": "node scripts/test-customer-journey.mjs",
+    "test:quality": "npx --yes tsx scripts/quality-regression-selftest.ts",
+    "check:staging-quality": "node scripts/staging-verify-recommend-quality.mjs",
+    "check:preview-quality": "node scripts/preview-concern-quality-smoke.mjs",
+    "check:preview-substitute": "node scripts/staging-preview-substitute-quality.mjs",
     "check:production": "node scripts/check-production-readiness.mjs",
     "check:deployment-env": "node scripts/check-deployment-env.mjs",
     "test:smoke": "node scripts/smoke-test.mjs",
     "check:release-security": "node scripts/security-release-check.mjs",
     "check:responsive": "node scripts/check-responsive-layout.mjs",
-    "pipeline:worker": "node scripts/run-pipeline-worker.mjs"
+    "pipeline:worker": "node scripts/run-pipeline-worker.mjs",
+    "test:full-beauty": "npx --yes tsx scripts/full-beauty-selftest.ts",
+    "catalog:full-beauty": "npx --yes tsx scripts/run-full-beauty-catalog-sprint.ts",
+    "catalog:bulk-kr": "npx --yes tsx scripts/run-bulk-kr-catalog-sprint.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",
