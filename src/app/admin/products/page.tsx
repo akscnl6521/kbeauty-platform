@@ -327,13 +327,25 @@ export default async function AdminProductsPage({
             </p>
             <div className="mt-2 flex flex-wrap items-center gap-2">
               <h1 className="text-3xl font-bold tracking-tight">제품 관리</h1>
+              <Link
+                href="/admin/products/new"
+                className="rounded bg-[#8B6914] px-2.5 py-1 text-xs font-medium text-white"
+              >
+                제품 등록
+              </Link>
+              <Link
+                href="/admin/products/import"
+                className="rounded border border-[#8B6914] bg-white px-2.5 py-1 text-xs font-medium text-[#8B6914]"
+              >
+                제품 일괄등록
+              </Link>
               <span className="rounded border border-[#E8DFD8] bg-white px-2 py-0.5 text-xs font-medium text-gray-700">
-                읽기 전용
+                Staging write gated
               </span>
             </div>
             <p className="mt-2 text-sm text-gray-600">
-              기존 products를 검색·필터로 확인합니다. 자동 published 하지
-              않습니다.
+              목록 조회와 Staging 수동 등록을 지원합니다. Production 쓰기는
+              차단됩니다.
             </p>
             <AdminSubnav current="products" />
           </div>

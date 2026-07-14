@@ -4,6 +4,73 @@
 
 ---
 
+## 2026-07-14
+
+### 출시 직전 최종 점검
+
+- 로컬: `build` · `test:pipeline` · `test:journey` · `test:smoke` · `check:production` · `check:deployment-env` · `check:release-security` · `check:responsive` 통과
+- Preview 핵심 경로: Vercel Deployment Protection SSO로 302 (내용 미검증)
+- Production: env **이름**만 확인 (`AI_PROVIDER` 존재, 값 mock 여부 미확인)
+- 판정: **BLOCKED** · main 병합·Production 배포 미실행
+
+### Staging catalog JSON 백업
+
+- 경로: `data/backups/2026-07-14-catalog/`
+- 읽기 전용 export · products 11 · ingredients 129 · 검증 통과
+- signed URL 토큰 제거 · 민감정보 미검출 · SHA-256/복원 순서 문서화
+- Staging/Production 데이터·배포·main 미변경
+
+### COSRX catalog JSON → Search-to-Verified Staging 적용
+
+- 입력 3개: Snail 96 / Snail 92 / Blemish Pad (`data/catalog/kr/cosrx-*.json`)
+- 매칭 2 (productId 1, 10) · 신규 products 0 · Verified 전환 0 · needs_review 3
+- source/candidate/queue/provenance/unverified offer 연결 · 4~11 본문 미변경 · 재실행 멱등
+- 산출: `data/catalog-import/2026-07-cosrx-search-to-verified/`
+
+### COSRX 시드 Staging 검증 완료
+
+- 등록 가능 8건(`productId` 4~11) 상세 검증: 전성분·주요성분·signed 이미지·slug 일치 전부 통과
+- 동일 CSV/ZIP bulk preview 재실행 → 8건 중복 차단 · commit 미실행
+- 검수 2건 미등록 유지 · Preview `/admin/products/3` 재요청 안 함
+
+### COSRX 공식 시드 Staging 등록 완료
+
+- CLI `--reveal`로 Staging service_role 로드 후 등록 가능 8건만 commit (`scripts/run-register-cosrx-seed-staging.mjs`)
+- `productId` 4~11 성공 · 실패 0 · 검수 2건(선크림·프로폴리스) 미등록
+- Snail 96 / `productId=3` / Production / main 미변경
+- 결과 JSON: `data/catalog-import/2026-07-cosrx-seed/staging-register-result.json`
+
+### COSRX 공식 시드 수집
+
+- `data/catalog-import/2026-07-cosrx-seed/` — 공식 cosrx.com 기준 10제품 CSV·이미지 ZIP·sources·validation
+- Snail 96 Mucin Essence 제외 · 등록 가능 8 · 검수 필요 2
+
+
+### 제품 일괄등록
+
+- `/admin/products/import` · 양식 다운로드 · CSV/XLSX 분석 · ZIP/image_url · 행별 검증·선택 · 부분 성공 · 실패행 CSV
+- `createAdminProduct` 재사용 · 최대 50건 · slug/브랜드명/출처/이미지해시 중복 차단
+- deps: `xlsx`, `jszip` · Preview만 배포 · Staging 대량 가짜 등록 없음
+
+### 관리자 제품 등록 UI 완성
+
+- `/admin/products/new` 한 화면 등록: 브랜드 선택/입력 · slug 자동/수동 · 카테고리·사용부위 · 전성분 미리보기 · 이미지 미리보기 · 중복 slug 사전 안내 · 중복 클릭 방지
+- 등록 완료 `/admin/products/new/complete` · 상세 offers/variants 빈 상태 한국어
+- `createAdminProduct` slug 입력 재사용 · 전성분 줄바꿈 파싱 · `GET /api/admin/products/slug-check`
+- `npm run build` · helper/selftest 통과 · 클라이언트 번들 service_role 미검출
+- Preview만 배포 (Production/`main`/productId=3 미변경)
+
+### Staging 관리자 제품 등록 · Preview 검증 대기
+
+- Staging `product-images` private 버킷 · 공식 Storage API · signed URL · public URL 차단
+- `createAdminProduct` Staging HTTP E2E 성공 · slug 중복 차단 · 전성분/주요성분 · `catalog_product_media`
+- service_role 최소 SELECT: `ingredient_aliases`, `product_offers`, `product_variants` (UPDATE/DELETE·anon/authenticated·RLS·Storage 정책 미변경)
+- 관리자 상세: offers/variants 0건을 빈 상태로 처리 · `productId=3` 로컬 Staging 조회 성공
+- 재개 문서: `docs/NEXT_TASK_PREVIEW_VALIDATION.md` · `.cursor/rules/kbeauty-resume.mdc` · `PROJECT_STATUS`/`ROADMAP` 갱신
+- **남은 단일 작업:** Preview Staging 확정 후 `/admin/products/3` 브라우저 E2E (main 병합·Production 배포 미실행)
+
+---
+
 ## 2026-07-13
 
 ### Phase 10 UI · 반응형 · 접근성 최종

@@ -1,0 +1,111 @@
+{
+  "checked_at": "2026-07-14",
+  "brand": "COSRX",
+  "total": 10,
+  "registerable": 8,
+  "needs_review": 2,
+  "image_missing": 0,
+  "ingredients_missing": 0,
+  "duplicates_excluded": [
+    {
+      "slug": "cosrx-advanced-snail-96-mucin-power-essence",
+      "reason": "Already registered / excluded by brief"
+    }
+  ],
+  "forbidden_slug_blocked": [
+    "cosrx-advanced-snail-96-mucin-power-essence"
+  ],
+  "productId_3_untouched": true,
+  "items": [
+    {
+      "slug": "cosrx-low-ph-good-morning-gel-cleanser",
+      "can_register": true,
+      "selectable_default": true,
+      "issues": [],
+      "ingredient_char_len": 620,
+      "image_bytes": 25186
+    },
+    {
+      "slug": "cosrx-aha-bha-clarifying-treatment-toner",
+      "can_register": true,
+      "selectable_default": true,
+      "issues": [],
+      "ingredient_char_len": 194,
+      "image_bytes": 18993
+    },
+    {
+      "slug": "cosrx-hydrium-watery-toner",
+      "can_register": true,
+      "selectable_default": true,
+      "issues": [],
+      "ingredient_char_len": 237,
+      "image_bytes": 25445
+    },
+    {
+      "slug": "cosrx-the-niacinamide-15-serum",
+      "can_register": true,
+      "selectable_default": true,
+      "issues": [],
+      "ingredient_char_len": 210,
+      "image_bytes": 215995
+    },
+    {
+      "slug": "cosrx-advanced-the-vitamin-c-23-serum",
+      "can_register": true,
+      "selectable_default": true,
+      "issues": [],
+      "ingredient_char_len": 604,
+      "image_bytes": 42427
+    },
+    {
+      "slug": "cosrx-the-6-peptide-skin-booster-serum",
+      "can_register": true,
+      "selectable_default": true,
+      "issues": [],
+      "ingredient_char_len": 735,
+      "image_bytes": 19600
+    },
+    {
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+      "can_register": true,
+      "selectable_default": true,
+      "issues": [],
+      "ingredient_char_len": 339,
+      "image_bytes": 61308
+    },
+    {
+      "slug": "cosrx-the-retinol-0-1-cream",
+      "can_register": true,
+      "selectable_default": true,
+      "issues": [],
+      "ingredient_char_len": 1098,
+      "image_bytes": 33454
+    },
+    {
+      "slug": "cosrx-ultra-light-invisible-sunscreen-spf50",
+      "can_register": false,
+      "selectable_default": false,
+      "issues": [
+        "needs_review"
+      ],
+      "ingredient_char_len": 606,
+      "image_bytes": 21621
+    },
+    {
+      "slug": "cosrx-full-fit-propolis-synergy-toner",
+      "can_register": false,
+      "selectable_default": false,
+      "issues": [
+        "needs_review"
+      ],
+      "ingredient_char_len": 314,
+      "image_bytes": 24074
+    }
+  ],
+  "files": {
+    "csv": "products.csv",
+    "zip": "product-images.zip",
+    "images_dir": "images/",
+    "sources": "sources.json"
+  }
+}

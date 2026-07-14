@@ -1,0 +1,114 @@
+{
+  "phase": "register_done",
+  "successCount": 8,
+  "failureCount": 0,
+  "results": [
+    {
+      "rowIndex": 2,
+      "ok": true,
+      "productId": 4,
+      "slug": "cosrx-low-ph-good-morning-gel-cleanser",
+      "message": "등록되었습니다.",
+      "fullIngredientCount": 27,
+      "keyCount": 3
+    },
+    {
+      "rowIndex": 3,
+      "ok": true,
+      "productId": 5,
+      "slug": "cosrx-aha-bha-clarifying-treatment-toner",
+      "message": "등록되었습니다.",
+      "fullIngredientCount": 11,
+      "keyCount": 4
+    },
+    {
+      "rowIndex": 4,
+      "ok": true,
+      "productId": 6,
+      "slug": "cosrx-hydrium-watery-toner",
+      "message": "등록되었습니다.",
+      "fullIngredientCount": 13,
+      "keyCount": 4
+    },
+    {
+      "rowIndex": 5,
+      "ok": true,
+      "productId": 7,
+      "slug": "cosrx-the-niacinamide-15-serum",
+      "message": "등록되었습니다.",
+      "fullIngredientCount": 15,
+      "keyCount": 5
+    },
+    {
+      "rowIndex": 6,
+      "ok": true,
+      "productId": 8,
+      "slug": "cosrx-advanced-the-vitamin-c-23-serum",
+      "message": "등록되었습니다.",
+      "fullIngredientCount": 30,
+      "keyCount": 8
+    },
+    {
+      "rowIndex": 7,
+      "ok": true,
+      "productId": 9,
+      "slug": "cosrx-the-6-peptide-skin-booster-serum",
+      "message": "등록되었습니다.",
+      "fullIngredientCount": 45,
+      "keyCount": 7
+    },
+    {
+      "rowIndex": 8,
+      "ok": true,
+      "productId": 10,
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+      "message": "등록되었습니다.",
+      "fullIngredientCount": 23,
+      "keyCount": 5
+    },
+    {
+      "rowIndex": 9,
+      "ok": true,
+      "productId": 11,
+      "slug": "cosrx-the-retinol-0-1-cream",
+      "message": "등록되었습니다.",
+      "fullIngredientCount": 54,
+      "keyCount": 8
+    }
+  ],
+  "deletion_candidates": [
+    {
+      "productId": 4,
+      "slug": "cosrx-low-ph-good-morning-gel-cleanser"
+    },
+    {
+      "productId": 5,
+      "slug": "cosrx-aha-bha-clarifying-treatment-toner"
+    },
+    {
+      "productId": 6,
+      "slug": "cosrx-hydrium-watery-toner"
+    },
+    {
+      "productId": 7,
+      "slug": "cosrx-the-niacinamide-15-serum"
+    },
+    {
+      "productId": 8,
+      "slug": "cosrx-advanced-the-vitamin-c-23-serum"
+    },
+    {
+      "productId": 9,
+      "slug": "cosrx-the-6-peptide-skin-booster-serum"
+    },
+    {
+      "productId": 10,
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream"
+    },
+    {
+      "productId": 11,
+      "slug": "cosrx-the-retinol-0-1-cream"
+    }
+  ],
+  "productId_3_untouched": true
+}

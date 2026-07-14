@@ -1,0 +1,363 @@
+{
+  "phase": "cosrx_seed_verify_done",
+  "project": "staging",
+  "register_snapshot": {
+    "successCount": 8,
+    "failureCount": 0
+  },
+  "detail_ok_count": 8,
+  "detail_fail_count": 0,
+  "details": [
+    {
+      "productId": 4,
+      "slug": "cosrx-low-ph-good-morning-gel-cleanser",
+      "name": "Low pH Good Morning Gel Cleanser",
+      "brand": "COSRX",
+      "ok": true,
+      "checks": {
+        "slugMatch": true,
+        "fullIngredientCount": 27,
+        "keyIngredientCount": 3,
+        "keyIngredients": [
+          "Allantoin",
+          "Ethylhexylglycerin",
+          "Betaine Salicylate"
+        ],
+        "ingredientLinks": 27,
+        "offers": 0,
+        "variants": 0,
+        "hasMedia": true,
+        "imageHttps": true,
+        "imageSigned": true,
+        "matchesRegisterSnapshot": true
+      }
+    },
+    {
+      "productId": 5,
+      "slug": "cosrx-aha-bha-clarifying-treatment-toner",
+      "name": "AHA/BHA Clarifying Treatment Toner",
+      "brand": "COSRX",
+      "ok": true,
+      "checks": {
+        "slugMatch": true,
+        "fullIngredientCount": 11,
+        "keyIngredientCount": 4,
+        "keyIngredients": [
+          "Glycolic Acid",
+          "Betaine Salicylate",
+          "Allantoin",
+          "Panthenol"
+        ],
+        "ingredientLinks": 11,
+        "offers": 0,
+        "variants": 0,
+        "hasMedia": true,
+        "imageHttps": true,
+        "imageSigned": true,
+        "matchesRegisterSnapshot": true
+      }
+    },
+    {
+      "productId": 6,
+      "slug": "cosrx-hydrium-watery-toner",
+      "name": "Hydrium Watery Toner",
+      "brand": "COSRX",
+      "ok": true,
+      "checks": {
+        "slugMatch": true,
+        "fullIngredientCount": 13,
+        "keyIngredientCount": 4,
+        "keyIngredients": [
+          "Glycerin",
+          "Allantoin",
+          "Panthenol",
+          "Sodium Hyaluronate"
+        ],
+        "ingredientLinks": 13,
+        "offers": 0,
+        "variants": 0,
+        "hasMedia": true,
+        "imageHttps": true,
+        "imageSigned": true,
+        "matchesRegisterSnapshot": true
+      }
+    },
+    {
+      "productId": 7,
+      "slug": "cosrx-the-niacinamide-15-serum",
+      "name": "The Niacinamide 15 Serum",
+      "brand": "COSRX",
+      "ok": true,
+      "checks": {
+        "slugMatch": true,
+        "fullIngredientCount": 15,
+        "keyIngredientCount": 5,
+        "keyIngredients": [
+          "Niacinamide( )",
+          "Zinc PCA",
+          "Allantoin",
+          "Ethylhexylglycerin",
+          "Tocopherol"
+        ],
+        "ingredientLinks": 15,
+        "offers": 0,
+        "variants": 0,
+        "hasMedia": true,
+        "imageHttps": true,
+        "imageSigned": true,
+        "matchesRegisterSnapshot": true
+      }
+    },
+    {
+      "productId": 8,
+      "slug": "cosrx-advanced-the-vitamin-c-23-serum",
+      "name": "Advanced The Vitamin C 23 Serum",
+      "brand": "COSRX",
+      "ok": true,
+      "checks": {
+        "slugMatch": true,
+        "fullIngredientCount": 30,
+        "keyIngredientCount": 8,
+        "keyIngredients": [
+          "Ascorbic Acid( )",
+          "Panthenol",
+          "Squalane",
+          "Sodium Hyaluronate",
+          "Adenosine",
+          "Allantoin",
+          "Tocopherol",
+          "Niacinamide"
+        ],
+        "ingredientLinks": 30,
+        "offers": 0,
+        "variants": 0,
+        "hasMedia": true,
+        "imageHttps": true,
+        "imageSigned": true,
+        "matchesRegisterSnapshot": true
+      }
+    },
+    {
+      "productId": 9,
+      "slug": "cosrx-the-6-peptide-skin-booster-serum",
+      "name": "The 6 Peptide Skin Booster Serum",
+      "brand": "COSRX",
+      "ok": true,
+      "checks": {
+        "slugMatch": true,
+        "fullIngredientCount": 45,
+        "keyIngredientCount": 7,
+        "keyIngredients": [
+          "Glycerin",
+          "Niacinamide",
+          "Acetyl Hexapeptide-8",
+          "Allantoin",
+          "Sodium Hyaluronate",
+          "Tocopherol",
+          "Adenosine"
+        ],
+        "ingredientLinks": 45,
+        "offers": 0,
+        "variants": 0,
+        "hasMedia": true,
+        "imageHttps": true,
+        "imageSigned": true,
+        "matchesRegisterSnapshot": true
+      }
+    },
+    {
+      "productId": 10,
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+      "name": "Advanced Snail 92 All in One Cream",
+      "brand": "COSRX",
+      "ok": true,
+      "checks": {
+        "slugMatch": true,
+        "fullIngredientCount": 23,
+        "keyIngredientCount": 5,
+        "keyIngredients": [
+          "Snail Secretion Filtrate",
+          "Sodium Hyaluronate",
+          "Allantoin",
+          "Panthenol",
+          "Adenosine"
+        ],
+        "ingredientLinks": 23,
+        "offers": 0,
+        "variants": 0,
+        "hasMedia": true,
+        "imageHttps": true,
+        "imageSigned": true,
+        "matchesRegisterSnapshot": true
+      }
+    },
+    {
+      "productId": 11,
+      "slug": "cosrx-the-retinol-0-1-cream",
+      "name": "The Retinol 0.1 Cream",
+      "brand": "COSRX",
+      "ok": true,
+      "checks": {
+        "slugMatch": true,
+        "fullIngredientCount": 54,
+        "keyIngredientCount": 8,
+        "keyIngredients": [
+          "Glycerin",
+          "Tocopheryl Acetate",
+          "Panthenol",
+          "Retinol( )",
+          "Allantoin",
+          "Adenosine",
+          "Ascorbic Acid",
+          "Sodium Hyaluronate"
+        ],
+        "ingredientLinks": 54,
+        "offers": 0,
+        "variants": 0,
+        "hasMedia": true,
+        "imageHttps": true,
+        "imageSigned": true,
+        "matchesRegisterSnapshot": true
+      }
+    }
+  ],
+  "bulk_preview_rerun": {
+    "total": 10,
+    "ready": 2,
+    "blocked": 8,
+    "rows": [
+      {
+        "row": 2,
+        "slug": "cosrx-low-ph-good-morning-gel-cleanser",
+        "canRegister": false,
+        "statuses": [
+          "주요 성분 추출 가능",
+          "slug 중복",
+          "브랜드+제품명 중복",
+          "출처 URL 중복"
+        ],
+        "isReviewSlug": false,
+        "isSeededSlug": true
+      },
+      {
+        "row": 3,
+        "slug": "cosrx-aha-bha-clarifying-treatment-toner",
+        "canRegister": false,
+        "statuses": [
+          "주요 성분 추출 가능",
+          "slug 중복",
+          "브랜드+제품명 중복",
+          "출처 URL 중복"
+        ],
+        "isReviewSlug": false,
+        "isSeededSlug": true
+      },
+      {
+        "row": 4,
+        "slug": "cosrx-hydrium-watery-toner",
+        "canRegister": false,
+        "statuses": [
+          "주요 성분 추출 가능",
+          "slug 중복",
+          "브랜드+제품명 중복",
+          "출처 URL 중복"
+        ],
+        "isReviewSlug": false,
+        "isSeededSlug": true
+      },
+      {
+        "row": 5,
+        "slug": "cosrx-the-niacinamide-15-serum",
+        "canRegister": false,
+        "statuses": [
+          "주요 성분 추출 가능",
+          "slug 중복",
+          "브랜드+제품명 중복",
+          "출처 URL 중복"
+        ],
+        "isReviewSlug": false,
+        "isSeededSlug": true
+      },
+      {
+        "row": 6,
+        "slug": "cosrx-advanced-the-vitamin-c-23-serum",
+        "canRegister": false,
+        "statuses": [
+          "주요 성분 추출 가능",
+          "slug 중복",
+          "브랜드+제품명 중복",
+          "출처 URL 중복"
+        ],
+        "isReviewSlug": false,
+        "isSeededSlug": true
+      },
+      {
+        "row": 7,
+        "slug": "cosrx-the-6-peptide-skin-booster-serum",
+        "canRegister": false,
+        "statuses": [
+          "주요 성분 추출 가능",
+          "slug 중복",
+          "브랜드+제품명 중복",
+          "출처 URL 중복"
+        ],
+        "isReviewSlug": false,
+        "isSeededSlug": true
+      },
+      {
+        "row": 8,
+        "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+        "canRegister": false,
+        "statuses": [
+          "주요 성분 추출 가능",
+          "slug 중복",
+          "브랜드+제품명 중복",
+          "출처 URL 중복"
+        ],
+        "isReviewSlug": false,
+        "isSeededSlug": true
+      },
+      {
+        "row": 9,
+        "slug": "cosrx-the-retinol-0-1-cream",
+        "canRegister": false,
+        "statuses": [
+          "주요 성분 추출 가능",
+          "slug 중복",
+          "브랜드+제품명 중복",
+          "출처 URL 중복"
+        ],
+        "isReviewSlug": false,
+        "isSeededSlug": true
+      },
+      {
+        "row": 10,
+        "slug": "cosrx-ultra-light-invisible-sunscreen-spf50",
+        "canRegister": true,
+        "statuses": [
+          "주요 성분 추출 가능",
+          "등록 가능"
+        ],
+        "isReviewSlug": true,
+        "isSeededSlug": false
+      },
+      {
+        "row": 11,
+        "slug": "cosrx-full-fit-propolis-synergy-toner",
+        "canRegister": true,
+        "statuses": [
+          "주요 성분 추출 가능",
+          "등록 가능"
+        ],
+        "isReviewSlug": true,
+        "isSeededSlug": false
+      }
+    ],
+    "same_file_reregister_blocked": true,
+    "review_rows_present": true,
+    "commit_skipped": true,
+    "reason": "same_file_reregister_forbidden"
+  },
+  "productId_3_untouched": true,
+  "snail_96_not_in_seed": true
+}

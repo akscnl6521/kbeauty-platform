@@ -20,10 +20,12 @@
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.99.1",
     "cheerio": "^1.0.0-rc.12",
+    "jszip": "^3.10.1",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "server-only": "^0.0.1"
+    "server-only": "^0.0.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

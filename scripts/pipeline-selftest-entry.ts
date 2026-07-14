@@ -9,6 +9,7 @@ import { runCatalogAuditSelftests } from "../src/lib/catalog/catalog-audit-selft
 import { runCatalogAutomationSelftests } from "../src/lib/catalog/automation/catalog-automation-selftest";
 import { runScalpHairFoundationSelftests } from "../src/lib/catalog/scalpHair/scalp-hair-selftest";
 import { runBeautyCatalogFoundationSelftests } from "../src/lib/catalog/taxonomy/beauty-catalog-selftest";
+import { runProductCreateSelftests } from "../src/lib/admin/product-create-selftest";
 
 async function main() {
   const result = runPipelineSelftests();
@@ -22,6 +23,7 @@ async function main() {
   const catalogAutomation = await runCatalogAutomationSelftests();
   const scalpHair = runScalpHairFoundationSelftests();
   const beautyCatalog = runBeautyCatalogFoundationSelftests();
+  const productCreate = runProductCreateSelftests();
   console.log("[pipeline-selftest] ok", {
     ...result,
     journeyChecks: journey.checks,
@@ -34,6 +36,7 @@ async function main() {
     catalogAutomationChecks: catalogAutomation.checks,
     scalpHairChecks: scalpHair.checks,
     beautyCatalogChecks: beautyCatalog.checks,
+    productCreateChecks: productCreate.checks,
   });
 }
 

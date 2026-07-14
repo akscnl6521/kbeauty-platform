@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "environment": "staging",
+    "exportedAt": "2026-07-14T04:46:09.576Z",
+    "gitCommit": "47f850a8496ad7b13af1041a96055d2db1bd3ba1",
+    "rowCount": 1,
+    "schemaVersion": "20260714060000",
+    "table": "data_sources"
+  },
+  "rows": [
+    {
+      "active": true,
+      "base_url": "https://www.cosrx.co.kr",
+      "country_code": "KR",
+      "created_at": "2026-07-14T04:28:52.518215+00:00",
+      "id": "1acb0b88-82fd-43a2-b88b-0fd68c885df0",
+      "official": true,
+      "source_name": "COSRX 공식몰 (KR)",
+      "source_type": "official_retailer",
+      "trust_level": "high"
+    }
+  ]
+}

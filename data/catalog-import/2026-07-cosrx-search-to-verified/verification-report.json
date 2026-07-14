@@ -1,0 +1,217 @@
+{
+  "checked_at": "2026-07-14T04:29:19.001Z",
+  "case_tag": "[s2v-case:2026-07-cosrx-catalog-json]",
+  "input_json_count": 3,
+  "existing_product_match_count": 2,
+  "new_candidate_count": 1,
+  "verified_transition_count": 0,
+  "needs_review_count": 3,
+  "duplicate_blocked_count": 2,
+  "source_missing_count": 0,
+  "skipped_non_official_source": 0,
+  "candidates_inserted": 0,
+  "products": [
+    {
+      "catalogProductId": "cosrx-advanced-snail-96-essence-100ml",
+      "nameEn": "Advanced Snail 96 Mucin Power Essence",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=196",
+      "source_type": "official_retailer",
+      "verified_at": null,
+      "data_confidence": "medium",
+      "needs_review": true,
+      "verification_status": "needs_review",
+      "verified_transition": false,
+      "match": {
+        "productId": 1,
+        "slug": "cosrx-advanced-snail-96-mucin-power-essence",
+        "matchReason": "name_or_slug_snail_96",
+        "product_body_mutated": false
+      },
+      "duplicate_product_create_blocked": true,
+      "new_product_created": false,
+      "evidence": {
+        "official_source": true,
+        "reasons": [
+          "catalog_full_ingredients_empty",
+          "offer_unverified",
+          "offer_stock_unknown",
+          "offer_verified_at_null",
+          "auto_verified_forbidden_until_manual_review",
+          "ingredient_source_mismatch_catalog_empty_existing_preserved",
+          "possible_kr_vs_global_formula_difference_needs_review"
+        ]
+      },
+      "applied": {
+        "dataSourceId": "1acb0b88-82fd-43a2-b88b-0fd68c885df0",
+        "candidateId": "0eacee73-2074-4d16-9cd9-8daaf9171f84",
+        "candidateAction": "existing_unchanged",
+        "candidateCreated": false,
+        "queueId": "142464cb-73b2-4135-9e65-ae4973b25018",
+        "queueAction": "existing_unchanged",
+        "provenanceFields": [
+          "source_url",
+          "product_name_en",
+          "catalog_product_id",
+          "offer_purchase_url",
+          "verification_case"
+        ],
+        "historyId": "fefeedef-d624-4a80-92a7-c56b2cf1ea90",
+        "historyAction": "existing_unchanged",
+        "offerRowId": "81707444-16b5-4f31-bd90-f9b7ad9aaec7",
+        "offerAction": "existing_unchanged"
+      }
+    },
+    {
+      "catalogProductId": "cosrx-advanced-snail-92-cream-100g",
+      "nameEn": "Advanced Snail 92 All in One Cream",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+      "source_type": "official_retailer",
+      "verified_at": null,
+      "data_confidence": "medium",
+      "needs_review": true,
+      "verification_status": "needs_review",
+      "verified_transition": false,
+      "match": {
+        "productId": 10,
+        "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+        "matchReason": "name_or_slug_snail_92",
+        "product_body_mutated": false
+      },
+      "duplicate_product_create_blocked": true,
+      "new_product_created": false,
+      "evidence": {
+        "official_source": true,
+        "reasons": [
+          "catalog_full_ingredients_empty",
+          "offer_unverified",
+          "offer_stock_unknown",
+          "offer_verified_at_null",
+          "auto_verified_forbidden_until_manual_review",
+          "ingredient_source_mismatch_catalog_empty_existing_preserved",
+          "possible_kr_vs_global_formula_difference_needs_review"
+        ]
+      },
+      "applied": {
+        "dataSourceId": "1acb0b88-82fd-43a2-b88b-0fd68c885df0",
+        "candidateId": "cdb0b2ba-1c12-4b4c-8f3b-066ed239b0f0",
+        "candidateAction": "existing_unchanged",
+        "candidateCreated": false,
+        "queueId": "f6fa3b7b-7023-4dff-8215-d42805565eb4",
+        "queueAction": "existing_unchanged",
+        "provenanceFields": [
+          "source_url",
+          "product_name_en",
+          "catalog_product_id",
+          "offer_purchase_url",
+          "verification_case"
+        ],
+        "historyId": "29bce9aa-c2ee-4da0-a450-edfaf1fc6120",
+        "historyAction": "existing_unchanged",
+        "offerRowId": "0b1de6ad-be68-47c6-b30e-734f18a8df81",
+        "offerAction": "existing_unchanged"
+      }
+    },
+    {
+      "catalogProductId": "cosrx-one-step-original-blemish-pad-100",
+      "nameEn": "One Step Original Blemish Clear Pad",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177512",
+      "source_type": "official_retailer",
+      "verified_at": null,
+      "data_confidence": "medium",
+      "needs_review": true,
+      "verification_status": "needs_review",
+      "verified_transition": false,
+      "match": null,
+      "duplicate_product_create_blocked": false,
+      "new_product_created": false,
+      "evidence": {
+        "official_source": true,
+        "reasons": [
+          "catalog_full_ingredients_empty",
+          "offer_unverified",
+          "offer_stock_unknown",
+          "offer_verified_at_null",
+          "auto_verified_forbidden_until_manual_review"
+        ]
+      },
+      "applied": {
+        "dataSourceId": "1acb0b88-82fd-43a2-b88b-0fd68c885df0",
+        "candidateId": "4ae7739e-234b-4a68-96f3-70b9eb2df50b",
+        "candidateAction": "existing_unchanged",
+        "candidateCreated": false,
+        "queueId": "457acd26-f144-48df-9fee-cedee8f2fddd",
+        "queueAction": "existing_unchanged",
+        "provenanceFields": [
+          "source_url",
+          "product_name_en",
+          "catalog_product_id",
+          "offer_purchase_url",
+          "verification_case"
+        ],
+        "historyId": null,
+        "historyAction": "skipped",
+        "offerRowId": null,
+        "offerAction": "deferred_no_product_row"
+      }
+    }
+  ],
+  "counts_before": {
+    "product_discovery_candidates": 3,
+    "verification_queue": 3,
+    "product_change_history": 2,
+    "product_offers": 2,
+    "product_field_provenance": 15,
+    "data_sources_cosrx_kr": 1,
+    "products_total": 11
+  },
+  "counts_after": {
+    "product_discovery_candidates": 3,
+    "verification_queue": 3,
+    "product_change_history": 2,
+    "product_offers": 2,
+    "product_field_provenance": 15,
+    "data_sources_cosrx_kr": 1,
+    "products_total": 11
+  },
+  "protected_products_unchanged": true,
+  "protected_diff": [
+    {
+      "id": 4,
+      "changed": false
+    },
+    {
+      "id": 5,
+      "changed": false
+    },
+    {
+      "id": 6,
+      "changed": false
+    },
+    {
+      "id": 7,
+      "changed": false
+    },
+    {
+      "id": 8,
+      "changed": false
+    },
+    {
+      "id": 9,
+      "changed": false
+    },
+    {
+      "id": 10,
+      "changed": false
+    },
+    {
+      "id": 11,
+      "changed": false
+    }
+  ],
+  "policy": {
+    "auto_verified_forbidden": true,
+    "products_update_forbidden": true,
+    "delete_forbidden": true,
+    "new_product_rows_forbidden_without_complete_verification": true
+  }
+}

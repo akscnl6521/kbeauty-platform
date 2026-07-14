@@ -4,6 +4,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { AdminConfigurationError } from "@/lib/auth/errors";
 import { isSafeHttpsUrl } from "@/lib/admin/query";
+import { parseStorageObjectCanonicalRef } from "@/lib/admin/productImageStorage";
 
 export { isSafeHttpsUrl };
 
@@ -192,6 +193,12 @@ export type AdminProductDetailPayload = {
   ingredients: AdminProductIngredientItem[];
   offers: AdminProductOfferItem[];
   statusSummary: AdminProductStatusSummary;
+  primaryMedia: {
+    id: string;
+    imageUrl: string;
+    validationStatus: string;
+    isPrimary: boolean;
+  } | null;
 };
 
 /**
@@ -305,7 +312,7 @@ export async function getAdminProductDetail(
 
     const productRecord = productRow as unknown as Record<string, unknown>;
 
-    const [offersRes, variantsRes, ingredientsRes] = await Promise.all([
+    const [offersRes, variantsRes, ingredientsRes, mediaRes] = await Promise.all([
       client
         .from("product_offers")
         .select(OFFER_SELECT)
@@ -321,11 +328,22 @@ export async function getAdminProductDetail(
         .select(PRODUCT_INGREDIENT_SELECT)
         .eq("product_id", productId)
         .order("ingredient_order", { ascending: true }),
+      client
+        .from("catalog_product_media")
+        .select("id, image_url, canonical_image_url, validation_status, is_primary")
+        .eq("product_id", productId)
+        .order("is_primary", { ascending: false })
+        .limit(5),
     ]);
 
-    if (offersRes.error || variantsRes.error || ingredientsRes.error) {
+    if (ingredientsRes.error) {
       throw new AdminConfigurationError("Unable to load admin product detail.");
     }
+
+    // Offers/variants may be empty; permission or query errors must not block detail.
+    const offerRows = offersRes.error ? [] : (offersRes.data ?? []);
+    const variantRows = variantsRes.error ? [] : (variantsRes.data ?? []);
+    const mediaRowsRaw = mediaRes.error ? [] : (mediaRes.data ?? []);
 
     const ingredientRows = (ingredientsRes.data ?? []) as unknown as Array<{
       id: string;
@@ -382,7 +400,7 @@ export async function getAdminProductDetail(
     }
 
     const offers: AdminProductOfferItem[] = (
-      (offersRes.data ?? []) as unknown as Array<{
+      offerRows as unknown as Array<{
         id: string;
         retailer_name: string;
         retailer_country: string;
@@ -423,7 +441,7 @@ export async function getAdminProductDetail(
     });
 
     const variants: AdminProductVariantItem[] = (
-      (variantsRes.data ?? []) as unknown as Array<{
+      variantRows as unknown as Array<{
         id: string;
         country_code: string | null;
         size_value: number | string | null;
@@ -614,6 +632,39 @@ export async function getAdminProductDetail(
       ingredients,
       offers,
       statusSummary,
+      primaryMedia: await (async () => {
+        const rows = mediaRowsRaw as Array<{
+          id: string;
+          image_url: string;
+          canonical_image_url: string | null;
+          validation_status: string;
+          is_primary: boolean;
+        }>;
+        const primary =
+          rows.find((r) => r.is_primary && r.validation_status === "verified") ||
+          rows.find((r) => r.validation_status === "verified") ||
+          rows[0];
+        if (!primary) return null;
+
+        let imageUrl = primary.image_url;
+        const storageRef = parseStorageObjectCanonicalRef(
+          primary.canonical_image_url
+        );
+        if (storageRef) {
+          const { data: signed } = await client.storage
+            .from(storageRef.bucket)
+            .createSignedUrl(storageRef.path, 60 * 60);
+          if (signed?.signedUrl) imageUrl = signed.signedUrl;
+        }
+        if (!imageUrl) return null;
+
+        return {
+          id: String(primary.id),
+          imageUrl,
+          validationStatus: primary.validation_status,
+          isPrimary: Boolean(primary.is_primary),
+        };
+      })(),
     };
   } catch (error) {
     if (error instanceof AdminConfigurationError) throw error;

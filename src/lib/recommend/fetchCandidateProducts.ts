@@ -67,6 +67,8 @@ type ProductRowRaw = {
   name_ja?: unknown;
   brand?: unknown;
   category?: unknown;
+  image_url?: unknown;
+  image_verified?: unknown;
   skin_concern?: unknown;
   skin_tone?: unknown;
   key_ingredients?: unknown;
@@ -158,6 +160,8 @@ export function mapRowToCandidateProduct(
     name_ja: asNullableString(row.name_ja),
     brand: getCanonicalBrandName(asNullableString(row.brand)),
     category: asNullableString(row.category),
+    image_url: asNullableString(row.image_url),
+    image_verified: row.image_verified === true,
     skin_concern: asConcernOrToneField(row.skin_concern),
     skin_tone: asConcernOrToneField(row.skin_tone),
     key_ingredients: asIngredientArray(row.key_ingredients),
@@ -285,6 +289,36 @@ export async function fetchCandidateProducts(
         products[i] = {
           ...products[i],
           offers,
+        };
+      }
+    }
+  }
+
+  // Attach verified primary media from catalog_product_media (products has no image column).
+  if (products.length > 0) {
+    const ids = products.map((p) => p.id);
+    const { data: mediaRows } = await supabase
+      .from("catalog_product_media")
+      .select("product_id, image_url, validation_status, is_primary, is_fixture")
+      .in("product_id", ids)
+      .eq("validation_status", "verified")
+      .eq("is_fixture", false)
+      .order("is_primary", { ascending: false });
+
+    const mediaByProduct = new Map<string, string>();
+    for (const row of mediaRows ?? []) {
+      const pid = String((row as { product_id?: unknown }).product_id ?? "");
+      const url = String((row as { image_url?: unknown }).image_url ?? "").trim();
+      if (!pid || !url || mediaByProduct.has(pid)) continue;
+      mediaByProduct.set(pid, url);
+    }
+    for (let i = 0; i < products.length; i += 1) {
+      const url = mediaByProduct.get(products[i]!.id);
+      if (url) {
+        products[i] = {
+          ...products[i]!,
+          image_url: url,
+          image_verified: true,
         };
       }
     }

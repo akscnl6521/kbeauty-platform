@@ -1,6 +1,23 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-13
+최종 갱신: 2026-07-14
+
+## 다음 작업 (단일 · 재개 지침)
+
+**다음 작업:** main 병합 · Production 배포 — **사용자 명시 승인 후**. 현재 판정: **BLOCKED** (Preview SSO로 HTML 경로 미검증 · Production `AI_PROVIDER` 값 미확인 · Production 카탈로그 미반영).
+
+### 2026-07-14 출시 직전 점검
+
+| 항목 | 결과 |
+|------|------|
+| 브랜치 | `backup-sprint14-20260713` |
+| 로컬 검사 | build · test:pipeline/journey/smoke · check:production/deployment-env/release-security/responsive **전부 통과** |
+| Preview 경로 | Ready 배포 응답하나 **Vercel SSO 302** → 내용 검증 불가(에이전트) |
+| Production env | 이름만 확인: `AI_PROVIDER`·`NEXT_PUBLIC_SITE_URL`·Supabase 키 존재 · **값=mock 여부는 미확인** |
+| main / Production | **미병합 · 미배포 · DB 미변경** |
+| 판정 | **BLOCKED** (Production 배포·main 병합 승인 대기) |
+
+---
 
 ## 현재 컴퓨터 / 경로
 
@@ -137,13 +154,21 @@
 
 ## 다음 작업
 
+**최우선 (지금):** `docs/NEXT_TASK_PREVIEW_VALIDATION.md` — Preview Staging 확정 · 재배포 · `/admin/products/3` 브라우저 E2E
+
+이후 (Preview 검증 완료·별도 승인 후):
+
 1. Supabase Auth 이메일 템플릿·Redirect URL에 `/auth/callback` 확인 (사용자)
 2. 일반 사용자 가입→온보딩→/my E2E (사용자)
 3. 운영 UI에서 실제 후보 1건 E2E (사용자)
 4. main 병합은 별도 승인 후
+5. Production 배포는 별도 승인 후
+6. 테스트 제품 `productId=3` 삭제 여부 (Preview 검증 완료 후 승인)
 
 ## 참고 문서
 
+- `docs/NEXT_TASK_PREVIEW_VALIDATION.md` — **다음 단일 작업 실행 지침**
+- `.cursor/rules/kbeauty-resume.mdc` — 재개 규칙
 - `docs/138`~`docs/142` — 고객 인증·온보딩·연결·E2E·설정
 - `docs/133`~`docs/137` — Care DB/RLS/연결/worker/retention
 - `docs/123`~`docs/130` — Continuous Care 정책

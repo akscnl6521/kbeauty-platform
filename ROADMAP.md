@@ -1,8 +1,19 @@
 # ROADMAP.md — K-Beauty Match
 
-최종 갱신: 2026-07-13
+최종 갱신: 2026-07-14
 
 상세 기술 초안은 `docs/07_Roadmap.md`에도 있으나, **현재 실제 진행 상태는 본 문서를 우선**한다.
+
+---
+
+## 0. 지금 할 일 (단일)
+
+- [x] Staging 카탈로그 백업·Sprint14 제품/S2V 작업  
+- [x] 출시 직전 로컬 검사 (build/tests/checks)  
+- [ ] **main 병합** — 승인 필요  
+- [ ] **Production 배포** — 승인 필요 · `AI_PROVIDER≠mock` 확인 필요  
+- 판정: **BLOCKED** (Preview SSO·Production 설정 값 확인·카탈로그 Production 반영 대기)
+
 
 ---
 
@@ -69,17 +80,21 @@
 - [x] Phase 8 여정 통합 · 공개 내비 · production check · journey tests (docs/143~148)
 - [x] Phase 9 staging/release 준비 · env/health/smoke/security · headers/SEO/error pages (docs/149~154)
 - [x] Phase 10 UI·반응형·접근성 최종 · header/Hero · check:responsive · docs/155~158
-- [ ] Windows Task Scheduler 인자를 고정 `run-pipeline.ps1`로 1회 정렬 (필요 시)
-- [ ] COSRX 3개를 첫 실제 검증 사례로 파이프라인에 적용
-- [ ] Supabase 제품/offer 반영 (승인 후)
-- [ ] `data/backups` JSON 백업
+- [x] Staging 격리 · `product-images` private Storage · signed URL
+- [x] `createAdminProduct` Staging HTTP E2E · slug 중복 차단 · 전성분/주요성분 · media 연결
+- [x] service_role 최소 SELECT (`ingredient_aliases` · `product_offers` · `product_variants`)
+- [x] 관리자 상세 로컬 Staging 조회 (`productId=3`, offers/variants 0 = 빈 상태)
+- [x] **Preview Staging 확정 + `/admin/products/3` 브라우저 E2E** (완료 · 재요청 금지)
+- [x] Windows Task Scheduler 인자를 고정 `run-pipeline.ps1`로 정렬 확인 (`KBeautyMatch-Pipeline`)
+- [x] COSRX catalog JSON 3개를 첫 실제 검증 사례로 Staging 적용
+- [ ] Supabase 제품/offer 반영 (**Production 승인 후**)
+- [x] `data/backups` JSON 백업 (`data/backups/2026-07-14-catalog/`)
 
-### 현재 단계 (2026-07-13)
+### 현재 단계 (2026-07-14)
 
-- 관리자 읽기 + **제한 쓰기** 콘솔: discovery/verification
-- verification_queue / candidates: 운영 E2E는 사용자 직접 등록
-- main 병합: **안 함**
-- 배포 준비: Vercel 권장 · `kbeautymatch.com` apex canonical · preview smoke 후 별도 승인 배포
+- Staging catalog JSON 백업·검증: **완료**
+- **다음:** Production/main 작업은 사용자 승인 후에만
+- main 병합: **안 함** · Production 배포/DB: **안 함**
 
 ---
 

@@ -1,0 +1,11 @@
+{
+  "metadata": {
+    "environment": "staging",
+    "exportedAt": "2026-07-14T04:46:09.576Z",
+    "gitCommit": "47f850a8496ad7b13af1041a96055d2db1bd3ba1",
+    "rowCount": 0,
+    "schemaVersion": "20260714060000",
+    "table": "product_variants"
+  },
+  "rows": []
+}

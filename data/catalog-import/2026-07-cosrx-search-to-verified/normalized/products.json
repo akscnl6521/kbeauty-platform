@@ -1,0 +1,65 @@
+{
+  "caseTag": "[s2v-case:2026-07-cosrx-catalog-json]",
+  "items": [
+    {
+      "catalogProductId": "cosrx-advanced-snail-96-essence-100ml",
+      "brand": "COSRX",
+      "nameEn": "Advanced Snail 96 Mucin Power Essence",
+      "nameKo": "어드밴스드 스네일 96 뮤신 파워 에센스",
+      "category": "essence",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=196",
+      "source_type": "official_retailer",
+      "data_confidence": "medium",
+      "verified_at": null,
+      "full_ingredient_count": 0,
+      "key_ingredient_count": 0,
+      "official_source": true,
+      "offer": {
+        "offerId": "cosrx-official-snail-96-essence-100ml-kr",
+        "purchaseUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=196",
+        "stockStatus": "unknown",
+        "verificationStatus": "unverified"
+      }
+    },
+    {
+      "catalogProductId": "cosrx-advanced-snail-92-cream-100g",
+      "brand": "COSRX",
+      "nameEn": "Advanced Snail 92 All in One Cream",
+      "nameKo": "어드밴스드 스네일 92 올인원 크림",
+      "category": "cream",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+      "source_type": "official_retailer",
+      "data_confidence": "medium",
+      "verified_at": null,
+      "full_ingredient_count": 0,
+      "key_ingredient_count": 0,
+      "official_source": true,
+      "offer": {
+        "offerId": "cosrx-official-snail-92-cream-100g-kr",
+        "purchaseUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+        "stockStatus": "unknown",
+        "verificationStatus": "unverified"
+      }
+    },
+    {
+      "catalogProductId": "cosrx-one-step-original-blemish-pad-100",
+      "brand": "COSRX",
+      "nameEn": "One Step Original Blemish Clear Pad",
+      "nameKo": "원스텝 오리지널 블레미쉬 모공 클리어 패드",
+      "category": "toner_pad",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177512",
+      "source_type": "official_retailer",
+      "data_confidence": "medium",
+      "verified_at": null,
+      "full_ingredient_count": 0,
+      "key_ingredient_count": 0,
+      "official_source": true,
+      "offer": {
+        "offerId": "cosrx-official-one-step-blemish-pad-100-kr",
+        "purchaseUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177512",
+        "stockStatus": "unknown",
+        "verificationStatus": "unverified"
+      }
+    }
+  ]
+}

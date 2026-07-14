@@ -62,6 +62,7 @@ export function parseIngredientList(
   // Keep botanical parentheses content as part of token when short; strip long notes
   working = working.replace(/\(([^)]{80,})\)/g, " ");
   working = working
+    .replace(/\r\n|\r|\n/g, ",")
     .replace(/\[[^\]]*\]/g, " ")
     .replace(/[;/|]/g, ",")
     .replace(/\s+/g, " ")

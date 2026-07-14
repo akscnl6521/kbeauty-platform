@@ -1,0 +1,78 @@
+{
+  "_meta": {
+    "sprint": 14,
+    "note": "COSRX 공식몰에서 제품명·공식가가 확인된 실제품. 재고·구매 가능 여부는 미검증 → offer는 unverified/unknown. 핵심 추천 Top5 제외. 성분은 임의 기입하지 않음. productNameKo는 음역 표시이며 '공식 한국어명' 주장 아님. 용량은 제품명에 넣지 않음.",
+    "sourceCheckedAt": "2026-07-12",
+    "verifiedOfficialNames": {
+      "cosrx-advanced-snail-96-essence-100ml": {
+        "en": "Advanced Snail 96 Mucin Power Essence",
+        "size": "100 ml",
+        "url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=196",
+        "listPriceKrw": 23000
+      },
+      "cosrx-advanced-snail-92-cream-100g": {
+        "en": "Advanced Snail 92 All in One Cream",
+        "size": "100 g",
+        "url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+        "listPriceKrw": 23000,
+        "packagingNote": "jar/tube option은 단정하지 않음"
+      }
+    }
+  },
+  "products": [
+    {
+      "productId": "cosrx-advanced-snail-96-essence-100ml",
+      "canonicalBrandName": "COSRX",
+      "productNameKo": "어드밴스드 스네일 96 뮤신 파워 에센스",
+      "productNameEn": "Advanced Snail 96 Mucin Power Essence",
+      "category": "essence",
+      "skinTypes": [],
+      "concerns": [],
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "fragranceFree": null,
+      "alcoholFree": null,
+      "productStatus": "active",
+      "dataConfidence": "medium",
+      "verifiedAt": null,
+      "sourceUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=196",
+      "notes": "공식 영문명·용량 100 ml·확인가 23,000원(할인 전). 재고·구매 가능 여부 검증 대기. KO명은 음역 표시."
+    },
+    {
+      "productId": "cosrx-advanced-snail-92-cream-100g",
+      "canonicalBrandName": "COSRX",
+      "productNameKo": "어드밴스드 스네일 92 올인원 크림",
+      "productNameEn": "Advanced Snail 92 All in One Cream",
+      "category": "cream",
+      "skinTypes": [],
+      "concerns": [],
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "fragranceFree": null,
+      "alcoholFree": null,
+      "productStatus": "active",
+      "dataConfidence": "medium",
+      "verifiedAt": null,
+      "sourceUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+      "notes": "공식 영문명·용량 100 g·확인가 23,000원(할인 전). jar/tube 단정 금지. 재고·구매 가능 여부 검증 대기."
+    },
+    {
+      "productId": "cosrx-one-step-original-blemish-pad-100",
+      "canonicalBrandName": "COSRX",
+      "productNameKo": "원스텝 오리지널 블레미쉬 모공 클리어 패드",
+      "productNameEn": "One Step Original Blemish Clear Pad",
+      "category": "toner_pad",
+      "skinTypes": [],
+      "concerns": [],
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "fragranceFree": null,
+      "alcoholFree": null,
+      "productStatus": "active",
+      "dataConfidence": "medium",
+      "verifiedAt": null,
+      "sourceUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177512",
+      "notes": "공식 확인가 24,000원(할인 전). 용량 100매는 제품명 밖에 표기. 재고·구매 가능 여부 검증 대기."
+    }
+  ]
+}

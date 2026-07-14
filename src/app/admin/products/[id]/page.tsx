@@ -90,7 +90,8 @@ function StringList({
 }
 
 function DetailBody({ data }: { data: AdminProductDetailPayload }) {
-  const { product, variants, ingredients, offers, statusSummary } = data;
+  const { product, variants, ingredients, offers, statusSummary, primaryMedia } =
+    data;
 
   return (
     <>
@@ -127,6 +128,30 @@ function DetailBody({ data }: { data: AdminProductDetailPayload }) {
             <dd className="tabular-nums">{formatDate(product.createdAt)}</dd>
           </div>
         </dl>
+      </Section>
+
+      <Section title="제품 이미지" description="catalog_product_media 연결">
+        {primaryMedia?.imageUrl ? (
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={primaryMedia.imageUrl}
+              alt={`${product.brand} ${product.name} 제품 이미지`}
+              className="h-40 w-40 rounded-lg border border-[#E8DFD8] object-contain bg-white"
+            />
+            <dl className="text-sm text-gray-700">
+              <div>
+                <dt className="text-gray-500">validation</dt>
+                <dd>{primaryMedia.validationStatus}</dd>
+              </div>
+              <div className="mt-1 break-all text-xs text-gray-500">
+                {primaryMedia.imageUrl}
+              </div>
+            </dl>
+          </div>
+        ) : (
+          <p className="text-sm text-gray-500">연결된 이미지 없음</p>
+        )}
       </Section>
 
       <Section
@@ -339,9 +364,8 @@ function DetailBody({ data }: { data: AdminProductDetailPayload }) {
 
       <Section title="판매처 (product_offers)">
         {offers.length === 0 ? (
-          <p className="text-sm text-amber-800">
-            검증된 판매처 없음 — product_offers 0건. 레거시 링크는 verified
-            offer가 아닙니다.
+          <p className="text-sm text-gray-600">
+            아직 등록된 판매 정보가 없습니다.
           </p>
         ) : (
           <div className="overflow-x-auto rounded-lg border border-[#E8DFD8] bg-white">
@@ -452,9 +476,11 @@ function DetailBody({ data }: { data: AdminProductDetailPayload }) {
         </ul>
       </Section>
 
-      <Section title="Variants">
+      <Section title="옵션 (variants)">
         {variants.length === 0 ? (
-          <p className="text-sm text-gray-500">등록된 variant 없음</p>
+          <p className="text-sm text-gray-600">
+            아직 등록된 옵션이 없습니다.
+          </p>
         ) : (
           <div className="overflow-x-auto rounded-lg border border-[#E8DFD8] bg-white">
             <table className="min-w-full text-left text-sm">
