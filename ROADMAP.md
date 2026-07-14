@@ -8,11 +8,13 @@
 
 ## 0. 지금 할 일 (단일)
 
-- [x] Staging 카탈로그 백업·Sprint14 제품/S2V 작업  
-- [x] 출시 직전 로컬 검사 (build/tests/checks)  
-- [ ] **main 병합** — 승인 필요  
-- [ ] **Production 배포** — 승인 필요 · `AI_PROVIDER≠mock` 확인 필요  
-- 판정: **BLOCKED** (Preview SSO·Production 설정 값 확인·카탈로그 Production 반영 대기)
+- [x] 출시 직전 로컬 검사 · 브랜치 push (`1181edd`)
+- [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
+- [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인
+- [ ] Preview SSO 수동 확인 (사용자 1회 체크리스트)
+- [ ] **A안:** Staging 한국 COSRX 시드 Production 반영 (승인 후) — 계획: `docs/RELEASE_KR_CATALOG_PRODUCTION_PLAN.md`
+- [ ] main 병합 · Production 배포 — **승인 후**
+- 판정: **BLOCKED**
 
 
 ---

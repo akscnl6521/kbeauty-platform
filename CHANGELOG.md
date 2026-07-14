@@ -6,6 +6,14 @@
 
 ## 2026-07-14
 
+### 출시 차단 4항 판정
+
+- AI_PROVIDER: Production에 설정 **존재**, 값(mock 여부) **미확인** → Dashboard 확인 필요
+- 도메인: www 200 · apex→www · `kbeautymatch.com` Vercel 계정 연결
+- Auth Redirect: Supabase 콘솔 수동 확인 필요 (자동 조회 불가)
+- 한국 제품: **A안 권고** (Production 반영 후 출시) · 계획만 `docs/RELEASE_KR_CATALOG_PRODUCTION_PLAN.md`
+- 종합: **BLOCKED** · main/Production 미실행
+
 ### 출시 직전 최종 점검
 
 - 로컬: `build` · `test:pipeline` · `test:journey` · `test:smoke` · `check:production` · `check:deployment-env` · `check:release-security` · `check:responsive` 통과

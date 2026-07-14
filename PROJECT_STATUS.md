@@ -4,18 +4,18 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** main 병합 · Production 배포 — **사용자 명시 승인 후**. 현재 판정: **BLOCKED** (Preview SSO로 HTML 경로 미검증 · Production `AI_PROVIDER` 값 미확인 · Production 카탈로그 미반영).
+**다음 작업:** 아래 출시 차단 4항 해소 후 사용자 승인 → (권고) **A안** Production 한국 제품 반영 → main 병합 → Production 배포.
 
-### 2026-07-14 출시 직전 점검
+### 2026-07-14 출시 차단 4항 최종
 
-| 항목 | 결과 |
-|------|------|
-| 브랜치 | `backup-sprint14-20260713` |
-| 로컬 검사 | build · test:pipeline/journey/smoke · check:production/deployment-env/release-security/responsive **전부 통과** |
-| Preview 경로 | Ready 배포 응답하나 **Vercel SSO 302** → 내용 검증 불가(에이전트) |
-| Production env | 이름만 확인: `AI_PROVIDER`·`NEXT_PUBLIC_SITE_URL`·Supabase 키 존재 · **값=mock 여부는 미확인** |
-| main / Production | **미병합 · 미배포 · DB 미변경** |
-| 판정 | **BLOCKED** (Production 배포·main 병합 승인 대기) |
+| # | 항목 | 판정 |
+|---|------|------|
+| 1 | Production `AI_PROVIDER` | **미확인** (Encrypted 존재 · 값 읽기 불가 → Dashboard 확인 필요) |
+| 2 | 도메인 | **통과 경향** — `www` 200, apex→www 리다이렉트, 계정에 `kbeautymatch.com` |
+| 3 | Auth Redirect | **미확인** (Supabase Dashboard 수동 확인 필요) |
+| 4 | Preview SSO / 한국 제품 Production | Preview **수동 확인 필요** · 제품은 **A안 권고·미반영** |
+| 종합 | | **BLOCKED** |
+| 커밋 | `1181edd` · 브랜치 `backup-sprint14-20260713` · main/Production 미실행 |
 
 ---
 
