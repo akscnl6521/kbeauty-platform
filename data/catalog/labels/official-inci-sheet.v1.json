@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-15T17:09:57.558Z",
-    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16 + mixsoon.us + Isntree DailyMed 2026-07-16"
+    "builtAt": "2026-07-15T17:40:00.000Z",
+    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16 + mixsoon.us + Isntree DailyMed 2026-07-16 + SKIN1004 Hyalu-Cica Water-Fit Sun Serum DailyMed 2026-07-16"
   },
   "entries": [
     {
@@ -1335,6 +1335,55 @@
         "Xanthan Gum"
       ],
       "notes": "US DailyMed label for ISNTREE Hyaluronic Acid Watery Sunscreen (actives + inactive). US filter set; KR Sun Gel formula may differ.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "skin1004-madagascar-centella-hyalu-cica-water-fit-sun-serum",
+      "brandCanonical": "SKIN1004",
+      "productNameEn": "SKIN1004 Madagascar Centella Hyalu-Cica Water-Fit Sun Serum",
+      "sourceType": "official_label",
+      "sourceUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=38d8c1c9-86b5-1edd-e063-6394a90aeb47",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Avobenzone, Homosalate, Octisalate, Octocrylene, Water, BUTYLOCTYL SALICYLATE, PROPANEDIOL, POLYMETHYLSILSESQUIOXANE, C20-22 ALKYL PHOSPHATE, C20-22 ALCOHOLS, PANTHENOL, 1,2-HEXANEDIOL, CAPRYLYL METHICONE, PENTYLENE GLYCOL, DIMETHICONE/VINYL DIMETHICONE CROSSPOLYMER, CETYL ALCOHOL, VP/EICOSENE COPOLYMER, GLYCERYL STEARATE, TROMETHAMINE, POLYACRYLATE CROSSPOLYMER-6, AMMONIUM ACRYLOYLDIMETHYLTAURATE/VP COPOLYMER, SILICA, BUTYLENE GLYCOL, CENTELLA ASIATICA EXTRACT, ETHYLHEXYLGLYCERIN, HYDROLYZED SODIUM HYALURONATE, SODIUM HYALURONATE, TOCOPHEROL, GLYCERIN, PORTULACA OLERACEA EXTRACT, CAMELLIA SINENSIS LEAF EXTRACT, HYALURONIC ACID, ORYZA SATIVA (RICE) EXTRACT, AVENA SATIVA (OAT) MEAL EXTRACT, GLYCINE MAX (SOYBEAN) SEED EXTRACT",
+      "fullIngredients": [
+        "Avobenzone",
+        "Homosalate",
+        "Octisalate",
+        "Octocrylene",
+        "Aqua",
+        "Butyloctyl Salicylate",
+        "Propanediol",
+        "Polymethylsilsesquioxane",
+        "C20-22 Alkyl Phosphate",
+        "C20-22 Alcohols",
+        "Panthenol",
+        "1,2-Hexanediol",
+        "Caprylyl Methicone",
+        "Pentylene Glycol",
+        "Dimethicone/Vinyl Dimethicone Crosspolymer",
+        "Cetyl Alcohol",
+        "VP/Eicosene Copolymer",
+        "Glyceryl Stearate",
+        "Tromethamine",
+        "Polyacrylate Crosspolymer-6",
+        "Ammonium Acryloyldimethyltaurate/VP Copolymer",
+        "Silica",
+        "Butylene Glycol",
+        "Centella Asiatica Extract",
+        "Ethylhexylglycerin",
+        "Hydrolyzed Sodium Hyaluronate",
+        "Sodium Hyaluronate",
+        "Tocopherol",
+        "Glycerin",
+        "Portulaca Oleracea Extract",
+        "Camellia Sinensis Leaf Extract",
+        "Hyaluronic Acid",
+        "Oryza Sativa (Rice) Extract",
+        "Avena Sativa (Oat) Meal Extract",
+        "Glycine Max (Soybean) Seed Extract"
+      ],
+      "notes": "US DailyMed label for SKIN1004 Madagascar Centella Hyalu-Cica Water-Fit Sun Serum UV (actives + inactive). US filter set; KR formula may differ. Official US brand PDP had no verbatim FULL INGREDIENTS text.",
       "applyReady": true
     }
   ]

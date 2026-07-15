@@ -4,8 +4,17 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO UI 검수 · SOME BY MI/innisfree/TOCOBO 등 잔여 · 승인 시 A안/main/Production.  
-**방금 완료:** mixsoon Bean Essence · Isntree US DailyMed sun INCI Staging 적용 (with_inci 31).
+**다음 작업:** Preview SSO UI 검수 · SOME BY MI/innisfree/TOCOBO Soft(≠Airy) 등 잔여 · 승인 시 A안/main/Production.  
+**방금 완료:** SKIN1004 Hyalu-Cica Water-Fit Sun Serum US DailyMed → Staging (with_inci 32).
+
+### 2026-07-16 SKIN1004 Hyalu-Cica Sun (DailyMed)
+
+| 항목 | 값 |
+|------|-----|
+| SKIN1004 | Madagascar Centella Hyalu-Cica Water-Fit Sun Serum (US DailyMed actives+inactive) |
+| Staging | with_inci **32** · official_matched **32** · recommendable **32** · evidence_linked **29** |
+| 스킵 | TOCOBO Soft Stick ≠ DailyMed Cotton Airy · SOME BY MI/innisfree 공식 전성분 PDP 부재 |
+| Production / main | 미변경 |
 
 ### 2026-07-16 mixsoon·Isntree 공식 INCI
 

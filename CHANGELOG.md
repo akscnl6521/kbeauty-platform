@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### SKIN1004 Hyalu-Cica Water-Fit Sun Serum DailyMed Staging 적용
+
+- US DailyMed setid `38d8c1c9-86b5-1edd-e063-6394a90aeb47` (actives + inactive)
+- Staging: with_inci **32** · official_matched **32** · recommendable **32** · evidence_linked **29**
+- TOCOBO Soft·SOME BY MI·innisfree는 공식 SKU/전성분 미확보로 스킵 · Production · main 미변경
+
 ### mixsoon·Isntree 공식 INCI Staging 적용
 
 - mixsoon Bean Essence (`mixsoon.us`)
