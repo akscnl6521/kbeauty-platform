@@ -1,6 +1,6 @@
 # ROADMAP.md — K-Beauty Match
 
-최종 갱신: 2026-07-14
+최종 갱신: 2026-07-15
 
 상세 기술 초안은 `docs/07_Roadmap.md`에도 있으나, **현재 실제 진행 상태는 본 문서를 우선**한다.
 
@@ -18,14 +18,15 @@
 - [x] Preview SSO 대체 검증 (`check:preview-substitute`) — Staging linked 카탈로그 8고민 E2E
 - [x] **Full Beauty 스프린트** — 카테고리·35브랜드·1161후보 Staging · 메이크업/헤어 랭커 · bulk-review · Preview
 - [x] **Discovery 보강** — 플레이스홀더 1085 rejected · 전 브랜드 enrich 완료 · 문진 4종 · bulk API · Preview
-- [ ] 공개 전성분/공식 라벨 확보율 개선 (JSON-LD에 INCI 부재)
+- [x] **INCI/라벨 보강 1차** — 라벨 파서·COSRX URL override·`catalog:inci` · 일시 실패 비덮어쓰기 · 문진→results 속성 힌트 (전성분 건수 0 유지)
+- [ ] 전성분 공개 피드/라벨 채널 (공식 허용 소스·수동 검수 라벨시트) — HTML만으로는 0% 한계
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/bulk-review`)
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인
 - [ ] **A안:** Staging 한국 COSRX 시드 Production 반영 (승인 후)
 - [ ] main 병합 · Production 배포 — **승인 후**
-- 판정: **BLOCKED** (전성분 확보 · Preview SSO · Production 출시 항목)
+- 판정: **BLOCKED** (전성분 피드 · Preview SSO · Production 출시 항목)
 
 
 ---

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { DomainQuizRecommendPanel } from "@/components/results/DomainQuizRecommendPanel";
 
 export type ResultsDomainTab =
   | "analysis"
@@ -129,6 +130,7 @@ export function ResultsDomainTabs({
               공식 PDP가 확인되고 recommendable인 Staging 후보만 이후 공개 추천
               검토 대상입니다. 플레이스홀더는 노출되지 않습니다.
             </p>
+            <DomainQuizRecommendPanel />
           </div>
         ) : null}
         {tab === "hair" ? (
@@ -150,6 +152,7 @@ export function ResultsDomainTabs({
                 <li key={h}>{h}</li>
               ))}
             </ul>
+            <DomainQuizRecommendPanel />
           </div>
         ) : null}
         {tab === "routine" ? (

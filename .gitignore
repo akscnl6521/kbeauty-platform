@@ -64,3 +64,10 @@ supabase/.temp/
 /data/backups/full-beauty-*/
 /data/catalog/enrichment/**/sql/
 /data/catalog/enrichment/checkpoint.json
+/data/catalog/enrichment/inci-*-*/
+/data/catalog/enrichment/inci-*-log.txt
+/data/catalog/enrichment/inci-run-log.txt
+/data/catalog/enrichment/inci-last-run.log
+/data/catalog/enrichment/_fix/
+/data/catalog/enrichment/_build-log.txt
+/data/catalog/enrichment/_vercel-log.txt

@@ -6,10 +6,20 @@
 
 ## 2026-07-15
 
+### INCI/라벨 보강 스프린트 1차
+
+- `extractLabeledIngredients` — `전성분`/`Ingredients`/`INCI` 라벨 뒤에서만 추출
+- COSRX 공식몰 URL override (`cosrx-products.json` 검증분만) · 오매핑 pad 경로 제거
+- `npm run catalog:inci` — Staging heroes 76 · 일시 실패(429 등) Staging 덮어쓰기 스킵
+- Staging 결과: `official_matched` 3 · 전성분 0 · recommendable 3
+- `/results` 도메인 문진 → 속성 예시 추천 패널 (구매 검증 주장 없음)
+- Preview https://kbeauty-platform-aaczm021m-akscnl6521s-projects.vercel.app
+- Production · main 미변경
+
 ### Discovery 보강 스프린트 1차
 
 - 플레이스홀더 1085건 Staging `rejected` (추천 제외)
-- robots 준수 공식 JSON-LD 수집 · `official_matched` 5 · 전성분 추측 저장 없음
+- robots 준수 공식 JSON-LD 수집 · 당시 `official_matched` 5 · 전성분 추측 저장 없음
 - 브랜드 체크포인트 `data/catalog/enrichment/checkpoint.json` (재개: romand)
 - 문진 `/quiz/mascara|lip|base|hair` · bulk API `/api/admin/catalog/bulk`
 - Preview https://kbeauty-platform-7k9e5hhex-akscnl6521s-projects.vercel.app

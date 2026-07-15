@@ -3,16 +3,22 @@
  * robots-aware official fetch, never invent INCI/prices.
  */
 
-import { createHash } from "node:crypto";
-import { isDomainOnBrandAllowlist } from "@/lib/catalog/automation/brandAllowlist";
+import { contentHash } from "@/lib/catalog/automation/validators";
+import type { FetchedProductDocument } from "@/lib/catalog/automation/types";
+import { beautyDomainForCategory } from "@/lib/catalog/taxonomy/domains";
+import {
+  extractLabeledIngredientsRaw,
+  extractOpenGraph,
+} from "./extractLabeledIngredients";
+import { resolveOfficialUrlOverride } from "./officialUrlOverrides";
+import { parseOfficialIngredientsRaw } from "@/lib/catalog/automation/ingredientParser";
 import {
   parseJsonLdIngredients,
   parseJsonLdOffers,
   parseJsonLdProductDocument,
 } from "@/lib/catalog/automation/jsonLdParser";
-import { contentHash } from "@/lib/catalog/automation/validators";
-import type { FetchedProductDocument } from "@/lib/catalog/automation/types";
-import { beautyDomainForCategory } from "@/lib/catalog/taxonomy/domains";
+import { isDomainOnBrandAllowlist } from "@/lib/catalog/automation/brandAllowlist";
+import { createHash } from "node:crypto";
 
 export type EnrichmentMatchClass =
   | "official_matched"
@@ -241,12 +247,24 @@ export async function enrichOfficialUrl(input: {
     };
   }
 
-  const host = hostOf(input.officialUrl);
+  const override = resolveOfficialUrlOverride({
+    brandIdHint: input.brandIdHint,
+    externalProductId: input.externalProductId,
+    nameRaw: input.nameRaw,
+  });
+  let fetchUrl = input.officialUrl;
+  if (override) {
+    fetchUrl = override.officialUrl;
+    base.officialUrl = override.officialUrl;
+    base.reasons.push(`url_override:${override.sourceNote}`);
+  }
+
+  const host = hostOf(fetchUrl);
   if (!host || !isDomainOnBrandAllowlist(host)) {
     return {
       ...base,
       matchClass: "match_failed",
-      reasons: ["official_domain_not_allowlisted"],
+      reasons: [...base.reasons, "official_domain_not_allowlisted"],
     };
   }
 
@@ -254,21 +272,21 @@ export async function enrichOfficialUrl(input: {
     return {
       ...base,
       matchClass: "needs_review",
-      reasons: ["dry_fetch_skip_network"],
+      reasons: [...base.reasons, "dry_fetch_skip_network"],
     };
   }
 
   let origin: string;
   let path: string;
   try {
-    const u = new URL(input.officialUrl);
+    const u = new URL(fetchUrl);
     origin = u.origin;
-    path = u.pathname;
+    path = u.pathname + u.search;
   } catch {
     return {
       ...base,
       matchClass: "match_failed",
-      reasons: ["invalid_official_url"],
+      reasons: [...base.reasons, "invalid_official_url"],
     };
   }
 
@@ -278,12 +296,12 @@ export async function enrichOfficialUrl(input: {
     return {
       ...base,
       matchClass: "needs_review",
-      reasons: ["robots_disallow_or_unavailable"],
+      reasons: [...base.reasons, "robots_disallow_or_unavailable"],
     };
   }
 
   try {
-    const res = await fetchImpl(input.officialUrl, {
+    const res = await fetchImpl(fetchUrl, {
       method: "GET",
       redirect: "follow",
       signal: AbortSignal.timeout(12000),
@@ -294,23 +312,24 @@ export async function enrichOfficialUrl(input: {
       },
     });
     base.fetchedAt = new Date().toISOString();
+    base.sourceHost = hostOf(fetchUrl);
     if (res.status === 404) {
       return {
         ...base,
         matchClass: "discontinued_suspect",
-        reasons: ["http_404"],
+        reasons: [...base.reasons, "http_404"],
       };
     }
     if (!res.ok) {
       return {
         ...base,
         matchClass: "match_failed",
-        reasons: [`http_${res.status}`],
+        reasons: [...base.reasons, `http_${res.status}`],
       };
     }
     const html = await res.text();
     const doc: FetchedProductDocument = {
-      url: input.officialUrl,
+      url: fetchUrl,
       httpStatus: res.status,
       fetchedAt: base.fetchedAt,
       html,
@@ -319,29 +338,66 @@ export async function enrichOfficialUrl(input: {
       sourceMethod: "http_get_robots_allowed",
     };
     const parsed = parseJsonLdProductDocument(doc);
-    if (!parsed) {
-      return {
-        ...base,
-        matchClass: "needs_review",
-        reasons: ["no_json_ld_product"],
-      };
+    const og = extractOpenGraph(html);
+    const labeled = extractLabeledIngredientsRaw(html);
+
+    let fullIngredients: string[] = [];
+    const ingJson = parsed ? parseJsonLdIngredients(doc, parsed) : null;
+    if (ingJson?.tokens.length) {
+      fullIngredients = ingJson.tokens
+        .map((t) => t.inciName || t.ingredientRaw)
+        .filter((x): x is string => Boolean(x));
+      base.reasons.push("inci_from_json_ld");
+    } else if (labeled) {
+      const parsedLabel = parseOfficialIngredientsRaw({
+        ingredientsRaw: labeled.raw,
+        sourceUrl: fetchUrl,
+        sourceType: "official_label_html",
+        sourceTier: 1,
+        sourceVerified: false,
+      });
+      fullIngredients = parsedLabel.tokens
+        .map((t) => t.inciName || t.ingredientRaw)
+        .filter((x): x is string => Boolean(x));
+      base.reasons.push(`inci_from_labeled_html:${labeled.label.slice(0, 24)}`);
+    } else {
+      base.reasons.push("inci_missing");
     }
 
     const name =
-      parsed.productNameEn || parsed.productNameKo || parsed.productNameRaw;
-    const curated = input.nameRaw.toLowerCase();
-    const fetched = name.toLowerCase();
-    if (
-      curated &&
-      fetched &&
-      !curated.includes(fetched.slice(0, Math.min(12, fetched.length))) &&
-      !fetched.includes(curated.slice(0, Math.min(12, curated.length)))
-    ) {
-      base.reasons.push("renewal_or_name_mismatch_suspect");
+      parsed?.productNameEn ||
+      parsed?.productNameKo ||
+      parsed?.productNameRaw ||
+      og.title;
+    if (!name && !fullIngredients.length) {
+      return {
+        ...base,
+        matchClass: "needs_review",
+        reasons: [...base.reasons, "no_json_ld_or_og_name"],
+      };
     }
 
-    const images = parsed.imageUrls ?? [];
-    const primary = parsed.primaryImageUrl ?? images[0] ?? null;
+    if (name) {
+      const curated = input.nameRaw.toLowerCase();
+      const fetched = name.toLowerCase();
+      const overrideApplied = base.reasons.some((r) =>
+        r.startsWith("url_override:")
+      );
+      // Official mall often uses Korean title vs curated English — not renewal when URL override verified
+      if (
+        !overrideApplied &&
+        curated &&
+        fetched &&
+        !curated.includes(fetched.slice(0, Math.min(12, fetched.length))) &&
+        !fetched.includes(curated.slice(0, Math.min(12, curated.length)))
+      ) {
+        base.reasons.push("renewal_or_name_mismatch_suspect");
+      }
+    }
+
+    const images = parsed?.imageUrls ?? [];
+    const primary =
+      parsed?.primaryImageUrl ?? images[0] ?? og.image ?? null;
     let imageStatus: EnrichmentRecord["imageStatus"] = "missing";
     let imageHash: string | null = null;
     if (primary) {
@@ -362,26 +418,23 @@ export async function enrichOfficialUrl(input: {
       }
     }
 
-    const ing = parseJsonLdIngredients(doc, parsed);
-    const fullIngredients =
-      ing?.tokens
-        .map((t) => t.inciName || t.ingredientRaw)
-        .filter((x): x is string => Boolean(x)) ?? [];
-
-    const offers = parseJsonLdOffers(doc, parsed);
+    const offers = parsed ? parseJsonLdOffers(doc, parsed) : [];
     const offer = offers[0];
     const attrs = unknownAttrs({
       ...(input.existingAttributes ?? {}),
-      finish: parsed.finish ?? "unknown",
-      coverage: parsed.coverage ?? "unknown",
-      shadeFamily: parsed.shadeFamily ?? "unknown",
+      finish: parsed?.finish ?? "unknown",
+      coverage: parsed?.coverage ?? "unknown",
+      shadeFamily: parsed?.shadeFamily ?? "unknown",
       beautyDomain: beautyDomainForCategory(input.category),
     });
 
+    const hasOverride = base.reasons.some((r) => r.startsWith("url_override:"));
     const matchClass: EnrichmentMatchClass =
       base.reasons.includes("renewal_or_name_mismatch_suspect")
         ? "renewal_suspect"
-        : fullIngredients.length > 0 || Boolean(primary)
+        : fullIngredients.length > 0 ||
+            Boolean(primary && name) ||
+            (hasOverride && Boolean(name || primary))
           ? "official_matched"
           : "needs_review";
 
@@ -390,13 +443,10 @@ export async function enrichOfficialUrl(input: {
       matchClass,
       reasons: [
         ...base.reasons,
-        "json_ld_parsed",
-        ...(fullIngredients.length
-          ? ["inci_from_official_document"]
-          : ["inci_missing"]),
+        parsed ? "json_ld_parsed" : "og_or_label_fallback",
       ],
-      officialName: name,
-      description: parsed.descriptionRaw ?? null,
+      officialName: name ?? null,
+      description: parsed?.descriptionRaw ?? og.description ?? null,
       imageRemoteUrl: primary,
       imageStatus,
       imageContentHash: imageHash,
@@ -413,6 +463,7 @@ export async function enrichOfficialUrl(input: {
       ...base,
       matchClass: "match_failed",
       reasons: [
+        ...base.reasons,
         `fetch_error:${err instanceof Error ? err.message.slice(0, 80) : "unknown"}`,
       ],
     };

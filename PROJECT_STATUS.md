@@ -4,16 +4,30 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO 검수 · 공식 전성분 라벨/공개 피드 확보 채널 추가 · 승인 시 A안/main/Production.  
-**방금 완료:** Discovery 보강 스프린트 (플레이스홀더 1085 rejected · 전 브랜드 enrich 완료 · 문진/대량검수/Preview).
+**다음 작업:** Preview SSO 검수 · 전성분 공개 피드/라벨 채널(공식·승인 소스) · 승인 시 A안/main/Production.  
+**방금 완료:** INCI/라벨 보강 스프린트 (`catalog:inci` · URL override · 문진→results 속성 힌트 · Staging만).
+
+### 2026-07-15 INCI/라벨 보강 스프린트
+
+| 항목 | 값 |
+|------|-----|
+| 대상 | Staging heroes **76** (비-rejected) |
+| 공식 PDP 매칭 | **3** (`official_matched` · COSRX 스네일 96/92 URL override + Purito sunscreen) |
+| needs_review | **73** (429/404/JS렌더 · 일시 실패는 Staging 덮어쓰기 스킵) |
+| 전성분 | **0** (라벨 `전성분`/`Ingredients`/`INCI` 추출기 추가 · 공개 HTML에 라벨 목록 부재 · 추측 저장 없음) |
+| URL override | `officialUrlOverrides` — 검증된 COSRX 공식몰만 (오매핑 pad 제거) |
+| 문진→결과 | `/results` 도메인 탭에 속성 예시 패널 (구매 검증 제품 아님) |
+| Preview | https://kbeauty-platform-aaczm021m-akscnl6521s-projects.vercel.app |
+| 명령 | `npm run catalog:inci` · `npm run test:enrichment` |
+| Production / main | 미변경 |
 
 ### 2026-07-15 Discovery 보강 스프린트
 
 | 항목 | 값 |
 |------|-----|
 | 플레이스홀더 제거 | **1085** (`rejected` / 추천 제외) |
-| 공식 PDP 매칭 | **5** (`official_matched` · recommendable) |
-| needs_review | **71** (robots/404/JSON-LD 부재 등) |
+| 공식 PDP 매칭 | 당시 **5** → 이후 INCI 패스로 **3** 재정리 |
+| needs_review | 당시 **71** |
 | 전성분 확보 | **0%** (공개 JSON-LD에 INCI 거의 없음 · 추측 저장 안 함) |
 | 이미지 | Staging 비-rejected 중 remote URL 일부 · Storage 복제 없음 |
 | 재개 지점 | **완료** (`resumeBrandId=null`) · 재실행 시 멱등 업데이트 |

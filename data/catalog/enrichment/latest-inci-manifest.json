@@ -1,0 +1,25 @@
+{
+  "phase": "inci_label_enrichment",
+  "stamp": "2026-07-14T23-54-03",
+  "linked": "jfnjufmldiqlgvgyugfd",
+  "productionTouched": false,
+  "fetched": 76,
+  "withInci": 0,
+  "matched": 4,
+  "evidence": 0,
+  "postFix": {
+    "note": "Removed false COSRX acne-puffer→pad URL override; row now discontinued_suspect (404)",
+    "official_matched": 3,
+    "recommendable": 3,
+    "needs_review": 73,
+    "with_inci": 0
+  },
+  "staging": {
+    "evidence_linked": 0,
+    "heroes": 76,
+    "needs_review": 73,
+    "official_matched": 3,
+    "recommendable": 3,
+    "with_inci": 0
+  }
+}

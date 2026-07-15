@@ -1,5 +1,5 @@
 /**
- * Enrichment + domain quiz rank selftests (no live network).
+ * Enrichment + labeled INCI + domain quiz rank selftests (no live network).
  * npx tsx scripts/enrichment-selftest.ts
  */
 import assert from "node:assert/strict";
@@ -7,6 +7,7 @@ import {
   classifyProvenance,
   enrichOfficialUrl,
   stagingStatusFor,
+  extractLabeledIngredientsRaw,
 } from "@/lib/catalog/enrichment";
 import {
   rankMascaraProducts,
@@ -14,7 +15,6 @@ import {
   rankBaseMakeupByUndertone,
 } from "@/lib/catalog/makeup";
 import { rankScalpProducts } from "@/lib/catalog/scalpHair/rankScalpHair";
-import { buildFixtureDocument } from "@/lib/catalog/automation/jsonLdParser";
 
 async function main() {
   assert.equal(
@@ -24,11 +24,19 @@ async function main() {
     }),
     "placeholder"
   );
-  assert.equal(
-    stagingStatusFor("rejected_candidate"),
-    "rejected"
-  );
+  assert.equal(stagingStatusFor("rejected_candidate"), "rejected");
   assert.equal(stagingStatusFor("official_matched"), "source_verified");
+
+  const labeled = extractLabeledIngredientsRaw(`
+    <html><body>
+    <h2>전성분</h2>
+    <p>Aqua, Glycerin, Niacinamide, Panthenol, 1,2-Hexanediol</p>
+    <h2>주의사항</h2>
+    <p>눈에 들어가지 않게</p>
+    </body></html>
+  `);
+  assert.ok(labeled);
+  assert.match(labeled!.raw, /Niacinamide/);
 
   const rejected = await enrichOfficialUrl({
     externalProductId: "cosrx-discovery-toner",
@@ -44,16 +52,19 @@ async function main() {
   const html = `
 <html><script type="application/ld+json">
 {"@type":"Product","name":"Test Serum","image":["https://example.com/a.jpg"],
-"offers":{"@type":"Offer","price":"12000","priceCurrency":"KRW","availability":"https://schema.org/InStock","url":"https://cosrx.co.kr/products/test"},
-"ingredients":"Aqua, Niacinamide, Panthenol"}
-</script></html>`;
+"offers":{"@type":"Offer","price":"12000","priceCurrency":"KRW","availability":"https://schema.org/InStock","url":"https://cosrx.co.kr/products/test"}}
+</script>
+<h3>전성분</h3>
+<p>Aqua, Niacinamide, Panthenol, Glycerin, Butylene Glycol</p>
+<h3>주의사항</h3>
+</html>`;
 
   const fixtureFetch: typeof fetch = async (input) => {
     const url = String(input);
     if (url.includes("robots.txt")) {
       return new Response("User-agent: *\nAllow: /\n", { status: 200 });
     }
-    if (url.includes("/products/")) {
+    if (url.includes("shopdetail") || url.includes("/products/")) {
       return new Response(html, {
         status: 200,
         headers: { "content-type": "text/html" },
@@ -66,21 +77,22 @@ async function main() {
   };
 
   const matched = await enrichOfficialUrl({
-    externalProductId: "cosrx-test-serum",
+    externalProductId: "cosrx-advanced-snail-96-mucin",
     brand: "COSRX",
     brandIdHint: "cosrx",
-    nameRaw: "COSRX Test Serum",
+    nameRaw: "COSRX Advanced Snail 96 Mucin Power Essence",
     category: "serum",
-    officialUrl: "https://www.cosrx.co.kr/products/test-serum",
+    officialUrl: "https://www.cosrx.co.kr/products/wrong-path",
     curatedProvenance: "known_hero",
     fetchImpl: fixtureFetch,
   });
-  assert.equal(matched.matchClass, "official_matched");
-  assert.ok(matched.fullIngredients.includes("Niacinamide"));
-  assert.equal(matched.imageStatus, "remote_reference");
+  assert.ok(
+    matched.reasons.some((r) => r.startsWith("url_override:")),
+    "cosrx override applied"
+  );
+  assert.ok(matched.fullIngredients.some((i) => /niacinamide/i.test(i)));
   assert.ok(matched.evidenceSlugs.includes("niacinamide"));
 
-  // Domain quizzes rank divergence
   const mascara = rankMascaraProducts(
     { wantCurl: true, waterproof: true },
     [
@@ -93,8 +105,20 @@ async function main() {
   const lip = rankLipProducts(
     { undertone: "cool", finish: "matte" },
     [
-      { id: "c", category: "lip_tint", undertoneFit: ["cool"], finish: "matte", lipEffects: ["matte"] },
-      { id: "w", category: "lip_tint", undertoneFit: ["warm"], finish: "glossy", lipEffects: ["gloss"] },
+      {
+        id: "c",
+        category: "lip_tint",
+        undertoneFit: ["cool"],
+        finish: "matte",
+        lipEffects: ["matte"],
+      },
+      {
+        id: "w",
+        category: "lip_tint",
+        undertoneFit: ["warm"],
+        finish: "glossy",
+        lipEffects: ["gloss"],
+      },
     ]
   );
   assert.equal(lip[0]?.product.id, "c");
@@ -102,7 +126,12 @@ async function main() {
   const base = rankBaseMakeupByUndertone(
     { undertone: "warm", coverage: "medium" },
     [
-      { id: "cw", category: "cushion", undertoneFit: ["warm"], coverage: "medium" },
+      {
+        id: "cw",
+        category: "cushion",
+        undertoneFit: ["warm"],
+        coverage: "medium",
+      },
       { id: "cc", category: "cushion", undertoneFit: ["cool"], coverage: "full" },
     ]
   );
@@ -116,9 +145,6 @@ async function main() {
     ]
   );
   assert.equal(scalp[0]?.product.id, "o");
-
-  // unused import guard
-  void buildFixtureDocument;
 
   console.log(JSON.stringify({ ok: true }));
 }

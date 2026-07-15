@@ -23,6 +23,7 @@
     "catalog:full-beauty": "npx --yes tsx scripts/run-full-beauty-catalog-sprint.ts",
     "catalog:bulk-kr": "npx --yes tsx scripts/run-bulk-kr-catalog-sprint.ts",
     "catalog:enrich": "npx --yes tsx scripts/run-discovery-enrichment-sprint.ts",
+    "catalog:inci": "npx --yes tsx scripts/run-inci-label-enrichment.ts",
     "test:enrichment": "npx --yes tsx scripts/enrichment-selftest.ts"
   },
   "dependencies": {
