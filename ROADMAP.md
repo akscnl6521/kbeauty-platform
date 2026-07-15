@@ -19,14 +19,15 @@
 - [x] **Full Beauty 스프린트** — 카테고리·35브랜드·1161후보 Staging · 메이크업/헤어 랭커 · bulk-review · Preview
 - [x] **Discovery 보강** — 플레이스홀더 1085 rejected · 전 브랜드 enrich 완료 · 문진 4종 · bulk API · Preview
 - [x] **INCI/라벨 보강 1차** — 라벨 파서·COSRX URL override·`catalog:inci` · 일시 실패 비덮어쓰기 · 문진→results 속성 힌트 (전성분 건수 0 유지)
-- [ ] 전성분 공개 피드/라벨 채널 (공식 허용 소스·수동 검수 라벨시트) — HTML만으로는 0% 한계
+- [x] **공식 전성분 라벨시트 채널** — curated sheet · Staging apply · with_inci 3 · `/admin/catalog/labels`
+- [ ] 라벨시트에 타 브랜드 공식 INCI 추가 (출처·확인일 필수)
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/bulk-review`)
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인
 - [ ] **A안:** Staging 한국 COSRX 시드 Production 반영 (승인 후)
 - [ ] main 병합 · Production 배포 — **승인 후**
-- 판정: **BLOCKED** (전성분 피드 · Preview SSO · Production 출시 항목)
+- 판정: **BLOCKED** (타브랜드 라벨 확보 · Preview SSO · Production 출시 항목)
 
 
 ---

@@ -1,0 +1,21 @@
+{
+  "phase": "curated_inci_label_sheet",
+  "stamp": "2026-07-15T02-40-42",
+  "linked": "jfnjufmldiqlgvgyugfd",
+  "productionTouched": false,
+  "force": false,
+  "sheetEntries": 11,
+  "applyReady": 9,
+  "applied": 3,
+  "skippedMissing": 6,
+  "skippedEmpty": 0,
+  "skippedConflict": 0,
+  "evidenceLinked": 3,
+  "staging": {
+    "evidence_linked": 3,
+    "heroes": 76,
+    "official_matched": 3,
+    "recommendable": 3,
+    "with_inci": 3
+  }
+}

@@ -4,8 +4,21 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO 검수 · 전성분 공개 피드/라벨 채널(공식·승인 소스) · 승인 시 A안/main/Production.  
-**방금 완료:** INCI/라벨 보강 스프린트 (`catalog:inci` · URL override · 문진→results 속성 힌트 · Staging만).
+**다음 작업:** Preview SSO 검수 · 라벨시트에 타 브랜드 공식 INCI 추가 · 승인 시 A안/main/Production.  
+**방금 완료:** 공식 전성분 라벨시트 채널 (`catalog:labels` · Staging with_inci 3 · Admin Labels).
+
+### 2026-07-15 공식 전성분 라벨시트 채널
+
+| 항목 | 값 |
+|------|-----|
+| 시트 | `data/catalog/labels/official-inci-sheet.v1.json` (11 entries · applyReady 9) |
+| Staging 적용 | **3** (COSRX snail 96/92 · retinol 0.1) |
+| with_inci | **3** · evidence_linked **3** |
+| heroes | 76 · official_matched 3 · recommendable 3 |
+| Admin | `/admin/catalog/labels` |
+| 문서 | `docs/92-official-inci-label-sheet.md` |
+| 명령 | `npm run catalog:labels:build` · `npm run catalog:labels` · `npm run test:labels` |
+| Production / main | 미변경 |
 
 ### 2026-07-15 INCI/라벨 보강 스프린트
 
