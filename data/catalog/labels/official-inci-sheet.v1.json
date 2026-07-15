@@ -3,7 +3,7 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-15T02:40:01.171Z",
+    "builtAt": "2026-07-15T03:13:38.433Z",
     "sourcesNote": "COSRX seed pack 2026-07 + Staging products snail-96 snapshot"
   },
   "entries": [
@@ -46,7 +46,7 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Water, Cocamidopropyl Betaine, Sodium Lauroyl Methyl Isethionate, Sodium Chloride, Polysorbate 20, Styrax Japonicus Branch/Fruit/Leaf Extract, Butylene Glycol, Saccharomyces Ferment, Cryptomeria Japonica Leaf Extract, Nelumbo Nucifera Leaf Extract, Pinus Palustris Leaf Extract, Ulmus Davidiana Root Extract, Oenothera Biennis (Evening Primrose) Flower Extract, Pueraria Lobata Root Extract, Melaleuca Alternifolia (Tea Tree) Leaf Oil, Allantoin, Caprylyl Glycol, Ethylhexylglycerin, Betaine Salicylate, Citric Acid, Ethyl Hexanediol, 1,2-Hexanediol, Trisodium Ethylenediamine Disuccinate, Sodium Benzoate, Disodium EDTA",
       "fullIngredients": [
-        "Water",
+        "Aqua",
         "Cocamidopropyl Betaine",
         "Sodium Lauroyl Methyl Isethionate",
         "Sodium Chloride",
@@ -67,13 +67,12 @@
         "Betaine Salicylate",
         "Citric Acid",
         "Ethyl Hexanediol",
-        "1",
-        "2-Hexanediol",
+        "1,2-Hexanediol",
         "Trisodium Ethylenediamine Disuccinate",
         "Sodium Benzoate",
         "Disodium EDTA"
       ],
-      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       "applyReady": true
     },
     {
@@ -86,12 +85,11 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Water, Salix Alba (Willow) Bark Water, Pyrus Malus (Apple) Fruit Water, Butylene Glycol, 1,2-Hexanediol, Sodium Lactate, Glycolic Acid, Betaine Salicylate, Allantoin, Panthenol, Ethyl Hexanediol",
       "fullIngredients": [
-        "Water",
+        "Aqua",
         "Salix Alba (Willow) Bark Water",
         "Pyrus Malus (Apple) Fruit Water",
         "Butylene Glycol",
-        "1",
-        "2-Hexanediol",
+        "1,2-Hexanediol",
         "Sodium Lactate",
         "Glycolic Acid",
         "Betaine Salicylate",
@@ -99,7 +97,7 @@
         "Panthenol",
         "Ethyl Hexanediol"
       ],
-      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       "applyReady": true
     },
     {
@@ -112,11 +110,10 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Water, Butylene Glycol, Glycerin, 1,2-Hexanediol, Allantoin, Panthenol, Sodium Hyaluronate, Pentylene Glycol, Sodium hyaluronate Crosspolymer, Hydrolyzed Hyaluronic Acid, Hyaluronic Acid, Ethylhexylglycerin, Hydrolyzed Sodium Hyaluronate",
       "fullIngredients": [
-        "Water",
+        "Aqua",
         "Butylene Glycol",
         "Glycerin",
-        "1",
-        "2-Hexanediol",
+        "1,2-Hexanediol",
         "Allantoin",
         "Panthenol",
         "Sodium Hyaluronate",
@@ -127,7 +124,7 @@
         "Ethylhexylglycerin",
         "Hydrolyzed Sodium Hyaluronate"
       ],
-      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       "applyReady": true
     },
     {
@@ -140,13 +137,12 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Water, Pentylene Glycol, Niacinamide(15%), Butylene Glycol, Acetyl Glucosamine, 1,2-Hexanediol, Zinc PCA, Trehalose, Xanthan Gum, Pullulan, Allantoin, Ethylhexylglycerin, Sodium Phytate, Citric Acid, Tocopherol",
       "fullIngredients": [
-        "Water",
+        "Aqua",
         "Pentylene Glycol",
-        "Niacinamide(15%)",
+        "Niacinamide",
         "Butylene Glycol",
         "Acetyl Glucosamine",
-        "1",
-        "2-Hexanediol",
+        "1,2-Hexanediol",
         "Zinc PCA",
         "Trehalose",
         "Xanthan Gum",
@@ -157,7 +153,7 @@
         "Citric Acid",
         "Tocopherol"
       ],
-      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       "applyReady": true
     },
     {
@@ -201,7 +197,7 @@
         "Glycyrrhiza Glabra (Licorice) Root Extract",
         "Beta-Carotene"
       ],
-      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       "applyReady": true
     },
     {
@@ -214,12 +210,11 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Water, Dipropylene Glycol, Glycerin, Pentylene Glycol, 1,2-Hexanediol, Niacinamide, Acetyl Hexapeptide-8, Copper Tripeptide-1, sh-Polypeptide-121, Dipeptide Diaminobutyroyl Benzylamide Diacetate, Oligopeptide-68, Palmitoyl Tripeptide-8, Allantoin, Sodium Hyaluronate, Acetyl Glucosamine, Serine, Alanine, Glycine, Threonine, Arginine, Proline, Betaine, Sodium PCA, Sodium Lactate, PCA, Glutamic Acid, Lysine HCl, Tocopherol, Dextran, Glycine Soja (Soybean) Oil, Hydrogenated Lecithin, Ammonium Acryloyldimethyltaurate/VP Copolymer, Polyacrylate Crosspolymer-6, Butylene Glycol, Xanthan Gum, Ethylhexylglycerin, Adenosine, Polyquaternium-51, Disodium EDTA, Citric Acid, Caprylyl Glycol, t-Butyl Alcohol, Potassium Sorbate, Sodium Oleate",
       "fullIngredients": [
-        "Water",
+        "Aqua",
         "Dipropylene Glycol",
         "Glycerin",
         "Pentylene Glycol",
-        "1",
-        "2-Hexanediol",
+        "1,2-Hexanediol",
         "Niacinamide",
         "Acetyl Hexapeptide-8",
         "Copper Tripeptide-1",
@@ -260,7 +255,7 @@
         "Potassium Sorbate",
         "Sodium Oleate"
       ],
-      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       "applyReady": true
     },
     {
@@ -293,10 +288,10 @@
         "Xanthan Gum",
         "Stearic acid",
         "Adenosine",
-        "Water",
+        "Aqua",
         "Myristic Acid"
       ],
-      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       "applyReady": true
     },
     {
@@ -309,7 +304,7 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Water, Caprylic/Capric Triglyceride, Propanediol, Glycerin, Tocopheryl Acetate, Cetearyl Alcohol, Trehalose, Panthenol, Butyrospermum Parkii (Shea) Butter, Glycine Soja (Soybean) Oil, Ammonium Acryloyldimethyltaurate/VP Copolymer, Dimethicone, Glyceryl Polymethacrylate, Helianthus Annuus (Sunflower) Seed Oil, Polyglyceryl-10 Stearate, Hydrogenated Lecithin, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Carbomer, Tromethamine, Glyceryl Stearate, Polysilicone-11, Sodium Sulfite, Tocopherol, Daucus Carota Sativa (Carrot) Root Extract, Retinol(0.1%), Allantoin, Glyceryl Caprylate, Oryza Sativa (Rice) Bran Wax, Tocotrienols, Stearic Acid, Polyglyceryl-3 Methylglucose Distearate, Palmitic Acid, Disodium EDTA, Ethylhexylglycerin, Adenosine, Sorbitan Isostearate, Elaeis Guineensis (Palm) Oil, BHT, Beta-Carotene, Myristic Acid, Lauric Acid, Ascorbic Acid, Limnanthes Alba (Meadowfoam) Seed Oil, 3-O-Ethyl Ascorbic Acid, Glutathione, Sodium Hyaluronate, 1,2-Hexanediol, Hydrolyzed Hyaluronic Acid, Sodium Hyaluronate Crosspolymer, Hyaluronic Acid, Sodium Acetylated Hyaluronate",
       "fullIngredients": [
-        "Water",
+        "Aqua",
         "Caprylic/Capric Triglyceride",
         "Propanediol",
         "Glycerin",
@@ -355,14 +350,13 @@
         "3-O-Ethyl Ascorbic Acid",
         "Glutathione",
         "Sodium Hyaluronate",
-        "1",
-        "2-Hexanediol",
+        "1,2-Hexanediol",
         "Hydrolyzed Hyaluronic Acid",
         "Sodium Hyaluronate Crosspolymer",
         "Hyaluronic Acid",
         "Sodium Acetylated Hyaluronate"
       ],
-      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       "applyReady": true
     },
     {
@@ -384,8 +378,7 @@
         "Niacinamide",
         "Diethylamino Hydroxybenzoyl Hexyl Benzoate",
         "Terephthalylidene Dicamphor Sulfonic Acid",
-        "1",
-        "2-Hexanediol",
+        "1,2-Hexanediol",
         "Behenyl Alcohol",
         "Methyl Trimethicone",
         "Sodium Polyacryloyldimethyl Taurate",
@@ -405,7 +398,7 @@
         "Sodium Benzoate",
         "Potassium Sorbate"
       ],
-      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       "applyReady": false
     },
     {
@@ -421,8 +414,7 @@
         "Propolis Extract",
         "Honey Extract",
         "Butylene Glycol",
-        "1",
-        "2-Hexanediol",
+        "1,2-Hexanediol",
         "Glycerin",
         "Betaine",
         "Cassia Obtusifolia Seed Extract",
@@ -434,7 +426,7 @@
         "Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer",
         "Caprylic/Capric Triglyceride"
       ],
-      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+      "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       "applyReady": false
     }
   ]

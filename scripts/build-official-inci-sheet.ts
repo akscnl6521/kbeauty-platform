@@ -4,8 +4,12 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
-import type { OfficialInciLabelEntry, OfficialInciLabelSheet } from "@/lib/catalog/labels";
+import type {
+  OfficialInciLabelEntry,
+  OfficialInciLabelSheet,
+} from "@/lib/catalog/labels";
 import { validateOfficialInciLabelSheet } from "@/lib/catalog/labels";
+import { parseOfficialIngredientsRaw } from "@/lib/catalog/automation/ingredientParser";
 
 const root = process.cwd();
 
@@ -55,6 +59,17 @@ function parseCsv(src: string): string[][] {
   return rows.filter((r) => r.some((c) => c.trim()));
 }
 
+function tokensFromOfficialRaw(raw: string, sourceUrl: string): string[] {
+  const parsed = parseOfficialIngredientsRaw({
+    ingredientsRaw: raw,
+    sourceUrl,
+    sourceType: "official_brand_page",
+    sourceTier: 1,
+    sourceVerified: true,
+  });
+  return parsed.tokens.map((t) => t.inciName || t.ingredientRaw);
+}
+
 function main() {
   const csvPath = path.join(
     root,
@@ -65,7 +80,6 @@ function main() {
   const idx = Object.fromEntries(header.map((h, i) => [h.trim(), i]));
   const entries: OfficialInciLabelEntry[] = [];
 
-  // Existing Staging products snapshot (slug already in public.products)
   entries.push({
     externalProductId: "cosrx-advanced-snail-96-mucin-power-essence",
     brandCanonical: "COSRX",
@@ -101,10 +115,8 @@ function main() {
   for (const r of rows.slice(1)) {
     const slug = r[idx.slug!]!;
     const ings = r[idx.full_ingredients!]!;
-    const tokens = ings
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const sourceUrl = r[idx.source_url!]!;
+    const tokens = tokensFromOfficialRaw(ings, sourceUrl);
     const needsReview =
       slug.includes("sunscreen") || slug.includes("propolis");
     entries.push({
@@ -112,13 +124,13 @@ function main() {
       brandCanonical: r[idx.brand!]!,
       productNameEn: r[idx.product_name!]!,
       sourceType: "official_brand_page",
-      sourceUrl: r[idx.source_url!]!,
+      sourceUrl,
       labelCheckedAt: "2026-07-14",
       labelLanguage: "en",
       fullIngredientsRaw: ings,
       fullIngredients: tokens,
       notes:
-        "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing).",
+        "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
       applyReady: !needsReview && tokens.length >= 3,
     });
   }
@@ -141,9 +153,9 @@ function main() {
     process.exit(1);
   }
 
-  const outDir = path.join(root, "data/catalog/labels");
-  mkdirSync(outDir, { recursive: true });
-  const outPath = path.join(outDir, "official-inci-sheet.v1.json");
+  const outDirPath = path.join(root, "data/catalog/labels");
+  mkdirSync(outDirPath, { recursive: true });
+  const outPath = path.join(outDirPath, "official-inci-sheet.v1.json");
   writeFileSync(outPath, JSON.stringify(sheet, null, 2), "utf8");
   console.log(
     JSON.stringify({

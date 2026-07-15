@@ -1,21 +1,21 @@
 {
   "phase": "curated_inci_label_sheet",
-  "stamp": "2026-07-15T02-40-42",
+  "stamp": "2026-07-15T03-14-32",
   "linked": "jfnjufmldiqlgvgyugfd",
   "productionTouched": false,
-  "force": false,
+  "force": true,
   "sheetEntries": 11,
   "applyReady": 9,
-  "applied": 3,
-  "skippedMissing": 6,
+  "applied": 9,
+  "skippedMissing": 0,
   "skippedEmpty": 0,
   "skippedConflict": 0,
-  "evidenceLinked": 3,
+  "evidenceLinked": 9,
   "staging": {
-    "evidence_linked": 3,
-    "heroes": 76,
-    "official_matched": 3,
-    "recommendable": 3,
-    "with_inci": 3
+    "evidence_linked": 9,
+    "heroes": 82,
+    "official_matched": 9,
+    "recommendable": 9,
+    "with_inci": 9
   }
 }

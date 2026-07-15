@@ -30,13 +30,22 @@
 - `evidence_ingredient_slugs` (정확 매칭만)
 - `catalog_staging_ingredients` 행 INSERT
 
-## 2026-07-15 1차 결과
+## 히어로 확장
 
-| 항목 | 값 |
-|------|-----|
-| 시트 entries | 11 |
-| applyReady | 9 |
-| Staging 적용 | **3** (snail 96/92, retinol 0.1) |
-| skippedMissing | 6 (heroes에 없는 seed SKU) |
-| with_inci | **3** |
-| Production | 미변경 |
+시트에만 있고 Staging heroes에 없는 `applyReady` 항목:
+
+```bash
+npm run catalog:labels:upsert-heroes
+# 또는 원샷
+npm run catalog:labels:sync
+```
+
+## 결과 요약
+
+| 시점 | with_inci | official_matched | heroes |
+|------|-----------|------------------|--------|
+| 라벨시트 1차 | 3 | 3 | 76 |
+| 히어로 upsert 후 | **9** | **9** | **82** |
+
+Production / main 미변경.
+

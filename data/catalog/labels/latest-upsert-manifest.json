@@ -1,0 +1,21 @@
+{
+  "phase": "label_sheet_upsert_heroes",
+  "stamp": "2026-07-15T03-13-48",
+  "linked": "jfnjufmldiqlgvgyugfd",
+  "productionTouched": false,
+  "upserted": 6,
+  "ids": [
+    "cosrx-low-ph-good-morning-gel-cleanser",
+    "cosrx-aha-bha-clarifying-treatment-toner",
+    "cosrx-hydrium-watery-toner",
+    "cosrx-the-niacinamide-15-serum",
+    "cosrx-advanced-the-vitamin-c-23-serum",
+    "cosrx-the-6-peptide-skin-booster-serum"
+  ],
+  "staging": {
+    "heroes": 82,
+    "official_matched": 9,
+    "recommendable": 9,
+    "with_inci": 3
+  }
+}

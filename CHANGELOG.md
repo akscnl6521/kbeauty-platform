@@ -6,10 +6,18 @@
 
 ## 2026-07-15
 
+### 라벨시트 히어로 확장 (COSRX seed → Staging)
+
+- `catalog:labels:upsert-heroes` + `catalog:labels --force`
+- Staging `with_inci` **9** · `official_matched` 9 · Evidence 9
+- `1,2-Hexanediol` 파서 콤마 분리 수정
+- `npm run catalog:labels:sync` 원샷 파이프라인
+- Production · main 미변경
+
 ### 공식 전성분 라벨시트 채널
 
 - `data/catalog/labels/official-inci-sheet.v1.json` + `npm run catalog:labels`
-- Staging `with_inci` **3** (COSRX snail 96/92 · retinol) · Evidence slug 연결
+- Staging `with_inci` (1차 3 → 확장 9)
 - Admin `/admin/catalog/labels` · `docs/92-official-inci-label-sheet.md`
 - 추측 INCI 금지 · Production · main 미변경
 

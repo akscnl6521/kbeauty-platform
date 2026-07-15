@@ -73,3 +73,5 @@ supabase/.temp/
 /data/catalog/enrichment/_build-log.txt
 /data/catalog/enrichment/_vercel-log.txt
 /data/catalog/labels/apply-*/
+/data/catalog/labels/upsert-*/
+/data/catalog/labels/_tmp-*.sql

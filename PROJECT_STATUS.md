@@ -4,20 +4,32 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO 검수 · 라벨시트에 타 브랜드 공식 INCI 추가 · 승인 시 A안/main/Production.  
-**방금 완료:** 공식 전성분 라벨시트 채널 (`catalog:labels` · Staging with_inci 3 · Admin Labels).
+**다음 작업:** Preview SSO 검수 · 타 브랜드 공식 INCI 라벨시트 추가 · 승인 시 A안/main/Production.  
+**방금 완료:** 라벨시트 히어로 upsert + INCI 9건 Staging 반영 (`catalog:labels:sync`).
+
+### 2026-07-15 라벨시트 히어로 확장
+
+| 항목 | 값 |
+|------|-----|
+| upsert | COSRX seed 6 SKU → Staging heroes |
+| with_inci | **9** (이전 3) |
+| official_matched · recommendable · evidence_linked | **9** |
+| heroes | **82** |
+| 파서 수정 | `1,2-Hexanediol` 콤마 분리 방지 |
+| 명령 | `npm run catalog:labels:sync` (= build → upsert-heroes → apply) |
+| Production / main | 미변경 |
 
 ### 2026-07-15 공식 전성분 라벨시트 채널
 
 | 항목 | 값 |
 |------|-----|
 | 시트 | `data/catalog/labels/official-inci-sheet.v1.json` (11 entries · applyReady 9) |
-| Staging 적용 | **3** (COSRX snail 96/92 · retinol 0.1) |
-| with_inci | **3** · evidence_linked **3** |
-| heroes | 76 · official_matched 3 · recommendable 3 |
+| Staging 적용 | 1차 3 → **확장 후 9** |
+| with_inci | **9** · evidence_linked **9** |
+| heroes | 82 · official_matched 9 · recommendable 9 |
 | Admin | `/admin/catalog/labels` |
 | 문서 | `docs/92-official-inci-label-sheet.md` |
-| 명령 | `npm run catalog:labels:build` · `npm run catalog:labels` · `npm run test:labels` |
+| 명령 | `npm run catalog:labels:build` · `npm run catalog:labels:upsert-heroes` · `npm run catalog:labels` · `npm run test:labels` |
 | Production / main | 미변경 |
 
 ### 2026-07-15 INCI/라벨 보강 스프린트

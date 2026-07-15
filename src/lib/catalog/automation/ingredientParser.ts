@@ -77,7 +77,19 @@ function splitMayContain(raw: string): {
 }
 
 function tokenizeList(chunk: string): string[] {
-  const protectedChunk = chunk
+  // Protect INCI decimal lists like 1,2-Hexanediol / 1,2,3-foo
+  const placeholders: string[] = [];
+  const protectedNums = chunk.replace(
+    /\b(\d(?:\s*,\s*\d)+)-([A-Za-z][\w-]*)/g,
+    (_m, nums: string, rest: string) => {
+      const token = `${nums.replace(/\s*,\s*/g, ",")}-${rest}`;
+      const key = `__NUMINCI_${placeholders.length}__`;
+      placeholders.push(token);
+      return key;
+    }
+  );
+
+  const protectedChunk = protectedNums
     .replace(/\band\s+/gi, ", ")
     .replace(/\s+및\s+/g, ", ")
     .replace(/\s*;\s*/g, ",")
@@ -99,7 +111,10 @@ function tokenizeList(chunk: string): string[] {
   }
   const last = buf.trim();
   if (last) tokens.push(last);
-  return tokens;
+
+  return tokens.map((t) =>
+    t.replace(/__NUMINCI_(\d+)__/g, (_m, i: string) => placeholders[Number(i)]!)
+  );
 }
 
 function mapToken(

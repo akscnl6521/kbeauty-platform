@@ -8,6 +8,7 @@ import {
   type OfficialInciLabelSheet,
 } from "@/lib/catalog/labels";
 import { evidenceSlugsFromIngredients } from "@/lib/catalog/labels/evidenceFromIngredients";
+import { parseOfficialIngredientsRaw } from "@/lib/catalog/automation/ingredientParser";
 
 function main() {
   const emptyReady: OfficialInciLabelSheet = {
@@ -67,6 +68,19 @@ function main() {
     evidenceSlugsFromIngredients(good.entries[0]!.fullIngredients!).includes(
       "snail-mucin"
     )
+  );
+
+  // 1,2-Hexanediol must stay one token (CSV comma trap)
+  const parsed = parseOfficialIngredientsRaw({
+    ingredientsRaw: "Water, 1,2-Hexanediol, Glycerin, Niacinamide",
+    sourceUrl: "https://www.cosrx.com/products/x",
+    sourceType: "official_brand_page",
+    sourceTier: 1,
+    sourceVerified: true,
+  });
+  assert.ok(
+    parsed.tokens.some((t) => /1\s*,\s*2-Hexanediol/i.test(t.ingredientRaw)),
+    "1,2-Hexanediol must not split on comma"
   );
 
   console.log(JSON.stringify({ ok: true }));
