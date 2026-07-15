@@ -30,8 +30,9 @@
 - [x] **Beauty of Joseon·ROUND LAB 공식 INCI** — CPNP 3건 + Dokdo/Birch · with_inci **22**
 - [x] **SKIN1004·PURITO·Klairs·AXIS-Y 공식 INCI** — with_inci **26**
 - [x] **numbuzin·PURITO sun·AXIS-Y sun 공식 INCI** — with_inci **29**
+- [x] **mixsoon·Isntree (US DailyMed) 공식 INCI** — with_inci **31**
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/labels`·bulk-review)
-- [ ] 잔여 heroes 공식 INCI (Isntree/SOME BY MI/innisfree/SKIN1004 sun 등)
+- [ ] 잔여 heroes 공식 INCI (SOME BY MI/innisfree/TOCOBO/SKIN1004 sun 등)
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인

@@ -6,6 +6,13 @@
 
 ## 2026-07-16
 
+### mixsoon·Isntree 공식 INCI Staging 적용
+
+- mixsoon Bean Essence (`mixsoon.us`)
+- Isntree Hyaluronic Acid Watery Sunscreen US DailyMed (hero: watery sun gel)
+- Staging: with_inci **31** · official_matched **31** · recommendable **31** · evidence_linked **28**
+- Production · main 미변경
+
 ### numbuzin·PURITO sun·AXIS-Y sun 공식 INCI Staging 적용
 
 - No.3 Skin Softening Serum · Daily Soft Touch Sunscreen · Complete No-Stress Physical Sunscreen

@@ -92,6 +92,7 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 | BoJ CPNP + ROUND LAB official | **22** | **23** | **84** |
 | SKIN1004/PURITO/Klairs/AXIS-Y | **26** | **27** | **84** |
 | numbuzin + PURITO/AXIS-Y sun | **29** | **29** | **84** |
+| mixsoon + Isntree DailyMed | **31** | **31** | **84** |
 
 Production / main 미변경.
 

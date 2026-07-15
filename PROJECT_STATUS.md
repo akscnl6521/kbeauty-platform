@@ -4,8 +4,17 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO UI 검수 · 잔여 heroes(Isntree/SOME BY MI/innisfree 등) · 승인 시 A안/main/Production.  
-**방금 완료:** numbuzin·PURITO 선·AXIS-Y 선 공식 INCI Staging 적용 (with_inci 29).
+**다음 작업:** Preview SSO UI 검수 · SOME BY MI/innisfree/TOCOBO 등 잔여 · 승인 시 A안/main/Production.  
+**방금 완료:** mixsoon Bean Essence · Isntree US DailyMed sun INCI Staging 적용 (with_inci 31).
+
+### 2026-07-16 mixsoon·Isntree 공식 INCI
+
+| 항목 | 값 |
+|------|-----|
+| mixsoon | Bean Essence (`mixsoon.us`) |
+| Isntree | Hyaluronic Acid Watery Sun (US DailyMed actives+inactive) |
+| Staging | with_inci **31** · official_matched **31** · recommendable **31** · evidence_linked **28** |
+| Production / main | 미변경 |
 
 ### 2026-07-16 numbuzin·PURITO sun·AXIS-Y sun 공식 INCI
 
@@ -14,7 +23,7 @@
 | numbuzin | No.3 Skin Softening Serum (`us.numbuzin.com`) |
 | PURITO | Daily Soft Touch Sunscreen |
 | AXIS-Y | Complete No-Stress Physical Sunscreen |
-| Staging | with_inci **29** · official_matched **29** · recommendable **29** · evidence_linked **27** |
+| Staging (당시) | with_inci **29** · official_matched **29** · recommendable **29** · evidence_linked **27** |
 | Production / main | 미변경 |
 
 ### 2026-07-16 SKIN1004·PURITO·Klairs·AXIS-Y 공식 INCI

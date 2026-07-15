@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-15T17:06:02.342Z",
-    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16"
+    "builtAt": "2026-07-15T17:09:57.558Z",
+    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16 + mixsoon.us + Isntree DailyMed 2026-07-16"
   },
   "entries": [
     {
@@ -1261,6 +1261,80 @@
         "Ethylhexylglycerin"
       ],
       "notes": "Verbatim ingredient list from official AXIS-Y PDP (notice suffix stripped).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "mixsoon-bean-essence",
+      "brandCanonical": "mixsoon",
+      "productNameEn": "mixsoon Bean Essence",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://mixsoon.us/products/mixsoon-bean-essence-50ml",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Water/Aqua, Propanediol, Glycerin, Lactobacillus/Soybean Ferment Extract, Lactobacillus/Punica Granatum Fruit Ferment Extract, Saccharomyces/Barley Seed Ferment Filtrate, Lactobacillus/Pear Juice Ferment Filtrate",
+      "fullIngredients": [
+        "Water/Aqua",
+        "Propanediol",
+        "Glycerin",
+        "Lactobacillus/Soybean Ferment Extract",
+        "Lactobacillus/Punica Granatum Fruit Ferment Extract",
+        "Saccharomyces/Barley Seed Ferment Filtrate",
+        "Lactobacillus/Pear Juice Ferment Filtrate"
+      ],
+      "notes": "Verbatim Ingredients accordion from official mixsoon US PDP.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "isntree-hyaluronic-acid-watery-sun-gel",
+      "brandCanonical": "Isntree",
+      "productNameEn": "Isntree Hyaluronic Acid Watery Sun Gel",
+      "sourceType": "official_label",
+      "sourceUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=557477a2-def8-740b-e063-6294a90ad287",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Avobenzone, Homosalate, Octisalate, Octocrylene, Water, Propanediol, Dimethicone, Silica, Ethylhexyl Methoxycrylene, Diethylhexyl 2,6-Naphthalate, Niacinamide, Butylene Glycol, Tripropylene Glycol, Xylitylglucoside, Xylitol, Xylose, Hydrolyzed Hyaluronic Acid, Diphenylsiloxy Phenyl Trimethicone, Lauryl Dimethicone, Polymethylsilsesquioxane, Trimethyl Pentaphenyl Trisiloxane, Pentylene Glycol, Poly C10-30 Alkyl Acrylate, 1,2-Hexanediol, Cetearyl Olivate, Hydroxyacetophenone, Sorbitan Olivate, Vinyl Dimethicone/Methicone Silsesquioxane Crosspolymer, Tromethamine, Glyceryl Glucoside, Anhydroxylitol, Sodium Stearoyl Glutamate, Hydroxypropyltrimonium Hyaluronate, Glycerin, Panthenol, Tocopherol, Cetyl Alcohol, Carbomer, Xanthan Gum",
+      "fullIngredients": [
+        "Avobenzone",
+        "Homosalate",
+        "Octisalate",
+        "Octocrylene",
+        "Aqua",
+        "Propanediol",
+        "Dimethicone",
+        "Silica",
+        "Ethylhexyl Methoxycrylene",
+        "Diethylhexyl 2,6-Naphthalate",
+        "Niacinamide",
+        "Butylene Glycol",
+        "Tripropylene Glycol",
+        "Xylitylglucoside",
+        "Xylitol",
+        "Xylose",
+        "Hydrolyzed Hyaluronic Acid",
+        "Diphenylsiloxy Phenyl Trimethicone",
+        "Lauryl Dimethicone",
+        "Polymethylsilsesquioxane",
+        "Trimethyl Pentaphenyl Trisiloxane",
+        "Pentylene Glycol",
+        "Poly C10-30 Alkyl Acrylate",
+        "1,2-Hexanediol",
+        "Cetearyl Olivate",
+        "Hydroxyacetophenone",
+        "Sorbitan Olivate",
+        "Vinyl Dimethicone/Methicone Silsesquioxane Crosspolymer",
+        "Tromethamine",
+        "Glyceryl Glucoside",
+        "Anhydroxylitol",
+        "Sodium Stearoyl Glutamate",
+        "Hydroxypropyltrimonium Hyaluronate",
+        "Glycerin",
+        "Panthenol",
+        "Tocopherol",
+        "Cetyl Alcohol",
+        "Carbomer",
+        "Xanthan Gum"
+      ],
+      "notes": "US DailyMed label for ISNTREE Hyaluronic Acid Watery Sunscreen (actives + inactive). US filter set; KR Sun Gel formula may differ.",
       "applyReady": true
     }
   ]
