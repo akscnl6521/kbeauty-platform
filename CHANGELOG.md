@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### heimish All Clean Balm 공식 US INCI Staging 적용
+
+- `heimish.us` All Clean Balm 120ml Skin-Loving Ingredients
+- Staging: with_inci **33** · official_matched **33** · recommendable **33** · evidence_linked **29**
+- Production · main 미변경
+
 ### SKIN1004 Hyalu-Cica Water-Fit Sun Serum DailyMed Staging 적용
 
 - US DailyMed setid `38d8c1c9-86b5-1edd-e063-6394a90aeb47` (actives + inactive)

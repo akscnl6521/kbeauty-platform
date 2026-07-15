@@ -32,8 +32,9 @@
 - [x] **numbuzin·PURITO sun·AXIS-Y sun 공식 INCI** — with_inci **29**
 - [x] **mixsoon·Isntree (US DailyMed) 공식 INCI** — with_inci **31**
 - [x] **SKIN1004 Hyalu-Cica Water-Fit Sun (US DailyMed)** — with_inci **32**
+- [x] **heimish All Clean Balm (US PDP)** — with_inci **33**
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/labels`·bulk-review)
-- [ ] 잔여 heroes 공식 INCI (SOME BY MI/innisfree/TOCOBO Cotton Soft≠Airy 등)
+- [ ] 잔여 heroes 공식 INCI (SOME BY MI/innisfree/TOCOBO Cotton Soft≠Airy·Haruharu 등)
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인

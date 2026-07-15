@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-15T17:40:00.000Z",
-    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16 + mixsoon.us + Isntree DailyMed 2026-07-16 + SKIN1004 Hyalu-Cica Water-Fit Sun Serum DailyMed 2026-07-16"
+    "builtAt": "2026-07-15T17:50:00.000Z",
+    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16 + mixsoon.us + Isntree DailyMed 2026-07-16 + SKIN1004 Hyalu-Cica Water-Fit Sun Serum DailyMed 2026-07-16 + heimish.us All Clean Balm 2026-07-16"
   },
   "entries": [
     {
@@ -1384,6 +1384,18 @@
         "Glycine Max (Soybean) Seed Extract"
       ],
       "notes": "US DailyMed label for SKIN1004 Madagascar Centella Hyalu-Cica Water-Fit Sun Serum UV (actives + inactive). US filter set; KR formula may differ. Official US brand PDP had no verbatim FULL INGREDIENTS text.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "heimish-all-clean-balm",
+      "brandCanonical": "heimish",
+      "productNameEn": "heimish All Clean Balm",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://heimish.us/products/all-clean-balm-120ml",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Ethylhexyl Palmitate, Cetyl Ethylhexanoate, PEG-20 Glyceryl Triisostearate, Polyethylene, PEG-8 Isostearate, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Fruit Extract, Citrus Aurantifolia (Lime) Fruit Extract, Freesia Refracta Extract, Iris Versicolor Extract, Jasminum Officinale (Jasmine) Extract, Lilium Tigrinum Extract, Leontopodium Alpinum Extract, Nelumbium Speciosum Flower Extract, Narcissus Pseudo-Narcissus (Daffodil) Flower Extract, Rose Extract, Citrus Aurantium Dulcis (Orange) Peel Oil, Lavandula Angustifolia (Lavender) Oil, Pelargonium Graveolens Flower Oil, Amyris Balsamifera Bark Oil, Citrus Paradisi (Grapefruit) Peel Oil, Eucalyptus Globulus Leaf Oil, Melaleuca Alternifolia (Tea Tree) Leaf Oil, Juniperus Mexicana Oil, Boswellia Carterii Oil, Citrus Aurantium Bergamia (Bergamot) Fruit Oil, Tocopheryl Acetate, Water, Butylene Glycol, Citric Acid, Phenoxyethanol, Ethylhexylglycerin, 1,2-Hexanediol, Limonene, Citral, Linalool",
+      "notes": "Verbatim Skin-Loving Ingredients list from official heimish US PDP (All Clean Balm 120ml). Hero slug is size-agnostic all-clean-balm.",
       "applyReady": true
     }
   ]

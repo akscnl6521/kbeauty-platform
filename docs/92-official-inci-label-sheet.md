@@ -94,6 +94,7 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 | numbuzin + PURITO/AXIS-Y sun | **29** | **29** | **84** |
 | mixsoon + Isntree DailyMed | **31** | **31** | **84** |
 | SKIN1004 Hyalu-Cica Water-Fit Sun (DailyMed) | **32** | **32** | **84** |
+| heimish All Clean Balm (US PDP) | **33** | **33** | **84** |
 
 Production / main 미변경.
 

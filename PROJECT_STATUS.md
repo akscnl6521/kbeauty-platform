@@ -4,8 +4,16 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO UI 검수 · SOME BY MI/innisfree/TOCOBO Soft(≠Airy) 등 잔여 · 승인 시 A안/main/Production.  
-**방금 완료:** SKIN1004 Hyalu-Cica Water-Fit Sun Serum US DailyMed → Staging (with_inci 32).
+**다음 작업:** Preview SSO UI 검수 · SOME BY MI/innisfree/TOCOBO Soft·Haruharu 등 잔여 · 승인 시 A안/main/Production.  
+**방금 완료:** SKIN1004 sun DailyMed + heimish All Clean Balm US PDP → Staging (with_inci 33).
+
+### 2026-07-16 heimish All Clean Balm
+
+| 항목 | 값 |
+|------|-----|
+| heimish | All Clean Balm (`heimish.us` Skin-Loving Ingredients) |
+| Staging | with_inci **33** · official_matched **33** · recommendable **33** · evidence_linked **29** |
+| Production / main | 미변경 |
 
 ### 2026-07-16 SKIN1004 Hyalu-Cica Sun (DailyMed)
 
