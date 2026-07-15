@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### SKIN1004·PURITO·Klairs·AXIS-Y 공식 INCI Staging 적용
+
+- Centella Ampoule · Wonder Releaf Centella Unscented · Vitamin Drop · Dark Spot Glow Serum
+- Staging: with_inci **26** · official_matched **27** · recommendable **27** · evidence_linked **24**
+- Production · main 미변경
+
 ### Beauty of Joseon·ROUND LAB 공식 INCI Staging 적용
 
 - BoJ Glow Serum · Relief Sun · Ginseng Essence Water (공식 CPNP 페이지)

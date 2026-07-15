@@ -28,8 +28,9 @@
 - [x] **LANEIGE US 공식 INCI** — Cream Skin · Lip Sleeping Mask(BERRY) · with_inci **14**
 - [x] **Anua·Torriden US 공식 INCI** — Heartleaf/Niacinamide+TXA · Dive-In · with_inci **17**
 - [x] **Beauty of Joseon·ROUND LAB 공식 INCI** — CPNP 3건 + Dokdo/Birch · with_inci **22**
+- [x] **SKIN1004·PURITO·Klairs·AXIS-Y 공식 INCI** — with_inci **26**
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/labels`·bulk-review)
-- [ ] SKIN1004 / PURITO / Klairs 등 추가 공식 PDP INCI
+- [ ] 남는 heroes 공식 INCI (Isntree/numbuzin/innisfree 선케어 등)
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인

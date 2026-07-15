@@ -4,8 +4,19 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO UI 검수 · SKIN1004/PURITO 등 추가 공식 INCI · 승인 시 A안/main/Production.  
-**방금 완료:** Beauty of Joseon 3건 + ROUND LAB 2건 공식 INCI Staging 적용 (with_inci 22).
+**다음 작업:** Preview SSO UI 검수 · 남는 heroes 공식 INCI · 승인 시 A안/main/Production.  
+**방금 완료:** SKIN1004·PURITO·Klairs·AXIS-Y 공식 INCI Staging 적용 (with_inci 26).
+
+### 2026-07-16 SKIN1004·PURITO·Klairs·AXIS-Y 공식 INCI
+
+| 항목 | 값 |
+|------|-----|
+| SKIN1004 | Madagascar Centella Ampoule |
+| PURITO | Wonder Releaf Centella Serum Unscented |
+| Klairs | Freshly Juiced Vitamin Drop |
+| AXIS-Y | Dark Spot Correcting Glow Serum |
+| Staging | with_inci **26** · official_matched **27** · recommendable **27** · evidence_linked **24** |
+| Production / main | 미변경 |
 
 ### 2026-07-16 Beauty of Joseon·ROUND LAB 공식 INCI
 
@@ -13,7 +24,7 @@
 |------|-----|
 | BoJ | Glow Serum · Relief Sun · Ginseng Essence Water (공식 CPNP 페이지) |
 | ROUND LAB | 1025 Dokdo Toner · Birch Moisturizing Sunscreen (roundlab.com) |
-| Staging | with_inci **22** · official_matched **23** · recommendable **23** · evidence_linked **21** |
+| Staging (당시) | with_inci **22** · official_matched **23** · recommendable **23** · evidence_linked **21** |
 | Production / main | 미변경 |
 
 ### 2026-07-16 Anua·Torriden US 공식 INCI

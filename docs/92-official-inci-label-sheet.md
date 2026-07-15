@@ -90,6 +90,7 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 | LANEIGE Cream Skin + Lip Mask | **14** | **15** | **84** |
 | Anua + Torriden US PDP | **17** | **18** | **84** |
 | BoJ CPNP + ROUND LAB official | **22** | **23** | **84** |
+| SKIN1004/PURITO/Klairs/AXIS-Y | **26** | **27** | **84** |
 
 Production / main 미변경.
 
