@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-15T17:55:00.000Z",
-    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16 + mixsoon.us + Isntree DailyMed 2026-07-16 + SKIN1004 Hyalu-Cica Water-Fit Sun Serum DailyMed 2026-07-16 + heimish.us All Clean Balm 2026-07-16 + AMOREPACIFIC/Haruharu/Etude SoonJung 2026-07-16"
+    "builtAt": "2026-07-15T18:05:00.000Z",
+    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16 + mixsoon.us + Isntree DailyMed 2026-07-16 + SKIN1004 Hyalu-Cica Water-Fit Sun Serum DailyMed 2026-07-16 + heimish.us All Clean Balm 2026-07-16 + AMOREPACIFIC/Haruharu/Etude SoonJung 2026-07-16 + Lador en.lador.co.kr Hydro LPP + Perfect Hair Fill-up 2026-07-16"
   },
   "entries": [
     {
@@ -1432,6 +1432,30 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "WATER, GLYCERIN, SORBITOL, PROPANEDIOL, LAURYL GLUCOSIDE, DISODIUM COCOYL GLUTAMATE, PANTHENOL, CITRIC ACID, GLYCERYL CAPRYLATE, ETHYLHEXYLGLYCERIN, MADECASSOSIDE, BUTYLENE GLYCOL, TOCOPHEROL, CAMELLIA SINENSIS LEAF EXTRACT",
       "notes": "Verbatim Ingredients table cell from official ETUDE international PDP.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "lador-hydro-lpp-treatment",
+      "brandCanonical": "Lador",
+      "productNameEn": "Lador Hydro LPP Treatment",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://en.lador.co.kr/product/hydro-lpp-treatment-530ml/13/",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Purified Water, Cetearyl Alcohol, Stearamidopropyl Dimethylamine, Glycerin, Butylene Glycol, Di-C12-18 Alkyl Dimonium Chloride, Olive Oil, Jojoba Seed Oil, Oleyl Alcohol, Benzyl Glycol, Carrot Extract, Hydrolyzed Keratin, Hydrolyzed Soy Protein, Hydrolyzed Extensin, Hydrolyzed Silk, Hydrolyzed Conchiolin Protein, Panthenol, Isopropyl Alcohol, 1,2-Hexanediol, Lactic Acid, Cetyl Alcohol, Ethylhexylglycerin, Disodium EDTA, Myristyl Alcohol, Phenoxyethanol, Arachidyl Alcohol, Fragrance, Benzyl Salicylate, Citronellol, Hexyl Cinnamal",
+      "notes": "Verbatim INGREDIENTS accordion from official Lador EN mall (Hydro LPP Treatment 530ml).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "lador-perfect-hair-fill-up",
+      "brandCanonical": "Lador",
+      "productNameEn": "Lador Perfect Hair Fill-up",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://en.lador.co.kr/product/perfect-hair-fill-up-13ml-x-20ea1box/36/",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Alcohol, Propylene glycol, Myristyl Alcohol, Cetrimonium chloride, Benzyl glycol, Ethylhexylglycerin, Raspberry Ketone, Hydrolyzed keratin, Hydrolyzed collagen, Hydrolyzed silk, Ceramide NP, PEG-12 Dimethicone, Glycerin, Octyldodeceth-20, Octyldodeceth-16, Glyoxyloyl Carbocysteine, Glyoxyloyl Keratin amino acids, Butylene Glycol, Phyllanthus Emblica Extract, Polyquaternium-92, Citric Acid, fragrance",
+      "notes": "Verbatim INGREDIENTS accordion from official Lador EN mall (Perfect Hair Fill-up ampoule pack).",
       "applyReady": true
     }
   ]

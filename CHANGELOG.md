@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### Lador Hydro LPP·Perfect Hair Fill-up 공식 INCI Staging 적용
+
+- `en.lador.co.kr` INGREDIENTS accordion
+- Staging: with_inci **38** · official_matched **39** · recommendable **39**
+- 제품등록은 별도 승인 없이 Staging만 계속 · Production · main 미변경
+
 ### AMOREPACIFIC·Haruharu·Etude SoonJung 공식 INCI Staging 적용
 
 - Time Response Skin Reserve Serum · Black Rice Hyaluronic Toner · SoonJung pH 6.5 Whip Cleanser

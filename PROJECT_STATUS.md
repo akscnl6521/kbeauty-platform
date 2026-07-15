@@ -5,8 +5,16 @@
 ## 다음 작업 (단일 · 재개 지침)
 
 **다음 작업:** Preview SSO UI 검수 · 잔여 heroes 공식 INCI 계속 · 승인 시 A안/main/Production.  
-**방금 완료:** AMOREPACIFIC Time Response · Haruharu Black Rice Toner · Etude SoonJung Whip → Staging (with_inci 36).  
+**방금 완료:** Lador Hydro LPP + Perfect Hair Fill-up → Staging (with_inci 38).  
 **운영 메모:** 제품등록(공식 INCI 수확·Staging apply)은 별도 승인 없이 계속 진행.
+
+### 2026-07-16 Lador Hydro LPP·Perfect Hair Fill-up
+
+| 항목 | 값 |
+|------|-----|
+| Lador | Hydro LPP Treatment · Perfect Hair Fill-up (`en.lador.co.kr`) |
+| Staging | with_inci **38** · official_matched **39** · recommendable **39** · evidence_linked **32** |
+| Production / main | 미변경 |
 
 ### 2026-07-16 AMOREPACIFIC·Haruharu·Etude SoonJung
 

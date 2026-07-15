@@ -34,6 +34,7 @@
 - [x] **SKIN1004 Hyalu-Cica Water-Fit Sun (US DailyMed)** — with_inci **32**
 - [x] **heimish All Clean Balm (US PDP)** — with_inci **33**
 - [x] **AMOREPACIFIC·Haruharu·Etude SoonJung 공식 INCI** — with_inci **36**
+- [x] **Lador Hydro LPP·Perfect Hair Fill-up 공식 INCI** — with_inci **38**
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/labels`·bulk-review)
 - [ ] 잔여 heroes 공식 INCI (SOME BY MI/innisfree/TOCOBO Soft≠Airy·goodal·medicube 등) — Staging 제품등록은 승인 없이 계속
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
