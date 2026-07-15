@@ -4,8 +4,18 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Staging에 Banila 라벨 적용 실행(`catalog:labels:upsert-heroes` + `catalog:labels`) · Preview SSO 검수 · 승인 시 A안/main/Production.  
-**방금 완료:** Banila Clean It Zero Original 공식 US PDP INCI 시트 반영(applyReady).
+**다음 작업:** Preview SSO 검수 · 승인 시 A안/main/Production.  
+**방금 완료:** Banila+COSRX 라벨 INCI Staging 적용 · apply 시 match_class 보정.
+
+### 2026-07-15 Banila·COSRX 라벨 Staging 적용
+
+| 항목 | 값 |
+|------|-----|
+| 적용 | sheet 12/12 · Banila US PDP + sunscreen + propolis |
+| Staging | heroes **84** · with_inci **12** · official_matched **13** · recommendable **13** · evidence_linked **11** |
+| 보정 | curated apply 시 `match_class=official_matched` · `recommendable=true` |
+| 명령 | `catalog:labels:upsert-heroes` · `catalog:labels --force` · `catalog:labels:status` |
+| Production / main | 미변경 |
 
 ### 2026-07-15 Banila Clean It Zero Original 공식 INCI
 
@@ -13,7 +23,7 @@
 |------|-----|
 | 소스 | [banilausa.com Clean It Zero Original](https://banilausa.com/products/clean-it-zero-cleansing-balm-original) Ingredients metafield (밤 SKU) |
 | 시트 | `banila-co-clean-it-zero-original` · tokens **21** · `applyReady=true` |
-| Staging | 적용 대기 (`catalog:labels` — 승인 후) · 기대 with_inci **10** |
+| Staging | **적용 완료** · with_inci 포함 |
 | Production / main | 미변경 |
 
 ### 2026-07-15 Banila 오매칭 제거 · Staging 이름 정리

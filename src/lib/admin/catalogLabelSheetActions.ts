@@ -177,13 +177,19 @@ export async function applyLabelSheetInci(input: {
       .from("catalog_staging_products")
       .update({
         ingredients_status: "raw_collected",
-        product_attributes: nextAttrs,
+        match_class: "official_matched",
+        recommendable: true,
+        product_attributes: {
+          ...nextAttrs,
+          matchClass: "official_matched",
+        },
         evidence_ingredient_slugs: evidence,
         enrichment_reasons: reasons,
         last_enriched_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
-      .eq("id", row.id);
+      .eq("id", row.id)
+      .neq("product_status", "rejected");
     if (updErr) {
       items.push({
         externalProductId: id,

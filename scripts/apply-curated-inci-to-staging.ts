@@ -153,7 +153,7 @@ WHERE sprint_tag='${sqlEscape(sprint)}'
         labelCheckedAt: entry.labelCheckedAt,
         sheetVersion: sheet._meta.sheetVersion,
       },
-      matchClass: attrs.matchClass ?? undefined,
+      matchClass: "official_matched",
       enrichmentReasons: reasons,
     };
 
@@ -175,13 +175,16 @@ WHERE sprint_tag='${sqlEscape(sprint)}'
       `
 UPDATE catalog_staging_products SET
   ingredients_status='raw_collected',
+  match_class='official_matched',
+  recommendable=true,
   product_attributes='${sqlEscape(JSON.stringify(nextAttrs))}'::jsonb,
   evidence_ingredient_slugs='${sqlEscape(JSON.stringify(evidence))}'::jsonb,
   enrichment_reasons='${sqlEscape(JSON.stringify(reasons))}'::jsonb,
   last_enriched_at=now(),
   updated_at=now()
 WHERE sprint_tag='${sqlEscape(sprint)}'
-  AND external_product_id='${sqlEscape(entry.externalProductId)}';
+  AND external_product_id='${sqlEscape(entry.externalProductId)}'
+  AND product_status <> 'rejected';
 
 DELETE FROM catalog_staging_ingredients
 WHERE staging_product_id='${sqlEscape(row.id)}';

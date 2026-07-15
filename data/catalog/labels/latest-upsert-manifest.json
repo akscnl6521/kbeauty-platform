@@ -1,21 +1,17 @@
 {
   "phase": "label_sheet_upsert_heroes",
-  "stamp": "2026-07-15T03-13-48",
+  "stamp": "2026-07-15T12-25-37",
   "linked": "jfnjufmldiqlgvgyugfd",
   "productionTouched": false,
-  "upserted": 6,
+  "upserted": 2,
   "ids": [
-    "cosrx-low-ph-good-morning-gel-cleanser",
-    "cosrx-aha-bha-clarifying-treatment-toner",
-    "cosrx-hydrium-watery-toner",
-    "cosrx-the-niacinamide-15-serum",
-    "cosrx-advanced-the-vitamin-c-23-serum",
-    "cosrx-the-6-peptide-skin-booster-serum"
+    "cosrx-ultra-light-invisible-sunscreen-spf50",
+    "cosrx-full-fit-propolis-synergy-toner"
   ],
   "staging": {
-    "heroes": 82,
-    "official_matched": 9,
-    "recommendable": 9,
-    "with_inci": 3
+    "heroes": 84,
+    "official_matched": 11,
+    "recommendable": 11,
+    "with_inci": 10
   }
 }

@@ -399,7 +399,7 @@
         "Potassium Sorbate"
       ],
       "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
-      "applyReady": false
+      "applyReady": true
     },
     {
       "externalProductId": "cosrx-full-fit-propolis-synergy-toner",
@@ -427,7 +427,7 @@
         "Caprylic/Capric Triglyceride"
       ],
       "notes": "From data/catalog-import/2026-07-cosrx-seed/products.csv (official COSRX.com listing). Tokens via parseOfficialIngredientsRaw.",
-      "applyReady": false
+      "applyReady": true
     },
     {
       "externalProductId": "banila-co-clean-it-zero-original",

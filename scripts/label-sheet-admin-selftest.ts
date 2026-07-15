@@ -28,6 +28,7 @@ function main() {
       applyReady: ready.length,
     })
   );
+  assert.ok(ready.length >= 10, "expected at least 10 applyReady entries");
 }
 
 main();

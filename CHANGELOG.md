@@ -6,6 +6,13 @@
 
 ## 2026-07-15
 
+### Banila·COSRX 라벨 Staging 적용 · match_class 보정
+
+- Banila US PDP INCI + COSRX sunscreen/propolis hero upsert·apply
+- Staging: with_inci **12** · official_matched **13** · recommendable **13** · evidence_linked **11**
+- curated apply 시 `match_class`/`recommendable` 누락 보정
+- Production · main 미변경
+
 ### Banila Clean It Zero Original 공식 INCI (시트)
 
 - `banilausa.com` PDP Ingredients 메타필드에서 밤 SKU 전성분 21개 확인·시트 반영
