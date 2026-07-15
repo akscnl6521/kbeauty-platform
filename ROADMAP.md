@@ -22,7 +22,8 @@
 - [x] **공식 전성분 라벨시트 채널** — curated sheet · Staging apply · with_inci 9 · `/admin/catalog/labels` · `labels:sync`
 - [x] **OBF 전성분 수확 채널** — `catalog:labels:obf` · 엄격 매칭(자동 apply 0 · Banila 후보 검수용)
 - [x] **Admin Labels 검수·Staging 적용** — `/admin/catalog/labels` + apply API
-- [ ] 타 브랜드 공식 라벨 수동 확인 후 시트 `applyReady` 승격(Git) · Staging 적용
+- [x] **Banila 오매칭 제거 · Staging EN 이름 정리** — 폼≠밤 · `catalog:labels:status`
+- [ ] Banila Clean It Zero Original 공식 라벨 INCI 수동 붙여넣기 후 applyReady
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/bulk-review`)
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)

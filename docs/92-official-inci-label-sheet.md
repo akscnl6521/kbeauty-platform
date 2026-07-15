@@ -65,7 +65,13 @@ npm run catalog:labels   # 병합된 시트 Staging 적용
 | harvested | 1 (Banila Clean It Zero · foam 매칭 · **미적용**) |
 | Staging with_inci | 9 유지 |
 
-## 결과 요약
+## 커버리지 리포트
+
+```bash
+npm run catalog:labels:status
+npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
+```
+
 
 | 시점 | with_inci | official_matched | heroes |
 |------|-----------|------------------|--------|

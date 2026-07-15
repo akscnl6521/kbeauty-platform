@@ -17,7 +17,8 @@ function main() {
   );
   if (banila) {
     assert.equal(banila.applyReady, false);
-    assert.ok(entryHasTokens(banila));
+    assert.equal(entryHasTokens(banila), false);
+    assert.match(String(banila.notes ?? ""), /Rejected OBF foam/i);
   }
   console.log(
     JSON.stringify({

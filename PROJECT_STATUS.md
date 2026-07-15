@@ -4,8 +4,18 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO 검수 · Banila 등 공식 라벨 확인 후 applyReady 승격 · 승인 시 A안/main/Production.  
-**방금 완료:** Admin Labels 검수→Staging 적용 UI/API (`/admin/catalog/labels`).
+**다음 작업:** Preview SSO 검수 · Banila 공식 라벨 수동 붙여넣기 · 승인 시 A안/main/Production.  
+**방금 완료:** Banila 오매칭 INCI 제거 · Staging 이름 정리 · labels status.
+
+### 2026-07-15 Banila 오매칭 제거 · Staging 이름 정리
+
+| 항목 | 값 |
+|------|-----|
+| Banila | OBF 폼클렌저 INCI **삭제** (밤 SKU 오매칭) · 공식 PDP에 라벨 INCI 없음 |
+| Staging 이름 | garbled `product_name_en` **5건 → 0** (`catalog:fix-staging-names`) |
+| status | heroes 82 · with_inci **9** · sheet applyReady 9 · emptyPending 1 |
+| 명령 | `npm run catalog:labels:status` · `npm run catalog:fix-staging-names` |
+| Production / main | 미변경 |
 
 ### 2026-07-15 Admin Labels 검수·적용
 

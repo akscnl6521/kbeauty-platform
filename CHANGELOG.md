@@ -6,6 +6,12 @@
 
 ## 2026-07-15
 
+### Banila 오매칭 제거 · Staging 이름 정리
+
+- OBF foam INCI를 Clean It Zero Original에서 제거 (잘못된 SKU)
+- Staging garbled `product_name_en` 5건 복구 · `catalog:labels:status`
+- Production · main 미변경
+
 ### Admin Labels 검수·Staging 적용
 
 - `/admin/catalog/labels` 검수 대기 필터 · 선택 preview/commit
