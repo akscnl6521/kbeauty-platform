@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-15T17:50:00.000Z",
-    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16 + mixsoon.us + Isntree DailyMed 2026-07-16 + SKIN1004 Hyalu-Cica Water-Fit Sun Serum DailyMed 2026-07-16 + heimish.us All Clean Balm 2026-07-16"
+    "builtAt": "2026-07-15T17:55:00.000Z",
+    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16 + mixsoon.us + Isntree DailyMed 2026-07-16 + SKIN1004 Hyalu-Cica Water-Fit Sun Serum DailyMed 2026-07-16 + heimish.us All Clean Balm 2026-07-16 + AMOREPACIFIC/Haruharu/Etude SoonJung 2026-07-16"
   },
   "entries": [
     {
@@ -1396,6 +1396,42 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Ethylhexyl Palmitate, Cetyl Ethylhexanoate, PEG-20 Glyceryl Triisostearate, Polyethylene, PEG-8 Isostearate, Butyrospermum Parkii (Shea) Butter, Cocos Nucifera (Coconut) Fruit Extract, Citrus Aurantifolia (Lime) Fruit Extract, Freesia Refracta Extract, Iris Versicolor Extract, Jasminum Officinale (Jasmine) Extract, Lilium Tigrinum Extract, Leontopodium Alpinum Extract, Nelumbium Speciosum Flower Extract, Narcissus Pseudo-Narcissus (Daffodil) Flower Extract, Rose Extract, Citrus Aurantium Dulcis (Orange) Peel Oil, Lavandula Angustifolia (Lavender) Oil, Pelargonium Graveolens Flower Oil, Amyris Balsamifera Bark Oil, Citrus Paradisi (Grapefruit) Peel Oil, Eucalyptus Globulus Leaf Oil, Melaleuca Alternifolia (Tea Tree) Leaf Oil, Juniperus Mexicana Oil, Boswellia Carterii Oil, Citrus Aurantium Bergamia (Bergamot) Fruit Oil, Tocopheryl Acetate, Water, Butylene Glycol, Citric Acid, Phenoxyethanol, Ethylhexylglycerin, 1,2-Hexanediol, Limonene, Citral, Linalool",
       "notes": "Verbatim Skin-Loving Ingredients list from official heimish US PDP (All Clean Balm 120ml). Hero slug is size-agnostic all-clean-balm.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "amorepacific-time-response-skin-reserve-serum",
+      "brandCanonical": "AMOREPACIFIC",
+      "productNameEn": "AMOREPACIFIC Time Response Skin Reserve Serum",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://us.amorepacific.com/products/time-response-skin-reserve-serum",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "CAMELLIA SINENSIS LEAF WATER, BUTYLENE GLYCOL, WATER / AQUA / EAU, GLYCERIN, ALCOHOL DENAT., TREHALOSE, PHYLLOSTACHYS BAMBUSOIDES JUICE, 1,2-HEXANEDIOL, GLYCERETH-26, HYDROGENATED POLY(C6-14 OLEFIN), DIMETHICONE, PROPANEDIOL, PANTHENOL, PENTAERYTHRITYL TETRAETHYLHEXANOATE, POLYMETHYLSILSESQUIOXANE, HYDROGENATED LECITHIN, CETEARYL OLIVATE, HYDROGENATED PHOSPHATIDYLCHOLINE, SORBITAN OLIVATE, PEG-5 PHYTOSTEROL, SODIUM POLYACRYLATE, ALCOHOL, HYDROGENATED POLYDECENE, FRAGRANCE / PARFUM, ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER, AMMONIUM ACRYLOYLDIMETHYLTAURATE/VP COPOLYMER, XANTHAN GUM, TROMETHAMINE, ETHYLHEXYLGLYCERIN, DISODIUM EDTA, ADENOSINE, BETA-GLUCAN, PPG-5-LAURETH-5, NATTO GUM, GLYCINE SOJA (SOYBEAN) SEED EXTRACT, DEXTRIN, THEOBROMA CACAO (COCOA) EXTRACT, CAMELLIA SINENSIS LEAF EXTRACT, PHENOXYETHANOL, LIMONENE, GERANIOL, ALPHA-ISOMETHYL IONONE, CITRONELLOL, LINALOOL, HYDROXYCITRONELLAL, POLOXAMER 235, BETAINE, GLYCYRRHIZA GLABRA (LICORICE) ROOT EXTRACT, EPIGALLOCATECHIN GALLATE, ETHOXYDIGLYCOL, CAMELLIA SINENSIS FLOWER EXTRACT, TOCOPHERSOLAN, POLOXAMER 338, PANAX GINSENG ROOT EXTRACT, GLUCOSE, CAPRYLYL GLYCOL, TOCOPHEROL",
+      "notes": "Verbatim ingredients metafield from official AMOREPACIFIC US PDP (Time Response Skin Reserve Serum).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "haruharu-black-rice-hyaluronic-toner",
+      "brandCanonical": "Haruharu Wonder",
+      "productNameEn": "haruharu wonder Black Rice Hyaluronic Toner",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Water, Betaine, Glycerin, Propanediol, Oryza Sativa (Rice) Extract, Phyllostachys Pubescens Shoot Bark Extract, Aspergillus Ferment, Panax Ginseng Root Extract, Cyclodextrin, Scutellaria Baicalensis Root Extract, Hyaluronic Acid, Beta-glucan, Cellulose Gum, Xanthan Gum, Butylene Glycol, Usnea Barbata (Lichen) Extract, Zanthoxylum Piperitum Fruit Extract, Pulsatilla Koreana Extract, Sodium Phytate, Tamarindus Indica Seed Gum, Polyglyceryl-10 Laurate, Polyglyceryl-10 Myristate, Glucose, 1,2-Hexanediol, Alcohol, Lavandula Angustifolia (Lavender) Oil, Limonene, Linalool",
+      "notes": "Verbatim metafield ingredients from official haruharu wonder US PDP (standard toner with lavender oil; not the fragrance-free SKU).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "etude-soonjung-ph-6-5-whip-cleanser",
+      "brandCanonical": "ETUDE",
+      "productNameEn": "ETUDE SoonJung pH 6.5 Whip Cleanser",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://int.etude.com/shop/category/cleanser/cleanser-all/soonjung-ph-6-5-whip-cleanser-150ml/",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "WATER, GLYCERIN, SORBITOL, PROPANEDIOL, LAURYL GLUCOSIDE, DISODIUM COCOYL GLUTAMATE, PANTHENOL, CITRIC ACID, GLYCERYL CAPRYLATE, ETHYLHEXYLGLYCERIN, MADECASSOSIDE, BUTYLENE GLYCOL, TOCOPHEROL, CAMELLIA SINENSIS LEAF EXTRACT",
+      "notes": "Verbatim Ingredients table cell from official ETUDE international PDP.",
       "applyReady": true
     }
   ]

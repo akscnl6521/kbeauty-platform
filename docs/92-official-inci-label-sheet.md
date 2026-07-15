@@ -95,6 +95,7 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 | mixsoon + Isntree DailyMed | **31** | **31** | **84** |
 | SKIN1004 Hyalu-Cica Water-Fit Sun (DailyMed) | **32** | **32** | **84** |
 | heimish All Clean Balm (US PDP) | **33** | **33** | **84** |
+| AMOREPACIFIC + Haruharu + Etude SoonJung | **36** | **36** | **84** |
 
 Production / main 미변경.
 

@@ -4,8 +4,19 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO UI 검수 · SOME BY MI/innisfree/TOCOBO Soft·Haruharu 등 잔여 · 승인 시 A안/main/Production.  
-**방금 완료:** SKIN1004 sun DailyMed + heimish All Clean Balm US PDP → Staging (with_inci 33).
+**다음 작업:** Preview SSO UI 검수 · 잔여 heroes 공식 INCI 계속 · 승인 시 A안/main/Production.  
+**방금 완료:** AMOREPACIFIC Time Response · Haruharu Black Rice Toner · Etude SoonJung Whip → Staging (with_inci 36).  
+**운영 메모:** 제품등록(공식 INCI 수확·Staging apply)은 별도 승인 없이 계속 진행.
+
+### 2026-07-16 AMOREPACIFIC·Haruharu·Etude SoonJung
+
+| 항목 | 값 |
+|------|-----|
+| AMOREPACIFIC | Time Response Skin Reserve Serum (`us.amorepacific.com`) |
+| Haruharu | Black Rice Hyaluronic Toner (공식 PDP; fragrance-free SKU 아님) |
+| ETUDE | SoonJung pH 6.5 Whip Cleanser (`int.etude.com`) |
+| Staging | with_inci **36** · official_matched **36** · recommendable **36** · evidence_linked (apply 후) |
+| Production / main | 미변경 |
 
 ### 2026-07-16 heimish All Clean Balm
 
