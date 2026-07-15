@@ -25,7 +25,8 @@
 - [x] **Banila 오매칭 제거 · Staging EN 이름 정리** — 폼≠밤 · `catalog:labels:status`
 - [x] **Banila Clean It Zero Original 공식 US PDP INCI** — `banilausa.com` · sheet `applyReady=true` (Staging apply는 승인 후)
 - [x] **Staging Banila·COSRX 라벨 적용** — with_inci **12** · official_matched **13** · apply `match_class` 보정
-- [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/bulk-review`)
+- [x] **LANEIGE US 공식 INCI** — Cream Skin · Lip Sleeping Mask(BERRY) · with_inci **14**
+- [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/labels`·bulk-review)
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인

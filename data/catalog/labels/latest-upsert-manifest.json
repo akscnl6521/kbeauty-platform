@@ -1,17 +1,7 @@
 {
   "phase": "label_sheet_upsert_heroes",
-  "stamp": "2026-07-15T12-25-37",
+  "stamp": "2026-07-15T14-10-36",
   "linked": "jfnjufmldiqlgvgyugfd",
-  "productionTouched": false,
-  "upserted": 2,
-  "ids": [
-    "cosrx-ultra-light-invisible-sunscreen-spf50",
-    "cosrx-full-fit-propolis-synergy-toner"
-  ],
-  "staging": {
-    "heroes": 84,
-    "official_matched": 11,
-    "recommendable": 11,
-    "with_inci": 10
-  }
+  "upserted": 0,
+  "productionTouched": false
 }

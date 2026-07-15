@@ -6,6 +6,12 @@
 
 ## 2026-07-15
 
+### LANEIGE US 공식 INCI Staging 적용
+
+- Cream Skin Refiner · Lip Sleeping Mask(BERRY) — us.laneige.com Ingredients
+- Staging: with_inci **14** · official_matched **15** · recommendable **15** · evidence_linked **13**
+- Production · main 미변경
+
 ### Banila·COSRX 라벨 Staging 적용 · match_class 보정
 
 - Banila US PDP INCI + COSRX sunscreen/propolis hero upsert·apply

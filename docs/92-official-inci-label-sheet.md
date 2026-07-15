@@ -86,6 +86,7 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 | Banila US PDP 시트 반영 후 (Staging apply 전) | 9 | 9 | 82 |
 | Banila Staging apply 후 (기대) | **10** | **10** | 82+ |
 | Banila+sunscreen+propolis apply | **12** | **13** | **84** |
+| LANEIGE Cream Skin + Lip Mask | **14** | **15** | **84** |
 
 Production / main 미변경.
 

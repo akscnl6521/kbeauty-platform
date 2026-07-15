@@ -4,15 +4,23 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO 검수 · 승인 시 A안/main/Production.  
-**방금 완료:** Banila+COSRX 라벨 INCI Staging 적용 · apply 시 match_class 보정.
+**다음 작업:** Preview SSO로 UI 수동 검수 · 승인 시 A안/main/Production.  
+**방금 완료:** LANEIGE Cream Skin·Lip Sleeping Mask US 공식 INCI Staging 적용.
+
+### 2026-07-15 LANEIGE US 공식 INCI
+
+| 항목 | 값 |
+|------|-----|
+| 소스 | us.laneige.com Cream Skin Toner & Moisturizer · Lip Sleeping Mask (BERRY) |
+| Staging | with_inci **14** · official_matched **15** · recommendable **15** · evidence_linked **13** |
+| Production / main | 미변경 |
 
 ### 2026-07-15 Banila·COSRX 라벨 Staging 적용
 
 | 항목 | 값 |
 |------|-----|
 | 적용 | sheet 12/12 · Banila US PDP + sunscreen + propolis |
-| Staging | heroes **84** · with_inci **12** · official_matched **13** · recommendable **13** · evidence_linked **11** |
+| Staging (당시) | heroes **84** · with_inci **12** · official_matched **13** · recommendable **13** · evidence_linked **11** |
 | 보정 | curated apply 시 `match_class=official_matched` · `recommendable=true` |
 | 명령 | `catalog:labels:upsert-heroes` · `catalog:labels --force` · `catalog:labels:status` |
 | Production / main | 미변경 |
