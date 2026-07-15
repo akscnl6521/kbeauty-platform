@@ -29,6 +29,7 @@
     "catalog:labels": "npx --yes tsx scripts/apply-curated-inci-to-staging.ts",
     "catalog:labels:sync": "npm run catalog:labels:build && npm run catalog:labels:upsert-heroes && npm run catalog:labels",
     "catalog:labels:obf": "npx --yes tsx scripts/harvest-obf-inci-for-heroes.ts",
+    "catalog:labels:shopify-candidates": "npx --yes tsx scripts/harvest-shopify-inci-candidates.ts",
     "catalog:labels:status": "npx --yes tsx scripts/label-sheet-status.ts",
     "catalog:fix-staging-names": "npx --yes tsx scripts/fix-staging-product-names.ts",
     "test:enrichment": "npx --yes tsx scripts/enrichment-selftest.ts",

@@ -3,16 +3,16 @@
   "linked": "jfnjufmldiqlgvgyugfd",
   "productionTouched": false,
   "sheet": {
-    "entries": 14,
-    "applyReady": 14,
+    "entries": 17,
+    "applyReady": 17,
     "needsReviewWithTokens": 0,
     "emptyPending": 0
   },
   "staging": {
-    "evidence_linked": 13,
+    "evidence_linked": 16,
     "heroes": 84,
-    "official_matched": 15,
-    "recommendable": 15,
-    "with_inci": 14
+    "official_matched": 18,
+    "recommendable": 18,
+    "with_inci": 17
   }
 }

@@ -1,6 +1,6 @@
 # docs/92-official-inci-label-sheet.md — 공식 전성분 라벨시트 채널
 
-최종 갱신: 2026-07-15
+최종 갱신: 2026-07-16
 
 ## 목적
 
@@ -48,6 +48,7 @@ npm run catalog:labels:sync
 
 ```bash
 npm run catalog:labels:obf
+npm run catalog:labels:shopify-candidates  # 공식 Shopify PDP INCI 후보만 추출 (수동 검수 후 시트 반영)
 npm run catalog:labels   # 병합된 시트 Staging 적용
 ```
 
@@ -87,6 +88,7 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 | Banila Staging apply 후 (기대) | **10** | **10** | 82+ |
 | Banila+sunscreen+propolis apply | **12** | **13** | **84** |
 | LANEIGE Cream Skin + Lip Mask | **14** | **15** | **84** |
+| Anua + Torriden US PDP | **17** | **18** | **84** |
 
 Production / main 미변경.
 

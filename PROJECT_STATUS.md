@@ -4,15 +4,25 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO로 UI 수동 검수 · 승인 시 A안/main/Production.  
-**방금 완료:** LANEIGE Cream Skin·Lip Sleeping Mask US 공식 INCI Staging 적용.
+**다음 작업:** Preview SSO UI 검수 · BoJ/Round Lab 등 추가 공식 INCI · 승인 시 A안/main/Production.  
+**방금 완료:** Anua 2건 + Torriden Dive-In US 공식 INCI Staging 적용 (with_inci 17).
+
+### 2026-07-16 Anua·Torriden US 공식 INCI
+
+| 항목 | 값 |
+|------|-----|
+| Anua | Heartleaf 77 Toner · Niacinamide 10%+TXA 4% Serum (`anua.us`) |
+| Torriden | DIVE-IN Serum (`torriden.us` Full Ingredient List) |
+| Staging | with_inci **17** · official_matched **18** · recommendable **18** · evidence_linked **16** |
+| 도구 | `scripts/harvest-shopify-inci-candidates.ts` (후보 추출) |
+| Production / main | 미변경 |
 
 ### 2026-07-15 LANEIGE US 공식 INCI
 
 | 항목 | 값 |
 |------|-----|
 | 소스 | us.laneige.com Cream Skin Toner & Moisturizer · Lip Sleeping Mask (BERRY) |
-| Staging | with_inci **14** · official_matched **15** · recommendable **15** · evidence_linked **13** |
+| Staging (당시) | with_inci **14** · official_matched **15** · recommendable **15** · evidence_linked **13** |
 | Production / main | 미변경 |
 
 ### 2026-07-15 Banila·COSRX 라벨 Staging 적용

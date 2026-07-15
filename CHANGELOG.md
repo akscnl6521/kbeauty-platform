@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-07-16
+
+### Anua·Torriden US 공식 INCI Staging 적용
+
+- Anua Heartleaf 77 Toner · Niacinamide 10%+TXA 4% Serum (`anua.us`)
+- Torriden DIVE-IN Serum (`torriden.us`)
+- Staging: with_inci **17** · official_matched **18** · recommendable **18** · evidence_linked **16**
+- Shopify INCI 후보 수확 스크립트 추가 · Production · main 미변경
+
 ## 2026-07-15
 
 ### LANEIGE US 공식 INCI Staging 적용
