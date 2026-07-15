@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### numbuzin·PURITO sun·AXIS-Y sun 공식 INCI Staging 적용
+
+- No.3 Skin Softening Serum · Daily Soft Touch Sunscreen · Complete No-Stress Physical Sunscreen
+- Staging: with_inci **29** · official_matched **29** · recommendable **29** · evidence_linked **27**
+- Production · main 미변경
+
 ### SKIN1004·PURITO·Klairs·AXIS-Y 공식 INCI Staging 적용
 
 - Centella Ampoule · Wonder Releaf Centella Unscented · Vitamin Drop · Dark Spot Glow Serum
