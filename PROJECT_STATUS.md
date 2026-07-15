@@ -4,8 +4,20 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO 검수 · 타 브랜드 공식 INCI 라벨시트 추가 · 승인 시 A안/main/Production.  
-**방금 완료:** 라벨시트 히어로 upsert + INCI 9건 Staging 반영 (`catalog:labels:sync`).
+**다음 작업:** Preview SSO 검수 · 타 브랜드 공식 라벨 수동 검수(OBF 후보) · 승인 시 A안/main/Production.  
+**방금 완료:** Open Beauty Facts 전성분 수확 채널 (`catalog:labels:obf` · 엄격 매칭).
+
+### 2026-07-15 Open Beauty Facts INCI 수확 채널
+
+| 항목 | 값 |
+|------|-----|
+| 소스 | Open Beauty Facts (Staging `catalog_sources` approved open_data) |
+| 대상 | ingredients 미확보 heroes **73** |
+| 수확 | **1** (`banila-co-clean-it-zero-original` · nameSim 0.50 → **applyReady=false**) |
+| Staging 적용 | **0** (폼클렌저≠오리지널 밤 오매칭 방지) |
+| 가드 | 브랜드 매칭 · INCI 형태 · form conflict · sim≥0.55만 자동 apply |
+| 명령 | `npm run catalog:labels:obf` |
+| Production / main | 미변경 |
 
 ### 2026-07-15 라벨시트 히어로 확장
 

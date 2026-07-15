@@ -28,6 +28,7 @@
     "catalog:labels:upsert-heroes": "npx --yes tsx scripts/upsert-label-sheet-heroes.ts",
     "catalog:labels": "npx --yes tsx scripts/apply-curated-inci-to-staging.ts",
     "catalog:labels:sync": "npm run catalog:labels:build && npm run catalog:labels:upsert-heroes && npm run catalog:labels",
+    "catalog:labels:obf": "npx --yes tsx scripts/harvest-obf-inci-for-heroes.ts",
     "test:enrichment": "npx --yes tsx scripts/enrichment-selftest.ts",
     "test:labels": "npx --yes tsx scripts/curated-inci-selftest.ts"
   },

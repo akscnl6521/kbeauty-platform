@@ -10,6 +10,7 @@ const SOURCE_TYPES = new Set([
   "official_kr_mall",
   "official_label",
   "staging_products_verified",
+  "open_beauty_facts",
 ]);
 
 function hasTokens(entry: OfficialInciLabelEntry): boolean {

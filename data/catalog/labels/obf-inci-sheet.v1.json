@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "sheetVersion": 1,
+    "rule": "OBF harvest only — never invent; require brand match + INCI-like list.",
+    "sprintTagDefault": "full-beauty-20260714",
+    "builtAt": "2026-07-15T04:07:17.876Z",
+    "sourcesNote": "Open Beauty Facts (catalog_sources approved open_data)"
+  },
+  "entries": [
+    {
+      "externalProductId": "banila-co-clean-it-zero-original",
+      "brandCanonical": "banila co.",
+      "productNameEn": "banila co. Clean It Zero Original",
+      "sourceType": "open_beauty_facts",
+      "sourceUrl": "https://world.openbeautyfacts.org/product/8809370696286",
+      "labelCheckedAt": "2026-07-15",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Water, Glycerin, Myristic Acid, Potassium Hydroxide, Lauric Acid, Laureth-7, Palmitic Acid, Glycol Distearate, Glycol stearate, PEG-8, Sodium Methyl Stearoyl Taurate, Sorbitan Olivate, Butylene Glycol, Panax Notoginseng Root Extract, Fragrance, Tocopheryl Acetate, Disodium EDTA, Hydroxyethylcellulose, Malpighia Glabra (Acerola) Fruit Extract, Aspalathus Linearis Leaf Extract, CI 14700.",
+      "fullIngredients": [
+        "Aqua",
+        "Glycerin",
+        "Myristic Acid",
+        "Potassium Hydroxide",
+        "Lauric Acid",
+        "Laureth-7",
+        "Palmitic Acid",
+        "Glycol Distearate",
+        "Glycol stearate",
+        "PEG-8",
+        "Sodium Methyl Stearoyl Taurate",
+        "Sorbitan Olivate",
+        "Butylene Glycol",
+        "Panax Notoginseng Root Extract",
+        "Parfum",
+        "Tocopheryl Acetate",
+        "Disodium EDTA",
+        "Hydroxyethylcellulose",
+        "Malpighia Glabra (Acerola) Fruit Extract",
+        "Aspalathus Linearis Leaf Extract",
+        "CI 14700."
+      ],
+      "notes": "OBF code 8809370696286; nameSim=0.50; crowd-sourced open data (tier3) — re-check vs official label. applyReady=false (low name similarity).",
+      "applyReady": false
+    }
+  ]
+}

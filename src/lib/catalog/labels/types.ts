@@ -11,7 +11,8 @@ export type OfficialInciLabelEntry = {
     | "official_brand_page"
     | "official_kr_mall"
     | "official_label"
-    | "staging_products_verified";
+    | "staging_products_verified"
+    | "open_beauty_facts";
   sourceUrl: string;
   labelCheckedAt: string; // YYYY-MM-DD
   labelLanguage: "en" | "ko" | "mixed";

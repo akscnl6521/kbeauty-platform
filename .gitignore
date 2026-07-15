@@ -74,4 +74,6 @@ supabase/.temp/
 /data/catalog/enrichment/_vercel-log.txt
 /data/catalog/labels/apply-*/
 /data/catalog/labels/upsert-*/
+/data/catalog/labels/obf-*/
+/data/catalog/labels/obf-run-log.txt
 /data/catalog/labels/_tmp-*.sql

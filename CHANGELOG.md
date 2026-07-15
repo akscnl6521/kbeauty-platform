@@ -6,6 +6,12 @@
 
 ## 2026-07-15
 
+### Open Beauty Facts INCI 수확 채널
+
+- `npm run catalog:labels:obf` — 누락 heroes 73 검색
+- 브랜드/INCI형태/제형 충돌/유사도 가드 · Banila 후보 1건은 applyReady=false
+- Staging 자동 적용 0 (오매칭 방지) · Production · main 미변경
+
 ### 라벨시트 히어로 확장 (COSRX seed → Staging)
 
 - `catalog:labels:upsert-heroes` + `catalog:labels --force`

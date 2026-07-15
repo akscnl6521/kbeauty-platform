@@ -8,6 +8,13 @@ import {
   type OfficialInciLabelSheet,
 } from "@/lib/catalog/labels";
 import { evidenceSlugsFromIngredients } from "@/lib/catalog/labels/evidenceFromIngredients";
+import {
+  looksLikeInciListText,
+  brandMatches,
+  buildObfSearchTerms,
+  hasFormConflict,
+  pickSearchProductName,
+} from "@/lib/catalog/labels";
 import { parseOfficialIngredientsRaw } from "@/lib/catalog/automation/ingredientParser";
 
 function main() {
@@ -81,6 +88,32 @@ function main() {
   assert.ok(
     parsed.tokens.some((t) => /1\s*,\s*2-Hexanediol/i.test(t.ingredientRaw)),
     "1,2-Hexanediol must not split on comma"
+  );
+
+  assert.equal(
+    looksLikeInciListText(
+      "Water, Glycerin, Myristic Acid, Potassium Hydroxide, Lauric Acid"
+    ),
+    true
+  );
+  assert.equal(
+    looksLikeInciListText("Laneige product cream base and Lip sleeping mask mixed flavors."),
+    false
+  );
+  assert.equal(brandMatches("Banila Co", "Banila Co"), true);
+  assert.equal(brandMatches("banila-co", "Banila Co"), true);
+  assert.ok(
+    buildObfSearchTerms("Banila Co", "Clean It Zero Original").includes(
+      "Banila Co Clean It Zero"
+    )
+  );
+  assert.equal(
+    hasFormConflict("Clean It Zero Balm", "Clean It Zero Foam Cleanser"),
+    true
+  );
+  assert.equal(
+    pickSearchProductName("글로벌 뷰티 브랜드 바닐라코", "banila co. Clean It Zero Original"),
+    "banila co. Clean It Zero Original"
   );
 
   console.log(JSON.stringify({ ok: true }));

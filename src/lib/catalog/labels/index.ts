@@ -20,6 +20,17 @@ export function loadOfficialInciLabelSheet(
 }
 
 export { validateOfficialInciLabelSheet, resolveEntryTokens } from "./validateLabelSheet";
+export { looksLikeInciListText } from "./looksLikeInci";
+export {
+  obfSearch,
+  obfFetchProduct,
+  brandMatches,
+  nameSimilarity,
+  humanizeBrand,
+  buildObfSearchTerms,
+  hasFormConflict,
+  pickSearchProductName,
+} from "./obfClient";
 export type {
   OfficialInciLabelSheet,
   OfficialInciLabelEntry,

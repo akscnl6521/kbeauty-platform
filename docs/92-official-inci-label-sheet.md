@@ -40,6 +40,30 @@ npm run catalog:labels:upsert-heroes
 npm run catalog:labels:sync
 ```
 
+## Open Beauty Facts (타 브랜드)
+
+승인된 open_data 소스 (`catalog_sources` Open Beauty Facts).  
+누락 INCI heroes를 검색해 **브랜드 매칭 + INCI-형태 목록**만 수집한다.
+
+```bash
+npm run catalog:labels:obf
+npm run catalog:labels   # 병합된 시트 Staging 적용
+```
+
+- 마케팅 문구·빈 ingredients 제외 (`looksLikeInciListText`)
+- 공식 브랜드페이지 출처가 있으면 OBF로 덮어쓰지 않음
+- 군중 데이터(tier3)이므로 메모에 재검수 필요 표기
+- `product_name_en` 깨짐/마케팅 문구보다 Latin `product_name_raw` 우선 (`pickSearchProductName`)
+- nameSim &lt; 0.55 또는 제형 충돌 → `applyReady=false` (Admin Labels에서 검수)
+
+### 2026-07-15 OBF 수확 결과
+
+| 항목 | 값 |
+|------|-----|
+| searched | 73 |
+| harvested | 1 (Banila Clean It Zero · foam 매칭 · **미적용**) |
+| Staging with_inci | 9 유지 |
+
 ## 결과 요약
 
 | 시점 | with_inci | official_matched | heroes |

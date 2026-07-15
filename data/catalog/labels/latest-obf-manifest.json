@@ -1,0 +1,94 @@
+{
+  "phase": "obf_inci_harvest",
+  "stamp": "2026-07-15T04-05-59",
+  "linked": "jfnjufmldiqlgvgyugfd",
+  "productionTouched": false,
+  "searched": 73,
+  "harvested": 1,
+  "ids": [
+    "banila-co-clean-it-zero-original"
+  ],
+  "rejectedSample": [
+    {
+      "id": "3ce-velvet-lip-tint-going-right",
+      "reason": "no_hits"
+    },
+    {
+      "id": "3ce-velvet-lip-tint-speak-up",
+      "reason": "no_hits"
+    },
+    {
+      "id": "amortepacific-time-response-skin-reserve-serum",
+      "reason": "no_hits"
+    },
+    {
+      "id": "anua-heartleaf-77-soothing-toner",
+      "reason": "no_hits"
+    },
+    {
+      "id": "anua-niacinamide-10-txa-4-serum",
+      "reason": "no_hits"
+    },
+    {
+      "id": "axis-y-complete-no-stress-physical-sunscreen",
+      "reason": "no_hits"
+    },
+    {
+      "id": "axis-y-dark-spot-correcting-glow-serum",
+      "reason": "no_hits"
+    },
+    {
+      "id": "banila-co-prime-primer-classic",
+      "reason": "no_hits"
+    },
+    {
+      "id": "beauty-of-joseon-ginseng-essence-water",
+      "reason": "no_qualified_match"
+    },
+    {
+      "id": "beauty-of-joseon-glow-serum-propolis-niacinamide",
+      "reason": "no_hits"
+    },
+    {
+      "id": "beauty-of-joseon-relief-sun-rice-probiotics",
+      "reason": "no_hits"
+    },
+    {
+      "id": "clio-kill-cover-fingertip-gel-eyeliner",
+      "reason": "no_hits"
+    },
+    {
+      "id": "clio-kill-lash-superproof-mascara",
+      "reason": "no_hits"
+    },
+    {
+      "id": "cosrx-acne-puffer-clear-fit-master-patch",
+      "reason": "no_hits"
+    },
+    {
+      "id": "dr-jart-cicapair-tiger-grass-color-correcting-treatment",
+      "reason": "no_hits"
+    },
+    {
+      "id": "dr-jart-ctrl-a-teatreement-soothing-spray",
+      "reason": "no_hits"
+    },
+    {
+      "id": "espoir-couture-lipstick-cozy-brick",
+      "reason": "no_hits"
+    },
+    {
+      "id": "espoir-couture-lipstick-gentle-rose",
+      "reason": "no_hits"
+    },
+    {
+      "id": "espoir-pro-tailor-be-glow-cushion-beige",
+      "reason": "no_hits"
+    },
+    {
+      "id": "espoir-pro-tailor-be-glow-cushion-ivory",
+      "reason": "no_hits"
+    }
+  ],
+  "rejectedTotal": 73
+}
