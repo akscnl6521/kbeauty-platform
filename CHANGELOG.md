@@ -9,8 +9,8 @@
 ### AMOREPACIFIC·Haruharu·Etude SoonJung 공식 INCI Staging 적용
 
 - Time Response Skin Reserve Serum · Black Rice Hyaluronic Toner · SoonJung pH 6.5 Whip Cleanser
-- Staging: with_inci **36** · official_matched **36** · recommendable **36**
-- 제품등록은 별도 승인 없이 Staging만 계속 · Production · main 미변경
+- Staging: with_inci **36** · official_matched **37** · recommendable **37** · evidence_linked **31**
+- Staging slug SSOT는 `amortepacific-*` typo · 제품등록은 별도 승인 없이 Staging만 계속 · Production · main 미변경
 
 ### heimish All Clean Balm 공식 US INCI Staging 적용
 

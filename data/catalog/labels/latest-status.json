@@ -9,10 +9,10 @@
     "emptyPending": 0
   },
   "staging": {
-    "evidence_linked": 30,
+    "evidence_linked": 31,
     "heroes": 84,
-    "official_matched": 35,
-    "recommendable": 35,
-    "with_inci": 35
+    "official_matched": 37,
+    "recommendable": 37,
+    "with_inci": 36
   }
 }
