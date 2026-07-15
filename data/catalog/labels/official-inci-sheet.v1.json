@@ -4,7 +4,7 @@
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
     "builtAt": "2026-07-15T04:07:17.882Z",
-    "sourcesNote": "COSRX seed pack 2026-07 + Staging products snail-96 snapshot + OBF harvest 0 + OBF harvest 0 + OBF harvest 1"
+    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected)"
   },
   "entries": [
     {
@@ -434,13 +434,35 @@
       "brandCanonical": "banila co.",
       "productNameEn": "banila co. Clean It Zero Original",
       "sourceType": "official_brand_page",
-      "sourceUrl": "https://banilaco.com/products/clean-it-zero-original",
+      "sourceUrl": "https://banilausa.com/products/clean-it-zero-cleansing-balm-original",
       "labelCheckedAt": "2026-07-15",
       "labelLanguage": "en",
-      "fullIngredientsRaw": "",
-      "fullIngredients": [],
-      "notes": "Rejected OBF foam-cleanser match (wrong SKU). Official PDP HTML has no labeled INCI (JS-rendered). Paste packaging / official label before applyReady.",
-      "applyReady": false
+      "fullIngredientsRaw": "Ethylhexyl Palmitate, Cetyl Ethylhexanoate, PEG-20 Glyceryl Triisostearate, PEG-10 Isostearate, Synthetic Wax, Onsen-Sui, Phenoxyethanol, Butylene Glycol, Lithospermum Erythrorhizon Root Extract, Tocopheryl Acetate, Fragrance, Ethylhexylglycerin, Water, 1,2-Hexanediol, Bambusa Vulgaris Leaf/Stem Extract, Aspalathus Linearis Extract, Angelica Archangelica Root Extract, Malpighia Glabra (Acerola) Fruit Extract, Polydiethyleneglycol Adipate/IPDI Copolymer, Acrylates/Ammonium Methacrylate Copolymer, Acrylates/Methoxy PEG-15 Methacrylate Copolymer",
+      "fullIngredients": [
+        "Ethylhexyl Palmitate",
+        "Cetyl Ethylhexanoate",
+        "PEG-20 Glyceryl Triisostearate",
+        "PEG-10 Isostearate",
+        "Synthetic Wax",
+        "Onsen-Sui",
+        "Phenoxyethanol",
+        "Butylene Glycol",
+        "Lithospermum Erythrorhizon Root Extract",
+        "Tocopheryl Acetate",
+        "Parfum",
+        "Ethylhexylglycerin",
+        "Aqua",
+        "1,2-Hexanediol",
+        "Bambusa Vulgaris Leaf/Stem Extract",
+        "Aspalathus Linearis Extract",
+        "Angelica Archangelica Root Extract",
+        "Malpighia Glabra (Acerola) Fruit Extract",
+        "Polydiethyleneglycol Adipate/IPDI Copolymer",
+        "Acrylates/Ammonium Methacrylate Copolymer",
+        "Acrylates/Methoxy PEG-15 Methacrylate Copolymer"
+      ],
+      "notes": "Verbatim from official US brand PDP Ingredients metafield (balm SKU). banilaco.com KR PDP has no static INCI. OBF foam-cleanser match previously rejected.",
+      "applyReady": true
     }
   ]
 }

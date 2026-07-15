@@ -4,16 +4,25 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO 검수 · Banila 공식 라벨 수동 붙여넣기 · 승인 시 A안/main/Production.  
-**방금 완료:** Banila 오매칭 INCI 제거 · Staging 이름 정리 · labels status.
+**다음 작업:** Staging에 Banila 라벨 적용 실행(`catalog:labels:upsert-heroes` + `catalog:labels`) · Preview SSO 검수 · 승인 시 A안/main/Production.  
+**방금 완료:** Banila Clean It Zero Original 공식 US PDP INCI 시트 반영(applyReady).
+
+### 2026-07-15 Banila Clean It Zero Original 공식 INCI
+
+| 항목 | 값 |
+|------|-----|
+| 소스 | [banilausa.com Clean It Zero Original](https://banilausa.com/products/clean-it-zero-cleansing-balm-original) Ingredients metafield (밤 SKU) |
+| 시트 | `banila-co-clean-it-zero-original` · tokens **21** · `applyReady=true` |
+| Staging | 적용 대기 (`catalog:labels` — 승인 후) · 기대 with_inci **10** |
+| Production / main | 미변경 |
 
 ### 2026-07-15 Banila 오매칭 제거 · Staging 이름 정리
 
 | 항목 | 값 |
 |------|-----|
-| Banila | OBF 폼클렌저 INCI **삭제** (밤 SKU 오매칭) · 공식 PDP에 라벨 INCI 없음 |
+| Banila | OBF 폼클렌저 INCI **삭제** (밤 SKU 오매칭) |
 | Staging 이름 | garbled `product_name_en` **5건 → 0** (`catalog:fix-staging-names`) |
-| status | heroes 82 · with_inci **9** · sheet applyReady 9 · emptyPending 1 |
+| status (당시) | heroes 82 · with_inci **9** · sheet applyReady 9 · emptyPending 1 |
 | 명령 | `npm run catalog:labels:status` · `npm run catalog:fix-staging-names` |
 | Production / main | 미변경 |
 

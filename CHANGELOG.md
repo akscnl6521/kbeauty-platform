@@ -6,6 +6,12 @@
 
 ## 2026-07-15
 
+### Banila Clean It Zero Original 공식 INCI (시트)
+
+- `banilausa.com` PDP Ingredients 메타필드에서 밤 SKU 전성분 21개 확인·시트 반영
+- `applyReady=true` · OBF foam 오매칭 유지 거부 · Staging apply는 별도 승인 실행
+- Production · main 미변경
+
 ### Banila 오매칭 제거 · Staging 이름 정리
 
 - OBF foam INCI를 Clean It Zero Original에서 제거 (잘못된 SKU)

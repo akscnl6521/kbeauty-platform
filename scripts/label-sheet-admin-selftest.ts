@@ -16,9 +16,10 @@ function main() {
     (e) => e.externalProductId === "banila-co-clean-it-zero-original"
   );
   if (banila) {
-    assert.equal(banila.applyReady, false);
-    assert.equal(entryHasTokens(banila), false);
-    assert.match(String(banila.notes ?? ""), /Rejected OBF foam/i);
+    assert.equal(banila.applyReady, true);
+    assert.equal(entryHasTokens(banila), true);
+    assert.match(String(banila.sourceUrl ?? ""), /banilausa\.com/i);
+    assert.match(String(banila.notes ?? ""), /official US brand PDP|OBF foam/i);
   }
   console.log(
     JSON.stringify({

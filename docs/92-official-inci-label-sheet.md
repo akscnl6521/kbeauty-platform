@@ -65,6 +65,12 @@ npm run catalog:labels   # 병합된 시트 Staging 적용
 | harvested | 1 (Banila Clean It Zero · foam 매칭 · **미적용**) |
 | Staging with_inci | 9 유지 |
 
+### 2026-07-15 Banila Original (balm) 공식 INCI
+
+- 출처: https://banilausa.com/products/clean-it-zero-cleansing-balm-original (공식 US)
+- `banila-co-clean-it-zero-original` · 21 tokens · `applyReady=true`
+- Staging 적용: `npm run catalog:labels:upsert-heroes && npm run catalog:labels`
+
 ## 커버리지 리포트
 
 ```bash
@@ -77,6 +83,8 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 |------|-----------|------------------|--------|
 | 라벨시트 1차 | 3 | 3 | 76 |
 | 히어로 upsert 후 | **9** | **9** | **82** |
+| Banila US PDP 시트 반영 후 (Staging apply 전) | 9 | 9 | 82 |
+| Banila Staging apply 후 (기대) | **10** | **10** | 82+ |
 
 Production / main 미변경.
 
