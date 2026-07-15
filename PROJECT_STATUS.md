@@ -4,8 +4,18 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO 검수 · 타 브랜드 공식 라벨 수동 검수(OBF 후보) · 승인 시 A안/main/Production.  
-**방금 완료:** Open Beauty Facts 전성분 수확 채널 (`catalog:labels:obf` · 엄격 매칭).
+**다음 작업:** Preview SSO 검수 · Banila 등 공식 라벨 확인 후 applyReady 승격 · 승인 시 A안/main/Production.  
+**방금 완료:** Admin Labels 검수→Staging 적용 UI/API (`/admin/catalog/labels`).
+
+### 2026-07-15 Admin Labels 검수·적용
+
+| 항목 | 값 |
+|------|-----|
+| UI | `/admin/catalog/labels` — 검수 대기/ready 필터 · 선택 적용 |
+| API | `POST /api/admin/catalog/labels/apply` (preview/commit · Staging only) |
+| 정책 | 시트 JSON은 Git SSOT · DB만 갱신 · applyReady=false 기본 skip |
+| 명령 | `npm run test:labels-admin` |
+| Production / main | 미변경 |
 
 ### 2026-07-15 Open Beauty Facts INCI 수확 채널
 

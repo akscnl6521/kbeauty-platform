@@ -14,7 +14,8 @@
 - 빌드: `npm run catalog:labels:build` (COSRX seed CSV + Staging snail-96 스냅샷)
 - 적용: `npm run catalog:labels` (Staging linked only)
 - 검증: `npm run test:labels`
-- Admin 읽기: `/admin/catalog/labels`
+- Admin: `/admin/catalog/labels` — 검수 대기 필터 · Staging 적용(예상/커밋)
+- Apply API: `POST /api/admin/catalog/labels/apply` (Staging gate · 시트 JSON은 Git SSOT)
 
 ## 규칙
 

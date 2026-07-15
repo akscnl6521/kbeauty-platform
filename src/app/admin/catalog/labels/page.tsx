@@ -1,9 +1,11 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
 import { requireAdminUser } from "@/lib/auth/admin";
 import { CatalogAutomationShell } from "../CatalogAutomationShell";
-import type { OfficialInciLabelSheet } from "@/lib/catalog/labels";
-import { validateOfficialInciLabelSheet } from "@/lib/catalog/labels";
+import { resolveEntryTokens } from "@/lib/catalog/labels";
+import { loadOfficialInciSheetFromDisk } from "@/lib/admin/catalogLabelSheetDisk";
+import {
+  LabelReviewActions,
+  type LabelRow,
+} from "./LabelReviewActions";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -11,116 +13,73 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-function loadSheet(): {
-  sheet: OfficialInciLabelSheet | null;
-  error: string | null;
-} {
-  try {
-    const p = path.join(
-      process.cwd(),
-      "data/catalog/labels/official-inci-sheet.v1.json"
-    );
-    const sheet = JSON.parse(readFileSync(p, "utf8")) as OfficialInciLabelSheet;
-    const v = validateOfficialInciLabelSheet(sheet);
-    if (!v.ok) {
-      return {
-        sheet,
-        error: v.issues.map((i) => `${i.externalProductId ?? ""}:${i.code}`).join(", "),
-      };
-    }
-    return { sheet, error: null };
-  } catch (e) {
-    return {
-      sheet: null,
-      error: e instanceof Error ? e.message : "load failed",
-    };
-  }
-}
-
 export default async function CatalogLabelsPage() {
   await requireAdminUser();
-  const { sheet, error } = loadSheet();
-  const applyReady = sheet?.entries.filter((e) => e.applyReady).length ?? 0;
+  let rows: LabelRow[] = [];
+  let sprintTag = "full-beauty-20260714";
+  let error: string | null = null;
+  let applyReady = 0;
+  let needsReview = 0;
+
+  try {
+    const sheet = loadOfficialInciSheetFromDisk();
+    sprintTag = sheet._meta.sprintTagDefault;
+    rows = sheet.entries.map((e) => {
+      const inciCount = resolveEntryTokens(e).length;
+      return {
+        externalProductId: e.externalProductId,
+        brandCanonical: e.brandCanonical,
+        productNameEn: e.productNameEn,
+        sourceType: e.sourceType,
+        sourceUrl: e.sourceUrl,
+        labelCheckedAt: e.labelCheckedAt,
+        inciCount,
+        applyReady: e.applyReady,
+        notes: e.notes,
+      };
+    });
+    applyReady = rows.filter((r) => r.applyReady).length;
+    needsReview = rows.filter((r) => !r.applyReady && r.inciCount >= 3).length;
+  } catch (e) {
+    error = e instanceof Error ? e.message : "load failed";
+  }
 
   return (
     <CatalogAutomationShell
       title="Official INCI label sheet"
-      description="수동·공식 출처에서 복사한 전성분만 보관합니다. 비어 있으면 적용하지 않으며, 추측으로 채우지 않습니다. Staging 반영: npm run catalog:labels"
+      description="수동·공식 출처에서 복사한 전성분만 보관합니다. 검수 후 Staging에만 적용합니다. 공개 verified 자동 승격 없음. 시트 applyReady 승격은 Git 커밋으로 동기화하세요."
     >
       {error ? (
         <p className="mb-4 text-sm text-red-700">시트 오류: {error}</p>
       ) : null}
-      {!sheet ? (
+      {!error && rows.length === 0 ? (
         <p className="text-sm text-gray-600">
           시트 파일이 없습니다. `npm run catalog:labels:build` 후 다시 열어주세요.
         </p>
-      ) : (
+      ) : null}
+      {!error && rows.length > 0 ? (
         <>
-          <div className="mb-4 grid gap-3 sm:grid-cols-3">
+          <div className="mb-4 grid gap-3 sm:grid-cols-4">
             <div className="rounded-xl border border-[#E8DFD8] bg-white p-3 text-sm">
               <p className="text-xs uppercase text-gray-500">Entries</p>
-              <p className="text-xl font-semibold">{sheet.entries.length}</p>
+              <p className="text-xl font-semibold">{rows.length}</p>
             </div>
             <div className="rounded-xl border border-[#E8DFD8] bg-white p-3 text-sm">
               <p className="text-xs uppercase text-gray-500">applyReady</p>
               <p className="text-xl font-semibold">{applyReady}</p>
             </div>
             <div className="rounded-xl border border-[#E8DFD8] bg-white p-3 text-sm">
+              <p className="text-xs uppercase text-gray-500">Needs review</p>
+              <p className="text-xl font-semibold">{needsReview}</p>
+            </div>
+            <div className="rounded-xl border border-[#E8DFD8] bg-white p-3 text-sm">
               <p className="text-xs uppercase text-gray-500">Sprint</p>
-              <p className="text-sm font-medium">{sheet._meta.sprintTagDefault}</p>
+              <p className="text-sm font-medium">{sprintTag}</p>
             </div>
           </div>
-          <div className="overflow-x-auto rounded-xl border border-[#E8DFD8] bg-white">
-            <table className="min-w-full text-left text-sm">
-              <thead className="border-b border-[#E8DFD8] bg-[#F7F1EC] text-xs uppercase text-gray-600">
-                <tr>
-                  <th className="px-3 py-2">Product</th>
-                  <th className="px-3 py-2">Source</th>
-                  <th className="px-3 py-2">Checked</th>
-                  <th className="px-3 py-2">INCI #</th>
-                  <th className="px-3 py-2">Ready</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sheet.entries.map((e) => (
-                  <tr
-                    key={e.externalProductId}
-                    className="border-b border-[#F0E8E2]"
-                  >
-                    <td className="px-3 py-2">
-                      <div className="font-medium">{e.externalProductId}</div>
-                      <div className="text-xs text-gray-500">
-                        {e.productNameEn ?? e.brandCanonical}
-                      </div>
-                    </td>
-                    <td className="px-3 py-2">
-                      <div>{e.sourceType}</div>
-                      <a
-                        href={e.sourceUrl}
-                        className="text-xs text-[#8B6914] underline"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        source
-                      </a>
-                    </td>
-                    <td className="px-3 py-2">{e.labelCheckedAt}</td>
-                    <td className="px-3 py-2">
-                      {e.fullIngredients?.length ??
-                        (e.fullIngredientsRaw
-                          ? e.fullIngredientsRaw.split(",").length
-                          : 0)}
-                    </td>
-                    <td className="px-3 py-2">
-                      {e.applyReady ? "yes" : "no"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <LabelReviewActions rows={rows} sprintTag={sprintTag} />
         </>
-      )}
+      ) : null}
     </CatalogAutomationShell>
   );
 }

@@ -21,7 +21,8 @@
 - [x] **INCI/라벨 보강 1차** — 라벨 파서·COSRX URL override·`catalog:inci` · 일시 실패 비덮어쓰기 · 문진→results 속성 힌트 (전성분 건수 0 유지)
 - [x] **공식 전성분 라벨시트 채널** — curated sheet · Staging apply · with_inci 9 · `/admin/catalog/labels` · `labels:sync`
 - [x] **OBF 전성분 수확 채널** — `catalog:labels:obf` · 엄격 매칭(자동 apply 0 · Banila 후보 검수용)
-- [ ] 타 브랜드 공식 라벨 수동 검수 후 `applyReady` 승격 (OBF/공식몰)
+- [x] **Admin Labels 검수·Staging 적용** — `/admin/catalog/labels` + apply API
+- [ ] 타 브랜드 공식 라벨 수동 확인 후 시트 `applyReady` 승격(Git) · Staging 적용
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/bulk-review`)
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)

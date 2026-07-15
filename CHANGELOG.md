@@ -6,6 +6,12 @@
 
 ## 2026-07-15
 
+### Admin Labels 검수·Staging 적용
+
+- `/admin/catalog/labels` 검수 대기 필터 · 선택 preview/commit
+- `POST /api/admin/catalog/labels/apply` (Staging gate · audit)
+- 시트 JSON Git SSOT 유지 · Production · main 미변경
+
 ### Open Beauty Facts INCI 수확 채널
 
 - `npm run catalog:labels:obf` — 누락 heroes 73 검색
