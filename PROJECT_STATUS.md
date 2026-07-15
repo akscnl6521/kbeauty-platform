@@ -4,8 +4,17 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO UI 검수 · BoJ/Round Lab 등 추가 공식 INCI · 승인 시 A안/main/Production.  
-**방금 완료:** Anua 2건 + Torriden Dive-In US 공식 INCI Staging 적용 (with_inci 17).
+**다음 작업:** Preview SSO UI 검수 · SKIN1004/PURITO 등 추가 공식 INCI · 승인 시 A안/main/Production.  
+**방금 완료:** Beauty of Joseon 3건 + ROUND LAB 2건 공식 INCI Staging 적용 (with_inci 22).
+
+### 2026-07-16 Beauty of Joseon·ROUND LAB 공식 INCI
+
+| 항목 | 값 |
+|------|-----|
+| BoJ | Glow Serum · Relief Sun · Ginseng Essence Water (공식 CPNP 페이지) |
+| ROUND LAB | 1025 Dokdo Toner · Birch Moisturizing Sunscreen (roundlab.com) |
+| Staging | with_inci **22** · official_matched **23** · recommendable **23** · evidence_linked **21** |
+| Production / main | 미변경 |
 
 ### 2026-07-16 Anua·Torriden US 공식 INCI
 
@@ -13,7 +22,7 @@
 |------|-----|
 | Anua | Heartleaf 77 Toner · Niacinamide 10%+TXA 4% Serum (`anua.us`) |
 | Torriden | DIVE-IN Serum (`torriden.us` Full Ingredient List) |
-| Staging | with_inci **17** · official_matched **18** · recommendable **18** · evidence_linked **16** |
+| Staging (당시) | with_inci **17** · official_matched **18** · recommendable **18** · evidence_linked **16** |
 | 도구 | `scripts/harvest-shopify-inci-candidates.ts` (후보 추출) |
 | Production / main | 미변경 |
 

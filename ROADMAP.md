@@ -27,8 +27,9 @@
 - [x] **Staging Banila·COSRX 라벨 적용** — with_inci **12** · official_matched **13** · apply `match_class` 보정
 - [x] **LANEIGE US 공식 INCI** — Cream Skin · Lip Sleeping Mask(BERRY) · with_inci **14**
 - [x] **Anua·Torriden US 공식 INCI** — Heartleaf/Niacinamide+TXA · Dive-In · with_inci **17**
+- [x] **Beauty of Joseon·ROUND LAB 공식 INCI** — CPNP 3건 + Dokdo/Birch · with_inci **22**
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/labels`·bulk-review)
-- [ ] Beauty of Joseon / ROUND LAB 등 추가 공식 US·글로벌 PDP INCI
+- [ ] SKIN1004 / PURITO / Klairs 등 추가 공식 PDP INCI
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인

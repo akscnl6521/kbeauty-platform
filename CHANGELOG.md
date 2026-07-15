@@ -6,6 +6,13 @@
 
 ## 2026-07-16
 
+### Beauty of Joseon·ROUND LAB 공식 INCI Staging 적용
+
+- BoJ Glow Serum · Relief Sun · Ginseng Essence Water (공식 CPNP 페이지)
+- ROUND LAB Dokdo Toner · Birch Moisturizing Sunscreen (roundlab.com)
+- Staging: with_inci **22** · official_matched **23** · recommendable **23** · evidence_linked **21**
+- Production · main 미변경
+
 ### Anua·Torriden US 공식 INCI Staging 적용
 
 - Anua Heartleaf 77 Toner · Niacinamide 10%+TXA 4% Serum (`anua.us`)
