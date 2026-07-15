@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-15T18:05:00.000Z",
-    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US official PDP 2026-07-15 (balm; foam OBF rejected) + LANEIGE US official PDP 2026-07-15 + Anua/Torriden US official PDP 2026-07-16 + BoJ CPNP + ROUND LAB official 2026-07-16 + SKIN1004/PURITO/Klairs/AXIS-Y 2026-07-16 + numbuzin/PURITO sun/AXIS-Y sun 2026-07-16 + mixsoon.us + Isntree DailyMed 2026-07-16 + SKIN1004 Hyalu-Cica Water-Fit Sun Serum DailyMed 2026-07-16 + heimish.us All Clean Balm 2026-07-16 + AMOREPACIFIC/Haruharu/Etude SoonJung 2026-07-16 + Lador en.lador.co.kr Hydro LPP + Perfect Hair Fill-up 2026-07-16"
+    "builtAt": "2026-07-15T18:20:00.000Z",
+    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US + LANEIGE US + Anua/Torriden + BoJ/ROUND LAB + SKIN1004/PURITO/Klairs/AXIS-Y + numbuzin/sunscreens + mixsoon/Isntree DailyMed + SKIN1004 sun DailyMed + heimish + AMOREPACIFIC/Haruharu/Etude + Lador + medicube.us Zero Pore Pads + Dr.Jart Cicapair DailyMed + MISSHA Perfect Cover BB DailyMed 13/21/23 2026-07-16"
   },
   "entries": [
     {
@@ -1456,6 +1456,66 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Alcohol, Propylene glycol, Myristyl Alcohol, Cetrimonium chloride, Benzyl glycol, Ethylhexylglycerin, Raspberry Ketone, Hydrolyzed keratin, Hydrolyzed collagen, Hydrolyzed silk, Ceramide NP, PEG-12 Dimethicone, Glycerin, Octyldodeceth-20, Octyldodeceth-16, Glyoxyloyl Carbocysteine, Glyoxyloyl Keratin amino acids, Butylene Glycol, Phyllanthus Emblica Extract, Polyquaternium-92, Citric Acid, fragrance",
       "notes": "Verbatim INGREDIENTS accordion from official Lador EN mall (Perfect Hair Fill-up ampoule pack).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "medicube-zero-pore-pads-2-0",
+      "brandCanonical": "medicube",
+      "productNameEn": "medicube Zero Pore Pads 2.0",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://medicube.us/products/zero-pore-pad-1",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Water, Methylpropanediol, Trometamin, Lactic Acid, Alcohol Denat., 1,2-Hexanediol, Panthenol, Glycereth-26, Salicylic Acid, Ammonium Acryloyldimethyltaurate/VP Copolymer, Betaine, Trehalose, Polyglyceryl-10 Laurate, Ethylhexylglycerin, Glycerin, Allantoin, Polyglyceryl-10 Myristate, Disodium EDTA, Butylene Glycol, Sodium Hyaluronate, Betaine Salicylate, Citrus Aurantium Dulcis (Orange) Peel Oil, Citrus Limon (Lemon) Peel Oil, Citrus Grandis (Grapefruit) Peel Oil, Citrus Aurantium Bergamia (Bergamot) Fruit Oil, Rosmarinus Officinalis (Rosemary) Leaf Oil, Eucalyptus Globulus Leaf Oil, Lavandula Angustifolia (Lavender) Oil, Vitis Vinifera (Grape) Fruit Extract, Citrus Aurantifolia (Lime) Fruit Extract, Citrus Limon (Lemon) Fruit Extract, Pyrus Malus (Apple) Fruit Extract, Citrus Aurantium Dulcis (Orange) Fruit Extract, Ethyl Hexanediol, Centella Asiatica Extract, Slix Alba (Willow) Bark Extract, Origanum Vulgare Leaf Extract, Chamaecyparis Obtusa Leaf Extract, Lactobacillus/Soybean Ferment Extract, Cinnamomum Cassia Bark Extract, Scutellaria Baicalensis Root Extract, Portulaca Oleracea Extract, Oenothera Biennis (Evening Primrose) Flower Extract, Pinus Palustris Leaf Extract, Ulmus Davidiana Root Extract, Pueraria Lobata Root Extract, Limonene",
+      "notes": "From official MEDICUBE US PDP Zero Pore Pads list. Editorial: joined 'VP, Copolymer' → 'VP Copolymer' (PDP glue typo). Trometamin/Slix kept as on PDP.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "dr-jart-cicapair-tiger-grass-color-correcting-treatment",
+      "brandCanonical": "Dr.Jart+",
+      "productNameEn": "Dr.Jart+ Cicapair Tiger Grass Color Correcting Treatment",
+      "sourceType": "official_label",
+      "sourceUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=01cfe6a6-c2e4-8fb8-e063-6294a90adc78",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Zinc Oxide, Titanium Dioxide, Water, ISONONYL ISONONANOATE, CAPRYLIC/CAPRIC TRIGLYCERIDE, ISOTRIDECYL ISONONANOATE, METHYLPROPANEDIOL, BIS-HYDROXYETHOXYPROPYL DIMETHICONE, METHYL METHACRYLATE CROSSPOLYMER, BUTYLOCTYL SALICYLATE, POLYGLYCERYL-4 DIISOSTEARATE/POLYHYDROXYSTEARATE/SEBACATE, BEESWAX/CERA ALBA/CIRE D'ABEILLE, LAURYL POLYGLYCERYL-3 POLYDIMETHYLSILOXYETHYL DIMETHICONE, GLYCERIN, NIACINAMIDE, DISTEARDIMONIUM HECTORITE, POLYMETHYLSILSESQUIOXANE, MAGNESIUM SULFATE, TRIETHOXYCAPRYLYLSILANE, CAPRYLYL GLYCOL, SYNTHETIC FLUORPHLOGOPITE, GLYCERYL CAPRYLATE, ZEIN, LAVANDULA ANGUSTIFOLIA (LAVENDER) OIL, ETHYLHEXYLGLYCERIN, CENTELLA ASIATICA LEAF EXTRACT, CITRUS PARADISI (GRAPEFRUIT) PEEL OIL, SILICA DIMETHYL SILYLATE, ROSMARINUS OFFICINALIS (ROSEMARY) LEAF OIL, ALUMINUM HYDROXIDE, ADENOSINE, ZEA MAYS (CORN) STARCH, HELIANTHUS ANNUUS (SUNFLOWER) SEED OIL, HYDROGENATED LECITHIN, ANTHEMIS NOBILIS (CHAMOMILE) FLOWER OIL, SODIUM CHLORIDE, DIPOTASSIUM PHOSPHATE, CALCIUM STEARATE, PANTHENOL, BUTYLENE GLYCOL, ANIBA ROSAEODORA (ROSEWOOD) WOOD OIL, GOSSYPIUM HERBACEUM (COTTON) EXTRACT, ALCOHOL, ANASTATICA HIEROCHUNTICA (ROSE OF JERICHO) EXTRACT, CENTELLA ASIATICA MERISTEM CELL CULTURE, HOUTTUYNIA CORDATA EXTRACT, 1,2-HEXANEDIOL, PENTYLENE GLYCOL, ZINC GLUCONATE, MAGNESIUM ASPARTATE, ARNICA MONTANA FLOWER EXTRACT, LECITHIN, BRASSICA CAMPESTRIS (RAPESEED) STEROLS, GENTIANA LUTEA (GENTIAN) ROOT EXTRACT, ARTEMISIA ABSINTHIUM EXTRACT, ACHILLEA MILLEFOLIUM EXTRACT, SUCROSE LAURATE, POLYGLYCERYL-2 CAPRATE, LEUCONOSTOC/RADISH ROOT FERMENT FILTRATE, CENTELLA ASIATICA EXTRACT, FRAGARIA VESCA (STRAWBERRY) FRUIT EXTRACT, PROPYLENE GLYCOL, CITRIC ACID, COPPER GLUCONATE, LYSOLECITHIN, CERAMIDE NP, XANTHAN GUM, LIMONENE, LINALOOL, CAPRYLHYDROXAMIC ACID, GLUCONOLACTONE, TOCOPHEROL, MADECASSOSIDE, SODIUM ASCORBYL PHOSPHATE, PHENOXYETHANOL, SODIUM BENZOATE, POTASSIUM SORBATE, TITANIUM DIOXIDE (CI 77891), IRON OXIDES (CI 77491), IRON OXIDES (CI 77492), CHROMIUM OXIDE GREENS (CI 77288)",
+      "notes": "US DailyMed actives (ZnO/TiO2) + inactive. Soft hyphen line-breaks in DailyMed joined editorially.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "missha-perfect-cover-bb-cream-13",
+      "brandCanonical": "MISSHA",
+      "productNameEn": "MISSHA M Perfect Cover BB Cream NO.13",
+      "sourceType": "official_label",
+      "sourceUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=95846b5e-5b72-26bc-e053-2a95a90ae0f7",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Octinoxate, Zinc Oxide, Titanium Dioxide, Water, Cyclopentasiloxane, Propylene Glycol, Caprylic/Capric Triglyceride, PEG-10 Dimethicone, Glycerin, Cetyl PEG/PPG-10/1 Dimethicone, Arbutin, Mineral Oil, Polyethylene, Talc, Phenyl Trimethicone, Beeswax (Cera Alba), Sodium Chloride, Ferric Oxide Yellow, Methylparaben, Dimethicone, Ferric Oxide Red, Propylparaben, Rosa Canina Fruit Oil, Squalane, Macadamia Ternifolia Seed Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Cyclotetrasiloxane, Ferrosoferric oxide, Disodium EDTA, Adenosine, Algae Extract, Rosmarinus Officinalis (Rosemary) Leaf Extract, Chamomilla Recutita (Matricaria) Flower Extract, Ceramide NP, Butylene Glycol, Fagus Sylvatica Bud Extract, Hydrolyzed collagen, Caprylyl Glycol, Benzyl Alcohol, 1,2-Hexanediol, Caprylhydroxamic Acid, Tocopherol, Benzoic Acid, Sodium Hyaluronate, Phenoxyethanol, Tropolone, Fragrance (Parfum), Butylphenyl Methylpropional, Benzyl Salicylate, Hydroxycitronellal, Alpha-Isomethyl Ionone, Hexyl Cinnamal, Linalool, Citronellol, Limonene",
+      "notes": "US DailyMed actives + inactive for Perfect Cover BB NO.13.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "missha-perfect-cover-bb-cream-21",
+      "brandCanonical": "MISSHA",
+      "productNameEn": "MISSHA M Perfect Cover BB Cream NO.21",
+      "sourceType": "official_label",
+      "sourceUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=49fb0a82-b3ef-9784-e063-6294a90a0676",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Octinoxate, Zinc Oxide, Titanium Dioxide, WATER (AQUA), CYCLOPENTASILOXANE, PROPYLENE GLYCOL, CAPRYLIC/CAPRIC TRIGLYCERIDE, PEG-10 DIMETHICONE, GLYCERIN, ARBUTIN, CETYL PEG/PPG-10/1 DIMETHICONE, MINERAL OIL, POLYETHYLENE, TALC, PHENYL TRIMETHICONE, BEESWAX, IRON OXIDES (CI 77492), SODIUM CHLORIDE, IRON OXIDES (CI 77491), IRON OXIDES (CI 77499), FRAGRANCE (PARFUM), METHYLPARABEN, DIMETHICONE, MACADAMIA INTEGRIFOLIA SEED OIL, PROPYLPARABEN, ROSA CANINA FRUIT OIL, SQUALANE, SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL, DISODIUM EDTA, ADENOSINE, BUTYLENE GLYCOL, CERAMIDE NP, FAGUS SYLVATICA BUD EXTRACT, HYDROLYZED COLLAGEN, CHAMOMILLA RECUTITA (MATRICARIA) FLOWER EXTRACT, HIZIKIA FUSIFORME EXTRACT, LAMINARIA JAPONICA EXTRACT, ROSMARINUS OFFICINALIS (ROSEMARY) LEAF EXTRACT, CAPRYLYL GLYCOL, BENZYL ALCOHOL, 1,2-HEXANEDIOL, CAPRYLHYDROXAMIC ACID, SODIUM HYALURONATE, PHENOXYETHANOL, BENZOIC ACID, TROPOLONE, BUTYLPHENYL METHYLPROPIONAL, BENZYL SALICYLATE, HYDROXYCITRONELLAL, ALPHA-ISOMETHYL IONONE, HEXYL CINNAMAL, LINALOOL, CITRONELLOL, LIMONENE",
+      "notes": "US DailyMed actives + inactive for Perfect Cover BB NO.21.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "missha-perfect-cover-bb-cream-23",
+      "brandCanonical": "MISSHA",
+      "productNameEn": "MISSHA M Perfect Cover BB Cream NO.23",
+      "sourceType": "official_label",
+      "sourceUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=49fb7346-b7f5-4ba8-e063-6294a90a2cf5",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Octinoxate, Zinc Oxide, Titanium Dioxide, WATER (AQUA), CYCLOPENTASILOXANE, PROPYLENE GLYCOL, CAPRYLIC/CAPRIC TRIGLYCERIDE, PEG-10 DIMETHICONE, GLYCERIN, ARBUTIN, CETYL PEG/PPG-10/1 DIMETHICONE, MINERAL OIL, POLYETHYLENE, TALC, PHENYL TRIMETHICONE, BEESWAX, IRON OXIDES (CI 77492), SODIUM CHLORIDE, IRON OXIDES (CI 77499), IRON OXIDES (CI 77491), FRAGRANCE (PARFUM), METHYLPARABEN, DIMETHICONE, MACADAMIA INTEGRIFOLIA SEED OIL, PROPYLPARABEN, ROSA CANINA FRUIT OIL, SQUALANE, SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL, DISODIUM EDTA, ADENOSINE, BUTYLENE GLYCOL, CERAMIDE NP, FAGUS SYLVATICA BUD EXTRACT, HYDROLYZED COLLAGEN, CHAMOMILLA RECUTITA (MATRICARIA) FLOWER EXTRACT, HIZIKIA FUSIFORME EXTRACT, LAMINARIA JAPONICA EXTRACT, ROSMARINUS OFFICINALIS (ROSEMARY) LEAF EXTRACT, CAPRYLYL GLYCOL, BENZYL ALCOHOL, 1,2-HEXANEDIOL, CAPRYLHYDROXAMIC ACID, SODIUM HYALURONATE, PHENOXYETHANOL, BENZOIC ACID, TROPOLONE, BUTYLPHENYL METHYLPROPIONAL, BENZYL SALICYLATE, HYDROXYCITRONELLAL, ALPHA-ISOMETHYL IONONE, HEXYL CINNAMAL, LINALOOL, CITRONELLOL, LIMONENE",
+      "notes": "US DailyMed actives + inactive for Perfect Cover BB NO.23.",
       "applyReady": true
     }
   ]

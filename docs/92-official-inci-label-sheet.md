@@ -97,6 +97,7 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 | heimish All Clean Balm (US PDP) | **33** | **33** | **84** |
 | AMOREPACIFIC + Haruharu + Etude SoonJung | **36** | **36** | **84** |
 | Lador Hydro LPP + Perfect Hair Fill-up | **38** | **38** | **84** |
+| medicube + Dr.Jart Cicapair + MISSHA BB 13/21/23 | **43** | **44** | **84** |
 
 Production / main 미변경.
 

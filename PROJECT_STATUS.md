@@ -5,8 +5,18 @@
 ## 다음 작업 (단일 · 재개 지침)
 
 **다음 작업:** Preview SSO UI 검수 · 잔여 heroes 공식 INCI 계속 · 승인 시 A안/main/Production.  
-**방금 완료:** Lador Hydro LPP + Perfect Hair Fill-up → Staging (with_inci 38).  
+**방금 완료:** medicube Zero Pore Pads · Dr.Jart Cicapair · MISSHA BB 13/21/23 → Staging (with_inci 43).  
 **운영 메모:** 제품등록(공식 INCI 수확·Staging apply)은 별도 승인 없이 계속 진행.
+
+### 2026-07-16 medicube·Dr.Jart Cicapair·MISSHA BB
+
+| 항목 | 값 |
+|------|-----|
+| medicube | Zero Pore Pads (`medicube.us`) |
+| Dr.Jart+ | Cicapair Tiger Grass Color Correcting Treatment (US DailyMed) |
+| MISSHA | Perfect Cover BB NO.13 / 21 / 23 (US DailyMed) |
+| Staging | with_inci **43** · official_matched **44** · recommendable **44** · evidence_linked **37** |
+| Production / main | 미변경 |
 
 ### 2026-07-16 Lador Hydro LPP·Perfect Hair Fill-up
 

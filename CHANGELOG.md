@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### medicube·Dr.Jart Cicapair·MISSHA BB 공식 INCI Staging 적용
+
+- medicube Zero Pore Pads US PDP · Dr.Jart Cicapair DailyMed · MISSHA Perfect Cover BB 13/21/23 DailyMed
+- Staging: with_inci **43** · official_matched **44** · recommendable **44** · evidence_linked **37**
+- 제품등록은 별도 승인 없이 Staging만 계속 · Production · main 미변경
+
 ### Lador Hydro LPP·Perfect Hair Fill-up 공식 INCI Staging 적용
 
 - `en.lador.co.kr` INGREDIENTS accordion
