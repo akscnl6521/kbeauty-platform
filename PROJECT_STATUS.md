@@ -5,8 +5,16 @@
 ## 다음 작업 (단일 · 재개 지침)
 
 **다음 작업:** Preview SSO UI 검수 · 잔여 heroes 공식 INCI 계속 · 승인 시 A안/main/Production.  
-**방금 완료:** innisfree Green Tea Seed Serum + SOME BY MI Miracle Toner → Staging (with_inci 53).  
+**방금 완료:** espoir Pro Tailor Be Glow Cushion Beige/Ivory/Petal → Staging (with_inci 56).  
 **운영 메모:** 제품등록(공식 INCI 수확·Staging apply)은 별도 승인 없이 계속 진행.
+
+### 2026-07-16 espoir Be Glow Cushion 3 shades
+
+| 항목 | 값 |
+|------|-----|
+| espoir | Pro Tailor Be Glow Cushion Beige / Ivory / Petal (`espoir.com`) |
+| Staging | with_inci **56** · official_matched **57** · recommendable **57** · evidence_linked **44** |
+| Production / main | 미변경 |
 
 ### 2026-07-16 innisfree serum·SOME BY MI Miracle Toner
 

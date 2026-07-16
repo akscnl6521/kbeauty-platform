@@ -40,8 +40,9 @@
 - [x] **mise en scène Perfect Serum Original 공식 INCI** — with_inci **46**
 - [x] **mise shampoo·goodal eye·ETUDE/CLIO/PERIPERA mascara 공식 INCI** — with_inci **51**
 - [x] **innisfree Green Tea Seed Serum·SOME BY MI Miracle Toner 공식 INCI** — with_inci **53**
+- [x] **espoir Pro Tailor Be Glow Cushion Beige/Ivory/Petal 공식 INCI** — with_inci **56**
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/labels`·bulk-review)
-- [ ] 잔여 heroes 공식 INCI (TOCOBO Soft≠Airy·rom&nd/3CE/peripera 쉐이드·HERA UV Mist 단종·espoir 등) — Staging 제품등록은 승인 없이 계속
+- [ ] 잔여 heroes 공식 INCI (TOCOBO Soft≠Airy·rom&nd/3CE/peripera 쉐이드·HERA UV Mist 단종·espoir lipstick 등) — Staging 제품등록은 승인 없이 계속
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인

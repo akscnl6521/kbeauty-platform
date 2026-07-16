@@ -102,6 +102,7 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 | mise en scène Perfect Serum Original | **46** | **47** | **84** |
 | mise shampoo + goodal eye + ETUDE/CLIO/PERIPERA mascara | **51** | **52** | **84** |
 | innisfree Green Tea Seed Serum + SOME BY MI Miracle Toner | **53** | **54** | **84** |
+| espoir Be Glow Cushion Beige/Ivory/Petal | **56** | **57** | **84** |
 
 Production / main 미변경.
 

@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### espoir Pro Tailor Be Glow Cushion 3 shades 공식 INCI Staging 적용
+
+- Beige / Ivory / Petal shade-level All ingredients (`espoir.com`)
+- Staging: with_inci **56** · official_matched **57** · recommendable **57** · evidence_linked **44**
+- Production · main 미변경
+
 ### innisfree Green Tea Seed Serum·SOME BY MI Miracle Toner 공식 INCI Staging 적용
 
 - innisfree AU Full ingredients · SOME BY MI Global Cosmetics Act disclosure

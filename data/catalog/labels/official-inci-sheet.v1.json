@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-16T03:10:00.000Z",
-    "sourcesNote": "… + mise shampoo/goodal/ETUDE/CLIO/PERIPERA mascara + innisfree Green Tea Seed Hyaluronic Serum (au.innisfree.com) + SOME BY MI Miracle Toner (en.somebymi.com Cosmetics Act disclosure) 2026-07-16"
+    "builtAt": "2026-07-16T03:20:00.000Z",
+    "sourcesNote": "… + innisfree serum + SOME BY MI toner + espoir Pro Tailor Be Glow Cushion Beige/Ivory/Petal (espoir.com shade-level All ingredients) 2026-07-16"
   },
   "entries": [
     {
@@ -1636,6 +1636,42 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Purified Water, Butylene Glycol, Dipropylene Glycol, Glycerin, Niacinamide, Tea Tree Leaf Water, Polyglyceryl-4 Caprate, Papaya Fruit Extract, Esculenta Lentinus Seed Extract, Witch Hazel Extract, Lotus Flower Extract, Swiftlet Nest Extract, Sodium Hyaluronate, Fructan, Allantoin, Adenosine, Hydroxyethyl Urea, Xylitol, Salicylic Acid (100 ppm), Lactobionic Acid (100 ppm), Citric Acid (500 ppm), Sodium Citrate, 1,2-Hexanediol, Benzyl Glycol, Ethylhexylglycerin, Raspberry Ketone, Peppermint Oil",
       "notes": "Verbatim Cosmetics Act all-ingredients disclosure from official SOME BY MI Global EN PDP (common-name EN as published; Esculenta Lentinus kept as on page).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "espoir-pro-tailor-be-glow-cushion-beige",
+      "brandCanonical": "espoir",
+      "productNameEn": "espoir Pro Tailor Be Glow Cushion Beige",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://www.espoir.com/en/shop/shop_prd_view.do?i_sProductcd=125101865",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "WATER / AQUA / EAU, DIPHENYLSILOXY PHENYL TRIMETHICONE, GLYCERIN, ETHYLHEXYL METHOXYCINNAMATE, TITANIUM DIOXIDE (CI 77891), CYCLOPENTASILOXANE, TRIMETHYLSILOXYSILICATE, DIISOSTEARYL MALATE, BUTYLENE GLYCOL DICAPRYLATE/DICAPRATE, PEG-10 DIMETHICONE, MICA, NIACINAMIDE, LAURYL PEG-8 DIMETHICONE, ZINC OXIDE (NANO), TITANIUM DIOXIDE (NANO), POLYMETHYL METHACRYLATE, DISTEARDIMONIUM HECTORITE, ACRYLATES/ETHYLHEXYL ACRYLATE/DIMETHICONE METHACRYLATE COPOLYMER, IRON OXIDES (CI 77492), 1,2-HEXANEDIOL, SODIUM CHLORIDE, ALUMINUM HYDROXIDE, FRAGRANCE / PARFUM, CAPRYLYL GLYCOL, TRIETHOXYCAPRYLYLSILANE, STEARIC ACID, IRON OXIDES (CI 77491), METHICONE, GLYCERYL CAPRYLATE, IRON OXIDES (CI 77499), DISODIUM EDTA, LINALOOL, ADENOSINE, DIMETHICONE, POLYPROPYLSILSESQUIOXANE, SILICA, TREHALOSE, HELIANTHUS ANNUUS (SUNFLOWER) SEED OIL, OLEA EUROPAEA (OLIVE) FRUIT OIL, SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL, LIMONENE, SYNTHETIC FLUORPHLOGOPITE, VITIS VINIFERA (GRAPE) SEED OIL, CAPRYLYL METHICONE, BHT, GERANIOL, BUTYLENE GLYCOL, ALPHA-ISOMETHYL IONONE, CITRONELLOL, POLYVINYL ALCOHOL, MACADAMIA TERNIFOLIA SEED OIL, LAUROYL LYSINE, TOCOPHEROL",
+      "notes": "Verbatim [BEIGE] All ingredients from official espoir EN PDP (productcd 125101865).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "espoir-pro-tailor-be-glow-cushion-ivory",
+      "brandCanonical": "espoir",
+      "productNameEn": "espoir Pro Tailor Be Glow Cushion Ivory",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://www.espoir.com/en/shop/shop_prd_view.do?i_sProductcd=125101865",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "WATER / AQUA / EAU, DIPHENYLSILOXY PHENYL TRIMETHICONE, GLYCERIN, ETHYLHEXYL METHOXYCINNAMATE, TITANIUM DIOXIDE (CI 77891), CYCLOPENTASILOXANE, TRIMETHYLSILOXYSILICATE, DIISOSTEARYL MALATE, BUTYLENE GLYCOL DICAPRYLATE/DICAPRATE, PEG-10 DIMETHICONE, MICA, NIACINAMIDE, LAURYL PEG-8 DIMETHICONE, ZINC OXIDE (NANO), POLYMETHYL METHACRYLATE, TITANIUM DIOXIDE (NANO), DISTEARDIMONIUM HECTORITE, ACRYLATES/ETHYLHEXYL ACRYLATE/DIMETHICONE METHACRYLATE COPOLYMER, 1,2-HEXANEDIOL, IRON OXIDES (CI 77492), SODIUM CHLORIDE, ALUMINUM HYDROXIDE, FRAGRANCE / PARFUM, CAPRYLYL GLYCOL, TRIETHOXYCAPRYLYLSILANE, STEARIC ACID, METHICONE, IRON OXIDES (CI 77491), GLYCERYL CAPRYLATE, DISODIUM EDTA, LINALOOL, ADENOSINE, IRON OXIDES (CI 77499), DIMETHICONE, POLYPROPYLSILSESQUIOXANE, SILICA, TREHALOSE, HELIANTHUS ANNUUS (SUNFLOWER) SEED OIL, OLEA EUROPAEA (OLIVE) FRUIT OIL, SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL, LIMONENE, SYNTHETIC FLUORPHLOGOPITE, VITIS VINIFERA (GRAPE) SEED OIL, CAPRYLYL METHICONE, BHT, GERANIOL, BUTYLENE GLYCOL, ALPHA-ISOMETHYL IONONE, CITRONELLOL, POLYVINYL ALCOHOL, MACADAMIA TERNIFOLIA SEED OIL, LAUROYL LYSINE, TOCOPHEROL",
+      "notes": "Verbatim [IVORY] All ingredients from official espoir EN PDP (productcd 125101865).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "espoir-pro-tailor-be-glow-cushion-petal",
+      "brandCanonical": "espoir",
+      "productNameEn": "espoir Pro Tailor Be Glow Cushion Petal",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://www.espoir.com/en/shop/shop_prd_view.do?i_sProductcd=125101865",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "WATER / AQUA / EAU, DIPHENYLSILOXY PHENYL TRIMETHICONE, GLYCERIN, ETHYLHEXYL METHOXYCINNAMATE, TITANIUM DIOXIDE (CI 77891), CYCLOPENTASILOXANE, TRIMETHYLSILOXYSILICATE, DIISOSTEARYL MALATE, BUTYLENE GLYCOL DICAPRYLATE/DICAPRATE, PEG-10 DIMETHICONE, MICA, NIACINAMIDE, LAURYL PEG-8 DIMETHICONE, ZINC OXIDE (NANO), POLYMETHYL METHACRYLATE, TITANIUM DIOXIDE (NANO), DISTEARDIMONIUM HECTORITE, ACRYLATES/ETHYLHEXYL ACRYLATE/DIMETHICONE METHACRYLATE COPOLYMER, 1,2-HEXANEDIOL, IRON OXIDES (CI 77492), SODIUM CHLORIDE, ALUMINUM HYDROXIDE, FRAGRANCE / PARFUM, CAPRYLYL GLYCOL, TRIETHOXYCAPRYLYLSILANE, STEARIC ACID, IRON OXIDES (CI 77491), METHICONE, GLYCERYL CAPRYLATE, IRON OXIDES (CI 77499), DISODIUM EDTA, LINALOOL, ADENOSINE, DIMETHICONE, POLYPROPYLSILSESQUIOXANE, SILICA, TREHALOSE, HELIANTHUS ANNUUS (SUNFLOWER) SEED OIL, OLEA EUROPAEA (OLIVE) FRUIT OIL, SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL, LIMONENE, SYNTHETIC FLUORPHLOGOPITE, VITIS VINIFERA (GRAPE) SEED OIL, CAPRYLYL METHICONE, BHT, GERANIOL, BUTYLENE GLYCOL, ALPHA-ISOMETHYL IONONE, CITRONELLOL, POLYVINYL ALCOHOL, MACADAMIA TERNIFOLIA SEED OIL, LAUROYL LYSINE, TOCOPHEROL",
+      "notes": "Verbatim [PETAL] All ingredients from official espoir EN PDP (productcd 125101865).",
       "applyReady": true
     }
   ]
