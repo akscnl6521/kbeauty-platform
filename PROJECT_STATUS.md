@@ -4,9 +4,18 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO UI 검수 · (잔여 INCI는 패키징/공식 고시 JS 확보 전 **BLOCKED**) · 승인 시 A안/main/Production.  
-**방금 완료:** 잔여 27건 2차 공식몰·Cafe24 심층 재탐색 (apply 0 · with_inci 57 유지).  
-**운영 메모:** 제품등록은 승인 없이 Staging만 계속 가능하나, 잔여 27건은 **공식 verbatim 출처 없음**.
+**다음 작업:** 잔여 INCI는 **BLOCKED** · 다음으로 Production/A안/main은 **명시 승인** 필요 · 또는 패키징 전성분 사진.  
+**방금 완료:** Preview SSO UI 수동 검수 (사용자 확인).  
+**운영 메모:** Staging 자동 작업·Preview UI 검수 완료. Production 관련은 승인 전 금지.
+
+### 2026-07-16 Preview SSO UI 검수 완료
+
+| 항목 | 값 |
+|------|-----|
+| Preview URL | https://kbeauty-platform-jz7pabqnu-akscnl6521s-projects.vercel.app |
+| 사용자 확인 | `/analyze`→`/results` · `/admin/catalog/labels` · bulk-review |
+| Staging 대체 검증 | 이전 통과 유지 |
+| Production / main | 미변경 |
 
 ### 2026-07-16 잔여 27건 BLOCKED (공식 INCI 미확보)
 

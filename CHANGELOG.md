@@ -6,6 +6,11 @@
 
 ## 2026-07-16
 
+### Preview SSO UI 수동 검수 완료
+
+- 사용자 확인: `/analyze`→`/results` · `/admin/catalog/labels` · bulk-review
+- Staging 대체 검증·품질 게이트 유지 · Production · main 미변경
+
 ### 잔여 heroes 공식 INCI 재탐색 (apply 없음)
 
 - OBF 27건 · Banila/Isntree/espoir·rom&nd 등 공식몰 심층 확인 → harvested **0**

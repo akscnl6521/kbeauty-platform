@@ -43,14 +43,14 @@
 - [x] **espoir Pro Tailor Be Glow Cushion Beige/Ivory/Petal 공식 INCI** — with_inci **56**
 - [x] **TOCOBO Cotton Soft Sun Stick 공식 INCI** — with_inci **57** (Soft ≠ Airy)
 - [x] **잔여 27건 OBF·공식몰 재탐색** — harvest/apply **0** · with_inci 57 유지 (공식 verbatim 미확보)
-- [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/labels`·bulk-review)
+- [x] **Preview SSO 승인 후 브라우저 UI 수동 확인** — `/analyze`→`/results`·`/admin/catalog/labels`·bulk-review (2026-07-16 사용자 확인)
 - [ ] 잔여 27 heroes 공식 INCI — **BLOCKED** (패키징·공식 고시 JS/라벨 확보 시 재개)
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인
 - [ ] **A안:** Staging 한국 COSRX 시드 Production 반영 (승인 후)
 - [ ] main 병합 · Production 배포 — **승인 후**
-- 판정: **BLOCKED** (잔여 라벨 · Preview SSO · Production 출시 항목)
+- 판정: **BLOCKED** (잔여 라벨 · Production 출시 항목 — Preview UI는 완료)
 
 
 ---
