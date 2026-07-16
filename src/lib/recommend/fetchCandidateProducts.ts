@@ -297,24 +297,61 @@ export async function fetchCandidateProducts(
     }
   }
 
-  // Attach verified primary media from catalog_product_media (products has no image column).
+  // Attach verified primary media. products has no image column.
+  // Staging: anon cannot SELECT catalog_product_media (RLS + no SELECT grant).
+  // Private product-images bucket needs fresh signed URLs from canonical storage:// refs.
   if (products.length > 0) {
     const ids = products.map((p) => p.id);
-    const { data: mediaRows } = await supabase
-      .from("catalog_product_media")
-      .select("product_id, image_url, validation_status, is_primary, is_fixture")
-      .in("product_id", ids)
-      .eq("validation_status", "verified")
-      .eq("is_fixture", false)
-      .order("is_primary", { ascending: false });
-
     const mediaByProduct = new Map<string, string>();
-    for (const row of mediaRows ?? []) {
-      const pid = String((row as { product_id?: unknown }).product_id ?? "");
-      const url = String((row as { image_url?: unknown }).image_url ?? "").trim();
-      if (!pid || !url || mediaByProduct.has(pid)) continue;
-      mediaByProduct.set(pid, url);
+
+    try {
+      const endpoint =
+        typeof window !== "undefined"
+          ? "/api/catalog/product-images"
+          : `${(process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "")}/api/catalog/product-images`;
+      if (endpoint.startsWith("/") || endpoint.startsWith("https://")) {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productIds: ids }),
+        });
+        if (res.ok) {
+          const json = (await res.json()) as { urls?: Record<string, string> };
+          for (const [pid, url] of Object.entries(json.urls ?? {})) {
+            const trimmed = String(url ?? "").trim();
+            if (pid && trimmed.startsWith("https://")) {
+              mediaByProduct.set(pid, trimmed);
+            }
+          }
+        }
+      }
+    } catch {
+      // fall through to anon select fallback
     }
+
+    if (mediaByProduct.size === 0) {
+      const { data: mediaRows } = await supabase
+        .from("catalog_product_media")
+        .select(
+          "product_id, image_url, validation_status, is_primary, is_fixture"
+        )
+        .in("product_id", ids)
+        .eq("validation_status", "verified")
+        .eq("is_fixture", false)
+        .order("is_primary", { ascending: false });
+
+      for (const row of mediaRows ?? []) {
+        const pid = String((row as { product_id?: unknown }).product_id ?? "");
+        const url = String(
+          (row as { image_url?: unknown }).image_url ?? ""
+        ).trim();
+        if (!pid || !url.startsWith("https://") || mediaByProduct.has(pid)) {
+          continue;
+        }
+        mediaByProduct.set(pid, url);
+      }
+    }
+
     for (let i = 0; i < products.length; i += 1) {
       const url = mediaByProduct.get(products[i]!.id);
       if (url) {

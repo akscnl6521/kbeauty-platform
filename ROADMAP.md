@@ -1,6 +1,6 @@
 # ROADMAP.md — K-Beauty Match
 
-최종 갱신: 2026-07-15
+최종 갱신: 2026-07-16
 
 상세 기술 초안은 `docs/07_Roadmap.md`에도 있으나, **현재 실제 진행 상태는 본 문서를 우선**한다.
 
@@ -43,14 +43,18 @@
 - [x] **espoir Pro Tailor Be Glow Cushion Beige/Ivory/Petal 공식 INCI** — with_inci **56**
 - [x] **TOCOBO Cotton Soft Sun Stick 공식 INCI** — with_inci **57** (Soft ≠ Airy)
 - [x] **잔여 27건 OBF·공식몰 재탐색** — harvest/apply **0** · with_inci 57 유지 (공식 verbatim 미확보)
-- [x] **Preview SSO 승인 후 브라우저 UI 수동 확인** — `/analyze`→`/results`·`/admin/catalog/labels`·bulk-review (2026-07-16 사용자 확인)
+- [x] **Snail 96 Staging 이미지 복구** — 68B → 26,610B 공식 이미지 · 공개 9건 **9/9** 자동 검증
+- [x] **로컬 출시 준비 검사** — `check:production` · `check:release-security` · `test:smoke` 통과
+- [ ] **main 병합 · Production 배포** — 채팅에 **「main 병합 진행」** / **「Production 배포 진행」** 명시 후
 - [ ] 잔여 27 heroes 공식 INCI — **BLOCKED** (패키징·공식 고시 JS/라벨 확보 시 재개)
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인
-- [ ] **A안:** Staging 한국 COSRX 시드 Production 반영 (승인 후)
+- [x] **A안 dry-run:** Staging COSRX 8건 vs Production 중복 조회 (신규 5 · 스킵 3)
+- [x] **A안 스모크:** Production id **188** Good Morning Gel Cleanser
+- [x] **A안 나머지 4건:** id **189~192** (AHA-BHA / Hydrium / Niacinamide 15 / 6 Peptide)
 - [ ] main 병합 · Production 배포 — **승인 후**
-- 판정: **BLOCKED** (잔여 라벨 · Production 출시 항목 — Preview UI는 완료)
+- 판정: **대기** (main/배포 명시 승인 · Dashboard `AI_PROVIDER`/Auth URL 확인)
 
 
 ---

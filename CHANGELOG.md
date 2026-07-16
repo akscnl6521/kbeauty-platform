@@ -6,6 +6,43 @@
 
 ## 2026-07-16
 
+### 로컬 출시 준비 검사 통과
+
+- `check:production` · `check:release-security` · `test:smoke` 통과
+- main 병합 · Production 배포는 명시 승인 대기
+
+### Snail 96 Staging 이미지 복구 + 공개 9건 검증
+
+- id=1 `Advanced Snail 96 Mucin Power Essence` primary 이미지 68B 플레이스홀더 → 공식 COSRX 26,610B JPEG
+- Staging 공개 추천 9건 verified primary media signed fetch **9/9 OK**
+- `scripts/fix-staging-snail96-official-image.mjs` · `scripts/verify-staging-public-product-images.mjs`
+- Production / main 미변경
+
+### A안 Production 신규 5건 INSERT 완료
+
+- id **188~192** · 전원 `verified_at` NULL · 성분 링크 합계 111
+- 중복 3건(Vitamin C / Snail 92 / Retinol) 스킵 · media/offer 없음
+- main 병합 · Production 배포 미실행
+
+### Preview /results 제품 이미지 복구
+
+- 원인: anon이 `catalog_product_media` SELECT 불가(42501) + private `product-images` signed URL 미재발급
+- `/api/catalog/product-images`에서 service role로 `storage://` canonical 재서명
+- `fetchCandidateProducts`가 해당 API로 `image_url` 부착
+- Preview 재배포 · main/Production 미실행
+
+### A안 Production 스모크 1건 완료
+
+- Production `products` id **188** · `cosrx-low-ph-good-morning-gel-cleanser`
+- `verified_at` NULL · `product_ingredients` 27 (pending) · media/offer 없음
+- ingredients 40→66 · main/배포 미실행 · 나머지 신규 4건 대기
+
+### A안 Production dry-run 완료 (INSERT 없음)
+
+- 「진행승인」후 Staging COSRX 시드 8건 vs Production 중복 조회
+- 신규 5 · 중복 스킵 3 (Vitamin C / Snail 92 / Retinol) · media 테이블 없음 → 스킵
+- 상세: `docs/RELEASE_KR_CATALOG_PRODUCTION_PLAN.md` · Production 쓰기·main·배포 미실행
+
 ### Preview SSO UI 수동 검수 완료
 
 - 사용자 확인: `/analyze`→`/results` · `/admin/catalog/labels` · bulk-review

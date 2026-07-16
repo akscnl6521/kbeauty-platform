@@ -1,18 +1,25 @@
-# NEXT_TASK — Production/main 승인 대기
+# NEXT_TASK — Production 배포 승인 대기
 
 최종 갱신: 2026-07-16
 
 ## 완료 (반복 금지)
 
-- COSRX 시드 Staging 8건 + 검증
-- Search-to-Verified catalog JSON 3건 Staging
-- `data/backups/2026-07-14-catalog` 읽기 전용 백업·검증 통과
-- Preview SSO UI 수동 검수 (2026-07-16 사용자 확인)
-- Staging `with_inci` **57** · Preview substitute · staging-quality
+- Preview `/results` 이미지 코드·Snail 96 복구·Staging 공개 9건 이미지 **9/9 OK**
+- A안 Production 신규 **5건** (id 188~192, `verified_at` NULL)
+- 로컬 출시 준비 검사 통과
+- **main 병합** — 사용자 「승인」(2026-07-16) · backup → main
 
-## 남은 작업
+## 남은 작업 (단일)
 
-Production 제품/offer 반영 · main 병합 · Production 배포 — **모두 사용자 명시 승인 후에만**.  
-에이전트 자동 진행 금지.
+채팅에 **「Production 배포 진행」**을 보내 주세요.
 
-잔여 27 heroes 공식 INCI는 패키징/공식 라벨 확보 전까지 **BLOCKED**.
+| 보낼 말 | 실행 내용 |
+|---------|-----------|
+| **Production 배포 진행** | Vercel Production 배포 |
+
+## 배포 전 사용자 확인 (대시보드 · 에이전트 대체 불가)
+
+1. Vercel Production: `AI_PROVIDER`가 mock이 **아닌지**
+2. Supabase Auth: Site URL / Redirect URLs에 Production 도메인
+
+잔여 27 heroes 공식 INCI는 **BLOCKED**.

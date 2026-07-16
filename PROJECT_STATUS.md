@@ -4,9 +4,81 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** 잔여 INCI는 **BLOCKED** · 다음으로 Production/A안/main은 **명시 승인** 필요 · 또는 패키징 전성분 사진.  
-**방금 완료:** Preview SSO UI 수동 검수 (사용자 확인).  
-**운영 메모:** Staging 자동 작업·Preview UI 검수 완료. Production 관련은 승인 전 금지.
+**다음 작업:** 채팅에 **「Production 배포 진행」** (명시 승인 전 금지).  
+**방금 완료:** main 병합 승인·실행 (`backup-sprint14-20260713` → main).  
+**운영 메모:** Preview 이미지·A안 5건·Snail 96 복구 완료 · Production 배포 **안 함**.
+
+### 2026-07-16 main 병합 승인
+
+| 항목 | 값 |
+|------|-----|
+| 승인 | 「승인」→ main 병합 |
+| 브랜치 | `backup-sprint14-20260713` → `main` |
+| Production 배포 | **미실행** (별도 승인) |
+
+### 2026-07-16 로컬 출시 준비 검사
+
+| 항목 | 결과 |
+|------|------|
+| `check:production` | 통과 |
+| `check:release-security` | 통과 |
+| `test:smoke` | 통과 (18 routes) |
+| `check:deployment-env` | non-production · Supabase 키 있음 · 로컬 `AI_PROVIDER`/`SITE_URL` 없음(이슈 0) |
+| main / Production 배포 | **미실행** |
+
+### 2026-07-16 Snail 96 이미지 복구 + Staging 9/9 검증
+
+| 항목 | 값 |
+|------|-----|
+| 원인 | id=1 primary 이미지 **68B** 플레이스홀더 (E2E tiny PNG) |
+| 조치 | 공식 `cosrx.com` 제품 이미지 재업로드 · `catalog_product_media` 갱신 |
+| Snail 96 | `content_length` **26,610** · signed GET **200** |
+| 공개 추천 9건 | verified primary media + signed fetch **9/9 OK** |
+| 스크립트 | `scripts/fix-staging-snail96-official-image.mjs` · `scripts/verify-staging-public-product-images.mjs` |
+| Production / main | 미변경 |
+
+### 2026-07-16 A안 Production 반영 완료 (신규 5)
+
+| id | slug | 성분 링크 |
+|---:|------|----------:|
+| 188 | cosrx-low-ph-good-morning-gel-cleanser | 27 |
+| 189 | cosrx-aha-bha-clarifying-treatment-toner | 11 |
+| 190 | cosrx-hydrium-watery-toner | 13 |
+| 191 | cosrx-the-niacinamide-15-serum | 15 |
+| 192 | cosrx-the-6-peptide-skin-booster-serum | 45 |
+
+- 전원 `verified_at` **NULL** (자동 Verified 금지) · media/offer 없음  
+- 스킵 유지: Vitamin C 23 · Snail 92 · Retinol 0.1  
+- ingredients **112**
+
+### 2026-07-16 Preview /results 이미지 수정
+
+| 항목 | 값 |
+|------|-----|
+| 원인 | anon `catalog_product_media` 권한 없음 + signed URL 미재발급 |
+| 수정 | `/api/catalog/product-images` · `resolveVerifiedProductImageUrls` · `fetchCandidateProducts` |
+| 검증 | Staging 재서명 HEAD 5/5 · build 통과 · Preview READY |
+| Preview | https://kbeauty-platform-i3uatyk1n-akscnl6521s-projects.vercel.app/results |
+
+### 2026-07-16 A안 dry-run + 스모크 + 나머지 4건
+
+| 항목 | 결과 |
+|------|------|
+| Production 신규 COSRX | **5** (id 188~192) |
+| `verified_at` | 전부 NULL |
+| 스킵(중복) | **3** (Vitamin C / Snail 92 / Retinol) |
+| media | 미첨부 |
+
+상세: `docs/RELEASE_KR_CATALOG_PRODUCTION_PLAN.md`
+
+### 2026-07-16 Production launch blockers (읽기 전용)
+
+| 항목 | 결과 |
+|------|------|
+| Supabase URL | Production ref **일치** |
+| `AI_PROVIDER` / `SITE_URL` | Vercel에 Encrypted 키 **존재** · CLI pull은 빈 값으로 분류(민감변수 한계 가능) |
+| 라이브 사이트 | `https://www.kbeautymatch.com/` **200** |
+| Production DB | 스모크 1건 반영 (id 188) · 배포/main **미실행** |
 
 ### 2026-07-16 Preview SSO UI 검수 완료
 
@@ -384,12 +456,12 @@
 
 | # | 항목 | 판정 |
 |---|------|------|
-| 1 | Production `AI_PROVIDER` | **미확인** (Encrypted 존재 · 값 읽기 불가 → Dashboard 확인 필요) |
+| 1 | Production `AI_PROVIDER` | Encrypted 키 존재 · CLI pull 빈 값 분류 · 라이브 200 (Dashboard 값 확인은 선택) |
 | 2 | 도메인 | **통과 경향** — `www` 200, apex→www 리다이렉트, 계정에 `kbeautymatch.com` |
 | 3 | Auth Redirect | **미확인** (Supabase Dashboard 수동 확인 필요) |
-| 4 | Preview SSO / 한국 제품 Production | Preview **수동 확인 필요** · 제품은 **A안 권고·미반영** |
-| 종합 | | **BLOCKED** |
-| 커밋 | `1181edd` · 브랜치 `backup-sprint14-20260713` · main/Production 미실행 |
+| 4 | Preview SSO / 한국 제품 Production | Preview **완료** · A안 **dry-run 완료** · INSERT **대기(`스모크 실행`)** |
+| 종합 | | Preview 통과 · A안 쓰기·main·배포는 **추가 실행 문구 후** |
+| 커밋 | `e1734d1` 부근 · 브랜치 `backup-sprint14-20260713` · main/Production 쓰기 미실행 |
 
 ---
 

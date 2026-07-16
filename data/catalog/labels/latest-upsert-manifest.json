@@ -1,7 +1,16 @@
 {
   "phase": "label_sheet_upsert_heroes",
-  "stamp": "2026-07-15T16-56-49",
+  "stamp": "2026-07-15T17-49-24",
   "linked": "jfnjufmldiqlgvgyugfd",
-  "upserted": 0,
-  "productionTouched": false
+  "productionTouched": false,
+  "upserted": 1,
+  "ids": [
+    "amorepacific-time-response-skin-reserve-serum"
+  ],
+  "staging": {
+    "heroes": 85,
+    "official_matched": 36,
+    "recommendable": 36,
+    "with_inci": 35
+  }
 }

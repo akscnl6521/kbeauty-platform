@@ -136,9 +136,9 @@ export const RANKED_PRODUCTS_STORAGE_KEY = "skinRankedProducts";
 
 /**
  * 핵심 추천 캐시 버전.
- * 없거나 다르면 기존 Top 5를 폐기하고 재분석을 요구한다.
+ * 이미지/offer 부착 로직이 바뀌면 올려서 기존 Top 5를 폐기한다.
  */
-export const RECOMMENDATION_CACHE_VERSION = "KR_MATCH_EVIDENCE_V2";
+export const RECOMMENDATION_CACHE_VERSION = "KR_MATCH_EVIDENCE_V3";
 
 /** 캐시 버전 localStorage 키 */
 export const RECOMMENDATION_CACHE_VERSION_KEY = "recommendationCacheVersion";
