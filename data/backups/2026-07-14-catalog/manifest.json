@@ -1,0 +1,222 @@
+{
+  "backupVersion": "2026-07-14-catalog-v1",
+  "emptyTables": [
+    "product_variants"
+  ],
+  "environment": "staging",
+  "exportedAt": "2026-07-14T04:46:09.576Z",
+  "files": [
+    {
+      "file": "catalog-sources.json",
+      "missing": false,
+      "rowCount": 5,
+      "sha256": "6a54691ed8a6ed747f074c8e5bcaeadd649a603ccc3ad9e1234e183d0b1efe42",
+      "table": "catalog_sources"
+    },
+    {
+      "file": "change-history.json",
+      "missing": false,
+      "rowCount": 2,
+      "sha256": "f5b68834461a5eb6d9bbdd4a5e3fbd71935dd371de40c42cc29ea32f1d0c7e42",
+      "table": "product_change_history"
+    },
+    {
+      "file": "data-sources.json",
+      "missing": false,
+      "rowCount": 1,
+      "sha256": "eba8f7d0d2d9a6d2b1b013d5381f63f32a3ad858c234c8eda51daaa73becda89",
+      "table": "data_sources"
+    },
+    {
+      "file": "discovery-candidates.json",
+      "missing": false,
+      "rowCount": 3,
+      "sha256": "10b5bcbaa49c1da1b3c94fcdd05c6d99df2ad69efcda7fc62f5100962e5dbdd3",
+      "table": "product_discovery_candidates"
+    },
+    {
+      "file": "field-provenance.json",
+      "missing": false,
+      "rowCount": 15,
+      "sha256": "c42133ee6c8366fc9f911efb874a37b8e857537e274a879d1dfe34036e97df4e",
+      "table": "product_field_provenance"
+    },
+    {
+      "file": "ingredients.json",
+      "missing": false,
+      "rowCount": 129,
+      "sha256": "233a87376371ffd3cd395a4824898f2144cff65b084fd68b6d6fb2a357775bce",
+      "table": "ingredients"
+    },
+    {
+      "file": "product-ingredients.json",
+      "missing": false,
+      "rowCount": 257,
+      "sha256": "80e8385dd0398fdf2840d3e48ca8a107da0c20f9abd63071cb6fb419197d1cd0",
+      "table": "product_ingredients"
+    },
+    {
+      "file": "product-media.json",
+      "missing": false,
+      "rowCount": 11,
+      "sha256": "2ff4b144378343cbb97c160493b6e47d04690784a9875d4e3781fe75f6116d0b",
+      "table": "catalog_product_media"
+    },
+    {
+      "file": "product-offers.json",
+      "missing": false,
+      "rowCount": 2,
+      "sha256": "1c14607dbee81f7452e3dea8ad24d6fc43cf372ef7025eb69122db3841eb5ba1",
+      "table": "product_offers"
+    },
+    {
+      "file": "product-variants.json",
+      "missing": false,
+      "rowCount": 0,
+      "sha256": "297aacd948c938386598729d54fdf8c7d18c8a104a103cbacaf1786d5c02d753",
+      "table": "product_variants"
+    },
+    {
+      "file": "products.json",
+      "missing": false,
+      "rowCount": 11,
+      "sha256": "0f3ddb1b9110cc3dbce221a2461f1d6dc14ddc84f1572ec315023178ce62cbe7",
+      "table": "products"
+    },
+    {
+      "file": "verification-queue.json",
+      "missing": false,
+      "rowCount": 3,
+      "sha256": "3c3c8776cbc29bcf0c7e22677f066c26a0ba3d643d5e90b21f8a018437237de7",
+      "table": "verification_queue"
+    }
+  ],
+  "foreignKeys": [
+    "product_ingredients.product_id → products.id",
+    "product_ingredients.ingredient_id → ingredients.id",
+    "catalog_product_media.product_id → products.id (nullable staging_product_id → catalog_staging_products)",
+    "catalog_product_media.source_id → catalog_sources.id",
+    "product_offers.product_id → products.id",
+    "product_variants.product_id → products.id",
+    "product_discovery_candidates.linked_product_id → products.id",
+    "product_field_provenance.product_id → products.id",
+    "product_change_history.product_id → products.id"
+  ],
+  "gitBranch": "backup-sprint14-20260713",
+  "gitCommit": "47f850a8496ad7b13af1041a96055d2db1bd3ba1",
+  "missingTables": [],
+  "productionUnchanged": true,
+  "rescrubbedWithoutRemote": true,
+  "restoreOrder": [
+    "catalog_sources",
+    "data_sources",
+    "ingredients",
+    "products",
+    "product_variants",
+    "product_ingredients",
+    "catalog_product_media",
+    "product_offers",
+    "product_discovery_candidates",
+    "verification_queue",
+    "product_field_provenance",
+    "product_change_history"
+  ],
+  "schemaVersion": "20260714060000",
+  "sensitivityScan": {
+    "hits": [],
+    "passed": true
+  },
+  "stagingDataUnchanged": true,
+  "totals": {
+    "ingredients": 129,
+    "liveIngredients": 129,
+    "liveProducts": 11,
+    "products": 11
+  },
+  "validation": {
+    "checks": [
+      {
+        "msg": "catalog-sources.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "change-history.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "data-sources.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "discovery-candidates.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "field-provenance.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "ingredients.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "product-ingredients.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "product-media.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "product-offers.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "product-variants.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "products.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "verification-queue.json: rowCount ok",
+        "ok": true
+      },
+      {
+        "msg": "product_ingredients.product_id: FK ok",
+        "ok": true
+      },
+      {
+        "msg": "product_ingredients.ingredient_id: FK ok",
+        "ok": true
+      },
+      {
+        "msg": "media.product_id: FK ok",
+        "ok": true
+      },
+      {
+        "msg": "offers.product_id: FK ok",
+        "ok": true
+      },
+      {
+        "msg": "variants.product_id: FK ok",
+        "ok": true
+      },
+      {
+        "msg": "provenance FK ok",
+        "ok": true
+      },
+      {
+        "msg": "history FK ok",
+        "ok": true
+      },
+      {
+        "msg": "sensitivity scan clean",
+        "ok": true
+      }
+    ],
+    "passed": true
+  },
+  "writeOperations": "none (SELECT + local files only)"
+}

@@ -1,0 +1,404 @@
+{
+  "phase": "discovery_enrichment_sprint",
+  "stamp": "2026-07-14T15-32-13",
+  "linked": "jfnjufmldiqlgvgyugfd",
+  "productionTouched": false,
+  "dryFetch": false,
+  "maxFetchPerRun": 60,
+  "fetchesAttempted": 33,
+  "resumeBrandId": null,
+  "brands": [
+    {
+      "brandId": "cosrx",
+      "status": "completed",
+      "processed": 4,
+      "matched": 0,
+      "failed": 4,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:12:55.095Z"
+    },
+    {
+      "brandId": "beauty-of-joseon",
+      "status": "completed",
+      "processed": 3,
+      "matched": 2,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:12:56.957Z"
+    },
+    {
+      "brandId": "anua",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:12:58.002Z"
+    },
+    {
+      "brandId": "round-lab",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 2,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:12:58.276Z"
+    },
+    {
+      "brandId": "isntree",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 2,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:12:58.551Z"
+    },
+    {
+      "brandId": "some-by-mi",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 1,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:12:58.752Z"
+    },
+    {
+      "brandId": "skin1004",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 2,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:12:59.918Z"
+    },
+    {
+      "brandId": "torriden",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 1,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:00.412Z"
+    },
+    {
+      "brandId": "numbuzin",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 1,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:00.558Z"
+    },
+    {
+      "brandId": "medicube",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:00.789Z"
+    },
+    {
+      "brandId": "axis-y",
+      "status": "completed",
+      "processed": 2,
+      "matched": 2,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:03.064Z"
+    },
+    {
+      "brandId": "purito",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 1,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:03.688Z"
+    },
+    {
+      "brandId": "klairs",
+      "status": "completed",
+      "processed": 1,
+      "matched": 1,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:04.675Z"
+    },
+    {
+      "brandId": "heimish",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:12.688Z"
+    },
+    {
+      "brandId": "dr-jart",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:13.070Z"
+    },
+    {
+      "brandId": "laneige",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 2,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:13.211Z"
+    },
+    {
+      "brandId": "innisfree",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 2,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:15.828Z"
+    },
+    {
+      "brandId": "missha",
+      "status": "completed",
+      "processed": 3,
+      "matched": 0,
+      "failed": 3,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:17.424Z"
+    },
+    {
+      "brandId": "etude",
+      "status": "completed",
+      "processed": 3,
+      "matched": 0,
+      "failed": 3,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:23.349Z"
+    },
+    {
+      "brandId": "banila-co",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:24.208Z"
+    },
+    {
+      "brandId": "goodal",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:32.226Z"
+    },
+    {
+      "brandId": "tocobo",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:33.255Z"
+    },
+    {
+      "brandId": "mixsoon",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 1,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:34.369Z"
+    },
+    {
+      "brandId": "haruharu",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 1,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:13:35.164Z"
+    },
+    {
+      "brandId": "romand",
+      "status": "completed",
+      "processed": 15,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:01.475Z"
+    },
+    {
+      "brandId": "peripera",
+      "status": "completed",
+      "processed": 4,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:09.499Z"
+    },
+    {
+      "brandId": "clio",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:09.765Z"
+    },
+    {
+      "brandId": "3ce",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:10.219Z"
+    },
+    {
+      "brandId": "espoir",
+      "status": "completed",
+      "processed": 5,
+      "matched": 0,
+      "failed": 5,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:10.676Z"
+    },
+    {
+      "brandId": "amortepacific",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:11.064Z"
+    },
+    {
+      "brandId": "sulwhasoo",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 1,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:11.183Z"
+    },
+    {
+      "brandId": "hera",
+      "status": "completed",
+      "processed": 5,
+      "matched": 0,
+      "failed": 5,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:11.385Z"
+    },
+    {
+      "brandId": "lador",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 2,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:11.684Z"
+    },
+    {
+      "brandId": "ryses",
+      "status": "completed",
+      "processed": 1,
+      "matched": 0,
+      "failed": 0,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:11.946Z"
+    },
+    {
+      "brandId": "mise-en-scene",
+      "status": "completed",
+      "processed": 2,
+      "matched": 0,
+      "failed": 2,
+      "placeholders": 0,
+      "lastError": null,
+      "updatedAt": "2026-07-14T15:33:12.105Z"
+    }
+  ],
+  "stats": {
+    "total": 1161,
+    "placeholderRemoved": 1085,
+    "officialMatched": 0,
+    "needsReview": 18,
+    "matchFailed": 0,
+    "discontinued": 15,
+    "renewal": 0,
+    "duplicate": 0,
+    "withInci": 0,
+    "withImage": 0,
+    "withRetailer": 33,
+    "evidenceLinked": 0,
+    "fetchesAttempted": 33,
+    "byDomain": {
+      "lip_tint": 13,
+      "mascara": 2,
+      "eyeliner": 1,
+      "lipstick": 4,
+      "cushion": 6,
+      "serum": 1,
+      "essence": 1,
+      "treatment": 1,
+      "leave_in_treatment": 1,
+      "functional_hair_loss_shampoo": 1,
+      "hair_serum": 1,
+      "damage_repair_shampoo": 1
+    },
+    "inciRatePct": 0,
+    "imageRatePctAmongMatched": 0,
+    "evidenceRatePct": 0
+  },
+  "staging": {
+    "needs_review": 71,
+    "official_matched": 5,
+    "recommendable": 5,
+    "rejected": 1085,
+    "source_verified": 5,
+    "total": 1161,
+    "with_image": 76,
+    "with_inci": 0
+  }
+}

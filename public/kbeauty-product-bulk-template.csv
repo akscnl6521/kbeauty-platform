@@ -1,0 +1,2 @@
+brand,product_name,slug,category,target_areas,full_ingredients,description,image_filename,product_name_ko,product_name_en,product_name_ja,country,size,usage,warnings,source_url,source_type,verified,active,image_url
+ExampleBrand,Sample Hydrating Serum,examplebrand-sample-hydrating-serum,serum,face,"Water, Glycerin, Niacinamide, Panthenol",보습 세럼 예시,sample-serum.jpg,샘플 보습 세럼,,,KR,50ml,아침저녁,,https://example.com/product,admin_entry,true,true,

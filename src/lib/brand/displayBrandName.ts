@@ -1,3 +1,5 @@
+import { stripTrailingSizeFromProductName } from "@/lib/recommend/displayProductMeta";
+
 /**
  * 브랜드명 표시·정규화 (단일 소스).
  *
@@ -285,8 +287,42 @@ export function stripMistranslatedBrandFromProductName(
 }
 
 /**
+ * 깨진 한국어(모지바케·교체문자) 감지 — 정상이면 false.
+ * UTF-8을 Latin-1로 잘못 읽은 패턴(ì/ë/í 등 + 한글 자모 부재)을 포함한다.
+ */
+export function isGarbledKoreanText(value: string | null | undefined): boolean {
+  const t = typeof value === "string" ? value.trim() : "";
+  if (!t) return true;
+  if (t.includes("\uFFFD") || t.includes("?")) {
+    // "?" alone is common in truncated mojibake dumps
+    if (/\?/.test(t) && /[ìëíîïåÃÂ]/.test(t)) return true;
+    if (t.includes("\uFFFD")) return true;
+  }
+  const hangul = (t.match(/[\uAC00-\uD7A3]/g) ?? []).length;
+  const latinMojibake = (t.match(/[ìëíîïåÃÂœ]/g) ?? []).length;
+  if (hangul >= 2 && latinMojibake === 0) return false;
+  if (latinMojibake >= 2 && hangul === 0) return true;
+  if (latinMojibake >= 3 && hangul < latinMojibake) return true;
+  // Hangul jamo leftovers from bad decode
+  if (/[\u3131-\u318E\u1100-\u11FF]/.test(t) && hangul === 0) return true;
+  return false;
+}
+
+/** 레지스트리 등록 한국 뷰티 브랜드 여부 (뱃지용) */
+export function isKoreanBeautyBrand(brand: string | null | undefined): boolean {
+  const canonical = getCanonicalBrandName(brand);
+  if (!canonical) return false;
+  // 현재 BRAND_REGISTRY 항목은 K-Beauty 브랜드
+  return ALIAS_INDEX.has(normalizeBrandKey(canonical));
+}
+
+/**
  * 제품명 표시 (브랜드와 분리).
- * 브랜드 번역/치환을 제품명에 적용하지 않는다.
+ * 우선순위:
+ * - ko: 정상 nameKo → name(영문 공식) → nameJa → 확인 중
+ * - en: name → 정상 nameKo → nameJa → pending
+ * - ja: nameJa → name → 정상 nameKo → pending
+ * 깨진 name_ko 는 영문 공식명으로 안전하게 폴백한다.
  */
 export function displayProductTitle(options: {
   name?: string | null;
@@ -296,24 +332,47 @@ export function displayProductTitle(options: {
   locale?: BrandLocale;
 }): string {
   const locale = options.locale ?? "en";
+  const nameKoOk =
+    options.nameKo?.trim() && !isGarbledKoreanText(options.nameKo)
+      ? options.nameKo.trim()
+      : "";
 
-  let rawTitle =
-    locale === "ko" && options.nameKo
-      ? options.nameKo
-      : locale === "ja" && options.nameJa
-        ? options.nameJa
-        : options.name ?? options.nameKo ?? options.nameJa ?? "";
-
-  rawTitle = stripMistranslatedBrandFromProductName(rawTitle, options.brand);
-
-  if (!rawTitle && options.name) {
-    rawTitle = stripMistranslatedBrandFromProductName(
-      options.name,
-      options.brand
+  const pickRaw = (): string => {
+    if (locale === "ko") {
+      return (
+        nameKoOk ||
+        options.name?.trim() ||
+        options.nameJa?.trim() ||
+        ""
+      );
+    }
+    if (locale === "ja") {
+      return (
+        options.nameJa?.trim() ||
+        options.name?.trim() ||
+        nameKoOk ||
+        ""
+      );
+    }
+    return (
+      options.name?.trim() ||
+      nameKoOk ||
+      options.nameJa?.trim() ||
+      ""
     );
+  };
+
+  let rawTitle = pickRaw();
+  rawTitle = stripMistranslatedBrandFromProductName(rawTitle, options.brand);
+  rawTitle = stripTrailingSizeFromProductName(rawTitle);
+
+  if (!rawTitle) {
+    return locale === "ko"
+      ? "제품명 확인 중"
+      : "Product name pending verification";
   }
 
-  return rawTitle || "Untitled product";
+  return rawTitle;
 }
 
 /** 개발·감사: 레지스트리 canonical 목록 */

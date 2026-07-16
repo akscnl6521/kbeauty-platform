@@ -1,0 +1,41 @@
+---
+description: Search-to-Verified-Product Pipeline — 검색 우선·검증 후 등록 원칙
+alwaysApply: true
+---
+
+# Search-to-Verified-Product Pipeline
+
+K-Beauty Match는 브랜드별 제품 DB를 무작정 대량 구축하지 않는다.  
+제품 등록보다 검증 정확도를 우선한다.
+
+## 필수 흐름
+
+검색 → 판매 페이지·가격·구매 버튼·품절·배송 확인 → 제품명·브랜드·용량 → 전성분 → 표준화 → 논문 근거 → 자극·알레르기·회피 → 관리자 검증 → Supabase 등록 → 추천
+
+## 상태
+
+`discovered` → `sale_checked` → `ingredients_checked` → `evidence_checked` → `safety_checked` → `verified` → `published`
+
+**`published`가 아니면 핵심 추천에 사용하지 않는다.**
+
+## 금지
+
+- 가짜 제품·가격·재고·링크·근거 없는 효능 설명
+- 검색 노출만으로 재고 단정
+- 판매 미확인 제품을 핵심 추천에 포함
+- 성분 하나 논문만으로 제품 전체 효과 단정
+- 요청 없이 앱 코드·원격 DB·migration·제품 JSON을 변경하는 문서 작업과 혼동
+
+## 데이터 분리
+
+Product / ProductVariant / ProductOffer / ProductIngredient / IngredientEvidence
+
+## API
+
+공식 API는 필수가 아니다. 가격·재고 갱신, 브랜드 연동, 판매처 피드, 대량 변경 감지, 비용 대비 효과가 충분할 때만 선택 사용.
+
+## 의료 경계
+
+홍조·심한 염증·통증·진물·지속 악화는 제품 추천보다 전문가 상담 분기 우선.
+
+상세: `MASTER_PLAN.md`, `PROJECT_RULE.md`, `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`

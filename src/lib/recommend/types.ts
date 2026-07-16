@@ -3,6 +3,7 @@
  * Ranking / product search types will extend these later.
  */
 
+import type { RednessObservation } from "@/lib/ai/rednessObservation";
 import type { PurchaseLink } from "./selectPurchaseLink";
 import type { ProductOffer } from "./catalogTypes";
 
@@ -106,6 +107,16 @@ export interface Recommendation {
   summaryKo?: string;
   summaryEn?: string;
   summaryJa?: string;
+  /**
+   * 사용자가 입력한 붉은기 관찰 상태 (선택, 비진단).
+   * 없으면 구버전 localStorage와 호환.
+   */
+  rednessObservation?: RednessObservation;
+  /**
+   * 승인된 성분–고민 Evidence Layer 링크 (논문·공식 근거).
+   * 제품 효능 단정이 아니라 추천 힌트·citation용.
+   */
+  evidenceLinks?: import("@/lib/evidence").ApprovedEvidenceLink[];
 }
 
 /** localStorage key for the structured recommendation (Phase 1). */
@@ -125,9 +136,9 @@ export const RANKED_PRODUCTS_STORAGE_KEY = "skinRankedProducts";
 
 /**
  * 핵심 추천 캐시 버전.
- * 없거나 다르면 기존 Top 5를 폐기하고 재분석을 요구한다.
+ * 이미지/offer 부착 로직이 바뀌면 올려서 기존 Top 5를 폐기한다.
  */
-export const RECOMMENDATION_CACHE_VERSION = "KR_VERIFIED_OFFER_V1";
+export const RECOMMENDATION_CACHE_VERSION = "KR_MATCH_EVIDENCE_V3";
 
 /** 캐시 버전 localStorage 키 */
 export const RECOMMENDATION_CACHE_VERSION_KEY = "recommendationCacheVersion";
@@ -149,8 +160,10 @@ export interface RankableProduct {
   key_ingredients?: string[] | string | null;
   /** 일본어 성분 표기가 있으면 매칭에 함께 사용 */
   key_ingredients_ja?: string[] | string | null;
-  /** 피부 고민 태그 (선택 — 향후 가산에 사용 가능) */
-  skin_concern?: string | null;
+  /** 피부 고민 태그 (문자열 또는 DB 배열) */
+  skin_concern?: string | string[] | null;
+  /** 피부 톤 태그 (문자열 또는 DB 배열) */
+  skin_tone?: string | string[] | null;
   name?: string | null;
   brand?: string | null;
   category?: string | null;
@@ -174,7 +187,7 @@ export interface RankedProduct<T extends RankableProduct = RankableProduct> {
 /**
  * Phase 3A / Sprint 3 Phase 3A — Supabase에서 로드한 후보 제품.
  * RankableProduct(랭킹) + 표시·구매링크 필드.
- * 이미지 컬럼은 프로젝트 코드에 존재하지 않아 포함하지 않는다.
+ * 공식 검증 이미지는 optional — 없으면 카드 fallback.
  */
 export interface CandidateProduct extends RankableProduct {
   id: string;
@@ -183,8 +196,11 @@ export interface CandidateProduct extends RankableProduct {
   name_ja: string | null;
   brand: string | null;
   category: string | null;
-  skin_concern: string | null;
-  skin_tone: string | null;
+  /** Verified official product image URL only (never AI/search placeholders). */
+  image_url?: string | null;
+  image_verified?: boolean | null;
+  skin_concern: string | string[] | null;
+  skin_tone: string | string[] | null;
   key_ingredients: string[] | null;
   key_ingredients_ja: string[] | null;
   price_usd: number | null;

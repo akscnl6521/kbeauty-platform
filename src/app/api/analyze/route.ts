@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { AnalyzeSkinError, analyzeSkin } from "@/lib/ai/analyzeSkin";
 import { normalizeIngredientTagList } from "@/lib/ai/prompt";
+import { parseRednessObservation } from "@/lib/ai/rednessObservation";
 import type {
   AnalyzeSkinErrorBody,
   AnalyzeSkinRequest,
@@ -17,13 +18,20 @@ function parseIngredientPrefs(row: Record<string, unknown>): {
   allergyIngredients: string[];
   avoidedIngredients: string[];
   currentProducts: ReturnType<typeof normalizeCurrentProducts>;
+  rednessObservation?: NonNullable<
+    ReturnType<typeof parseRednessObservation>
+  >;
 } {
+  const rednessObservation = parseRednessObservation(
+    row.rednessObservation ?? row.redness_observation
+  );
   return {
     allergyIngredients: normalizeIngredientTagList(row.allergyIngredients),
     avoidedIngredients: normalizeIngredientTagList(row.avoidedIngredients),
     currentProducts: normalizeCurrentProducts(
       row.currentProducts ?? row.current_products
     ),
+    ...(rednessObservation ? { rednessObservation } : {}),
   };
 }
 

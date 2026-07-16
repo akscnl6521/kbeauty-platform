@@ -6,13 +6,46 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:pipeline": "node scripts/test-pipeline-core.mjs",
+    "test:journey": "node scripts/test-customer-journey.mjs",
+    "test:quality": "npx --yes tsx scripts/quality-regression-selftest.ts",
+    "check:staging-quality": "node scripts/staging-verify-recommend-quality.mjs",
+    "check:preview-quality": "node scripts/preview-concern-quality-smoke.mjs",
+    "check:preview-substitute": "node scripts/staging-preview-substitute-quality.mjs",
+    "check:production": "node scripts/check-production-readiness.mjs",
+    "check:deployment-env": "node scripts/check-deployment-env.mjs",
+    "test:smoke": "node scripts/smoke-test.mjs",
+    "check:release-security": "node scripts/security-release-check.mjs",
+    "check:responsive": "node scripts/check-responsive-layout.mjs",
+    "pipeline:worker": "node scripts/run-pipeline-worker.mjs",
+    "test:full-beauty": "npx --yes tsx scripts/full-beauty-selftest.ts",
+    "catalog:full-beauty": "npx --yes tsx scripts/run-full-beauty-catalog-sprint.ts",
+    "catalog:bulk-kr": "npx --yes tsx scripts/run-bulk-kr-catalog-sprint.ts",
+    "catalog:enrich": "npx --yes tsx scripts/run-discovery-enrichment-sprint.ts",
+    "catalog:inci": "npx --yes tsx scripts/run-inci-label-enrichment.ts",
+    "catalog:labels:build": "npx --yes tsx scripts/build-official-inci-sheet.ts",
+    "catalog:labels:upsert-heroes": "npx --yes tsx scripts/upsert-label-sheet-heroes.ts",
+    "catalog:labels": "npx --yes tsx scripts/apply-curated-inci-to-staging.ts",
+    "catalog:labels:sync": "npm run catalog:labels:build && npm run catalog:labels:upsert-heroes && npm run catalog:labels",
+    "catalog:labels:obf": "npx --yes tsx scripts/harvest-obf-inci-for-heroes.ts",
+    "catalog:labels:shopify-candidates": "npx --yes tsx scripts/harvest-shopify-inci-candidates.ts",
+    "catalog:labels:status": "npx --yes tsx scripts/label-sheet-status.ts",
+    "catalog:fix-staging-names": "npx --yes tsx scripts/fix-staging-product-names.ts",
+    "test:enrichment": "npx --yes tsx scripts/enrichment-selftest.ts",
+    "test:labels": "npx --yes tsx scripts/curated-inci-selftest.ts",
+    "test:labels-admin": "npx --yes tsx scripts/label-sheet-admin-selftest.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.99.1",
+    "cheerio": "^1.0.0-rc.12",
+    "jszip": "^3.10.1",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "server-only": "^0.0.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -22,6 +55,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "tsx": "^4.23.1",
     "typescript": "^5"
   }
 }

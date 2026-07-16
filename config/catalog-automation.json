@@ -1,0 +1,10 @@
+{
+  "dryRun": true,
+  "autoPromote": false,
+  "maxProductsPerSource": 20,
+  "maxProductsTotal": 50,
+  "cronEnabled": false,
+  "ingestionEnabled": false,
+  "catalogDatabaseEnv": "production",
+  "notes": "Shared Production DB: ingestionEnabled=false. Taxonomy/media/variants migrations are repo files only until Preview points at kbeauty-match-staging. No media fetch or storage copy on shared DB."
+}

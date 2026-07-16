@@ -1,0 +1,152 @@
+{
+  "generatedAt": "2026-07-13T18:27:32.192Z",
+  "config": {
+    "dryRun": true,
+    "autoPromote": false,
+    "maxProductsPerSource": 20,
+    "maxProductsTotal": 50,
+    "cronEnabled": false
+  },
+  "sources": [
+    {
+      "name": "Coupang Partners",
+      "authorization": "api_credentials_required",
+      "automationAllowed": false,
+      "permissionStatus": "authorization_required",
+      "nextAction": "Set COUPANG_PARTNERS_ACCESS_KEY after partner approval"
+    },
+    {
+      "name": "Olive Young KR",
+      "authorization": "manual_review",
+      "automationAllowed": false,
+      "permissionStatus": "authorization_required",
+      "nextAction": "MANUAL_AUTHORIZATION_REQUIRED — confirm robots/terms or affiliate feed"
+    },
+    {
+      "name": "COSRX Official KR",
+      "authorization": "manual_review",
+      "automationAllowed": false,
+      "permissionStatus": "authorization_required",
+      "nextAction": "Review terms/robots then enable automation"
+    },
+    {
+      "name": "Open Beauty Facts",
+      "authorization": "approved",
+      "automationAllowed": true,
+      "permissionStatus": "allowed"
+    },
+    {
+      "name": "Manual Seed Fixtures",
+      "authorization": "approved",
+      "automationAllowed": true,
+      "permissionStatus": "allowed"
+    }
+  ],
+  "totals": {
+    "discovered": 5,
+    "productVerified": 5,
+    "ingredientsFound": 5,
+    "offersFound": 5,
+    "coupangOfferCandidates": 0,
+    "oliveYoungOfferCandidates": 0,
+    "brandStoreOffers": 4,
+    "staged": 5,
+    "needsReview": 1,
+    "rejected": 0,
+    "authorizationRequiredSources": 3
+  },
+  "products": [
+    {
+      "sourceName": "Open Beauty Facts",
+      "category": "sunscreen",
+      "brand": "Fixture Brand",
+      "productName": "Fixture Sunscreen SPF50 PA++++",
+      "productVerified": true,
+      "ingredientsFound": true,
+      "offersFound": 1,
+      "staged": true,
+      "needsReview": false,
+      "rejected": false,
+      "authorizationBlocked": false,
+      "errors": [],
+      "size": null,
+      "spf": 50,
+      "ingredientTokenCount": 4,
+      "officialUrl": "https://world.openbeautyfacts.org/product/fixture-sunscreen-spf50"
+    },
+    {
+      "sourceName": "Manual Seed Fixtures",
+      "category": "serum",
+      "brand": "COSRX",
+      "productName": "Advanced Snail 96 Mucin Power Essence",
+      "productVerified": true,
+      "ingredientsFound": true,
+      "offersFound": 1,
+      "staged": true,
+      "needsReview": false,
+      "rejected": false,
+      "authorizationBlocked": false,
+      "errors": [],
+      "size": "100 ml",
+      "spf": null,
+      "ingredientTokenCount": 7,
+      "officialUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=196"
+    },
+    {
+      "sourceName": "Manual Seed Fixtures",
+      "category": "cream",
+      "brand": "COSRX",
+      "productName": "Advanced Snail 92 All in One Cream",
+      "productVerified": true,
+      "ingredientsFound": true,
+      "offersFound": 1,
+      "staged": true,
+      "needsReview": false,
+      "rejected": false,
+      "authorizationBlocked": false,
+      "errors": [],
+      "size": "100 g",
+      "spf": null,
+      "ingredientTokenCount": 5,
+      "officialUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202"
+    },
+    {
+      "sourceName": "Manual Seed Fixtures",
+      "category": "lip_balm",
+      "brand": "Fixture Brand",
+      "productName": "Fixture Lip Balm Clear",
+      "productVerified": true,
+      "ingredientsFound": true,
+      "offersFound": 1,
+      "staged": true,
+      "needsReview": false,
+      "rejected": false,
+      "authorizationBlocked": false,
+      "errors": [],
+      "size": null,
+      "spf": null,
+      "ingredientTokenCount": 3,
+      "officialUrl": "https://example-official.test/products/lip-balm-clear"
+    },
+    {
+      "sourceName": "Manual Seed Fixtures",
+      "category": "lipstick",
+      "brand": "Fixture Brand",
+      "productName": "Fixture Lipstick Rose 01",
+      "productVerified": true,
+      "ingredientsFound": true,
+      "offersFound": 1,
+      "staged": true,
+      "needsReview": true,
+      "rejected": false,
+      "authorizationBlocked": false,
+      "errors": [
+        "out_of_stock"
+      ],
+      "size": null,
+      "spf": null,
+      "ingredientTokenCount": 4,
+      "officialUrl": "https://example-official.test/products/lipstick-rose-01"
+    }
+  ]
+}

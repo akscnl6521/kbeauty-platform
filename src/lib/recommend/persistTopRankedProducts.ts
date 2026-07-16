@@ -1,5 +1,13 @@
+import { applyEvidenceToRecommendation } from "@/lib/evidence";
+import { resolveApprovedEvidenceForConcerns } from "@/lib/evidence/loadApprovedEvidence";
+import { clampTopNWithoutPadding } from "@/lib/recommend/clampTopN";
 import { fetchCandidateProducts } from "./fetchCandidateProducts";
 import { filterCandidatesBySafety } from "./filterCandidatesBySafety";
+import { filterRankedByMatchEvidence } from "./filterRankedByMatchEvidence";
+import {
+  filterOutStimulatingActives,
+  filterPublicCatalogProducts,
+} from "./publicCatalogFilter";
 import { filterCandidatesByOfferAvailability } from "./productOffer";
 import { writeRecommendationCacheVersion } from "./recommendationCache";
 import { rankProducts } from "./rankProducts";
@@ -41,46 +49,64 @@ function writeRecommendationAndRanked(
   }
 }
 
+function isRiskLevel(recommendation: Recommendation): boolean {
+  const level = recommendation.managementLevel;
+  return level === "expert_first" || level === "urgent_check";
+}
+
 /**
- * Phase 3B — Recommendation → KR offer 적격 → 안전 필터 → 랭킹 → 저장.
+ * Phase 3B / Phase 4 — verified catalog → KR offer → allergy hard filter → rank.
+ * Never pads Top N with fake products when fewer than 5 qualify.
+ * Risk: 자극 활성 성분 제외 후에도 보조 관리용 한국 제품 Top N을 저장한다.
  *
- * 1) filterCandidatesByOfferAvailability(..., "KR")
- * 2) 알레르기·회피 안전 필터
- * 3) 피부 적합도 점수 (기존 rankProducts)
- * 한국 verified offer가 없으면 Top 5는 빈 배열로 저장한다.
- *
- * @returns 저장된 Top N (실패·후보 0이면 빈 배열)
+ * @returns 저장된 Top N (실패·후보 0이면 []; 1~4개도 그대로 저장)
  */
 export async function persistTopRankedProducts(
   recommendation: Recommendation,
   _options: PersistTopRankedOptions = {}
 ): Promise<RankedProduct<CandidateProduct>[]> {
-  // 후보 조회 전에 Recommendation 을 먼저 저장 (조회 실패 시에도 키 존재 보장)
-  writeRecommendationAndRanked(recommendation, "[]");
+  // Evidence Layer: DB approved ∪ static catalog
+  const evidenceLinks = await resolveApprovedEvidenceForConcerns(
+    recommendation.skinConcerns ?? []
+  );
+  const withEvidence = applyEvidenceToRecommendation(
+    recommendation,
+    evidenceLinks
+  );
+  writeRecommendationAndRanked(withEvidence, "[]");
 
   try {
-    const candidates = await fetchCandidateProducts({ includeOffers: true });
+    const rawCandidates = await fetchCandidateProducts({ includeOffers: true });
+    const candidates = filterPublicCatalogProducts(rawCandidates);
 
-    // 핵심 추천: 항상 한국 verified offer 기준
     const { eligible: sellable, excludedCount: offerExcludedCount } =
       filterCandidatesByOfferAvailability(
         candidates,
         CORE_RECOMMEND_OFFER_COUNTRY
       );
 
+    let pool = sellable;
+    if (isRiskLevel(withEvidence)) {
+      pool = filterOutStimulatingActives(pool);
+    }
+
     const { safe, excludedCount, incompleteCount } = filterCandidatesBySafety(
-      sellable,
-      recommendation
+      pool,
+      withEvidence
     );
 
     const withStats: Recommendation = {
-      ...recommendation,
+      ...withEvidence,
       safetyExcludedCount: excludedCount,
       safetyIncompleteCount: incompleteCount,
     };
 
     const ranked = rankProducts(withStats, safe);
-    const top = ranked.slice(0, RANKED_PRODUCTS_TOP_N);
+    const withMatchEvidence = filterRankedByMatchEvidence(ranked);
+    const top = clampTopNWithoutPadding(
+      withMatchEvidence,
+      RANKED_PRODUCTS_TOP_N
+    );
 
     if (process.env.NODE_ENV === "development") {
       console.log("[coreRecommend]", {
@@ -89,7 +115,11 @@ export async function persistTopRankedProducts(
         offerExcluded: offerExcludedCount,
         allergyFilterPass: safe.length,
         finalRankedCount: ranked.length,
+        matchEvidencePass: withMatchEvidence.length,
+        evidenceLinks: withEvidence.evidenceLinks?.length ?? 0,
         topNSaved: top.length,
+        riskSoftMode: isRiskLevel(withEvidence),
+        padded: false,
         offerCountry: CORE_RECOMMEND_OFFER_COUNTRY,
       });
     }
@@ -99,7 +129,7 @@ export async function persistTopRankedProducts(
   } catch (e) {
     const err = e instanceof Error ? e : new Error(String(e));
     console.error("[persistTopRankedProducts]", err.message);
-    writeRecommendationAndRanked(recommendation, "[]");
+    writeRecommendationAndRanked(withEvidence, "[]");
     return [];
   }
 }

@@ -1,6 +1,7 @@
 import type { ManagementLevel, Recommendation } from "@/lib/recommend";
 import { normalizeCurrentProducts } from "@/lib/recommend/currentProduct";
 import { AnalyzeSkinError } from "./errors";
+import { parseRednessObservation } from "./rednessObservation";
 
 const MANAGEMENT_LEVELS: readonly ManagementLevel[] = [
   "cosmetic_care",
@@ -292,5 +293,14 @@ export function validateRecommendation(raw: unknown): Recommendation {
     summaryKo: summaryKo ?? "",
     summaryEn: summaryEn ?? "",
     summaryJa: summaryJa ?? "",
+    ...(parseRednessObservation(
+      src.rednessObservation ?? src.redness_observation
+    )
+      ? {
+          rednessObservation: parseRednessObservation(
+            src.rednessObservation ?? src.redness_observation
+          )!,
+        }
+      : {}),
   };
 }

@@ -1,5 +1,6 @@
 import type { CandidateProduct, RankedProduct } from "./types";
 import { RANKED_PRODUCTS_STORAGE_KEY, RANKED_PRODUCTS_TOP_N } from "./types";
+import { filterRankedByMatchEvidence } from "./filterRankedByMatchEvidence";
 import {
   discardStaleRankedProductsCache,
   filterRankedProductsByKrVerifiedOffer,
@@ -10,6 +11,7 @@ import {
  * LocalStorage(skinRankedProducts)에서 랭킹 결과를 읽는다.
  * - 캐시 버전 불일치 시 Top 5 폐기 후 빈 배열
  * - 로드 후에도 한국 verified offer 기준으로 재필터
+ * - 점수 0·매칭 성분 없는 항목은 핵심 추천에서 제외
  */
 export function loadRankedProductsFromStorage(): RankedProduct<CandidateProduct>[] {
   if (typeof window === "undefined") return [];
@@ -53,7 +55,8 @@ export function loadRankedProductsFromStorage(): RankedProduct<CandidateProduct>
     }
 
     // 이전 저장분이 offer 없이 남아 있어도 여기서 제거
-    return filterRankedProductsByKrVerifiedOffer(items);
+    const offerOk = filterRankedProductsByKrVerifiedOffer(items);
+    return filterRankedByMatchEvidence(offerOk);
   } catch {
     return [];
   }

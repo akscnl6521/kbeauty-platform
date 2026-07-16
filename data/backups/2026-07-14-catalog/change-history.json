@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "environment": "staging",
+    "exportedAt": "2026-07-14T04:46:09.576Z",
+    "gitCommit": "47f850a8496ad7b13af1041a96055d2db1bd3ba1",
+    "rowCount": 2,
+    "schemaVersion": "20260714060000",
+    "table": "product_change_history"
+  },
+  "rows": [
+    {
+      "approved_by": null,
+      "change_type": "source",
+      "detected_at": "2026-07-14T04:28:53.303497+00:00",
+      "id": "29bce9aa-c2ee-4da0-a450-edfaf1fc6120",
+      "new_value": {
+        "action": "linked_search_to_verified_case",
+        "case": "[s2v-case:2026-07-cosrx-catalog-json]",
+        "catalogProductId": "cosrx-advanced-snail-92-cream-100g",
+        "offerId": "cosrx-official-snail-92-cream-100g-kr",
+        "product_body_unchanged": true,
+        "sourceType": "official_retailer",
+        "sourceUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202"
+      },
+      "old_value": null,
+      "product_id": 10,
+      "reviewed_at": null,
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+      "variant_id": null
+    },
+    {
+      "approved_by": null,
+      "change_type": "source",
+      "detected_at": "2026-07-14T04:28:52.894617+00:00",
+      "id": "fefeedef-d624-4a80-92a7-c56b2cf1ea90",
+      "new_value": {
+        "action": "linked_search_to_verified_case",
+        "case": "[s2v-case:2026-07-cosrx-catalog-json]",
+        "catalogProductId": "cosrx-advanced-snail-96-essence-100ml",
+        "offerId": "cosrx-official-snail-96-essence-100ml-kr",
+        "product_body_unchanged": true,
+        "sourceType": "official_retailer",
+        "sourceUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=196"
+      },
+      "old_value": null,
+      "product_id": 1,
+      "reviewed_at": null,
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=196",
+      "variant_id": null
+    }
+  ]
+}

@@ -4,6 +4,15 @@ import type {
   ManagementLevel,
   Recommendation,
 } from "@/lib/recommend";
+import type { RednessObservation } from "./rednessObservation";
+
+export type {
+  RednessArea,
+  RednessDuration,
+  RednessObservation,
+  RednessSymptom,
+  RednessTrigger,
+} from "./rednessObservation";
 
 /** 서버 전용 AI_PROVIDER 허용 값 */
 export type AiProviderId = "mock" | "ollama" | "openai" | "anthropic";
@@ -13,6 +22,11 @@ export type AnalyzeIngredientPreferences = {
   allergyIngredients?: string[];
   avoidedIngredients?: string[];
   currentProducts?: CurrentProductInput[];
+  /**
+   * 붉은기 관찰 상태 (선택).
+   * 진단용이 아니며, 비워도 분석 가능.
+   */
+  rednessObservation?: RednessObservation;
 };
 
 /** POST /api/analyze 요청 — 클라이언트는 키·모델 ID를 보내지 않는다. */

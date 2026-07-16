@@ -1,0 +1,141 @@
+{
+  "checked_at": "2026-07-14",
+  "products": [
+    {
+      "slug": "cosrx-low-ph-good-morning-gel-cleanser",
+      "brand": "COSRX",
+      "product_name": "Low pH Good Morning Gel Cleanser",
+      "source_url": "https://www.cosrx.com/products/low-ph-good-morning-gel-cleanser",
+      "source_type": "official_brand_page",
+      "checked_at": "2026-07-14",
+      "confidence": "high",
+      "image_source_url": "https://www.cosrx.com/cdn/shop/files/low-ph-good-morning-gel-cleanser-cosrx-official-1.jpg?v=1768785801",
+      "image_downloaded": true,
+      "image_error": null,
+      "needs_review": false
+    },
+    {
+      "slug": "cosrx-aha-bha-clarifying-treatment-toner",
+      "brand": "COSRX",
+      "product_name": "AHA/BHA Clarifying Treatment Toner",
+      "source_url": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+      "source_type": "official_brand_page",
+      "checked_at": "2026-07-14",
+      "confidence": "high",
+      "image_source_url": "https://www.cosrx.com/cdn/shop/files/ahabha-clarifying-treatment-toner-cosrx-official-1.jpg?v=1724835581",
+      "image_downloaded": true,
+      "image_error": null,
+      "needs_review": false
+    },
+    {
+      "slug": "cosrx-hydrium-watery-toner",
+      "brand": "COSRX",
+      "product_name": "Hydrium Watery Toner",
+      "source_url": "https://www.cosrx.com/products/hydrium-watery-toner",
+      "source_type": "official_brand_page",
+      "checked_at": "2026-07-14",
+      "confidence": "high",
+      "image_source_url": "https://www.cosrx.com/cdn/shop/files/hydrium-watery-toner-cosrx-official-1.jpg?v=1724836011",
+      "image_downloaded": true,
+      "image_error": null,
+      "needs_review": false
+    },
+    {
+      "slug": "cosrx-the-niacinamide-15-serum",
+      "brand": "COSRX",
+      "product_name": "The Niacinamide 15 Serum",
+      "source_url": "https://www.cosrx.com/products/the-niacinamide-15-serum",
+      "source_type": "official_brand_page",
+      "checked_at": "2026-07-14",
+      "confidence": "high",
+      "image_source_url": "https://www.cosrx.com/cdn/shop/files/niacin.png?v=1748420816",
+      "image_downloaded": true,
+      "image_error": null,
+      "needs_review": false
+    },
+    {
+      "slug": "cosrx-advanced-the-vitamin-c-23-serum",
+      "brand": "COSRX",
+      "product_name": "Advanced The Vitamin C 23 Serum",
+      "source_url": "https://www.cosrx.com/products/cosrx-advanced-the-vitamin-c-23-serum",
+      "source_type": "official_brand_page",
+      "checked_at": "2026-07-14",
+      "confidence": "high",
+      "image_source_url": "https://www.cosrx.com/cdn/shop/files/01__AD_C_23_8998780b-3124-400e-95c8-b9a619cc13ca.jpg?v=1772785652",
+      "image_downloaded": true,
+      "image_error": null,
+      "needs_review": false
+    },
+    {
+      "slug": "cosrx-the-6-peptide-skin-booster-serum",
+      "brand": "COSRX",
+      "product_name": "The 6 Peptide Skin Booster Serum",
+      "source_url": "https://www.cosrx.com/products/the-6-peptide-skin-booster-serum",
+      "source_type": "official_brand_page",
+      "checked_at": "2026-07-14",
+      "confidence": "high",
+      "image_source_url": "https://www.cosrx.com/cdn/shop/files/1_23a79a66-a967-4533-9e71-cd88b0c6efb2.jpg?v=1724837008",
+      "image_downloaded": true,
+      "image_error": null,
+      "needs_review": false
+    },
+    {
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+      "brand": "COSRX",
+      "product_name": "Advanced Snail 92 All in One Cream",
+      "source_url": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+      "source_type": "official_brand_page",
+      "checked_at": "2026-07-14",
+      "confidence": "high",
+      "image_source_url": "https://www.cosrx.com/cdn/shop/files/advanced-snail-92-all-in-one-cream-cosrx-official-4.jpg?v=1762909943",
+      "image_downloaded": true,
+      "image_error": null,
+      "needs_review": false
+    },
+    {
+      "slug": "cosrx-the-retinol-0-1-cream",
+      "brand": "COSRX",
+      "product_name": "The Retinol 0.1 Cream",
+      "source_url": "https://www.cosrx.com/products/the-retinol-0-1-cream",
+      "source_type": "official_brand_page",
+      "checked_at": "2026-07-14",
+      "confidence": "high",
+      "image_source_url": "https://www.cosrx.com/cdn/shop/files/RetinolCream_800x1067_7e167f9b-dc45-4d41-babf-65b26b14cf23.jpg?v=1746679017",
+      "image_downloaded": true,
+      "image_error": null,
+      "needs_review": false
+    },
+    {
+      "slug": "cosrx-ultra-light-invisible-sunscreen-spf50",
+      "brand": "COSRX",
+      "product_name": "Ultra-Light Invisible Sunscreen SPF50 PA++++",
+      "source_url": "https://www.cosrx.com/products/ultra-light-invisible-sunscreen-spf50",
+      "source_type": "official_brand_page",
+      "checked_at": "2026-07-14",
+      "confidence": "high",
+      "image_source_url": "https://www.cosrx.com/cdn/shop/files/0_Ultra_light_invisible_800x1067_3b3f194c-15a5-4c66-92ec-58275778c6c9.jpg?v=1714098876",
+      "image_downloaded": true,
+      "image_error": null,
+      "needs_review": true
+    },
+    {
+      "slug": "cosrx-full-fit-propolis-synergy-toner",
+      "brand": "COSRX",
+      "product_name": "Full Fit Propolis Synergy Toner",
+      "source_url": "https://www.cosrx.com/products/full-fit-propolis-synergy-toner",
+      "source_type": "official_brand_page",
+      "checked_at": "2026-07-14",
+      "confidence": "medium",
+      "image_source_url": "https://www.cosrx.com/cdn/shop/files/full-fit-propolis-synergy-toner-cosrx-official-1.jpg?v=1724835800",
+      "image_downloaded": true,
+      "image_error": null,
+      "needs_review": true
+    }
+  ],
+  "excluded": [
+    {
+      "slug": "cosrx-advanced-snail-96-mucin-power-essence",
+      "reason": "Already registered / excluded by brief"
+    }
+  ]
+}

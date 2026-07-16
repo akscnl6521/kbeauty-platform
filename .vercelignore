@@ -1,0 +1,14 @@
+# Keep Preview deploys lean without breaking JSON imports under data/
+node_modules
+.next
+.git
+data/backups
+data/catalog/full-beauty
+data/catalog/enrichment
+data/catalog/labels
+data/catalog-import
+data/pipeline
+coverage
+*.log
+.env*
+supabase/.temp

@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "environment": "staging",
+    "exportedAt": "2026-07-14T04:46:09.576Z",
+    "gitCommit": "47f850a8496ad7b13af1041a96055d2db1bd3ba1",
+    "rowCount": 2,
+    "schemaVersion": "20260714060000",
+    "table": "product_offers"
+  },
+  "rows": [
+    {
+      "active": true,
+      "created_at": "2026-07-14T04:28:53.357414+00:00",
+      "currency": "KRW",
+      "id": "0b1de6ad-be68-47c6-b30e-734f18a8df81",
+      "is_official": true,
+      "last_checked_at": null,
+      "last_review_sync_at": null,
+      "price": 23000,
+      "product_id": 10,
+      "purchase_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+      "rating": null,
+      "retailer_country": "KR",
+      "retailer_name": "COSRX 공식몰",
+      "review_count": null,
+      "ships_to_countries": [
+        "KR"
+      ],
+      "source": "[s2v-case:2026-07-cosrx-catalog-json]",
+      "stock_status": "unknown",
+      "updated_at": "2026-07-14T04:28:53.357414+00:00",
+      "verification_status": "unverified",
+      "verified_at": null
+    },
+    {
+      "active": true,
+      "created_at": "2026-07-14T04:28:52.957111+00:00",
+      "currency": "KRW",
+      "id": "81707444-16b5-4f31-bd90-f9b7ad9aaec7",
+      "is_official": true,
+      "last_checked_at": null,
+      "last_review_sync_at": null,
+      "price": 23000,
+      "product_id": 1,
+      "purchase_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=196",
+      "rating": null,
+      "retailer_country": "KR",
+      "retailer_name": "COSRX 공식몰",
+      "review_count": null,
+      "ships_to_countries": [
+        "KR"
+      ],
+      "source": "[s2v-case:2026-07-cosrx-catalog-json]",
+      "stock_status": "unknown",
+      "updated_at": "2026-07-14T04:28:52.957111+00:00",
+      "verification_status": "unverified",
+      "verified_at": null
+    }
+  ]
+}

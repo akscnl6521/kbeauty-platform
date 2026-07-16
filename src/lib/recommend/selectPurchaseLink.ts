@@ -44,6 +44,9 @@ export type PurchaseLinkSelection = {
   price?: number;
   currency?: OfferCurrency;
   verifiedAt?: string;
+  /** 표시용 — 선택 로직 불변, UI locale 변환에만 사용 */
+  retailerCountry?: RetailerCountry;
+  isOfficial?: boolean;
   /** 개발 로그용 선택 이유 */
   reason: string;
 };
@@ -107,7 +110,12 @@ export function formatOfferPrice(
   currency: OfferCurrency | undefined,
   locale: "en" | "ja" | "ko" = "ko"
 ): string {
-  if (price == null || !Number.isFinite(price) || !currency) {
+  if (
+    price == null ||
+    !Number.isFinite(price) ||
+    price <= 0 ||
+    !currency
+  ) {
     return locale === "ko"
       ? "가격 정보 없음"
       : locale === "ja"
@@ -634,6 +642,14 @@ export function selectPurchaseLinkForCountryWithDebug(
       });
       continue;
     }
+    // 가격이 명시된 경우 0 이하는 CTA에서 제외 (미확인은 허용하되 가격 미표시)
+    if (typeof link.price === "number" && link.price <= 0) {
+      excluded.push({
+        retailerName: link.retailerName,
+        reason: "price <= 0",
+      });
+      continue;
+    }
     if (!shipsTo(link, shipping)) {
       excluded.push({
         retailerName: link.retailerName,
@@ -675,6 +691,8 @@ export function selectPurchaseLinkForCountryWithDebug(
     ...(best.price != null ? { price: best.price } : {}),
     ...(best.currency ? { currency: best.currency } : {}),
     ...(best.verifiedAt ? { verifiedAt: best.verifiedAt } : {}),
+    retailerCountry: best.retailerCountry,
+    ...(best.isOfficial !== undefined ? { isOfficial: best.isOfficial } : {}),
     reason: `best verified for ${shipping} via ${best.sourceField ?? "purchase_links"}`,
   };
 

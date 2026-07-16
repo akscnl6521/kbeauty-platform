@@ -1,0 +1,21 @@
+{
+  "backup_at": "2026-07-14T01:00:00+09:00",
+  "branch": "backup-sprint14-20260713",
+  "base_commit": "aaee5c9",
+  "supabase_project_ref": "rhfrmvkjsummaylpzmns",
+  "target_product_ids": [4, 28],
+  "excluded_product_ids": [27],
+  "operation": "insert verified KR offers",
+  "schema_reference": "supabase/migrations/20260712000000_create_product_offers.sql",
+  "before_offer_count": 0,
+  "before_target_offer_count": 0,
+  "restore_order": [
+    "1. Restore products.verified_at for ids 4 and 28 from products.json (set null if backup null)",
+    "2. Delete only offers inserted for product_id 4/28 with the documented purchase_url values if rollback needed",
+    "3. Do not DROP/TRUNCATE product_offers",
+    "4. Re-verify counts: product_offers total and target rows"
+  ],
+  "contains_pii": false,
+  "contains_secrets": false,
+  "notes": "Pre-insert snapshot for COSRX Official KR verified offers batch 1. No user PII. No API keys."
+}

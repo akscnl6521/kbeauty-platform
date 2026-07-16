@@ -6,11 +6,15 @@ import {
   toCanonical,
   type CanonicalIngredientRef,
 } from "./normalizeIngredient";
+import { toCanonicalConcern } from "./concernAliases";
+import { isKoreanBeautyBrand } from "@/lib/brand/displayBrandName";
 import type { RankableProduct, RankedProduct, Recommendation } from "./types";
 
 const MATCH_WEIGHT = 1;
 const AVOID_PENALTY = 1.25;
 const AVOID_RATIO_PENALTY = 0.35;
+/** 한국 브랜드 가산 — 동일 매칭일 때 KR 제품 우선 */
+const KR_BRAND_BOOST = 0.35;
 
 const DEV_LOG_LIMIT = 5;
 let devLogCount = 0;
@@ -43,7 +47,7 @@ function indexRecommendation(recommendation: Recommendation): {
       .map((label) => ({ label, canonical: toCanonical(label) }))
       .filter((x) => x.canonical),
     concerns: recommendation.skinConcerns
-      .map((label) => ({ label, canonical: toCanonical(label) }))
+      .map((label) => ({ label, canonical: toCanonicalConcern(label) }))
       .filter((x) => x.canonical),
   };
 }
@@ -88,16 +92,15 @@ function scoreOneProduct<T extends RankableProduct>(
   let score = matchCount * MATCH_WEIGHT + matchRatio;
 
   if (recIndex.concerns.length > 0 && product.skin_concern) {
-    const concernHaystack = coerceIngredientList(product.skin_concern);
-    if (concernHaystack.length === 0 && product.skin_concern) {
-      concernHaystack.push(product.skin_concern);
-    }
-    const concernIndex = indexIngredients(concernHaystack);
+    // 배열·문자열 모두 토큰화 (합치지 않음). 고민 보너스만 — matchedIngredients 생성 금지
+    const concernCanonicals = coerceIngredientList(product.skin_concern)
+      .map((label) => toCanonicalConcern(label))
+      .filter(Boolean);
     let concernHits = 0;
     for (const c of recIndex.concerns) {
-      if (findMatchByCanonical(c.canonical, concernIndex)) concernHits += 1;
+      if (concernCanonicals.includes(c.canonical)) concernHits += 1;
     }
-    if (concernHits > 0) {
+    if (concernHits > 0 && recommendation.skinConcerns.length > 0) {
       score += 0.15 * (concernHits / recommendation.skinConcerns.length);
     }
   }
@@ -106,6 +109,10 @@ function scoreOneProduct<T extends RankableProduct>(
   if (avoidCount > 0) {
     score -= avoidCount * AVOID_PENALTY;
     score -= avoidCount * AVOID_RATIO_PENALTY;
+  }
+
+  if (isKoreanBeautyBrand(product.brand ?? null)) {
+    score += KR_BRAND_BOOST;
   }
 
   const confidenceFactor = 0.85 + 0.15 * recommendation.confidenceScore;

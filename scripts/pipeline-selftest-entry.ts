@@ -1,0 +1,50 @@
+import { runPipelineSelftests } from "../src/lib/pipeline/selftest";
+import { runJourneySelftests } from "../src/lib/user/journey-selftest";
+import { runRecommendScoreFixSelftests } from "../src/lib/recommend/recommend-selftest";
+import { runLocalizationDisplaySelftests } from "../src/lib/recommend/localization-selftest";
+import { runRecommendQualityRegressionSelftests } from "../src/lib/recommend/quality-regression-selftest";
+import { runRednessObservationSelftests } from "../src/lib/ai/redness-selftest";
+import { runAnalyzeInputSnapshotSelftests } from "../src/lib/ai/analyze-input-snapshot-selftest";
+import { runAnalyzeReferencePreviewSelftests } from "../src/lib/ai/analyze-reference-preview-selftest";
+import { runCatalogAuditSelftests } from "../src/lib/catalog/catalog-audit-selftest";
+import { runCatalogAutomationSelftests } from "../src/lib/catalog/automation/catalog-automation-selftest";
+import { runScalpHairFoundationSelftests } from "../src/lib/catalog/scalpHair/scalp-hair-selftest";
+import { runBeautyCatalogFoundationSelftests } from "../src/lib/catalog/taxonomy/beauty-catalog-selftest";
+import { runProductCreateSelftests } from "../src/lib/admin/product-create-selftest";
+
+async function main() {
+  const result = runPipelineSelftests();
+  const journey = runJourneySelftests();
+  const recommend = runRecommendScoreFixSelftests();
+  const localization = runLocalizationDisplaySelftests();
+  const quality = runRecommendQualityRegressionSelftests();
+  const redness = runRednessObservationSelftests();
+  const analyzeInput = runAnalyzeInputSnapshotSelftests();
+  const referencePreview = runAnalyzeReferencePreviewSelftests();
+  const catalogAudit = runCatalogAuditSelftests();
+  const catalogAutomation = await runCatalogAutomationSelftests();
+  const scalpHair = runScalpHairFoundationSelftests();
+  const beautyCatalog = runBeautyCatalogFoundationSelftests();
+  const productCreate = runProductCreateSelftests();
+  console.log("[pipeline-selftest] ok", {
+    ...result,
+    journeyChecks: journey.checks,
+    recommendChecks: recommend.checks,
+    localizationChecks: localization.checks,
+    qualityRegressionChecks: quality.checks,
+    qualityConcerns: quality.concerns,
+    rednessChecks: redness.checks,
+    analyzeInputChecks: analyzeInput.checks,
+    referencePreviewChecks: referencePreview.checks,
+    catalogAuditChecks: catalogAudit.checks,
+    catalogAutomationChecks: catalogAutomation.checks,
+    scalpHairChecks: scalpHair.checks,
+    beautyCatalogChecks: beautyCatalog.checks,
+    productCreateChecks: productCreate.checks,
+  });
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

@@ -1,0 +1,18 @@
+{
+  "phase": "label_sheet_status",
+  "linked": "jfnjufmldiqlgvgyugfd",
+  "productionTouched": false,
+  "sheet": {
+    "entries": 57,
+    "applyReady": 57,
+    "needsReviewWithTokens": 0,
+    "emptyPending": 0
+  },
+  "staging": {
+    "evidence_linked": 44,
+    "heroes": 84,
+    "official_matched": 58,
+    "recommendable": 58,
+    "with_inci": 57
+  }
+}

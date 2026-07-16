@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          # Public placeholders so Next build can compile without real secrets
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: public-anon-key-for-ci-build-only
+
+  migration-files:
+    name: Check migration files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure migrations exist
+        run: |
+          test -d supabase/migrations
+          count=$(find supabase/migrations -name '*.sql' | wc -l)
+          echo "migration_count=$count"
+          test "$count" -ge 1
+
+      - name: Ban unsupported CREATE OR REPLACE POLICY
+        run: |
+          if grep -RIn --include='*.sql' 'CREATE OR REPLACE POLICY' supabase/migrations; then
+            echo "PostgreSQL does not support CREATE OR REPLACE POLICY"
+            exit 1
+          fi
+          echo "OK: no CREATE OR REPLACE POLICY"

@@ -20,6 +20,13 @@ export type {
   RetailerType,
   StockStatus,
 } from "./catalogTypes";
+export {
+  filterPublicCatalogProducts,
+  filterOutStimulatingActives,
+  hasStimulatingActives,
+  isExcludedFromPublicCatalog,
+} from "./publicCatalogFilter";
+export { buildMatchReason, buildEvidenceCitationItems } from "./buildMatchReason";
 export { CATALOG_DATA_GOALS, CORE_ALLOWED_STOCK } from "./catalogTypes";
 export {
   filterCandidatesByOfferAvailability,
@@ -92,12 +99,36 @@ export { INGREDIENT_ALIAS_GROUPS } from "./ingredientAliases";
 export {
   displayIngredientName,
   displayIngredientNames,
+  getIngredientCanonicalKey,
+  getIngredientDisplayName,
+  isMoreSpecificIngredientLabel,
 } from "./displayIngredientName";
 export type { IngredientDisplayLocale } from "./displayIngredientName";
+export { getRetailerDisplayName } from "./getRetailerDisplayName";
+export {
+  displayProductFormLabel,
+  formatProductSizeLabel,
+  getProductTrustStatus,
+  parseSizeFromProductName,
+  productTrustStatusLabel,
+  stripTrailingSizeFromProductName,
+} from "./displayProductMeta";
+export type {
+  ParsedProductSize,
+  ProductTrustStatus,
+} from "./displayProductMeta";
+export { getShippingCountryLabel } from "./getShippingCountryLabel";
 export { rankProducts } from "./rankProducts";
+export { toCanonicalConcern } from "./concernAliases";
+export {
+  filterRankedByMatchEvidence,
+  hasCoreRecommendMatchEvidence,
+} from "./filterRankedByMatchEvidence";
+export { formatVerifiedAtForDisplay } from "./formatVerifiedAt";
 export { applyUserIngredientPreferences } from "./applyUserIngredientPreferences";
 export { filterCandidatesBySafety } from "./filterCandidatesBySafety";
 export type { SafetyFilterResult } from "./filterCandidatesBySafety";
+export { asConcernOrToneField } from "./asConcernOrToneField";
 export {
   fetchCandidateProducts,
   fetchOffersByProductIds,

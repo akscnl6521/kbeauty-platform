@@ -1,6 +1,9 @@
 import type { AnalyzeSkinRequest } from "./types";
 import type { CurrentProductInput } from "@/lib/recommend";
 import { normalizeCurrentProducts } from "@/lib/recommend/currentProduct";
+import {
+  formatRednessObservationForPrompt,
+} from "./rednessObservation";
 
 /** 요청 body에서 선택 성분 배열 정규화 (trim·빈값·중복 제거) */
 export function normalizeIngredientTagList(value: unknown): string[] {
@@ -102,6 +105,9 @@ Current-routine review rules:
 - Never use diagnostic or absolute contraindication language.`;
 
   if (input.mode === "manual") {
+    const rednessBlock = formatRednessObservationForPrompt(
+      input.rednessObservation
+    );
     return `K-Beauty Match — manual skin information (do not invent missing facts).
 
 Provided fields only:
@@ -109,11 +115,13 @@ Provided fields only:
 - undertone: ${input.undertone}
 - concerns: ${input.concerns.join(", ")}
 - sensitivity: ${input.sensitivity}
+${rednessBlock ? `\n${rednessBlock}\n` : ""}
 ${safetyBlock}
 
 Rules for this request:
 - Do not assume allergies, pregnancy, diagnosed medical conditions, medications, or history that the user did not provide.
 - Do not diagnose disease. This is cosmetic/skincare guidance only.
+- RednessObservation fields (if any) are user-observed context only — never infer a disease name.
 - Separate what may be manageable with cosmetics from what needs observation or professional care.
 - If information is insufficient, avoid guessing and lower confidenceScore.
 - Respond with one valid JSON object only (no markdown, no prose outside JSON).`;
@@ -180,7 +188,8 @@ Safety rules:
 10. confidenceScore is a number between 0 and 1.
 11. Never recommend user-stated allergyIngredients. Exclude user-stated avoidedIngredients from recommendedIngredients. Put both into ingredientsToAvoid.
 12. Never invent full INCI from product names. Use only user-stated keyIngredients for current-routine ingredient reasoning.
-13. When current products are provided, fill the current-routine optional arrays when relevant; keep language non-diagnostic.`;
+13. When current products are provided, fill the current-routine optional arrays when relevant; keep language non-diagnostic.
+14. Optional redness observations are not diagnoses. Never output disease names. Prefer non-purchase guidance when persistent burning/swelling/visible capillaries are reported.`;
 
 /** 확장 JSON을 위해 여유 토큰 */
 export const DEFAULT_MAX_TOKENS = 1600;

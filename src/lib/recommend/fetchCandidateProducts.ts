@@ -1,8 +1,12 @@
 import { supabase } from "@/lib/supabase";
 import { getCanonicalBrandName } from "@/lib/brand/displayBrandName";
 import type { ProductOffer } from "./catalogTypes";
+import { asConcernOrToneField } from "./asConcernOrToneField";
 import { normalizeProductOffer } from "./productOffer";
+import { isExcludedFromPublicCatalog } from "./publicCatalogFilter";
 import type { CandidateProduct, FetchCandidateProductsOptions } from "./types";
+
+export { asConcernOrToneField } from "./asConcernOrToneField";
 
 /**
  * Supabase select 컬럼.
@@ -32,6 +36,8 @@ const CANDIDATE_PRODUCT_COLUMNS = [
   "link_oliveyoung",
   "link_coupang",
   "link_yesstyle",
+  "active",
+  "verified_at",
 ].join(", ");
 
 const PRODUCT_OFFER_COLUMNS = [
@@ -62,6 +68,8 @@ type ProductRowRaw = {
   name_ja?: unknown;
   brand?: unknown;
   category?: unknown;
+  image_url?: unknown;
+  image_verified?: unknown;
   skin_concern?: unknown;
   skin_tone?: unknown;
   key_ingredients?: unknown;
@@ -153,8 +161,10 @@ export function mapRowToCandidateProduct(
     name_ja: asNullableString(row.name_ja),
     brand: getCanonicalBrandName(asNullableString(row.brand)),
     category: asNullableString(row.category),
-    skin_concern: asNullableString(row.skin_concern),
-    skin_tone: asNullableString(row.skin_tone),
+    image_url: asNullableString(row.image_url),
+    image_verified: row.image_verified === true,
+    skin_concern: asConcernOrToneField(row.skin_concern),
+    skin_tone: asConcernOrToneField(row.skin_tone),
     key_ingredients: asIngredientArray(row.key_ingredients),
     key_ingredients_ja: asIngredientArray(row.key_ingredients_ja),
     price_usd: asNullableNumber(row.price_usd),
@@ -236,6 +246,9 @@ export async function fetchCandidateProducts(
   const { data, error } = await supabase
     .from("products")
     .select(CANDIDATE_PRODUCT_COLUMNS)
+    // Core recommendation pool: active verified catalog only (drafts excluded)
+    .eq("active", true)
+    .not("verified_at", "is", null)
     .limit(limit);
 
   if (error) {
@@ -264,7 +277,9 @@ export async function fetchCandidateProducts(
   const products: CandidateProduct[] = [];
   for (const row of data as ProductRowRaw[]) {
     const mapped = mapRowToCandidateProduct(row);
-    if (mapped) products.push(mapped);
+    if (!mapped) continue;
+    if (isExcludedFromPublicCatalog(mapped)) continue;
+    products.push(mapped);
   }
 
   if (includeOffers && products.length > 0) {
@@ -277,6 +292,73 @@ export async function fetchCandidateProducts(
         products[i] = {
           ...products[i],
           offers,
+        };
+      }
+    }
+  }
+
+  // Attach verified primary media. products has no image column.
+  // Staging: anon cannot SELECT catalog_product_media (RLS + no SELECT grant).
+  // Private product-images bucket needs fresh signed URLs from canonical storage:// refs.
+  if (products.length > 0) {
+    const ids = products.map((p) => p.id);
+    const mediaByProduct = new Map<string, string>();
+
+    try {
+      const endpoint =
+        typeof window !== "undefined"
+          ? "/api/catalog/product-images"
+          : `${(process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "")}/api/catalog/product-images`;
+      if (endpoint.startsWith("/") || endpoint.startsWith("https://")) {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productIds: ids }),
+        });
+        if (res.ok) {
+          const json = (await res.json()) as { urls?: Record<string, string> };
+          for (const [pid, url] of Object.entries(json.urls ?? {})) {
+            const trimmed = String(url ?? "").trim();
+            if (pid && trimmed.startsWith("https://")) {
+              mediaByProduct.set(pid, trimmed);
+            }
+          }
+        }
+      }
+    } catch {
+      // fall through to anon select fallback
+    }
+
+    if (mediaByProduct.size === 0) {
+      const { data: mediaRows } = await supabase
+        .from("catalog_product_media")
+        .select(
+          "product_id, image_url, validation_status, is_primary, is_fixture"
+        )
+        .in("product_id", ids)
+        .eq("validation_status", "verified")
+        .eq("is_fixture", false)
+        .order("is_primary", { ascending: false });
+
+      for (const row of mediaRows ?? []) {
+        const pid = String((row as { product_id?: unknown }).product_id ?? "");
+        const url = String(
+          (row as { image_url?: unknown }).image_url ?? ""
+        ).trim();
+        if (!pid || !url.startsWith("https://") || mediaByProduct.has(pid)) {
+          continue;
+        }
+        mediaByProduct.set(pid, url);
+      }
+    }
+
+    for (let i = 0; i < products.length; i += 1) {
+      const url = mediaByProduct.get(products[i]!.id);
+      if (url) {
+        products[i] = {
+          ...products[i]!,
+          image_url: url,
+          image_verified: true,
         };
       }
     }

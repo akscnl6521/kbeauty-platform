@@ -1,0 +1,5 @@
+data/pipeline/runtime/
+data/pipeline/runtime/**
+!data/pipeline/.gitkeep
+.env.local
+.env*.local

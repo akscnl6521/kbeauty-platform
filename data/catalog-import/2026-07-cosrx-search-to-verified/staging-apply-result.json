@@ -1,0 +1,62 @@
+{
+  "phase": "staging_apply_done",
+  "project": "staging",
+  "dataSourceId": "1acb0b88-82fd-43a2-b88b-0fd68c885df0",
+  "applied": [
+    {
+      "catalogProductId": "cosrx-advanced-snail-96-essence-100ml",
+      "candidateId": "0eacee73-2074-4d16-9cd9-8daaf9171f84",
+      "linkedProductId": 1,
+      "queueId": "142464cb-73b2-4135-9e65-ae4973b25018",
+      "offerRowId": "81707444-16b5-4f31-bd90-f9b7ad9aaec7",
+      "candidateAction": "existing_unchanged",
+      "queueAction": "existing_unchanged",
+      "offerAction": "existing_unchanged"
+    },
+    {
+      "catalogProductId": "cosrx-advanced-snail-92-cream-100g",
+      "candidateId": "cdb0b2ba-1c12-4b4c-8f3b-066ed239b0f0",
+      "linkedProductId": 10,
+      "queueId": "f6fa3b7b-7023-4dff-8215-d42805565eb4",
+      "offerRowId": "0b1de6ad-be68-47c6-b30e-734f18a8df81",
+      "candidateAction": "existing_unchanged",
+      "queueAction": "existing_unchanged",
+      "offerAction": "existing_unchanged"
+    },
+    {
+      "catalogProductId": "cosrx-one-step-original-blemish-pad-100",
+      "candidateId": "4ae7739e-234b-4a68-96f3-70b9eb2df50b",
+      "linkedProductId": null,
+      "queueId": "457acd26-f144-48df-9fee-cedee8f2fddd",
+      "offerRowId": null,
+      "candidateAction": "existing_unchanged",
+      "queueAction": "existing_unchanged",
+      "offerAction": "deferred_no_product_row"
+    }
+  ],
+  "verified_transition_count": 0,
+  "needs_review_count": 3,
+  "new_products_created": 0,
+  "products_mutated_body": 0,
+  "products_total_before": 11,
+  "products_total_after": 11,
+  "counts_before": {
+    "product_discovery_candidates": 3,
+    "verification_queue": 3,
+    "product_change_history": 2,
+    "product_offers": 2,
+    "product_field_provenance": 15,
+    "data_sources_cosrx_kr": 1,
+    "products_total": 11
+  },
+  "counts_after": {
+    "product_discovery_candidates": 3,
+    "verification_queue": 3,
+    "product_change_history": 2,
+    "product_offers": 2,
+    "product_field_provenance": 15,
+    "data_sources_cosrx_kr": 1,
+    "products_total": 11
+  },
+  "idempotent": true
+}

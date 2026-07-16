@@ -1,23 +1,35 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { PublicChrome } from "@/components/site/PublicChrome";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+const metadataBase = siteUrl ? new URL(siteUrl) : undefined;
+const title = "K-Beauty Match";
+const description =
+  "피부 고민과 성분 정보를 바탕으로 K-뷰티 제품과 관리 루틴을 탐색할 수 있는 가이드입니다.";
 
 export const metadata: Metadata = {
-  title: "KBEAUTY GUIDE - Find Your Perfect K-Beauty Match",
-  description:
-    "Personalized K-beauty recommendations based on your skin tone, concerns and budget. Find the best Korean skincare products with ingredient research.",
+  metadataBase,
+  title: {
+    default: title,
+    template: `%s | ${title}`,
+  },
+  description,
   keywords: [
     "K-beauty",
     "Korean skincare",
-    "skin tone",
     "ingredients",
-    "recommendations",
+    "K-뷰티",
+    "성분 정보",
   ],
   openGraph: {
-    title: "KBEAUTY GUIDE - Find Your Perfect K-Beauty Match",
-    description:
-      "Personalized K-beauty recommendations based on your skin tone, concerns and budget. Find the best Korean skincare products with ingredient research.",
+    title,
+    description,
     type: "website",
+    locale: "ko_KR",
   },
+  robots: { index: true, follow: true },
+  alternates: siteUrl ? { canonical: "/" } : undefined,
 };
 
 export default function RootLayout({
@@ -26,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -41,7 +53,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-[#FAFAF8] text-[#1A1A1A] font-['DM_Sans',system-ui,sans-serif]">
-        {children}
+        <PublicChrome>{children}</PublicChrome>
       </body>
     </html>
   );

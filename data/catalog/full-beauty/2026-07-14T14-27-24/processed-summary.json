@@ -1,0 +1,1016 @@
+{
+  "stamp": "2026-07-14T14-27-24",
+  "stats": {
+    "total": 1161,
+    "autoRegister": 76,
+    "needsReview": 1085,
+    "duplicate": 0,
+    "failed": 0,
+    "brands": 35,
+    "withImage": 76,
+    "withFullInci": 0,
+    "withRetailerHint": 76,
+    "evidenceLinked": 22,
+    "byDomain": {
+      "face_skincare": 274,
+      "sun_care": 42,
+      "base_makeup": 151,
+      "lip_care": 1,
+      "lip_color": 87,
+      "eye_makeup": 74,
+      "hair_care": 109,
+      "hair_loss_support": 1,
+      "body_care": 71,
+      "beauty_tools": 71,
+      "color_makeup": 105,
+      "scalp_care": 140,
+      "hand_foot_care": 35
+    }
+  },
+  "sample": [
+    {
+      "brandId": "cosrx",
+      "brand": "COSRX",
+      "nameKo": "COSRX 어드밴스드 스네일 96 뮤신 파워 에센스",
+      "nameEn": "COSRX Advanced Snail 96 Mucin Power Essence",
+      "slug": "cosrx-advanced-snail-96-mucin-power-essence",
+      "domain": "face_skincare",
+      "category": "essence",
+      "categoryDetail": "essence",
+      "volumeMl": 100,
+      "keyIngredients": [
+        "Snail Secretion Filtrate"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "dryness",
+        "sensitivity"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://cosrx.co.kr/products/advanced-snail-96-mucin-power-essence",
+      "imageRemoteUrl": "https://cosrx.co.kr/cdn/shop/files/advanced-snail-96-mucin-power-essence.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "cosrx::cosrx-advanced-snail-96-mucin-power-essence::100::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "snail-mucin"
+      ],
+      "evidenceConcernCodes": [
+        "dryness",
+        "sensitivity"
+      ]
+    },
+    {
+      "brandId": "cosrx",
+      "brand": "COSRX",
+      "nameKo": "COSRX 어드밴스드 스네일 92 올인원 크림",
+      "nameEn": "COSRX Advanced Snail 92 All in One Cream",
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+      "domain": "face_skincare",
+      "category": "cream",
+      "categoryDetail": "cream",
+      "volumeMl": 100,
+      "keyIngredients": [
+        "Snail Secretion Filtrate"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "dryness"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://cosrx.co.kr/products/advanced-snail-92-all-in-one-cream",
+      "imageRemoteUrl": "https://cosrx.co.kr/cdn/shop/files/advanced-snail-92-all-in-one-cream.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "cosrx::cosrx-advanced-snail-92-all-in-one-cream::100::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "snail-mucin"
+      ],
+      "evidenceConcernCodes": [
+        "dryness"
+      ]
+    },
+    {
+      "brandId": "cosrx",
+      "brand": "COSRX",
+      "nameKo": "COSRX 더 레티놀 0.1 크림",
+      "nameEn": "COSRX The Retinol 0.1 Cream",
+      "slug": "cosrx-the-retinol-0-1-cream",
+      "domain": "face_skincare",
+      "category": "cream",
+      "categoryDetail": "cream",
+      "volumeMl": 20,
+      "keyIngredients": [
+        "Retinol"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "antiaging"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://cosrx.co.kr/products/the-retinol-0-1-cream",
+      "imageRemoteUrl": "https://cosrx.co.kr/cdn/shop/files/the-retinol-0-1-cream.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "cosrx::cosrx-the-retinol-0-1-cream::20::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "retinol"
+      ],
+      "evidenceConcernCodes": [
+        "antiaging"
+      ]
+    },
+    {
+      "brandId": "cosrx",
+      "brand": "COSRX",
+      "nameKo": "COSRX 아크네 퍼프 클리어 핏 마스터 패치",
+      "nameEn": "COSRX Acne Pimple Master Patch",
+      "slug": "cosrx-acne-puffer-clear-fit-master-patch",
+      "domain": "face_skincare",
+      "category": "spot_care",
+      "categoryDetail": "spot_care",
+      "volumeMl": null,
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "concerns": [
+        "acne"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://cosrx.co.kr/products/acne-puffer-clear-fit-master-patch",
+      "imageRemoteUrl": "https://cosrx.co.kr/cdn/shop/files/acne-puffer-clear-fit-master-patch.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "cosrx::cosrx-acne-pimple-master-patch::na::",
+      "confidenceScore": 0.83,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "key_ingredients_insufficient",
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [],
+      "evidenceConcernCodes": [
+        "acne"
+      ]
+    },
+    {
+      "brandId": "beauty-of-joseon",
+      "brand": "Beauty of Joseon",
+      "nameKo": "Beauty of Joseon 릴리프 선 라이스 + 프로바이오틱스",
+      "nameEn": "Beauty of Joseon Relief Sun : Rice + Probiotics",
+      "slug": "beauty-of-joseon-relief-sun-rice-probiotics",
+      "domain": "sun_care",
+      "category": "sunscreen",
+      "categoryDetail": "sunscreen",
+      "volumeMl": 50,
+      "keyIngredients": [
+        "Zinc Oxide"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "uv"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://beautyofjoseon.com/products/relief-sun-rice-probiotics",
+      "imageRemoteUrl": "https://beautyofjoseon.com/cdn/shop/files/relief-sun-rice-probiotics.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "beauty-of-joseon::beauty-of-joseon-relief-sun-rice-probiotics::50::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "zinc-oxide"
+      ],
+      "evidenceConcernCodes": [
+        "uv"
+      ]
+    },
+    {
+      "brandId": "beauty-of-joseon",
+      "brand": "Beauty of Joseon",
+      "nameKo": "Beauty of Joseon 글로우 세럼 프로폴리스 + 나이아신아마이드",
+      "nameEn": "Beauty of Joseon Glow Serum : Propolis + Niacinamide",
+      "slug": "beauty-of-joseon-glow-serum-propolis-niacinamide",
+      "domain": "face_skincare",
+      "category": "serum",
+      "categoryDetail": "serum",
+      "volumeMl": 30,
+      "keyIngredients": [
+        "Niacinamide"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "dryness",
+        "pigmentation"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+      "imageRemoteUrl": "https://beautyofjoseon.com/cdn/shop/files/glow-serum-propolis-niacinamide.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "beauty-of-joseon::beauty-of-joseon-glow-serum-propolis-niacinamide::30::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "niacinamide"
+      ],
+      "evidenceConcernCodes": [
+        "dryness",
+        "pigmentation"
+      ]
+    },
+    {
+      "brandId": "beauty-of-joseon",
+      "brand": "Beauty of Joseon",
+      "nameKo": "Beauty of Joseon 인삼 에센스 워터",
+      "nameEn": "Beauty of Joseon Ginseng Essence Water",
+      "slug": "beauty-of-joseon-ginseng-essence-water",
+      "domain": "face_skincare",
+      "category": "toner",
+      "categoryDetail": "toner",
+      "volumeMl": 150,
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "concerns": [
+        "dryness"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://beautyofjoseon.com/products/ginseng-essence-water",
+      "imageRemoteUrl": "https://beautyofjoseon.com/cdn/shop/files/ginseng-essence-water.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "beauty-of-joseon::beauty-of-joseon-ginseng-essence-water::150::",
+      "confidenceScore": 0.83,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "key_ingredients_insufficient",
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [],
+      "evidenceConcernCodes": [
+        "dryness"
+      ]
+    },
+    {
+      "brandId": "anua",
+      "brand": "Anua",
+      "nameKo": "Anua 어성초 77 수딩 토너",
+      "nameEn": "Anua Heartleaf 77% Soothing Toner",
+      "slug": "anua-heartleaf-77-soothing-toner",
+      "domain": "face_skincare",
+      "category": "toner",
+      "categoryDetail": "toner",
+      "volumeMl": 250,
+      "keyIngredients": [
+        "Houttuynia Cordata Extract"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "redness",
+        "sensitivity",
+        "acne"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://anua.shop/products/heartleaf-77-soothing-toner",
+      "imageRemoteUrl": "https://anua.shop/cdn/shop/files/heartleaf-77-soothing-toner.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "anua::anua-heartleaf-77-soothing-toner::250::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "houttuynia"
+      ],
+      "evidenceConcernCodes": [
+        "redness",
+        "sensitivity",
+        "acne"
+      ]
+    },
+    {
+      "brandId": "anua",
+      "brand": "Anua",
+      "nameKo": "Anua 나이아신아마이드 10% + TXA 4% 세럼",
+      "nameEn": "Anua Niacinamide 10% + TXA 4% Serum",
+      "slug": "anua-niacinamide-10-txa-4-serum",
+      "domain": "face_skincare",
+      "category": "serum",
+      "categoryDetail": "serum",
+      "volumeMl": 30,
+      "keyIngredients": [
+        "Niacinamide"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "pigmentation",
+        "pores"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://anua.shop/products/niacinamide-10-txa-4-serum",
+      "imageRemoteUrl": "https://anua.shop/cdn/shop/files/niacinamide-10-txa-4-serum.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "anua::anua-niacinamide-10-txa-4-serum::30::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "niacinamide"
+      ],
+      "evidenceConcernCodes": [
+        "pigmentation",
+        "pores"
+      ]
+    },
+    {
+      "brandId": "round-lab",
+      "brand": "ROUND LAB",
+      "nameKo": "ROUND LAB 1025 독도 토너",
+      "nameEn": "ROUND LAB 1025 Dokdo Toner",
+      "slug": "round-lab-dokdo-toner",
+      "domain": "face_skincare",
+      "category": "toner",
+      "categoryDetail": "toner",
+      "volumeMl": 200,
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "concerns": [
+        "dryness",
+        "sensitivity"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://roundlab.co.kr/products/dokdo-toner",
+      "imageRemoteUrl": "https://roundlab.co.kr/cdn/shop/files/dokdo-toner.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "round-lab::round-lab-1025-dokdo-toner::200::",
+      "confidenceScore": 0.83,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "key_ingredients_insufficient",
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [],
+      "evidenceConcernCodes": [
+        "dryness",
+        "sensitivity"
+      ]
+    },
+    {
+      "brandId": "round-lab",
+      "brand": "ROUND LAB",
+      "nameKo": "ROUND LAB 자작나무 수분 선크림",
+      "nameEn": "ROUND LAB Birch Juice Moisturizing Sunscreen",
+      "slug": "round-lab-birch-juice-moisturizing-sunscreen",
+      "domain": "sun_care",
+      "category": "sunscreen",
+      "categoryDetail": "sunscreen",
+      "volumeMl": 50,
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "concerns": [
+        "uv"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://roundlab.co.kr/products/birch-juice-moisturizing-sunscreen",
+      "imageRemoteUrl": "https://roundlab.co.kr/cdn/shop/files/birch-juice-moisturizing-sunscreen.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "round-lab::round-lab-birch-juice-moisturizing-sunscreen::50::",
+      "confidenceScore": 0.83,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "key_ingredients_insufficient",
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [],
+      "evidenceConcernCodes": [
+        "uv"
+      ]
+    },
+    {
+      "brandId": "isntree",
+      "brand": "Isntree",
+      "nameKo": "Isntree 히알루론산 워터리 선젤",
+      "nameEn": "Isntree Hyaluronic Acid Watery Sun Gel",
+      "slug": "isntree-hyaluronic-acid-watery-sun-gel",
+      "domain": "sun_care",
+      "category": "sunscreen",
+      "categoryDetail": "sunscreen",
+      "volumeMl": 50,
+      "keyIngredients": [
+        "Sodium Hyaluronate"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "uv",
+        "dryness"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://isntree.com/products/hyaluronic-acid-watery-sun-gel",
+      "imageRemoteUrl": "https://isntree.com/cdn/shop/files/hyaluronic-acid-watery-sun-gel.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "isntree::isntree-hyaluronic-acid-watery-sun-gel::50::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "hyaluronic-acid"
+      ],
+      "evidenceConcernCodes": [
+        "uv",
+        "dryness"
+      ]
+    },
+    {
+      "brandId": "isntree",
+      "brand": "Isntree",
+      "nameKo": "Isntree 그린티 프레시 토너",
+      "nameEn": "Isntree Green Tea Fresh Toner",
+      "slug": "isntree-green-tea-fresh-toner",
+      "domain": "face_skincare",
+      "category": "toner",
+      "categoryDetail": "toner",
+      "volumeMl": 200,
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "concerns": [
+        "pores"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://isntree.com/products/green-tea-fresh-toner",
+      "imageRemoteUrl": "https://isntree.com/cdn/shop/files/green-tea-fresh-toner.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "isntree::isntree-green-tea-fresh-toner::200::",
+      "confidenceScore": 0.83,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "key_ingredients_insufficient",
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [],
+      "evidenceConcernCodes": [
+        "pores"
+      ]
+    },
+    {
+      "brandId": "some-by-mi",
+      "brand": "SOME BY MI",
+      "nameKo": "SOME BY MI 아하 바하 파하 30데이즈 미라클 토너",
+      "nameEn": "SOME BY MI AHA BHA PHA 30 Days Miracle Toner",
+      "slug": "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+      "domain": "face_skincare",
+      "category": "toner",
+      "categoryDetail": "toner",
+      "volumeMl": 150,
+      "keyIngredients": [
+        "Salicylic Acid"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "acne",
+        "pores"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://somebymi.com/products/aha-bha-pha-30-days-miracle-toner",
+      "imageRemoteUrl": "https://somebymi.com/cdn/shop/files/aha-bha-pha-30-days-miracle-toner.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "some-by-mi::some-by-mi-aha-bha-pha-30-days-miracle-toner::150::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "salicylic-acid"
+      ],
+      "evidenceConcernCodes": [
+        "acne",
+        "pores"
+      ]
+    },
+    {
+      "brandId": "skin1004",
+      "brand": "SKIN1004",
+      "nameKo": "SKIN1004 마다가스카르 센텔라 앰플",
+      "nameEn": "SKIN1004 Madagascar Centella Ampoule",
+      "slug": "skin1004-madagascar-centella-ampoule",
+      "domain": "face_skincare",
+      "category": "ampoule",
+      "categoryDetail": "ampoule",
+      "volumeMl": 55,
+      "keyIngredients": [
+        "Centella Asiatica"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "redness",
+        "sensitivity"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://skin1004.com/products/madagascar-centella-ampoule",
+      "imageRemoteUrl": "https://skin1004.com/cdn/shop/files/madagascar-centella-ampoule.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "skin1004::skin1004-madagascar-centella-ampoule::55::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "centella-asiatica"
+      ],
+      "evidenceConcernCodes": [
+        "redness",
+        "sensitivity"
+      ]
+    },
+    {
+      "brandId": "skin1004",
+      "brand": "SKIN1004",
+      "nameKo": "SKIN1004 히알루 시카 워터핏 선세럼",
+      "nameEn": "SKIN1004 Hyalu-Cica Water-Fit Sun Serum",
+      "slug": "skin1004-madagascar-centella-hyalu-cica-water-fit-sun-serum",
+      "domain": "sun_care",
+      "category": "sunscreen",
+      "categoryDetail": "sunscreen",
+      "volumeMl": 50,
+      "keyIngredients": [
+        "Centella Asiatica"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "uv",
+        "redness"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://skin1004.com/products/madagascar-centella-hyalu-cica-water-fit-sun-serum",
+      "imageRemoteUrl": "https://skin1004.com/cdn/shop/files/madagascar-centella-hyalu-cica-water-fit-sun-serum.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "skin1004::skin1004-hyalu-cica-water-fit-sun-serum::50::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "centella-asiatica"
+      ],
+      "evidenceConcernCodes": [
+        "uv",
+        "redness"
+      ]
+    },
+    {
+      "brandId": "torriden",
+      "brand": "Torriden",
+      "nameKo": "Torriden 다이브인 저분자 히알루론산 세럼",
+      "nameEn": "Torriden DIVE-IN Low Molecule Hyaluronic Acid Serum",
+      "slug": "torriden-dive-in-low-molecule-hyaluronic-acid-serum",
+      "domain": "face_skincare",
+      "category": "serum",
+      "categoryDetail": "serum",
+      "volumeMl": 50,
+      "keyIngredients": [
+        "Sodium Hyaluronate"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "dryness"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://torriden.com/products/dive-in-low-molecule-hyaluronic-acid-serum",
+      "imageRemoteUrl": "https://torriden.com/cdn/shop/files/dive-in-low-molecule-hyaluronic-acid-serum.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "torriden::torriden-dive-in-low-molecule-hyaluronic-acid-serum::50::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "hyaluronic-acid"
+      ],
+      "evidenceConcernCodes": [
+        "dryness"
+      ]
+    },
+    {
+      "brandId": "numbuzin",
+      "brand": "numbuzin",
+      "nameKo": "numbuzin 3번 결광가득 세럼",
+      "nameEn": "numbuzin No.3 Skin Softening Serum",
+      "slug": "numbuzin-no3-skin-softening-serum",
+      "domain": "face_skincare",
+      "category": "serum",
+      "categoryDetail": "serum",
+      "volumeMl": 50,
+      "keyIngredients": [],
+      "fullIngredients": [],
+      "concerns": [
+        "dryness",
+        "pigmentation"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://numbuzin.com/products/no3-skin-softening-serum",
+      "imageRemoteUrl": "https://numbuzin.com/cdn/shop/files/no3-skin-softening-serum.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "numbuzin::numbuzin-no-3-skin-softening-serum::50::",
+      "confidenceScore": 0.83,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "key_ingredients_insufficient",
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [],
+      "evidenceConcernCodes": [
+        "dryness",
+        "pigmentation"
+      ]
+    },
+    {
+      "brandId": "medicube",
+      "brand": "medicube",
+      "nameKo": "medicube 제로 모공 패드 2.0",
+      "nameEn": "medicube Zero Pore Pads 2.0",
+      "slug": "medicube-zero-pore-pads-2-0",
+      "domain": "face_skincare",
+      "category": "toner_pad",
+      "categoryDetail": "toner_pad",
+      "volumeMl": null,
+      "keyIngredients": [
+        "Salicylic Acid"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "pores",
+        "acne"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://medicube.co.kr/products/zero-pore-pads-2-0",
+      "imageRemoteUrl": "https://medicube.co.kr/cdn/shop/files/zero-pore-pads-2-0.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "medicube::medicube-zero-pore-pads-2-0::na::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "salicylic-acid"
+      ],
+      "evidenceConcernCodes": [
+        "pores",
+        "acne"
+      ]
+    },
+    {
+      "brandId": "axis-y",
+      "brand": "AXIS-Y",
+      "nameKo": "AXIS-Y 다크스팟 코렉팅 글로우 세럼",
+      "nameEn": "AXIS-Y Dark Spot Correcting Glow Serum",
+      "slug": "axis-y-dark-spot-correcting-glow-serum",
+      "domain": "face_skincare",
+      "category": "serum",
+      "categoryDetail": "serum",
+      "volumeMl": 50,
+      "keyIngredients": [
+        "Niacinamide"
+      ],
+      "fullIngredients": [],
+      "concerns": [
+        "pigmentation"
+      ],
+      "usageArea": "face",
+      "cautionHints": [
+        "공식 라벨·전성분·판매상태 검수 필요"
+      ],
+      "officialUrl": "https://axis-y.com/products/dark-spot-correcting-glow-serum",
+      "imageRemoteUrl": "https://axis-y.com/cdn/shop/files/dark-spot-correcting-glow-serum.jpg",
+      "sourceType": "brand_csv",
+      "retailerHint": "oliveyoung",
+      "hasFullInci": false,
+      "attributes": {
+        "shadeCode": null,
+        "undertoneFit": []
+      },
+      "curatedProvenance": "known_hero",
+      "canonicalKey": "axis-y::axis-y-dark-spot-correcting-glow-serum::50::",
+      "confidenceScore": 0.93,
+      "disposition": "auto_register",
+      "reviewReasons": [
+        "full_inci_incomplete",
+        "inci_pending_before_public"
+      ],
+      "evidenceIngredientSlugs": [
+        "niacinamide"
+      ],
+      "evidenceConcernCodes": [
+        "pigmentation"
+      ]
+    }
+  ],
+  "autoRegisterSlugs": [
+    "cosrx-advanced-snail-96-mucin-power-essence",
+    "cosrx-advanced-snail-92-all-in-one-cream",
+    "cosrx-the-retinol-0-1-cream",
+    "cosrx-acne-puffer-clear-fit-master-patch",
+    "beauty-of-joseon-relief-sun-rice-probiotics",
+    "beauty-of-joseon-glow-serum-propolis-niacinamide",
+    "beauty-of-joseon-ginseng-essence-water",
+    "anua-heartleaf-77-soothing-toner",
+    "anua-niacinamide-10-txa-4-serum",
+    "round-lab-dokdo-toner",
+    "round-lab-birch-juice-moisturizing-sunscreen",
+    "isntree-hyaluronic-acid-watery-sun-gel",
+    "isntree-green-tea-fresh-toner",
+    "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+    "skin1004-madagascar-centella-ampoule",
+    "skin1004-madagascar-centella-hyalu-cica-water-fit-sun-serum",
+    "torriden-dive-in-low-molecule-hyaluronic-acid-serum",
+    "numbuzin-no3-skin-softening-serum",
+    "medicube-zero-pore-pads-2-0",
+    "axis-y-dark-spot-correcting-glow-serum",
+    "purito-daily-go-to-sunscreen",
+    "klairs-freshly-juiced-vitamin-drop",
+    "heimish-all-clean-balm",
+    "dr-jart-cicapair-tiger-grass-color-correcting-treatment",
+    "laneige-lip-sleeping-mask",
+    "laneige-cream-skin-refiner",
+    "innisfree-green-tea-seed-hyaluronic-serum",
+    "missha-perfect-cover-bb-cream-13",
+    "missha-perfect-cover-bb-cream-21",
+    "missha-perfect-cover-bb-cream-23",
+    "goodal-green-tangerine-vita-c-dark-circle-eye-cream",
+    "tocobo-cotton-soft-sun-stick",
+    "mixsoon-bean-essence",
+    "haruharu-black-rice-hyaluronic-toner",
+    "axis-y-complete-no-stress-physical-sunscreen",
+    "purito-centella-unscented-serum",
+    "banila-co-clean-it-zero-original",
+    "etude-soonjung-ph-6-5-whip-cleanser",
+    "sulwhasoo-first-care-activating-serum",
+    "hera-uv-mist-cushion-cover-21n1",
+    "hera-uv-mist-cushion-cover-23n1",
+    "hera-uv-mist-cushion-cover-17c1",
+    "espoir-pro-tailor-be-glow-cushion-ivory",
+    "espoir-pro-tailor-be-glow-cushion-petal",
+    "espoir-pro-tailor-be-glow-cushion-beige",
+    "amortepacific-time-response-skin-reserve-serum",
+    "romand-juicy-lasting-tint-06",
+    "romand-juicy-lasting-tint-12",
+    "romand-juicy-lasting-tint-23",
+    "romand-juicy-lasting-tint-25",
+    "romand-juicy-lasting-tint-26",
+    "romand-zero-velvet-tint-01",
+    "romand-zero-velvet-tint-05",
+    "romand-zero-velvet-tint-17",
+    "peripera-ink-velvet-01",
+    "peripera-ink-velvet-15",
+    "peripera-ink-velvet-20",
+    "3ce-velvet-lip-tint-speak-up",
+    "3ce-velvet-lip-tint-going-right",
+    "etude-fixate-curl-fixing-mascara",
+    "clio-kill-lash-superproof-mascara",
+    "clio-kill-cover-fingertip-gel-eyeliner",
+    "peripera-ink-black-cara",
+    "espoir-couture-lipstick-gentle-rose",
+    "espoir-couture-lipstick-cozy-brick",
+    "hera-sensual-powder-matte-lipstick-133",
+    "hera-sensual-powder-matte-lipstick-422",
+    "lador-perfect-hair-fill-up",
+    "lador-hydro-lpp-treatment",
+    "mise-en-scene-perfect-serum-original",
+    "mise-en-scene-perfect-serum-shampoo",
+    "ryses-anti-hair-loss-shampoo",
+    "dr-jart-ctrl-a-teatreement-soothing-spray",
+    "innisfree-green-tea-seed-body-lotion",
+    "etude-my-beauty-tool-eyehash-curler",
+    "banila-co-prime-primer-classic"
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "phase": "full_beauty_catalog_sprint",
+  "stamp": "2026-07-14T14-14-09",
+  "linked": "jfnjufmldiqlgvgyugfd",
+  "productionTouched": false,
+  "underTargetReason": null,
+  "stats": {
+    "total": 1161,
+    "autoRegister": 76,
+    "needsReview": 1085,
+    "duplicate": 0,
+    "failed": 0,
+    "brands": 35,
+    "withImage": 76,
+    "withFullInci": 0,
+    "withRetailerHint": 76,
+    "evidenceLinked": 22,
+    "byDomain": {
+      "face_skincare": 274,
+      "sun_care": 42,
+      "base_makeup": 151,
+      "lip_care": 1,
+      "lip_color": 87,
+      "eye_makeup": 74,
+      "hair_care": 109,
+      "hair_loss_support": 1,
+      "body_care": 71,
+      "beauty_tools": 71,
+      "color_makeup": 105,
+      "scalp_care": 140,
+      "hand_foot_care": 35
+    },
+    "imageRatePct": 6.5,
+    "fullInciRatePct": 0,
+    "retailerHintRatePct": 6.5,
+    "evidenceLinkedRatePct": 1.9
+  },
+  "staging": {
+    "discoveryUpserted": 1161,
+    "stagingUpserted": 1161,
+    "rows": {
+      "discovery_rows": 1161,
+      "staging_auto": 76,
+      "staging_review": 1085,
+      "staging_rows": 1161
+    }
+  },
+  "topFailures": [
+    {
+      "reason": "full_inci_incomplete",
+      "count": 1161
+    },
+    {
+      "reason": "key_ingredients_insufficient",
+      "count": 1139
+    },
+    {
+      "reason": "discovery_placeholder",
+      "count": 1085
+    },
+    {
+      "reason": "image_missing",
+      "count": 1085
+    },
+    {
+      "reason": "retailer_unverified",
+      "count": 1085
+    },
+    {
+      "reason": "official_source_unconfirmed",
+      "count": 1085
+    },
+    {
+      "reason": "inci_pending_before_public",
+      "count": 76
+    }
+  ],
+  "policy": {
+    "publicVerifiedAutoPromote": false,
+    "imageRights": "external_link_only",
+    "liveCrawl": false,
+    "categoryDiscoveryMarkedNeedsReview": true
+  },
+  "outputs": {
+    "outDir": "data\\catalog\\full-beauty\\2026-07-14T14-14-09",
+    "backupDir": "data\\backups\\full-beauty-2026-07-14T14-14-09"
+  }
+}

@@ -192,7 +192,13 @@ export default function RoutinePage() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-white">
-        <p className="text-sm text-gray-500">Loading routine...</p>
+        <p className="text-sm text-gray-500">
+          {locale === "ko"
+            ? "루틴을 불러오는 중…"
+            : locale === "ja"
+              ? "ルーティンを読み込み中…"
+              : "Loading routine..."}
+        </p>
       </div>
     );
   }
@@ -205,7 +211,11 @@ export default function RoutinePage() {
           href="/results"
           className="text-sm font-semibold text-[#C2185B] underline hover:no-underline"
         >
-          Back to Results
+          {locale === "ko"
+            ? "결과로 돌아가기"
+            : locale === "ja"
+              ? "結果に戻る"
+              : "Back to Results"}
         </Link>
       </div>
     );
@@ -216,17 +226,27 @@ export default function RoutinePage() {
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <Head>
-        <title>{`${title} | KBEAUTY GUIDE`}</title>
+        <title>{`${title} | K-Beauty Match`}</title>
         <meta
           name="description"
-          content="Automatically organized K-beauty routine based on your favorite products."
+          content={
+            locale === "ko"
+              ? "즐겨찾기 제품을 바탕으로 정리한 하루 루틴 가이드입니다."
+              : locale === "ja"
+                ? "お気に入り製品をもとに整理した1日ルーティンガイドです。"
+                : "Automatically organized K-beauty routine based on your favorite products."
+          }
         />
       </Head>
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
         <header className="mb-8 flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C2185B]">
-              K-Beauty Routine
+              {locale === "ko"
+                ? "하루 루틴"
+                : locale === "ja"
+                  ? "1日ルーティン"
+                  : "K-Beauty Routine"}
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
               {title}
@@ -236,7 +256,11 @@ export default function RoutinePage() {
             href="/results"
             className="text-xs font-semibold text-[#C2185B] underline hover:no-underline"
           >
-            ← Back to Results
+            {locale === "ko"
+              ? "← 결과로 돌아가기"
+              : locale === "ja"
+                ? "← 結果に戻る"
+                : "← Back to Results"}
           </Link>
         </header>
 
