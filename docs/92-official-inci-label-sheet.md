@@ -101,6 +101,7 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 | Sulwhasoo First Care VI + COSRX Clear Fit Patch | **45** | **46** | **84** |
 | mise en scène Perfect Serum Original | **46** | **47** | **84** |
 | mise shampoo + goodal eye + ETUDE/CLIO/PERIPERA mascara | **51** | **52** | **84** |
+| innisfree Green Tea Seed Serum + SOME BY MI Miracle Toner | **53** | **54** | **84** |
 
 Production / main 미변경.
 

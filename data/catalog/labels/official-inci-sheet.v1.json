@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-16T02:45:00.000Z",
-    "sourcesNote": "COSRX seed + Banila/LANEIGE/Anua/Torriden/BoJ/ROUND LAB/SKIN1004/PURITO/Klairs/AXIS-Y/numbuzin/mixsoon/Isntree DailyMed/heimish/AMOREPACIFIC/Haruharu/Etude/Lador/medicube/Cicapair/MISSHA BB/Sulwhasoo/COSRX patch/mise Perfect Serum Original + mise shampoo (hk.miseenscene.com) + goodal eye/CLIO mascara/PERIPERA Ink Black Cara (clubclio.shop) + ETUDE Curl Fix #01 (int.etude.com) 2026-07-16"
+    "builtAt": "2026-07-16T03:10:00.000Z",
+    "sourcesNote": "… + mise shampoo/goodal/ETUDE/CLIO/PERIPERA mascara + innisfree Green Tea Seed Hyaluronic Serum (au.innisfree.com) + SOME BY MI Miracle Toner (en.somebymi.com Cosmetics Act disclosure) 2026-07-16"
   },
   "entries": [
     {
@@ -1612,6 +1612,30 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Isododecane, Trimethylsiloxysilicate, Talc, Ceresin, Disteardimonium Hectorite, Dextrin Palmitate/Ethylhexanoate, Microcrystalline Wax, Iron Oxides (CI 77499), Polypropylsilsesquioxane, Propylene Carbonate, Hydrogenated Polyisobutene, Silica, Aluminum Distearate, Dextrin Palmitate, Polymethylsilsesquioxane, Nylon-66, Glyceryl Caprylate, Triethoxycaprylylsilane, Titanium Dioxide (CI 77891)",
       "notes": "Verbatim Key ingredients from official ClubClio PERIPERA Ink Black Cara PDP (style variants share listed INCI on PDP).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "innisfree-green-tea-seed-hyaluronic-serum",
+      "brandCanonical": "innisfree",
+      "productNameEn": "innisfree Green Tea Seed Hyaluronic Serum",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://au.innisfree.com/products/green-tea-seed-hyaluronic-serum",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "WATER / AQUA / EAU, PROPANEDIOL, GLYCERIN, 1,2-HEXANEDIOL, NIACINAMIDE, BETAINE, SACCHARIDE ISOMERATE, CAMELLIA SINENSIS SEED OIL, XYLITOL, CETEARYL OLIVATE, HYDROGENATED LECITHIN, BUTYLENE GLYCOL, SORBITAN OLIVATE, LACTOBACILLUS FERMENT LYSATE, ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER, SQUALANE, PANTHENOL, ALLANTOIN, HYDROXYETHYL ACRYLATE/SODIUM ACRYLOYLDIMETHYL TAURATE COPOLYMER, TROMETHAMINE, ETHYLHEXYLGLYCERIN, CERATONIA SILIQUA (CAROB) GUM, SODIUM METAPHOSPHATE, CAMELLIA SINENSIS LEAF EXTRACT, DIPOTASSIUM GLYCYRRHIZATE, SODIUM HYALURONATE, HYALURONIC ACID, DEXTRIN, THEOBROMA CACAO (COCOA) EXTRACT, 3-O-ETHYL ASCORBIC ACID, SORBITAN ISOSTEARATE, SODIUM CITRATE, CITRIC ACID, GLYCERYL OLEATE, TOCOPHEROL, LECITHIN, SUCROSE, LAURYL GLUCOSIDE, POLYGLYCERYL-6 LAURATE, MYRISTYL GLUCOSIDE, XANTHAN GUM, LACTIC ACID, HYDROLYZED HYALURONIC ACID, SODIUM HYALURONATE CROSSPOLYMER, SODIUM ACETYLATED HYALURONATE",
+      "notes": "Verbatim Full ingredients list from official innisfree Australia PDP (SKU 231171430).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+      "brandCanonical": "SOME BY MI",
+      "productNameEn": "SOME BY MI AHA BHA PHA 30 Days Miracle Toner",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://en.somebymi.com/product/aha-bha-pha-30-days-miracle-toner-150ml/73/category/1/display/2/",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Purified Water, Butylene Glycol, Dipropylene Glycol, Glycerin, Niacinamide, Tea Tree Leaf Water, Polyglyceryl-4 Caprate, Papaya Fruit Extract, Esculenta Lentinus Seed Extract, Witch Hazel Extract, Lotus Flower Extract, Swiftlet Nest Extract, Sodium Hyaluronate, Fructan, Allantoin, Adenosine, Hydroxyethyl Urea, Xylitol, Salicylic Acid (100 ppm), Lactobionic Acid (100 ppm), Citric Acid (500 ppm), Sodium Citrate, 1,2-Hexanediol, Benzyl Glycol, Ethylhexylglycerin, Raspberry Ketone, Peppermint Oil",
+      "notes": "Verbatim Cosmetics Act all-ingredients disclosure from official SOME BY MI Global EN PDP (common-name EN as published; Esculenta Lentinus kept as on page).",
       "applyReady": true
     }
   ]

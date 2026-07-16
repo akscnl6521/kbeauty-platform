@@ -5,8 +5,17 @@
 ## 다음 작업 (단일 · 재개 지침)
 
 **다음 작업:** Preview SSO UI 검수 · 잔여 heroes 공식 INCI 계속 · 승인 시 A안/main/Production.  
-**방금 완료:** mise shampoo + goodal eye + ETUDE/CLIO/PERIPERA mascara → Staging (with_inci 51).  
+**방금 완료:** innisfree Green Tea Seed Serum + SOME BY MI Miracle Toner → Staging (with_inci 53).  
 **운영 메모:** 제품등록(공식 INCI 수확·Staging apply)은 별도 승인 없이 계속 진행.
+
+### 2026-07-16 innisfree serum·SOME BY MI Miracle Toner
+
+| 항목 | 값 |
+|------|-----|
+| innisfree | Green Tea Seed Hyaluronic Serum (`au.innisfree.com`) |
+| SOME BY MI | AHA BHA PHA 30 Days Miracle Toner (`en.somebymi.com`) |
+| Staging | with_inci **53** · official_matched **54** · recommendable **54** · evidence_linked **41** |
+| Production / main | 미변경 |
 
 ### 2026-07-16 mise shampoo·goodal·ETUDE/CLIO/PERIPERA mascara
 

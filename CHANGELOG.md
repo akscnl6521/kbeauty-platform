@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### innisfree Green Tea Seed Serum·SOME BY MI Miracle Toner 공식 INCI Staging 적용
+
+- innisfree AU Full ingredients · SOME BY MI Global Cosmetics Act disclosure
+- Staging: with_inci **53** · official_matched **54** · recommendable **54** · evidence_linked **41**
+- HERA UV Mist는 공식 단종/후속 Black Cushion과 비매핑 · 립틴트 쉐이드별 미확보 · Production · main 미변경
+
 ### mise shampoo·goodal eye·ETUDE/CLIO/PERIPERA mascara 공식 INCI Staging 적용
 
 - mise Perfect Serum Shampoo Original (`hk.miseenscene.com`) · goodal Vita C Dark Circle Eye Cream · ETUDE Curl Fix #01 · CLIO Kill Lash · PERIPERA Ink Black Cara (`clubclio.shop` / `int.etude.com`)
