@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### 잔여 heroes 공식 INCI 재탐색 (apply 없음)
+
+- OBF 27건 · Banila/Isntree/espoir·rom&nd 등 공식몰 심층 확인 → harvested **0**
+- Staging with_inci **57** 유지 · 잔여 27건 **BLOCKED** (공식 verbatim 미확보 · invent 금지)
+- Production · main 미변경
+
 ### TOCOBO Cotton Soft Sun Stick 공식 INCI Staging 적용
 
 - `tocobo.co.kr` Cosmetics Act 전성분 (Soft ≠ Airy) · EN INCI는 고시 순서 표준 매핑

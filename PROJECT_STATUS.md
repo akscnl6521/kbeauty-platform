@@ -4,9 +4,23 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Preview SSO UI 검수 · 잔여 heroes 공식 INCI 계속 · 승인 시 A안/main/Production.  
-**방금 완료:** TOCOBO Cotton Soft Sun Stick → Staging (with_inci 57).  
-**운영 메모:** 제품등록(공식 INCI 수확·Staging apply)은 별도 승인 없이 계속 진행.
+**다음 작업:** Preview SSO UI 검수 · (잔여 INCI는 패키징/공식 고시 JS 확보 전 **BLOCKED**) · 승인 시 A안/main/Production.  
+**방금 완료:** 잔여 27건 2차 공식몰·Cafe24 심층 재탐색 (apply 0 · with_inci 57 유지).  
+**운영 메모:** 제품등록은 승인 없이 Staging만 계속 가능하나, 잔여 27건은 **공식 verbatim 출처 없음**.
+
+### 2026-07-16 잔여 27건 BLOCKED (공식 INCI 미확보)
+
+| 항목 | 값 |
+|------|-----|
+| OBF 1·2차 | searched 27 · harvested **0** |
+| Banila Prime Primer | `banila.com` PDP에 전성분 고시 값 미노출 (리테일 목록은 사용 금지) |
+| Isntree Green Tea Fresh Toner | 공식몰 고시 표 헤더만·값 공란 · 리테일 INCI 서로 불일치(iHerb≠SokoGlam) → invent 금지 |
+| Staging | with_inci **57** · official_matched **58** · heroes **84** |
+| Production / main | 미변경 |
+
+**재개 조건(하나만 있으면 apply 가능):** 공식몰 Cosmetics Act 고시 텍스트 · DailyMed/공식 라벨 · 브랜드 EN PDP All ingredients · 패키징 사진(official_label)
+
+**스킵 확정:** ETUDE 속눈썹 컬러(비화장품) · HERA UV Mist·Dr.Jart spray(단종) · espoir/HERA 립·peripera/rom&nd/3CE(쉐이드별 공식 INCI 없음) · innisfree body lotion(SKU 불명) · RYSES(브랜드 미확인) · CLIO Fingertip Gel(공식 SKU 미확인)
 
 ### 2026-07-16 TOCOBO Cotton Soft Sun Stick
 

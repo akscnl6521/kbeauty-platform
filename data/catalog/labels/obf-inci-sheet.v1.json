@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "OBF harvest only — never invent; require brand match + INCI-like list.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-15T04:05:59.000Z",
-    "sourcesNote": "Open Beauty Facts — Banila foam match rejected (wrong SKU vs Clean It Zero Original balm)"
+    "builtAt": "2026-07-16T03:26:46.735Z",
+    "sourcesNote": "Open Beauty Facts (catalog_sources approved open_data)"
   },
   "entries": []
 }

@@ -1,13 +1,11 @@
 {
   "phase": "obf_inci_harvest",
-  "stamp": "2026-07-15T04-05-59",
+  "stamp": "2026-07-16T03-26-09",
   "linked": "jfnjufmldiqlgvgyugfd",
   "productionTouched": false,
-  "searched": 73,
-  "harvested": 1,
-  "ids": [
-    "banila-co-clean-it-zero-original"
-  ],
+  "searched": 27,
+  "harvested": 0,
+  "ids": [],
   "rejectedSample": [
     {
       "id": "3ce-velvet-lip-tint-going-right",
@@ -18,55 +16,11 @@
       "reason": "no_hits"
     },
     {
-      "id": "amortepacific-time-response-skin-reserve-serum",
-      "reason": "no_hits"
-    },
-    {
-      "id": "anua-heartleaf-77-soothing-toner",
-      "reason": "no_hits"
-    },
-    {
-      "id": "anua-niacinamide-10-txa-4-serum",
-      "reason": "no_hits"
-    },
-    {
-      "id": "axis-y-complete-no-stress-physical-sunscreen",
-      "reason": "no_hits"
-    },
-    {
-      "id": "axis-y-dark-spot-correcting-glow-serum",
-      "reason": "no_hits"
-    },
-    {
       "id": "banila-co-prime-primer-classic",
       "reason": "no_hits"
     },
     {
-      "id": "beauty-of-joseon-ginseng-essence-water",
-      "reason": "no_qualified_match"
-    },
-    {
-      "id": "beauty-of-joseon-glow-serum-propolis-niacinamide",
-      "reason": "no_hits"
-    },
-    {
-      "id": "beauty-of-joseon-relief-sun-rice-probiotics",
-      "reason": "no_hits"
-    },
-    {
       "id": "clio-kill-cover-fingertip-gel-eyeliner",
-      "reason": "no_hits"
-    },
-    {
-      "id": "clio-kill-lash-superproof-mascara",
-      "reason": "no_hits"
-    },
-    {
-      "id": "cosrx-acne-puffer-clear-fit-master-patch",
-      "reason": "no_hits"
-    },
-    {
-      "id": "dr-jart-cicapair-tiger-grass-color-correcting-treatment",
       "reason": "no_hits"
     },
     {
@@ -82,13 +36,57 @@
       "reason": "no_hits"
     },
     {
-      "id": "espoir-pro-tailor-be-glow-cushion-beige",
+      "id": "etude-my-beauty-tool-eyehash-curler",
       "reason": "no_hits"
     },
     {
-      "id": "espoir-pro-tailor-be-glow-cushion-ivory",
+      "id": "hera-sensual-powder-matte-lipstick-133",
+      "reason": "no_hits"
+    },
+    {
+      "id": "hera-sensual-powder-matte-lipstick-422",
+      "reason": "no_hits"
+    },
+    {
+      "id": "hera-uv-mist-cushion-cover-17c1",
+      "reason": "no_hits"
+    },
+    {
+      "id": "hera-uv-mist-cushion-cover-21n1",
+      "reason": "no_hits"
+    },
+    {
+      "id": "hera-uv-mist-cushion-cover-23n1",
+      "reason": "no_hits"
+    },
+    {
+      "id": "innisfree-green-tea-seed-body-lotion",
+      "reason": "no_hits"
+    },
+    {
+      "id": "isntree-green-tea-fresh-toner",
+      "reason": "no_hits"
+    },
+    {
+      "id": "peripera-ink-velvet-01",
+      "reason": "no_hits"
+    },
+    {
+      "id": "peripera-ink-velvet-15",
+      "reason": "no_hits"
+    },
+    {
+      "id": "peripera-ink-velvet-20",
+      "reason": "no_hits"
+    },
+    {
+      "id": "romand-juicy-lasting-tint-06",
+      "reason": "no_hits"
+    },
+    {
+      "id": "romand-juicy-lasting-tint-12",
       "reason": "no_hits"
     }
   ],
-  "rejectedTotal": 73
+  "rejectedTotal": 27
 }

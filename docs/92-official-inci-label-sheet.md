@@ -105,5 +105,18 @@ npm run catalog:fix-staging-names   # garbled EN 이름 복구 (Staging only)
 | espoir Be Glow Cushion Beige/Ivory/Petal | **56** | **57** | **84** |
 | TOCOBO Cotton Soft Sun Stick (KR Cosmetics Act) | **57** | **58** | **84** |
 
+### 2026-07-16 OBF 잔여 27건 재수확
+
+| searched | harvested | with_inci |
+|----------|-----------|-----------|
+| 27 | 0 | **57** (유지) |
+
+### 2026-07-16 잔여 BLOCKED 메모
+
+- Banila Classic / Isntree toner: 공식몰 HTML에 Cosmetics Act **값** 미노출 (헤더만 또는 SPA)
+- Isntree 리테일 INCI 불일치 → 리테일 복사 금지
+- 메이크업 쉐이드·단종·도구·미확인 브랜드: 기존 스킵 유지
+- 재개: 공식 고시 텍스트 · DailyMed · 브랜드 EN All ingredients · 패키징 라벨
+
 Production / main 미변경.
 
