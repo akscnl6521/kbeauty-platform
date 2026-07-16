@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### TOCOBO Cotton Soft Sun Stick 공식 INCI Staging 적용
+
+- `tocobo.co.kr` Cosmetics Act 전성분 (Soft ≠ Airy) · EN INCI는 고시 순서 표준 매핑
+- Staging: with_inci **57** · official_matched **58** · recommendable **58** · evidence_linked **44**
+- Production · main 미변경
+
 ### espoir Pro Tailor Be Glow Cushion 3 shades 공식 INCI Staging 적용
 
 - Beige / Ivory / Petal shade-level All ingredients (`espoir.com`)

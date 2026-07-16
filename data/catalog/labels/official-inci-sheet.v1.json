@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-16T03:20:00.000Z",
-    "sourcesNote": "… + innisfree serum + SOME BY MI toner + espoir Pro Tailor Be Glow Cushion Beige/Ivory/Petal (espoir.com shade-level All ingredients) 2026-07-16"
+    "builtAt": "2026-07-16T04:10:00.000Z",
+    "sourcesNote": "… + espoir Be Glow Cushion 3 shades + TOCOBO Cotton Soft Sun Stick (tocobo.co.kr Cosmetics Act 전성분 → standard INCI; Soft≠Airy) 2026-07-16"
   },
   "entries": [
     {
@@ -1672,6 +1672,18 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "WATER / AQUA / EAU, DIPHENYLSILOXY PHENYL TRIMETHICONE, GLYCERIN, ETHYLHEXYL METHOXYCINNAMATE, TITANIUM DIOXIDE (CI 77891), CYCLOPENTASILOXANE, TRIMETHYLSILOXYSILICATE, DIISOSTEARYL MALATE, BUTYLENE GLYCOL DICAPRYLATE/DICAPRATE, PEG-10 DIMETHICONE, MICA, NIACINAMIDE, LAURYL PEG-8 DIMETHICONE, ZINC OXIDE (NANO), POLYMETHYL METHACRYLATE, TITANIUM DIOXIDE (NANO), DISTEARDIMONIUM HECTORITE, ACRYLATES/ETHYLHEXYL ACRYLATE/DIMETHICONE METHACRYLATE COPOLYMER, 1,2-HEXANEDIOL, IRON OXIDES (CI 77492), SODIUM CHLORIDE, ALUMINUM HYDROXIDE, FRAGRANCE / PARFUM, CAPRYLYL GLYCOL, TRIETHOXYCAPRYLYLSILANE, STEARIC ACID, IRON OXIDES (CI 77491), METHICONE, GLYCERYL CAPRYLATE, IRON OXIDES (CI 77499), DISODIUM EDTA, LINALOOL, ADENOSINE, DIMETHICONE, POLYPROPYLSILSESQUIOXANE, SILICA, TREHALOSE, HELIANTHUS ANNUUS (SUNFLOWER) SEED OIL, OLEA EUROPAEA (OLIVE) FRUIT OIL, SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL, LIMONENE, SYNTHETIC FLUORPHLOGOPITE, VITIS VINIFERA (GRAPE) SEED OIL, CAPRYLYL METHICONE, BHT, GERANIOL, BUTYLENE GLYCOL, ALPHA-ISOMETHYL IONONE, CITRONELLOL, POLYVINYL ALCOHOL, MACADAMIA TERNIFOLIA SEED OIL, LAUROYL LYSINE, TOCOPHEROL",
       "notes": "Verbatim [PETAL] All ingredients from official espoir EN PDP (productcd 125101865).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "tocobo-cotton-soft-sun-stick",
+      "brandCanonical": "TOCOBO",
+      "productNameEn": "TOCOBO Cotton Soft Sun Stick",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://tocobo.co.kr/product/%EC%BD%94%ED%8A%BC-%EC%86%8C%ED%94%84%ED%8A%B8-%EC%84%A0-%EC%8A%A4%ED%8B%B1/32/",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Synthetic Wax, Dibutyl Adipate, Butylene Glycol Dicaprylate/Dicaprate, Octocrylene, Methyl Methacrylate Crosspolymer, Vinyl Dimethicone/Methicone Silsesquioxane Crosspolymer, Ethylhexyl Methoxycinnamate, Dicaprylyl Carbonate, Cetyl Ethylhexanoate, Silica, Ethylhexyl Salicylate, Diethylamino Hydroxybenzoyl Hexyl Benzoate, Bis-Ethylhexyloxyphenol Methoxyphenyl Triazine, Tocopheryl Acetate, Ozokerite, Melia Azadirachta Leaf Extract, Melia Azadirachta Flower Extract, Coccinia Indica Fruit Extract, Solanum Melongena (Eggplant) Fruit Extract, Aloe Barbadensis Flower Extract, Cardiospermum Halicacabum Flower/Leaf/Vine Extract, Curcuma Longa (Turmeric) Root Extract, Corallina Officinalis Extract, Ocimum Sanctum Leaf Extract, Gossypium Herbaceum (Cotton) Extract, Sophora Flavescens Root Extract, Rheum Palmatum Root/Stalk Extract, Scutellaria Baicalensis Root Extract, Phellodendron Amurense Bark Extract, Oenothera Biennis (Evening Primrose) Flower Extract, Ulmus Davidiana Root Extract, Pinus Palustris Leaf Extract, Pueraria Lobata Root Extract, Echium Plantagineum Seed Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Caprylyl Glycol, Bisabolol, Triethoxycaprylylsilane, Titanium Dioxide, Polyglyceryl-2 Triisostearate, Octyldodecanol, Polyglyceryl-4 Diisostearate/Polyhydroxystearate/Sebacate, Helianthus Annuus (Sunflower) Seed Oil Unsaponifiables, Tocopherol, Water, Butylene Glycol, 1,2-Hexanediol, Fragrance",
+      "notes": "Official TOCOBO KR PDP Cosmetics Act 전성분 (Cotton Soft, not Airy). EN tokens are standard INCI nomenclature for that KR disclosure order (합성왁스→Synthetic Wax … 향료→Fragrance). Do not map Cotton Airy / DailyMed Airy formula.",
       "applyReady": true
     }
   ]
