@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### Sulwhasoo·COSRX Clear Fit Patch 공식 INCI Staging 적용
+
+- First Care Activating Serum VI · Clear Fit Master Patch
+- Staging: with_inci **45** · official_matched **46** · recommendable **46** · evidence_linked **38**
+- OBF 잔여 41건 harvest 0 · Soft≠Airy TOCOBO 등 스킵 · Production · main 미변경
+
 ### medicube·Dr.Jart Cicapair·MISSHA BB 공식 INCI Staging 적용
 
 - medicube Zero Pore Pads US PDP · Dr.Jart Cicapair DailyMed · MISSHA Perfect Cover BB 13/21/23 DailyMed

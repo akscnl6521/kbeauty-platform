@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-15T18:20:00.000Z",
-    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US + LANEIGE US + Anua/Torriden + BoJ/ROUND LAB + SKIN1004/PURITO/Klairs/AXIS-Y + numbuzin/sunscreens + mixsoon/Isntree DailyMed + SKIN1004 sun DailyMed + heimish + AMOREPACIFIC/Haruharu/Etude + Lador + medicube.us Zero Pore Pads + Dr.Jart Cicapair DailyMed + MISSHA Perfect Cover BB DailyMed 13/21/23 2026-07-16"
+    "builtAt": "2026-07-16T00:15:00.000Z",
+    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US + LANEIGE US + Anua/Torriden + BoJ/ROUND LAB + SKIN1004/PURITO/Klairs/AXIS-Y + numbuzin/sunscreens + mixsoon/Isntree DailyMed + SKIN1004 sun DailyMed + heimish + AMOREPACIFIC/Haruharu/Etude + Lador + medicube + Dr.Jart Cicapair DailyMed + MISSHA BB 13/21/23 + Sulwhasoo First Care VI (int.sulwhasoo.com) + COSRX Clear Fit Master Patch 2026-07-16"
   },
   "entries": [
     {
@@ -1516,6 +1516,30 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "Octinoxate, Zinc Oxide, Titanium Dioxide, WATER (AQUA), CYCLOPENTASILOXANE, PROPYLENE GLYCOL, CAPRYLIC/CAPRIC TRIGLYCERIDE, PEG-10 DIMETHICONE, GLYCERIN, ARBUTIN, CETYL PEG/PPG-10/1 DIMETHICONE, MINERAL OIL, POLYETHYLENE, TALC, PHENYL TRIMETHICONE, BEESWAX, IRON OXIDES (CI 77492), SODIUM CHLORIDE, IRON OXIDES (CI 77499), IRON OXIDES (CI 77491), FRAGRANCE (PARFUM), METHYLPARABEN, DIMETHICONE, MACADAMIA INTEGRIFOLIA SEED OIL, PROPYLPARABEN, ROSA CANINA FRUIT OIL, SQUALANE, SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL, DISODIUM EDTA, ADENOSINE, BUTYLENE GLYCOL, CERAMIDE NP, FAGUS SYLVATICA BUD EXTRACT, HYDROLYZED COLLAGEN, CHAMOMILLA RECUTITA (MATRICARIA) FLOWER EXTRACT, HIZIKIA FUSIFORME EXTRACT, LAMINARIA JAPONICA EXTRACT, ROSMARINUS OFFICINALIS (ROSEMARY) LEAF EXTRACT, CAPRYLYL GLYCOL, BENZYL ALCOHOL, 1,2-HEXANEDIOL, CAPRYLHYDROXAMIC ACID, SODIUM HYALURONATE, PHENOXYETHANOL, BENZOIC ACID, TROPOLONE, BUTYLPHENYL METHYLPROPIONAL, BENZYL SALICYLATE, HYDROXYCITRONELLAL, ALPHA-ISOMETHYL IONONE, HEXYL CINNAMAL, LINALOOL, CITRONELLOL, LIMONENE",
       "notes": "US DailyMed actives + inactive for Perfect Cover BB NO.23.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "sulwhasoo-first-care-activating-serum",
+      "brandCanonical": "Sulwhasoo",
+      "productNameEn": "Sulwhasoo First Care Activating Serum VI",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://int.sulwhasoo.com/products/first-care-activating-serum-vi",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "WATER / AQUA / EAU, ALCOHOL DENAT., BUTYLENE GLYCOL, BETAINE, 1,2-HEXANEDIOL, BIS-PEG-18 METHYL ETHER DIMETHYL SILANE, GLYCERYL POLYMETHACRYLATE, PROPANEDIOL, CARBOMER, PPG-13-DECYLTETRADECETH-24, TROMETHAMINE, GLYCERYL CAPRYLATE, SCUTELLARIA BAICALENSIS ROOT EXTRACT, ETHYLHEXYLGLYCERIN, FRAGRANCE / PARFUM, ADENOSINE, LIMONENE, DEXTRIN, THEOBROMA CACAO (COCOA) EXTRACT, METHYL TRIMETHICONE, DISODIUM EDTA, XANTHAN GUM, CELLULOSE GUM, CARRAGEENAN, HONEY / MEL / MIEL, MADECASSOSIDE, REHMANNIA GLUTINOSA ROOT EXTRACT, PENTYLENE GLYCOL, DIPOTASSIUM GLYCYRRHIZATE, 3-O-ETHYL ASCORBIC ACID, TAURINE, OPHIOPOGON JAPONICUS ROOT EXTRACT, PAEONIA LACTIFLORA ROOT EXTRACT, LILIUM CANDIDUM BULB EXTRACT, LINALOOL, POLYGONATUM ODORATUM RHIZOME EXTRACT, BIOSACCHARIDE GUM-1, PROPYLENE GLYCOL, PANAX GINSENG ROOT EXTRACT, NELUMBO NUCIFERA FLOWER EXTRACT, NATTO GUM, ZIZIPHUS JUJUBA FRUIT EXTRACT, JUGLANS REGIA (WALNUT) SEED EXTRACT, PRUNUS MUME FRUIT EXTRACT, CITRONELLOL, CITRAL, GERANIOL, HYDROGENATED LECITHIN, TOCOPHEROL, CITRIC ACID",
+      "notes": "Verbatim Ingredients list from official Sulwhasoo International PDP (First Care Activating Serum VI).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "cosrx-acne-puffer-clear-fit-master-patch",
+      "brandCanonical": "COSRX",
+      "productNameEn": "COSRX Clear Fit Master Patch",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://www.cosrx.com/products/clear-fit-master-patch",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Petroleum Resin, Cellulose Gum, Styrene Isoprene Styrene Block Copolymer, Polyurethane Film, Polyisobutylene, Liquid Paraffin, Tetrakis Methane",
+      "notes": "Verbatim Full Ingredients from official COSRX.com Clear Fit Master Patch (hero slug acne-puffer-clear-fit-master-patch).",
       "applyReady": true
     }
   ]
