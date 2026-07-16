@@ -1,12 +1,22 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-15
+최종 갱신: 2026-07-16
 
 ## 다음 작업 (단일 · 재개 지침)
 
 **다음 작업:** Preview SSO UI 검수 · 잔여 heroes 공식 INCI 계속 · 승인 시 A안/main/Production.  
-**방금 완료:** mise en scène Perfect Serum Original → Staging (with_inci 46).  
+**방금 완료:** mise shampoo + goodal eye + ETUDE/CLIO/PERIPERA mascara → Staging (with_inci 51).  
 **운영 메모:** 제품등록(공식 INCI 수확·Staging apply)은 별도 승인 없이 계속 진행.
+
+### 2026-07-16 mise shampoo·goodal·ETUDE/CLIO/PERIPERA mascara
+
+| 항목 | 값 |
+|------|-----|
+| mise en scène | Perfect Serum Shampoo Original (`hk.miseenscene.com`) |
+| goodal | Vita C Dark Circle Eye Cream (`clubclio.shop`) |
+| ETUDE / CLIO / PERIPERA | Curl Fix #01 · Kill Lash · Ink Black Cara |
+| Staging | with_inci **51** · official_matched **52** · recommendable **52** · evidence_linked **39** |
+| Production / main | 미변경 |
 
 ### 2026-07-16 mise en scène Perfect Serum Original
 

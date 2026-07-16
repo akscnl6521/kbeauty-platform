@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### mise shampoo·goodal eye·ETUDE/CLIO/PERIPERA mascara 공식 INCI Staging 적용
+
+- mise Perfect Serum Shampoo Original (`hk.miseenscene.com`) · goodal Vita C Dark Circle Eye Cream · ETUDE Curl Fix #01 · CLIO Kill Lash · PERIPERA Ink Black Cara (`clubclio.shop` / `int.etude.com`)
+- Staging: with_inci **51** · official_matched **52** · recommendable **52** · evidence_linked **39**
+- OBF 잔여 38건 harvest 0 · CLIO Extreme Volume 별도 공식 제외 · Production · main 미변경
+
 ### mise en scène Perfect Serum Original 공식 INCI Staging 적용
 
 - Global Amore Mall ORIGINAL variant Ingredients

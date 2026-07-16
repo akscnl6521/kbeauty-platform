@@ -3,8 +3,8 @@
     "sheetVersion": 1,
     "rule": "Only paste verbatim official label / official PDP INCI. Never invent.",
     "sprintTagDefault": "full-beauty-20260714",
-    "builtAt": "2026-07-16T01:50:00.000Z",
-    "sourcesNote": "COSRX seed pack 2026-07 + Staging snail-96 + Banila US + LANEIGE US + Anua/Torriden + BoJ/ROUND LAB + SKIN1004/PURITO/Klairs/AXIS-Y + numbuzin/sunscreens + mixsoon/Isntree DailyMed + SKIN1004 sun DailyMed + heimish + AMOREPACIFIC/Haruharu/Etude + Lador + medicube + Dr.Jart Cicapair DailyMed + MISSHA BB 13/21/23 + Sulwhasoo First Care VI + COSRX Clear Fit Master Patch + mise en scène Perfect Serum Original (global.amoremall.com) 2026-07-16"
+    "builtAt": "2026-07-16T02:45:00.000Z",
+    "sourcesNote": "COSRX seed + Banila/LANEIGE/Anua/Torriden/BoJ/ROUND LAB/SKIN1004/PURITO/Klairs/AXIS-Y/numbuzin/mixsoon/Isntree DailyMed/heimish/AMOREPACIFIC/Haruharu/Etude/Lador/medicube/Cicapair/MISSHA BB/Sulwhasoo/COSRX patch/mise Perfect Serum Original + mise shampoo (hk.miseenscene.com) + goodal eye/CLIO mascara/PERIPERA Ink Black Cara (clubclio.shop) + ETUDE Curl Fix #01 (int.etude.com) 2026-07-16"
   },
   "entries": [
     {
@@ -1552,6 +1552,66 @@
       "labelLanguage": "en",
       "fullIngredientsRaw": "CYCLOPENTASILOXANE, DIMETHICONOL, DISILOXANE, C12-15 ALKYL BENZOATE, FRAGRANCE / PARFUM, ARGANIA SPINOSA KERNEL OIL, SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL, COCOS NUCIFERA (COCONUT) OIL, LIMONENE, PRUNUS ARMENIACA (APRICOT) KERNEL OIL, OLEA EUROPAEA (OLIVE) FRUIT OIL, SCLEROCARYA BIRREA SEED OIL, CAMELLIA JAPONICA SEED OIL, COCO-CAPRYLATE/CAPRATE, LINALOOL, CITRONELLOL, CAPRYLIC/CAPRIC TRIGLYCERIDE, GERANIOL, CAPSICUM ANNUUM EXTRACT, BETA-CAROTENE, TOCOPHEROL, GLYCOLIPIDS",
       "notes": "Verbatim ORIGINAL variant Ingredients from official Global Amore Mall PDP (not Super Rich/Styling/Rose/Watery).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "mise-en-scene-perfect-serum-shampoo",
+      "brandCanonical": "mise en scène",
+      "productNameEn": "mise en scène Perfect Serum Shampoo Original",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://hk.miseenscene.com/products/mise-en-scene-perfect-serum-shampoo-original",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "WATER / AQUA / EAU, SODIUM LAURETH SULFATE, GLYCERIN, COCAMIDOPROPYL BETAINE, LAURETH-6 CARBOXYLIC ACID, FRAGRANCE / PARFUM, SODIUM CHLORIDE, POLYQUATERNIUM-10, PEG-60 HYDROGENATED CASTOR OIL, DIMETHICONOL, PPG-7, SODIUM LAUROYL SARCOSINATE, TEA-DODECYLBENZENESULFONATE, SODIUM BENZOATE, PHENOXYETHANOL, SODIUM CITRATE, SODIUM SALICYLATE, CITRIC ACID, TETRASODIUM EDTA, ETHYLHEXYLGLYCERIN, LIMONENE, DISODIUM EDTA, LINALOOL, ARGANIA SPINOSA KERNEL OIL, SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL, COCOS NUCIFERA (COCONUT) OIL, TOCOPHEROL, PRUNUS ARMENIACA (APRICOT) KERNEL OIL, OLEA EUROPAEA (OLIVE) FRUIT OIL, CAMELLIA JAPONICA SEED OIL, SCLEROCARYA BIRREA SEED OIL, COCO-CAPRYLATE/CAPRATE, CAPRYLYL GLYCOL, ALCOHOL DENAT., PEG-150 PENTAERYTHRITYL TETRASTEARATE, PPG-2 HYDROXYETHYL COCAMIDE, GLYCOLIPIDS",
+      "notes": "Verbatim 成分 list from official mise en scène Hong Kong Perfect Serum Shampoo Original PDP.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "goodal-green-tangerine-vita-c-dark-circle-eye-cream",
+      "brandCanonical": "goodal",
+      "productNameEn": "goodal Green Tangerine Vita C Dark Circle Eye Cream",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://clubclio.shop/products/goodal-green-tangerine-vita-c-dark-circle-eye-cream",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Citrus Tangerina (Tangerine) Extract, Butylene Glycol, Glycerin, Propanediol, Water, Pentaerythrityl Tetraethylhexanoate, Pentylene Glycol, Niacinamide, Arbutin, 1,2-Hexanediol, Polymethylsilsesquioxane, Diisostearyl Malate, Vinyl Dimethicone, 3-O-Ethyl Ascorbic Acid, Ascorbic Acid Polypeptide, Chlorella Vulgaris Extract, Melia Azadirachta Flower Extract, Melia Azadirachta Leaf Extract, Curcuma Longa (Turmeric) Root Extract, Ocimum Sanctum Leaf Extract, Corallina Officinalis Extract, Diglycerin, Caprylic/Capric/Myristic/Stearic Triglyceride, Methyl Methacrylate Crosspolymer, Sodium Polyacryloyldimethyl Taurate, Ammonium Acryloyldimethyltaurate/Beheneth-25 Methacrylate Crosspolymer, Bis-Diglyceryl Polyacyladipate-2, Glucose, Dimethiconol, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Hydroxyacetophenone, Tromethamine, Fructooligosaccharides, Fructose, Glucosyl Hesperidin, Ethylhexylglycerin, Glyceryl Acrylate/Acrylic Acid Copolymer, Allantoin, Dipotassium Glycyrrhizate, Adenosine, Tocopherol, Disodium EDTA",
+      "notes": "Verbatim Key ingredients from official ClubClio (CLIO Cosmetics) GOODAL PDP. Editorial space after Triglyceride comma only.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "etude-fixate-curl-fixing-mascara",
+      "brandCanonical": "ETUDE",
+      "productNameEn": "ETUDE Lash Perm Curl Fix Mascara #01 Black",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://int.etude.com/shop/category/eye/curl-fix-mascara-new-8g/",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "ISODODECANE, TRIMETHYLSILOXYSILICATE, CERESIN, DEXTRIN PALMITATE/ETHYLHEXANOATE, TALC, BUTYL ACRYLATE/HYDROXYPROPYL DIMETHICONE ACRYLATE COPOLYMER, MICROCRYSTALLINE WAX / CERA MICROCRISTALLINA / CIRE MICROCRISTALLINE, IRON OXIDES (CI 77499), DISTEARDIMONIUM HECTORITE, POLYPROPYLSILSESQUIOXANE, PROPYLENE CARBONATE, HYDROGENATED POLYISOBUTENE, TRIETHOXYCAPRYLYLSILANE, BHT",
+      "notes": "Verbatim #01 Black Ingredients from official ETUDE International Curl Fix Mascara PDP (hero shade-agnostic maps to Black).",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "clio-kill-lash-superproof-mascara",
+      "brandCanonical": "CLIO",
+      "productNameEn": "CLIO Kill Lash Superproof Mascara",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://clubclio.shop/products/clio-kill-lash-superproof-mascara",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Isododecane, Trimethylsiloxysilicate, Talc, Ceresin, Dextrin Palmitate, Microcrystalline Wax, Disteardimonium Hectorite, Iron Oxides (CI 77499), Polypropylsilsesquioxane, Propylene Carbonate, Silica, Dextrin Palmitate/Ethylhexanoate, Hydrogenated Polyisobutene, Nylon-66, Triethoxycaprylylsilane, Glyceryl Caprylate, Titanium Dioxide (CI 77891), Candida Bombicola/Glucose/Methyl Rapeseedate Ferment, Water, Argania Spinosa Kernel Oil, Camellia Sinensis Seed Oil, Olea Europaea (Olive) Fruit Oil, Dipropylene Glycol, 1,2-Hexanediol, Hydrolyzed Collagen, Lactobacillus/Soybean Extract Ferment Filtrate",
+      "notes": "Verbatim Key ingredients from official ClubClio PDP (01 Long Curling / Volume Curling family). Extreme Volume uses a different water-based formula — do not map that shade to this list.",
+      "applyReady": true
+    },
+    {
+      "externalProductId": "peripera-ink-black-cara",
+      "brandCanonical": "PERIPERA",
+      "productNameEn": "PERIPERA Ink Black Cara",
+      "sourceType": "official_brand_page",
+      "sourceUrl": "https://clubclio.shop/products/peripera-ink-black-cara",
+      "labelCheckedAt": "2026-07-16",
+      "labelLanguage": "en",
+      "fullIngredientsRaw": "Isododecane, Trimethylsiloxysilicate, Talc, Ceresin, Disteardimonium Hectorite, Dextrin Palmitate/Ethylhexanoate, Microcrystalline Wax, Iron Oxides (CI 77499), Polypropylsilsesquioxane, Propylene Carbonate, Hydrogenated Polyisobutene, Silica, Aluminum Distearate, Dextrin Palmitate, Polymethylsilsesquioxane, Nylon-66, Glyceryl Caprylate, Triethoxycaprylylsilane, Titanium Dioxide (CI 77891)",
+      "notes": "Verbatim Key ingredients from official ClubClio PERIPERA Ink Black Cara PDP (style variants share listed INCI on PDP).",
       "applyReady": true
     }
   ]
