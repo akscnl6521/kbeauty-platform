@@ -37,8 +37,9 @@
 - [x] **Lador Hydro LPP·Perfect Hair Fill-up 공식 INCI** — with_inci **38**
 - [x] **medicube·Dr.Jart Cicapair·MISSHA BB(13/21/23) 공식 INCI** — with_inci **43**
 - [x] **Sulwhasoo First Care VI·COSRX Clear Fit Patch 공식 INCI** — with_inci **45**
+- [x] **mise en scène Perfect Serum Original 공식 INCI** — with_inci **46**
 - [ ] Preview SSO 승인 후 브라우저 UI 수동 확인 (`/analyze`→`/results`·`/admin/catalog/labels`·bulk-review)
-- [ ] 잔여 heroes 공식 INCI (SOME BY MI/innisfree/TOCOBO Soft≠Airy·goodal·rom&nd 등) — Staging 제품등록은 승인 없이 계속
+- [ ] 잔여 heroes 공식 INCI (SOME BY MI/innisfree/TOCOBO Soft≠Airy·goodal·rom&nd·메이크업 등) — Staging 제품등록은 승인 없이 계속
 - [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
 - [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
 - [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인

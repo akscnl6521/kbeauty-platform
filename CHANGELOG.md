@@ -6,6 +6,12 @@
 
 ## 2026-07-16
 
+### mise en scène Perfect Serum Original 공식 INCI Staging 적용
+
+- Global Amore Mall ORIGINAL variant Ingredients
+- Staging: with_inci **46** · official_matched **47** · recommendable **47** · evidence_linked **38**
+- 제품등록은 별도 승인 없이 Staging만 계속 · Production · main 미변경
+
 ### Sulwhasoo·COSRX Clear Fit Patch 공식 INCI Staging 적용
 
 - First Care Activating Serum VI · Clear Fit Master Patch
