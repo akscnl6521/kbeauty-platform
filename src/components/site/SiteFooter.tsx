@@ -11,15 +11,6 @@ export function SiteFooter() {
           <Link href="/quiz" className="underline-offset-2 hover:underline">
             피부 문진
           </Link>
-          <Link
-            href="/quiz/base"
-            className="underline-offset-2 hover:underline"
-          >
-            베이스 문진
-          </Link>
-          <Link href="/quiz/lip" className="underline-offset-2 hover:underline">
-            립 문진
-          </Link>
           <Link href="/analyze" className="underline-offset-2 hover:underline">
             피부 분석
           </Link>
@@ -34,6 +25,32 @@ export function SiteFooter() {
           </Link>
           <Link href="/routine" className="underline-offset-2 hover:underline">
             내 루틴
+          </Link>
+        </nav>
+        <nav
+          className="mt-3 flex flex-wrap gap-x-5 gap-y-2"
+          aria-label="메이크업·헤어 문진"
+        >
+          <Link
+            href="/quiz/mascara"
+            className="underline-offset-2 hover:underline"
+          >
+            마스카라 문진
+          </Link>
+          <Link
+            href="/quiz/base"
+            className="underline-offset-2 hover:underline"
+          >
+            베이스 문진
+          </Link>
+          <Link href="/quiz/lip" className="underline-offset-2 hover:underline">
+            립 문진
+          </Link>
+          <Link
+            href="/quiz/hair"
+            className="underline-offset-2 hover:underline"
+          >
+            헤어 문진
           </Link>
         </nav>
         <nav
