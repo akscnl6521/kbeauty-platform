@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   ANALYSIS_RESULT_STORAGE_KEY,
+  RANKED_PRODUCTS_STORAGE_KEY,
   RECOMMENDATION_STORAGE_KEY,
 } from "@/lib/recommend/types";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 export default function Home() {
   const [hasPrevious, setHasPrevious] = useState(false);
+  const [hasRanked, setHasRanked] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -19,6 +21,15 @@ export default function Home() {
           localStorage.getItem(RECOMMENDATION_STORAGE_KEY)
       )
     );
+    try {
+      const raw = localStorage.getItem(RANKED_PRODUCTS_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        setHasRanked(Array.isArray(parsed) && parsed.length > 0);
+      }
+    } catch {
+      setHasRanked(false);
+    }
     try {
       void createSupabaseBrowserClient()
         .auth.getUser()
@@ -51,6 +62,12 @@ export default function Home() {
             분석 시작하기
           </Link>
           <Link
+            href="/quiz"
+            className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-6 py-3 text-sm font-semibold text-[#C2185B] sm:text-base"
+          >
+            피부 문진
+          </Link>
+          <Link
             href="/quiz/mascara"
             className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
           >
@@ -79,12 +96,24 @@ export default function Home() {
           )}
         </div>
         {hasPrevious ? (
-          <Link
-            href="/results"
-            className="mt-6 block max-w-xl rounded-xl border border-pink-200 bg-white px-4 py-3 text-sm font-medium text-[#C2185B]"
-          >
-            이전 분석 이어보기 →
-          </Link>
+          <div className="mt-6 flex max-w-xl flex-col gap-2 sm:flex-row sm:flex-wrap">
+            <Link
+              href="/results"
+              className="inline-flex flex-1 items-center justify-between rounded-xl border border-pink-200 bg-white px-4 py-3 text-sm font-medium text-[#C2185B]"
+            >
+              이전 분석·추천 이어보기
+              <span aria-hidden>→</span>
+            </Link>
+            {hasRanked ? (
+              <Link
+                href="/routine"
+                className="inline-flex flex-1 items-center justify-between rounded-xl border border-[#E8DFD8] bg-white px-4 py-3 text-sm font-medium text-gray-800"
+              >
+                추천으로 루틴 보기
+                <span aria-hidden>→</span>
+              </Link>
+            ) : null}
+          </div>
         ) : null}
       </section>
 
@@ -136,14 +165,52 @@ export default function Home() {
 
       <section className="mx-auto max-w-[var(--site-content-max)] px-5 py-16 text-center sm:px-6 sm:py-20">
         <h2 className="text-2xl font-bold sm:text-3xl">
-          내 피부 관리의 다음 단계를 정해보세요
+          {hasPrevious
+            ? "이어서 결과와 루틴을 확인해 보세요"
+            : "내 피부 관리의 다음 단계를 정해보세요"}
         </h2>
-        <Link
-          href="/analyze"
-          className="touch-target mt-6 inline-flex items-center justify-center rounded-full bg-[#C2185B] px-6 py-3 font-semibold text-white"
-        >
-          피부 분석 시작하기
-        </Link>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          {hasPrevious ? (
+            <>
+              <Link
+                href="/results"
+                className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-6 py-3 font-semibold text-white"
+              >
+                추천 결과 보기
+              </Link>
+              {hasRanked ? (
+                <Link
+                  href="/routine"
+                  className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-6 py-3 font-semibold text-[#C2185B]"
+                >
+                  루틴으로 정리하기
+                </Link>
+              ) : (
+                <Link
+                  href="/quiz"
+                  className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 font-semibold text-gray-800"
+                >
+                  피부 문진 다시하기
+                </Link>
+              )}
+            </>
+          ) : (
+            <>
+              <Link
+                href="/analyze"
+                className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-6 py-3 font-semibold text-white"
+              >
+                피부 분석 시작하기
+              </Link>
+              <Link
+                href="/quiz"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 font-semibold text-gray-800"
+              >
+                짧은 피부 문진
+              </Link>
+            </>
+          )}
+        </div>
       </section>
     </main>
   );
