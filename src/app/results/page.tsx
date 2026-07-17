@@ -1651,7 +1651,7 @@ function ResultsPageInner() {
                         <div className="mt-4 flex flex-wrap gap-2">
                           <Link
                             href="/quiz"
-                            className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#a3154f]"
+                            className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#a3154f]"
                           >
                             {locale === "ko"
                               ? "피부 문진 다시하기"
@@ -1661,7 +1661,7 @@ function ResultsPageInner() {
                           </Link>
                           <Link
                             href="/analyze"
-                            className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-4 py-2 text-xs font-semibold text-gray-800 transition hover:bg-pink-50"
+                            className="touch-target inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800 transition hover:bg-pink-50"
                           >
                             {locale === "ko"
                               ? "사진·AI 분석"
@@ -1671,7 +1671,7 @@ function ResultsPageInner() {
                           </Link>
                           <a
                             href="#browse-products"
-                            className="inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-xs font-semibold text-gray-800 transition hover:bg-[#FAF6F2]"
+                            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-semibold text-gray-800 transition hover:bg-[#FAF6F2]"
                           >
                             {locale === "ko"
                               ? "아래 카탈로그 보기"
@@ -1679,6 +1679,39 @@ function ResultsPageInner() {
                                 ? "下のカタログを見る"
                                 : "Browse catalog below"}
                           </a>
+                        </div>
+                        <p className="mt-4 text-xs font-semibold tracking-wide text-gray-500">
+                          {locale === "ko"
+                            ? "메이크업 · 헤어 문진"
+                            : locale === "ja"
+                              ? "メイク・ヘア問診"
+                              : "Makeup · hair quizzes"}
+                        </p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <Link
+                            href="/quiz/mascara"
+                            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+                          >
+                            {locale === "ko" ? "마스카라" : "Mascara"}
+                          </Link>
+                          <Link
+                            href="/quiz/base"
+                            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+                          >
+                            {locale === "ko" ? "베이스" : "Base"}
+                          </Link>
+                          <Link
+                            href="/quiz/lip"
+                            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+                          >
+                            {locale === "ko" ? "립" : "Lip"}
+                          </Link>
+                          <Link
+                            href="/quiz/hair"
+                            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+                          >
+                            {locale === "ko" ? "헤어·두피" : "Hair"}
+                          </Link>
                         </div>
                       </>
                     ) : null}
@@ -1728,15 +1761,39 @@ function ResultsPageInner() {
                 <div className="flex flex-wrap gap-2">
                   <Link
                     href="/quiz"
-                    className="inline-flex rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white"
+                    className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
                   >
                     {locale === "ko" ? "피부 문진" : "Skin quiz"}
                   </Link>
                   <Link
                     href="/analyze"
-                    className="inline-flex rounded-full border border-pink-200 bg-white px-4 py-2 text-xs font-semibold text-gray-800"
+                    className="touch-target inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800"
                   >
                     {locale === "ko" ? "사진·AI 분석" : "Photo / AI analyze"}
+                  </Link>
+                  <Link
+                    href="/quiz/mascara"
+                    className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+                  >
+                    {locale === "ko" ? "마스카라" : "Mascara"}
+                  </Link>
+                  <Link
+                    href="/quiz/base"
+                    className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+                  >
+                    {locale === "ko" ? "베이스" : "Base"}
+                  </Link>
+                  <Link
+                    href="/quiz/lip"
+                    className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+                  >
+                    {locale === "ko" ? "립" : "Lip"}
+                  </Link>
+                  <Link
+                    href="/quiz/hair"
+                    className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+                  >
+                    {locale === "ko" ? "헤어·두피" : "Hair"}
                   </Link>
                 </div>
               </div>

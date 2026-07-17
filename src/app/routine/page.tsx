@@ -356,23 +356,35 @@ export default function RoutinePage() {
               {EMPTY_LABELS[locale]}
             </p>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-              <Link href="/quiz" className="inline-block">
-                <span className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#a3154f]">
-                  {locale === "ko"
-                    ? "피부 문진"
-                    : locale === "ja"
-                      ? "肌問診"
-                      : "Skin quiz"}
-                </span>
+              <Link
+                href="/quiz"
+                className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#a3154f]"
+              >
+                {locale === "ko"
+                  ? "피부 문진"
+                  : locale === "ja"
+                    ? "肌問診"
+                    : "Skin quiz"}
               </Link>
-              <Link href="/results" className="inline-block">
-                <span className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2 text-sm font-semibold text-gray-800 transition hover:bg-pink-50">
-                  {locale === "ko"
-                    ? "결과 페이지"
-                    : locale === "ja"
-                      ? "結果ページ"
-                      : "Results"}
-                </span>
+              <Link
+                href="/analyze"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-5 py-2 text-sm font-semibold text-[#C2185B] transition hover:bg-pink-50"
+              >
+                {locale === "ko"
+                  ? "피부 분석"
+                  : locale === "ja"
+                    ? "肌分析"
+                    : "Analyze"}
+              </Link>
+              <Link
+                href="/results"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2 text-sm font-semibold text-gray-800 transition hover:bg-pink-50"
+              >
+                {locale === "ko"
+                  ? "결과 페이지"
+                  : locale === "ja"
+                    ? "結果ページ"
+                    : "Results"}
               </Link>
             </div>
           </div>

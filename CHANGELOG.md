@@ -6,6 +6,15 @@
 
 ## 2026-07-18
 
+### 헤더 모바일 · CTA 묶음
+
+- 헤더: lg 가로 메뉴 · 모바일 드로어에 메이크업·헤어 문진 · 터치 타깃 보강
+- 루틴 빈 상태: 문진·분석·결과 CTA
+- analyze 완료: 문진 CTA · 터치 타깃
+- results 빈 Top5: 메이크업·헤어 문진 CTA
+- ingredients: 목록·CTA 터치 타깃 · 분석 링크
+- Production 미배포
+
 ### 홈 성분 가이드 CTA
 
 - 홈 주 CTA에 `/ingredients`

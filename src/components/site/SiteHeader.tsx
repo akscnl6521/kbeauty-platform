@@ -14,6 +14,13 @@ const links = [
   ["내 루틴", "/routine"],
 ] as const;
 
+const quizLinks = [
+  ["마스카라", "/quiz/mascara"],
+  ["베이스", "/quiz/base"],
+  ["립", "/quiz/lip"],
+  ["헤어·두피", "/quiz/hair"],
+] as const;
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [loggedIn, setLoggedIn] = useState(false);
@@ -77,11 +84,21 @@ export function SiteHeader() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = () => {
+      if (mq.matches) setOpen(false);
+    };
+    closeOnDesktop();
+    mq.addEventListener("change", closeOnDesktop);
+    return () => mq.removeEventListener("change", closeOnDesktop);
+  }, []);
+
   function isCurrent(href: string) {
     return pathname === href || pathname.startsWith(`${href}/`);
   }
 
-  const nav = (mobile = false) => (
+  const desktopNav = (
     <>
       {links.map(([label, href]) => {
         const current = isCurrent(href);
@@ -89,28 +106,17 @@ export function SiteHeader() {
           <Link
             key={href}
             href={href}
-            onClick={() => setOpen(false)}
             aria-current={current ? "page" : undefined}
-            className={
-              mobile
-                ? `touch-target flex items-center whitespace-nowrap py-2 text-base ${current ? "font-semibold text-[#C2185B]" : ""}`
-                : `whitespace-nowrap text-sm hover:text-[#C2185B] focus-visible:outline-none ${current ? "font-semibold text-[#C2185B]" : ""}`
-            }
+            className={`whitespace-nowrap text-sm hover:text-[#C2185B] focus-visible:outline-none ${
+              current ? "font-semibold text-[#C2185B]" : ""
+            }`}
           >
             {label}
           </Link>
         );
       })}
       {admin ? (
-        <Link
-          href="/admin"
-          onClick={() => setOpen(false)}
-          className={
-            mobile
-              ? "touch-target flex items-center py-2 text-base text-[#C2185B]"
-              : "text-sm text-[#C2185B]"
-          }
-        >
+        <Link href="/admin" className="text-sm text-[#C2185B]">
           관리자
         </Link>
       ) : null}
@@ -118,44 +124,22 @@ export function SiteHeader() {
         <>
           <Link
             href="/my"
-            onClick={() => setOpen(false)}
             aria-current={isCurrent("/my") ? "page" : undefined}
-            className={
-              mobile
-                ? "touch-target flex items-center py-2 text-base font-semibold text-[#C2185B]"
-                : "text-sm font-semibold text-[#C2185B]"
-            }
+            className="text-sm font-semibold text-[#C2185B]"
           >
             내 피부 관리
           </Link>
-          <Link
-            href="/logout"
-            onClick={() => setOpen(false)}
-            className={
-              mobile
-                ? "touch-target flex items-center py-2 text-base"
-                : "text-sm"
-            }
-          >
+          <Link href="/logout" className="text-sm">
             로그아웃
           </Link>
         </>
       ) : (
         <>
-          <Link
-            href="/login?next=%2Fmy"
-            onClick={() => setOpen(false)}
-            className={
-              mobile
-                ? "touch-target flex items-center py-2 text-base"
-                : "text-sm"
-            }
-          >
+          <Link href="/login?next=%2Fmy" className="text-sm">
             로그인
           </Link>
           <Link
             href="/signup?next=%2Fonboarding"
-            onClick={() => setOpen(false)}
             className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
           >
             시작하기
@@ -164,6 +148,11 @@ export function SiteHeader() {
       )}
     </>
   );
+
+  const mobileLinkClass = (current: boolean, accent = false) =>
+    `touch-target flex min-h-11 items-center border-b border-pink-100 py-3 text-base ${
+      current || accent ? "font-semibold text-[#C2185B]" : "text-gray-800"
+    }`;
 
   return (
     <header
@@ -177,24 +166,28 @@ export function SiteHeader() {
         >
           K-Beauty Match
         </Link>
-        <nav className="hidden items-center gap-5 md:flex" aria-label="주요 메뉴">
-          {nav()}
+        {/* lg부터 가로 메뉴 — md는 링크가 너무 촘촘함 */}
+        <nav
+          className="hidden items-center gap-4 lg:flex xl:gap-5"
+          aria-label="주요 메뉴"
+        >
+          {desktopNav}
         </nav>
         <button
           type="button"
-          className="touch-target inline-flex items-center justify-center rounded-lg border border-pink-100 px-3 text-lg md:hidden"
-          aria-label="메뉴 열기"
+          className="touch-target inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-pink-100 text-lg lg:hidden"
+          aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
           aria-expanded={open}
           aria-controls={menuId}
-          onClick={() => setOpen(true)}
+          onClick={() => setOpen((v) => !v)}
         >
-          ☰
+          {open ? "×" : "☰"}
         </button>
       </div>
       {open ? (
         <div
-          className="fixed inset-0 z-50 bg-black/30"
-          onMouseDown={() => setOpen(false)}
+          className="fixed inset-0 z-50 bg-black/30 lg:hidden"
+          onClick={() => setOpen(false)}
         >
           <div
             id={menuId}
@@ -202,19 +195,95 @@ export function SiteHeader() {
             role="dialog"
             aria-modal="true"
             aria-label="모바일 메뉴"
-            className="ml-auto flex h-full w-[min(18rem,85vw)] flex-col gap-1 overflow-y-auto bg-[#FAF7F5] p-6 shadow-xl"
-            onMouseDown={(event) => event.stopPropagation()}
+            className="ml-auto flex h-full w-[min(20rem,88vw)] flex-col overflow-y-auto bg-[#FAF7F5] p-5 shadow-xl"
+            onClick={(event) => event.stopPropagation()}
           >
-            <button
-              type="button"
-              className="touch-target mb-4 self-end rounded-lg border border-pink-100 px-3"
-              aria-label="메뉴 닫기"
-              onClick={() => setOpen(false)}
-            >
-              ×
-            </button>
-            <nav className="flex flex-col gap-1" aria-label="모바일 메뉴">
-              {nav(true)}
+            <div className="mb-2 flex items-center justify-between gap-3">
+              <p className="text-sm font-semibold text-[#C2185B]">메뉴</p>
+              <button
+                type="button"
+                className="touch-target inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-pink-100 text-xl"
+                aria-label="메뉴 닫기"
+                onClick={() => setOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            <nav className="flex flex-col" aria-label="모바일 메뉴">
+              {links.map(([label, href]) => {
+                const current = isCurrent(href);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    aria-current={current ? "page" : undefined}
+                    className={mobileLinkClass(current)}
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
+              {admin ? (
+                <Link
+                  href="/admin"
+                  onClick={() => setOpen(false)}
+                  className={mobileLinkClass(false, true)}
+                >
+                  관리자
+                </Link>
+              ) : null}
+              <p className="pb-1 pt-4 text-xs font-semibold tracking-wide text-gray-500">
+                메이크업 · 헤어 문진
+              </p>
+              {quizLinks.map(([label, href]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setOpen(false)}
+                  aria-current={isCurrent(href) ? "page" : undefined}
+                  className={mobileLinkClass(isCurrent(href))}
+                >
+                  {label}
+                </Link>
+              ))}
+              <div className="mt-4 flex flex-col gap-2 pt-2">
+                {loggedIn ? (
+                  <>
+                    <Link
+                      href="/my"
+                      onClick={() => setOpen(false)}
+                      className="touch-target flex min-h-11 items-center justify-center rounded-full border border-[#C2185B] px-4 text-sm font-semibold text-[#C2185B]"
+                    >
+                      내 피부 관리
+                    </Link>
+                    <Link
+                      href="/logout"
+                      onClick={() => setOpen(false)}
+                      className="touch-target flex min-h-11 items-center justify-center rounded-full border border-[#E8DFD8] px-4 text-sm"
+                    >
+                      로그아웃
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/login?next=%2Fmy"
+                      onClick={() => setOpen(false)}
+                      className="touch-target flex min-h-11 items-center justify-center rounded-full border border-[#E8DFD8] px-4 text-sm"
+                    >
+                      로그인
+                    </Link>
+                    <Link
+                      href="/signup?next=%2Fonboarding"
+                      onClick={() => setOpen(false)}
+                      className="touch-target flex min-h-11 items-center justify-center rounded-full bg-[#C2185B] px-4 text-sm font-semibold text-white"
+                    >
+                      시작하기
+                    </Link>
+                  </>
+                )}
+              </div>
             </nav>
           </div>
         </div>

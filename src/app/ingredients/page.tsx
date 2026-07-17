@@ -80,15 +80,21 @@ export default function IngredientsPage() {
       <div className="mt-6 flex flex-wrap gap-2">
         <Link
           href="/quiz"
-          className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
+          className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2.5 text-sm font-semibold text-white"
         >
           피부 문진으로 추천 받기
         </Link>
         <Link
           href="/results"
-          className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800"
+          className="touch-target inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-4 py-2.5 text-sm font-semibold text-gray-800"
         >
           추천 결과 보기
+        </Link>
+        <Link
+          href="/analyze"
+          className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2.5 text-sm font-semibold text-gray-800"
+        >
+          피부 분석
         </Link>
       </div>
 
@@ -106,7 +112,7 @@ export default function IngredientsPage() {
               <li key={row.slug}>
                 <Link
                   href={`/ingredients/${row.slug}`}
-                  className="block rounded-xl border border-pink-100 bg-white p-5 font-medium transition hover:border-[#C2185B]"
+                  className="touch-target flex min-h-[4.5rem] flex-col justify-center rounded-xl border border-pink-100 bg-white p-5 font-medium transition hover:border-[#C2185B]"
                 >
                   {displayName(row)}
                   <span className="mt-1 block text-xs font-normal text-gray-500">

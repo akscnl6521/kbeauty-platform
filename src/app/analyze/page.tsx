@@ -1588,19 +1588,25 @@ export default function AnalyzePage() {
                   <button
                     type="button"
                     onClick={goToResults}
-                    className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#a3154f]"
+                    className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#a3154f]"
                   >
                     추천 결과 보기
                   </button>
                   <Link
+                    href="/quiz"
+                    className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-5 py-2.5 text-sm font-semibold text-[#C2185B] transition hover:bg-pink-50"
+                  >
+                    피부 문진으로 보완
+                  </Link>
+                  <Link
                     href="/routine"
-                    className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2 text-xs font-semibold text-gray-800 transition hover:bg-pink-50"
+                    className="touch-target inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition hover:bg-pink-50"
                   >
                     루틴 가이드 보기
                   </Link>
                   <Link
                     href="/ingredients"
-                    className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2 text-xs font-semibold text-gray-800 transition hover:bg-pink-50"
+                    className="touch-target inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition hover:bg-pink-50"
                   >
                     성분별로 보기
                   </Link>
