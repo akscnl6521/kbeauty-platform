@@ -4,9 +4,9 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** ingredients 목록 모바일 터치.  
-**방금 완료:** 헤더 모바일 · 루틴/analyze/results CTA 보강.  
-**운영 메모:** 물어보지 말고 Preview까지 연속 · Production은 명시 전 안 함.
+**다음 작업:** Production 배포는 사용자 승인 후. (에이전트 UX Preview 연속 작업 소진)  
+**방금 완료:** 온보딩·my 빈 CTA + 모바일/CTA 묶음 Preview.  
+**운영 메모:** 물어보지 말고 진행했음 · Production은 명시 승인 전 안 함.
 
 ### 2026-07-18 UX CTA·모바일 묶음
 
@@ -15,6 +15,8 @@
 | 헤더 | lg 가로 · 모바일 드로어·문진 |
 | 루틴·analyze·results | 빈/완료 CTA 보강 |
 | ingredients | 목록·CTA 터치 타깃 |
+| push | `82b9f52` |
+| Preview | READY |
 | Production | 미변경 |
 
 ### 2026-07-18 홈 성분 가이드 CTA

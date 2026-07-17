@@ -202,15 +202,32 @@ export default function MyCareHomePage() {
             </Link>
           </div>
         ) : (
-          <p className="mt-3 text-sm text-gray-600">
-            아직 시작한 케어가 없습니다. 피부 정보를 설정하고 내 루틴을 시작해 보세요.
-          </p>
+          <div className="mt-3 space-y-3">
+            <p className="text-sm text-gray-600">
+              아직 시작한 케어가 없습니다. 피부 정보를 설정하고 내 루틴을 시작해 보세요.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/quiz"
+                className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
+              >
+                피부 문진
+              </Link>
+              <Link
+                href="/analyze"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-4 py-2 text-sm font-semibold text-[#C2185B]"
+              >
+                피부 분석
+              </Link>
+              <Link
+                href="/onboarding"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+              >
+                피부 관리 설정
+              </Link>
+            </div>
+          </div>
         )}
-        {!dashboard?.sessions.length ? (
-          <Link href="/onboarding" className="mt-3 inline-block text-sm font-medium text-[#C2185B] underline">
-            피부 관리 설정하기
-          </Link>
-        ) : null}
         <button
           type="button"
           onClick={importLatestAnalysis}

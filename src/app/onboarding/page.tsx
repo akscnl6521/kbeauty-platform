@@ -277,6 +277,12 @@ export default function OnboardingPage() {
           >
             나중에 계속하기
           </button>
+          <Link
+            href="/quiz"
+            className="touch-target text-sm font-medium text-[#C2185B] underline"
+          >
+            피부 문진부터
+          </Link>
           {step === titles.length - 1 ? (
             <button
               type="button"

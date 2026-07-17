@@ -13,6 +13,11 @@
 - analyze 완료: 문진 CTA · 터치 타깃
 - results 빈 Top5: 메이크업·헤어 문진 CTA
 - ingredients: 목록·CTA 터치 타깃 · 분석 링크
+- Preview READY (`82b9f52`) · Production 미배포
+
+### 온보딩·my 빈 CTA
+
+- 온보딩 「피부 문진부터」 · my 빈 케어에 문진·분석·설정
 - Production 미배포
 
 ### 홈 성분 가이드 CTA
