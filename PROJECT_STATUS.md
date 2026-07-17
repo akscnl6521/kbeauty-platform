@@ -4,9 +4,17 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** 성분 가이드 Preview 배포.  
-**방금 완료:** `/ingredients` DB 목록 + 문진/결과 CTA.  
+**다음 작업:** results `?tab=` 동기화 Preview 배포.  
+**방금 완료:** 문진 resultsPath의 tab이 도메인 탭에 반영 · URL 동기화.  
 **운영 메모:** 볼 수 없는 대시보드는 건너뜀 · Production 배포/DB는 명시 전 안 함.
+
+### 2026-07-17 results ?tab= 도메인 탭 동기화
+
+| 항목 | 결과 |
+|------|------|
+| UX | `?tab=makeup|hair` → 해당 탭 오픈 |
+| URL | 탭 클릭 시 query 갱신 |
+| Production | 미변경 |
 
 ### 2026-07-17 성분 가이드 DB 목록
 
@@ -14,6 +22,8 @@
 |------|------|
 | UX | ingredients 테이블 목록 · 폴백 3개 |
 | CTA | 문진 · 추천 결과 |
+| push | `eb3ed2e` |
+| Preview | READY |
 | Production | 미변경 |
 
 ### 2026-07-17 문진 도메인 전환 네비

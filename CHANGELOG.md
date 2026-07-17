@@ -6,6 +6,12 @@
 
 ## 2026-07-17
 
+### results ?tab= 도메인 탭 동기화
+
+- 메이크업/헤어 문진 `resultsPath`의 `tab`이 ResultsDomainTabs에 반영
+- 탭 전환 시 URL query 동기화 · 피부 추천 없어도 makeup/hair 탭 표시
+- Production 미배포
+
 ### 성분 가이드 DB 목록 + CTA
 
 - `/ingredients`가 Supabase `ingredients` 목록을 표시 (실패 시 폴백 3개)

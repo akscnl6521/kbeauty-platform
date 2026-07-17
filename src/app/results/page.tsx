@@ -35,7 +35,7 @@ import {
   evidenceLevelLabelKo,
 } from "@/lib/evidence";
 import { filterPublicCatalogProducts } from "@/lib/recommend/publicCatalogFilter";
-import { ResultsDomainTabs } from "@/components/results/ResultsDomainTabs";
+import { ResultsDomainTabs, parseResultsDomainTab } from "@/components/results/ResultsDomainTabs";
 
 function managementLevelLabelKo(level: ManagementLevel): string {
   const map: Record<ManagementLevel, string> = {
@@ -385,6 +385,11 @@ function ResultsPageInner() {
   const concern = searchParams.get("concern");
   const budget = searchParams.get("budget");
   const aiApplied = searchParams.get("ai") === "1";
+  const resultsDomainTab = parseResultsDomainTab(searchParams.get("tab"));
+  const showDomainTabsWithoutSkinRec =
+    resultsDomainTab === "makeup" ||
+    resultsDomainTab === "hair" ||
+    resultsDomainTab === "routine";
 
   // 설문 조건(tone/concern/budget) 기반 1차 필터
   const quizFilteredProducts = useMemo(() => {
@@ -834,6 +839,7 @@ function ResultsPageInner() {
                 {savedRecommendation ? (
                   <div className="space-y-6 border-b border-pink-100 pb-8">
                     <ResultsDomainTabs
+                      initialTab={resultsDomainTab}
                       skinTone={savedRecommendation.skinType?.trim() ?? ""}
                       undertone={
                         typeof (savedRecommendation as { undertone?: string })
@@ -1693,6 +1699,46 @@ function ResultsPageInner() {
                     </Link>
                   </div>
                 ) : null}
+              </div>
+            ) : showDomainTabsWithoutSkinRec ? (
+              <div className="mb-8 space-y-4">
+                <ResultsDomainTabs
+                  initialTab={resultsDomainTab}
+                  hasSkincare={false}
+                  mascaraHints={[
+                    "워터프루프·컬링·볼륨·롱래쉬 선호를 문진과 함께 반영합니다.",
+                  ]}
+                  lipHints={[
+                    "언더톤·매트/글로시·착색 선호로 립 후보를 좁힙니다.",
+                  ]}
+                  scalpHints={[
+                    "건성·지성·민감 두피와 비듬·손상·열 손상은 헤어 도메인에서 별도 매칭합니다.",
+                  ]}
+                  morningSteps={[]}
+                  eveningSteps={[]}
+                  cautions={[]}
+                />
+                <p className="text-sm text-gray-600">
+                  {locale === "ko"
+                    ? "메이크업·헤어 문진 결과는 위 탭에 반영됩니다. 스킨케어 Top5는 피부 문진 또는 사진 분석 후 표시됩니다."
+                    : locale === "ja"
+                      ? "メイク・ヘア問診は上のタブに反映されます。スキンケアTop5は肌問診または写真分析後に表示されます。"
+                      : "Makeup/hair quiz tips appear in the tabs above. Skincare Top5 shows after a skin quiz or photo analysis."}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Link
+                    href="/quiz"
+                    className="inline-flex rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white"
+                  >
+                    {locale === "ko" ? "피부 문진" : "Skin quiz"}
+                  </Link>
+                  <Link
+                    href="/analyze"
+                    className="inline-flex rounded-full border border-pink-200 bg-white px-4 py-2 text-xs font-semibold text-gray-800"
+                  >
+                    {locale === "ko" ? "사진·AI 분석" : "Photo / AI analyze"}
+                  </Link>
+                </div>
               </div>
             ) : aiApplied ? (
               <div className="border border-pink-100 bg-pink-50/40 px-6 py-8 text-center">

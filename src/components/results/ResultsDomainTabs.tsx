@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { DomainQuizRecommendPanel } from "@/components/results/DomainQuizRecommendPanel";
 
 export type ResultsDomainTab =
@@ -20,11 +21,23 @@ const TABS: Array<{ id: ResultsDomainTab; label: string }> = [
   { id: "cautions", label: "주의사항" },
 ];
 
+const TAB_IDS = new Set<string>(TABS.map((t) => t.id));
+
+export function parseResultsDomainTab(
+  raw: string | null | undefined
+): ResultsDomainTab {
+  const v = (raw ?? "").trim().toLowerCase();
+  if (TAB_IDS.has(v)) return v as ResultsDomainTab;
+  return "analysis";
+}
+
 /**
  * Domain section navigator for full-beauty results.
  * Keeps one job per tab; does not invent product rankings when data is absent.
+ * URL `?tab=` (문진 resultsPath)와 동기화한다.
  */
 export function ResultsDomainTabs({
+  initialTab = "analysis",
   skinTone,
   undertone,
   hasSkincare,
@@ -35,6 +48,7 @@ export function ResultsDomainTabs({
   eveningSteps,
   cautions,
 }: {
+  initialTab?: ResultsDomainTab;
   skinTone?: string;
   undertone?: string;
   hasSkincare: boolean;
@@ -45,7 +59,22 @@ export function ResultsDomainTabs({
   eveningSteps: string[];
   cautions: string[];
 }) {
-  const [tab, setTab] = useState<ResultsDomainTab>("analysis");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [tab, setTab] = useState<ResultsDomainTab>(initialTab);
+
+  useEffect(() => {
+    setTab(initialTab);
+  }, [initialTab]);
+
+  function selectTab(next: ResultsDomainTab) {
+    setTab(next);
+    const params = new URLSearchParams(searchParams.toString());
+    if (next === "analysis") params.delete("tab");
+    else params.set("tab", next);
+    const qs = params.toString();
+    router.replace(qs ? `/results?${qs}` : "/results", { scroll: false });
+  }
 
   const analysisCopy = useMemo(() => {
     const parts = [
@@ -69,7 +98,7 @@ export function ResultsDomainTabs({
             type="button"
             role="tab"
             aria-selected={tab === t.id}
-            onClick={() => setTab(t.id)}
+            onClick={() => selectTab(t.id)}
             className={`shrink-0 rounded-lg px-3 py-2 text-sm font-medium transition ${
               tab === t.id
                 ? "bg-[#8B4513] text-white"
@@ -85,9 +114,7 @@ export function ResultsDomainTabs({
         className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white/90 p-4 text-sm leading-relaxed text-gray-800 sm:p-5"
         role="tabpanel"
       >
-        {tab === "analysis" ? (
-          <p>{analysisCopy}</p>
-        ) : null}
+        {tab === "analysis" ? <p>{analysisCopy}</p> : null}
         {tab === "skincare" ? (
           <p>
             {hasSkincare
@@ -102,28 +129,49 @@ export function ResultsDomainTabs({
               표현은 사실처럼 단정하지 않습니다.
             </p>
             <div className="flex flex-wrap gap-2 text-xs">
-              <a className="rounded-full border border-[#E8DFD8] px-3 py-1.5" href="/quiz/mascara">마스카라 문진</a>
-              <a className="rounded-full border border-[#E8DFD8] px-3 py-1.5" href="/quiz/lip">립 문진</a>
-              <a className="rounded-full border border-[#E8DFD8] px-3 py-1.5" href="/quiz/base">베이스 문진</a>
+              <a
+                className="rounded-full border border-[#E8DFD8] px-3 py-1.5"
+                href="/quiz/mascara"
+              >
+                마스카라 문진
+              </a>
+              <a
+                className="rounded-full border border-[#E8DFD8] px-3 py-1.5"
+                href="/quiz/lip"
+              >
+                립 문진
+              </a>
+              <a
+                className="rounded-full border border-[#E8DFD8] px-3 py-1.5"
+                href="/quiz/base"
+              >
+                베이스 문진
+              </a>
             </div>
             <div>
               <p className="font-semibold text-gray-900">마스카라 힌트</p>
               <ul className="mt-1 list-disc pl-5">
-                {(mascaraHints.length ? mascaraHints : ["문진에서 속눈썹·번짐·워터프루프 선호를 보완하세요."]).map(
-                  (h) => (
-                    <li key={h}>{h}</li>
-                  )
-                )}
+                {(mascaraHints.length
+                  ? mascaraHints
+                  : [
+                      "문진에서 속눈썹·번짐·워터프루프 선호를 보완하세요.",
+                    ]
+                ).map((h) => (
+                  <li key={h}>{h}</li>
+                ))}
               </ul>
             </div>
             <div>
               <p className="font-semibold text-gray-900">립 힌트</p>
               <ul className="mt-1 list-disc pl-5">
-                {(lipHints.length ? lipHints : ["입술 톤·매트/글로시·착색 선호를 문진으로 보완하세요."]).map(
-                  (h) => (
-                    <li key={h}>{h}</li>
-                  )
-                )}
+                {(lipHints.length
+                  ? lipHints
+                  : [
+                      "입술 톤·매트/글로시·착색 선호를 문진으로 보완하세요.",
+                    ]
+                ).map((h) => (
+                  <li key={h}>{h}</li>
+                ))}
               </ul>
             </div>
             <p className="rounded-xl bg-[#F7F1EC] px-3 py-2 text-xs text-gray-600">
@@ -147,7 +195,9 @@ export function ResultsDomainTabs({
             <ul className="mt-2 list-disc pl-5">
               {(scalpHints.length
                 ? scalpHints
-                : ["두피 타입(건성/지성/민감)·비듬·손상·열 손상 문진을 보완하세요."]
+                : [
+                    "두피 타입(건성/지성/민감)·비듬·손상·열 손상 문진을 보완하세요.",
+                  ]
               ).map((h) => (
                 <li key={h}>{h}</li>
               ))}
@@ -160,21 +210,23 @@ export function ResultsDomainTabs({
             <div>
               <p className="font-semibold">아침</p>
               <ol className="mt-1 list-decimal pl-5">
-                {(morningSteps.length ? morningSteps : ["세안 → 보습 → 선케어"]).map(
-                  (s) => (
-                    <li key={s}>{s}</li>
-                  )
-                )}
+                {(morningSteps.length
+                  ? morningSteps
+                  : ["세안 → 보습 → 선케어"]
+                ).map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
               </ol>
             </div>
             <div>
               <p className="font-semibold">저녁</p>
               <ol className="mt-1 list-decimal pl-5">
-                {(eveningSteps.length ? eveningSteps : ["세안 → 진정/보습 → 필요 시 활성 성분"]).map(
-                  (s) => (
-                    <li key={s}>{s}</li>
-                  )
-                )}
+                {(eveningSteps.length
+                  ? eveningSteps
+                  : ["세안 → 진정/보습 → 필요 시 활성 성분"]
+                ).map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
               </ol>
             </div>
           </div>
