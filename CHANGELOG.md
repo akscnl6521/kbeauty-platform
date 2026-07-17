@@ -10,7 +10,7 @@
 
 - 눈→마스카라 문진 · 입술→립 · 헤어→헤어
 - 눈썹·광대→메이크업 탭 · 이마·코·목→스킨 concern
-- Production 미배포
+- Preview READY (`234516e`) · Production 미배포
 
 ### 페이스 탐색 노출
 

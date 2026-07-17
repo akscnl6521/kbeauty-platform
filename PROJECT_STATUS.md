@@ -17,6 +17,8 @@
 | 헤어 | `/quiz/hair` |
 | 눈썹·광대 | `/results?tab=makeup` |
 | 이마·코·목 | `/results?concern=` 스킨 |
+| push | `234516e` |
+| Preview | READY |
 | Production | 미변경 |
 
 ### 2026-07-17 페이스 탐색 노출
