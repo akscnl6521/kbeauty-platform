@@ -246,6 +246,10 @@ function parseArrayField(value: string | null | string[]): string[] {
     .filter(Boolean);
 }
 
+function productBrandKey(brand: string | null | undefined): string {
+  return (getCanonicalBrandName(brand) ?? brand ?? "").trim();
+}
+
 function matchesTone(skinTone: string | null, selectedTone: string): boolean {
   const tones = parseArrayField(skinTone);
   return tones.length === 0 || tones.some((t) => t === selectedTone);
@@ -374,6 +378,8 @@ function ResultsPageInner() {
   const [quizRankBusy, setQuizRankBusy] = useState(false);
   /** 탐색 목록 카테고리 칩 (null = 전체) */
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+  /** 탐색 목록 브랜드 칩 (null = 전체) */
+  const [brandFilter, setBrandFilter] = useState<string | null>(null);
 
   const tone = searchParams.get("tone");
   const concern = searchParams.get("concern");
@@ -392,9 +398,16 @@ function ResultsPageInner() {
     });
   }, [products, tone, concern, budget]);
 
+  const brandKeyOf = productBrandKey;
+
   const availableCategories = useMemo(() => {
+    const pool = brandFilter
+      ? quizFilteredProducts.filter(
+          (p) => brandKeyOf(p.brand).toLowerCase() === brandFilter.toLowerCase()
+        )
+      : quizFilteredProducts;
     const counts = new Map<string, number>();
-    for (const p of quizFilteredProducts) {
+    for (const p of pool) {
       const key = (p.category ?? "").trim().toLowerCase().replace(/\s+/g, "_");
       if (!key) continue;
       counts.set(key, (counts.get(key) ?? 0) + 1);
@@ -402,7 +415,28 @@ function ResultsPageInner() {
     return [...counts.entries()]
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
       .map(([key, count]) => ({ key, count }));
-  }, [quizFilteredProducts]);
+  }, [quizFilteredProducts, brandFilter]);
+
+  const availableBrands = useMemo(() => {
+    const pool = categoryFilter
+      ? quizFilteredProducts.filter((p) => {
+          const key = (p.category ?? "")
+            .trim()
+            .toLowerCase()
+            .replace(/\s+/g, "_");
+          return key === categoryFilter;
+        })
+      : quizFilteredProducts;
+    const counts = new Map<string, number>();
+    for (const p of pool) {
+      const key = brandKeyOf(p.brand);
+      if (!key) continue;
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([key, count]) => ({ key, count }));
+  }, [quizFilteredProducts, categoryFilter]);
 
   const categoryScopedProducts = useMemo(() => {
     if (!categoryFilter) return quizFilteredProducts;
@@ -412,13 +446,20 @@ function ResultsPageInner() {
     });
   }, [quizFilteredProducts, categoryFilter]);
 
+  const brandScopedProducts = useMemo(() => {
+    if (!brandFilter) return categoryScopedProducts;
+    return categoryScopedProducts.filter(
+      (p) => brandKeyOf(p.brand).toLowerCase() === brandFilter.toLowerCase()
+    );
+  }, [categoryScopedProducts, brandFilter]);
+
   // 검색어 + 즐겨찾기 기반 2차 필터 (name/name_ko/name_ja/brand, favorites)
   const filteredProducts = useMemo(() => {
     const favoritesSet = new Set(favoriteIds);
     const query = searchQuery.trim().toLowerCase();
-    if (!query && !showFavoritesOnly) return categoryScopedProducts;
+    if (!query && !showFavoritesOnly) return brandScopedProducts;
 
-    return categoryScopedProducts.filter((p) => {
+    return brandScopedProducts.filter((p) => {
       if (showFavoritesOnly && !favoritesSet.has(p.id)) return false;
 
       if (!query) return true;
@@ -433,12 +474,7 @@ function ResultsPageInner() {
         `${nameEn} ${nameKo} ${nameJa} ${brand} ${p.brand ?? ""} ${ingredientsEn} ${ingredientsJa}`.toLowerCase();
       return haystack.includes(query);
     });
-  }, [
-    categoryScopedProducts,
-    searchQuery,
-    favoriteIds,
-    showFavoritesOnly,
-  ]);
+  }, [brandScopedProducts, searchQuery, favoriteIds, showFavoritesOnly]);
 
   /** Top 5와 중복되지 않는 탐색용 목록 */
   const browseProducts = useMemo(() => {
@@ -1779,7 +1815,7 @@ function ResultsPageInner() {
               </div>
               {availableCategories.length > 1 ? (
                 <div
-                  className="mb-5 flex flex-wrap gap-2"
+                  className="mb-3 flex flex-wrap gap-2"
                   role="group"
                   aria-label={
                     locale === "ko"
@@ -1802,10 +1838,14 @@ function ResultsPageInner() {
                     }`}
                   >
                     {locale === "ko"
-                      ? `전체 (${quizFilteredProducts.length})`
+                      ? `제형 전체 (${
+                          brandFilter
+                            ? availableCategories.reduce((n, c) => n + c.count, 0)
+                            : quizFilteredProducts.length
+                        })`
                       : locale === "ja"
-                        ? `すべて (${quizFilteredProducts.length})`
-                        : `All (${quizFilteredProducts.length})`}
+                        ? `剤形すべて`
+                        : `All forms`}
                   </button>
                   {availableCategories.map(({ key, count }) => {
                     const label =
@@ -1823,6 +1863,66 @@ function ResultsPageInner() {
                           selected
                             ? "bg-[#8B4513] text-white"
                             : "border border-[#E8DFD8] bg-white text-gray-700 hover:bg-[#FAF6F2]"
+                        }`}
+                      >
+                        {label} ({count})
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : null}
+              {availableBrands.length > 1 ? (
+                <div
+                  className="mb-5 flex flex-wrap gap-2"
+                  role="group"
+                  aria-label={
+                    locale === "ko"
+                      ? "브랜드 필터"
+                      : locale === "ja"
+                        ? "ブランドフィルター"
+                        : "Brand filter"
+                  }
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setBrandFilter(null);
+                      setCatalogExpanded(false);
+                    }}
+                    className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                      brandFilter == null
+                        ? "bg-[#C2185B] text-white"
+                        : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
+                    }`}
+                  >
+                    {locale === "ko"
+                      ? `브랜드 전체 (${
+                          categoryFilter
+                            ? availableBrands.reduce((n, b) => n + b.count, 0)
+                            : quizFilteredProducts.length
+                        })`
+                      : locale === "ja"
+                        ? `ブランドすべて`
+                        : `All brands`}
+                  </button>
+                  {availableBrands.map(({ key, count }) => {
+                    const label =
+                      displayBrandName(key, locale) ?? key;
+                    const selected =
+                      brandFilter != null &&
+                      brandFilter.toLowerCase() === key.toLowerCase();
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => {
+                          setBrandFilter(key);
+                          setCatalogExpanded(false);
+                        }}
+                        className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                          selected
+                            ? "bg-[#C2185B] text-white"
+                            : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
                         }`}
                       >
                         {label} ({count})
