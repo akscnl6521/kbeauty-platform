@@ -6,6 +6,12 @@
 
 ## 2026-07-17
 
+### 루틴 ← 핵심 Top5 연결
+
+- `/routine`이 `skinRankedProducts` Top5를 즐겨찾기와 병합해 스텝 배치
+- 빈 상태 시 문진·결과 CTA
+- Production 미배포
+
 ### 빈 Top5·analyze→results 안내 UX
 
 - 핵심 Top5 비어 있을 때 이유(가짜 패딩 없음) + 문진/분석/카탈로그 CTA

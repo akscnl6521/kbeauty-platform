@@ -4,9 +4,16 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** 빈 Top5 UX Preview 배포.  
-**방금 완료:** 빈 Top5·콜드 `/results` 안내 · analyze CTA 「추천 결과 보기」.  
+**다음 작업:** 루틴←Top5 Preview 배포.  
+**방금 완료:** `/routine`이 핵심 추천(Top5)+즐겨찾기를 루틴 순서로 표시.  
 **운영 메모:** 볼 수 없는 대시보드는 건너뜀 · Production 배포/DB는 명시 전 안 함.
+
+### 2026-07-17 루틴←핵심 Top5 연결
+
+| 항목 | 결과 |
+|------|------|
+| UX | Ranked Top5 우선 + 즐겨찾기 병합 |
+| Production | 미변경 |
 
 ### 2026-07-17 빈 Top5·analyze CTA 안내
 
@@ -14,6 +21,8 @@
 |------|------|
 | UX | 빈 Top5 이유·CTA · 콜드 진입 문진 안내 |
 | analyze | 「추천 결과 보기」 |
+| push | `b53b4ee` |
+| Preview | READY |
 | Production | 미변경 |
 
 ### 2026-07-17 홈 CTA·루틴 연결

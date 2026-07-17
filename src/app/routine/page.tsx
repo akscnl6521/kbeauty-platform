@@ -10,6 +10,7 @@ import {
   displayBrandName,
   displayProductTitle,
 } from "@/lib/brand/displayBrandName";
+import { RANKED_PRODUCTS_STORAGE_KEY } from "@/lib/recommend/types";
 
 type Locale = "en" | "ja" | "ko";
 
@@ -22,8 +23,6 @@ type ProductRow = {
   category: string | null;
   price_usd: number | null;
 };
-
-type CountryCode = "US" | "JP" | "KR" | "OTHER";
 
 const ROUTINE_ORDER: string[] = [
   "Cleanser",
@@ -76,9 +75,9 @@ const TITLE_LABELS: Record<Locale, string> = {
 };
 
 const EMPTY_LABELS: Record<Locale, string> = {
-  en: "No favorite products found. Tap the heart on the results page to add favorites!",
-  ko: "즐겨찾기한 제품이 없습니다. 결과 페이지에서 하트를 눌러주세요!",
-  ja: "お気に入りの製品がありません。結果ページでハートを押してください！",
+  en: "No routine products yet. Finish a quiz or analysis for Top5 picks, or heart products on Results.",
+  ko: "루틴에 넣을 제품이 없습니다. 문진·분석으로 Top5를 만들거나, 결과에서 하트를 눌러 주세요.",
+  ja: "ルーティン用の製品がありません。問診・分析でTop5を作るか、結果でハートを押してください。",
 };
 
 function formatPrice(
@@ -104,75 +103,147 @@ function formatPrice(
 function mapCategoryToStep(raw: string | null): string {
   if (!raw) return "Other";
   const lower = raw.toLowerCase();
-  if (lower.includes("cleanser") || lower.includes("wash")) return "Cleanser";
+  if (
+    lower.includes("cleanser") ||
+    lower.includes("cleansing") ||
+    lower.includes("wash") ||
+    lower.includes("balm")
+  ) {
+    return "Cleanser";
+  }
   if (lower.includes("toner")) return "Toner";
   if (lower.includes("serum")) return "Serum";
   if (lower.includes("essence")) return "Essence";
   if (lower.includes("ampoule") || lower.includes("ampule")) return "Ampoule";
-  if (lower.includes("cream") || lower.includes("lotion") || lower.includes("moistur")) {
+  if (
+    lower.includes("cream") ||
+    lower.includes("lotion") ||
+    lower.includes("moistur")
+  ) {
     return "Cream";
   }
-  if (lower.includes("spf") || lower.includes("sunscreen") || lower.includes("sun")) {
+  if (
+    lower.includes("spf") ||
+    lower.includes("sunscreen") ||
+    lower.includes("sun_") ||
+    lower.includes("sun-") ||
+    lower.includes("sun gel") ||
+    lower === "sun"
+  ) {
     return "SPF";
   }
   return "Other";
 }
 
+function readRankedProductIds(): string[] {
+  try {
+    const raw = window.localStorage.getItem(RANKED_PRODUCTS_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    const ids: string[] = [];
+    for (const row of parsed) {
+      const id =
+        row &&
+        typeof row === "object" &&
+        row.product &&
+        typeof row.product === "object"
+          ? (row.product as { id?: unknown }).id
+          : null;
+      if (typeof id === "string" && id.trim()) ids.push(id.trim());
+      else if (typeof id === "number" && Number.isFinite(id)) {
+        ids.push(String(id));
+      }
+    }
+    return ids;
+  } catch {
+    return [];
+  }
+}
+
+function readFavoriteIds(): string[] {
+  try {
+    const stored = window.localStorage.getItem("favoriteProductIds");
+    if (!stored) return [];
+    const parsed = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .map((v) =>
+        typeof v === "string" || typeof v === "number" ? String(v) : ""
+      )
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
 export default function RoutinePage() {
   const { locale } = useLocale();
   const { krw, jpy } = useExchangeRate();
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [productIds, setProductIds] = useState<string[]>([]);
+  const [rankedCount, setRankedCount] = useState(0);
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load favorite ids from localStorage
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem("favoriteProductIds");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          setFavoriteIds(parsed.filter((v) => typeof v === "string"));
-        }
-      }
-    } catch {
-      // ignore
+    const ranked = readRankedProductIds();
+    const favorites = readFavoriteIds();
+    setRankedCount(ranked.length);
+    const seen = new Set<string>();
+    const merged: string[] = [];
+    for (const id of [...ranked, ...favorites]) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+      merged.push(id);
     }
+    setProductIds(merged);
   }, []);
 
-  // Fetch products for favorites
   useEffect(() => {
-    if (favoriteIds.length === 0) {
+    if (productIds.length === 0) {
+      setProducts([]);
       setLoading(false);
       return;
     }
 
-    async function fetchFavorites() {
+    let cancelled = false;
+
+    async function fetchProducts() {
+      setLoading(true);
       try {
-        const { data, error } = await supabase
+        const { data, error: fetchError } = await supabase
           .from("products")
           .select("id, name, name_ja, name_ko, brand, category, price_usd")
-          .in("id", favoriteIds);
+          .in("id", productIds);
 
-        if (error) {
-          console.error("[Supabase favorites fetch error]", error);
-          setError(error.message);
+        if (fetchError) {
+          console.error("[Supabase routine fetch error]", fetchError);
+          if (!cancelled) setError(fetchError.message);
           return;
         }
 
-        setProducts((data as ProductRow[]) ?? []);
+        const byId = new Map(
+          ((data as ProductRow[]) ?? []).map((p) => [String(p.id), p])
+        );
+        const ordered = productIds
+          .map((id) => byId.get(id))
+          .filter((p): p is ProductRow => p != null);
+        if (!cancelled) setProducts(ordered);
       } catch (e) {
         const err = e instanceof Error ? e : new Error(String(e));
-        console.error("[Supabase favorites fetch exception]", err);
-        setError(err.message);
+        console.error("[Supabase routine fetch exception]", err);
+        if (!cancelled) setError(err.message);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     }
 
-    fetchFavorites();
-  }, [favoriteIds]);
+    void fetchProducts();
+    return () => {
+      cancelled = true;
+    };
+  }, [productIds]);
 
   const groupedByStep = useMemo(() => {
     const groups: Record<string, ProductRow[]> = {};
@@ -231,15 +302,15 @@ export default function RoutinePage() {
           name="description"
           content={
             locale === "ko"
-              ? "즐겨찾기 제품을 바탕으로 정리한 하루 루틴 가이드입니다."
+              ? "핵심 추천·즐겨찾기 제품을 하루 루틴 순서로 정리한 가이드입니다."
               : locale === "ja"
-                ? "お気に入り製品をもとに整理した1日ルーティンガイドです。"
-                : "Automatically organized K-beauty routine based on your favorite products."
+                ? "コアおすすめ・お気に入りを1日ルーティン順に整理したガイドです。"
+                : "Day routine guide from your core Top5 picks and favorites."
           }
         />
       </Head>
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
-        <header className="mb-8 flex items-center justify-between">
+        <header className="mb-8 flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C2185B]">
               {locale === "ko"
@@ -251,10 +322,25 @@ export default function RoutinePage() {
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
               {title}
             </h1>
+            {hasAnyProduct ? (
+              <p className="mt-2 text-sm text-gray-600">
+                {rankedCount > 0
+                  ? locale === "ko"
+                    ? `핵심 추천 ${rankedCount}개를 루틴 순서로 먼저 배치했습니다. 즐겨찾기도 함께 포함됩니다.`
+                    : locale === "ja"
+                      ? `コアおすすめ${rankedCount}件をルーティン順に先に並べています。お気に入りも含みます。`
+                      : `Core Top${rankedCount} picks lead the steps. Favorites are included too.`
+                  : locale === "ko"
+                    ? "즐겨찾기 제품을 루틴 순서로 정리했습니다."
+                    : locale === "ja"
+                      ? "お気に入り製品をルーティン順に整理しました。"
+                      : "Favorites arranged in routine order."}
+              </p>
+            ) : null}
           </div>
           <Link
             href="/results"
-            className="text-xs font-semibold text-[#C2185B] underline hover:no-underline"
+            className="shrink-0 text-xs font-semibold text-[#C2185B] underline hover:no-underline"
           >
             {locale === "ko"
               ? "← 결과로 돌아가기"
@@ -269,18 +355,26 @@ export default function RoutinePage() {
             <p className="text-base font-medium text-gray-700">
               {EMPTY_LABELS[locale]}
             </p>
-            <Link href="/results" className="mt-4 inline-block">
-              <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#a3154f]"
-              >
-                {locale === "ko"
-                  ? "결과 페이지로 이동"
-                  : locale === "ja"
-                    ? "結果ページへ"
-                    : "Go to Results"}
-              </button>
-            </Link>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+              <Link href="/quiz" className="inline-block">
+                <span className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#a3154f]">
+                  {locale === "ko"
+                    ? "피부 문진"
+                    : locale === "ja"
+                      ? "肌問診"
+                      : "Skin quiz"}
+                </span>
+              </Link>
+              <Link href="/results" className="inline-block">
+                <span className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2 text-sm font-semibold text-gray-800 transition hover:bg-pink-50">
+                  {locale === "ko"
+                    ? "결과 페이지"
+                    : locale === "ja"
+                      ? "結果ページ"
+                      : "Results"}
+                </span>
+              </Link>
+            </div>
           </div>
         ) : (
           <section className="space-y-8">
@@ -320,11 +414,11 @@ export default function RoutinePage() {
                           <p className="mb-2 font-semibold text-gray-900">
                             {displayName}
                           </p>
-                          {priceDisplay && (
+                          {priceDisplay ? (
                             <p className="mt-auto text-xs font-medium text-gray-800">
                               {priceDisplay}
                             </p>
-                          )}
+                          ) : null}
                         </div>
                       );
                     })}
@@ -338,4 +432,3 @@ export default function RoutinePage() {
     </div>
   );
 }
-
