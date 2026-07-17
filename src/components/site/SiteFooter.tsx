@@ -26,6 +26,12 @@ export function SiteFooter() {
           <Link href="/routine" className="underline-offset-2 hover:underline">
             내 루틴
           </Link>
+          <Link
+            href="/ingredients"
+            className="underline-offset-2 hover:underline"
+          >
+            성분 가이드
+          </Link>
         </nav>
         <nav
           className="mt-3 flex flex-wrap gap-x-5 gap-y-2"
