@@ -68,6 +68,12 @@ export default function Home() {
             피부 문진
           </Link>
           <Link
+            href="/face-explorer"
+            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
+          >
+            페이스 탐색
+          </Link>
+          <Link
             href="/quiz/mascara"
             className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
           >

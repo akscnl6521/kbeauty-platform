@@ -6,6 +6,11 @@
 
 ## 2026-07-17
 
+### 페이스 탐색 노출
+
+- 헤더·홈·푸터에 `/face-explorer` 링크 추가
+- Production 미배포
+
 ### results ?tab= 도메인 탭 동기화
 
 - 메이크업/헤어 문진 `resultsPath`의 `tab`이 ResultsDomainTabs에 반영

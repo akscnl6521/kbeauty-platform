@@ -14,6 +14,12 @@ export function SiteFooter() {
           <Link href="/analyze" className="underline-offset-2 hover:underline">
             피부 분석
           </Link>
+          <Link
+            href="/face-explorer"
+            className="underline-offset-2 hover:underline"
+          >
+            페이스 탐색
+          </Link>
           <Link href="/results" className="underline-offset-2 hover:underline">
             추천 결과
           </Link>

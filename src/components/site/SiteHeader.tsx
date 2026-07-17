@@ -8,6 +8,7 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 const links = [
   ["피부 문진", "/quiz"],
   ["피부 분석", "/analyze"],
+  ["페이스 탐색", "/face-explorer"],
   ["추천 결과", "/results"],
   ["성분 가이드", "/ingredients"],
   ["내 루틴", "/routine"],
