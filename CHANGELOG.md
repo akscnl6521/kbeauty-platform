@@ -9,7 +9,7 @@
 ### 성분 가이드 푸터 링크
 
 - 푸터 주요 바로가기에 `/ingredients`
-- Production 미배포
+- Preview READY (`372c25a`) · Production 미배포
 
 ### 푸터 문진 링크 정리
 

@@ -26,7 +26,7 @@
 25. [x] **립 문진 홈 노출** → `9c0f3e6`
 26. [x] **홈 CTA 정리** → Preview READY (`7af2a24`)
 27. [x] **푸터 문진 링크 정리** → Preview READY (`ffdfa9c`)
-28. [x] **성분 가이드 푸터 링크**
+28. [x] **성분 가이드 푸터 링크** → Preview READY (`372c25a`)
 29. [ ] **홈에 성분 가이드 CTA** (`/ingredients` 홈 노출)
 
 ## 현재 단일 작업
