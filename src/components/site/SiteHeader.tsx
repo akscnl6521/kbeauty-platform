@@ -6,10 +6,11 @@ import { useEffect, useId, useRef, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 const links = [
+  ["피부 문진", "/quiz"],
   ["피부 분석", "/analyze"],
+  ["추천 결과", "/results"],
   ["성분 가이드", "/ingredients"],
   ["내 루틴", "/routine"],
-  ["내 피부 관리", "/my"],
 ] as const;
 
 export function SiteHeader() {

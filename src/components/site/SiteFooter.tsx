@@ -4,7 +4,27 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-pink-100 bg-[#FAF7F5]">
       <div className="mx-auto max-w-[var(--site-content-max)] px-4 py-8 text-xs leading-5 text-gray-600 sm:px-6">
-        <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="법적 안내">
+        <nav
+          className="flex flex-wrap gap-x-5 gap-y-2"
+          aria-label="주요 바로가기"
+        >
+          <Link href="/quiz" className="underline-offset-2 hover:underline">
+            피부 문진
+          </Link>
+          <Link href="/analyze" className="underline-offset-2 hover:underline">
+            피부 분석
+          </Link>
+          <Link href="/results" className="underline-offset-2 hover:underline">
+            추천 결과
+          </Link>
+          <Link href="/routine" className="underline-offset-2 hover:underline">
+            내 루틴
+          </Link>
+        </nav>
+        <nav
+          className="mt-3 flex flex-wrap gap-x-5 gap-y-2"
+          aria-label="법적 안내"
+        >
           <Link href="/privacy" className="underline-offset-2 hover:underline">
             개인정보처리방침
           </Link>
