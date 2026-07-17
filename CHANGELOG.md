@@ -9,7 +9,7 @@
 ### 홈 CTA 정리
 
 - 주 CTA(분석·피부·페이스·계정)와 메이크업·헤어 문진 그룹 분리
-- Production 미배포
+- Preview READY (`7af2a24`) · Production 미배포
 
 ### 립 문진 홈 노출
 
