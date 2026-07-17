@@ -1,4 +1,4 @@
-import type { RankedProduct } from "./types";
+import type { RankableProduct, RankedProduct } from "./types";
 
 function brandKey(brand: string | null | undefined): string {
   const t = (brand ?? "").trim().toLowerCase();
@@ -9,7 +9,7 @@ function brandKey(brand: string | null | undefined): string {
  * 점수 순 랭킹을 유지하면서 Top N에서 동일 브랜드를 최대 maxPerBrand개로 제한한다.
  * 후보가 부족하면 제한을 완화해 슬롯을 채운다(가짜 제품 패딩 없음).
  */
-export function diversifyByBrand<T extends { brand?: string | null }>(
+export function diversifyByBrand<T extends RankableProduct>(
   ranked: RankedProduct<T>[],
   topN: number,
   maxPerBrand = 2
