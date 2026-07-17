@@ -4,7 +4,92 @@
 
 ---
 
-## 2026-07-16
+## 2026-07-17
+
+### 추천 캐시 V4 · concern 분포 재확인
+
+- `RECOMMENDATION_CACHE_VERSION` → `KR_MATCH_EVIDENCE_V4`
+- Staging 적격 14 고민 태그: dryness 6 · acne 4 · pores/pigmentation 3 등
+- Production 미배포 · Auth URL Configuration은 사용자
+
+### Staging skin_concern 공란 보강
+
+- COSRX id 4·6·8·9에 주요성분 기반 고민 태그 채움 (banila 12 비움 유지)
+- Auth 공개 경로(`/login` 등) 200 확인 · URL Configuration은 사용자
+- 스크립트: `scripts/staging-fill-skin-concerns.mjs` · Production 미변경
+
+### Production Vercel env 대체 확인
+
+- `vercel env ls production`: AI_PROVIDER · NEXT_PUBLIC_SITE_URL · OPENAI_API_KEY 존재
+- health `requiredConfigPresent: true` → Production에서 AI mock 아님
+- Auth URL은 Supabase 대시보드 사용자 확인 남음 · 비밀값 미출력 · DB/배포 미변경
+
+### Staging 최종 잠금 · Production 읽기 점검
+
+- `check:staging-quality` 통과 · krVerifiedOffers **14** · `test:quality` 통과
+- Production `/api/health`·홈 **200** (version `2b17f5f`) · DB/배포 미변경
+- 다양성 2차 승격 풀 없음(INCI BLOCKED) · 다음: 사용자 Production 대시보드 섹션 B
+
+### banila Staging KRW offer 완료
+
+- banila.com `product_no=669` · 할인가 **14,000 KRW** · stock 4412 · in_stock
+- 엄격 KR Top5 적격 **14** · 브랜드 **6** (다양성 5종 전부 KR 적격)
+- 스크립트: `scripts/staging-banila-krw-offer.mjs` · Production 미변경
+
+### Staging KRW 공식몰 offer 4종
+
+- Anua 20,000 · BoJ 17,000 · ROUND LAB 13,500 · Isntree 15,400 KRW (Cafe24 `product_price` 판매확인)
+- 엄격 KR Top5 적격 **13** · 브랜드 **5** (banila만 보류 → 이후 완료)
+- 스크립트: `scripts/staging-krw-diversity-offers.mjs` · 가짜 KRW 없음 · Production 미변경
+
+### Isntree Staging 판매확인 완료
+
+- 공식 Global Shopify: USD 21.96 · in_stock · 이미지 334KB
+- Staging 공개 이미지 **14/14** · Preview Top5 적격 **14** · 브랜드 **6**
+- 스크립트: `scripts/staging-isntree-media-offer.mjs` · Production 미변경 · 가짜 KRW 없음
+
+### Preview 대체 검증 완료
+
+- Staging 공개 이미지 13/14 · Preview Top5 적격 13·브랜드 5 · `test:quality` 통과
+- SSO UI는 사용자 선택 · Production 일괄 검토 문서: `docs/PRODUCTION_BATCH_REVIEW.md`
+
+### Staging 이미지·공식 offer + Preview 다양성 모드
+
+- banila/Anua/BoJ/ROUND LAB: 공식 CDN 이미지 + Shopify 실가격 verified offer (USD)
+- 가짜 KRW 없음 · 올리브영 403
+- Preview만 `official_global` Top5 허용 → 적격 13·브랜드 5
+- Production 게이트 유지 · Isntree deferred
+
+### 고민별 추천 비교 테스트
+
+- `test:quality` · `check:staging-quality` 통과 · 8고민 fingerprint 유일
+- Staging Top5 적격 **9**(COSRX) · 신규 5브랜드는 KR verified offer 없어 Top5 제외
+- 다음: 신규 5건 판매처·가격·재고·이미지 검증
+
+### Staging 다양성 1차 배치 (비-COSRX 5)
+
+- 공개 추천 풀 9→**14** · 브랜드 1→**6**
+- banila Clean It Zero · Anua Heartleaf 77 · BoJ Glow Serum · ROUND LAB Dokdo · Isntree Watery Sun
+- 공식 INCI 라벨시트 기반 · 가짜 KR 가격/재고 없음 (offer unverified)
+- Production 미변경 · 승인 보류
+
+### 추천 고정 원인 조사 (Production 승인 보류)
+
+- Production 공개 추천 **2**/191 · Staging **9**/11 · 공개 브랜드 **1**(COSRX)
+- mock은 Production 차단 · 고정 체감의 핵심은 공개 `verified` 풀 부족
+- 문서: `docs/RECOMMENDATION_DIVERSITY_FINDINGS.md`
+- 다음: Staging 브랜드·카테고리 확대 (자동 Verified 금지)
+
+### Production 배포 완료
+
+- 「다음작업진행하자」→ Vercel Production READY
+- alias https://www.kbeautymatch.com · `/api/health` 200 · version `2b17f5f`
+- Dashboard: `AI_PROVIDER` · Auth Redirect 확인 대기
+
+### main 병합 완료
+
+- 사용자 「승인」→ `backup-sprint14-20260713` → `main` (`2b17f5f`)
+- Production 배포는 별도 **「Production 배포 진행」** 대기
 
 ### 로컬 출시 준비 검사 통과
 

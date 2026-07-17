@@ -1,25 +1,26 @@
-# NEXT_TASK — Production 배포 승인 대기
+# NEXT_TASK — Preview 반영 · 플랫폼 속도 우선
 
-최종 갱신: 2026-07-16
+최종 갱신: 2026-07-17
 
-## 완료 (반복 금지)
+## 운영 원칙 (사용자 지시 2026-07-17)
 
-- Preview `/results` 이미지 코드·Snail 96 복구·Staging 공개 9건 이미지 **9/9 OK**
-- A안 Production 신규 **5건** (id 188~192, `verified_at` NULL)
-- 로컬 출시 준비 검사 통과
-- **main 병합** — 사용자 「승인」(2026-07-16) · backup → main
+- **에이전트가 볼 수 없는 항목은 건너뛴다** (Supabase Auth URL 대시보드, 수동 승인 대기 등)
+- Production main 병합·Production 배포·Production DB는 별도 명시 전까지 **안 함**
+- Staging / Preview / 코드로 플랫폼을 **최대한 빠르게** 진행
 
-## 남은 작업 (단일)
+## 건너뜀 (나중에 일괄)
 
-채팅에 **「Production 배포 진행」**을 보내 주세요.
+- [skip] Production Auth URL Configuration
+- [skip] Production 진행 승인 질문
+- [skip] 잔여 27 INCI (BLOCKED)
 
-| 보낼 말 | 실행 내용 |
-|---------|-----------|
-| **Production 배포 진행** | Vercel Production 배포 |
+## 작업 순서
 
-## 배포 전 사용자 확인 (대시보드 · 에이전트 대체 불가)
+1~7f. [x] Staging 다양성·KRW·skin_concern·캐시 V4 코드
+8. [ ] **백업 브랜치 커밋·push** + **Preview 배포** (V4 · official_global)
+9. [ ] Preview `/results` 다브랜드 Top5 동작 확인(대체 가능하면 Staging API)
+10. [ ] 다음 플랫폼 확대 (공개 풀·카테고리·문진 UX 중 가장 빠른 1건)
 
-1. Vercel Production: `AI_PROVIDER`가 mock이 **아닌지**
-2. Supabase Auth: Site URL / Redirect URLs에 Production 도메인
+## 현재 단일 작업
 
-잔여 27 heroes 공식 INCI는 **BLOCKED**.
+**커밋 → push → Preview 배포** — Staging 다양성·Preview offer 모드·캐시 V4를 Preview에 반영.

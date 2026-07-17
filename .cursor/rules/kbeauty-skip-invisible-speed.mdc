@@ -1,0 +1,20 @@
+---
+description: 볼 수 없는 대시보드·승인 대기는 건너뛰고 Staging/Preview로 플랫폼을 빠르게 진행
+alwaysApply: true
+---
+
+# K-Beauty Match — 속도 우선 · 비가시 항목 스킵
+
+사용자가 「볼 수 없는 건 건너뛰고 계속」 또는 동일 취지로 말한 뒤 적용한다.
+
+## 의무
+
+1. **에이전트가 직접 확인·실행할 수 없는 항목은 건너뛴다.**  
+   예: Supabase Auth URL 대시보드, Vercel 비밀값 수동 확인, 사용자만 할 수 있는 클릭 검수.
+2. 그 항목을 이유로 **작업을 멈추거나 같은 안내를 반복하지 않는다.**
+3. **Staging / Preview / 코드·문서**로 플랫폼을 계속 만든다.
+4. Production **main 병합 · Production 배포 · Production DB/환경변수 변경**만 사용자 명시 승인 후에 한다. (중간 승인 문구를 반복해 묻지 않음)
+
+## 재개 시
+
+`docs/NEXT_TASK_PREVIEW_VALIDATION.md`의 **스킵이 아닌 다음 미완료 단일 작업**만 수행한다.

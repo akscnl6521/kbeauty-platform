@@ -44,17 +44,23 @@
 - [x] **TOCOBO Cotton Soft Sun Stick 공식 INCI** — with_inci **57** (Soft ≠ Airy)
 - [x] **잔여 27건 OBF·공식몰 재탐색** — harvest/apply **0** · with_inci 57 유지 (공식 verbatim 미확보)
 - [x] **Snail 96 Staging 이미지 복구** — 68B → 26,610B 공식 이미지 · 공개 9건 **9/9** 자동 검증
-- [x] **로컬 출시 준비 검사** — `check:production` · `check:release-security` · `test:smoke` 통과
-- [ ] **main 병합 · Production 배포** — 채팅에 **「main 병합 진행」** / **「Production 배포 진행」** 명시 후
-- [ ] 잔여 27 heroes 공식 INCI — **BLOCKED** (패키징·공식 고시 JS/라벨 확보 시 재개)
-- [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
-- [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
-- [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인
-- [x] **A안 dry-run:** Staging COSRX 8건 vs Production 중복 조회 (신규 5 · 스킵 3)
-- [x] **A안 스모크:** Production id **188** Good Morning Gel Cleanser
-- [x] **A안 나머지 4건:** id **189~192** (AHA-BHA / Hydrium / Niacinamide 15 / 6 Peptide)
-- [ ] main 병합 · Production 배포 — **승인 후**
-- 판정: **대기** (main/배포 명시 승인 · Dashboard `AI_PROVIDER`/Auth URL 확인)
+- [x] **main 병합** — 「승인」(2026-07-16) · `backup-sprint14-20260713` → `main` (`2b17f5f`)
+- [x] **Production 배포** — 「다음작업진행하자」 · alias `www.kbeautymatch.com` · health **200**
+- [x] **Staging 한국 브랜드·카테고리 확대 1차** — 공개 14 · 브랜드 6 (banila/Anua/BoJ/ROUND LAB/Isntree)
+- [x] **이미지·판매처 1차** — 4브랜드 공식 이미지+Shopify 실가격 · Preview official_global · Isntree 보류
+- [x] **Preview 대체 검증** — 이미지 13/14 · Top5 적격 13·브랜드 5 · quality 통과
+- [x] **Isntree 이미지·USD offer** — 공식 Global 판매확인 · 이미지 14/14 · Preview 적격 14·브랜드 6
+- [x] **KRW 공식몰 offer 4종** — Anua/BoJ/ROUND LAB/Isntree · 엄격 KR Top5 **13**·브랜드 **5**
+- [x] **banila KRW offer** — 14,000원 · 엄격 KR Top5 **14**·브랜드 **6** (다양성 전원 KR 적격)
+- [x] **Staging 최종 품질 잠금** — `check:staging-quality` KR offers 14 · `test:quality` 통과
+- [x] **Production 공개 읽기 점검** — health/home 200 (env/Auth는 대시보드)
+- [x] **Production Vercel env 대체 확인** — AI mock 아님 · SITE_URL/OPENAI 존재
+- [x] **Staging skin_concern 공란 보강** — COSRX 4건 (4·6·8·9)
+- [x] **Production Auth 공개 경로 점검** — login/callback 응답 OK
+- [x] **추천 캐시 V4** — skin_concern 보강 반영용
+- [ ] **Production Auth URL Configuration** — Supabase 대시보드 (사용자 · 에이전트 불가)
+- [ ] 잔여 27 INCI — BLOCKED
+- 판정: **에이전트 Staging 작업 소진** · 남은 건 Auth URL 사용자 확인
 
 
 ---

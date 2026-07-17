@@ -4,17 +4,139 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** 채팅에 **「Production 배포 진행」** (명시 승인 전 금지).  
-**방금 완료:** main 병합 승인·실행 (`backup-sprint14-20260713` → main).  
-**운영 메모:** Preview 이미지·A안 5건·Snail 96 복구 완료 · Production 배포 **안 함**.
+**다음 작업:** 백업 브랜치 커밋·push → Preview 배포 (캐시 V4 · official_global).  
+**방금 완료:** 비가시 Auth/승인 대기 스킵 원칙 반영 · NEXT_TASK를 Preview 속도로 전환.  
+**운영 메모:** 볼 수 없는 대시보드는 건너뜀 · Production 배포/DB는 명시 전 안 함.
 
-### 2026-07-16 main 병합 승인
+### 2026-07-17 캐시 V4 · concern 분포
+
+| 항목 | 결과 |
+|------|------|
+| 캐시 | `KR_MATCH_EVIDENCE_V4` |
+| 적격 14 고민 태그 | dryness 6 · acne 4 · pores/pigmentation 3 … |
+| Auth URL | **사용자 대시보드만** |
+
+### 2026-07-17 skin_concern 보강 · Auth 표면 점검
+
+| 항목 | 결과 |
+|------|------|
+| Staging concern 채움 | id **4·6·8·9** (banila 12는 비움 유지) |
+| Auth 공개 경로 | `/login`·`/signup`·`/forgot-password`·`/admin/login` **200** · `/auth/callback` 307 |
+| Auth URL allow-list | **사용자 대시보드 남음** |
+| Production DB/배포 | 미변경 |
+
+### 2026-07-17 Production env 대체 확인
+
+| 항목 | 결과 |
+|------|------|
+| AI_PROVIDER | 존재 · **mock 아님** (health requiredConfigPresent) |
+| NEXT_PUBLIC_SITE_URL / OPENAI | Production에 존재 |
+| Auth URL | **사용자 확인 남음** |
+| Production DB/배포 | 미변경 |
+
+### 2026-07-17 Staging 최종 잠금 · Production 읽기 점검
+
+| 항목 | 결과 |
+|------|------|
+| Production health | **200** · version `2b17f5f` · supabaseReachable |
+| Staging `check:staging-quality` | 통과 · **krVerifiedOffers: 14** |
+| `test:quality` | 통과 |
+| 엄격 KR Top5 | **14** · 브랜드 **6** · 부적격 0 |
+| 다양성 2차 | INCI BLOCKED로 승격 풀 없음 |
+| Production DB/배포 | 미변경 |
+
+### 2026-07-17 banila KRW offer
+
+| 항목 | 결과 |
+|------|------|
+| PDP | banila.com `product_no=669` |
+| 할인가·재고 | **14,000 KRW** · stock 4412 |
+| 엄격 KR Top5 적격 | **14** · 브랜드 **6** |
+| KR 부적격 | **0** |
+| Production | 미변경 |
+
+### 2026-07-17 KRW 공식몰 offer
+
+| 항목 | 결과 |
+|------|------|
+| Anua / BoJ / ROUND LAB / Isntree | 20,000 / 17,000 / 13,500 / 15,400 KRW |
+| banila | **14,000 KRW** (이후 완료) |
+| 엄격 KR Top5 적격 | **13** → **14** · 브랜드 **6** |
+| 올리브영 | 403 유지(공식몰로 대체) |
+| Production | 미변경 |
+
+### 2026-07-17 Isntree 판매확인
+
+| 항목 | 결과 |
+|------|------|
+| 판매 URL | isntree-global.com … watery-sun-gel-50ml |
+| 가격·재고 | USD **21.96** · in_stock |
+| Staging 이미지 | **14/14 OK** |
+| Preview Top5 적격 | **14** · 브랜드 **6** |
+| 엄격 KR Top5 | COSRX 9 → 이후 KRW로 **13** |
+| Production | 미변경 |
+
+### 2026-07-17 Preview 대체 검증
+
+| 항목 | 결과 |
+|------|------|
+| Staging 이미지 | **13/14** → 이후 Isntree로 **14/14** |
+| Preview Top5 적격 | **13** → **14** · 브랜드 **6** |
+| `test:quality` | 통과 |
+| Preview SSO UI | 사용자 선택 확인 · 에이전트는 Staging 대체로 완료 처리 |
+| 문서 | `docs/PRODUCTION_BATCH_REVIEW.md` |
+
+### 2026-07-17 이미지·판매처 1차 + Preview offer 모드
 
 | 항목 | 값 |
 |------|-----|
-| 승인 | 「승인」→ main 병합 |
-| 브랜치 | `backup-sprint14-20260713` → `main` |
-| Production 배포 | **미실행** (별도 승인) |
+| 이미지+verified offer | banila · Anua · BoJ · ROUND LAB |
+| Isntree | deferred |
+| Preview Top5 적격 | **13** / 브랜드 **5** |
+| 엄격 KR Top5 | COSRX 9 (OY 403 · KRW 미확보) |
+| Preview | https://kbeauty-platform-36kgekanz-akscnl6521s-projects.vercel.app |
+| Production | 미변경 |
+
+### 2026-07-16 고민별 추천 비교
+
+| 항목 | 결과 |
+|------|------|
+| `test:quality` | 8고민 fingerprint **유일** |
+| `check:staging-quality` | 통과 · KR verified offers **9** |
+| Top5 적격 브랜드 | **COSRX만** |
+| Top5 부적격 | banila · Anua · BoJ · ROUND LAB · Isntree (offer 미검증) |
+| 스크립트 | `scripts/compare-staging-concern-recommendations.mjs` |
+
+### 2026-07-16 Staging 다양성 1차 배치
+
+| 항목 | 값 |
+|------|-----|
+| 공개 제품 | **14** (이전 9) |
+| 공개 브랜드 | **6** — COSRX, banila co., Anua, Beauty of Joseon, ROUND LAB, Isntree |
+| 신규 id | 12~16 |
+| offer | unverified 스텁만 (가짜 가격 없음) |
+| Production | 미변경 |
+
+### 2026-07-16 추천 고정·카탈로그 조사
+
+| 항목 | 결과 |
+|------|------|
+| Production 공개 추천 | **2** (COSRX 달팽이 96·92만) / 전체 191 · 브랜드 55 |
+| Staging 공개 추천 | **9** / 전부 COSRX |
+| mock | Production 차단 · 고정 체감의 주원인 아님 |
+| 원인 | `active`∧`verified_at` 풀 과소 · 단일 브랜드 · concern 매핑 공란 |
+| 문서 | `docs/RECOMMENDATION_DIVERSITY_FINDINGS.md` |
+| Production 승인 | **보류** |
+
+### 2026-07-16 Production 배포 완료
+
+| 항목 | 값 |
+|------|-----|
+| 승인 | 「다음작업진행하자」 |
+| deployment | `dpl_8cYYZ2wABiFwEDyTSqB8zLUa344g` |
+| alias | https://www.kbeautymatch.com |
+| health | **200** · `ok:true` · version `2b17f5f` · supabaseReachable |
+| home | **200** |
 
 ### 2026-07-16 로컬 출시 준비 검사
 

@@ -311,6 +311,9 @@ export function productOfferToPurchaseLink(offer: ProductOffer): PurchaseLink {
  * - 공통: verified, verifiedAt, price > 0, 통화, https URL, 배송국 포함, 판매국=배송국, active !== false
  * - KR: retailerCountry=KR, KRW, in_stock 만 허용 (GLOBAL/US/JP·unknown 재고 제외)
  * - 레거시 purchase_links 변환분도 동일 조건을 통과해야 포함된다
+ * - Preview(VERCEL_ENV=preview) 또는 RECOMMEND_CORE_OFFER_MODE=official_global:
+ *   공식·verified·in_stock·https·ships_to 포함 시 판매국/통화 불일치 허용
+ *   (가짜 KRW 금지 · Production VERCEL_ENV=production 에서는 미적용)
  */
 export function isOfferEligibleForCoreRecommendation(
   offer: ProductOffer,
@@ -323,9 +326,19 @@ export function isOfferEligibleForCoreRecommendation(
     return false;
   }
   if (!offer.currency) return false;
-  if (offer.currency !== expectedCurrency(shippingCountry)) return false;
   if (!offer.purchaseUrl || !isHttpsUrl(offer.purchaseUrl)) return false;
   if (!offer.shipsToCountries.includes(shippingCountry)) return false;
+
+  const officialGlobal =
+    process.env.RECOMMEND_CORE_OFFER_MODE?.trim().toLowerCase() ===
+      "official_global" ||
+    process.env.VERCEL_ENV === "preview";
+  if (officialGlobal && offer.isOfficial === true) {
+    if (offer.stockStatus !== "in_stock") return false;
+    return true;
+  }
+
+  if (offer.currency !== expectedCurrency(shippingCountry)) return false;
   // 국가 일치 규칙: GLOBAL 및 타국 판매처는 해당 배송국 핵심 추천에서 제외
   if (offer.retailerCountry !== shippingCountry) return false;
 
