@@ -1590,7 +1590,7 @@ export default function AnalyzePage() {
                     onClick={goToResults}
                     className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#a3154f]"
                   >
-                    제품 정보 보기
+                    추천 결과 보기
                   </button>
                   <Link
                     href="/routine"
@@ -1599,7 +1599,7 @@ export default function AnalyzePage() {
                     루틴 가이드 보기
                   </Link>
                   <Link
-                    href="#"
+                    href="/ingredients"
                     className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2 text-xs font-semibold text-gray-800 transition hover:bg-pink-50"
                   >
                     성분별로 보기
@@ -1607,7 +1607,7 @@ export default function AnalyzePage() {
                 </div>
 
                 <p className="text-xs text-gray-500">
-                  AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
+                  AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다. 「추천 결과 보기」를 누르면 검수된 한국 제품 Top5로 이동합니다.
                 </p>
               </div>
             ) : mode === "manual" ? (
@@ -1740,7 +1740,7 @@ export default function AnalyzePage() {
                     aria-disabled="true"
                     className="inline-flex cursor-not-allowed items-center justify-center rounded-full bg-gray-300 px-5 py-2 text-xs font-semibold text-white"
                   >
-                    AI 분석 후 제품 정보 보기
+                    AI 분석 후 추천 결과 보기
                   </button>
                   <p className="text-xs text-gray-500">
                     분석을 실행하면 현재 선택 기준 제품 정보를 확인할 수

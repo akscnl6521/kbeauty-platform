@@ -6,6 +6,13 @@
 
 ## 2026-07-17
 
+### 빈 Top5·analyze→results 안내 UX
+
+- 핵심 Top5 비어 있을 때 이유(가짜 패딩 없음) + 문진/분석/카탈로그 CTA
+- `/results` 콜드 진입 시 문진·분석 안내
+- analyze 「추천 결과 보기」·성분 링크 `/ingredients`
+- Production 미배포
+
 ### 홈 CTA·루틴 연결 강화
 
 - 홈에 「피부 문진」(`/quiz`) CTA 추가

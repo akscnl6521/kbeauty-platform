@@ -1611,39 +1611,71 @@ function ResultsPageInner() {
                       ))}
                     </div>
                   </div>
-                ) : storageReady && savedRecommendation != null ? (
+                ) : storageReady && (savedRecommendation != null || quizRankBusy) ? (
                   <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-5 sm:p-6">
                     <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900">
                       {locale === "ko"
-                        ? "나를 위한 핵심 추천 제품"
+                        ? "핵심 추천을 준비하는 중"
                         : locale === "ja"
-                          ? "あなたへのコアおすすめ"
-                          : "Your core recommendations"}
+                          ? "コアおすすめを準備中"
+                          : "Preparing core recommendations"}
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-gray-700">
-                      {locale === "ko"
-                        ? "현재 조건에 맞고 판매처까지 확인된 제품을 준비 중입니다."
-                        : locale === "ja"
-                          ? "現在の条件に合い、販売先まで確認できた製品を準備中です。"
-                          : "We're preparing products that match your criteria and have a verified retailer."}
+                      {quizRankBusy
+                        ? locale === "ko"
+                          ? "문진 조건에 맞는 검수 제품을 다시 정리하고 있습니다. 잠시만 기다려 주세요."
+                          : locale === "ja"
+                            ? "問診条件に合う検収製品を整理しています。しばらくお待ちください。"
+                            : "Updating verified picks for your quiz answers. Please wait a moment."
+                        : locale === "ko"
+                          ? "지금은 피부·성분 매칭과 한국 판매처·가격·재고가 모두 확인된 제품이 부족해 핵심 Top5를 비워 두었습니다. 가짜 제품으로 채우지 않습니다."
+                          : locale === "ja"
+                            ? "肌・成分マッチと韓国の販売先・価格・在庫が揃った製品が足りないため、コアTop5は空のままです。仮の製品は入れません。"
+                            : "Core Top5 stays empty until skin/ingredient match and verified KR retailer, price, and stock all pass. We never pad with fake products."}
                     </p>
-                    <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                      {locale === "ko"
-                        ? "일반 제품 정보는 아래 ‘다른 제품 둘러보기’에서 확인할 수 있습니다. 구매 추천이 아닙니다."
-                        : locale === "ja"
-                          ? "一般製品情報は下の「他の製品を見る」から確認できます。購入おすすめではありません。"
-                          : "Browse catalog info below. This is not a purchase recommendation."}
-                    </p>
-                    <Link
-                      href="/analyze"
-                      className="mt-4 inline-block text-xs font-semibold text-[#C2185B] underline hover:no-underline"
-                    >
-                      {locale === "ko"
-                        ? "분석 다시 하기"
-                        : locale === "ja"
-                          ? "再分析する"
-                          : "Re-analyze"}
-                    </Link>
+                    {!quizRankBusy ? (
+                      <>
+                        <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                          {locale === "ko"
+                            ? "아래 ‘다른 제품 둘러보기’에서 공개 카탈로그를 제형·브랜드로 살펴볼 수 있습니다. 구매 권유가 아닙니다."
+                            : locale === "ja"
+                              ? "下の「他の製品を見る」で公開カタログを剤形・ブランドから探せます。購入推奨ではありません。"
+                              : "Browse the public catalog below by form or brand. This is not a purchase push."}
+                        </p>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          <Link
+                            href="/quiz"
+                            className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#a3154f]"
+                          >
+                            {locale === "ko"
+                              ? "피부 문진 다시하기"
+                              : locale === "ja"
+                                ? "肌問診をやり直す"
+                                : "Retake skin quiz"}
+                          </Link>
+                          <Link
+                            href="/analyze"
+                            className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-4 py-2 text-xs font-semibold text-gray-800 transition hover:bg-pink-50"
+                          >
+                            {locale === "ko"
+                              ? "사진·AI 분석"
+                              : locale === "ja"
+                                ? "写真・AI分析"
+                                : "Photo / AI analyze"}
+                          </Link>
+                          <a
+                            href="#browse-products"
+                            className="inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-xs font-semibold text-gray-800 transition hover:bg-[#FAF6F2]"
+                          >
+                            {locale === "ko"
+                              ? "아래 카탈로그 보기"
+                              : locale === "ja"
+                                ? "下のカタログを見る"
+                                : "Browse catalog below"}
+                          </a>
+                        </div>
+                      </>
+                    ) : null}
                   </div>
                 ) : null}
 
@@ -1678,22 +1710,71 @@ function ResultsPageInner() {
                       ? "先に肌分析を行ってください。結果がこのページに表示されます。"
                       : "Run a skin analysis first. Results will appear here."}
                 </p>
-                <Link href="/analyze" className="mt-5 inline-block">
-                  <span className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#a3154f]">
-                    {locale === "ko"
-                      ? "AI 분석으로 이동"
-                      : locale === "ja"
-                        ? "AI分析へ"
-                        : "Go to AI Analyze"}
-                  </span>
-                </Link>
+                <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                  <Link href="/analyze" className="inline-block">
+                    <span className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#a3154f]">
+                      {locale === "ko"
+                        ? "AI 분석으로 이동"
+                        : locale === "ja"
+                          ? "AI分析へ"
+                          : "Go to AI Analyze"}
+                    </span>
+                  </Link>
+                  <Link href="/quiz" className="inline-block">
+                    <span className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition hover:bg-pink-50">
+                      {locale === "ko"
+                        ? "짧은 피부 문진"
+                        : locale === "ja"
+                          ? "短い肌問診"
+                          : "Short skin quiz"}
+                    </span>
+                  </Link>
+                </div>
               </div>
-            ) : null}
+            ) : (
+              <div className="border border-[#E8DFD8] bg-white px-6 py-8 text-center">
+                <p className="text-base font-medium text-gray-800">
+                  {locale === "ko"
+                    ? "아직 맞춤 추천이 없습니다"
+                    : locale === "ja"
+                      ? "まだパーソナルおすすめがありません"
+                      : "No personalized picks yet"}
+                </p>
+                <p className="mt-2 text-sm text-gray-500">
+                  {locale === "ko"
+                    ? "짧은 문진이나 사진 분석으로 시작하면, 검수된 한국 제품 Top5를 이 페이지에 정리합니다."
+                    : locale === "ja"
+                      ? "短い問診や写真分析を始めると、検収済み韓国製品Top5をこのページに整理します。"
+                      : "Start with a short quiz or photo analysis to build verified Korean Top5 picks here."}
+                </p>
+                <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                  <Link href="/quiz" className="inline-block">
+                    <span className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#a3154f]">
+                      {locale === "ko"
+                        ? "피부 문진 시작"
+                        : locale === "ja"
+                          ? "肌問診を始める"
+                          : "Start skin quiz"}
+                    </span>
+                  </Link>
+                  <Link href="/analyze" className="inline-block">
+                    <span className="inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition hover:bg-pink-50">
+                      {locale === "ko"
+                        ? "사진·AI 분석"
+                        : locale === "ja"
+                          ? "写真・AI分析"
+                          : "Photo / AI analyze"}
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            )}
           </section>
         ) : null}
 
         {/* 일반 제품 탐색 — expert_first는 기본 접힘 */}
         <section
+          id="browse-products"
           className="mt-4 flex-1 border-t border-pink-100 pt-10"
           aria-label="Browse products"
         >
