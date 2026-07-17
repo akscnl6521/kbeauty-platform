@@ -9,7 +9,7 @@
 ### 홈 성분 가이드 CTA
 
 - 홈 주 CTA에 `/ingredients`
-- Production 미배포
+- Preview READY (`984dff5`) · Production 미배포
 
 ## 2026-07-17
 

@@ -13,6 +13,8 @@
 | 항목 | 결과 |
 |------|------|
 | 홈 | 주 CTA에 `/ingredients` |
+| push | `984dff5` |
+| Preview | READY |
 | Production | 미변경 |
 
 ### 2026-07-17 성분 가이드 푸터 링크
