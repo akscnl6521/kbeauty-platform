@@ -6,16 +6,80 @@ import { useState } from "react";
 type Zone = "hair" | "forehead" | "eyebrow" | "eyes" | "cheeks" | "nose" | "lips" | "neck" | null;
 
 const zoneInfo: Record<Exclude<Zone, null>, {
-  tag: string; title: string; desc: string; tags: string[]; concern: string; color: string;
+  tag: string; title: string; desc: string; tags: string[]; href: string; cta: string; color: string;
 }> = {
-  hair:     { tag: "헤어 케어",     title: "두피 & 헤어 케어",  desc: "건강한 두피와 윤기 있는 모발을 위한 K-뷰티 헤어 케어예요.",          tags: ["샴푸", "헤어 에센스", "두피 세럼", "헤어 마스크"],                concern: "Dryness",    color: "#7C5CBF" },
-  forehead: { tag: "스킨케어",      title: "이마 & T존 케어",   desc: "T존은 피지가 많은 부위예요. 모공 케어와 수분 공급이 중요합니다.",       tags: ["토너", "에센스", "모공세럼", "수분크림"],                          concern: "Acne",       color: "#C2185B" },
-  eyebrow:  { tag: "눈썹 메이크업", title: "눈썹 케어",         desc: "자연스러운 눈썹 연출을 위한 아이브로우 제품들이에요.",                 tags: ["아이브로우 펜슬", "브로우 젤", "브로우 파우더", "브로우 마스카라"], concern: "Dullness",   color: "#8B6914" },
-  eyes:     { tag: "아이 메이크업", title: "눈 & 아이 케어",    desc: "눈가 피부는 얇고 예민해서 전용 케어가 필요해요.",                     tags: ["마스카라", "아이라이너", "아이섀도우", "아이크림"],                concern: "Anti-aging", color: "#1565C0" },
-  cheeks:   { tag: "치크 메이크업", title: "광대 & 치크 케어",  desc: "자연스러운 혈색을 연출하는 K-뷰티 치크 제품들이에요.",                tags: ["블러셔", "치크틴트", "하이라이터", "컨투어"],                     concern: "Dullness",   color: "#D84884" },
-  nose:     { tag: "모공 케어",     title: "코 & 모공 케어",    desc: "K-뷰티의 특기인 모공 케어! BHA 성분으로 깨끗하게 관리하세요.",         tags: ["BHA토너", "클렌징오일", "모공패드", "블랙헤드세럼"],               concern: "Acne",       color: "#2E7D32" },
-  lips:     { tag: "립 메이크업",   title: "입술 & 립 케어",   desc: "K-뷰티의 상징 립 틴트! 촉촉하고 선명한 입술을 연출하세요.",           tags: ["립틴트", "립스틱", "립글로스", "립밤"],                           concern: "Dryness",    color: "#C2185B" },
-  neck:     { tag: "넥 케어",      title: "목 & 넥 케어",      desc: "목도 얼굴만큼 중요해요. 탄력과 보습으로 꾸준히 관리하세요.",           tags: ["넥크림", "보습크림", "탄력세럼", "선크림"],                       concern: "Anti-aging", color: "#00838F" },
+  hair: {
+    tag: "헤어 케어",
+    title: "두피 & 헤어 케어",
+    desc: "건강한 두피와 윤기 있는 모발을 위한 K-뷰티 헤어 케어예요.",
+    tags: ["샴푸", "헤어 에센스", "두피 세럼", "헤어 마스크"],
+    href: "/quiz/hair",
+    cta: "헤어 문진 시작 →",
+    color: "#7C5CBF",
+  },
+  forehead: {
+    tag: "스킨케어",
+    title: "이마 & T존 케어",
+    desc: "T존은 피지가 많은 부위예요. 모공 케어와 수분 공급이 중요합니다.",
+    tags: ["토너", "에센스", "모공세럼", "수분크림"],
+    href: "/results?concern=Acne",
+    cta: "관련 스킨케어 보기 →",
+    color: "#C2185B",
+  },
+  eyebrow: {
+    tag: "눈썹 메이크업",
+    title: "눈썹 케어",
+    desc: "자연스러운 눈썹 연출을 위한 아이브로우 제품들이에요.",
+    tags: ["아이브로우 펜슬", "브로우 젤", "브로우 파우더", "브로우 마스카라"],
+    href: "/results?tab=makeup",
+    cta: "메이크업 추천 보기 →",
+    color: "#8B6914",
+  },
+  eyes: {
+    tag: "아이 메이크업",
+    title: "눈 & 아이 케어",
+    desc: "눈가 피부는 얇고 예민해서 전용 케어가 필요해요.",
+    tags: ["마스카라", "아이라이너", "아이섀도우", "아이크림"],
+    href: "/quiz/mascara",
+    cta: "마스카라 문진 시작 →",
+    color: "#1565C0",
+  },
+  cheeks: {
+    tag: "치크 메이크업",
+    title: "광대 & 치크 케어",
+    desc: "자연스러운 혈색을 연출하는 K-뷰티 치크 제품들이에요.",
+    tags: ["블러셔", "치크틴트", "하이라이터", "컨투어"],
+    href: "/results?tab=makeup",
+    cta: "메이크업 추천 보기 →",
+    color: "#D84884",
+  },
+  nose: {
+    tag: "모공 케어",
+    title: "코 & 모공 케어",
+    desc: "K-뷰티의 특기인 모공 케어! BHA 성분으로 깨끗하게 관리하세요.",
+    tags: ["BHA토너", "클렌징오일", "모공패드", "블랙헤드세럼"],
+    href: "/results?concern=Acne",
+    cta: "관련 스킨케어 보기 →",
+    color: "#2E7D32",
+  },
+  lips: {
+    tag: "립 메이크업",
+    title: "입술 & 립 케어",
+    desc: "K-뷰티의 상징 립 틴트! 촉촉하고 선명한 입술을 연출하세요.",
+    tags: ["립틴트", "립스틱", "립글로스", "립밤"],
+    href: "/quiz/lip",
+    cta: "립 문진 시작 →",
+    color: "#C2185B",
+  },
+  neck: {
+    tag: "넥 케어",
+    title: "목 & 넥 케어",
+    desc: "목도 얼굴만큼 중요해요. 탄력과 보습으로 꾸준히 관리하세요.",
+    tags: ["넥크림", "보습크림", "탄력세럼", "선크림"],
+    href: "/results?concern=Anti-aging",
+    cta: "관련 스킨케어 보기 →",
+    color: "#00838F",
+  },
 };
 
 const zoneLabels: Record<Exclude<Zone, null>, string> = {
@@ -217,10 +281,10 @@ export default function FaceExplorer() {
                       </span>
                     ))}
                   </div>
-                  <Link href={`/results?concern=${info.concern}`}>
+                  <Link href={info.href}>
                     <button className="w-full text-white rounded-full py-3 text-sm font-semibold transition hover:opacity-90"
                       style={{ background: info.color }}>
-                      관련 제품 정보 보기 →
+                      {info.cta}
                     </button>
                   </Link>
                 </div>
