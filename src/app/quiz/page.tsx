@@ -4,6 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useLocale } from "@/hooks/useLocale";
+import { QuizDomainNav } from "@/components/quiz/QuizDomainNav";
 
 type StepKey = "age" | "tone" | "undertone" | "concern" | "budget";
 
@@ -294,6 +295,7 @@ export default function QuizPage() {
             </button>
           </div>
         </div>
+        <QuizDomainNav />
       </header>
 
       <div className="flex-1 flex items-center justify-center px-6 py-10">

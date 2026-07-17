@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BeautyShell, QuizCard } from "@/components/beauty/BeautyShell";
+import { QuizDomainNav } from "@/components/quiz/QuizDomainNav";
 
 export type QuizOption = { value: string; label: string };
 export type QuizStep = {
@@ -56,6 +57,7 @@ export function DomainQuizClient({
 
   return (
     <BeautyShell eyebrow="맞춤 문진" title={title} subtitle={subtitle}>
+      <QuizDomainNav />
       <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-[#EFE6DE]">
         <div
           className="h-full rounded-full bg-[#8B4513] transition-all duration-500"
