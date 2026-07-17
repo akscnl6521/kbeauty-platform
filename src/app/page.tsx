@@ -74,6 +74,12 @@ export default function Home() {
             >
               페이스 탐색
             </Link>
+            <Link
+              href="/ingredients"
+              className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
+            >
+              성분 가이드
+            </Link>
             {loggedIn ? (
               <Link
                 href="/my"
