@@ -4,9 +4,17 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** 문진→Top5 재랭킹(V6) Preview 배포 확인 후 다음 확대.  
-**방금 완료:** 문진 concern → `persistTopRankedProducts` 연결 · 캐시 V6.  
+**다음 작업:** 결과 카테고리 칩 Preview 배포 후 다음 확대.  
+**방금 완료:** `/results` 카테고리 칩 필터 (INCI Staging 승격은 운영 DB 분리로 스킵).  
 **운영 메모:** 볼 수 없는 대시보드는 건너뜀 · Production 배포/DB는 명시 전 안 함.
+
+### 2026-07-17 결과 카테고리 칩 필터
+
+| 항목 | 결과 |
+|------|------|
+| UX | 탐색 목록 제형 칩 (전체/세럼/토너…) |
+| INCI 승격 | **스킵** (Staging 운영 쓰기) |
+| Production | 미변경 |
 
 ### 2026-07-17 문진→Top5 재랭킹 · V6
 
@@ -14,6 +22,8 @@
 |------|------|
 | 코드 | `buildQuizRecommendation` · results 재랭킹 |
 | 캐시 | `KR_MATCH_EVIDENCE_V6` |
+| push | `387767b` |
+| Preview | READY |
 | AI 경로 | `ai=1` 유지 |
 | Production | 미변경 |
 

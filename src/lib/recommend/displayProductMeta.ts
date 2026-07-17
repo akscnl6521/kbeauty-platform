@@ -90,11 +90,41 @@ const FORM_LABELS_KO: Record<string, string> = {
   serum: "세럼",
   toner: "토너",
   cleanser: "클렌저",
+  foam_cleanser: "폼 클렌저",
+  gel_cleanser: "젤 클렌저",
+  cleansing_balm: "클렌징 밤",
+  cleansing_oil: "클렌징 오일",
   lotion: "로션",
   ampoule: "앰플",
   mask: "마스크",
   sunscreen: "선크림",
+  sun_gel: "선젤",
+  sun_cream: "선크림",
   toner_pad: "토너 패드",
+};
+
+const FORM_LABELS_EN: Record<string, string> = {
+  foam_cleanser: "Foam cleanser",
+  gel_cleanser: "Gel cleanser",
+  cleansing_balm: "Cleansing balm",
+  cleansing_oil: "Cleansing oil",
+  sun_gel: "Sun gel",
+  sun_cream: "Sunscreen",
+  toner_pad: "Toner pad",
+};
+
+const FORM_LABELS_JA: Record<string, string> = {
+  essence: "エッセンス",
+  cream: "クリーム",
+  serum: "セラム",
+  toner: "トナー",
+  cleanser: "クレンザー",
+  foam_cleanser: "フォームクレンザー",
+  gel_cleanser: "ジェルクレンザー",
+  cleansing_balm: "クレンジングバーム",
+  sunscreen: "日焼け止め",
+  sun_gel: "サンジェル",
+  toner_pad: "トナーパッド",
 };
 
 /** category/form 필드가 있을 때만 제형 라벨 (제품명 임의 분해 금지) */
@@ -106,7 +136,9 @@ export function displayProductFormLabel(
   if (!raw) return null;
   const key = raw.toLowerCase().replace(/\s+/g, "_");
   if (locale === "ko" && FORM_LABELS_KO[key]) return FORM_LABELS_KO[key];
-  return raw;
+  if (locale === "ja" && FORM_LABELS_JA[key]) return FORM_LABELS_JA[key];
+  if (locale === "en" && FORM_LABELS_EN[key]) return FORM_LABELS_EN[key];
+  return raw.replace(/_/g, " ");
 }
 
 export type ProductTrustInput = {

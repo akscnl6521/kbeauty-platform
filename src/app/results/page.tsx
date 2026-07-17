@@ -11,6 +11,7 @@ import { RecommendedProductCard } from "@/components/recommendation/RecommendedP
 import {
   buildQuizRecommendation,
   displayIngredientNames,
+  displayProductFormLabel,
   getShippingCountryLabel,
   loadLatestRecommendationPipeline,
   persistTopRankedProducts,
@@ -371,6 +372,8 @@ function ResultsPageInner() {
   >([]);
   const [storageReady, setStorageReady] = useState(false);
   const [quizRankBusy, setQuizRankBusy] = useState(false);
+  /** 탐색 목록 카테고리 칩 (null = 전체) */
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
 
   const tone = searchParams.get("tone");
   const concern = searchParams.get("concern");
@@ -389,13 +392,33 @@ function ResultsPageInner() {
     });
   }, [products, tone, concern, budget]);
 
+  const availableCategories = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const p of quizFilteredProducts) {
+      const key = (p.category ?? "").trim().toLowerCase().replace(/\s+/g, "_");
+      if (!key) continue;
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([key, count]) => ({ key, count }));
+  }, [quizFilteredProducts]);
+
+  const categoryScopedProducts = useMemo(() => {
+    if (!categoryFilter) return quizFilteredProducts;
+    return quizFilteredProducts.filter((p) => {
+      const key = (p.category ?? "").trim().toLowerCase().replace(/\s+/g, "_");
+      return key === categoryFilter;
+    });
+  }, [quizFilteredProducts, categoryFilter]);
+
   // 검색어 + 즐겨찾기 기반 2차 필터 (name/name_ko/name_ja/brand, favorites)
   const filteredProducts = useMemo(() => {
     const favoritesSet = new Set(favoriteIds);
     const query = searchQuery.trim().toLowerCase();
-    if (!query && !showFavoritesOnly) return quizFilteredProducts;
+    if (!query && !showFavoritesOnly) return categoryScopedProducts;
 
-    return quizFilteredProducts.filter((p) => {
+    return categoryScopedProducts.filter((p) => {
       if (showFavoritesOnly && !favoritesSet.has(p.id)) return false;
 
       if (!query) return true;
@@ -410,7 +433,12 @@ function ResultsPageInner() {
         `${nameEn} ${nameKo} ${nameJa} ${brand} ${p.brand ?? ""} ${ingredientsEn} ${ingredientsJa}`.toLowerCase();
       return haystack.includes(query);
     });
-  }, [quizFilteredProducts, searchQuery, favoriteIds, showFavoritesOnly]);
+  }, [
+    categoryScopedProducts,
+    searchQuery,
+    favoriteIds,
+    showFavoritesOnly,
+  ]);
 
   /** Top 5와 중복되지 않는 탐색용 목록 */
   const browseProducts = useMemo(() => {
@@ -1749,6 +1777,60 @@ function ResultsPageInner() {
                   )}
                 </div>
               </div>
+              {availableCategories.length > 1 ? (
+                <div
+                  className="mb-5 flex flex-wrap gap-2"
+                  role="group"
+                  aria-label={
+                    locale === "ko"
+                      ? "카테고리 필터"
+                      : locale === "ja"
+                        ? "カテゴリフィルター"
+                        : "Category filter"
+                  }
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCategoryFilter(null);
+                      setCatalogExpanded(false);
+                    }}
+                    className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                      categoryFilter == null
+                        ? "bg-[#8B4513] text-white"
+                        : "border border-[#E8DFD8] bg-white text-gray-700 hover:bg-[#FAF6F2]"
+                    }`}
+                  >
+                    {locale === "ko"
+                      ? `전체 (${quizFilteredProducts.length})`
+                      : locale === "ja"
+                        ? `すべて (${quizFilteredProducts.length})`
+                        : `All (${quizFilteredProducts.length})`}
+                  </button>
+                  {availableCategories.map(({ key, count }) => {
+                    const label =
+                      displayProductFormLabel(key, locale) ?? key;
+                    const selected = categoryFilter === key;
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => {
+                          setCategoryFilter(key);
+                          setCatalogExpanded(false);
+                        }}
+                        className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                          selected
+                            ? "bg-[#8B4513] text-white"
+                            : "border border-[#E8DFD8] bg-white text-gray-700 hover:bg-[#FAF6F2]"
+                        }`}
+                      >
+                        {label} ({count})
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : null}
               {browseProducts.length === 0 ? (
                 <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-8 text-center">
                   <p className="text-base font-medium text-gray-700">

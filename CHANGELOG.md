@@ -6,6 +6,12 @@
 
 ## 2026-07-17
 
+### 결과 탐색 카테고리 칩 필터
+
+- `/results` 공개 카탈로그 탐색에 제형(category) 칩 추가
+- Staging INCI SKU 자동 승격은 운영 DB 분리로 스킵
+- Production 미배포
+
 ### 문진→Top5 재랭킹 · 캐시 V6
 
 - `/results?concern=` 진입 시 `buildQuizRecommendation` → `persistTopRankedProducts`
