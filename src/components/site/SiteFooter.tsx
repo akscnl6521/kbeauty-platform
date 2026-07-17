@@ -11,6 +11,12 @@ export function SiteFooter() {
           <Link href="/quiz" className="underline-offset-2 hover:underline">
             피부 문진
           </Link>
+          <Link
+            href="/quiz/base"
+            className="underline-offset-2 hover:underline"
+          >
+            베이스 문진
+          </Link>
           <Link href="/analyze" className="underline-offset-2 hover:underline">
             피부 분석
           </Link>

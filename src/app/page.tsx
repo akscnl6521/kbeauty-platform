@@ -77,7 +77,13 @@ export default function Home() {
             href="/quiz/mascara"
             className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
           >
-            메이크업 문진
+            마스카라 문진
+          </Link>
+          <Link
+            href="/quiz/base"
+            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
+          >
+            베이스 문진
           </Link>
           <Link
             href="/quiz/hair"
