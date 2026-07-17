@@ -78,7 +78,7 @@ export function DomainQuizClient({
               key={o.value}
               type="button"
               onClick={() => choose(o.value)}
-              className="rounded-2xl border border-[#E8DFD8] bg-[#FCF9F6] px-4 py-3 text-left text-sm font-medium transition hover:border-[#8B4513] hover:bg-white"
+              className="touch-target min-h-12 rounded-2xl border border-[#E8DFD8] bg-[#FCF9F6] px-4 py-3 text-left text-sm font-medium transition hover:border-[#8B4513] hover:bg-white"
             >
               {o.label}
             </button>
@@ -87,7 +87,7 @@ export function DomainQuizClient({
         {idx > 0 ? (
           <button
             type="button"
-            className="mt-6 text-sm text-gray-600 underline"
+            className="touch-target mt-6 text-sm text-gray-600 underline"
             onClick={() => setIdx(idx - 1)}
           >
             이전

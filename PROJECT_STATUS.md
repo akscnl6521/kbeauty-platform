@@ -4,9 +4,19 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Production 배포는 사용자 승인 후. (에이전트 UX Preview 연속 작업 소진)  
-**방금 완료:** 온보딩·my 빈 CTA + 모바일/CTA 묶음 Preview.  
-**운영 메모:** 물어보지 말고 진행했음 · Production은 명시 승인 전 안 함.
+**다음 작업:** Production 배포 — 「Production 배포하자」 명시 시에만.  
+**방금 완료:** Preview 스모크 통과 + 도메인 문진 터치 타깃.  
+**운영 메모:** quality·substitute·responsive OK · Production은 명시 승인 전 안 함.
+
+### 2026-07-18 Preview 스모크 · 문진 터치
+
+| 항목 | 결과 |
+|------|------|
+| test:quality | 통과 |
+| check:preview-substitute | 통과 (공개 14 · 8고민) |
+| check:responsive | 통과 |
+| UX | DomainQuiz · QuizDomainNav 터치 타깃 |
+| Production | 미변경 |
 
 ### 2026-07-18 UX CTA·모바일 묶음
 

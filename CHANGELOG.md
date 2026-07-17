@@ -6,6 +6,12 @@
 
 ## 2026-07-18
 
+### Preview 스모크 · 문진 터치
+
+- `test:quality` · `check:preview-substitute` · `check:responsive` 통과
+- DomainQuizClient · QuizDomainNav 터치 타깃 보강
+- Production 미배포
+
 ### 헤더 모바일 · CTA 묶음
 
 - 헤더: lg 가로 메뉴 · 모바일 드로어에 메이크업·헤어 문진 · 터치 타깃 보강

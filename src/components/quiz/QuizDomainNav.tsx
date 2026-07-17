@@ -35,7 +35,7 @@ export function QuizDomainNav() {
             key={href}
             href={href}
             aria-current={active ? "page" : undefined}
-            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+            className={`touch-target inline-flex min-h-10 items-center rounded-full px-3 py-2 text-xs font-semibold transition ${
               active
                 ? "bg-[#C2185B] text-white"
                 : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"

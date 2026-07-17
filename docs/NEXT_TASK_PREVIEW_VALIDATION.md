@@ -13,11 +13,11 @@
 
 ## 작업 순서
 
-1~34. [x] 내비·모바일·CTA · ingredients (`82b9f52` Preview)
-35. [x] 온보딩 「피부 문진부터」
-36. [x] my 빈 상태 문진/분석 CTA
-37. [ ] **Preview 스모크 후 Production 승인 대기** (사용자 명시 전 배포 안 함)
+1~36. [x] 내비·모바일·CTA
+37. [x] Preview 스모크 (quality · substitute · responsive 통과)
+38. [x] 도메인 문진·QuizDomainNav 터치 타깃
+39. [ ] **Production 배포** — 사용자 「Production 배포하자」 명시 시에만
 
 ## 현재 단일 작업
 
-**에이전트 UX 연속 작업 소진** — 다음 큰 단계는 Production 배포 또는 Staging 카탈로그(운영 분리). 사용자 지시 대기.
+**Production 배포 대기** — Preview 품질 스모크 통과. www 반영은 사용자 명시 승인 후.
