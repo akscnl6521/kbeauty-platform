@@ -15,6 +15,8 @@
 | 홈 | 베이스 문진 CTA · 마스카라 라벨 정리 |
 | 푸터 | 베이스 문진 링크 |
 | 내비 | QuizDomainNav 기존 유지 |
+| push | `82490c8` |
+| Preview | READY |
 | Production | 미변경 |
 
 ### 2026-07-17 페이스 탐색 모바일 터치

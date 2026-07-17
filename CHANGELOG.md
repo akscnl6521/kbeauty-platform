@@ -10,7 +10,7 @@
 
 - 홈에 `/quiz/base` CTA · 「메이크업 문진」→「마스카라 문진」
 - 푸터에 베이스 문진 링크 · QuizDomainNav는 기존
-- Production 미배포
+- Preview READY (`82490c8`) · Production 미배포
 
 ### 페이스 탐색 모바일 터치
 
