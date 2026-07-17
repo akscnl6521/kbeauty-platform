@@ -9,7 +9,7 @@
 ### 푸터 문진 링크 정리
 
 - 주요 바로가기와 메이크업·헤어 문진(마스카라·베이스·립·헤어) 분리
-- Production 미배포
+- Preview READY (`ffdfa9c`) · Production 미배포
 
 ### 홈 CTA 정리
 
