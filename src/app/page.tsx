@@ -86,6 +86,12 @@ export default function Home() {
             베이스 문진
           </Link>
           <Link
+            href="/quiz/lip"
+            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
+          >
+            립 문진
+          </Link>
+          <Link
             href="/quiz/hair"
             className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
           >
