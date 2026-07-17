@@ -19,8 +19,8 @@
 1~7f. [x] Staging 다양성·KRW·skin_concern·캐시 V4 코드
 8. [x] 백업 브랜치 커밋·push + Preview 배포 (`6bf5e5c`)
 9. [x] Staging 대체 Top5 확인 — 적격 **14** · 브랜드 **6** · 부적격 0 (Preview SSO 스킵)
-10. [ ] **Top5 브랜드 다양성 쿼터** (max 2/브랜드 · 캐시 V5) → 커밋·Preview 재배포
+10. [x] Top5 브랜드 다양성 쿼터 (max 2 · 캐시 V5) → Preview (`e62e556`)
 
 ## 현재 단일 작업
 
-**브랜드 다양성 쿼터 + 캐시 V5** — COSRX 독점을 막고 Preview에 반영.
+**다음 플랫폼 확대 1건** — INCI 없이 가능한 것 우선 (문진→Top5 재랭킹, 카테고리 UX, 또는 INCI 확보된 SKU만 승격). Production 금지.
