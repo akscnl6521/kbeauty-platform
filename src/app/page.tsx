@@ -54,64 +54,73 @@ export default function Home() {
           한국 제품 후보를 근거와 함께 안내합니다. 의료 진단·치료를 대체하지
           않습니다.
         </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link
-            href="/analyze"
-            className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-6 py-3 text-sm font-semibold text-white sm:text-base"
-          >
-            분석 시작하기
-          </Link>
-          <Link
-            href="/quiz"
-            className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-6 py-3 text-sm font-semibold text-[#C2185B] sm:text-base"
-          >
-            피부 문진
-          </Link>
-          <Link
-            href="/face-explorer"
-            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
-          >
-            페이스 탐색
-          </Link>
-          <Link
-            href="/quiz/mascara"
-            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
-          >
-            마스카라 문진
-          </Link>
-          <Link
-            href="/quiz/base"
-            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
-          >
-            베이스 문진
-          </Link>
-          <Link
-            href="/quiz/lip"
-            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
-          >
-            립 문진
-          </Link>
-          <Link
-            href="/quiz/hair"
-            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
-          >
-            헤어 문진
-          </Link>
-          {loggedIn ? (
+        <div className="mt-8 space-y-5">
+          <div className="flex flex-wrap gap-3">
             <Link
-              href="/my"
-              className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] px-6 py-3 text-sm font-semibold text-[#C2185B] sm:text-base"
+              href="/analyze"
+              className="touch-target inline-flex items-center justify-center rounded-full bg-[#C2185B] px-6 py-3 text-sm font-semibold text-white sm:text-base"
             >
-              내 피부 관리
+              분석 시작하기
             </Link>
-          ) : (
             <Link
-              href="/signup?next=%2Fonboarding"
+              href="/quiz"
+              className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-6 py-3 text-sm font-semibold text-[#C2185B] sm:text-base"
+            >
+              피부 문진
+            </Link>
+            <Link
+              href="/face-explorer"
               className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
             >
-              계정 만들기
+              페이스 탐색
             </Link>
-          )}
+            {loggedIn ? (
+              <Link
+                href="/my"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] px-6 py-3 text-sm font-semibold text-[#C2185B] sm:text-base"
+              >
+                내 피부 관리
+              </Link>
+            ) : (
+              <Link
+                href="/signup?next=%2Fonboarding"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
+              >
+                계정 만들기
+              </Link>
+            )}
+          </div>
+          <div>
+            <p className="text-xs font-semibold tracking-wide text-gray-500">
+              메이크업 · 헤어 문진
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              <Link
+                href="/quiz/mascara"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+              >
+                마스카라
+              </Link>
+              <Link
+                href="/quiz/base"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+              >
+                베이스
+              </Link>
+              <Link
+                href="/quiz/lip"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+              >
+                립
+              </Link>
+              <Link
+                href="/quiz/hair"
+                className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium text-gray-800"
+              >
+                헤어·두피
+              </Link>
+            </div>
+          </div>
         </div>
         {hasPrevious ? (
           <div className="mt-6 flex max-w-xl flex-col gap-2 sm:flex-row sm:flex-wrap">
