@@ -6,6 +6,7 @@ import {
   RECOMMENDATION_CACHE_VERSION,
   RECOMMENDATION_CACHE_VERSION_KEY,
 } from "./types";
+import { QUIZ_RANK_FINGERPRINT_KEY } from "./buildQuizRecommendation";
 import {
   isOfferEligibleForCoreRecommendation,
   resolveProductOffers,
@@ -45,6 +46,11 @@ export function discardStaleRankedProductsCache(): boolean {
   try {
     window.localStorage.removeItem(RANKED_PRODUCTS_STORAGE_KEY);
     window.localStorage.removeItem(RECOMMENDATION_CACHE_VERSION_KEY);
+    try {
+      window.localStorage.removeItem(QUIZ_RANK_FINGERPRINT_KEY);
+    } catch {
+      // ignore
+    }
     if (process.env.NODE_ENV === "development") {
       console.log("[recommendationCache]", {
         action: "discardStaleTop5",

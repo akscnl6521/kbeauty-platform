@@ -4,9 +4,18 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** 플랫폼 확대 1건 (문진→Top5 재랭킹 또는 INCI 확보 SKU 승격).  
-**방금 완료:** Top5 브랜드 다양성(V5) · Preview 재배포(`e62e556`) · Auth/대시보드 스킵.  
+**다음 작업:** 문진→Top5 재랭킹(V6) Preview 배포 확인 후 다음 확대.  
+**방금 완료:** 문진 concern → `persistTopRankedProducts` 연결 · 캐시 V6.  
 **운영 메모:** 볼 수 없는 대시보드는 건너뜀 · Production 배포/DB는 명시 전 안 함.
+
+### 2026-07-17 문진→Top5 재랭킹 · V6
+
+| 항목 | 결과 |
+|------|------|
+| 코드 | `buildQuizRecommendation` · results 재랭킹 |
+| 캐시 | `KR_MATCH_EVIDENCE_V6` |
+| AI 경로 | `ai=1` 유지 |
+| Production | 미변경 |
 
 ### 2026-07-17 Top5 브랜드 다양성 · Preview V5
 

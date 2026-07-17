@@ -2,6 +2,10 @@
  * 핵심 추천 적합도 게이트·배열 매핑·검증일 포맷 selftest (사례 A–E).
  */
 import { asConcernOrToneField } from "./asConcernOrToneField";
+import {
+  buildQuizRecommendation,
+  quizRankFingerprint,
+} from "./buildQuizRecommendation";
 import { diversifyByBrand } from "./diversifyByBrand";
 import { filterRankedByMatchEvidence } from "./filterRankedByMatchEvidence";
 import { formatVerifiedAtForDisplay } from "./formatVerifiedAt";
@@ -198,6 +202,33 @@ export function runRecommendScoreFixSelftests(): { ok: true; checks: number } {
   assert(
     onlyCosrx.map((r) => r.product.id).join(",") === "c1,c2,c3",
     "diversity relaxes when pool is single-brand"
+  );
+  checks += 1;
+
+  checks += 1;
+
+  // --- Quiz → Recommendation (문진 Top5 재랭킹 입력) ---
+  const quizRec = buildQuizRecommendation({
+    concern: "Dryness",
+    tone: "Medium",
+  });
+  assert(quizRec != null, "quiz: dryness builds recommendation");
+  assert(
+    quizRec!.skinConcerns[0] === "Dryness",
+    "quiz: concern preserved"
+  );
+  assert(
+    quizRec!.recommendedIngredients.length === 0,
+    "quiz: ingredients left for evidence merge"
+  );
+  assert(
+    buildQuizRecommendation({ concern: "  " }) == null,
+    "quiz: blank concern → null"
+  );
+  assert(
+    quizRankFingerprint({ concern: "Acne", tone: "Light", budget: "low" }) ===
+      "Acne|Light|low",
+    "quiz: fingerprint stable"
   );
   checks += 1;
 

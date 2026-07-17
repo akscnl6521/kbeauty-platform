@@ -6,6 +6,13 @@
 
 ## 2026-07-17
 
+### 문진→Top5 재랭킹 · 캐시 V6
+
+- `/results?concern=` 진입 시 `buildQuizRecommendation` → `persistTopRankedProducts`
+- AI 경로(`ai=1`)는 기존 Top5 유지
+- `RECOMMENDATION_CACHE_VERSION` → `KR_MATCH_EVIDENCE_V6`
+- Production 미배포
+
 ### Top5 브랜드 다양성 쿼터 · 캐시 V5
 
 - `diversifyByBrand`: 핵심 Top5에서 동일 브랜드 최대 2 (부족 시 완화)

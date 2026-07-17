@@ -119,6 +119,12 @@ export type {
 } from "./displayProductMeta";
 export { getShippingCountryLabel } from "./getShippingCountryLabel";
 export { diversifyByBrand } from "./diversifyByBrand";
+export {
+  buildQuizRecommendation,
+  quizRankFingerprint,
+  QUIZ_RANK_FINGERPRINT_KEY,
+} from "./buildQuizRecommendation";
+export type { QuizRecommendationInput } from "./buildQuizRecommendation";
 export { rankProducts } from "./rankProducts";
 export { toCanonicalConcern } from "./concernAliases";
 export {

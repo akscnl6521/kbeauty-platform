@@ -9,11 +9,15 @@ import { useCountry } from "@/hooks/useCountry";
 import { useLocale } from "@/hooks/useLocale";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import {
+  buildQuizRecommendation,
   displayIngredientNames,
   getShippingCountryLabel,
   loadLatestRecommendationPipeline,
+  persistTopRankedProducts,
   productHasKrVerifiedCoreOffer,
   purgeLegacyRecommendationCaches,
+  quizRankFingerprint,
+  QUIZ_RANK_FINGERPRINT_KEY,
   type CandidateProduct,
   type ManagementLevel,
   type RankedProduct,
@@ -366,10 +370,12 @@ function ResultsPageInner() {
     RankedProduct<CandidateProduct>[]
   >([]);
   const [storageReady, setStorageReady] = useState(false);
+  const [quizRankBusy, setQuizRankBusy] = useState(false);
 
   const tone = searchParams.get("tone");
   const concern = searchParams.get("concern");
   const budget = searchParams.get("budget");
+  const aiApplied = searchParams.get("ai") === "1";
 
   // 설문 조건(tone/concern/budget) 기반 1차 필터
   const quizFilteredProducts = useMemo(() => {
@@ -446,7 +452,6 @@ function ResultsPageInner() {
         ? "肌トーン・肌悩み・アンダートーン・価格帯とAIガイド情報を基準に整理した結果です。"
         : "Results organized by skin tone, concerns, undertone, price tier, and AI guide insights.";
 
-  const aiApplied = searchParams.get("ai") === "1";
   const aiBadgeText =
     locale === "ko" ? "AI 분석 반영됨" : locale === "ja" ? "AIガイド適用" : "AI Guide Applied";
 
@@ -497,6 +502,58 @@ function ResultsPageInner() {
       document.removeEventListener("visibilitychange", onVisible);
     };
   }, [searchParams]);
+
+  // 문진 concern → Top5 재랭킹 (AI 분석 경로 ai=1 은 유지)
+  useEffect(() => {
+    if (aiApplied || !concern?.trim()) return;
+
+    let cancelled = false;
+    const fp = quizRankFingerprint({ concern, tone, budget });
+
+    (async () => {
+      try {
+        const prev =
+          typeof window !== "undefined"
+            ? window.localStorage.getItem(QUIZ_RANK_FINGERPRINT_KEY)
+            : null;
+        if (prev === fp) {
+          const { rankedProducts: existing } =
+            loadLatestRecommendationPipeline();
+          if (existing.length > 0) return;
+        }
+
+        const quizRec = buildQuizRecommendation({ concern, tone });
+        if (!quizRec) return;
+
+        setQuizRankBusy(true);
+        const top = await persistTopRankedProducts(quizRec, {
+          shippingCountry: countryCode,
+        });
+        if (cancelled) return;
+
+        try {
+          window.localStorage.setItem(QUIZ_RANK_FINGERPRINT_KEY, fp);
+        } catch {
+          // ignore
+        }
+
+        const { recommendation } = loadLatestRecommendationPipeline();
+        setSavedRecommendation(recommendation);
+        setRankedProducts(top);
+        setStorageReady(true);
+      } catch (e) {
+        if (process.env.NODE_ENV === "development") {
+          console.error("[results:quizRank]", e);
+        }
+      } finally {
+        if (!cancelled) setQuizRankBusy(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [aiApplied, concern, tone, budget, countryCode]);
 
   // 즐겨찾기 로드
   useEffect(() => {
@@ -642,6 +699,22 @@ function ResultsPageInner() {
               <div className="mt-3">
                 <span className="inline-flex rounded-full border border-pink-200 bg-white px-3 py-1 text-xs font-semibold text-[#C2185B]">
                   {aiBadgeText}
+                </span>
+              </div>
+            ) : concern?.trim() ? (
+              <div className="mt-3">
+                <span className="inline-flex rounded-full border border-amber-200 bg-white px-3 py-1 text-xs font-semibold text-[#8B6914]">
+                  {locale === "ko"
+                    ? quizRankBusy
+                      ? "문진 기준 추천 정리 중…"
+                      : "문진 고민 반영됨"
+                    : locale === "ja"
+                      ? quizRankBusy
+                        ? "問診おすすめ整理中…"
+                        : "問診の悩みを反映"
+                      : quizRankBusy
+                        ? "Updating quiz picks…"
+                        : "Quiz concern applied"}
                 </span>
               </div>
             ) : null}
