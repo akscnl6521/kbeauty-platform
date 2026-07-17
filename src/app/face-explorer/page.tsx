@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Zone = "hair" | "forehead" | "eyebrow" | "eyes" | "cheeks" | "nose" | "lips" | "neck" | null;
 
@@ -113,10 +113,31 @@ export default function FaceExplorer() {
   const [gender, setGender] = useState<"female" | "male">("female");
   const [hoverZone, setHoverZone] = useState<Zone>(null);
   const [activeZone, setActiveZone] = useState<Zone>(null);
+  const [fineHover, setFineHover] = useState(false);
+  const infoCardRef = useRef<HTMLDivElement>(null);
 
-  const displayZone = hoverZone || activeZone;
+  // 터치 기기: 호버 미리보기 없이 탭(선택)만 사용
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const sync = () => setFineHover(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  const displayZone = fineHover ? hoverZone || activeZone : activeZone;
   const info = displayZone ? zoneInfo[displayZone] : null;
   const zones = gender === "female" ? femaleZones : maleZones;
+
+  const selectZone = (id: Exclude<Zone, null>) => {
+    setActiveZone((prev) => (prev === id ? null : id));
+    if (fineHover) setHoverZone(null);
+  };
+
+  useEffect(() => {
+    if (!activeZone || fineHover) return;
+    infoCardRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [activeZone, fineHover]);
 
   return (
     <div
@@ -132,7 +153,7 @@ export default function FaceExplorer() {
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">얼굴로 탐색하기</h1>
           <p className="text-gray-500">
-            부위에 마우스를 올리면 관련 K-뷰티 정보를 확인할 수 있어요.
+            얼굴 부위나 아래 버튼을 눌러 관련 K-뷰티 정보를 확인하세요.
           </p>
         </div>
 
@@ -151,10 +172,11 @@ export default function FaceExplorer() {
                 />
               </div>
 
-              {/* SVG 레이어 - 기본은 완전 투명, 호버시만 표시 */}
+              {/* SVG 레이어 - 기본은 완전 투명, 선택/호버 시 표시 */}
               <svg
                 viewBox="0 0 512 559"
-                className="absolute inset-0 w-full h-full"
+                className="absolute inset-0 h-full w-full touch-manipulation"
+                style={{ touchAction: "manipulation" }}
               >
                 {zones.map((z) => {
                   const isHovered = displayZone === z.id;
@@ -163,15 +185,34 @@ export default function FaceExplorer() {
                   const ey = z.cy;
 
                   return (
-                    <g key={z.id} style={{ cursor: "pointer" }}
-                      onMouseEnter={() => setHoverZone(z.id)}
-                      onMouseLeave={() => setHoverZone(null)}
-                      onClick={() => setActiveZone(activeZone === z.id ? null : z.id)}
+                    <g
+                      key={z.id}
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={() => {
+                        if (fineHover) setHoverZone(z.id);
+                      }}
+                      onMouseLeave={() => {
+                        if (fineHover) setHoverZone(null);
+                      }}
+                      onClick={() => selectZone(z.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          selectZone(z.id);
+                        }
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      aria-pressed={activeZone === z.id}
+                      aria-label={zoneLabels[z.id]}
                     >
-                      {/* 투명한 히트 영역 - 항상 클릭/호버 가능 */}
+                      {/* 히트 영역: 완전 transparent는 일부 터치 브라우저에서 미수신 */}
                       <ellipse
-                        cx={z.cx} cy={z.cy} rx={z.rx} ry={z.ry}
-                        fill="transparent"
+                        cx={z.cx}
+                        cy={z.cy}
+                        rx={z.rx}
+                        ry={z.ry}
+                        fill="rgba(0,0,0,0.001)"
                         stroke="transparent"
                         strokeWidth="0"
                       />
@@ -222,20 +263,28 @@ export default function FaceExplorer() {
               </svg>
             </div>
 
-            {/* 하단 버튼 바 */}
-            <div className="px-6 py-4 bg-pink-50 border-t border-pink-100">
-              <div className="flex flex-wrap gap-2 justify-center">
+            {/* 하단 버튼 바 — 모바일 주 조작 */}
+            <div className="border-t border-pink-100 bg-pink-50 px-4 py-4 sm:px-6">
+              <div className="flex flex-wrap justify-center gap-2">
                 {(Object.keys(zoneLabels) as Exclude<Zone, null>[]).map((id) => (
-                  <button key={id}
-                    onMouseEnter={() => setHoverZone(id)}
-                    onMouseLeave={() => setHoverZone(null)}
-                    onClick={() => setActiveZone(activeZone === id ? null : id)}
-                    className="text-xs px-3 py-1.5 rounded-full border transition-all font-medium"
+                  <button
+                    key={id}
+                    type="button"
+                    aria-pressed={activeZone === id}
+                    onMouseEnter={() => {
+                      if (fineHover) setHoverZone(id);
+                    }}
+                    onMouseLeave={() => {
+                      if (fineHover) setHoverZone(null);
+                    }}
+                    onClick={() => selectZone(id)}
+                    className="min-h-10 min-w-[3.25rem] rounded-full border px-3 py-2 text-xs font-medium transition-all touch-manipulation"
                     style={{
                       borderColor: displayZone === id ? zoneInfo[id].color : "#FFCCD9",
                       color: displayZone === id ? "white" : "#9ca3af",
                       background: displayZone === id ? zoneInfo[id].color : "white",
-                    }}>
+                    }}
+                  >
                     {zoneLabels[id]}
                   </button>
                 ))}
@@ -244,61 +293,81 @@ export default function FaceExplorer() {
           </div>
 
           {/* 오른쪽: 정보 카드 */}
-          <div className="mx-auto flex w-full max-w-sm flex-col gap-4 lg:mx-0 lg:w-72 lg:max-w-none lg:shrink-0">
+          <div
+            ref={infoCardRef}
+            className="mx-auto flex w-full max-w-sm flex-col gap-4 lg:mx-0 lg:w-72 lg:max-w-none lg:shrink-0"
+          >
             {/* 성별 토글 */}
-            <div className="bg-white rounded-2xl border border-pink-100 p-4 shadow-sm flex gap-2">
+            <div className="flex gap-2 rounded-2xl border border-pink-100 bg-white p-4 shadow-sm">
               {(["female", "male"] as const).map((g) => (
-                <button key={g}
-                  onClick={() => { setGender(g); setHoverZone(null); setActiveZone(null); }}
-                  className="flex-1 py-2 rounded-xl text-sm font-medium transition"
+                <button
+                  key={g}
+                  type="button"
+                  onClick={() => {
+                    setGender(g);
+                    setHoverZone(null);
+                    setActiveZone(null);
+                  }}
+                  className="min-h-11 flex-1 rounded-xl py-2 text-sm font-medium transition touch-manipulation"
                   style={{
                     background: gender === g ? "#C2185B" : "transparent",
                     color: gender === g ? "white" : "#9ca3af",
                     border: gender === g ? "none" : "1.5px solid #FFCCD9",
-                  }}>
+                  }}
+                >
                   {g === "female" ? "여성" : "남성"}
                 </button>
               ))}
             </div>
 
             {/* 정보 카드 */}
-            <div className="bg-white rounded-3xl border border-pink-100 p-6 shadow-sm min-h-[380px] flex flex-col justify-center">
+            <div className="flex min-h-[320px] flex-col justify-center rounded-3xl border border-pink-100 bg-white p-6 shadow-sm sm:min-h-[380px]">
               {info ? (
                 <div>
-                  <p className="text-xs font-semibold tracking-widest text-[#B8860B] mb-4 uppercase">부위 가이드</p>
-                  <span className="inline-block text-white text-xs font-semibold px-3 py-1 rounded-full mb-4"
-                    style={{ background: info.color }}>
+                  <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-[#B8860B]">부위 가이드</p>
+                  <span
+                    className="mb-4 inline-block rounded-full px-3 py-1 text-xs font-semibold text-white"
+                    style={{ background: info.color }}
+                  >
                     {info.tag}
                   </span>
-                  <h2 className="text-xl font-bold mb-3 text-gray-900">{info.title}</h2>
-                  <p className="text-sm text-gray-500 mb-5 leading-relaxed">{info.desc}</p>
-                  <p className="text-xs text-gray-400 mb-2 font-medium">관련 제품 카테고리</p>
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <h2 className="mb-3 text-xl font-bold text-gray-900">{info.title}</h2>
+                  <p className="mb-5 text-sm leading-relaxed text-gray-500">{info.desc}</p>
+                  <p className="mb-2 text-xs font-medium text-gray-400">관련 제품 카테고리</p>
+                  <div className="mb-6 flex flex-wrap gap-2">
                     {info.tags.map((t) => (
-                      <span key={t} className="text-xs px-3 py-1 rounded-full border font-medium"
-                        style={{ borderColor: info.color, color: info.color }}>
+                      <span
+                        key={t}
+                        className="rounded-full border px-3 py-1 text-xs font-medium"
+                        style={{ borderColor: info.color, color: info.color }}
+                      >
                         {t}
                       </span>
                     ))}
                   </div>
-                  <Link href={info.href}>
-                    <button className="w-full text-white rounded-full py-3 text-sm font-semibold transition hover:opacity-90"
-                      style={{ background: info.color }}>
-                      {info.cta}
-                    </button>
+                  <Link
+                    href={info.href}
+                    className="block w-full touch-manipulation rounded-full py-3.5 text-center text-sm font-semibold text-white transition hover:opacity-90"
+                    style={{ background: info.color }}
+                  >
+                    {info.cta}
                   </Link>
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center text-center text-gray-400 gap-4 py-8">
-                  <div className="w-16 h-16 rounded-full bg-pink-50 flex items-center justify-center">
+                <div className="flex flex-col items-center justify-center gap-4 py-8 text-center text-gray-400">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-pink-50">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C2185B" strokeWidth="1.2">
-                      <circle cx="12" cy="8" r="4"/>
-                      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                      <circle cx="12" cy="8" r="4" />
+                      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-500 mb-1">얼굴로 탐색하기</p>
-                    <p className="text-xs text-gray-400 leading-relaxed">얼굴 부위에 마우스를 올리거나<br/>아래 버튼을 클릭하세요</p>
+                    <p className="mb-1 text-sm font-medium text-gray-500">얼굴로 탐색하기</p>
+                    <p className="text-xs leading-relaxed text-gray-400">
+                      얼굴 부위를 탭하거나
+                      <br />
+                      아래 버튼을 눌러 주세요
+                    </p>
                   </div>
                 </div>
               )}
