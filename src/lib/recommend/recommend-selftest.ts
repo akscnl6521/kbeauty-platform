@@ -2,6 +2,7 @@
  * 핵심 추천 적합도 게이트·배열 매핑·검증일 포맷 selftest (사례 A–E).
  */
 import { asConcernOrToneField } from "./asConcernOrToneField";
+import { diversifyByBrand } from "./diversifyByBrand";
 import { filterRankedByMatchEvidence } from "./filterRankedByMatchEvidence";
 import { formatVerifiedAtForDisplay } from "./formatVerifiedAt";
 import { toCanonicalConcern } from "./concernAliases";
@@ -176,6 +177,28 @@ export function runRecommendScoreFixSelftests(): { ok: true; checks: number } {
     "E: invalid → null (no raw ISO)"
   );
   assert(formatVerifiedAtForDisplay(null, "ko") === null, "E: null → null");
+  checks += 1;
+
+  // --- Brand diversity: Top5에서 동일 브랜드 최대 2 · 부족 시 완화 ---
+  const scored = [
+    { product: baseProduct({ id: "c1", brand: "COSRX" }), score: 5, matchedIngredients: ["a"], excludedIngredients: [] },
+    { product: baseProduct({ id: "c2", brand: "COSRX" }), score: 4, matchedIngredients: ["a"], excludedIngredients: [] },
+    { product: baseProduct({ id: "c3", brand: "COSRX" }), score: 3, matchedIngredients: ["a"], excludedIngredients: [] },
+    { product: baseProduct({ id: "a1", brand: "Anua" }), score: 2.5, matchedIngredients: ["a"], excludedIngredients: [] },
+    { product: baseProduct({ id: "b1", brand: "banila co" }), score: 2, matchedIngredients: ["a"], excludedIngredients: [] },
+    { product: baseProduct({ id: "r1", brand: "ROUND LAB" }), score: 1.5, matchedIngredients: ["a"], excludedIngredients: [] },
+  ];
+  const diversed = diversifyByBrand(scored, 5, 2);
+  assert(diversed.length === 5, "diversity fills Top5");
+  assert(
+    diversed.map((r) => r.product.id).join(",") === "c1,c2,a1,b1,r1",
+    "diversity skips 3rd COSRX for other brands"
+  );
+  const onlyCosrx = diversifyByBrand(scored.slice(0, 3), 5, 2);
+  assert(
+    onlyCosrx.map((r) => r.product.id).join(",") === "c1,c2,c3",
+    "diversity relaxes when pool is single-brand"
+  );
   checks += 1;
 
   // Type smoke: RankableProduct skin_concern array

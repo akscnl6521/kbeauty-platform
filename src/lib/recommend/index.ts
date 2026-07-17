@@ -118,6 +118,7 @@ export type {
   ProductTrustStatus,
 } from "./displayProductMeta";
 export { getShippingCountryLabel } from "./getShippingCountryLabel";
+export { diversifyByBrand } from "./diversifyByBrand";
 export { rankProducts } from "./rankProducts";
 export { toCanonicalConcern } from "./concernAliases";
 export {

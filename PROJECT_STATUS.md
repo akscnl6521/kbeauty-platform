@@ -1,12 +1,22 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-16
+최종 갱신: 2026-07-17
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** 백업 브랜치 커밋·push → Preview 배포 (캐시 V4 · official_global).  
-**방금 완료:** 비가시 Auth/승인 대기 스킵 원칙 반영 · NEXT_TASK를 Preview 속도로 전환.  
+**다음 작업:** Top5 브랜드 다양성 쿼터(V5) 커밋 → Preview 재배포.  
+**방금 완료:** 백업 push · Preview 배포(`6bf5e5c`) · Staging Top5 14/6 확인 · Auth/대시보드 스킵.  
 **운영 메모:** 볼 수 없는 대시보드는 건너뜀 · Production 배포/DB는 명시 전 안 함.
+
+### 2026-07-17 Preview 배포 · Top5 대체 확인
+
+| 항목 | 결과 |
+|------|------|
+| push | `backup-sprint14-20260713` → origin (`6bf5e5c`) |
+| Preview | `kbeauty-platform-peogpdicj-…` READY |
+| Staging 적격 | **14** · 브랜드 **6** · 부적격 0 |
+| Auth URL | **스킵** (대시보드) |
+| Production | 미변경 |
 
 ### 2026-07-17 캐시 V4 · concern 분포
 

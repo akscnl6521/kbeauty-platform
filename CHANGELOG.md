@@ -6,6 +6,12 @@
 
 ## 2026-07-17
 
+### Top5 브랜드 다양성 쿼터 · 캐시 V5
+
+- `diversifyByBrand`: 핵심 Top5에서 동일 브랜드 최대 2 (부족 시 완화)
+- `RECOMMENDATION_CACHE_VERSION` → `KR_MATCH_EVIDENCE_V5`
+- Production 미배포
+
 ### 추천 캐시 V4 · concern 분포 재확인
 
 - `RECOMMENDATION_CACHE_VERSION` → `KR_MATCH_EVIDENCE_V4`

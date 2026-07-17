@@ -36,7 +36,7 @@ A안 신규 id 188~192는 `verified_at` NULL → **의도적으로 미노출**.
 ### D. 브라우저 localStorage 캐시
 
 - 키: `skinRecommendation`, `skinRankedProducts`, `recommendationCacheVersion`
-- 버전: `KR_MATCH_EVIDENCE_V4` (V3에서 상향 · skin_concern 보강 반영)
+- 버전: `KR_MATCH_EVIDENCE_V5` (브랜드 다양성 쿼터 · V4에서 상향)
 - 이전 분석 결과가 남으면 같은 카드가 반복될 수 있음 (강력 새로고침·시크릿 창으로 확인)
 
 ### E. mock 분석 (개발만 · Production 금지)

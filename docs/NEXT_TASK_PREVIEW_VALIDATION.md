@@ -17,10 +17,10 @@
 ## 작업 순서
 
 1~7f. [x] Staging 다양성·KRW·skin_concern·캐시 V4 코드
-8. [ ] **백업 브랜치 커밋·push** + **Preview 배포** (V4 · official_global)
-9. [ ] Preview `/results` 다브랜드 Top5 동작 확인(대체 가능하면 Staging API)
-10. [ ] 다음 플랫폼 확대 (공개 풀·카테고리·문진 UX 중 가장 빠른 1건)
+8. [x] 백업 브랜치 커밋·push + Preview 배포 (`6bf5e5c`)
+9. [x] Staging 대체 Top5 확인 — 적격 **14** · 브랜드 **6** · 부적격 0 (Preview SSO 스킵)
+10. [ ] **Top5 브랜드 다양성 쿼터** (max 2/브랜드 · 캐시 V5) → 커밋·Preview 재배포
 
 ## 현재 단일 작업
 
-**커밋 → push → Preview 배포** — Staging 다양성·Preview offer 모드·캐시 V4를 Preview에 반영.
+**브랜드 다양성 쿼터 + 캐시 V5** — COSRX 독점을 막고 Preview에 반영.

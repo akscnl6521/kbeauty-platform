@@ -1,6 +1,7 @@
 import { applyEvidenceToRecommendation } from "@/lib/evidence";
 import { resolveApprovedEvidenceForConcerns } from "@/lib/evidence/loadApprovedEvidence";
 import { clampTopNWithoutPadding } from "@/lib/recommend/clampTopN";
+import { diversifyByBrand } from "./diversifyByBrand";
 import { fetchCandidateProducts } from "./fetchCandidateProducts";
 import { filterCandidatesBySafety } from "./filterCandidatesBySafety";
 import { filterRankedByMatchEvidence } from "./filterRankedByMatchEvidence";
@@ -19,6 +20,9 @@ import {
   RECOMMENDATION_CACHE_VERSION_KEY,
   RECOMMENDATION_STORAGE_KEY,
 } from "./types";
+
+/** Top N에서 동일 브랜드 상한 (부족 시 diversifyByBrand가 완화) */
+const CORE_TOP_MAX_PER_BRAND = 2;
 
 export type PersistTopRankedOptions = {
   /**
@@ -103,10 +107,12 @@ export async function persistTopRankedProducts(
 
     const ranked = rankProducts(withStats, safe);
     const withMatchEvidence = filterRankedByMatchEvidence(ranked);
-    const top = clampTopNWithoutPadding(
+    const diversified = diversifyByBrand(
       withMatchEvidence,
-      RANKED_PRODUCTS_TOP_N
+      RANKED_PRODUCTS_TOP_N,
+      CORE_TOP_MAX_PER_BRAND
     );
+    const top = clampTopNWithoutPadding(diversified, RANKED_PRODUCTS_TOP_N);
 
     if (process.env.NODE_ENV === "development") {
       console.log("[coreRecommend]", {
