@@ -15,8 +15,8 @@
 | 헤더 | lg 가로 · 모바일 드로어·문진 |
 | 루틴·analyze·results | 빈/완료 CTA 보강 |
 | ingredients | 목록·CTA 터치 타깃 |
-| push | `82b9f52` |
-| Preview | READY |
+| push | `82b9f52` → `2360867` |
+| Preview | READY (최신 care CTA 포함) |
 | Production | 미변경 |
 
 ### 2026-07-18 홈 성분 가이드 CTA
