@@ -6,6 +6,12 @@
 
 ## 2026-07-17
 
+### 성분 가이드 DB 목록 + CTA
+
+- `/ingredients`가 Supabase `ingredients` 목록을 표시 (실패 시 폴백 3개)
+- 문진·추천 결과 CTA 추가
+- Production 미배포
+
 ### 문진 도메인 전환 네비
 
 - `QuizDomainNav`: 피부·마스카라·베이스·립·헤어 칩
