@@ -85,6 +85,21 @@ const robots = readFileSync(path.join(root, "src/app/robots.ts"), "utf8");
 assert(robots.includes("/admin/"), "robots disallow admin");
 assert(robots.includes("/my/"), "robots disallow my");
 
+// Preview fixture gate must block Production and invent nothing
+const fixtureGate = readFileSync(
+  path.join(root, "src/lib/catalog/previewFixtureCatalog.ts"),
+  "utf8"
+);
+assert(fixtureGate.includes("production_runtime_blocked"), "fixture prod block reason");
+assert(
+  fixtureGate.includes("no_complete_verified_fixture_in_repo"),
+  "no invented preview fixture"
+);
+assert(
+  existsSync(path.join(root, "scripts/preview-fixture-gate-selftest.ts")),
+  "preview fixture selftest exists"
+);
+
 console.log(
   JSON.stringify({
     phase: "prod_safety_selftest_ok",
@@ -92,5 +107,6 @@ console.log(
     productionWrites: false,
     liveEmail: false,
     cronRegistered: false,
+    previewFixtureInvented: false,
   })
 );

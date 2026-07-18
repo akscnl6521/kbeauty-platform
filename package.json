@@ -29,6 +29,7 @@
     "care:notify": "node scripts/care-notification-worker.mjs",
     "test:care": "npx --yes tsx scripts/care-phase-d-selftest.ts",
     "test:prod-safety": "node scripts/test-prod-safety.mjs",
+    "test:preview-fixture-gate": "npx --yes tsx scripts/preview-fixture-gate-selftest.ts",
     "test:phase-e-journey": "npx --yes tsx scripts/phase-e-journey-selftest.ts",
     "check:env-readiness": "node scripts/check-env-readiness.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",

@@ -4,11 +4,11 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** **Production 승인 대기** — Preview 육안·환경변수·Auth URL 확인 후 「Production 배포 진행」  
-**다음이 아닌 것:** 무단 Production 배포 · main 병합 · Production DB 쓰기 · cron/이메일 live  
-**방금 완료:** Phase E — 출시 감사·준비 게이트 (`automation-mvp-completion`)  
-**판정:** 한국 MVP **GO WITH MANUAL CHECKS** · 글로벌 **NO-GO** · Production 배포 **0%**  
-**Preview:** Vercel 대시보드에서 `automation-mvp-completion` 최신 Preview URL 확인 (로컬에 gh CLI 없음 · MANUAL)
+**다음 작업:** **추천 제품 데이터 확보** — Staging에 verified+active+KR offer(in_stock)·이미지 충족 recommendable 제품 투입 후 Preview `/results` 재검수  
+**다음이 아닌 것:** Production 배포 · main 병합 · Production DB 쓰기 · 가짜 제품/후기/가격 표시 · cron/이메일 live  
+**방금 완료:** Preview `/results` 빈 상태·레이아웃 보완 · Preview fixture Production 게이트 (`automation-mvp-completion`)  
+**판정:** 한국 MVP **NO-GO — 추천 제품 데이터 필요** · 글로벌 **NO-GO** · Production 배포 **0%**  
+**Preview:** Vercel에서 `automation-mvp-completion` Preview URL 육안 (추천 0건이면 정상 빈 상태여야 함)
 
 ### 사실 고정 (혼선 제거)
 
@@ -17,19 +17,28 @@
 | main 병합 (`backup-sprint14` → main) | **완료** (이전) |
 | Production 애플리케이션 배포 | **미실행** |
 | Production DB 카탈로그 | **부분** (A안 5건) |
-| Preview 검증 | **완료** 이력 · Phase B 후 Preview 재확인 권장 |
-| Phase B 디자인/여정 | **부분→대폭 개선** (홈·분석 단계·문진 통일·결과 카드·인증·마이 진입) |
+| Preview 결과 페이지 | **레이아웃·빈 상태 보완** · 추천 제품 데이터 **부족** |
+| Preview 완전 fixture | **없음** (발명 금지 · Production 차단) |
 | 통합 현황판 | `PROJECT_DASHBOARD.md` |
+
+### 2026-07-18 Preview 결과 보완
+
+| 항목 | 값 |
+|------|-----|
+| 브랜치 | `automation-mvp-completion` |
+| 변경 | `/results` 2단 레이아웃 · 정직한 빈 상태 CTA · 이미지 fallback · fixture 게이트 |
+| 판정 | **NO-GO — 추천 제품 데이터 필요** (GO WITH MANUAL CHECKS 철회) |
+| Production / main | 미배포 · 미병합 |
 
 ### 2026-07-18 Phase E 출시 감사·Production 준비 게이트
 
 | 항목 | 값 |
 |------|-----|
 | 브랜치 | `automation-mvp-completion` |
-| 판정 | 한국 MVP GO WITH MANUAL CHECKS · 글로벌 NO-GO |
+| 판정(당시) | GO WITH MANUAL CHECKS → **이후 Preview 검수로 철회** |
 | 문서 | `RELEASE_AUDIT` · `ENVIRONMENT_READINESS` · `PRODUCTION_RELEASE_CHECKLIST` · `ROLLBACK_PLAN` · `RELEASE_DECISION` |
 | 명령 | `check:env-readiness` · `test:prod-safety` · `test:phase-e-journey` · `check:mvp` |
-| Production / main | 미배포 · 미병합 · **승인 대기** |
+| Production / main | 미배포 · 미병합 · **승인 대기였으나 데이터 blocker로 보류** |
 
 ### 2026-07-18 Phase D 지속 관리·체크인
 

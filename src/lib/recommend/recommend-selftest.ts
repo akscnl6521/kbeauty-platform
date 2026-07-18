@@ -46,7 +46,7 @@ function baseProduct(
 }
 
 const EMPTY_CORE_KO =
-  "현재 조건에 맞고 판매처까지 확인된 제품을 준비 중입니다.";
+  "현재 조건과 판매처까지 모두 검증된 제품이 아직 없습니다.";
 
 export function runRecommendScoreFixSelftests(): { ok: true; checks: number } {
   let checks = 0;
@@ -131,7 +131,8 @@ export function runRecommendScoreFixSelftests(): { ok: true; checks: number } {
   const coreC = filterRankedByMatchEvidence(rankedC);
   assert(coreC.length === 0, "C: empty core");
   assert(!coreC[0] && !coreC[1], "C: no fake rank 1/2");
-  assert(EMPTY_CORE_KO.includes("판매처까지 확인"), "C: empty-state copy ready");
+  assert(EMPTY_CORE_KO.includes("판매처까지 모두 검증"), "C: empty-state copy ready");
+  assert(!EMPTY_CORE_KO.includes("준비 중"), "C: no ambiguous preparing copy");
   checks += 1;
 
   // 혼합: 매칭 1 + 0점 1 → 핵심에는 매칭만

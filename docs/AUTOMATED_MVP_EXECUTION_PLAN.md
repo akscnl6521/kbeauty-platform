@@ -67,7 +67,7 @@
 | 자동 진행 범위 | 출시 감사 · 여정 A–H · env readiness · prod-safety · 체크리스트/롤백/판정 · check:mvp |
 | 사용자 확인 | Preview 육안 · Vercel AI_PROVIDER/SITE_URL · Auth URL · 도메인 · **「Production 배포 진행」** |
 | 완료 조건 | 정적 게이트 PASS · 문서 판정 기록 · **배포는 승인 후** |
-| 상태 | **본 브랜치에서 완료** · 한국 MVP GO WITH MANUAL CHECKS · Production 배포 미실행 |
+| 상태 | **본 브랜치에서 진행** · 한국 MVP **NO-GO — 추천 제품 데이터 필요** · Production 배포 미실행 |
 
 ---
 

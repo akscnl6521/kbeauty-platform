@@ -52,8 +52,18 @@ function runStatic() {
   }
 
   const results = fs.readFileSync(path.join(root, "src/app/results/page.tsx"), "utf8");
-  for (const needle of ["나를 위한 핵심 추천 제품", "RecommendedProductCard", "내 피부 관리"]) {
+  for (const needle of [
+    "나를 위한 핵심 추천 제품",
+    "RecommendedProductCard",
+    "내 피부 관리",
+    "현재 조건과 판매처까지 모두 검증된 제품이 아직 없습니다.",
+    "kb-results-layout",
+    "공개 가능한 검증 제품이 없습니다",
+  ]) {
     if (!results.includes(needle)) failures.push(`results: missing ${needle}`);
+  }
+  if (results.includes("제품을 준비 중")) {
+    failures.push("results: ambiguous preparing empty-state copy must not remain");
   }
 
   if (failures.length) throw new Error(failures.join("\n"));

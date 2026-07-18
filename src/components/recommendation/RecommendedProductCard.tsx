@@ -167,10 +167,10 @@ export function RecommendedProductCard({
   const imageAlt = `${[brand, displayName].filter(Boolean).join(" ")} 제품 이미지`.trim();
   const imageFallback =
     locale === "ko"
-      ? "제품 이미지 준비 중"
+      ? "검증된 제품 이미지 없음"
       : locale === "ja"
-        ? "製品画像準備中"
-        : "Product image coming soon";
+        ? "検証済み製品画像なし"
+        : "No verified product image";
 
   return (
     <article

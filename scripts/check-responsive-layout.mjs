@@ -38,8 +38,16 @@ mustInclude("src/app/globals.css", "kb-btn", "button token");
 mustInclude("src/app/globals.css", "kb-chip", "chip token");
 mustInclude("src/app/analyze/page.tsx", "JourneyProgress", "analyze progress");
 mustInclude("src/app/results/page.tsx", "나를 위한 핵심 추천 제품", "results core section");
+mustInclude("src/app/results/page.tsx", "kb-results-layout", "results desktop layout");
+mustInclude("src/app/globals.css", "kb-results-layout", "results layout css");
+mustInclude("src/app/results/page.tsx", "현재 조건과 판매처까지 모두 검증된 제품이 아직 없습니다.", "honest empty core");
 mustInclude("src/components/beauty/DomainQuizClient.tsx", "JourneyProgress", "quiz progress");
 mustInclude("src/components/recommendation/RecommendedProductCard.tsx", "추천 이유", "product reason first");
+mustInclude(
+  "src/components/recommendation/RecommendedProductCard.tsx",
+  "검증된 제품 이미지 없음",
+  "image fallback without preparing ambiguity"
+);
 
 // Viewport meta is provided by Next.js app router by default; ensure layout doesn't remove it
 const layout = read("src/app/layout.tsx");

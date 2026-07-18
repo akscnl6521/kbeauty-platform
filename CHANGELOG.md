@@ -6,11 +6,20 @@
 
 ## 2026-07-18
 
+### Preview `/results` 빈 상태·레이아웃 보완
+
+- 데스크톱 `kb-results-layout` 2단 · 정직한 빈 상태(준비 중 제거) · browse 0일 때 검색/즐겨찾기 비노출
+- Preview fixture: 완전 verified+offer 없음 → 미발명 · Production 게이트 (`previewFixtureCatalog`)
+- 이미지: verified만 · 없으면 fallback (타 제품 이미지 대체 금지)
+- 판정: 한국 MVP **NO-GO — 추천 제품 데이터 필요** (GO WITH MANUAL CHECKS 철회)
+- Production 배포·main 병합·Prod DB 미변경
+
 ### Phase E — 출시 감사·Production 준비 게이트
 
 - RELEASE_AUDIT · ENVIRONMENT_READINESS · PRODUCTION_RELEASE_CHECKLIST · ROLLBACK_PLAN · RELEASE_DECISION
 - `check:env-readiness` · `test:prod-safety` · `test:phase-e-journey` · auth next 보존 · privacy 케어 문구
-- 판정: 한국 MVP GO WITH MANUAL CHECKS · 글로벌 NO-GO · Production 배포 0% · **승인 대기**
+- 판정(당시): 한국 MVP GO WITH MANUAL CHECKS → Preview 검수 후 **철회**
+- Production 배포 0% · **데이터 blocker로 승인 보류**
 
 ### Phase D — 지속 관리·체크인 경험
 

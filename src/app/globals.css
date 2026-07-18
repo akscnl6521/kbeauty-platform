@@ -289,6 +289,51 @@ body {
   }
 }
 
+/* /results — desktop 2-column body; mobile single stack */
+.kb-results-overview {
+  padding-bottom: 0.25rem;
+}
+
+.kb-results-layout {
+  display: grid;
+  gap: 2rem;
+  width: 100%;
+}
+
+.kb-results-main,
+.kb-results-rail {
+  min-width: 0;
+}
+
+.kb-results-guide {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.kb-results-guide-span,
+.kb-results-layout-span {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 1024px) {
+  .kb-results-layout {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    align-items: start;
+    column-gap: 2.5rem;
+    row-gap: 1.75rem;
+  }
+
+  .kb-results-guide {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.25rem;
+  }
+
+  .kb-results-rail {
+    position: sticky;
+    top: calc(var(--site-header-height, 4rem) + 0.75rem);
+  }
+}
+
 /* Focus for keyboard users */
 :focus-visible {
   outline: 2px solid var(--brand);
