@@ -16,7 +16,8 @@ export type AnalyzeInputSnapshot = {
   concerns: string[];
   sensitivity: string;
   rednessObservation: RednessObservation | null;
-  concernObservations: ConcernObservation[];
+  /** 화면 연결 전 구버전 호출부와 호환하기 위해 선택값으로 유지한다. */
+  concernObservations?: ConcernObservation[];
 };
 
 /** 빈 배열·빈 객체를 null로 정규화 (구버전·부분 입력 호환) */
@@ -89,7 +90,7 @@ function stableConcernObservationKey(
 
 export function normalizeAnalyzeInputSnapshot(
   raw: Partial<AnalyzeInputSnapshot> | null | undefined
-): AnalyzeInputSnapshot | null {
+): Required<AnalyzeInputSnapshot> | null {
   if (!raw || (raw.mode !== "photo" && raw.mode !== "manual")) return null;
   return {
     mode: raw.mode,
@@ -138,7 +139,7 @@ export function analyzeInputSnapshotsEqual(
   );
 }
 
-export function loadAnalyzeInputSnapshot(): AnalyzeInputSnapshot | null {
+export function loadAnalyzeInputSnapshot(): Required<AnalyzeInputSnapshot> | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(ANALYZE_INPUT_SNAPSHOT_KEY);
