@@ -6,6 +6,14 @@
 
 ## 2026-07-18
 
+### Phase C — Staging 카탈로그 품질 자동화·제품 준비
+
+- `recommendableCriteria` SSOT · `npm run catalog:phase-c` · `test:recommendable`
+- offline 품질 스냅샷·이미지/offer/INCI/중복 검사·검수 큐 · Staging 쓰기 0 · 자동 Verified 없음
+- `/products/[slug]` (verified+active만) · `/admin/catalog/automation-queue`
+- 문서: `docs/CATALOG_AUTOMATION_REPORT.md` · `docs/CATALOG_RECOMMENDABLE_CRITERIA.md`
+- recommendable delta 0 (게이트 유지) · 다음: Phase D 체크인 UX
+
 ### Phase B — 한국 MVP 핵심 여정·디자인
 
 - 디자인 토큰/`kb-*` 유틸 · `JourneyProgress` · 홈 CTA 위계 · analyze 수동 3단계 · 문진 BeautyShell 통일

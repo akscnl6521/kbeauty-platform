@@ -22,6 +22,8 @@
     "check:parallel": "node scripts/run-parallel-safe-checks.mjs",
     "report:system": "node scripts/system-capability-report.mjs",
     "report:workers": "node scripts/catalog-worker-config.mjs",
+    "catalog:phase-c": "node scripts/phase-c-catalog-automation.mjs",
+    "test:recommendable": "npx --yes tsx scripts/recommendable-criteria-selftest.ts",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",
     "test:full-beauty": "npx --yes tsx scripts/full-beauty-selftest.ts",
     "catalog:full-beauty": "npx --yes tsx scripts/run-full-beauty-catalog-sprint.ts",

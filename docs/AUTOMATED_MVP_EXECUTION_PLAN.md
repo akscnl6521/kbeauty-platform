@@ -3,7 +3,7 @@
 최종 갱신: 2026-07-18  
 정책: `docs/AUTOMATION_POLICY.md` · 현황: `PROJECT_DASHBOARD.md`
 
-**지금 목표:** 한국 MVP 디자인 및 핵심 사용자 여정 완성  
+**지금 목표:** Phase D — 3·7·15·30 체크인·지속 관리 UX  
 **지금 아님:** Production 배포 · main 병합 · Production DB 쓰기
 
 ---
@@ -30,6 +30,7 @@
 | 완료 조건 | 여정 끊김 없음 · `check:responsive` · `test:journey` · 디자인 완료 조건 충족 |
 | 예상 작업일 | 3~5일 |
 | 위험 | analyze/results 대형 파일 회귀 · 추천 로직 실수 변경 금지 |
+| 상태 | **본 브랜치에서 완료** |
 
 ---
 
@@ -37,11 +38,12 @@
 
 | 항목 | 내용 |
 |------|------|
-| 자동 진행 범위 | Staging 읽기 · 이미지 URL 유효성 · 후보 수집 · needs_review 큐 · 공식 INCI는 verbatim 있을 때만 |
-| 사용자 확인 1회 | Staging → 공개 추천 후보 승격/라벨 apply 묶음 승인 |
-| 완료 조건 | KR Top5 가능한 verified+offer+image 밀도 · 잔여 INCI는 BLOCKED 유지 가능 |
+| 자동 진행 범위 | Staging 안전 확인 · 품질 스냅샷 · 이미지/offer/INCI/중복 · 검수 큐 · recommendable SSOT · PDP |
+| 사용자 확인 1회 | Staging live 재실행 후 라벨 apply/공개 승격 묶음 승인 (자격증명 준비 시) |
+| 완료 조건 | 게이트 유지 · 큐/보고 생성 · 잔여 INCI BLOCKED · Production 미터치 |
 | 예상 작업일 | 4~7일 (외부 출처 의존) |
 | 위험 | Production ref 오인 쓰기 · invent INCI · rate limit |
+| 상태 | **본 브랜치에서 완료 (offline)** · live Staging 쓰기 SKIPPED · recommendable delta 0 |
 
 ---
 

@@ -1,0 +1,26 @@
+{
+  "scanned": 11,
+  "ok": 8,
+  "invalid": 3,
+  "autoFixed": 0,
+  "items": [
+    {
+      "productId": 1,
+      "contentLength": 68,
+      "issue": "IMAGE_INVALID_TINY",
+      "bucket": "IMAGE_INVALID"
+    },
+    {
+      "productId": 3,
+      "contentLength": 68,
+      "issue": "IMAGE_INVALID_TINY",
+      "bucket": "IMAGE_INVALID"
+    },
+    {
+      "productId": 2,
+      "contentLength": 68,
+      "issue": "IMAGE_INVALID_TINY",
+      "bucket": "IMAGE_INVALID"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "source": "offline_disk_artifacts",
+  "note": "Live Staging link unavailable; snapshot from label status + backup + prior audit",
+  "environment": "staging",
+  "stagingLive": false,
+  "totals": {
+    "heroes": 84,
+    "withInci": 57,
+    "officialMatched": 58,
+    "recommendableFlag": 58,
+    "evidenceLinked": 44,
+    "blockedOfficialInci": 27,
+    "sheetEntries": 57,
+    "applyReady": 57,
+    "backupProducts": 11,
+    "backupOffers": 2,
+    "backupMedia": 11,
+    "tinyMedia": 3,
+    "primaryMediaOkEstimate": 8,
+    "auditVerifiedProducts": 2,
+    "auditStrictKrOffers": 2,
+    "auditDuplicateCandidates": 2
+  }
+}

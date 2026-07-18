@@ -16,6 +16,7 @@ const TABS = [
   { href: "/admin/catalog/domain-review", label: "Domains" },
   { href: "/admin/catalog/review", label: "Review" },
   { href: "/admin/catalog/bulk-review", label: "Bulk" },
+  { href: "/admin/catalog/automation-queue", label: "Auto Queue" },
 ] as const;
 
 export function CatalogAutomationShell({

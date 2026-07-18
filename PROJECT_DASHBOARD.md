@@ -10,15 +10,15 @@
 
 | 구분 | 진행률 | 판정 |
 |------|--------|------|
-| 전체 최종 플랫폼 (KR+US+JP+운영) | **~60%** | 부분 완료 |
-| 한국 MVP (기능) | **~78%** | 부분 완료 · 여정 UX 개선 |
-| 디자인 (럭셔리 K-뷰티 UX) | **~62%** | 부분 완료 · Phase B 반영 |
-| 제품 데이터 (Staging 중심) | **~68%** | 부분 완료 · INCI 잔여 BLOCKED |
-| 지속 관리 (체크인·루틴) | **~68%** | 부분 완료 · 마이 진입 정리 |
+| 전체 최종 플랫폼 (KR+US+JP+운영) | **~62%** | 부분 완료 |
+| 한국 MVP (기능) | **~82%** | 부분 완료 · PDP 기반 |
+| 디자인 (럭셔리 K-뷰티 UX) | **~64%** | 부분 완료 · Phase B + PDP |
+| 제품 데이터 (Staging 중심) | **~72%** | 부분 완료 · Phase C 자동화·SSOT |
+| 지속 관리 (체크인·루틴) | **~68%** | 부분 완료 · Phase D 대기 |
 | Production 앱 배포 | **0% (미배포)** | 미완료 |
 | Production DB 카탈로그 | **~5%** | 부분 (A안 COSRX 5건만) |
 
-**다음 작업 (단일):** Phase C — 제품·이미지·판매처 데이터 자동화 및 추천 가능 제품 확대  
+**다음 작업 (단일):** Phase D — 3·7·15·30일 체크인과 지속 관리 UX 실제 운영 완성  
 **다음이 아닌 것:** Production 배포 · main 병합 · Production DB 쓰기
 
 ---
@@ -30,9 +30,9 @@
 | 항목 | 내용 |
 |------|------|
 | 상태 | **부분 완료** |
-| 근거 | KR 코어·관리자·파이프라인·Care 골격 있음. US/JP offer·다국어·프로덕션 운영 미완성 |
+| 근거 | KR 코어·관리자·파이프라인·Care 골격·PDP 기반. US/JP offer·다국어·프로덕션 운영 미완성 |
 | 검증 | `npm run check:mvp` · `PROJECT_STATUS.md` |
-| 다음 작업 | Phase B 여정/디자인 → C 데이터 → D Care UX → E Production 준비 |
+| 다음 작업 | Phase D Care UX → E Production 준비 |
 | 남은 작업량 | 대형 (수주) |
 
 ### 2. 한국 MVP
@@ -40,19 +40,19 @@
 | 항목 | 내용 |
 |------|------|
 | 상태 | **부분 완료** |
-| 근거 | `/analyze`→`/results`·문진·인증·`/my`·추천 Top5·Evidence 존재. 공개 제품 상세/비교·디자인 polish·Prod 카탈로그 부족 |
-| 검증 | `test:journey` · `test:smoke` · Preview SSO 검수 이력 |
-| 다음 작업 | 디자인 실행 순서 Phase B (`docs/MVP_DESIGN_COMPLETION_PLAN.md`) |
-| 남은 작업량 | 중~대형 |
+| 근거 | `/analyze`→`/results`·문진·인증·`/my`·Top5·`/products/[slug]`(verified만). 비교 UI·Prod 카탈로그 부족 |
+| 검증 | `test:journey` · `test:smoke` · `test:recommendable` |
+| 다음 작업 | Phase D 체크인 UX |
+| 남은 작업량 | 중형 |
 
 ### 3. 디자인
 
 | 항목 | 내용 |
 |------|------|
 | 상태 | **부분 완료** |
-| 근거 | cream/`#C2185B` 톤·SiteHeader·responsive 정적 검사 있음. analyze/results가 길고 카드·폼 밀도 높음. 공개 PDP/비교 없음 |
+| 근거 | Phase B 여정 + PDP 최소 공개면. 비교·Care polish 남음 |
 | 검증 | `check:responsive` · 수동 모바일 375/390 |
-| 다음 작업 | 홈→분석→결과→인증→마이 순 리파인 (전면 재디자인 금지) |
+| 다음 작업 | Phase D Care 화면 위계 |
 | 남은 작업량 | 중형 |
 
 ### 4. 사용자 분석
@@ -70,29 +70,29 @@
 | 항목 | 내용 |
 |------|------|
 | 상태 | **부분 완료** (코어 강함) |
-| 근거 | `src/lib/recommend/*` · Evidence · KR offer 적격 · `test:quality` selftest |
-| 검증 | `npm run test:quality` · Staging `check:staging-quality` (시크릿 필요) |
-| 다음 작업 | 결과 UI 가독성 · 공개 상세 연결 |
-| 남은 작업량 | 소형 (엔진) / 중형 (UI) |
+| 근거 | `src/lib/recommend/*` · Evidence · KR offer · `recommendableCriteria` SSOT |
+| 검증 | `npm run test:quality` · `test:recommendable` |
+| 다음 작업 | Staging live 시 후보 풀 확대(게이트 유지) |
+| 남은 작업량 | 소형 (엔진) / 중형 (데이터) |
 
 ### 6. 제품 데이터
 
 | 항목 | 내용 |
 |------|------|
 | 상태 | **부분 완료** · 일부 **BLOCKED** |
-| 근거 | Staging heroes~84 · with_inci **57** · 잔여 27 공식 INCI **BLOCKED**. Production A안 5건만 |
-| 검증 | `catalog:labels:status` · Staging 읽기 스크립트 |
-| 다음 작업 | 공식 verbatim 확보 시에만 INCI 재개 · 공개용 verified+offer 확대는 Staging 먼저 |
-| 남은 작업량 | 중~대형 · BLOCKED 구간은 외부 의존 |
+| 근거 | Heroes 84 · with_inci **57** · recommendable flag 58 · BLOCKED 27. Phase C offline 스냅샷·검수 큐. Live Staging 쓰기 SKIPPED · delta 0 |
+| 검증 | `catalog:phase-c` · `docs/CATALOG_AUTOMATION_REPORT.md` |
+| 다음 작업 | Staging link 후 안전 복구 재실행 · 공식 verbatim 시에만 INCI |
+| 남은 작업량 | 중~대형 · BLOCKED는 외부 의존 |
 
 ### 7. 제품 이미지
 
 | 항목 | 내용 |
 |------|------|
 | 상태 | **부분 완료** |
-| 근거 | `/api/catalog/product-images` · Staging 공개 9/9 검증 이력 · Snail 96 복구. Prod media 미첨부 |
-| 검증 | `scripts/verify-staging-public-product-images.mjs` |
-| 다음 작업 | 결과·상세 히어로 품질 · 누락 이미지 큐 |
+| 근거 | backup 스캔 tiny 3건 검수 큐 · Staging 공개 9/9 이력 · Prod media 미첨부 |
+| 검증 | `reports/catalog-images.json` · verify 스크립트 |
+| 다음 작업 | Staging signed URL 재발급·primary 후보 (live 시) |
 | 남은 작업량 | 중형 |
 
 ### 8. 판매처 (offers)
@@ -100,9 +100,9 @@
 | 항목 | 내용 |
 |------|------|
 | 상태 | **부분 완료** |
-| 근거 | `product_offers` · admin offers · pipeline verified offer 게이트. KR Top5 verified offer 원칙 |
-| 검증 | admin `/admin/offers` · quality regression |
-| 다음 작업 | KR verified offer 밀도 · freshness 모니터링 |
+| 근거 | backup offer 2/2 OK · admin offers · KR Top5 verified offer 원칙 |
+| 검증 | `reports/catalog-offers.json` · quality regression |
+| 다음 작업 | live HEAD 검사·inactive 후보 (Staging만) |
 | 남은 작업량 | 중형 |
 
 ### 9. 사용자 인증
@@ -170,9 +170,9 @@
 | 항목 | 내용 |
 |------|------|
 | 상태 | **부분 완료** (기능 풍부 · UX 운영용) |
-| 근거 | `/admin/*` catalog/labels/pipeline/evidence/care 다수 페이지 |
+| 근거 | `/admin/*` catalog/labels/pipeline/evidence/care · **Auto Queue** (`/admin/catalog/automation-queue`) |
 | 검증 | admin auth routes · staging E2E 스크립트(승인 후) |
-| 다음 작업 | MVP 공개 UX 우선 · admin은 검수 효율만 소폭 |
+| 다음 작업 | 검수 큐 효율 · 대량 Verified 금지 유지 |
 | 남은 작업량 | 소형 (MVP 범위) |
 
 ### 16. 자동 수집 파이프라인
@@ -182,7 +182,7 @@
 | 상태 | **부분 완료** |
 | 근거 | worker · `config/pipeline-operation.json` · discovery/enrich/labels · 자동 published 금지 |
 | 검증 | `test:pipeline` · operation destructive flags false (`check:release-security`) |
-| 다음 작업 | Phase C에서 Staging 비파괴 수집만 · Prod ingestion 금지 |
+| 다음 작업 | Staging live 자격증명 후 Phase C 재실행 · Prod ingestion 금지 |
 | 남은 작업량 | 중형 |
 
 ### 17. Production 준비 상태
@@ -205,6 +205,7 @@
 | Production **애플리케이션** 배포 | **안 함** |
 | Production **DB** 일부 데이터 | A안 COSRX **5건** (verified_at NULL, media/offer 없음) |
 | Preview 검증 | SSO UI + Staging 대체 검증 **완료** 이력 |
-| 지금 할 일 | **디자인·핵심 여정** (배포 아님) |
+| Phase C | offline 자동화 완료 · recommendable delta **0** · 자동 Verified 없음 |
+| 지금 할 일 | **Phase D 체크인·지속 관리 UX** (배포 아님) |
 
-자동화 진입점: `npm run check:mvp` · CI (이 브랜치 push / main PR) · `docs/AUTOMATED_MVP_EXECUTION_PLAN.md`
+자동화 진입점: `npm run check:mvp` · `catalog:phase-c` · CI · `docs/AUTOMATED_MVP_EXECUTION_PLAN.md`

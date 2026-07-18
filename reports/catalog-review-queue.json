@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-07-18T09:00:09.967Z",
+  "total": 6,
+  "byBucket": {
+    "IMAGE_INVALID": 3,
+    "BLOCKED": 1,
+    "MISSING_OFFICIAL_INCI": 1,
+    "READY_TO_RECOMMEND": 1
+  },
+  "items": [
+    {
+      "id": "img-1",
+      "productId": 1,
+      "bucket": "IMAGE_INVALID",
+      "issue": "IMAGE_INVALID_TINY",
+      "score": 0.4,
+      "recommendedAction": "replace_official_image_or_mark_missing"
+    },
+    {
+      "id": "img-3",
+      "productId": 3,
+      "bucket": "IMAGE_INVALID",
+      "issue": "IMAGE_INVALID_TINY",
+      "score": 0.4,
+      "recommendedAction": "replace_official_image_or_mark_missing"
+    },
+    {
+      "id": "img-2",
+      "productId": 2,
+      "bucket": "IMAGE_INVALID",
+      "issue": "IMAGE_INVALID_TINY",
+      "score": 0.4,
+      "recommendedAction": "replace_official_image_or_mark_missing"
+    },
+    {
+      "id": "inci-blocked-heroes",
+      "productId": null,
+      "bucket": "BLOCKED",
+      "issue": "official_inci_blocked_count=27",
+      "score": 1,
+      "recommendedAction": "wait_official_verbatim_or_packaging_label",
+      "count": 27
+    },
+    {
+      "id": "inci-missing-official",
+      "productId": null,
+      "bucket": "MISSING_OFFICIAL_INCI",
+      "issue": "heroes_without_official_verbatim",
+      "score": 0.95,
+      "recommendedAction": "collect_official_inci_then_apply_sheet",
+      "count": 27
+    },
+    {
+      "id": "ready-pool",
+      "productId": null,
+      "bucket": "READY_TO_RECOMMEND",
+      "issue": "staging_recommendable_flag_count",
+      "score": 1,
+      "recommendedAction": "human_review_before_public_verified",
+      "count": 58
+    }
+  ],
+  "autoVerified": false
+}

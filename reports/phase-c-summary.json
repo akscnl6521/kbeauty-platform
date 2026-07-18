@@ -1,0 +1,167 @@
+{
+  "phase": "phase_c_catalog_automation",
+  "startedAt": "2026-07-18T09:00:08.222Z",
+  "productionTouched": false,
+  "autoVerified": false,
+  "stagingLive": false,
+  "stagingWriteCount": 0,
+  "skipped": [
+    {
+      "step": "staging_live_sql",
+      "reason": "supabase_not_linked",
+      "need": "supabase link --project-ref jfnjufmldiqlgvgyugfd + SUPABASE_ACCESS_TOKEN"
+    },
+    {
+      "step": "staging_db_writes",
+      "reason": "no_staging_credentials",
+      "need": "STAGING_SUPABASE_URL + service role OR linked CLI"
+    },
+    {
+      "step": "env_local_rest_writes",
+      "reason": "NEXT_PUBLIC_SUPABASE_URL_is_production",
+      "need": "point Preview/Staging env only; never write via Production URL"
+    }
+  ],
+  "blockers": [],
+  "retries": 0,
+  "workers": {
+    "cpuWorkers": 30,
+    "httpConcurrency": 7,
+    "imageConcurrency": 9,
+    "dbWriteConcurrency": 2
+  },
+  "before": {
+    "heroes": 84,
+    "withInci": 57,
+    "officialMatched": 58,
+    "recommendableFlag": 58,
+    "evidenceLinked": 44,
+    "blockedOfficialInci": 27,
+    "sheetEntries": 57,
+    "applyReady": 57,
+    "backupProducts": 11,
+    "backupOffers": 2,
+    "backupMedia": 11,
+    "tinyMedia": 3,
+    "primaryMediaOkEstimate": 8,
+    "auditVerifiedProducts": 2,
+    "auditStrictKrOffers": 2,
+    "auditDuplicateCandidates": 2
+  },
+  "after": {
+    "heroes": 84,
+    "withInci": 57,
+    "officialMatched": 58,
+    "recommendableFlag": 58,
+    "evidenceLinked": 44,
+    "blockedOfficialInci": 27,
+    "sheetEntries": 57,
+    "applyReady": 57,
+    "backupProducts": 11,
+    "backupOffers": 2,
+    "backupMedia": 11,
+    "tinyMedia": 3,
+    "primaryMediaOkEstimate": 8,
+    "auditVerifiedProducts": 2,
+    "auditStrictKrOffers": 2,
+    "auditDuplicateCandidates": 2,
+    "reviewQueueItems": 6,
+    "imageInvalidFound": 3,
+    "offerInvalidFound": 0,
+    "duplicateSuspectGroups": 0,
+    "recommendableDelta": 0,
+    "note": "Criteria preserved; no auto Verified; live Staging writes SKIPPED"
+  },
+  "images": {
+    "scanned": 11,
+    "ok": 8,
+    "invalid": 3,
+    "autoFixed": 0,
+    "items": [
+      {
+        "productId": 1,
+        "contentLength": 68,
+        "issue": "IMAGE_INVALID_TINY",
+        "bucket": "IMAGE_INVALID"
+      },
+      {
+        "productId": 3,
+        "contentLength": 68,
+        "issue": "IMAGE_INVALID_TINY",
+        "bucket": "IMAGE_INVALID"
+      },
+      {
+        "productId": 2,
+        "contentLength": 68,
+        "issue": "IMAGE_INVALID_TINY",
+        "bucket": "IMAGE_INVALID"
+      }
+    ]
+  },
+  "offers": {
+    "scanned": 2,
+    "ok": 2,
+    "invalid": 0,
+    "autoFixed": 0,
+    "items": []
+  },
+  "duplicates": {
+    "groups": [],
+    "suspectProducts": 0
+  },
+  "inci": {
+    "sheetEntries": 57,
+    "applyReady": 57,
+    "withInciStaging": 57,
+    "blockedOfficialInci": 27,
+    "note": "Blocked heroes remain BLOCKED without official verbatim INCI; retailer INCI not auto-applied",
+    "autoApplied": 0
+  },
+  "reviewQueue": {
+    "total": 6,
+    "byBucket": {
+      "IMAGE_INVALID": 3,
+      "BLOCKED": 1,
+      "MISSING_OFFICIAL_INCI": 1,
+      "READY_TO_RECOMMEND": 1
+    }
+  },
+  "ollama": {
+    "installed": true,
+    "running": true,
+    "models": [
+      "qwen3.6:latest",
+      "deepseek-v3.1:671b-cloud",
+      "deepseek-r1:8b"
+    ],
+    "used": false,
+    "reason": "rule_engine_only_no_official_inci_generation"
+  },
+  "env": {
+    "hasUrl": true,
+    "hasAnon": true,
+    "hasService": false,
+    "hasAccessToken": false,
+    "catalogEnv": null,
+    "appEnv": null,
+    "refHint": "rhfr…",
+    "isProdRef": true,
+    "isStagingRef": false
+  },
+  "system": {
+    "logicalCpu": 40,
+    "ramGb": 766.6,
+    "freeRamGb": 738.7,
+    "gpus": [
+      "NVIDIA GeForce RTX 3090 Ti",
+      "NVIDIA GeForce RTX 3090 Ti"
+    ],
+    "ollamaRunning": true,
+    "ollamaModels": [
+      "qwen3.6:latest",
+      "deepseek-v3.1:671b-cloud",
+      "deepseek-r1:8b"
+    ]
+  },
+  "elapsedMs": 1747
+}

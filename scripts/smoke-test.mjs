@@ -12,6 +12,7 @@ const staticRoutes = {
   "/": "src/app/page.tsx",
   "/analyze": "src/app/analyze/page.tsx",
   "/results": "src/app/results/page.tsx",
+  "/products": "src/app/products/[slug]/page.tsx",
   "/quiz/mascara": "src/app/quiz/mascara/page.tsx",
   "/quiz/hair": "src/app/quiz/hair/page.tsx",
   "/login": "src/app/login/page.tsx",
