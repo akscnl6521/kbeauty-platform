@@ -113,6 +113,34 @@ export function buildRoutineSuggestions(input: {
     });
   }
 
+  if ((a.breakouts ?? 0) >= 6 && a.newProductsUsed === true) {
+    out.push({
+      id: id(),
+      createdAt: new Date().toISOString(),
+      checkInId: input.checkIn.id,
+      title: "최근 추가 제품 확인",
+      reason: "트러블 증가와 새 제품 추가가 함께 보고되었습니다.",
+      expectedEffect: "원인 후보를 좁히는 데 도움이 될 수 있습니다.",
+      applied: false,
+      requiresUserConfirm: true,
+      patch: {},
+    });
+  }
+
+  if (day === 30 && (a.routineFit ?? 5) <= 3 && (a.satisfaction ?? 5) <= 4) {
+    out.push({
+      id: id(),
+      createdAt: new Date().toISOString(),
+      checkInId: input.checkIn.id,
+      title: "재분석 또는 상담 안내",
+      reason: "한 달 체감 개선이 낮게 보고되었습니다.",
+      expectedEffect: "다음 30일 계획을 다시 잡는 데 도움이 됩니다.",
+      applied: false,
+      requiresUserConfirm: true,
+      patch: { simplifyRoutine: true },
+    });
+  }
+
   const referral = evaluateDermatologyReferral(a, {
     daysSinceStart: day,
     worsening: hasWorseningSignal(input.deltas),
@@ -134,6 +162,14 @@ export function buildRoutineSuggestions(input: {
           .slice(0, 2),
       },
     });
+  }
+
+  // Never auto-change routine; never push new products when urgent
+  if (
+    referral.level === "seek_emergency_care" ||
+    referral.level === "seek_promptly"
+  ) {
+    return out.filter((s) => s.title === "전문가 상담 검토" || s.patch.pauseItemIds);
   }
 
   return out;

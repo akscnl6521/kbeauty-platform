@@ -99,6 +99,25 @@ export type CareCheckInAnswers = {
   adherence: number | null;
   photoAttached: boolean;
   freeMemo: string | null;
+  /** Day-specific / extended (optional) */
+  newProductsUsed?: boolean | null;
+  adverseReaction?: boolean | null;
+  usageClarity?: number | null;
+  routineFit?: number | null;
+  wantReanalysis?: boolean | null;
+  emergencyFlags?: CareEmergencyFlags | null;
+};
+
+/** Explicit urgent self-report flags — rule-based safety, not AI diagnosis. */
+export type CareEmergencyFlags = {
+  severeSwelling?: boolean;
+  breathingDifficulty?: boolean;
+  severePain?: boolean;
+  blisters?: boolean;
+  rapidWorsening?: boolean;
+  persistentBleeding?: boolean;
+  eyeAreaSevere?: boolean;
+  immediateSevereReaction?: boolean;
 };
 
 export type CareCheckIn = {

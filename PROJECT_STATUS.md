@@ -4,10 +4,10 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** **Phase D — 3·7·15·30일 체크인과 지속 관리 UX 실제 운영 완성**  
-**다음이 아닌 것:** Production 배포 · main 병합 · Production DB 쓰기  
-**방금 완료:** Phase C — Staging 카탈로그 품질 자동화·추천 게이트 SSOT·PDP (`automation-mvp-completion`)  
-**운영 메모:** Live Staging 쓰기 SKIPPED(미링크). recommendable delta 0. `/products/[slug]`는 verified만 공개. 비교 UI는 후속.
+**다음 작업:** **Phase E — 통합 검증, Preview 최종 확인, Production 준비 체크리스트**  
+**다음이 아닌 것:** Production 배포 · main 병합 · Production DB 쓰기 · Production 스케줄 등록  
+**방금 완료:** Phase D — 체크인·루틴·알림·안전 분기 (`automation-mvp-completion`)  
+**운영 메모:** 이메일 live send·크론 등록은 Phase E 승인 후. Staging DB 쓰기는 미링크 시 SKIPPED.
 
 ### 사실 고정 (혼선 제거)
 
@@ -19,6 +19,18 @@
 | Preview 검증 | **완료** 이력 · Phase B 후 Preview 재확인 권장 |
 | Phase B 디자인/여정 | **부분→대폭 개선** (홈·분석 단계·문진 통일·결과 카드·인증·마이 진입) |
 | 통합 현황판 | `PROJECT_DASHBOARD.md` |
+
+### 2026-07-18 Phase D 지속 관리·체크인
+
+| 항목 | 값 |
+|------|-----|
+| 브랜치 | `automation-mvp-completion` |
+| 화면 | `/my/*` 체크인 단계형 · 루틴 AM/PM · `/my/notifications` |
+| SSOT | `checkinSchedule.ts` · `checkinQuestions.ts` · `safetyGate.ts` |
+| 명령 | `npm run test:care` · `care:dry-run` · `care:scheduler` · `care:notify` |
+| 문서 | `docs/CARE_AUDIT.md` · `CHECKIN_RULES.md` · `CARE_OPERATION_GUIDE.md` |
+| 이메일 | adapter dry-run · live 미발송 |
+| Production / main | 미배포 · 미병합 |
 
 ### 2026-07-18 Phase C 카탈로그 자동화
 

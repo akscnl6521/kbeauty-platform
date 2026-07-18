@@ -8,6 +8,7 @@ import {
   dedupeCheckInsByDay,
   refreshCheckInStatuses,
 } from "@/lib/care/schedule";
+import { cancelFutureCheckInsForRoutine } from "@/lib/care/checkinSchedule";
 import { detectRoutineConflicts } from "@/lib/care/conflicts";
 import {
   buildCheckInDueNotification,
@@ -15,6 +16,7 @@ import {
 } from "@/lib/care/notifications";
 import { computeProgressDeltas } from "@/lib/care/progress";
 import { evaluateDermatologyReferral } from "@/lib/care/referral";
+import { evaluateSafetyGate } from "@/lib/care/safetyGate";
 import { buildRoutineSuggestions } from "@/lib/care/routine-suggestions";
 import type {
   CareAnalysisSession,
@@ -219,6 +221,9 @@ export function completeCheckIn(
     daysSinceStart: checkIn.day,
     worsening: deltas.some((d) => d.trend === "worsened"),
   });
+  const gate = evaluateSafetyGate(answers);
+  const referralLevel =
+    gate.level !== "none" ? gate.level : referral.level;
 
   const routine =
     store.routines.find((r) => r.id === checkIn.routineId) ??
@@ -244,7 +249,7 @@ export function completeCheckIn(
         : null,
     },
     progressDelta: deltas[0] ?? null,
-    referralLevel: referral.level,
+    referralLevel,
     suggestionIds: suggestions.map((s) => s.id),
   };
 
@@ -253,7 +258,7 @@ export function completeCheckIn(
   );
 
   const referralNote =
-    referral.level === "none"
+    referralLevel === "none"
       ? []
       : [
           {
@@ -261,10 +266,10 @@ export function completeCheckIn(
             createdAt: new Date().toISOString(),
             kind: "referral" as const,
             title: "전문가 상담 안내",
-            message: referral.userMessage,
+            message: gate.urgent ? gate.userMessage : referral.userMessage,
             relatedCheckInId: checkInId,
             read: false,
-            fingerprint: `referral|${checkInId}|${referral.level}`,
+            fingerprint: `referral|${checkInId}|${referralLevel}`,
           },
         ];
 
@@ -277,6 +282,80 @@ export function completeCheckIn(
       referralNote,
       checkIns
     ),
+  };
+  saveCareStore(next);
+  return next;
+}
+
+/** Skip a due/scheduled check-in without inventing answers. */
+export function skipCheckIn(checkInId: string): CareStoreSnapshot {
+  const store = loadCareStore();
+  const checkIn = store.checkIns.find((c) => c.id === checkInId);
+  if (!checkIn) return store;
+  if (
+    checkIn.status === "completed" ||
+    checkIn.status === "skipped" ||
+    checkIn.status === "cancelled"
+  ) {
+    return store;
+  }
+
+  const checkIns = store.checkIns.map((c) =>
+    c.id === checkInId
+      ? {
+          ...c,
+          status: "skipped" as const,
+          completedAt: new Date().toISOString(),
+        }
+      : c
+  );
+
+  const next: CareStoreSnapshot = {
+    ...store,
+    checkIns: refreshCheckInStatuses(checkIns),
+  };
+  saveCareStore(next);
+  return next;
+}
+
+/**
+ * Pause/stop routine: deactivate items and cancel future check-ins for that routine.
+ * Does not delete history.
+ */
+export function pauseRoutine(
+  routineId: string,
+  mode: "pause" | "stop" = "pause"
+): CareStoreSnapshot {
+  const store = loadCareStore();
+  const now = new Date().toISOString();
+  const routines = store.routines.map((r) => {
+    if (r.id !== routineId) return r;
+    return {
+      ...r,
+      updatedAt: now,
+      version: r.version + 1,
+      items: r.items.map((i) =>
+        i.active
+          ? {
+              ...i,
+              active: false,
+              stoppedAt: now,
+              usageNote:
+                mode === "stop"
+                  ? [i.usageNote, "중단"].filter(Boolean).join(" · ")
+                  : [i.usageNote, "일시 중지"].filter(Boolean).join(" · "),
+            }
+          : i
+      ),
+    };
+  });
+
+  const checkIns = cancelFutureCheckInsForRoutine(store.checkIns, routineId);
+
+  const next: CareStoreSnapshot = {
+    ...store,
+    routines,
+    checkIns: refreshCheckInStatuses(checkIns),
   };
   saveCareStore(next);
   return next;

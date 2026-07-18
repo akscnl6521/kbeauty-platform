@@ -3,8 +3,8 @@
 최종 갱신: 2026-07-18  
 정책: `docs/AUTOMATION_POLICY.md` · 현황: `PROJECT_DASHBOARD.md`
 
-**지금 목표:** Phase D — 3·7·15·30 체크인·지속 관리 UX  
-**지금 아님:** Production 배포 · main 병합 · Production DB 쓰기
+**지금 목표:** Phase E — 통합 검증 · Preview 최종 · Production 준비 체크리스트  
+**지금 아님:** Production 배포 · main 병합 · Production DB 쓰기 · Production 스케줄 등록
 
 ---
 
@@ -51,11 +51,12 @@
 
 | 항목 | 내용 |
 |------|------|
-| 자동 진행 범위 | 체크인 UI · due CTA · 상담 분기 강조 · Care API 비파괴 테스트 |
-| 사용자 확인 1회 | 로그인 계정으로 Day 플로우 스모크 1회 |
-| 완료 조건 | 3·7·15·30 완료/스킵 · 진단 문구 없음 · 루틴 강제 변경 없음 |
+| 자동 진행 범위 | 체크인 UI · Day별 질문 · 안전 분기 · 알림 센터 · 이메일 adapter · worker dry-run · admin 필터 |
+| 사용자 확인 1회 | 로그인 계정으로 Day 플로우 스모크 1회 (Preview) |
+| 완료 조건 | 3·7·15·30 완료/스킵 · 진단 문구 없음 · 루틴 강제 변경 없음 · dry-run PASS |
 | 예상 작업일 | 2~3일 |
-| 위험 | PII 로그 · admin 집계 노출 |
+| 위험 | PII 로그 · admin 집계 노출 · 실제 이메일 오발송 |
+| 상태 | **본 브랜치에서 완료** · Staging DB/이메일 live SKIPPED |
 
 ---
 

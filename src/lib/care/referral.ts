@@ -39,16 +39,46 @@ export function evaluateDermatologyReferral(
   let level: CareReferralLevel = "none";
   let emergencyHint = false;
 
-  const high = (n: number | null, t = 8) => n != null && n >= t;
+  const high = (n: number | null | undefined, t = 8) => n != null && n >= t;
+  const flags = answers.emergencyFlags ?? {};
 
-  // Immediate / emergency-leaning signals (self-report only)
-  if (high(answers.swelling, 8)) {
+  if (flags.breathingDifficulty) {
+    reasons.push("호흡 곤란 보고");
+    level = raiseLevel(level, "seek_emergency_care");
+    emergencyHint = true;
+  }
+  if (flags.persistentBleeding) {
+    reasons.push("지속적인 출혈 보고");
+    level = raiseLevel(level, "seek_emergency_care");
+    emergencyHint = true;
+  }
+  if (flags.immediateSevereReaction) {
+    reasons.push("사용 직후 심한 반응 보고");
+    level = raiseLevel(level, "seek_emergency_care");
+    emergencyHint = true;
+  }
+  if (flags.severeSwelling || high(answers.swelling, 8)) {
     reasons.push("심한 붓기 보고");
     level = raiseLevel(level, "seek_emergency_care");
     emergencyHint = true;
   }
+  if (flags.blisters) {
+    reasons.push("수포 보고");
+    level = raiseLevel(level, "seek_promptly");
+  }
+  if (flags.severePain) {
+    reasons.push("심한 통증 보고");
+    level = raiseLevel(level, "seek_promptly");
+  }
+  if (flags.eyeAreaSevere) {
+    reasons.push("눈 주변 심한 반응 보고");
+    level = raiseLevel(level, "seek_promptly");
+  }
+  if (flags.rapidWorsening) {
+    reasons.push("급격한 악화 보고");
+    level = raiseLevel(level, "seek_promptly");
+  }
 
-  // Prompt care
   if (high(answers.sting, 8) || high(answers.itch, 8)) {
     reasons.push("강한 따가움/가려움 지속 가능");
     level = raiseLevel(level, "seek_promptly");
@@ -61,8 +91,11 @@ export function evaluateDermatologyReferral(
     reasons.push("제품 중단 후에도 붉음이 높게 보고됨");
     level = raiseLevel(level, "seek_promptly");
   }
+  if (answers.adverseReaction === true) {
+    reasons.push("이상 반응 자가 보고");
+    level = raiseLevel(level, "seek_promptly");
+  }
 
-  // Consider soon
   const days = options?.daysSinceStart ?? 0;
   if (options?.worsening && days >= 14) {
     reasons.push("2주 이상 관찰 중에도 악화 신호");
@@ -70,6 +103,10 @@ export function evaluateDermatologyReferral(
   }
   if (days >= 28 && (answers.satisfaction ?? 10) <= 3) {
     reasons.push("4주 전후에도 만족도가 낮음");
+    level = raiseLevel(level, "consider_soon");
+  }
+  if (days >= 28 && answers.wantReanalysis === true) {
+    reasons.push("한 달 후 재분석 희망");
     level = raiseLevel(level, "consider_soon");
   }
 

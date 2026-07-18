@@ -6,6 +6,13 @@
 
 ## 2026-07-18
 
+### Phase D — 지속 관리·체크인 경험
+
+- 체크인 SSOT · Day별 질문 · 안전 게이트 · `/my/notifications` · 루틴 AM/PM·제안·일시중지
+- `care:dry-run` / scheduler / notify · `test:care` · 이메일 adapter(dry-run만)
+- 문서: `CARE_AUDIT` · `CHECKIN_RULES` · `CARE_OPERATION_GUIDE`
+- 다음: Phase E 통합 검증 · Production 준비 체크리스트 (배포는 승인 후)
+
 ### Phase C — Staging 카탈로그 품질 자동화·제품 준비
 
 - `recommendableCriteria` SSOT · `npm run catalog:phase-c` · `test:recommendable`

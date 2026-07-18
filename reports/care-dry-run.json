@@ -1,0 +1,33 @@
+{
+  "phase": "care_dry_run",
+  "startedAt": "2026-07-18T09:13:17.648Z",
+  "productionBlocked": true,
+  "stagingReady": false,
+  "env": {
+    "hasUrl": true,
+    "hasService": false,
+    "catalogEnv": null,
+    "refHint": "rhfr…"
+  },
+  "milestones": [
+    3,
+    7,
+    15,
+    30
+  ],
+  "email": {
+    "status": "dry_run",
+    "reason": "provider_missing",
+    "provider": null,
+    "previewSubject": "Day 3 체크인 안내 — K-Beauty Match",
+    "previewBody": "짧은 체크인으로 피부 상태를 기록해 주세요. 의료 진단이 아닙니다."
+  },
+  "skipped": [
+    "production_url_detected",
+    "staging_not_linked",
+    "service_role_missing",
+    "db_writes",
+    "live_email_send"
+  ],
+  "note": "Schedule/notify apply requires Staging link + service role. Production never written."
+}
