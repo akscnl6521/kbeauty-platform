@@ -1,17 +1,17 @@
 {
   "phase": "verified_batch_staging_import",
-  "checked_at": "2026-07-18T10:40:57.730Z",
+  "checked_at": "2026-07-18T11:35:35.105Z",
   "branch": "automation-mvp-completion",
   "bundle": "imports/verified-kbeauty-batch",
-  "gate": "BLOCK_PRODUCTION",
-  "db_write": "SKIPPED",
-  "import_preview": "NOT_RUN",
+  "gate": "ALLOW_STAGING_WRITE",
+  "db_write": "ALLOWED",
+  "import_preview": "RAN",
   "import_commit": "NOT_RUN",
   "local_supabase_ref": "rhfrmvkjsummaylpzmns",
-  "is_production_ref": true,
-  "is_staging_ref": false,
+  "is_production_ref": false,
+  "is_staging_ref": true,
   "expected_staging_ref": "jfnjufmldiqlgvgyugfd",
-  "has_service_role": false,
+  "has_service_role": true,
   "auto_verified": false,
   "registered": {
     "products": 0,
@@ -43,5 +43,27 @@
     "NEXT_PUBLIC_SUPABASE_ANON_KEY",
     "SUPABASE_SERVICE_ROLE_KEY"
   ],
-  "note": "Do not run import commit. Configure Staging env first."
+  "note": "Safe to run Staging import preview (commit still manual).",
+  "env_file": ".env.staging",
+  "env_file_loaded": true,
+  "falls_back_to_env_local": false,
+  "has_anon_key": true,
+  "key_lengths": {
+    "NEXT_PUBLIC_SUPABASE_URL": 40,
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": 46,
+    "SUPABASE_SERVICE_ROLE_KEY": 41
+  },
+  "preview_summary": {
+    "total": 7,
+    "ready": 4,
+    "blocked": 3,
+    "warnings": 0,
+    "needs_review_status": 0,
+    "catalog_needs_review": 7,
+    "needs_review": 7,
+    "errors": 3,
+    "duplicates": 3,
+    "image_matched": 7
+  },
+  "preview_at": "2026-07-18T11:36:26.145Z"
 }

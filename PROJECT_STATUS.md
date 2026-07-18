@@ -4,10 +4,10 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** `.env.staging`(또는 동등)에 **Staging ref + SERVICE_ROLE** 설정 후 `npm run check:verified-batch-staging` → import preview/commit  
+**다음 작업:** 신규 4건(ID 17–20) 관리자 검수 → 필요 시 Verified/active · ID 4·7 KR INCI 수동 비교 · `product_variants` service_role INSERT 권한 부여 후 size variant 정식 반영  
 **다음이 아닌 것:** Production 배포 · main 병합 · Production DB 쓰기 · 자동 Verified · 가짜 재고/가격 · 기준 하향  
-**방금 완료:** Staging import 게이트 검사 — **BLOCK_PRODUCTION** (로컬 ref=Prod · SERVICE_ROLE 없음 · DB write SKIPPED)  
-**판정:** 한국 MVP **NO-GO — 추천 제품 데이터 필요** 유지 (Preview 실노출 0 · Staging 미등록)  
+**방금 완료:** Staging verified-batch 신규 4 + 병합 3 (APPLIED_PARTIAL)  
+**판정:** 한국 MVP **NO-GO — 추천 제품 데이터 필요** 유지 (Preview 실노출 0 · needs_review만)  
 **Preview:** Verified 전이라 추천 카드 강제 노출 없음 (정상)
 
 ### 사실 고정 (혼선 제거)
@@ -17,20 +17,34 @@
 | main 병합 | **미실행**(본 자동화 브랜치) |
 | Production 애플리케이션 배포 | **미실행** |
 | Production DB | **미변경** |
-| Staging DB write | **SKIPPED** — gate `BLOCK_PRODUCTION` |
-| import bundle | `imports/verified-kbeauty-batch` · READY 7 |
+| Staging DB write | **APPLIED_PARTIAL** — 신규 4 · 병합 3 |
+| 신규 product ID | **17, 18, 19, 20** (needs_review) |
+| 병합 product ID | **4, 7, 10** |
 | Preview 추천 실노출 | **0** |
+
+### 2026-07-18 Staging verified-batch apply
+
+| 항목 | 값 |
+|------|-----|
+| Staging ref | `jfnjufmldiqlgvgyugfd` |
+| 신규 | 4 · offers+6(신규4+병합2) · media+4 · ingredients+85 |
+| variants | **0** (service_role INSERT 거부) → provenance size_label_pending |
+| ID10 KR offer 중복 | **0** |
+| 기존 verified 유지 | **예** (4·7·10) |
+| 중복 product/offer | **없음** (read-only 재검증) |
+| rollback | **불필요** |
+| 백업 | `reports/backups/verified-batch-staging/` (비밀키 없음) |
+| 명령 | `import:verified-batch-staging` · `verify:verified-batch-staging` |
 
 ### 2026-07-18 Staging import 게이트 (verified-batch)
 
 | 항목 | 값 |
 |------|-----|
-| 로컬 ref | Production과 **동일** |
-| SERVICE_ROLE | **없음** |
-| import preview/commit | **미실행** |
-| 필요 env 이름 | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `SUPABASE_SERVICE_ROLE_KEY` |
+| 로컬 ref | Staging `jfnjufmldiqlgvgyugfd` |
+| SERVICE_ROLE | **있음** |
+| import apply | **실행됨** (부분: variants 제외) |
 | 기대 Staging ref | `jfnjufmldiqlgvgyugfd` |
-| 보고 | `reports/verified-batch-staging-gate.json` |
+| 보고 | `reports/verified-batch-staging-apply.json` · `verified-batch-staging-verify.json` |
 | 명령 | `npm run check:verified-batch-staging` |
 
 ### 2026-07-18 검증 제품 배치 (verified-kbeauty-batch)
@@ -41,7 +55,7 @@
 | 출처 | COSRX 한국 공식몰 중심 · 품절/구매불가 정직 기록 |
 | 명령 | `npm run catalog:verified-batch` · `test:verified-batch` |
 | 문서 | `docs/VERIFIED_PRODUCT_BATCH_REPORT.md` |
-| Staging / Verified | 미등록 · 자동 Verified 없음 |
+| Staging / Verified | 신규 needs_review 등록 · 자동 Verified 없음 |
 
 ### 2026-07-18 Preview 결과 보완
 

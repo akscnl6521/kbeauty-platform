@@ -39,6 +39,9 @@ yarn-error.log*
 .env*
 .env.local
 !.env.example
+!.env.staging.example
+# Accidental nested clone — never compile/commit
+/kbeauty-platform/
 
 # vercel
 .vercel

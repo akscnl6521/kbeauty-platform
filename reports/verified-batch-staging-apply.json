@@ -1,0 +1,240 @@
+{
+  "ok": true,
+  "phase": "apply_done",
+  "staging_ref": "jfnjufmldiqlgvgyugfd",
+  "gate": "ALLOW_STAGING_WRITE",
+  "import_commit": "RAN_CUSTOM_SCRIPT",
+  "auto_verified": false,
+  "merge_only": true,
+  "variant_note": "product_variants INSERT denied for service_role (SELECT-only grant). Size stored in provenance size_label_pending.",
+  "counts_before": {
+    "products": 20,
+    "product_variants": 0,
+    "product_offers": 23,
+    "catalog_product_media": 20,
+    "product_ingredients": 490
+  },
+  "counts_after": {
+    "products": 20,
+    "product_variants": 0,
+    "product_offers": 25,
+    "catalog_product_media": 20,
+    "product_ingredients": 490
+  },
+  "delta": {
+    "products": 0,
+    "variants": 0,
+    "offers": 2,
+    "media": 0,
+    "ingredients": 0
+  },
+  "created_product_ids": [
+    17,
+    18,
+    19,
+    20
+  ],
+  "sample_new": [
+    {
+      "id": 17,
+      "slug": "cosrx-full-fit-propolis-synergy-toner-280ml",
+      "brand": "COSRX",
+      "name": "Full Fit Propolis Synergy Toner",
+      "active": false,
+      "verified_at": null
+    },
+    {
+      "id": 18,
+      "slug": "cosrx-full-fit-propolis-light-ampoule-30ml",
+      "brand": "COSRX",
+      "name": "Full Fit Propolis Light Ampoule",
+      "active": false,
+      "verified_at": null
+    },
+    {
+      "id": 19,
+      "slug": "cosrx-ultra-light-invisible-sunserum-50ml",
+      "brand": "COSRX",
+      "name": "Ultra-Light Invisible Sunserum SPF50+ PA++++",
+      "active": false,
+      "verified_at": null
+    },
+    {
+      "id": 20,
+      "slug": "cosrx-full-fit-propolis-light-cream-65g",
+      "brand": "COSRX",
+      "name": "Full Fit Propolis Light Cream",
+      "active": false,
+      "verified_at": null
+    }
+  ],
+  "protected_before": [
+    {
+      "id": 4,
+      "slug": "cosrx-low-ph-good-morning-gel-cleanser",
+      "name": "Low pH Good Morning Gel Cleanser",
+      "verified_at": "2026-07-14T04:11:02.432+00:00",
+      "active": true,
+      "full_hash": "72f7e7ce865450be53ba060a1088e434bd6bdfddc7b6839abfde24d66239202c"
+    },
+    {
+      "id": 7,
+      "slug": "cosrx-the-niacinamide-15-serum",
+      "name": "The Niacinamide 15 Serum",
+      "verified_at": "2026-07-14T04:11:07.073+00:00",
+      "active": true,
+      "full_hash": "259c5547d469361dd32e217ff09cdd831df18326a76cc618fc3d6bd8128edcd2"
+    },
+    {
+      "id": 10,
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+      "name": "Advanced Snail 92 All in One Cream",
+      "verified_at": "2026-07-14T04:11:13.186+00:00",
+      "active": true,
+      "full_hash": "be0992a57d56841a5913cbe2173dbaaab8a2d8fb261a37264f92ff83b79aa929"
+    }
+  ],
+  "protected_after": [
+    {
+      "id": 4,
+      "verified_at": "2026-07-14T04:11:02.432+00:00",
+      "active": true,
+      "full_ingredients": [
+        "Water",
+        "Cocamidopropyl Betaine",
+        "Sodium Lauroyl Methyl Isethionate",
+        "Sodium Chloride",
+        "Polysorbate 20",
+        "Styrax Japonicus Branch",
+        "Fruit",
+        "Leaf Extract",
+        "Butylene Glycol",
+        "Saccharomyces Ferment",
+        "Cryptomeria Japonica Leaf Extract",
+        "Nelumbo Nucifera Leaf Extract",
+        "Pinus Palustris Leaf Extract",
+        "Ulmus Davidiana Root Extract",
+        "Oenothera Biennis (Evening Primrose) Flower Extract",
+        "Pueraria Lobata Root Extract",
+        "Melaleuca Alternifolia (Tea Tree) Leaf Oil",
+        "Allantoin",
+        "Caprylyl Glycol",
+        "Ethylhexylglycerin",
+        "Betaine Salicylate",
+        "Citric Acid",
+        "Ethyl Hexanediol",
+        "2-Hexanediol",
+        "Trisodium Ethylenediamine Disuccinate",
+        "Sodium Benzoate",
+        "Disodium EDTA"
+      ]
+    },
+    {
+      "id": 7,
+      "verified_at": "2026-07-14T04:11:07.073+00:00",
+      "active": true,
+      "full_ingredients": [
+        "Water",
+        "Pentylene Glycol",
+        "Niacinamide( )",
+        "Butylene Glycol",
+        "Acetyl Glucosamine",
+        "2-Hexanediol",
+        "Zinc PCA",
+        "Trehalose",
+        "Xanthan Gum",
+        "Pullulan",
+        "Allantoin",
+        "Ethylhexylglycerin",
+        "Sodium Phytate",
+        "Citric Acid",
+        "Tocopherol"
+      ]
+    },
+    {
+      "id": 10,
+      "verified_at": "2026-07-14T04:11:13.186+00:00",
+      "active": true,
+      "full_ingredients": [
+        "Snail Secretion Filtrate",
+        "Betaine",
+        "Caprylic",
+        "Capric Triglyceride",
+        "Butylene Glycol",
+        "Cetearyl Olivate",
+        "Sorbitan Olivate",
+        "Cetearyl Alcohol",
+        "Carbomer",
+        "Ethyl Hexanediol",
+        "Phenoxyethanol",
+        "Arginine",
+        "Dimethicone",
+        "Sodium Polyacrylate",
+        "Sodium Hyaluronate",
+        "Allantoin",
+        "Palmitic Acid",
+        "Panthenol",
+        "Xanthan Gum",
+        "Stearic acid",
+        "Adenosine",
+        "Water",
+        "Myristic Acid"
+      ]
+    }
+  ],
+  "results": {
+    "created_products": [
+      {
+        "skipped": true,
+        "reason": "merge_only_mode"
+      }
+    ],
+    "merged": [
+      {
+        "product_id": 4,
+        "variant": {
+          "skipped": true,
+          "reason": "permission denied for table product_variants",
+          "fallback": "size recorded in product_field_provenance (service_role lacks INSERT on product_variants)"
+        },
+        "offer": {
+          "inserted_unverified": "ede2c463-6354-46de-91cc-2f988b2d9ff2"
+        },
+        "kr_inci_provenance": "stored_needs_review",
+        "verified_at_unchanged": true
+      },
+      {
+        "product_id": 7,
+        "variant": {
+          "skipped": true,
+          "reason": "permission denied for table product_variants",
+          "fallback": "size recorded in product_field_provenance (service_role lacks INSERT on product_variants)"
+        },
+        "offer": {
+          "inserted_unverified": "537fbf0d-324a-4988-89b5-559320bfb0d3"
+        },
+        "kr_inci_provenance": "stored_needs_review",
+        "verified_at_unchanged": true
+      },
+      {
+        "product_id": 10,
+        "variant": {
+          "skipped": true,
+          "reason": "permission denied for table product_variants",
+          "fallback": "size recorded in product_field_provenance (service_role lacks INSERT on product_variants)"
+        },
+        "offer": "forbidden_by_plan_existing_kr",
+        "kr_inci_provenance": "stored_needs_review",
+        "verified_at_unchanged": true
+      }
+    ],
+    "errors": [
+      "variant_merge_nonfatal:id_4:permission denied for table product_variants",
+      "variant_merge_nonfatal:id_7:permission denied for table product_variants",
+      "variant_merge_nonfatal:id_10:permission denied for table product_variants"
+    ]
+  },
+  "backup_dir": "C:\\Users\\조병선.DESKTOP-0S17OGB\\Desktop\\kbeauty-platform\\reports\\backups\\verified-batch-staging\\2026-07-18T11-43-32-367Z",
+  "preview_recommend_exposure": "expected_0_until_active+verified_at+verified_KR_offer",
+  "release_verdict": "NO-GO — needs_review only; Preview recommend still gated"
+}

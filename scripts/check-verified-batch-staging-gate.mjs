@@ -1,5 +1,6 @@
 /**
  * Staging gate for verified-kbeauty-batch import.
+ * Loads ONLY `.env.staging` via shared loader (never `.env.local`).
  * Never writes DB. Never prints secrets.
  *
  * Usage: node scripts/check-verified-batch-staging-gate.mjs
@@ -7,71 +8,37 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  evaluateStagingWriteGate,
+  STAGING_ENV_FILE,
+  STAGING_SUPABASE_REF,
+} from "./load-env-staging.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const PROD = "rhfrmvkjsummaylpzmns";
-const STAGING = "jfnjufmldiqlgvgyugfd";
-
-function loadEnvFile(rel) {
-  const p = path.join(root, rel);
-  if (!fs.existsSync(p)) return null;
-  const map = {};
-  for (const line of fs.readFileSync(p, "utf8").split(/\r?\n/)) {
-    const m = line.match(/^\s*([A-Za-z0-9_]+)\s*=\s*(.*)$/);
-    if (!m) continue;
-    map[m[1]] = m[2].replace(/^["']|["']$/g, "").trim();
-  }
-  return map;
-}
-
-function refFromUrl(url) {
-  if (!url) return "";
-  try {
-    const host = new URL(url).hostname.toLowerCase();
-    const m = host.match(/^([a-z0-9-]+)\.supabase\.co$/i);
-    return m?.[1] ?? "";
-  } catch {
-    return "";
-  }
-}
-
-const env =
-  loadEnvFile(".env.staging") ||
-  loadEnvFile(".env.local") ||
-  loadEnvFile(".env") ||
-  {};
-
-const ref =
-  (env.SUPABASE_PROJECT_REF || "").trim() ||
-  refFromUrl(env.NEXT_PUBLIC_SUPABASE_URL || env.SUPABASE_URL || "");
-const hasService = Boolean((env.SUPABASE_SERVICE_ROLE_KEY || "").trim());
-const isProd = ref === PROD;
-const isStaging = ref === STAGING;
-const allow = isStaging && !isProd && hasService;
+const { allow, gate, meta } = evaluateStagingWriteGate(root);
 
 const report = {
   ok: true,
-  gate: allow
-    ? "ALLOW_STAGING_WRITE"
-    : isProd
-      ? "BLOCK_PRODUCTION"
-      : !hasService
-        ? "BLOCK_NO_SERVICE_ROLE"
-        : "BLOCK_NOT_STAGING_REF",
+  gate,
   db_write: allow ? "ALLOWED" : "SKIPPED",
-  local_ref_present: Boolean(ref),
-  is_production_ref: isProd,
-  is_staging_ref: isStaging,
-  has_service_role: hasService,
-  expected_staging_ref: STAGING,
+  env_file: STAGING_ENV_FILE,
+  env_file_loaded: meta.loaded,
+  falls_back_to_env_local: false,
+  local_ref_present: Boolean(meta.ref),
+  is_production_ref: meta.isProduction,
+  is_staging_ref: meta.isStaging,
+  has_service_role: meta.hasServiceRole,
+  has_anon_key: meta.hasAnonKey,
+  key_lengths: meta.lengths,
+  expected_staging_ref: STAGING_SUPABASE_REF,
   required_env_names: [
     "NEXT_PUBLIC_SUPABASE_URL",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY",
     "SUPABASE_SERVICE_ROLE_KEY",
   ],
   note: allow
-    ? "Safe to run Staging import preview/commit with needs_review only."
-    : "Do not run import commit. Configure Staging env first.",
+    ? "Safe to run Staging import preview (commit still manual)."
+    : `Do not run import. Fill ${STAGING_ENV_FILE} with Staging keys only (never Production).`,
 };
 
 const out = path.join(root, "reports", "verified-batch-staging-gate.json");

@@ -34,9 +34,13 @@ const manifest = JSON.parse(
 assert(manifest.auto_verified === false, "auto_verified forbidden");
 assert(manifest.production_write === false, "production_write false");
 assert(
-  manifest.staging?.write_status === "SKIPPED" ||
-    manifest.staging?.write_status === "ALLOWED_BUT_NOT_EXECUTED_IN_BUILD",
-  "staging write gated"
+  [
+    "SKIPPED",
+    "ALLOWED_BUT_NOT_EXECUTED_IN_BUILD",
+    "APPLIED_PARTIAL",
+    "APPLIED",
+  ].includes(String(manifest.staging?.write_status || "")),
+  "staging write status recognized"
 );
 assert(manifest.counts.READY_FOR_REVIEW >= 5, "at least 5 READY_FOR_REVIEW");
 assert(manifest.counts.official_images >= 5, "at least 5 official images");

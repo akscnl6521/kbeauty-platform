@@ -1,0 +1,26 @@
+[
+  {
+    "id": 4,
+    "slug": "cosrx-low-ph-good-morning-gel-cleanser",
+    "name": "Low pH Good Morning Gel Cleanser",
+    "verified_at": "2026-07-14T04:11:02.432+00:00",
+    "active": true,
+    "full_hash": "72f7e7ce865450be53ba060a1088e434bd6bdfddc7b6839abfde24d66239202c"
+  },
+  {
+    "id": 7,
+    "slug": "cosrx-the-niacinamide-15-serum",
+    "name": "The Niacinamide 15 Serum",
+    "verified_at": "2026-07-14T04:11:07.073+00:00",
+    "active": true,
+    "full_hash": "259c5547d469361dd32e217ff09cdd831df18326a76cc618fc3d6bd8128edcd2"
+  },
+  {
+    "id": 10,
+    "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+    "name": "Advanced Snail 92 All in One Cream",
+    "verified_at": "2026-07-14T04:11:13.186+00:00",
+    "active": true,
+    "full_hash": "be0992a57d56841a5913cbe2173dbaaab8a2d8fb261a37264f92ff83b79aa929"
+  }
+]

@@ -36,7 +36,12 @@ try {
 
 for (const file of walk(root)) {
   const relative = path.relative(root, file).replaceAll("\\", "/");
-  if (!/\.(?:[cm]?[jt]sx?|json|ya?ml|md|env)$/i.test(file) || relative === ".env.example") continue;
+  if (
+    !/\.(?:[cm]?[jt]sx?|json|ya?ml|md|env)$/i.test(file) ||
+    relative === ".env.example" ||
+    relative === ".env.staging.example"
+  )
+    continue;
   const content = fs.readFileSync(file, "utf8");
   const isClientFile =
     /(^|\n)\s*["']use client["']\s*;?/.test(content) ||

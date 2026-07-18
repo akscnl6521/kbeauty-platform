@@ -14,31 +14,32 @@
 | 추천 기준 하향 | **없음** |
 | 자동 Verified | **금지** (`verified=false`, offer `unverified`) |
 | Production DB 쓰기 | **없음** |
-| Staging DB 쓰기 | **SKIPPED** (로컬 env = Production ref, SERVICE_ROLE 없음) |
+| Staging DB 쓰기 | **APPLIED_PARTIAL** (신규 4 · 병합 3 · variants 권한 없음) |
 
-## Staging import attempt (2026-07-18)
-
-| 항목 | 결과 |
-|------|------|
-| Gate | **BLOCK_PRODUCTION** |
-| DB write | **SKIPPED** |
-| preview/commit | **NOT RUN** |
-| Required env names | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `SUPABASE_SERVICE_ROLE_KEY` |
-| Expected Staging ref | `jfnjufmldiqlgvgyugfd` |
-| Check command | `npm run check:verified-batch-staging` |
-
-Staging env가 준비되면 `/admin/products/import`로 `needs_review`만 등록한다. 자동 Verified 금지.
-
-## Staging 게이트
+## Staging env 분리 (로컬)
 
 | 항목 | 값 |
 |------|-----|
-| 로컬 Supabase ref | Production (`rhfrm…`) |
-| SERVICE_ROLE | 없음 |
-| write_status | **SKIPPED** |
-| skip_reason | `local_env_points_to_production_ref` |
+| Env 파일 | **`.env.staging`** (gitignore, `.env.local` 미사용) |
+| Example | `.env.staging.example` |
+| Staging ref | `jfnjufmldiqlgvgyugfd` |
+| 로더 | `scripts/load-env-staging.mjs` (Production 키 overwrite/삭제) |
+| Gate | `npm run check:verified-batch-staging` |
+| Preview only | `npm run preview:verified-batch-staging` (**commit 금지**) |
+| Next.js Staging | `npm run dev:staging` |
 
-→ import bundle만 완성. 관리자 `/admin/products/import`에서 Staging 연결 후 `needs_review`로만 등록.
+필수 키 이름만: `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `SUPABASE_SERVICE_ROLE_KEY`  
+키 값은 로컬 `.env.staging`에만 직접 입력. 출력·commit 금지. Production `.env.local` 수정 금지.
+
+## Staging import attempt
+
+| 항목 | 결과 |
+|------|------|
+| Gate | `.env.staging` 키 입력 후 `ALLOW_STAGING_WRITE` 확인 |
+| DB write | preview 전까지 **SKIPPED** / commit **NOT_RUN** |
+| Expected Staging ref | `jfnjufmldiqlgvgyugfd` |
+
+Staging env 준비 → gate `ALLOW_STAGING_WRITE` → preview만. 자동 Verified 금지. commit은 별도 승인 후.
 
 ## 조사 요약
 

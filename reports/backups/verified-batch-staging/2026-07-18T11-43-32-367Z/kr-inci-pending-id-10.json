@@ -1,0 +1,8 @@
+{
+  "product_id": 10,
+  "field": "full_ingredients_kr_pending_review",
+  "source_url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+  "verbatim_ko": "달팽이점액여과물, 베타인, 카프릴릭/카프릭트라이글리세라이드, 세테아릴올리베이트, 솔비탄올리베이트, 세테아릴알코올, 카보머, 알지닌, 다이메티콘, 소듐폴리아크릴레이트, 페녹시에탄올, 소듐하이알루로네이트, 스테아릭애씨드, 알란토인, 판테놀, 잔탄검, 에틸헥산다이올, 아데노신",
+  "existing_full_ingredients_untouched": true,
+  "status": "needs_review"
+}

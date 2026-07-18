@@ -6,6 +6,16 @@
 
 ## 2026-07-18
 
+### Staging verified-batch 등록·병합 (APPLIED_PARTIAL)
+
+- Staging ref `jfnjufmldiqlgvgyugfd` · gate ALLOW · 자동 Verified 없음
+- 신규 needs_review product **4** (ID **17, 18, 19, 20**) · active=false · verified_at=null · KR offer unverified · media+ingredients 연결
+- 병합 ID **4·7·10**: 신규 product 0 · KR offer(4·7 unverified 각 1) · ID10 KR offer 중복 0 · verified_at 유지 · KR INCI provenance needs_review
+- `product_variants` INSERT 권한 없음 → size는 `product_field_provenance.size_label_pending` · variant **0건**
+- read-only 재검증 완료 · 중복 product/offer 없음 · rollback 불필요
+- 백업: `reports/backups/verified-batch-staging/` · verify: `reports/verified-batch-staging-verify.json`
+- Preview 추천 노출 **0** · 출시 **NO-GO** 유지
+
 ### Staging import 게이트 — BLOCK_PRODUCTION
 
 - 로컬 Supabase ref = Production → DB write **즉시 중단**

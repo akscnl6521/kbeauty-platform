@@ -1,0 +1,136 @@
+{
+  "ok": true,
+  "staging_ref": "jfnjufmldiqlgvgyugfd",
+  "totals": {
+    "products": 20,
+    "offers": 25,
+    "media": 20,
+    "ingredients": 490,
+    "variants": 0
+  },
+  "new_products": [
+    {
+      "id": 17,
+      "slug": "cosrx-full-fit-propolis-synergy-toner-280ml",
+      "active": false,
+      "verified_at": null
+    },
+    {
+      "id": 18,
+      "slug": "cosrx-full-fit-propolis-light-ampoule-30ml",
+      "active": false,
+      "verified_at": null
+    },
+    {
+      "id": 19,
+      "slug": "cosrx-ultra-light-invisible-sunserum-50ml",
+      "active": false,
+      "verified_at": null
+    },
+    {
+      "id": 20,
+      "slug": "cosrx-full-fit-propolis-light-cream-65g",
+      "active": false,
+      "verified_at": null
+    }
+  ],
+  "merge_products": [
+    {
+      "id": 4,
+      "slug": "cosrx-low-ph-good-morning-gel-cleanser",
+      "active": true,
+      "verified_at": "2026-07-14T04:11:02.432+00:00"
+    },
+    {
+      "id": 7,
+      "slug": "cosrx-the-niacinamide-15-serum",
+      "active": true,
+      "verified_at": "2026-07-14T04:11:07.073+00:00"
+    },
+    {
+      "id": 10,
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+      "active": true,
+      "verified_at": "2026-07-14T04:11:13.186+00:00"
+    }
+  ],
+  "kr_offer_counts": {
+    "4": 1,
+    "7": 1,
+    "10": 1,
+    "17": 1,
+    "18": 1,
+    "19": 1,
+    "20": 1
+  },
+  "id10_kr_offers": 1,
+  "new_all_needs_review": true,
+  "merge_verified_preserved": true,
+  "media_for_new": 4,
+  "media_for_merge": 3,
+  "sample_offers": [
+    {
+      "product_id": 10,
+      "host": "www.cosrx.co.kr",
+      "verification_status": "verified",
+      "verified_at_present": true,
+      "source": "[s2v-case:2026-07-cosrx-catalog-json]"
+    },
+    {
+      "product_id": 4,
+      "host": "www.cosrx.com",
+      "verification_status": "verified",
+      "verified_at_present": true,
+      "source": "preview-results-fix-2026-07-14"
+    },
+    {
+      "product_id": 7,
+      "host": "www.cosrx.com",
+      "verification_status": "verified",
+      "verified_at_present": true,
+      "source": "preview-results-fix-2026-07-14"
+    },
+    {
+      "product_id": 17,
+      "host": "www.cosrx.co.kr",
+      "verification_status": "unverified",
+      "verified_at_present": false,
+      "source": "[verified-batch:2026-07-18]"
+    },
+    {
+      "product_id": 18,
+      "host": "www.cosrx.co.kr",
+      "verification_status": "unverified",
+      "verified_at_present": false,
+      "source": "[verified-batch:2026-07-18]"
+    },
+    {
+      "product_id": 19,
+      "host": "www.cosrx.co.kr",
+      "verification_status": "unverified",
+      "verified_at_present": false,
+      "source": "[verified-batch:2026-07-18]"
+    },
+    {
+      "product_id": 20,
+      "host": "www.cosrx.co.kr",
+      "verification_status": "unverified",
+      "verified_at_present": false,
+      "source": "[verified-batch:2026-07-18]"
+    },
+    {
+      "product_id": 4,
+      "host": "www.cosrx.co.kr",
+      "verification_status": "unverified",
+      "verified_at_present": false,
+      "source": "[verified-batch:2026-07-18]"
+    },
+    {
+      "product_id": 7,
+      "host": "www.cosrx.co.kr",
+      "verification_status": "unverified",
+      "verified_at_present": false,
+      "source": "[verified-batch:2026-07-18]"
+    }
+  ]
+}

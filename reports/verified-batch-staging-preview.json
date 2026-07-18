@@ -1,0 +1,105 @@
+{
+  "ok": true,
+  "phase": "preview",
+  "env_file": ".env.staging",
+  "staging_ref": "jfnjufmldiqlgvgyugfd",
+  "production_separated": true,
+  "gate": "ALLOW_STAGING_WRITE",
+  "import_commit": "NOT_RUN",
+  "auto_verified": false,
+  "summary": {
+    "total": 7,
+    "ready": 4,
+    "blocked": 3,
+    "warnings": 0,
+    "needs_review_status": 0,
+    "catalog_needs_review": 7,
+    "needs_review": 7,
+    "errors": 3,
+    "duplicates": 3,
+    "image_matched": 7
+  },
+  "checklist": {
+    "ready_7": false,
+    "needs_review_7": true,
+    "errors_0": false
+  },
+  "rows": [
+    {
+      "row": 2,
+      "slug": "cosrx-low-ph-good-morning-gel-cleanser-150ml",
+      "canRegister": false,
+      "selectedByDefault": false,
+      "statuses": [
+        "brand_name_duplicate"
+      ],
+      "messages": [
+        "같은 브랜드·제품명이 이미 있습니다 (ID 4)."
+      ]
+    },
+    {
+      "row": 3,
+      "slug": "cosrx-full-fit-propolis-synergy-toner-280ml",
+      "canRegister": true,
+      "selectedByDefault": true,
+      "statuses": [
+        "ready"
+      ],
+      "messages": []
+    },
+    {
+      "row": 4,
+      "slug": "cosrx-the-niacinamide-15-serum-20ml",
+      "canRegister": false,
+      "selectedByDefault": false,
+      "statuses": [
+        "brand_name_duplicate"
+      ],
+      "messages": [
+        "같은 브랜드·제품명이 이미 있습니다 (ID 7)."
+      ]
+    },
+    {
+      "row": 5,
+      "slug": "cosrx-full-fit-propolis-light-ampoule-30ml",
+      "canRegister": true,
+      "selectedByDefault": true,
+      "statuses": [
+        "ready"
+      ],
+      "messages": []
+    },
+    {
+      "row": 6,
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream-100g",
+      "canRegister": false,
+      "selectedByDefault": false,
+      "statuses": [
+        "brand_name_duplicate"
+      ],
+      "messages": [
+        "같은 브랜드·제품명이 이미 있습니다 (ID 10)."
+      ]
+    },
+    {
+      "row": 7,
+      "slug": "cosrx-ultra-light-invisible-sunserum-50ml",
+      "canRegister": true,
+      "selectedByDefault": true,
+      "statuses": [
+        "ready"
+      ],
+      "messages": []
+    },
+    {
+      "row": 8,
+      "slug": "cosrx-full-fit-propolis-light-cream-65g",
+      "canRegister": true,
+      "selectedByDefault": true,
+      "statuses": [
+        "ready"
+      ],
+      "messages": []
+    }
+  ]
+}

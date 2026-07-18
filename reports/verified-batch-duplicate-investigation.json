@@ -1,0 +1,274 @@
+{
+  "ok": true,
+  "phase": "duplicate_investigation",
+  "staging_ref": "jfnjufmldiqlgvgyugfd",
+  "gate": "ALLOW_STAGING_WRITE",
+  "write": "NOT_RUN",
+  "import_commit": "NOT_RUN",
+  "auto_verified": false,
+  "errors_cause": "errors=3 == blocked=3 == brand_name_duplicate only. No other error types (missing_required / image / ingredients).",
+  "duplicate_product_names": [
+    "Low pH Good Morning Gel Cleanser",
+    "The Niacinamide 15 Serum",
+    "Advanced Snail 92 All In One Cream"
+  ],
+  "summary": {
+    "duplicates": 3,
+    "merge_candidates": 3,
+    "new_product_allowed": 0,
+    "separate_variant_needed": 0,
+    "review_needed": 3,
+    "ready_new_products_from_batch": 4
+  },
+  "items": [
+    {
+      "batch": {
+        "name": "Low pH Good Morning Gel Cleanser",
+        "slug": "cosrx-low-ph-good-morning-gel-cleanser-150ml",
+        "size": "150ml",
+        "source_url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=222",
+        "preview_status": "brand_name_duplicate",
+        "canRegister": false
+      },
+      "existing": {
+        "id": 4,
+        "brand": "COSRX",
+        "name": "Low pH Good Morning Gel Cleanser",
+        "slug": "cosrx-low-ph-good-morning-gel-cleanser",
+        "seed_size": "150ml",
+        "category": "foam_cleanser",
+        "full_ingredients_present": true,
+        "full_ingredients_length": 594,
+        "key_ingredients_present": true,
+        "verified_at_present": true,
+        "active": true,
+        "review_status": "verified_at_set (seed)",
+        "variant_count": 0,
+        "variants": [],
+        "offer_count": 1,
+        "offers": [
+          {
+            "id": "214a2909-1126-4e7c-a8f3-f1042744effa",
+            "retailer_name": "COSRX Official",
+            "purchase_url_host": "www.cosrx.com",
+            "price": 15000,
+            "currency": "KRW",
+            "stock_status": "in_stock",
+            "verification_status": "verified",
+            "is_official": true,
+            "active": true,
+            "verified_at_present": true
+          }
+        ],
+        "ingredient_count": 27,
+        "ingredient_source_hosts": [
+          "www.cosrx.com"
+        ],
+        "media_count": 1,
+        "media_primary_present": true
+      },
+      "comparison": {
+        "brand_name_match": true,
+        "slug_differs": true,
+        "existing_slug": "cosrx-low-ph-good-morning-gel-cleanser",
+        "batch_slug": "cosrx-low-ph-good-morning-gel-cleanser-150ml",
+        "size_same": true,
+        "source_channel_differs": true,
+        "seed_source": "https://www.cosrx.com/products/low-ph-good-morning-gel-cleanser",
+        "batch_source": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=222",
+        "has_kr_offer": false,
+        "has_global_offer": true
+      },
+      "judgment": {
+        "same_product_line": true,
+        "same_capacity": true,
+        "seed_overlap": true,
+        "renewal_suspected": false,
+        "separate_variant_needed": false,
+        "reason": "동일 COSRX 제품 라인 + 동일 용량. slug만 size suffix 차이. 소스는 cosrx.com(seed) vs cosrx.co.kr(batch). 신규 product row 금지 → 기존 ID에 KR offer/media/KR INCI 보강 검토.",
+        "recommended_action": "MERGE_INTO_EXISTING",
+        "fields_addable": [
+          "product_offers (KR official mall, unverified)",
+          "optional: KR-mall primary media refresh (manual review)",
+          "KR INCI / source_url review vs EN seed (do not auto-replace)",
+          "product_variants size=150ml (explicit variant row currently missing)",
+          "KEEP verified_at — never auto-Verified / do not clear"
+        ]
+      },
+      "query_errors": {
+        "variants": null,
+        "offers": null,
+        "ingredients": null,
+        "media": null
+      }
+    },
+    {
+      "batch": {
+        "name": "The Niacinamide 15 Serum",
+        "slug": "cosrx-the-niacinamide-15-serum-20ml",
+        "size": "20ml",
+        "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177564",
+        "preview_status": "brand_name_duplicate",
+        "canRegister": false
+      },
+      "existing": {
+        "id": 7,
+        "brand": "COSRX",
+        "name": "The Niacinamide 15 Serum",
+        "slug": "cosrx-the-niacinamide-15-serum",
+        "seed_size": "20ml",
+        "category": "serum",
+        "full_ingredients_present": true,
+        "full_ingredients_length": 192,
+        "key_ingredients_present": true,
+        "verified_at_present": true,
+        "active": true,
+        "review_status": "verified_at_set (seed)",
+        "variant_count": 0,
+        "variants": [],
+        "offer_count": 1,
+        "offers": [
+          {
+            "id": "1b321053-8ab2-49d6-9bec-b1b1c908b473",
+            "retailer_name": "COSRX Official",
+            "purchase_url_host": "www.cosrx.com",
+            "price": 23000,
+            "currency": "KRW",
+            "stock_status": "in_stock",
+            "verification_status": "verified",
+            "is_official": true,
+            "active": true,
+            "verified_at_present": true
+          }
+        ],
+        "ingredient_count": 15,
+        "ingredient_source_hosts": [
+          "www.cosrx.com"
+        ],
+        "media_count": 1,
+        "media_primary_present": true
+      },
+      "comparison": {
+        "brand_name_match": true,
+        "slug_differs": true,
+        "existing_slug": "cosrx-the-niacinamide-15-serum",
+        "batch_slug": "cosrx-the-niacinamide-15-serum-20ml",
+        "size_same": true,
+        "source_channel_differs": true,
+        "seed_source": "https://www.cosrx.com/products/the-niacinamide-15-serum",
+        "batch_source": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177564",
+        "has_kr_offer": false,
+        "has_global_offer": true
+      },
+      "judgment": {
+        "same_product_line": true,
+        "same_capacity": true,
+        "seed_overlap": true,
+        "renewal_suspected": false,
+        "separate_variant_needed": false,
+        "reason": "동일 COSRX 제품 라인 + 동일 용량. slug만 size suffix 차이. 소스는 cosrx.com(seed) vs cosrx.co.kr(batch). 신규 product row 금지 → 기존 ID에 KR offer/media/KR INCI 보강 검토.",
+        "recommended_action": "MERGE_INTO_EXISTING",
+        "fields_addable": [
+          "product_offers (KR official mall, unverified)",
+          "optional: KR-mall primary media refresh (manual review)",
+          "KR INCI / source_url review vs EN seed (do not auto-replace)",
+          "product_variants size=20ml (explicit variant row currently missing)",
+          "KEEP verified_at — never auto-Verified / do not clear"
+        ]
+      },
+      "query_errors": {
+        "variants": null,
+        "offers": null,
+        "ingredients": null,
+        "media": null
+      }
+    },
+    {
+      "batch": {
+        "name": "Advanced Snail 92 All In One Cream",
+        "slug": "cosrx-advanced-snail-92-all-in-one-cream-100g",
+        "size": "100g",
+        "source_url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+        "preview_status": "brand_name_duplicate",
+        "canRegister": false
+      },
+      "existing": {
+        "id": 10,
+        "brand": "COSRX",
+        "name": "Advanced Snail 92 All in One Cream",
+        "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+        "seed_size": "100g",
+        "category": "cream",
+        "full_ingredients_present": true,
+        "full_ingredients_length": 318,
+        "key_ingredients_present": true,
+        "verified_at_present": true,
+        "active": true,
+        "review_status": "verified_at_set (seed)",
+        "variant_count": 0,
+        "variants": [],
+        "offer_count": 1,
+        "offers": [
+          {
+            "id": "0b1de6ad-be68-47c6-b30e-734f18a8df81",
+            "retailer_name": "COSRX 공식몰",
+            "purchase_url_host": "www.cosrx.co.kr",
+            "price": 23000,
+            "currency": "KRW",
+            "stock_status": "in_stock",
+            "verification_status": "verified",
+            "is_official": true,
+            "active": true,
+            "verified_at_present": true
+          }
+        ],
+        "ingredient_count": 23,
+        "ingredient_source_hosts": [
+          "www.cosrx.com"
+        ],
+        "media_count": 1,
+        "media_primary_present": true
+      },
+      "comparison": {
+        "brand_name_match": true,
+        "slug_differs": true,
+        "existing_slug": "cosrx-advanced-snail-92-all-in-one-cream",
+        "batch_slug": "cosrx-advanced-snail-92-all-in-one-cream-100g",
+        "size_same": true,
+        "source_channel_differs": true,
+        "seed_source": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+        "batch_source": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+        "has_kr_offer": true,
+        "has_global_offer": false
+      },
+      "judgment": {
+        "same_product_line": true,
+        "same_capacity": true,
+        "seed_overlap": true,
+        "renewal_suspected": false,
+        "separate_variant_needed": false,
+        "reason": "동일 COSRX 제품 라인 + 동일 용량. slug만 size suffix 차이. 소스는 cosrx.com(seed) vs cosrx.co.kr(batch). 신규 product row 금지 → 기존 ID에 KR offer/media/KR INCI 보강 검토.",
+        "recommended_action": "MERGE_INTO_EXISTING",
+        "fields_addable": [
+          "optional: KR-mall primary media refresh (manual review)",
+          "KR INCI / source_url review vs EN seed (do not auto-replace)",
+          "product_variants size=100g (explicit variant row currently missing)",
+          "KEEP verified_at — never auto-Verified / do not clear"
+        ]
+      },
+      "query_errors": {
+        "variants": null,
+        "offers": null,
+        "ingredients": null,
+        "media": null
+      }
+    }
+  ],
+  "recommended_import_plan": [
+    "Commit NOT this cycle for the 3 duplicates as new products.",
+    "Import only the 4 ready rows as new needs_review products (if approved).",
+    "For IDs 4/7/10: merge path — add missing KR official offer (unverified), optionally attach KR media, review KR INCI vs EN seed INCI manually. Do not create second product. Do not auto-Verified.",
+    "Slug difference (-150ml/-20ml/-100g) is naming convention only; capacity already matches seed size.",
+    "Snail name casing In/in is not a different SKU."
+  ]
+}

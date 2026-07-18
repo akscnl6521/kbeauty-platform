@@ -9,7 +9,7 @@
 
 ## 0. 지금 할 일 (단일)
 
-**현재 단일 목표:** Staging env(`NEXT_PUBLIC_SUPABASE_URL`→Staging ref + `SUPABASE_SERVICE_ROLE_KEY`) 준비 후 verified-kbeauty-batch `needs_review` 등록 (Production 배포·main 병합 금지)
+**현재 단일 목표:** 신규 needs_review 4건(ID 17–20) 수동 검수·Verified 및 KR INCI 비교 (Production 배포·main 병합 금지)
 
 - [x] **Phase A** — 현황판·`check:mvp`·CI·자동화 정책·워크스테이션 병렬 기반
 - [x] **Phase B** — 홈→분석→문진→결과→인증→마이 디자인/여정
@@ -18,10 +18,12 @@
 - [x] **Phase E** — 통합 검증 · Preview MANUAL · Production 준비 체크리스트 (**배포는 승인 후**)
 - [x] 한국 공식몰 verified import bundle (READY 7) — Staging 등록·Preview Verified는 대기
 - [x] Staging import 게이트 검사 (`BLOCK_PRODUCTION` · DB write SKIPPED)
-- [ ] Staging env 연결 + needs_review 등록 + 수동 Verified KR offer (Preview 5건+)
+- [x] Staging env 연결 + needs_review 신규 4 + seed 병합 3 (APPLIED_PARTIAL · variants 권한 대기)
+- [ ] 수동 Verified KR offer + Preview 추천 5건+ (NO-GO 해제 조건)
 
 ### 최근 완료 (요약)
 
+- [x] Staging verified-batch 신규 ID 17–20 · 병합 4/7/10 · Preview 노출 0 · NO-GO 유지
 - [x] Staging import 게이트 BLOCK_PRODUCTION · 필요 env 이름만 문서화
 - [x] verified-kbeauty-batch import bundle · Staging write SKIPPED · NO-GO 유지
 

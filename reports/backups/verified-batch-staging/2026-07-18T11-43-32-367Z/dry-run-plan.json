@@ -1,0 +1,173 @@
+{
+  "mode": "APPLY",
+  "staging_ref": "jfnjufmldiqlgvgyugfd",
+  "gate": "ALLOW_STAGING_WRITE",
+  "counts_before": {
+    "products": 20,
+    "product_variants": 0,
+    "product_offers": 23,
+    "catalog_product_media": 20,
+    "product_ingredients": 490
+  },
+  "protected_before": [
+    {
+      "id": 4,
+      "slug": "cosrx-low-ph-good-morning-gel-cleanser",
+      "name": "Low pH Good Morning Gel Cleanser",
+      "verified_at": "2026-07-14T04:11:02.432+00:00",
+      "active": true,
+      "full_hash": "72f7e7ce865450be53ba060a1088e434bd6bdfddc7b6839abfde24d66239202c"
+    },
+    {
+      "id": 7,
+      "slug": "cosrx-the-niacinamide-15-serum",
+      "name": "The Niacinamide 15 Serum",
+      "verified_at": "2026-07-14T04:11:07.073+00:00",
+      "active": true,
+      "full_hash": "259c5547d469361dd32e217ff09cdd831df18326a76cc618fc3d6bd8128edcd2"
+    },
+    {
+      "id": 10,
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+      "name": "Advanced Snail 92 All in One Cream",
+      "verified_at": "2026-07-14T04:11:13.186+00:00",
+      "active": true,
+      "full_hash": "be0992a57d56841a5913cbe2173dbaaab8a2d8fb261a37264f92ff83b79aa929"
+    }
+  ],
+  "create_products": [
+    {
+      "action": "INSERT_PRODUCT_needs_review",
+      "brand": "COSRX",
+      "name": "Full Fit Propolis Synergy Toner",
+      "slug": "cosrx-full-fit-propolis-synergy-toner-280ml",
+      "category": "toner",
+      "size": {
+        "value": 280,
+        "unit": "ml"
+      },
+      "active": false,
+      "verified_at": null,
+      "image": "cosrx-full-fit-propolis-synergy-toner-280ml.jpg",
+      "offer": {
+        "purchase_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1176488",
+        "price": 18500,
+        "verification_status": "unverified"
+      }
+    },
+    {
+      "action": "INSERT_PRODUCT_needs_review",
+      "brand": "COSRX",
+      "name": "Full Fit Propolis Light Ampoule",
+      "slug": "cosrx-full-fit-propolis-light-ampoule-30ml",
+      "category": "essence",
+      "size": {
+        "value": 30,
+        "unit": "ml"
+      },
+      "active": false,
+      "verified_at": null,
+      "image": "cosrx-full-fit-propolis-light-ampoule-30ml.jpg",
+      "offer": {
+        "purchase_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1176536",
+        "price": 20000,
+        "verification_status": "unverified"
+      }
+    },
+    {
+      "action": "INSERT_PRODUCT_needs_review",
+      "brand": "COSRX",
+      "name": "Ultra-Light Invisible Sunserum SPF50+ PA++++",
+      "slug": "cosrx-ultra-light-invisible-sunserum-50ml",
+      "category": "sunscreen",
+      "size": {
+        "value": 50,
+        "unit": "ml"
+      },
+      "active": false,
+      "verified_at": null,
+      "image": "cosrx-ultra-light-invisible-sunserum-50ml.jpg",
+      "offer": {
+        "purchase_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177686",
+        "price": 13000,
+        "verification_status": "unverified"
+      }
+    },
+    {
+      "action": "INSERT_PRODUCT_needs_review",
+      "brand": "COSRX",
+      "name": "Full Fit Propolis Light Cream",
+      "slug": "cosrx-full-fit-propolis-light-cream-65g",
+      "category": "moisturizer",
+      "size": {
+        "value": 65,
+        "unit": "g"
+      },
+      "active": false,
+      "verified_at": null,
+      "image": "cosrx-full-fit-propolis-light-cream-65g.jpg",
+      "offer": {
+        "purchase_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1176505",
+        "price": 16100,
+        "verification_status": "unverified"
+      }
+    }
+  ],
+  "merge": [
+    {
+      "product_id": 4,
+      "action": "MERGE_NO_NEW_PRODUCT",
+      "create_variant_if_missing": {
+        "size_value": 150,
+        "size_unit": "ml"
+      },
+      "create_kr_offer_if_missing": {
+        "purchase_url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=222",
+        "verification_status": "unverified"
+      },
+      "overwrite_ingredients": false,
+      "overwrite_media": false,
+      "touch_verified_at": false,
+      "store_kr_inci_pending_review": true,
+      "batch_name": "Low pH Good Morning Gel Cleanser"
+    },
+    {
+      "product_id": 7,
+      "action": "MERGE_NO_NEW_PRODUCT",
+      "create_variant_if_missing": {
+        "size_value": 20,
+        "size_unit": "ml"
+      },
+      "create_kr_offer_if_missing": {
+        "purchase_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177564",
+        "verification_status": "unverified"
+      },
+      "overwrite_ingredients": false,
+      "overwrite_media": false,
+      "touch_verified_at": false,
+      "store_kr_inci_pending_review": true,
+      "batch_name": "The Niacinamide 15 Serum"
+    },
+    {
+      "product_id": 10,
+      "action": "MERGE_NO_NEW_PRODUCT",
+      "create_variant_if_missing": {
+        "size_value": 100,
+        "size_unit": "g"
+      },
+      "create_kr_offer_if_missing": "FORBIDDEN_existing_kr_offer",
+      "overwrite_ingredients": false,
+      "overwrite_media": false,
+      "touch_verified_at": false,
+      "store_kr_inci_pending_review": true,
+      "batch_name": "Advanced Snail 92 All In One Cream"
+    }
+  ],
+  "forbidden": [
+    "auto_verified",
+    "delete_products",
+    "drop_truncate",
+    "production_write",
+    "overwrite_existing_ingredients_or_images_on_merge"
+  ]
+}

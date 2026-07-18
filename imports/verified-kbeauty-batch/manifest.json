@@ -5,12 +5,19 @@
   "auto_verified": false,
   "production_write": false,
   "staging": {
-    "linked_ref": "rhfrmvkjsummaylpzmns",
-    "is_production_ref": true,
-    "has_service_role": false,
-    "write_allowed": false,
-    "write_status": "SKIPPED",
-    "skip_reason": "local_env_points_to_production_ref"
+    "linked_ref": "jfnjufmldiqlgvgyugfd",
+    "is_production_ref": false,
+    "has_service_role": true,
+    "write_allowed": true,
+    "write_status": "APPLIED_PARTIAL",
+    "new_products": 4,
+    "merged_ids": [
+      4,
+      7,
+      10
+    ],
+    "applied_at": "2026-07-18T11:43:34.333Z",
+    "case_tag": "[verified-batch:2026-07-18]"
   },
   "counts": {
     "total_candidates": 12,
