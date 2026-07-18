@@ -14,10 +14,10 @@
 
 ## 작업 순서
 
-1~40. [x] 내비·스모크·문진·Results 터치
-41. [x] 성분 상세·도메인 추천 빈 CTA · MyCareNav 터치
+1~41. [x] 내비·터치·CTA
 42. [wait] **Production 배포** — 「Production 배포하자」
+43. [x] 도메인 문진 매칭 0건 CTA
 
 ## 현재 단일 작업
 
-**Production 배포 대기** — Preview 추가 터치·CTA 완료. www는 「Production 배포하자」라고 하시면 진행합니다.
+**Production 배포 대기** — Preview 문진 0건 CTA 완료. www는 「Production 배포하자」라고 하시면 진행합니다.

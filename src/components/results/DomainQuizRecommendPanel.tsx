@@ -258,7 +258,43 @@ export function DomainQuizRecommendPanel() {
         사용합니다.
       </p>
       {ranked.length === 0 ? (
-        <p className="mt-2 text-sm text-gray-600">매칭 결과가 없습니다.</p>
+        <div className="mt-2 space-y-2">
+          <p className="text-sm text-gray-600">
+            매칭 결과가 없습니다. 공개 카탈로그에 해당 속성의 verified SKU가
+            아직 부족할 수 있어요. 문진을 다시 하거나 피부 분석·성분 가이드로
+            이어가 보세요.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <a
+              href={
+                quiz.domain === "shampoo" || quiz.domain === "hair"
+                  ? "/quiz/hair"
+                  : `/quiz/${quiz.domain}`
+              }
+              className="touch-target inline-flex items-center rounded-full bg-[#C2185B] px-3 py-2 text-sm font-semibold text-white"
+            >
+              이 문진 다시하기
+            </a>
+            <a
+              href="/analyze"
+              className="touch-target inline-flex items-center rounded-full border border-[#C2185B] bg-white px-3 py-2 text-sm font-semibold text-[#C2185B]"
+            >
+              피부 분석
+            </a>
+            <a
+              href="/ingredients"
+              className="touch-target inline-flex items-center rounded-full border border-[#E8DFD8] bg-white px-3 py-2 text-sm font-medium text-gray-800"
+            >
+              성분 가이드
+            </a>
+            <a
+              href="/quiz"
+              className="touch-target inline-flex items-center rounded-full border border-[#E8DFD8] bg-white px-3 py-2 text-sm font-medium text-gray-800"
+            >
+              피부 문진
+            </a>
+          </div>
+        </div>
       ) : (
         <ul className="mt-2 space-y-2">
           {ranked.slice(0, 3).map((r) => (
