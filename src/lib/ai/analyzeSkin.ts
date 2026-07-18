@@ -21,6 +21,7 @@ import { mergeCurrentRoutineIntoRecommendation } from "@/lib/recommend/currentPr
 import { applyEvidenceToRecommendation } from "@/lib/evidence";
 import { resolveApprovedEvidenceForConcerns } from "@/lib/evidence/loadApprovedEvidence";
 import { applyRednessObservationToRecommendation } from "./rednessObservation";
+import { applySymptomSafetyToRecommendation } from "./symptomSafety";
 
 export { AnalyzeSkinError } from "./errors";
 
@@ -166,6 +167,7 @@ async function attachUserIngredientPreferences(
     recommendation,
     input.rednessObservation
   );
+  recommendation = applySymptomSafetyToRecommendation(recommendation, input);
   const evidenceLinks = await resolveApprovedEvidenceForConcerns(
     recommendation.skinConcerns ?? []
   );
