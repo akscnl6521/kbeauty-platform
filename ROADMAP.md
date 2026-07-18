@@ -9,7 +9,7 @@
 
 ## 0. 지금 할 일 (단일)
 
-**현재 단일 목표:** Staging에서 verified-kbeauty-batch 검수 등록 → 수동 Verified → Preview /results 5건+ 재확인 (Production 배포·main 병합 금지)
+**현재 단일 목표:** Staging에서 verified-kbeauty-batch 검수 등록 → 수동 Verified → Preview `/results` 5건+ 재확인 (Production 배포·main 병합 금지)
 
 - [x] **Phase A** — 현황판·`check:mvp`·CI·자동화 정책·워크스테이션 병렬 기반
 - [x] **Phase B** — 홈→분석→문진→결과→인증→마이 디자인/여정
