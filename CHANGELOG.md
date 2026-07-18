@@ -9,7 +9,7 @@
 ### 피부 문진·Results 탭 터치
 
 - `/quiz` 선택 칩 · ResultsDomainTabs 탭·문진 링크 터치 타깃
-- Production 미배포
+- Preview READY (`e77387d`) · Production 미배포
 
 ### Preview 스모크 · 문진 터치
 

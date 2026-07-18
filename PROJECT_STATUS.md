@@ -14,6 +14,8 @@
 |------|------|
 | `/quiz` | 선택 칩 touch-target |
 | Results 탭 | 탭·메이크업/헤어 문진 링크 터치 보강 |
+| push | `e77387d` |
+| Preview | READY |
 | Production | 미변경 |
 
 ### 2026-07-18 Preview 스모크 · 문진 터치
