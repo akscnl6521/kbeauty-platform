@@ -14,10 +14,10 @@
 
 ## 작업 순서
 
-1~41. [x] 내비·터치·CTA
-42. [wait] **Production 배포** — 「Production 배포하자」
-43. [x] 도메인 문진 매칭 0건 CTA
+1~43. [x] 내비·터치·CTA · 매칭 0건
+44. [x] analyze 수동 모드 하단 CTA 활성화
+45. [wait] **Production 배포** — 「Production 배포하자」
 
 ## 현재 단일 작업
 
-**Production 배포 대기** — Preview 문진 0건 CTA 완료. www는 「Production 배포하자」라고 하시면 진행합니다.
+**Production 배포 대기** — Preview analyze 수동 CTA 완료. www는 「Production 배포하자」라고 하시면 진행합니다.

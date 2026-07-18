@@ -1739,18 +1739,42 @@ export default function AnalyzePage() {
                   </p>
                 </div>
 
-                <div className="space-y-2 pt-1">
-                  <button
-                    type="button"
-                    disabled
-                    aria-disabled="true"
-                    className="inline-flex cursor-not-allowed items-center justify-center rounded-full bg-gray-300 px-5 py-2 text-xs font-semibold text-white"
-                  >
-                    AI 분석 후 추천 결과 보기
-                  </button>
+                <div className="space-y-3 pt-1">
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => void handleAnalyzeManual()}
+                      disabled={loading}
+                      className={`touch-target inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition ${
+                        loading
+                          ? "cursor-not-allowed bg-gray-300"
+                          : "bg-[#C2185B] hover:bg-[#a3154f]"
+                      }`}
+                    >
+                      {loading ? "분석 중..." : "이 기준으로 AI 분석 시작"}
+                    </button>
+                    <Link
+                      href="/quiz"
+                      className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-5 py-2.5 text-sm font-semibold text-[#C2185B] transition hover:bg-pink-50"
+                    >
+                      피부 문진
+                    </Link>
+                    <Link
+                      href="/routine"
+                      className="touch-target inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition hover:bg-pink-50"
+                    >
+                      루틴 가이드
+                    </Link>
+                    <Link
+                      href="/ingredients"
+                      className="touch-target inline-flex items-center justify-center rounded-full border border-pink-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition hover:bg-pink-50"
+                    >
+                      성분별로 보기
+                    </Link>
+                  </div>
                   <p className="text-xs text-gray-500">
-                    분석을 실행하면 현재 선택 기준 제품 정보를 확인할 수
-                    있습니다.
+                    위는 선택값 기반 참고 미리보기입니다. AI 분석을 실행하면
+                    검수된 추천 결과로 이어갈 수 있습니다.
                   </p>
                 </div>
               </div>

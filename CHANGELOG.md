@@ -6,6 +6,11 @@
 
 ## 2026-07-18
 
+### analyze 수동 모드 CTA
+
+- 직접 입력 미리보기 하단: AI 분석 시작·문진·루틴·성분 (비활성 제거)
+- Production 미배포
+
 ### 도메인 문진 매칭 0건 CTA
 
 - DomainQuizRecommendPanel: 매칭 없을 때 문진 다시·분석·성분·피부 문진
