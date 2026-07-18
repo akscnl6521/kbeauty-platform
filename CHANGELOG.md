@@ -9,7 +9,7 @@
 ### 도메인 문진 매칭 0건 CTA
 
 - DomainQuizRecommendPanel: 매칭 없을 때 문진 다시·분석·성분·피부 문진
-- Production 미배포
+- Preview READY (`b957cb1`) · Production 미배포
 
 ### 성분·케어 내비 CTA
 
