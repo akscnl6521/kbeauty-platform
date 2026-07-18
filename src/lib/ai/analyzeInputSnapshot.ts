@@ -4,6 +4,7 @@
  * (표시/네비게이션 동기화만 — rankProducts·점수·offer 변경 없음)
  */
 
+import type { ConcernObservation } from "./types";
 import type { RednessObservation } from "./rednessObservation";
 
 export const ANALYZE_INPUT_SNAPSHOT_KEY = "skinAnalyzeInputSnapshot";
@@ -15,6 +16,7 @@ export type AnalyzeInputSnapshot = {
   concerns: string[];
   sensitivity: string;
   rednessObservation: RednessObservation | null;
+  concernObservations: ConcernObservation[];
 };
 
 /** 빈 배열·빈 객체를 null로 정규화 (구버전·부분 입력 호환) */
@@ -51,6 +53,40 @@ function stableRednessKey(
   }
 }
 
+function normalizeConcernObservations(
+  value: ConcernObservation[] | null | undefined
+): ConcernObservation[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((item) => item && typeof item.concern === "string")
+    .map((item) => ({
+      concern: item.concern.trim(),
+      ...(Array.isArray(item.areas) && item.areas.length > 0
+        ? { areas: [...item.areas].sort() }
+        : {}),
+      ...(item.severity ? { severity: item.severity } : {}),
+      ...(item.duration ? { duration: item.duration } : {}),
+      ...(typeof item.worsening === "boolean"
+        ? { worsening: item.worsening }
+        : {}),
+      ...(Array.isArray(item.redFlags) && item.redFlags.length > 0
+        ? { redFlags: [...item.redFlags].sort() }
+        : {}),
+    }))
+    .filter((item) => item.concern.length > 0)
+    .sort((a, b) => a.concern.localeCompare(b.concern));
+}
+
+function stableConcernObservationKey(
+  value: ConcernObservation[] | null | undefined
+): string {
+  try {
+    return JSON.stringify(normalizeConcernObservations(value));
+  } catch {
+    return "";
+  }
+}
+
 export function normalizeAnalyzeInputSnapshot(
   raw: Partial<AnalyzeInputSnapshot> | null | undefined
 ): AnalyzeInputSnapshot | null {
@@ -66,6 +102,9 @@ export function normalizeAnalyzeInputSnapshot(
       typeof raw.sensitivity === "string" ? raw.sensitivity.trim() : "",
     rednessObservation: normalizeRednessForSnapshot(
       raw.rednessObservation ?? null
+    ),
+    concernObservations: normalizeConcernObservations(
+      raw.concernObservations ?? []
     ),
   };
 }
@@ -87,9 +126,15 @@ export function analyzeInputSnapshotsEqual(
   for (let i = 0; i < na.concerns.length; i++) {
     if (na.concerns[i] !== nb.concerns[i]) return false;
   }
-  return (
-    stableRednessKey(na.rednessObservation) ===
+  if (
+    stableRednessKey(na.rednessObservation) !==
     stableRednessKey(nb.rednessObservation)
+  ) {
+    return false;
+  }
+  return (
+    stableConcernObservationKey(na.concernObservations) ===
+    stableConcernObservationKey(nb.concernObservations)
   );
 }
 
