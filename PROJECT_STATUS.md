@@ -15,6 +15,8 @@
 | 성분 상세 | 결과·문진·목록 CTA 터치 |
 | Results 메이크업 | 문진 미완료 시 도메인 문진 CTA |
 | MyCareNav | 칩형 터치 내비 |
+| push | `f5d1451` |
+| Preview | READY |
 | Production | 미변경 |
 
 ### 2026-07-18 피부 문진·Results 탭 터치

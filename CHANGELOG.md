@@ -11,7 +11,7 @@
 - 성분 상세 푸터: 결과·문진·목록
 - DomainQuizRecommendPanel: 문진 미완료 CTA
 - MyCareNav 칩형 터치
-- Production 미배포
+- Preview READY (`f5d1451`) · Production 미배포
 
 ### 피부 문진·Results 탭 터치
 
