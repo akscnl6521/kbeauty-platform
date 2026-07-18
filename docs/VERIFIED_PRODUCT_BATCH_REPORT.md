@@ -16,6 +16,19 @@
 | Production DB 쓰기 | **없음** |
 | Staging DB 쓰기 | **SKIPPED** (로컬 env = Production ref, SERVICE_ROLE 없음) |
 
+## Staging import attempt (2026-07-18)
+
+| 항목 | 결과 |
+|------|------|
+| Gate | **BLOCK_PRODUCTION** |
+| DB write | **SKIPPED** |
+| preview/commit | **NOT RUN** |
+| Required env names | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `SUPABASE_SERVICE_ROLE_KEY` |
+| Expected Staging ref | `jfnjufmldiqlgvgyugfd` |
+| Check command | `npm run check:verified-batch-staging` |
+
+Staging env가 준비되면 `/admin/products/import`로 `needs_review`만 등록한다. 자동 Verified 금지.
+
 ## Staging 게이트
 
 | 항목 | 값 |

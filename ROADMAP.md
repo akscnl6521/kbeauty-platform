@@ -9,7 +9,7 @@
 
 ## 0. 지금 할 일 (단일)
 
-**현재 단일 목표:** Staging에서 verified-kbeauty-batch 검수 등록 → 수동 Verified → Preview `/results` 5건+ 재확인 (Production 배포·main 병합 금지)
+**현재 단일 목표:** Staging env(`NEXT_PUBLIC_SUPABASE_URL`→Staging ref + `SUPABASE_SERVICE_ROLE_KEY`) 준비 후 verified-kbeauty-batch `needs_review` 등록 (Production 배포·main 병합 금지)
 
 - [x] **Phase A** — 현황판·`check:mvp`·CI·자동화 정책·워크스테이션 병렬 기반
 - [x] **Phase B** — 홈→분석→문진→결과→인증→마이 디자인/여정
@@ -17,10 +17,12 @@
 - [x] **Phase D** — 3·7·15·30 체크인 UX · 루틴 · 알림 · 안전 분기 · worker dry-run
 - [x] **Phase E** — 통합 검증 · Preview MANUAL · Production 준비 체크리스트 (**배포는 승인 후**)
 - [x] 한국 공식몰 verified import bundle (READY 7) — Staging 등록·Preview Verified는 대기
-- [ ] Staging needs_review 등록 + 수동 Verified KR offer (Preview 5건+)
+- [x] Staging import 게이트 검사 (`BLOCK_PRODUCTION` · DB write SKIPPED)
+- [ ] Staging env 연결 + needs_review 등록 + 수동 Verified KR offer (Preview 5건+)
 
 ### 최근 완료 (요약)
 
+- [x] Staging import 게이트 BLOCK_PRODUCTION · 필요 env 이름만 문서화
 - [x] verified-kbeauty-batch import bundle · Staging write SKIPPED · NO-GO 유지
 
 - [x] Phase E: RELEASE_AUDIT · env readiness · prod-safety · journey A–H · 체크리스트/롤백/판정

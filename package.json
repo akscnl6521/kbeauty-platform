@@ -32,6 +32,7 @@
     "test:preview-fixture-gate": "npx --yes tsx scripts/preview-fixture-gate-selftest.ts",
     "catalog:verified-batch": "node scripts/build-verified-kbeauty-batch.mjs",
     "test:verified-batch": "npx --yes tsx scripts/verified-kbeauty-batch-selftest.ts",
+    "check:verified-batch-staging": "node scripts/check-verified-batch-staging-gate.mjs",
     "test:phase-e-journey": "npx --yes tsx scripts/phase-e-journey-selftest.ts",
     "check:env-readiness": "node scripts/check-env-readiness.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",

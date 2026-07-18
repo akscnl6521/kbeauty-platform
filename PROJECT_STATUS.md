@@ -4,9 +4,9 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** Staging(비-Prod ref + SERVICE_ROLE)에서 `imports/verified-kbeauty-batch`를 `needs_review`로 등록 → 수동 Verified·offer 검수 → Preview `/results` 5건+ 재확인  
+**다음 작업:** `.env.staging`(또는 동등)에 **Staging ref + SERVICE_ROLE** 설정 후 `npm run check:verified-batch-staging` → import preview/commit  
 **다음이 아닌 것:** Production 배포 · main 병합 · Production DB 쓰기 · 자동 Verified · 가짜 재고/가격 · 기준 하향  
-**방금 완료:** 한국 공식몰 검증 제품 import bundle 7 READY (`automation-mvp-completion`)  
+**방금 완료:** Staging import 게이트 검사 — **BLOCK_PRODUCTION** (로컬 ref=Prod · SERVICE_ROLE 없음 · DB write SKIPPED)  
 **판정:** 한국 MVP **NO-GO — 추천 제품 데이터 필요** 유지 (Preview 실노출 0 · Staging 미등록)  
 **Preview:** Verified 전이라 추천 카드 강제 노출 없음 (정상)
 
@@ -17,9 +17,21 @@
 | main 병합 | **미실행**(본 자동화 브랜치) |
 | Production 애플리케이션 배포 | **미실행** |
 | Production DB | **미변경** |
-| Staging DB write | **SKIPPED** (로컬=Prod ref) |
+| Staging DB write | **SKIPPED** — gate `BLOCK_PRODUCTION` |
 | import bundle | `imports/verified-kbeauty-batch` · READY 7 |
 | Preview 추천 실노출 | **0** |
+
+### 2026-07-18 Staging import 게이트 (verified-batch)
+
+| 항목 | 값 |
+|------|-----|
+| 로컬 ref | Production과 **동일** |
+| SERVICE_ROLE | **없음** |
+| import preview/commit | **미실행** |
+| 필요 env 이름 | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `SUPABASE_SERVICE_ROLE_KEY` |
+| 기대 Staging ref | `jfnjufmldiqlgvgyugfd` |
+| 보고 | `reports/verified-batch-staging-gate.json` |
+| 명령 | `npm run check:verified-batch-staging` |
 
 ### 2026-07-18 검증 제품 배치 (verified-kbeauty-batch)
 

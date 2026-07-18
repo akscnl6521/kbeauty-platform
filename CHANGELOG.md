@@ -6,6 +6,16 @@
 
 ## 2026-07-18
 
+### Staging import 게이트 — BLOCK_PRODUCTION
+
+- 로컬 Supabase ref = Production → DB write **즉시 중단**
+- `SUPABASE_SERVICE_ROLE_KEY` 없음
+- import preview/commit **미실행** · 자동 Verified 없음
+- 필요 env 이름: `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `SUPABASE_SERVICE_ROLE_KEY`
+- 기대 Staging ref: `jfnjufmldiqlgvgyugfd`
+- `npm run check:verified-batch-staging` · `reports/verified-batch-staging-gate.json`
+- 출시 판정: **NO-GO** 유지 · Preview 추천 노출 0
+
 ### 한국 공식 검증 제품 import bundle
 
 - `imports/verified-kbeauty-batch` — READY_FOR_REVIEW **7** · REVIEW 1 · BLOCKED 4

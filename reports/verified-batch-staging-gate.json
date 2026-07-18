@@ -1,0 +1,47 @@
+{
+  "phase": "verified_batch_staging_import",
+  "checked_at": "2026-07-18T10:40:57.730Z",
+  "branch": "automation-mvp-completion",
+  "bundle": "imports/verified-kbeauty-batch",
+  "gate": "BLOCK_PRODUCTION",
+  "db_write": "SKIPPED",
+  "import_preview": "NOT_RUN",
+  "import_commit": "NOT_RUN",
+  "local_supabase_ref": "rhfrmvkjsummaylpzmns",
+  "is_production_ref": true,
+  "is_staging_ref": false,
+  "expected_staging_ref": "jfnjufmldiqlgvgyugfd",
+  "has_service_role": false,
+  "auto_verified": false,
+  "registered": {
+    "products": 0,
+    "images": 0,
+    "offers": 0,
+    "ingredients": 0,
+    "needs_review": 0,
+    "verified": 0
+  },
+  "preview_recommend_count": 0,
+  "release_decision": "NO-GO — 추천 제품 데이터 필요",
+  "required_env_for_staging_write": [
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "SUPABASE_PROJECT_REF (optional explicit check)"
+  ],
+  "required_conditions": [
+    "NEXT_PUBLIC_SUPABASE_URL host ref === jfnjufmldiqlgvgyugfd (Staging)",
+    "NEXT_PUBLIC_SUPABASE_URL host ref !== rhfrmvkjsummaylpzmns (Production)",
+    "SUPABASE_SERVICE_ROLE_KEY nonempty",
+    "Never set verified_at / offer verification_status=verified automatically"
+  ],
+  "notes": "Local .env.local points at Production; no .env.staging present. Bundle remains offline-ready.",
+  "ok": true,
+  "local_ref_present": true,
+  "required_env_names": [
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "note": "Do not run import commit. Configure Staging env first."
+}
