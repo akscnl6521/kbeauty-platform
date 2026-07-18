@@ -6,6 +6,14 @@
 
 ## 2026-07-18
 
+### 한국 공식 검증 제품 import bundle
+
+- `imports/verified-kbeauty-batch` — READY_FOR_REVIEW **7** · REVIEW 1 · BLOCKED 4
+- COSRX 한국 공식몰 전성분·KRW·재고 증거·공식 이미지 · 자동 Verified 없음
+- Staging DB write **SKIPPED** (로컬 Production ref)
+- 문서: `docs/VERIFIED_PRODUCT_BATCH_REPORT.md`
+- 판정: Preview 실노출 0 → **NO-GO 유지**
+
 ### Preview `/results` 빈 상태·레이아웃 보완
 
 - 데스크톱 `kb-results-layout` 2단 · 정직한 빈 상태(준비 중 제거) · browse 0일 때 검색/즐겨찾기 비노출

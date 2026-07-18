@@ -4,22 +4,32 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** **추천 제품 데이터 확보** — Staging에 verified+active+KR offer(in_stock)·이미지 충족 recommendable 제품 투입 후 Preview `/results` 재검수  
-**다음이 아닌 것:** Production 배포 · main 병합 · Production DB 쓰기 · 가짜 제품/후기/가격 표시 · cron/이메일 live  
-**방금 완료:** Preview `/results` 빈 상태·레이아웃 보완 · Preview fixture Production 게이트 (`automation-mvp-completion`)  
-**판정:** 한국 MVP **NO-GO — 추천 제품 데이터 필요** · 글로벌 **NO-GO** · Production 배포 **0%**  
-**Preview:** Vercel에서 `automation-mvp-completion` Preview URL 육안 (추천 0건이면 정상 빈 상태여야 함)
+**다음 작업:** Staging(비-Prod ref + SERVICE_ROLE)에서 `imports/verified-kbeauty-batch`를 `needs_review`로 등록 → 수동 Verified·offer 검수 → Preview `/results` 5건+ 재확인  
+**다음이 아닌 것:** Production 배포 · main 병합 · Production DB 쓰기 · 자동 Verified · 가짜 재고/가격 · 기준 하향  
+**방금 완료:** 한국 공식몰 검증 제품 import bundle 7 READY (`automation-mvp-completion`)  
+**판정:** 한국 MVP **NO-GO — 추천 제품 데이터 필요** 유지 (Preview 실노출 0 · Staging 미등록)  
+**Preview:** Verified 전이라 추천 카드 강제 노출 없음 (정상)
 
 ### 사실 고정 (혼선 제거)
 
 | 항목 | 실제 상태 |
 |------|-----------|
-| main 병합 (`backup-sprint14` → main) | **완료** (이전) |
+| main 병합 | **미실행**(본 자동화 브랜치) |
 | Production 애플리케이션 배포 | **미실행** |
-| Production DB 카탈로그 | **부분** (A안 5건) |
-| Preview 결과 페이지 | **레이아웃·빈 상태 보완** · 추천 제품 데이터 **부족** |
-| Preview 완전 fixture | **없음** (발명 금지 · Production 차단) |
-| 통합 현황판 | `PROJECT_DASHBOARD.md` |
+| Production DB | **미변경** |
+| Staging DB write | **SKIPPED** (로컬=Prod ref) |
+| import bundle | `imports/verified-kbeauty-batch` · READY 7 |
+| Preview 추천 실노출 | **0** |
+
+### 2026-07-18 검증 제품 배치 (verified-kbeauty-batch)
+
+| 항목 | 값 |
+|------|-----|
+| 후보 | 12 · READY 7 · REVIEW 1 · BLOCKED 4 |
+| 출처 | COSRX 한국 공식몰 중심 · 품절/구매불가 정직 기록 |
+| 명령 | `npm run catalog:verified-batch` · `test:verified-batch` |
+| 문서 | `docs/VERIFIED_PRODUCT_BATCH_REPORT.md` |
+| Staging / Verified | 미등록 · 자동 Verified 없음 |
 
 ### 2026-07-18 Preview 결과 보완
 
@@ -27,7 +37,7 @@
 |------|-----|
 | 브랜치 | `automation-mvp-completion` |
 | 변경 | `/results` 2단 레이아웃 · 정직한 빈 상태 CTA · 이미지 fallback · fixture 게이트 |
-| 판정 | **NO-GO — 추천 제품 데이터 필요** (GO WITH MANUAL CHECKS 철회) |
+| 판정 | **NO-GO — 추천 제품 데이터 필요** |
 | Production / main | 미배포 · 미병합 |
 
 ### 2026-07-18 Phase E 출시 감사·Production 준비 게이트
@@ -35,10 +45,8 @@
 | 항목 | 값 |
 |------|-----|
 | 브랜치 | `automation-mvp-completion` |
-| 판정(당시) | GO WITH MANUAL CHECKS → **이후 Preview 검수로 철회** |
-| 문서 | `RELEASE_AUDIT` · `ENVIRONMENT_READINESS` · `PRODUCTION_RELEASE_CHECKLIST` · `ROLLBACK_PLAN` · `RELEASE_DECISION` |
-| 명령 | `check:env-readiness` · `test:prod-safety` · `test:phase-e-journey` · `check:mvp` |
-| Production / main | 미배포 · 미병합 · **승인 대기였으나 데이터 blocker로 보류** |
+| 판정(당시) | GO WITH MANUAL CHECKS → Preview 검수로 철회 → **데이터 NO-GO 유지** |
+| Production / main | 미배포 · 미병합 |
 
 ### 2026-07-18 Phase D 지속 관리·체크인
 

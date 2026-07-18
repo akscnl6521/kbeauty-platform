@@ -13,13 +13,13 @@
 | 전체 최종 플랫폼 (KR+US+JP+운영) | **~66%** | 부분 완료 · 데이터 blocker |
 | 한국 MVP (기능) | **~88%** | **NO-GO — 추천 제품 데이터 필요** |
 | 디자인 (럭셔리 K-뷰티 UX) | **~72%** | `/results` 2단·빈 상태 보완 |
-| 제품 데이터 (Staging 중심) | **~70%** | 핵심 추천 0 가능 · 출시 차단 |
+| 제품 데이터 (Staging 중심) | **~74%** | import bundle READY 7 · Staging 미등록 · Preview 노출 0 |
 | 지속 관리 (체크인·루틴) | **~88%** | 부분 완료 |
 | Production 앱 배포 | **0% (미배포)** | 미완료 · **데이터·승인 보류** |
 | Production DB 카탈로그 | **~5%** | 부분 (A안 COSRX 5건만) |
 
-**다음 작업 (단일):** Staging recommendable(verified+KR offer+이미지) 확보 → Preview `/results` 재검수  
-**다음이 아닌 것:** 무단 main 병합 · 무단 Production 배포 · Production DB 쓰기 · 가짜 추천 제품
+**다음 작업 (단일):** Staging에서 verified-kbeauty-batch `needs_review` 등록 → 수동 Verified → Preview 5건+ 재검수  
+**다음이 아닌 것:** 무단 main 병합 · 무단 Production 배포 · Production DB 쓰기 · 자동 Verified · 가짜 추천 제품
 
 ---
 
@@ -209,6 +209,7 @@
 | Phase D | 체크인·루틴·알림 UX 완료 · 이메일/크론 live 미연결 |
 | Phase E | 출시 감사·환경 readiness·prod-safety · 이후 Preview 검수로 **NO-GO — 추천 제품 데이터 필요** |
 | Preview results fix | `/results` 레이아웃·빈 상태·fixture 게이트 · 가짜 제품 미발명 |
+| Verified KR batch | `imports/verified-kbeauty-batch` READY 7 · Staging SKIPPED · Preview 노출 0 · NO-GO 유지 |
 | 지금 할 일 | **Production 승인 대기** (배포 아님 · 대시보드 확인 후 승인) |
 
 자동화 진입점: `npm run check:mvp` · `catalog:phase-c` · CI · `docs/AUTOMATED_MVP_EXECUTION_PLAN.md`
