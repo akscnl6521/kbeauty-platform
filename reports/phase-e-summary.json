@@ -1,0 +1,41 @@
+{
+  "phase": "phase_e_release_gate",
+  "generatedAt": "2026-07-18T09:30:00.000Z",
+  "koreaMvp": "GO_WITH_MANUAL_CHECKS",
+  "globalPlatform": "NO_GO",
+  "productionDeploy": "0_percent_not_done",
+  "nextState": "production_approval_waiting",
+  "preview": "MANUAL_CHECK_vercel_dashboard_branch_automation-mvp-completion",
+  "codeBlockers": [],
+  "tests": {
+    "pass": [
+      "build",
+      "smoke",
+      "journey",
+      "quality",
+      "release-security",
+      "responsive",
+      "production-safety",
+      "check:mvp",
+      "check:parallel",
+      "test:recommendable",
+      "test:care",
+      "test:prod-safety",
+      "test:phase-e-journey",
+      "check:env-readiness"
+    ],
+    "warn": ["lint_preexisting"],
+    "fail": [],
+    "skipped": [
+      "staging-quality",
+      "preview-substitute",
+      "deployment-env",
+      "lighthouse",
+      "live_preview_browser_e2e",
+      "live_email",
+      "production_cron"
+    ]
+  },
+  "productionTouched": false,
+  "mainMerged": false
+}

@@ -3,8 +3,8 @@
 최종 갱신: 2026-07-18  
 정책: `docs/AUTOMATION_POLICY.md` · 현황: `PROJECT_DASHBOARD.md`
 
-**지금 목표:** Phase E — 통합 검증 · Preview 최종 · Production 준비 체크리스트  
-**지금 아님:** Production 배포 · main 병합 · Production DB 쓰기 · Production 스케줄 등록
+**지금 목표:** Production 승인 대기 (대시보드 확인 후 배포 승인)  
+**지금 아님:** 무단 Production 배포 · main 병합 · Production DB 쓰기 · Production 스케줄 등록
 
 ---
 
@@ -64,11 +64,10 @@
 
 | 항목 | 내용 |
 |------|------|
-| 자동 진행 범위 | `check:mvp` 풀게이트 · 릴리스 체크리스트 문서화 · Preview 최종 |
-| 사용자 확인 1회 | **「Production 배포 진행」** (및 필요 시 main 병합) — 그 전까지만 자동 |
-| 완료 조건 | 정적/여정/보안 PASS · Dashboard에 Prod 체크리스트만 남김 · **배포는 승인 후** |
-| 예상 작업일 | 1~2일 (+승인 대기) |
-| 위험 | Auth URL · `AI_PROVIDER` · 카탈로그 불충분 상태로 배포 압박 |
+| 자동 진행 범위 | 출시 감사 · 여정 A–H · env readiness · prod-safety · 체크리스트/롤백/판정 · check:mvp |
+| 사용자 확인 | Preview 육안 · Vercel AI_PROVIDER/SITE_URL · Auth URL · 도메인 · **「Production 배포 진행」** |
+| 완료 조건 | 정적 게이트 PASS · 문서 판정 기록 · **배포는 승인 후** |
+| 상태 | **본 브랜치에서 완료** · 한국 MVP GO WITH MANUAL CHECKS · Production 배포 미실행 |
 
 ---
 

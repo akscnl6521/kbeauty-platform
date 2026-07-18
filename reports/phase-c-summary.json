@@ -1,6 +1,6 @@
 {
   "phase": "phase_c_catalog_automation",
-  "startedAt": "2026-07-18T09:00:08.222Z",
+  "startedAt": "2026-07-18T09:20:24.324Z",
   "productionTouched": false,
   "autoVerified": false,
   "stagingLive": false,
@@ -22,7 +22,9 @@
       "need": "point Preview/Staging env only; never write via Production URL"
     }
   ],
-  "blockers": [],
+  "blockers": [
+    "PRODUCTION_SERVICE_ROLE_WRITE_BLOCKED"
+  ],
   "retries": 0,
   "workers": {
     "cpuWorkers": 30,
@@ -140,10 +142,10 @@
   "env": {
     "hasUrl": true,
     "hasAnon": true,
-    "hasService": false,
+    "hasService": true,
     "hasAccessToken": false,
     "catalogEnv": null,
-    "appEnv": null,
+    "appEnv": "production",
     "refHint": "rhfr…",
     "isProdRef": true,
     "isStagingRef": false
@@ -151,7 +153,7 @@
   "system": {
     "logicalCpu": 40,
     "ramGb": 766.6,
-    "freeRamGb": 738.7,
+    "freeRamGb": 737.6,
     "gpus": [
       "NVIDIA GeForce RTX 3090 Ti",
       "NVIDIA GeForce RTX 3090 Ti"
@@ -163,5 +165,5 @@
       "deepseek-r1:8b"
     ]
   },
-  "elapsedMs": 1747
+  "elapsedMs": 1779
 }

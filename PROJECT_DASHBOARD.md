@@ -10,16 +10,16 @@
 
 | 구분 | 진행률 | 판정 |
 |------|--------|------|
-| 전체 최종 플랫폼 (KR+US+JP+운영) | **~65%** | 부분 완료 |
-| 한국 MVP (기능) | **~86%** | 부분 완료 · Care UX |
-| 디자인 (럭셔리 K-뷰티 UX) | **~68%** | 부분 완료 · Care 화면 정리 |
-| 제품 데이터 (Staging 중심) | **~72%** | 부분 완료 · Phase C 자동화·SSOT |
-| 지속 관리 (체크인·루틴) | **~88%** | 부분 완료 · Phase D UX·SSOT·알림 |
-| Production 앱 배포 | **0% (미배포)** | 미완료 |
+| 전체 최종 플랫폼 (KR+US+JP+운영) | **~66%** | 부분 완료 · Phase E 감사 |
+| 한국 MVP (기능) | **~90%** | GO WITH MANUAL CHECKS |
+| 디자인 (럭셔리 K-뷰티 UX) | **~70%** | 부분 완료 |
+| 제품 데이터 (Staging 중심) | **~72%** | 부분 완료 |
+| 지속 관리 (체크인·루틴) | **~88%** | 부분 완료 |
+| Production 앱 배포 | **0% (미배포)** | 미완료 · **승인 대기** |
 | Production DB 카탈로그 | **~5%** | 부분 (A안 COSRX 5건만) |
 
-**다음 작업 (단일):** Phase E — 통합 검증, Preview 최종 확인, Production 준비 체크리스트  
-**다음이 아닌 것:** Production 배포 · main 병합 · Production DB 쓰기 · Production 스케줄 등록
+**다음 작업 (단일):** Production 승인 대기 — Preview 육안·Vercel/Auth/SITE_URL 확인 후 「Production 배포 진행」승인  
+**다음이 아닌 것:** 무단 main 병합 · 무단 Production 배포 · Production DB 쓰기
 
 ---
 
@@ -207,6 +207,7 @@
 | Preview 검증 | SSO UI + Staging 대체 검증 **완료** 이력 |
 | Phase C | offline 자동화 완료 · recommendable delta **0** · 자동 Verified 없음 |
 | Phase D | 체크인·루틴·알림 UX 완료 · 이메일/크론 live 미연결 |
-| 지금 할 일 | **Phase E 통합 검증·Production 준비 체크리스트** (배포 아님) |
+| Phase E | 출시 감사·환경 readiness·prod-safety · 한국 MVP **GO WITH MANUAL CHECKS** |
+| 지금 할 일 | **Production 승인 대기** (배포 아님 · 대시보드 확인 후 승인) |
 
 자동화 진입점: `npm run check:mvp` · `catalog:phase-c` · CI · `docs/AUTOMATED_MVP_EXECUTION_PLAN.md`

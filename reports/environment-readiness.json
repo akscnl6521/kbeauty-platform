@@ -1,0 +1,94 @@
+{
+  "phase": "environment_readiness",
+  "generatedAt": "2026-07-18T09:20:23.614Z",
+  "secretsPrinted": false,
+  "refs": {
+    "productionConstant": "rhfrmvkjsummaylpzmns",
+    "stagingConstant": "jfnjufmldiqlgvgyugfd",
+    "localUrlRefHint": "rhfr…",
+    "isProdRef": true,
+    "isStagingRef": false
+  },
+  "variables": [
+    {
+      "name": "AI_PROVIDER",
+      "scope": "REQUIRED_PROD",
+      "present": false,
+      "status": "MISSING"
+    },
+    {
+      "name": "NEXT_PUBLIC_SITE_URL",
+      "scope": "REQUIRED_PROD",
+      "present": false,
+      "status": "MISSING"
+    },
+    {
+      "name": "NEXT_PUBLIC_SUPABASE_URL",
+      "scope": "REQUIRED",
+      "present": true,
+      "status": "PRESENT"
+    },
+    {
+      "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "scope": "REQUIRED",
+      "present": true,
+      "status": "PRESENT"
+    },
+    {
+      "name": "SUPABASE_SERVICE_ROLE_KEY",
+      "scope": "OPTIONAL_LOCAL_SERVER",
+      "present": false,
+      "status": "MISSING"
+    },
+    {
+      "name": "CARE_EMAIL_PROVIDER",
+      "scope": "OPTIONAL",
+      "present": false,
+      "status": "MISSING"
+    },
+    {
+      "name": "RESEND_API_KEY",
+      "scope": "OPTIONAL",
+      "present": false,
+      "status": "MISSING"
+    },
+    {
+      "name": "SMTP_HOST",
+      "scope": "OPTIONAL",
+      "present": false,
+      "status": "MISSING"
+    },
+    {
+      "name": "OPENAI_API_KEY",
+      "scope": "OPTIONAL",
+      "present": true,
+      "status": "PRESENT"
+    },
+    {
+      "name": "ANTHROPIC_API_KEY",
+      "scope": "OPTIONAL",
+      "present": false,
+      "status": "MISSING"
+    },
+    {
+      "name": "VERCEL_CRON_SECRET",
+      "scope": "OPTIONAL",
+      "present": false,
+      "status": "MISSING"
+    }
+  ],
+  "findings": [
+    {
+      "code": "LOCAL_ENV_POINTS_AT_PRODUCTION_REF",
+      "severity": "WRONG_SCOPE_SUSPECTED",
+      "note": "Local .env URL host matches Production ref — DB write scripts must stay blocked"
+    },
+    {
+      "code": "SITE_URL_MISSING_LOCAL",
+      "severity": "WARN",
+      "note": "NEXT_PUBLIC_SITE_URL missing locally — Production dashboard must set canonical domain"
+    }
+  ],
+  "blockers": [],
+  "verdict": "LOCAL_OK_WITH_MANUAL_PROD_CHECKS"
+}

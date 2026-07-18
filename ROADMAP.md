@@ -9,16 +9,17 @@
 
 ## 0. 지금 할 일 (단일)
 
-**현재 단일 목표:** Phase E — 통합 검증, Preview 최종 확인, Production 준비 체크리스트
+**현재 단일 목표:** Production 승인 대기 (대시보드 확인 → 「Production 배포 진행」)
 
 - [x] **Phase A** — 현황판·`check:mvp`·CI·자동화 정책·워크스테이션 병렬 기반
 - [x] **Phase B** — 홈→분석→문진→결과→인증→마이 디자인/여정
-- [x] **Phase C** — Staging 카탈로그 품질 자동화·추천 SSOT·PDP 기반 (live 쓰기 SKIPPED · delta 0)
+- [x] **Phase C** — Staging 카탈로그 품질 자동화·추천 SSOT·PDP 기반
 - [x] **Phase D** — 3·7·15·30 체크인 UX · 루틴 · 알림 · 안전 분기 · worker dry-run
-- [ ] **Phase E** — 최종 게이트 · Production 준비 체크리스트 (**배포는 승인 후**)
+- [x] **Phase E** — 통합 검증 · Preview MANUAL · Production 준비 체크리스트 (**배포는 승인 후**)
 
 ### 최근 완료 (요약)
 
+- [x] Phase E: RELEASE_AUDIT · env readiness · prod-safety · journey A–H · 체크리스트/롤백/판정
 - [x] Phase D: 체크인 SSOT·Day별 질문·안전 게이트·알림 센터·이메일 adapter·care workers
 - [x] Phase C: `catalog:phase-c` · recommendableCriteria · Auto Queue · `/products/[slug]`
 - [x] Phase B: 디자인 토큰·JourneyProgress·홈 CTA·analyze 3단계·문진·결과·로그인/마이
@@ -30,11 +31,12 @@
 ### 보류 / BLOCKED
 
 - [ ] Production 애플리케이션 배포 — **「Production 배포 진행」** 승인 후
-- [ ] Production 케어 크론·실제 이메일 발송 — Phase E 승인 후
-- [ ] 제품 비교 UI — 데이터 구조만 문서화 · UI는 후속
-- [ ] Live Staging 자격증명 후 Phase C 재실행 (이미지/offer 안전 복구)
+- [ ] main ← `automation-mvp-completion` 병합 — 승인 후
+- [ ] Production 케어 크론·실제 이메일 발송 — 승인 후
+- [ ] Preview 육안 최종 (MANUAL)
+- [ ] Vercel Production AI_PROVIDER / SITE_URL · Supabase Auth URL (대시보드)
 - [ ] 잔여 27 heroes 공식 INCI — **BLOCKED**
-- 판정: **Phase E 통합 검증** 우선 (배포 대기열로 혼동하지 말 것)
+- 판정: **Production 승인 대기** (무단 배포 금지)
 
 
 ---
