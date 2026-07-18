@@ -212,10 +212,38 @@ export function DomainQuizRecommendPanel() {
 
   if (!quiz) {
     return (
-      <p className="mt-3 text-xs text-gray-500">
-        도메인 문진을 완료하면 속성 기반 추천 힌트가 여기에 표시됩니다. 예시
-        후보는 구매 검증 제품이 아닙니다.
-      </p>
+      <div className="mt-3 space-y-2">
+        <p className="text-xs text-gray-500">
+          도메인 문진을 완료하면 속성 기반 추천 힌트가 여기에 표시됩니다. 예시
+          후보는 구매 검증 제품이 아닙니다.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <a
+            href="/quiz/mascara"
+            className="touch-target inline-flex items-center rounded-full border border-[#E8DFD8] bg-white px-3 py-2 text-sm font-medium text-gray-800"
+          >
+            마스카라 문진
+          </a>
+          <a
+            href="/quiz/base"
+            className="touch-target inline-flex items-center rounded-full border border-[#E8DFD8] bg-white px-3 py-2 text-sm font-medium text-gray-800"
+          >
+            베이스 문진
+          </a>
+          <a
+            href="/quiz/lip"
+            className="touch-target inline-flex items-center rounded-full border border-[#E8DFD8] bg-white px-3 py-2 text-sm font-medium text-gray-800"
+          >
+            립 문진
+          </a>
+          <a
+            href="/quiz/hair"
+            className="touch-target inline-flex items-center rounded-full border border-[#E8DFD8] bg-white px-3 py-2 text-sm font-medium text-gray-800"
+          >
+            헤어 문진
+          </a>
+        </div>
+      </div>
     );
   }
 

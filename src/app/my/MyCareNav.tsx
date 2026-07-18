@@ -14,15 +14,18 @@ const LINKS = [
 
 export function MyCareNav({ current }: { current: string }) {
   return (
-    <nav className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-sm" aria-label="내 케어">
+    <nav
+      className="mt-4 flex flex-wrap gap-2"
+      aria-label="내 케어"
+    >
       {LINKS.map((l) => (
         <Link
           key={l.href}
           href={l.href}
           className={
             current === l.href
-              ? "font-semibold text-gray-900"
-              : "font-medium text-[#8B6914] underline"
+              ? "touch-target inline-flex min-h-10 items-center rounded-full bg-[#C2185B] px-3 py-2 text-sm font-semibold text-white"
+              : "touch-target inline-flex min-h-10 items-center rounded-full border border-[#E8DFD8] bg-white px-3 py-2 text-sm font-medium text-gray-800"
           }
         >
           {l.label}

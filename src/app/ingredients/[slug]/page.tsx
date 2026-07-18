@@ -175,14 +175,24 @@ export default function IngredientPage({ params }: IngredientPageProps) {
             </p>
           </section>
 
-          <footer className="mt-auto border-t border-gray-100 pt-6">
-            <Link href="/results">
-              <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-5 py-2 text-xs font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-              >
-                {labels.backToResults}
-              </button>
+          <footer className="mt-auto flex flex-wrap gap-2 border-t border-gray-100 pt-6">
+            <Link
+              href="/results"
+              className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-5 py-2.5 text-sm font-semibold text-[#C2185B] transition hover:bg-pink-50"
+            >
+              {labels.backToResults}
+            </Link>
+            <Link
+              href="/quiz"
+              className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition hover:bg-pink-50"
+            >
+              피부 문진
+            </Link>
+            <Link
+              href="/ingredients"
+              className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition hover:bg-pink-50"
+            >
+              성분 목록
             </Link>
           </footer>
         </main>
@@ -333,14 +343,24 @@ export default function IngredientPage({ params }: IngredientPageProps) {
         )}
 
         {/* Back button */}
-        <footer className="mt-auto border-t border-gray-100 pt-6">
-          <Link href="/results">
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-5 py-2 text-xs font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-            >
-              {labels.backToResults}
-            </button>
+        <footer className="mt-auto flex flex-wrap gap-2 border-t border-gray-100 pt-6">
+          <Link
+            href="/results"
+            className="touch-target inline-flex items-center justify-center rounded-full border border-[#C2185B] bg-white px-5 py-2.5 text-sm font-semibold text-[#C2185B] transition hover:bg-pink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2"
+          >
+            {labels.backToResults}
+          </Link>
+          <Link
+            href="/quiz"
+            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition hover:bg-pink-50"
+          >
+            피부 문진
+          </Link>
+          <Link
+            href="/ingredients"
+            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition hover:bg-pink-50"
+          >
+            성분 목록
           </Link>
         </footer>
       </main>

@@ -6,6 +6,13 @@
 
 ## 2026-07-18
 
+### 성분·케어 내비 CTA
+
+- 성분 상세 푸터: 결과·문진·목록
+- DomainQuizRecommendPanel: 문진 미완료 CTA
+- MyCareNav 칩형 터치
+- Production 미배포
+
 ### 피부 문진·Results 탭 터치
 
 - `/quiz` 선택 칩 · ResultsDomainTabs 탭·문진 링크 터치 타깃
