@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-07-18
+
+### 자동화 MVP 완성 워크플로 기반 (Phase A)
+
+- 브랜치 `automation-mvp-completion` (main 미병합 · Production 미배포 · Prod DB 미변경)
+- 추가: `PROJECT_DASHBOARD.md` · `docs/AUTOMATION_POLICY.md` · `docs/MVP_DESIGN_COMPLETION_PLAN.md` · `docs/AUTOMATED_MVP_EXECUTION_PLAN.md`
+- 추가: `npm run check:mvp` · `check:parallel` · `report:system` · `report:workers`
+- CI: `.github/workflows/ci.yml` — `automation-mvp-completion` push + main PR · Production DB write 금지 · secret 부재는 SKIPPED 요약
+- 다음 단일 목표를 **한국 MVP 디자인·핵심 여정**으로 재정렬 (Production 배포가 아님)
+
+---
+
 ## 2026-07-16
 
 ### 로컬 출시 준비 검사 통과

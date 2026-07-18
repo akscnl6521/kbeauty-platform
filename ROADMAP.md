@@ -1,60 +1,37 @@
 # ROADMAP.md — K-Beauty Match
 
-최종 갱신: 2026-07-16
+최종 갱신: 2026-07-18
 
-상세 기술 초안은 `docs/07_Roadmap.md`에도 있으나, **현재 실제 진행 상태는 본 문서를 우선**한다.
+상세 기술 초안은 `docs/07_Roadmap.md`에도 있으나, **현재 실제 진행 상태는 본 문서를 우선**한다.  
+통합 현황판: `PROJECT_DASHBOARD.md`
 
 ---
 
 ## 0. 지금 할 일 (단일)
 
-- [x] 출시 직전 로컬 검사 · 브랜치 push (`1181edd`)
-- [x] Staging `products` anon SELECT 권한·RLS 수정 (`permission denied` 해소)
-- [x] Evidence Layer 1차: 증상→성분 공개 근거 → 추천/결과 UI (Staging 시드 8건)
-- [x] Evidence Layer 2차: admin Evidence CRUD API·UI · DB 승인 근거 조회 · acne 시드
-- [x] Evidence Layer 2차 보강: 색소·주름·모공·UV · acne(살리실산) · 고민별 주의·랭킹 분기 검증
-- [x] Evidence·한국 제품 추천 품질 회귀 (`test:quality` · Staging `check:staging-quality`)
-- [x] Preview 자동 스모크 (`check:preview-quality`) — Deployment Protection → **SSO 수동 승인 대기**
-- [x] Preview SSO 대체 검증 (`check:preview-substitute`) — Staging linked 카탈로그 8고민 E2E
-- [x] **Full Beauty 스프린트** — 카테고리·35브랜드·1161후보 Staging · 메이크업/헤어 랭커 · bulk-review · Preview
-- [x] **Discovery 보강** — 플레이스홀더 1085 rejected · 전 브랜드 enrich 완료 · 문진 4종 · bulk API · Preview
-- [x] **INCI/라벨 보강 1차** — 라벨 파서·COSRX URL override·`catalog:inci` · 일시 실패 비덮어쓰기 · 문진→results 속성 힌트 (전성분 건수 0 유지)
-- [x] **공식 전성분 라벨시트 채널** — curated sheet · Staging apply · with_inci 9 · `/admin/catalog/labels` · `labels:sync`
-- [x] **OBF 전성분 수확 채널** — `catalog:labels:obf` · 엄격 매칭(자동 apply 0 · Banila 후보 검수용)
-- [x] **Admin Labels 검수·Staging 적용** — `/admin/catalog/labels` + apply API
-- [x] **Banila 오매칭 제거 · Staging EN 이름 정리** — 폼≠밤 · `catalog:labels:status`
-- [x] **Banila Clean It Zero Original 공식 US PDP INCI** — `banilausa.com` · sheet `applyReady=true` (Staging apply는 승인 후)
-- [x] **Staging Banila·COSRX 라벨 적용** — with_inci **12** · official_matched **13** · apply `match_class` 보정
-- [x] **LANEIGE US 공식 INCI** — Cream Skin · Lip Sleeping Mask(BERRY) · with_inci **14**
-- [x] **Anua·Torriden US 공식 INCI** — Heartleaf/Niacinamide+TXA · Dive-In · with_inci **17**
-- [x] **Beauty of Joseon·ROUND LAB 공식 INCI** — CPNP 3건 + Dokdo/Birch · with_inci **22**
-- [x] **SKIN1004·PURITO·Klairs·AXIS-Y 공식 INCI** — with_inci **26**
-- [x] **numbuzin·PURITO sun·AXIS-Y sun 공식 INCI** — with_inci **29**
-- [x] **mixsoon·Isntree (US DailyMed) 공식 INCI** — with_inci **31**
-- [x] **SKIN1004 Hyalu-Cica Water-Fit Sun (US DailyMed)** — with_inci **32**
-- [x] **heimish All Clean Balm (US PDP)** — with_inci **33**
-- [x] **AMOREPACIFIC·Haruharu·Etude SoonJung 공식 INCI** — with_inci **36**
-- [x] **Lador Hydro LPP·Perfect Hair Fill-up 공식 INCI** — with_inci **38**
-- [x] **medicube·Dr.Jart Cicapair·MISSHA BB(13/21/23) 공식 INCI** — with_inci **43**
-- [x] **Sulwhasoo First Care VI·COSRX Clear Fit Patch 공식 INCI** — with_inci **45**
-- [x] **mise en scène Perfect Serum Original 공식 INCI** — with_inci **46**
-- [x] **mise shampoo·goodal eye·ETUDE/CLIO/PERIPERA mascara 공식 INCI** — with_inci **51**
-- [x] **innisfree Green Tea Seed Serum·SOME BY MI Miracle Toner 공식 INCI** — with_inci **53**
-- [x] **espoir Pro Tailor Be Glow Cushion Beige/Ivory/Petal 공식 INCI** — with_inci **56**
-- [x] **TOCOBO Cotton Soft Sun Stick 공식 INCI** — with_inci **57** (Soft ≠ Airy)
-- [x] **잔여 27건 OBF·공식몰 재탐색** — harvest/apply **0** · with_inci 57 유지 (공식 verbatim 미확보)
-- [x] **Snail 96 Staging 이미지 복구** — 68B → 26,610B 공식 이미지 · 공개 9건 **9/9** 자동 검증
-- [x] **로컬 출시 준비 검사** — `check:production` · `check:release-security` · `test:smoke` 통과
-- [ ] **main 병합 · Production 배포** — 채팅에 **「main 병합 진행」** / **「Production 배포 진행」** 명시 후
-- [ ] 잔여 27 heroes 공식 INCI — **BLOCKED** (패키징·공식 고시 JS/라벨 확보 시 재개)
-- [ ] 브랜드 terms/robots 승인 후 추가 공식 수집 채널
-- [ ] Production `AI_PROVIDER` ≠ mock 확인 (Vercel Dashboard)
-- [ ] Supabase Auth Site URL / Redirect URLs Production 도메인 확인
-- [x] **A안 dry-run:** Staging COSRX 8건 vs Production 중복 조회 (신규 5 · 스킵 3)
-- [x] **A안 스모크:** Production id **188** Good Morning Gel Cleanser
-- [x] **A안 나머지 4건:** id **189~192** (AHA-BHA / Hydrium / Niacinamide 15 / 6 Peptide)
-- [ ] main 병합 · Production 배포 — **승인 후**
-- 판정: **대기** (main/배포 명시 승인 · Dashboard `AI_PROVIDER`/Auth URL 확인)
+**현재 단일 목표:** 한국 MVP 디자인 및 핵심 사용자 여정 완성  
+(상세: `docs/MVP_DESIGN_COMPLETION_PLAN.md` · `docs/AUTOMATED_MVP_EXECUTION_PLAN.md` Phase B)
+
+- [x] **Phase A** — 현황판·`check:mvp`·CI·자동화 정책·워크스테이션 병렬 기반 (`automation-mvp-completion`)
+- [ ] **Phase B** — 홈→분석→문진→결과→인증→마이 디자인/여정
+- [ ] **Phase C** — Staging 제품·이미지·판매처 (Production DB 쓰기 금지)
+- [ ] **Phase D** — 3·7·15·30 체크인 UX
+- [ ] **Phase E** — 최종 게이트 · Production 준비 체크리스트 (**배포는 승인 후**)
+
+### 최근 완료 (요약)
+
+- [x] main 병합 완료 (`backup-sprint14-20260713` → `main` / `2b17f5f`) — **앱 Production 배포는 별개·미실행**
+- [x] Preview SSO UI · Staging 대체 검증 · 로컬 출시 준비 검사
+- [x] Staging INCI with_inci **57** · 잔여 27 **BLOCKED**
+- [x] A안 Production DB 신규 5건(id 188~192) — media/offer 없음 · verified_at NULL
+- [x] Snail 96 이미지 복구 · 공개 9/9
+
+### 보류 / BLOCKED
+
+- [ ] Production 애플리케이션 배포 — **「Production 배포 진행」** 승인 후
+- [ ] 잔여 27 heroes 공식 INCI — **BLOCKED**
+- [ ] Production `AI_PROVIDER` / Auth URL Dashboard 확인 — Phase E
+- 판정: **디자인·여정 우선** (배포 대기열로 혼동하지 말 것)
 
 
 ---

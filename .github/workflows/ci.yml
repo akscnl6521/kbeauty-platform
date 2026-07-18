@@ -2,17 +2,28 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - automation-mvp-completion
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# Safety: never write to any database from this workflow.
+# Do not inject Production Supabase URL/service role into jobs below.
+env:
+  CATALOG_INGESTION_ENABLED: "false"
+  CATALOG_AUTO_PROMOTE: "false"
+  CATALOG_CRON_ENABLED: "false"
+  MVP_CHECK: "1"
+
 jobs:
-  build:
-    name: Build
+  mvp-gate:
+    name: MVP gate (static)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,12 +38,65 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Guard — refuse Production secrets in CI
+        run: |
+          set -euo pipefail
+          PROD_REF="${PRODUCTION_SUPABASE_PROJECT_REF:-rhfrmvkjsummaylpzmns}"
+          if [ -n "${NEXT_PUBLIC_SUPABASE_URL:-}" ] && echo "$NEXT_PUBLIC_SUPABASE_URL" | grep -qi "$PROD_REF"; then
+            echo "ABORT: NEXT_PUBLIC_SUPABASE_URL points at Production ref in CI"
+            exit 2
+          fi
+          if [ "${APP_ENV:-}" = "production" ] || [ "${CATALOG_DATABASE_ENV:-}" = "production" ]; then
+            echo "ABORT: APP_ENV/CATALOG_DATABASE_ENV=production is forbidden in CI"
+            exit 2
+          fi
+          if [ "${VERCEL_ENV:-}" = "production" ]; then
+            echo "ABORT: VERCEL_ENV=production is forbidden in CI"
+            exit 2
+          fi
+          echo "OK: no Production write environment detected"
+
+      - name: ESLint
+        run: npm run lint
+        continue-on-error: true
+        # Pre-existing lint debt is reported but does not block MVP static gate.
+        # Track cleanup separately; build/smoke/journey/quality/security must pass.
+
       - name: Build
         run: npm run build
         env:
-          # Public placeholders so Next build can compile without real secrets
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
           NEXT_PUBLIC_SUPABASE_ANON_KEY: public-anon-key-for-ci-build-only
+          AI_PROVIDER: mock
+
+      - name: Smoke (static)
+        run: npm run test:smoke
+        env:
+          SMOKE_MODE: static
+
+      - name: Journey selftest
+        run: npm run test:journey
+
+      - name: Quality regression
+        run: npm run test:quality
+
+      - name: Release security
+        run: npm run check:release-security
+
+      - name: Responsive layout
+        run: npm run check:responsive
+
+      - name: Production readiness (static)
+        run: npm run check:production
+
+      - name: Summarize skipped secret-dependent checks
+        run: |
+          echo "## SKIPPED (no Staging secrets in CI)"
+          echo "- check:staging-quality — needs NEXT_PUBLIC_SUPABASE_URL (Staging) + SUPABASE_SERVICE_ROLE_KEY"
+          echo "- check:preview-quality — needs Preview BASE_URL + SSO / substitute path"
+          echo "- check:preview-substitute — needs Staging service role (non-Production)"
+          echo "- check:deployment-env — needs real deployment env presence (local/Vercel)"
+          echo "These are not treated as code failures."
 
   migration-files:
     name: Check migration files
@@ -55,3 +119,12 @@ jobs:
             exit 1
           fi
           echo "OK: no CREATE OR REPLACE POLICY"
+
+      - name: Ban destructive SQL keywords in new CI path (advisory)
+        run: |
+          # Soft advisory: warn on TRUNCATE/DROP in migrations (do not auto-apply in CI)
+          if grep -RIn --include='*.sql' -E '\b(TRUNCATE|DROP\s+TABLE)\b' supabase/migrations; then
+            echo "::warning::Destructive SQL patterns found in migrations — never auto-apply against Production from CI"
+          else
+            echo "OK: no TRUNCATE/DROP TABLE patterns"
+          fi

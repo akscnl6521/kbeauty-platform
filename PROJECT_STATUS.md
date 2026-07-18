@@ -1,12 +1,35 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-16
+최종 갱신: 2026-07-18
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** 채팅에 **「Production 배포 진행」** (명시 승인 전 금지).  
-**방금 완료:** main 병합 승인·실행 (`backup-sprint14-20260713` → main).  
-**운영 메모:** Preview 이미지·A안 5건·Snail 96 복구 완료 · Production 배포 **안 함**.
+**다음 작업:** **한국 MVP 디자인 및 핵심 사용자 여정 완성** (`docs/MVP_DESIGN_COMPLETION_PLAN.md` Phase B).  
+**다음이 아닌 것:** Production 배포 · main 추가 병합 · Production DB 쓰기.  
+**방금 완료:** `automation-mvp-completion` 브랜치 — 통합 현황판·`check:mvp`·CI 강화·자동화 정책/계획·워크스테이션 병렬 기반.  
+**운영 메모:** main 코드 병합은 이미 완료(`2b17f5f`). Production **앱 배포는 안 함**. Production DB는 A안 COSRX **5건만** 반영.
+
+### 사실 고정 (혼선 제거)
+
+| 항목 | 실제 상태 |
+|------|-----------|
+| main 병합 (`backup-sprint14` → main) | **완료** |
+| Production 애플리케이션 배포 | **미실행** |
+| Production DB 카탈로그 | **부분** (id 188~192, verified_at NULL, media/offer 없음) |
+| Preview 검증 | **완료** (SSO UI + Staging 대체) |
+| 전체 플랫폼 vs 한국 MVP | 전체 ~58% · 한국 MVP ~72% · 디자인이 병목 (`PROJECT_DASHBOARD.md`) |
+| 통합 현황판 | `PROJECT_DASHBOARD.md` |
+| 자동화 정책 | `docs/AUTOMATION_POLICY.md` |
+| 실행 계획 | `docs/AUTOMATED_MVP_EXECUTION_PLAN.md` |
+
+### 2026-07-18 자동화 MVP 기반 (Phase A)
+
+| 항목 | 값 |
+|------|-----|
+| 브랜치 | `automation-mvp-completion` |
+| 명령 | `npm run check:mvp` · `npm run check:parallel` · `npm run report:system` |
+| CI | `.github/workflows/ci.yml` — 본 브랜치 push + main PR · DB write 없음 |
+| Production / main | 미배포 · 본 작업에서 main 미병합 |
 
 ### 2026-07-16 main 병합 승인
 
