@@ -76,7 +76,7 @@ export function LoginForm() {
           disabled={busy}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? errorId : undefined}
-          className="mt-1 w-full rounded-lg border border-[#E8DFD8] bg-white px-3 py-2.5 text-base"
+          className="kb-input mt-1"
         />
       </div>
       <div>
@@ -94,12 +94,12 @@ export function LoginForm() {
             disabled={busy}
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? errorId : undefined}
-            className="min-w-0 flex-1 rounded-lg border border-[#E8DFD8] bg-white px-3 py-2.5 text-base"
+            className="kb-input min-w-0 flex-1"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="touch-target shrink-0 rounded-lg border border-[#E8DFD8] px-3 text-xs text-[#C2185B]"
+            className="kb-btn kb-btn-secondary shrink-0 px-3 text-xs"
             aria-pressed={showPassword}
           >
             {showPassword ? "숨기기" : "보기"}
@@ -107,25 +107,25 @@ export function LoginForm() {
         </div>
       </div>
       {error ? (
-        <p id={errorId} role="alert" className="text-sm text-rose-700">
+        <p id={errorId} role="alert" className="kb-status-error">
           {customerAuthErrorMessage(error)}
         </p>
       ) : null}
       <button
         type="submit"
         disabled={busy}
-        className="touch-target w-full rounded-lg bg-[#C2185B] py-2.5 font-semibold text-white disabled:opacity-60"
+        className="kb-btn kb-btn-primary w-full"
       >
         {busy ? "로그인 중…" : "로그인"}
       </button>
       <div className="flex justify-between gap-3 text-sm">
         <Link
           href={`/signup?next=${encodeURIComponent(next)}`}
-          className="text-[#C2185B] underline"
+          className="text-[var(--brand)] underline-offset-4 hover:underline"
         >
           회원가입
         </Link>
-        <Link href="/forgot-password" className="text-[#C2185B] underline">
+        <Link href="/forgot-password" className="text-[var(--brand)] underline-offset-4 hover:underline">
           비밀번호 찾기
         </Link>
       </div>

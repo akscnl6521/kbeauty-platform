@@ -572,28 +572,37 @@ function ResultsPageInner() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-white">
-        <p className="text-sm text-gray-500">
+      <div className="kb-surface flex min-h-screen items-center justify-center px-6">
+        <div className="kb-status-info max-w-sm text-center" role="status" aria-live="polite">
           {locale === "ko"
-            ? "추천을 불러오는 중…"
+            ? "추천을 정리하는 중…"
             : locale === "ja"
               ? "おすすめを読み込み中…"
               : "Loading recommendations..."}
-        </p>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-white px-6">
-        <p className="text-sm text-red-600">{error}</p>
+      <div className="kb-surface flex min-h-screen flex-col items-center justify-center gap-4 px-6">
+        <div className="kb-status-error max-w-md text-center" role="alert">
+          {error}
+        </div>
+        <Link href="/analyze" className="kb-btn kb-btn-primary">
+          {locale === "ko"
+            ? "다시 분석하기"
+            : locale === "ja"
+              ? "もう一度分析"
+              : "Analyze again"}
+        </Link>
         <Link
           href="/quiz"
-          className="text-sm font-semibold text-[#C2185B] underline hover:no-underline"
+          className="text-sm font-semibold text-[var(--brand)] underline underline-offset-4"
         >
           {locale === "ko"
-            ? "퀴즈로 돌아가기"
+            ? "문진으로 돌아가기"
             : locale === "ja"
               ? "クイズに戻る"
               : "Back to Quiz"}
@@ -603,7 +612,7 @@ function ResultsPageInner() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
+    <div className="kb-surface min-h-screen overflow-x-hidden text-[#1A1A1A]">
       <Head>
         <title>
           {locale === "ko"
@@ -627,64 +636,54 @@ function ResultsPageInner() {
         {/* Header */}
         <header className="mb-6 flex min-w-0 flex-col gap-4 sm:mb-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#B8860B]">
+            <p className="kb-eyebrow">
               {locale === "ko"
-                ? "K-뷰티 추천"
+                ? "분석 결과"
                 : locale === "ja"
                   ? "K-Beautyおすすめ"
                   : "K-Beauty Recommendations"}
             </p>
-            <h1 className="mt-3 font-['Playfair_Display',serif] text-2xl font-semibold tracking-tight text-[#1A1A1A] sm:text-3xl md:text-4xl">
+            <h1 className="kb-display mt-3 text-balance text-2xl tracking-tight sm:text-3xl md:text-4xl">
               {messages.results_title}
             </h1>
-            <p className="mt-2 text-sm text-gray-500">{subtitle}</p>
+            <p className="kb-lead mt-2 text-sm">{subtitle}</p>
             {aiApplied ? (
               <div className="mt-3">
-                <span className="inline-flex rounded-full border border-pink-200 bg-white px-3 py-1 text-xs font-semibold text-[#C2185B]">
+                <span className="text-xs font-semibold text-[var(--brand)]">
                   {aiBadgeText}
                 </span>
               </div>
             ) : null}
-            <Link
-              href="/login?next=%2Fonboarding"
-              className="touch-target mt-4 inline-flex items-center rounded-lg bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
-            >
-              내 피부 관리 시작하기
-            </Link>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <Link href="/my" className="kb-btn kb-btn-primary">
+                내 피부 관리로 이동
+              </Link>
+              <Link href="/my/routine" className="kb-btn kb-btn-secondary">
+                루틴 보기
+              </Link>
+            </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2 text-sm">
+          <div className="flex shrink-0 items-center gap-2 text-sm" role="group" aria-label="언어">
             <button
               type="button"
               onClick={() => setLocale("en")}
-              className={`rounded-full px-3 py-1 transition ${
-                locale === "en"
-                  ? "bg-[#C2185B] text-white"
-                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
-              }`}
+              className={`kb-chip px-3 ${locale === "en" ? "is-selected" : ""}`}
             >
-              🇺🇸
+              EN
             </button>
             <button
               type="button"
               onClick={() => setLocale("ja")}
-              className={`rounded-full px-3 py-1 transition ${
-                locale === "ja"
-                  ? "bg-[#C2185B] text-white"
-                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
-              }`}
+              className={`kb-chip px-3 ${locale === "ja" ? "is-selected" : ""}`}
             >
-              🇯🇵
+              JA
             </button>
             <button
               type="button"
               onClick={() => setLocale("ko")}
-              className={`rounded-full px-3 py-1 transition ${
-                locale === "ko"
-                  ? "bg-[#C2185B] text-white"
-                  : "border border-pink-200 text-gray-700 hover:bg-pink-50"
-              }`}
+              className={`kb-chip px-3 ${locale === "ko" ? "is-selected" : ""}`}
             >
-              🇰🇷
+              KO
             </button>
           </div>
         </header>
@@ -1388,7 +1387,7 @@ function ResultsPageInner() {
                               ? "刺激の強い活性成分は除外しています。成分と選択項目のつながりだけ参考にしてください。"
                               : "Strong actives are excluded. Use ingredient–selection links as reference only."}
                         </p>
-                        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div className="mt-4">
                           {rankedProducts.map((ranked, index) => (
                             <RecommendedProductCard
                               key={ranked.product.id}
@@ -1406,15 +1405,15 @@ function ResultsPageInner() {
                     ) : null}
                   </div>
                 ) : rankedProducts.length > 0 ? (
-                  <div className="rounded-2xl border border-[#C2185B]/25 bg-gradient-to-b from-pink-50/80 to-white p-4 sm:p-6">
-                    <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900 sm:text-2xl">
+                  <div className="border-t border-[var(--border-soft)] pt-6">
+                    <h3 className="kb-display text-xl text-gray-900 sm:text-2xl">
                       {locale === "ko"
                         ? "나를 위한 핵심 추천 제품"
                         : locale === "ja"
                           ? "あなたへのコアおすすめ"
                           : "Your core recommendations"}
                     </h3>
-                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-gray-600">
+                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[var(--text-muted)]">
                       {locale === "ko"
                         ? "한국에서 판매처·원화 가격·재고·구매 링크가 확인된 제품만 표시합니다."
                         : locale === "ja"
@@ -1442,10 +1441,8 @@ function ResultsPageInner() {
                             key={opt.code}
                             type="button"
                             onClick={() => setShippingCountry(opt.code)}
-                            className={`min-h-9 rounded-full px-3.5 text-xs font-semibold transition ${
-                              countryCode === opt.code
-                                ? "bg-[#C2185B] text-white"
-                                : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
+                            className={`kb-chip px-3.5 text-xs ${
+                              countryCode === opt.code ? "is-selected" : ""
                             }`}
                           >
                             {getShippingCountryLabel(opt.code, locale)}
@@ -1453,7 +1450,7 @@ function ResultsPageInner() {
                         ))}
                       </div>
                     </div>
-                    <p className="mt-2 text-[11px] text-gray-500">
+                    <p className="mt-2 text-[11px] text-[var(--text-subtle)]">
                       {locale === "ko"
                         ? "피부 적합도와 성분 매칭을 통과하고, 한국 판매처·가격·재고가 확인된 제품만 핵심 추천에 표시합니다."
                         : locale === "ja"
@@ -1461,7 +1458,7 @@ function ResultsPageInner() {
                           : "Core picks require skin-fit and ingredient match plus confirmed KR retailer, price, and stock."}
                     </p>
 
-                    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="mt-2">
                       {rankedProducts.map((ranked, index) => (
                         <RecommendedProductCard
                           key={ranked.product.id}
@@ -1475,15 +1472,15 @@ function ResultsPageInner() {
                     </div>
                   </div>
                 ) : storageReady && savedRecommendation != null ? (
-                  <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-5 sm:p-6">
-                    <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900">
+                  <div className="kb-empty">
+                    <h3 className="text-lg font-semibold text-gray-900">
                       {locale === "ko"
                         ? "나를 위한 핵심 추천 제품"
                         : locale === "ja"
                           ? "あなたへのコアおすすめ"
                           : "Your core recommendations"}
                     </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-gray-700">
+                    <p className="mt-1 max-w-md text-sm leading-relaxed text-[var(--text-muted)]">
                       {locale === "ko"
                         ? "현재 조건에 맞고 판매처까지 확인된 제품을 준비 중입니다."
                         : locale === "ja"

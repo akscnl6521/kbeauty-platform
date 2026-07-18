@@ -30,7 +30,16 @@ mustInclude("src/components/site/PublicChrome.tsx", "skip-to-content", "skip lin
 mustInclude("src/components/site/PublicChrome.tsx", "main-content", "main landmark id");
 mustInclude("src/components/site/PublicChrome.tsx", "/admin", "admin chrome skip");
 mustInclude("src/app/page.tsx", "text-balance", "hero wrap helper");
-mustInclude("src/app/page.tsx", "max-w-[var(--site-content-max)]", "content max width");
+mustInclude("src/app/page.tsx", "kb-container", "content max width container");
+mustInclude("src/app/globals.css", "--site-content-max", "content max width token");
+mustInclude("src/app/page.tsx", "피부 분석 시작하기", "primary home CTA");
+mustInclude("src/app/page.tsx", "overflow-x-hidden", "home overflow guard");
+mustInclude("src/app/globals.css", "kb-btn", "button token");
+mustInclude("src/app/globals.css", "kb-chip", "chip token");
+mustInclude("src/app/analyze/page.tsx", "JourneyProgress", "analyze progress");
+mustInclude("src/app/results/page.tsx", "나를 위한 핵심 추천 제품", "results core section");
+mustInclude("src/components/beauty/DomainQuizClient.tsx", "JourneyProgress", "quiz progress");
+mustInclude("src/components/recommendation/RecommendedProductCard.tsx", "추천 이유", "product reason first");
 
 // Viewport meta is provided by Next.js app router by default; ensure layout doesn't remove it
 const layout = read("src/app/layout.tsx");

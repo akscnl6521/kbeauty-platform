@@ -6,6 +6,13 @@
 
 ## 2026-07-18
 
+### Phase B — 한국 MVP 핵심 여정·디자인
+
+- 디자인 토큰/`kb-*` 유틸 · `JourneyProgress` · 홈 CTA 위계 · analyze 수동 3단계 · 문진 BeautyShell 통일
+- 결과 제품 카드: 추천 이유 우선·점수 절제·판매처 안내·리스트형 위계
+- 로그인·회원가입·`/my` 진입 구조 정리 · smoke/responsive 정적 검사 보강
+- 추천 로직·DB·Production 미변경 · 브랜치 `automation-mvp-completion`
+
 ### 자동화 MVP 완성 워크플로 기반 (Phase A)
 
 - 브랜치 `automation-mvp-completion` (main 미병합 · Production 미배포 · Prod DB 미변경)

@@ -4,10 +4,31 @@
 
 ## 다음 작업 (단일 · 재개 지침)
 
-**다음 작업:** **한국 MVP 디자인 및 핵심 사용자 여정 완성** (`docs/MVP_DESIGN_COMPLETION_PLAN.md` Phase B).  
-**다음이 아닌 것:** Production 배포 · main 추가 병합 · Production DB 쓰기.  
-**방금 완료:** `automation-mvp-completion` 브랜치 — 통합 현황판·`check:mvp`·CI 강화·자동화 정책/계획·워크스테이션 병렬 기반.  
-**운영 메모:** main 코드 병합은 이미 완료(`2b17f5f`). Production **앱 배포는 안 함**. Production DB는 A안 COSRX **5건만** 반영.
+**다음 작업:** **Phase C — 제품·이미지·판매처 데이터 자동화 및 추천 가능 제품 확대**  
+**다음이 아닌 것:** Production 배포 · main 병합 · Production DB 쓰기  
+**방금 완료:** Phase B — 한국 MVP 핵심 여정·디자인 (`automation-mvp-completion`)  
+**운영 메모:** 공개 제품 상세/비교 라우트는 아직 미구현(후속). 추천 로직·Top5 적격 규칙은 변경하지 않음.
+
+### 사실 고정 (혼선 제거)
+
+| 항목 | 실제 상태 |
+|------|-----------|
+| main 병합 (`backup-sprint14` → main) | **완료** (이전) |
+| Production 애플리케이션 배포 | **미실행** |
+| Production DB 카탈로그 | **부분** (A안 5건) |
+| Preview 검증 | **완료** 이력 · Phase B 후 Preview 재확인 권장 |
+| Phase B 디자인/여정 | **부분→대폭 개선** (홈·분석 단계·문진 통일·결과 카드·인증·마이 진입) |
+| 통합 현황판 | `PROJECT_DASHBOARD.md` |
+
+### 2026-07-18 Phase B 핵심 여정·디자인
+
+| 항목 | 값 |
+|------|-----|
+| 브랜치 | `automation-mvp-completion` |
+| 디자인 토큰 | `globals.css` (`kb-btn`/`kb-chip`/`kb-panel`/`kb-container` 등) |
+| 주요 화면 | `/` · `/analyze`(수동 3단계) · quiz `DomainQuizClient` · `/results` · `/login` `/signup` · `/my` |
+| 검증 | `check:responsive` · `test:smoke` · `test:journey` · `test:quality` · `build` · `check:mvp` |
+| Production / main | 미배포 · 미병합 |
 
 ### 사실 고정 (혼선 제거)
 

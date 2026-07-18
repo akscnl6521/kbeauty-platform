@@ -18,6 +18,7 @@ import {
 import { MyCareNav } from "./MyCareNav";
 import { journeyActionHref } from "@/lib/user/next-action";
 import { resolveUserJourney } from "@/lib/user/journey";
+import { StatusMessage } from "@/components/ui/JourneyChrome";
 
 /**
  * Personal care home — what to do today.
@@ -159,85 +160,103 @@ export default function MyCareHomePage() {
   });
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl bg-[#FAF7F5] px-4 py-10 text-gray-900">
-      <h1 className="text-3xl font-bold tracking-tight">내 케어</h1>
-      <p className="mt-2 text-sm text-gray-600">
+    <main className="kb-surface mx-auto min-h-screen max-w-3xl overflow-x-hidden px-4 py-10 text-gray-900">
+      <p className="kb-eyebrow">내 관리</p>
+      <h1 className="kb-display mt-2 text-3xl">내 케어</h1>
+      <p className="kb-lead mt-2 text-sm">
         오늘은 무엇을 하면 될까요? 정상 흐름은 자동으로, 위험 신호만 강조합니다.
       </p>
       <MyCareNav current="/my" />
 
-      <p className="mt-2 text-xs text-gray-500">데이터 출처: {sourceLabel}</p>
+      <p className="mt-2 text-xs text-[var(--text-subtle)]">데이터 출처: {sourceLabel}</p>
       {hydrated?.source === "local" ? (
-        <p className="mt-2 text-xs text-rose-700">서버 동기화 실패, 잠시 후 다시 시도해 주세요.</p>
+        <div className="mt-3">
+          <StatusMessage tone="error">서버 동기화 실패, 잠시 후 다시 시도해 주세요.</StatusMessage>
+        </div>
       ) : null}
 
       {savedMsg ? (
-        <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-900">
+        <p className="mt-4 kb-status-info text-sm text-emerald-900" role="status">
           {savedMsg}
         </p>
       ) : null}
 
-      <section className="mt-8 rounded-2xl border border-pink-200 bg-white px-4 py-4">
+      <section className="kb-panel mt-8">
         <h2 className="text-lg font-semibold">지금 할 일</h2>
-        <p className="mt-2 text-sm text-gray-600">{journey.label}</p>
+        <p className="mt-2 text-sm text-[var(--text-muted)]">{journey.label}</p>
         <Link
           href={journeyActionHref(journey.primaryAction)}
-          className="touch-target mt-3 inline-flex items-center rounded-lg bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
+          className="kb-btn kb-btn-primary mt-4"
         >
           {journey.label}
         </Link>
       </section>
-      <section className="mt-6 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4">
-        <h2 className="text-lg font-semibold">케어 현황</h2>
-        {due ? (
-          <div className="mt-3 text-sm">
-            <p>
-              Day {due.day} 체크인 · {countdownLabel(due.dueAt)} · {due.status}
+
+      <section className="mt-6 space-y-4">
+        <div className="border-t border-[var(--border-soft)] pt-5">
+          <h2 className="text-lg font-semibold">다음 체크인</h2>
+          {due ? (
+            <div className="mt-3 text-sm">
+              <p>
+                Day {due.day} · {countdownLabel(due.dueAt)} · {due.status}
+              </p>
+              <Link
+                href={`/my/check-ins/${due.id}`}
+                className="kb-btn kb-btn-primary mt-3"
+              >
+                체크인 하기
+              </Link>
+            </div>
+          ) : (
+            <p className="mt-3 text-sm text-[var(--text-muted)]">
+              아직 예약한 체크인이 없습니다. 분석을 저장하면 Day 3/7/15/30이
+              준비됩니다.
             </p>
-            <Link
-              href={`/my/check-ins/${due.id}`}
-              className="touch-target mt-3 inline-flex items-center rounded-lg bg-[#C2185B] px-4 py-2 font-semibold text-white"
-            >
-              체크인 하기
+          )}
+        </div>
+
+        <div className="border-t border-[var(--border-soft)] pt-5">
+          <h2 className="text-lg font-semibold">현재 루틴</h2>
+          <p className="mt-2 text-sm text-[var(--text-muted)]">
+            활성 단계 {activeItems}개
+          </p>
+          <Link href="/my/routine" className="mt-2 inline-block text-sm font-semibold text-[var(--brand)] underline-offset-4 hover:underline">
+            루틴 보기
+          </Link>
+        </div>
+
+        <div className="border-t border-[var(--border-soft)] pt-5">
+          <h2 className="text-lg font-semibold">최근 분석·추천</h2>
+          <p className="mt-2 text-sm text-[var(--text-muted)]">
+            분석 기록 {dashboard?.sessions.length ?? 0}건 · 알림 {unread}건
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Link href="/my/analyses" className="kb-btn kb-btn-secondary text-sm">
+              분석 기록
+            </Link>
+            <Link href="/my/recommendations" className="kb-btn kb-btn-secondary text-sm">
+              추천 기록
+            </Link>
+            <Link href="/my/settings" className="kb-btn kb-btn-ghost text-sm">
+              설정
             </Link>
           </div>
-        ) : (
-          <p className="mt-3 text-sm text-gray-600">
-            아직 시작한 케어가 없습니다. 피부 정보를 설정하고 내 루틴을 시작해 보세요.
-          </p>
-        )}
-        {!dashboard?.sessions.length ? (
-          <Link href="/onboarding" className="mt-3 inline-block text-sm font-medium text-[#C2185B] underline">
-            피부 관리 설정하기
-          </Link>
-        ) : null}
-        <button
-          type="button"
-          onClick={importLatestAnalysis}
-          className="touch-target mt-4 rounded-lg border border-[#E8DFD8] px-3 py-2 text-sm"
-        >
-          최근 분석 결과 저장·추적 시작
-        </button>
-      </section>
-
-      <section className="mt-6 grid gap-3 sm:grid-cols-3 text-sm">
-        <div className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-3">
-          <p className="text-xs text-gray-500">알림</p>
-          <p className="text-xl font-semibold tabular-nums">{unread}</p>
-        </div>
-        <div className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-3">
-          <p className="text-xs text-gray-500">활성 루틴 단계</p>
-          <p className="text-xl font-semibold tabular-nums">{activeItems}</p>
-        </div>
-        <div className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-3">
-          <p className="text-xs text-gray-500">분석 기록</p>
-          <p className="text-xl font-semibold tabular-nums">
-            {dashboard?.sessions.length ?? 0}
-          </p>
+          {!dashboard?.sessions.length ? (
+            <Link href="/onboarding" className="mt-3 inline-block text-sm font-medium text-[var(--brand)] underline-offset-4 hover:underline">
+              피부 관리 설정하기
+            </Link>
+          ) : null}
+          <button
+            type="button"
+            onClick={importLatestAnalysis}
+            className="kb-btn kb-btn-secondary mt-4 text-sm"
+          >
+            최근 분석 결과 저장·추적 시작
+          </button>
         </div>
       </section>
 
-      <p className="mt-8 text-xs text-gray-500">
+      <p className="mt-8 text-xs text-[var(--text-subtle)]">
         의료 진단·치료를 제공하지 않습니다. 심한 증상은 전문가·응급서비스에
         문의하세요. 로그인 시 서버에 저장되며, 미로그인 시 이 기기에만
         저장됩니다.

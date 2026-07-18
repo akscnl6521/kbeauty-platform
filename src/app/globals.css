@@ -1,16 +1,40 @@
 @import "tailwindcss";
 
 :root {
+  /* Surfaces */
   --background: #faf7f5;
   --foreground: #1a1a1a;
+  --surface: #ffffff;
+  --surface-muted: #f7f1ec;
+  --border-soft: #e8dfd8;
+  --border-strong: #d9cdc3;
+
+  /* Brand */
   --brand: #c2185b;
-  --site-header-height: 3.5rem; /* 56px — mobile */
-  --site-content-max: 72rem; /* max-w-6xl */
+  --brand-hover: #a3154f;
+  --brand-soft: color-mix(in srgb, var(--brand) 10%, white);
+  --accent-warm: #9a6b3f;
+  --text-muted: #5c564f;
+  --text-subtle: #8a8279;
+  --danger: #b42318;
+  --danger-soft: #fef3f2;
+  --warning: #92400e;
+  --warning-soft: #fffbeb;
+  --success: #066;
+
+  /* Layout */
+  --site-header-height: 3.5rem;
+  --site-content-max: 72rem;
+  --site-content-narrow: 42rem;
+  --section-gap: 3.5rem;
+  --radius-control: 9999px;
+  --radius-panel: 1.25rem;
 }
 
 @media (min-width: 768px) {
   :root {
-    --site-header-height: 4rem; /* 64px — desktop */
+    --site-header-height: 4rem;
+    --section-gap: 4.5rem;
   }
 }
 
@@ -39,15 +63,231 @@ body {
 }
 
 .kb-display {
-  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
-  font-weight: 650;
+  font-family: "Playfair Display", "Iowan Old Style", Georgia, serif;
+  font-weight: 700;
   color: #2a1c14;
+  letter-spacing: -0.02em;
 }
 
 .kb-noise {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
 }
 
+.kb-container {
+  width: 100%;
+  max-width: var(--site-content-max);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .kb-container {
+    padding-inline: 1.5rem;
+  }
+}
+
+.kb-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.kb-lead {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.kb-panel {
+  border: 1px solid var(--border-soft);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  border-radius: var(--radius-panel);
+  padding: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .kb-panel {
+    padding: 1.75rem;
+  }
+}
+
+.kb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-control);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.kb-btn-primary {
+  background: var(--brand);
+  color: #fff;
+}
+
+.kb-btn-primary:hover {
+  background: var(--brand-hover);
+}
+
+.kb-btn-primary:disabled {
+  cursor: not-allowed;
+  background: #d1cbc4;
+  color: #fff;
+}
+
+.kb-btn-secondary {
+  border: 1px solid var(--border-soft);
+  background: var(--surface);
+  color: #2a2420;
+}
+
+.kb-btn-secondary:hover {
+  border-color: var(--border-strong);
+  background: #fff;
+}
+
+.kb-btn-ghost {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--brand);
+}
+
+.kb-btn-ghost:hover {
+  background: var(--brand-soft);
+}
+
+.kb-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--border-soft);
+  background: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #3a342f;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.kb-chip[aria-pressed="true"],
+.kb-chip.is-selected {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+
+.kb-input {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-soft);
+  background: #fff;
+  padding: 0.65rem 0.85rem;
+  font-size: 1rem;
+  color: var(--foreground);
+}
+
+.kb-input:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.kb-progress-track {
+  height: 0.35rem;
+  overflow: hidden;
+  border-radius: var(--radius-control);
+  background: #efe6de;
+}
+
+.kb-progress-fill {
+  height: 100%;
+  border-radius: var(--radius-control);
+  background: var(--brand);
+  transition: width 0.35s ease;
+}
+
+.kb-status-error {
+  border: 1px solid #f3c4bf;
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.kb-status-info {
+  border: 1px solid var(--border-soft);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.kb-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 10rem;
+  border-radius: var(--radius-panel);
+  border: 1px dashed var(--border-soft);
+  background: var(--surface-muted);
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--text-subtle);
+}
+
+.kb-sticky-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  margin-inline: -1.25rem;
+  margin-bottom: -1.25rem;
+  padding: 0.85rem 1.25rem calc(0.85rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--border-soft);
+  background: color-mix(in srgb, #fff 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+@media (min-width: 640px) {
+  .kb-sticky-actions {
+    margin-inline: -1.75rem;
+    margin-bottom: -1.75rem;
+    padding-inline: 1.75rem;
+  }
+}
+
+.kb-media-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  background:
+    linear-gradient(145deg, #f3ebe3 0%, #faf6f2 48%, #efe6de 100%);
+  color: var(--text-subtle);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 640px) {
+  .kb-media-fallback {
+    aspect-ratio: 4 / 3;
+  }
+}
 
 /* Focus for keyboard users */
 :focus-visible {
@@ -85,4 +325,11 @@ body {
 .touch-target {
   min-height: 44px;
   min-width: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-progress-fill,
+  .kb-btn {
+    transition: none;
+  }
 }

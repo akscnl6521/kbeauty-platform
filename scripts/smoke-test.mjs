@@ -11,6 +11,9 @@ const failures = [];
 const staticRoutes = {
   "/": "src/app/page.tsx",
   "/analyze": "src/app/analyze/page.tsx",
+  "/results": "src/app/results/page.tsx",
+  "/quiz/mascara": "src/app/quiz/mascara/page.tsx",
+  "/quiz/hair": "src/app/quiz/hair/page.tsx",
   "/login": "src/app/login/page.tsx",
   "/signup": "src/app/signup/page.tsx",
   "/forgot-password": "src/app/forgot-password/page.tsx",
@@ -33,6 +36,22 @@ function runStatic() {
   for (const [route, file] of Object.entries(staticRoutes)) {
     if (!fs.existsSync(path.join(root, file))) failures.push(`${route}: missing ${file}`);
   }
+
+  const home = fs.readFileSync(path.join(root, "src/app/page.tsx"), "utf8");
+  if (!home.includes('href="/analyze"')) failures.push("home: missing analyze CTA href");
+  if (!home.includes("피부 분석 시작하기")) failures.push("home: missing primary CTA label");
+
+  const analyze = fs.readFileSync(path.join(root, "src/app/analyze/page.tsx"), "utf8");
+  if (!analyze.includes("AI 분석 시작")) failures.push("analyze: missing start analysis CTA");
+  if (!analyze.includes("navigateToResults") && !analyze.includes("/results")) {
+    failures.push("analyze: missing results navigation");
+  }
+
+  const results = fs.readFileSync(path.join(root, "src/app/results/page.tsx"), "utf8");
+  for (const needle of ["나를 위한 핵심 추천 제품", "RecommendedProductCard", "내 피부 관리"]) {
+    if (!results.includes(needle)) failures.push(`results: missing ${needle}`);
+  }
+
   if (failures.length) throw new Error(failures.join("\n"));
   console.log(`[smoke] static route inventory passed (${Object.keys(staticRoutes).length} routes)`);
 }

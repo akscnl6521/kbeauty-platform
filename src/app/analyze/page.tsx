@@ -9,6 +9,11 @@ import { useCountry } from "@/hooks/useCountry";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import { RednessObservationFields } from "@/components/analyze/RednessObservationFields";
 import {
+  JourneyProgress,
+  SectionLabel,
+  StatusMessage,
+} from "@/components/ui/JourneyChrome";
+import {
   parseRednessObservation,
   type RednessObservation,
 } from "@/lib/ai/rednessObservation";
@@ -684,6 +689,8 @@ export default function AnalyzePage() {
   const { countryCode } = useCountry();
   const router = useRouter();
   const [mode, setMode] = useState<InputMode>("photo");
+  /** 직접 입력 모드의 상담형 단계 (0=기본, 1=민감도, 2=안전·현재제품) */
+  const [manualStep, setManualStep] = useState(0);
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
@@ -1193,8 +1200,12 @@ export default function AnalyzePage() {
     }
   };
 
+  const manualStepTotal = 3;
+  const journeyStep =
+    mode === "photo" ? 1 : Math.min(manualStep + 1, manualStepTotal);
+
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1A1A]">
+    <div className="kb-surface min-h-screen overflow-x-hidden text-[#1A1A1A]">
       <Head>
         <title>
           {locale === "ko"
@@ -1214,22 +1225,30 @@ export default function AnalyzePage() {
           }
         />
       </Head>
-      <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-10">
+      <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-4 py-8 sm:px-6 sm:py-10">
         {/* Page intro */}
-        <header className="mb-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C2185B]">
+        <header className="mb-6 sm:mb-8">
+          <p className="kb-eyebrow">
             {locale === "ko"
-              ? "AI 피부 가이드"
+              ? "피부 분석"
               : locale === "ja"
                 ? "AIスキンガイド"
                 : "AI SKIN GUIDE"}
           </p>
-          <h1 className="mt-3 font-['Playfair_Display',serif] text-3xl font-bold tracking-tight md:text-4xl">
-            AI로 피부 정보를 더 빠르게 확인해보세요
+          <h1 className="kb-display mt-3 text-balance text-3xl tracking-tight md:text-4xl">
+            피부 상태를 단계적으로 정리해 보세요
           </h1>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-gray-600">
-            사진 또는 기본 정보를 바탕으로 피부 타입, 주요 고민, 관심 성분을 정리해드립니다. 이 기능은 의료적 진단이 아닌, K-Beauty 정보 탐색을 돕기 위한 분석 가이드입니다.
+          <p className="kb-lead mt-3 max-w-3xl text-sm">
+            사진 또는 기본 정보로 피부 타입·고민·관심 성분을 정리합니다. 의료
+            진단이 아니라 K-뷰티 정보 탐색을 돕는 가이드입니다.
           </p>
+          <div className="mt-5 max-w-md">
+            <JourneyProgress
+              current={journeyStep}
+              total={mode === "photo" ? 1 : manualStepTotal}
+              label="분석 진행"
+            />
+          </div>
           {/* Phase 3C: development 전용 Mock 추천 테스트 버튼 */}
           {showMockButton ? (
             <div className="mt-4">
@@ -1260,44 +1279,47 @@ export default function AnalyzePage() {
         </header>
 
         {/* Tabs */}
-        <div className="mb-6 flex flex-wrap gap-2">
+        <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="분석 방법">
           <button
             type="button"
+            role="tab"
+            aria-selected={mode === "photo"}
             onClick={() => setMode("photo")}
-            className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-              mode === "photo"
-                ? "bg-[#C2185B] text-white"
-                : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
-            }`}
+            className={`kb-chip ${mode === "photo" ? "is-selected" : ""}`}
           >
-            사진으로 분석하기
+            사진으로 분석
           </button>
           <button
             type="button"
-            onClick={() => setMode("manual")}
-            className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-              mode === "manual"
-                ? "bg-[#C2185B] text-white"
-                : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
-            }`}
+            role="tab"
+            aria-selected={mode === "manual"}
+            onClick={() => {
+              setMode("manual");
+              setManualStep(0);
+            }}
+            className={`kb-chip ${mode === "manual" ? "is-selected" : ""}`}
           >
-            직접 입력해서 시작하기
+            직접 입력
           </button>
         </div>
 
+        {loading ? (
+          <div className="kb-status-info mb-4" role="status" aria-live="polite">
+            피부를 정리하는 중입니다. 잠시만 기다려 주세요…
+          </div>
+        ) : null}
+
         {/* Input + Result */}
-        <section className="grid gap-6 md:grid-cols-2">
+        <section className="grid gap-6 lg:grid-cols-2">
           {/* Left: input */}
-          <div className="rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
+          <div className="kb-panel relative">
             {mode === "photo" ? (
               <div>
-                <p className="mb-3 text-sm font-semibold text-gray-900">
-                  사진 업로드
-                </p>
+                <SectionLabel>사진 업로드</SectionLabel>
                 <div
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={handleDrop}
-                  className="flex h-56 cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-pink-200 bg-pink-50/40 p-4 text-center text-sm text-gray-600"
+                  className="flex h-56 cursor-pointer flex-col items-center justify-center rounded-[var(--radius-panel)] border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] p-4 text-center text-sm text-[var(--text-muted)]"
                   onClick={() => {
                     const input = document.getElementById("file-input");
                     if (input) (input as HTMLInputElement).click();
@@ -1306,7 +1328,7 @@ export default function AnalyzePage() {
                   {imagePreview ? (
                     <img
                       src={imagePreview}
-                      alt="Uploaded preview"
+                      alt="업로드한 피부 사진 미리보기"
                       className="h-full w-auto rounded-2xl object-cover"
                     />
                   ) : (
@@ -1314,7 +1336,7 @@ export default function AnalyzePage() {
                       <p className="mb-1 font-medium text-gray-800">
                         사진을 업로드하세요
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-[var(--text-subtle)]">
                         밝은 조명에서 정면 사진을 권장합니다
                       </p>
                     </div>
@@ -1328,202 +1350,240 @@ export default function AnalyzePage() {
                   />
                 </div>
 
-                <p className="mt-3 text-xs text-gray-500">
-                  AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
+                <p className="mt-3 text-xs text-[var(--text-subtle)]">
+                  결과는 참고용이며 실제 피부 상태와 다를 수 있습니다.
                 </p>
 
-                <div className="mt-4">
+                <div className="kb-sticky-actions mt-4">
                   <button
                     type="button"
                     onClick={handleAnalyzePhoto}
                     disabled={!canAnalyzePhoto}
-                    className={`inline-flex items-center justify-center rounded-full px-6 py-2 text-xs font-semibold text-white shadow-sm transition ${
-                      canAnalyzePhoto
-                        ? "bg-[#C2185B] hover:bg-[#a3154f]"
-                        : "cursor-not-allowed bg-gray-300"
-                    }`}
+                    className="kb-btn kb-btn-primary w-full sm:w-auto"
                   >
-                    {loading ? "분석 중..." : "AI 분석 시작"}
+                    {loading ? "분석 중…" : "AI 분석 시작"}
                   </button>
                 </div>
               </div>
             ) : (
               <div className="space-y-5">
-                <div>
-                  <p className="mb-2 text-sm font-semibold text-gray-900">
-                    피부톤
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {(["밝은", "중간", "어두운"] as ToneKo[]).map((v) => (
+                {manualStep === 0 ? (
+                  <>
+                    <div>
+                      <SectionLabel>피부톤</SectionLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {(["밝은", "중간", "어두운"] as ToneKo[]).map((v) => (
+                          <button
+                            key={v}
+                            type="button"
+                            aria-pressed={manualTone === v}
+                            onClick={() => setManualTone(v)}
+                            className={`kb-chip ${manualTone === v ? "is-selected" : ""}`}
+                          >
+                            {v}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <SectionLabel>언더톤</SectionLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {(["웜톤", "쿨톤", "중립"] as UndertoneKo[]).map((v) => (
+                          <button
+                            key={v}
+                            type="button"
+                            aria-pressed={manualUndertone === v}
+                            onClick={() => setManualUndertone(v)}
+                            className={`kb-chip ${manualUndertone === v ? "is-selected" : ""}`}
+                          >
+                            {v}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <SectionLabel>주요 고민</SectionLabel>
+                      <p className="mb-2 text-xs text-[var(--text-subtle)]">
+                        여러 개 선택할 수 있습니다. 붉은기를 고르면 세부 관찰을
+                        이어서 입력할 수 있습니다.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {(
+                          [
+                            "붉은기",
+                            "건조함",
+                            "여드름",
+                            "색소침착",
+                            "주름",
+                            "모공",
+                            "자외선",
+                          ] as ConcernKo[]
+                        ).map((v) => {
+                          const selected = manualConcerns.includes(v);
+                          return (
+                            <button
+                              key={v}
+                              type="button"
+                              aria-pressed={selected}
+                              onClick={() => {
+                                setManualConcerns((prev) => {
+                                  const next: ConcernKo[] = selected
+                                    ? prev.filter((x) => x !== v)
+                                    : [...prev, v];
+                                  const resolved: ConcernKo[] = next.length
+                                    ? next
+                                    : ["붉은기"];
+                                  if (!resolved.includes("붉은기")) {
+                                    setRednessObservation({});
+                                  }
+                                  return resolved;
+                                });
+                              }}
+                              className={`kb-chip ${selected ? "is-selected" : ""}`}
+                            >
+                              {v}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {showRednessDetails ? (
+                      <RednessObservationFields
+                        value={rednessObservation}
+                        onChange={setRednessObservation}
+                      />
+                    ) : null}
+
+                    <div className="kb-sticky-actions flex flex-wrap gap-2">
                       <button
-                        key={v}
                         type="button"
-                        onClick={() => setManualTone(v)}
-                        className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-                          manualTone === v
-                            ? "bg-[#C2185B] text-white"
-                            : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
-                        }`}
+                        className="kb-btn kb-btn-primary"
+                        onClick={() => setManualStep(1)}
                       >
-                        {v}
+                        다음
                       </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <p className="mb-2 text-sm font-semibold text-gray-900">
-                    언더톤
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {(["웜톤", "쿨톤", "중립"] as UndertoneKo[]).map((v) => (
-                      <button
-                        key={v}
-                        type="button"
-                        onClick={() => setManualUndertone(v)}
-                        className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-                          manualUndertone === v
-                            ? "bg-[#C2185B] text-white"
-                            : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
-                        }`}
-                      >
-                        {v}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <p className="mb-2 text-sm font-semibold text-gray-900">
-                    주요 고민
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {(
-                      [
-                        "붉은기",
-                        "건조함",
-                        "여드름",
-                        "색소침착",
-                        "주름",
-                        "모공",
-                        "자외선",
-                      ] as ConcernKo[]
-                    ).map((v) => {
-                      const selected = manualConcerns.includes(v);
-                      return (
-                        <button
-                          key={v}
-                          type="button"
-                          onClick={() => {
-                            setManualConcerns((prev) => {
-                              const next: ConcernKo[] = selected
-                                ? prev.filter((x) => x !== v)
-                                : [...prev, v];
-                              const resolved: ConcernKo[] = next.length
-                                ? next
-                                : ["붉은기"];
-                              if (!resolved.includes("붉은기")) {
-                                setRednessObservation({});
-                              }
-                              return resolved;
-                            });
-                          }}
-                          className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-                            selected
-                              ? "bg-[#C2185B] text-white"
-                              : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
-                          }`}
-                        >
-                          {v}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {showRednessDetails ? (
-                  <RednessObservationFields
-                    value={rednessObservation}
-                    onChange={setRednessObservation}
-                  />
+                    </div>
+                  </>
                 ) : null}
 
-                <div>
-                  <p className="mb-2 text-sm font-semibold text-gray-900">
-                    민감도
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {(["민감함", "보통", "강한편"] as SensitivityKo[]).map((v) => (
+                {manualStep === 1 ? (
+                  <>
+                    <div>
+                      <SectionLabel>민감도</SectionLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {(["민감함", "보통", "강한편"] as SensitivityKo[]).map((v) => (
+                          <button
+                            key={v}
+                            type="button"
+                            aria-pressed={manualSensitivity === v}
+                            onClick={() => setManualSensitivity(v)}
+                            className={`kb-chip ${manualSensitivity === v ? "is-selected" : ""}`}
+                          >
+                            {v}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="kb-sticky-actions flex flex-wrap gap-2">
                       <button
-                        key={v}
                         type="button"
-                        onClick={() => setManualSensitivity(v)}
-                        className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-                          manualSensitivity === v
-                            ? "bg-[#C2185B] text-white"
-                            : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
-                        }`}
+                        className="kb-btn kb-btn-secondary"
+                        onClick={() => setManualStep(0)}
                       >
-                        {v}
+                        이전
                       </button>
-                    ))}
-                  </div>
-                </div>
+                      <button
+                        type="button"
+                        className="kb-btn kb-btn-primary"
+                        onClick={() => setManualStep(2)}
+                      >
+                        다음
+                      </button>
+                    </div>
+                  </>
+                ) : null}
 
-                <IngredientTagField
-                  label="알레르기가 있는 성분 (선택)"
-                  hint="쉼표 또는 Enter로 추가 · 태그 탭하여 삭제"
-                  tags={allergyIngredients}
-                  onChange={setAllergyIngredients}
-                  placeholder="예: 향료, 라놀린"
-                />
+                {manualStep === 2 ? (
+                  <>
+                    <IngredientTagField
+                      label="알레르기가 있는 성분 (선택)"
+                      hint="쉼표 또는 Enter로 추가 · 태그 탭하여 삭제"
+                      tags={allergyIngredients}
+                      onChange={setAllergyIngredients}
+                      placeholder="예: 향료, 라놀린"
+                    />
 
-                <IngredientTagField
-                  label="사용을 피하고 싶은 성분 (선택)"
-                  hint="쉼표 또는 Enter로 추가 · 태그 탭하여 삭제"
-                  tags={avoidedIngredients}
-                  onChange={setAvoidedIngredients}
-                  placeholder="예: 고함량 알코올, 에센셜 오일"
-                />
+                    <IngredientTagField
+                      label="사용을 피하고 싶은 성분 (선택)"
+                      hint="쉼표 또는 Enter로 추가 · 태그 탭하여 삭제"
+                      tags={avoidedIngredients}
+                      onChange={setAvoidedIngredients}
+                      placeholder="예: 고함량 알코올, 에센셜 오일"
+                    />
 
-                <CurrentProductsEditor
-                  products={currentProducts}
-                  onChange={setCurrentProducts}
-                />
+                    <CurrentProductsEditor
+                      products={currentProducts}
+                      onChange={setCurrentProducts}
+                    />
 
-                <div className="pt-1">
-                  <button
-                    type="button"
-                    onClick={handleAnalyzeManual}
-                    disabled={loading}
-                    className={`inline-flex items-center justify-center rounded-full px-6 py-2 text-xs font-semibold text-white shadow-sm transition ${
-                      loading
-                        ? "cursor-not-allowed bg-gray-300"
-                        : "bg-[#C2185B] hover:bg-[#a3154f]"
-                    }`}
-                  >
-                    {loading ? "분석 중..." : "AI 분석 시작"}
-                  </button>
-                  <p className="mt-3 text-xs text-gray-500">
-                    입력한 알레르기·회피 성분과 현재 사용 제품은 추천·루틴 점검의 참고 정보입니다. 의료 진단이 아닙니다.
-                    AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
-                  </p>
-                </div>
+                    <div className="kb-sticky-actions space-y-3">
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          className="kb-btn kb-btn-secondary"
+                          onClick={() => setManualStep(1)}
+                        >
+                          이전
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleAnalyzeManual}
+                          disabled={loading}
+                          className="kb-btn kb-btn-primary"
+                        >
+                          {loading ? "분석 중…" : "AI 분석 시작"}
+                        </button>
+                      </div>
+                      <p className="text-xs text-[var(--text-subtle)]">
+                        알레르기·회피 성분과 현재 제품은 추천·루틴 점검 참고용입니다.
+                        의료 진단이 아닙니다.
+                      </p>
+                    </div>
+                  </>
+                ) : null}
               </div>
             )}
 
-            {error ? <p className="mt-4 text-xs text-red-600">{error}</p> : null}
+            {error ? (
+              <div className="mt-4 space-y-3">
+                <StatusMessage tone="error">{error}</StatusMessage>
+                <button
+                  type="button"
+                  className="kb-btn kb-btn-secondary"
+                  onClick={() => {
+                    setError(null);
+                    if (mode === "photo") void handleAnalyzePhoto();
+                    else void handleAnalyzeManual();
+                  }}
+                >
+                  다시 시도
+                </button>
+              </div>
+            ) : null}
           </div>
 
           {/* Right: 확정 AI 결과 또는 규칙형 참고 미리보기 (절대 혼합 금지) */}
-          <div className="rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
+          <div className="kb-panel">
             {showConfirmedAnalysis && result ? (
               <div className="space-y-4">
-                <h3 className="font-['Playfair_Display',serif] text-lg font-semibold text-[#C2185B]">
+                <h3 className="kb-display text-lg text-[var(--brand)]">
                   AI 분석 결과
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-4">
+                  <div className="rounded-[var(--radius-panel)] bg-[var(--surface-muted)] p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-700">
                       피부 타입
                     </p>
@@ -1532,7 +1592,7 @@ export default function AnalyzePage() {
                     </p>
                   </div>
 
-                  <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-4">
+                  <div className="rounded-[var(--radius-panel)] bg-[var(--surface-muted)] p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-700">
                       주요 고민
                     </p>

@@ -72,7 +72,7 @@ export function SignupForm() {
   }
 
   return (
-    <form onSubmit={submit} className="mx-auto mt-6 w-full max-w-md space-y-4" noValidate>
+    <form onSubmit={submit} className="mt-0 space-y-4" noValidate>
       <div>
         <label htmlFor={emailId} className="block text-sm font-medium text-[#1a1a1a]">
           이메일
@@ -88,13 +88,14 @@ export function SignupForm() {
           onChange={(e) => setEmail(e.target.value)}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? errorId : undefined}
-          className="mt-1 w-full rounded-lg border border-[#E8DFD8] px-3 py-2.5 text-base"
+          className="kb-input mt-1"
         />
       </div>
       <div>
         <label htmlFor={passwordId} className="block text-sm font-medium text-[#1a1a1a]">
           비밀번호
         </label>
+        <p className="mt-1 text-xs text-[var(--text-subtle)]">8자 이상</p>
         <div className="mt-1 flex gap-2">
           <input
             id={passwordId}
@@ -106,11 +107,11 @@ export function SignupForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             aria-invalid={error ? true : undefined}
-            className="w-full min-w-0 rounded-lg border border-[#E8DFD8] px-3 py-2.5 text-base"
+            className="kb-input min-w-0 flex-1"
           />
           <button
             type="button"
-            className="touch-target shrink-0 rounded-lg border border-[#E8DFD8] px-3 text-sm"
+            className="kb-btn kb-btn-secondary shrink-0 px-3 text-sm"
             aria-pressed={showPassword}
             onClick={() => setShowPassword((v) => !v)}
           >
@@ -131,18 +132,18 @@ export function SignupForm() {
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
           aria-invalid={error ? true : undefined}
-          className="mt-1 w-full rounded-lg border border-[#E8DFD8] px-3 py-2.5 text-base"
+          className="kb-input mt-1"
         />
       </div>
       {error ? (
-        <p id={errorId} role="alert" className="text-sm text-rose-700">
+        <p id={errorId} role="alert" className="kb-status-error">
           {customerAuthErrorMessage(error)}
         </p>
       ) : null}
       <button
         type="submit"
         disabled={busy}
-        className="touch-target w-full rounded-lg bg-[#C2185B] py-2.5 font-semibold text-white disabled:opacity-60"
+        className="kb-btn kb-btn-primary w-full"
       >
         {busy ? "가입 중…" : "회원가입"}
       </button>
@@ -150,12 +151,12 @@ export function SignupForm() {
         이미 계정이 있나요?{" "}
         <Link
           href={`/login?next=${encodeURIComponent(next)}`}
-          className="text-[#C2185B] underline"
+          className="text-[var(--brand)] underline-offset-4 hover:underline"
         >
           로그인
         </Link>
       </p>
-      <p className="text-center text-xs text-[#6B5E57]">
+      <p className="text-center text-xs text-[var(--text-subtle)]">
         가입 시{" "}
         <Link href="/privacy" className="underline">
           개인정보 처리방침

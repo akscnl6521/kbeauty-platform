@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BeautyShell, QuizCard } from "@/components/beauty/BeautyShell";
+import { JourneyProgress } from "@/components/ui/JourneyChrome";
 
 export type QuizOption = { value: string; label: string };
 export type QuizStep = {
@@ -31,9 +32,10 @@ export function DomainQuizClient({
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const step = steps[idx]!;
+  const progressCurrent = idx + 1;
   const progress = useMemo(
-    () => Math.round(((idx + (answers[step.key] ? 1 : 0)) / steps.length) * 100),
-    [answers, idx, step.key, steps.length]
+    () => Math.round((progressCurrent / steps.length) * 100),
+    [progressCurrent, steps.length]
   );
 
   function choose(value: string) {
@@ -56,41 +58,45 @@ export function DomainQuizClient({
 
   return (
     <BeautyShell eyebrow="맞춤 문진" title={title} subtitle={subtitle}>
-      <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-[#EFE6DE]">
-        <div
-          className="h-full rounded-full bg-[#8B4513] transition-all duration-500"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
+      <JourneyProgress current={progressCurrent} total={steps.length} label="문진 진행" />
       <QuizCard>
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9A6B3F]">
-          {idx + 1} / {steps.length}
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-warm)]">
+          질문 {idx + 1}
         </p>
-        <h2 className="mt-2 text-xl font-semibold sm:text-2xl">{step.title}</h2>
+        <h2 className="mt-2 text-balance text-xl font-semibold sm:text-2xl">{step.title}</h2>
         {step.help ? (
-          <p className="mt-2 text-sm leading-6 text-gray-600">{step.help}</p>
+          <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">{step.help}</p>
         ) : null}
-        <div className="mt-6 grid gap-2 sm:grid-cols-2">
-          {step.options.map((o) => (
-            <button
-              key={o.value}
-              type="button"
-              onClick={() => choose(o.value)}
-              className="rounded-2xl border border-[#E8DFD8] bg-[#FCF9F6] px-4 py-3 text-left text-sm font-medium transition hover:border-[#8B4513] hover:bg-white"
-            >
-              {o.label}
-            </button>
-          ))}
+        <div className="mt-6 grid gap-2 sm:grid-cols-2" role="group" aria-label={step.title}>
+          {step.options.map((o) => {
+            const selected = answers[step.key] === o.value;
+            return (
+              <button
+                key={o.value}
+                type="button"
+                onClick={() => choose(o.value)}
+                aria-pressed={selected}
+                className={`kb-chip w-full justify-start text-left ${selected ? "is-selected" : ""}`}
+              >
+                {o.label}
+              </button>
+            );
+          })}
         </div>
-        {idx > 0 ? (
-          <button
-            type="button"
-            className="mt-6 text-sm text-gray-600 underline"
-            onClick={() => setIdx(idx - 1)}
-          >
-            이전
-          </button>
-        ) : null}
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          {idx > 0 ? (
+            <button
+              type="button"
+              className="kb-btn kb-btn-secondary"
+              onClick={() => setIdx(idx - 1)}
+            >
+              이전
+            </button>
+          ) : null}
+          <p className="text-xs text-[var(--text-subtle)]" aria-live="polite">
+            선택하면 다음 질문으로 이동합니다 · {progress}%
+          </p>
+        </div>
       </QuizCard>
     </BeautyShell>
   );

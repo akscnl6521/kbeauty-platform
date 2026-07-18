@@ -30,18 +30,12 @@ import {
 } from "@/lib/recommend/selectPurchaseLink";
 
 export type RecommendedProductCardProps = {
-  /** 1부터 시작하는 순위 */
   rank: number;
   ranked: RankedProduct<CandidateProduct>;
-  /** 표시용 로케일 (이름 선택) */
   locale?: "en" | "ja" | "ko";
-  /** LocalStorage countryCode (구매 링크 선택) */
   countryCode?: string | null;
-  /** expert_first 등: 구매처 링크·가격 강조 숨김 (데이터는 유지) */
   hidePurchaseCta?: boolean;
-  /** 사용자 분석/선택 기반 연결 이유 (있으면 표시) */
   recommendation?: Recommendation | null;
-  /** 보조 관리 모드 라벨 */
   softCareMode?: boolean;
 };
 
@@ -138,9 +132,7 @@ export function RecommendedProductCard({
   const noPurchaseMessage =
     locale === "ko"
       ? `현재 확인된 판매처가 없습니다.${
-          lastCheckedLabel
-            ? ` 마지막 확인: ${lastCheckedLabel}`
-            : ""
+          lastCheckedLabel ? ` 마지막 확인: ${lastCheckedLabel}` : ""
         }`
       : locale === "ja"
         ? `確認済みの販売先がありません。${
@@ -182,10 +174,10 @@ export function RecommendedProductCard({
 
   return (
     <article
-      className="flex flex-col gap-3 rounded-2xl border border-pink-100 bg-white p-4 shadow-sm sm:p-5"
+      className="grid gap-4 border-b border-[var(--border-soft)] py-6 first:pt-0 last:border-b-0 sm:grid-cols-[minmax(0,11rem)_minmax(0,1fr)] sm:gap-6 sm:py-8"
       data-product-id={product.id}
     >
-      <div className="overflow-hidden rounded-xl bg-[#F7F1EC]">
+      <div className="overflow-hidden rounded-[var(--radius-panel)] bg-[var(--surface-muted)]">
         <div className="relative aspect-square w-full sm:aspect-[4/3]">
           {verifiedImage ? (
             // eslint-disable-next-line @next/next/no-img-element -- remote official URLs; domain allowlist follows staging media policy
@@ -202,7 +194,7 @@ export function RecommendedProductCard({
             />
           ) : null}
           <div
-            className="flex h-full w-full items-center justify-center px-4 text-center text-xs text-gray-500"
+            className="kb-media-fallback absolute inset-0"
             hidden={Boolean(verifiedImage)}
             role="img"
             aria-label={imageFallback}
@@ -212,225 +204,194 @@ export function RecommendedProductCard({
         </div>
       </div>
 
-      <div className="flex items-start gap-3">
-        <span
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#C2185B] text-xs font-bold text-white"
-          aria-label={`순위 ${rank}`}
-        >
-          {rank}
-        </span>
-        <div className="min-w-0 flex-1">
-          {brand ? (
-            <div className="flex flex-wrap items-center gap-1.5">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-500 sm:text-xs">
-                {brand}
+      <div className="min-w-0 space-y-4">
+        <div className="flex items-start gap-3">
+          <span
+            className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--brand)] text-[11px] font-bold text-white"
+            aria-label={`순위 ${rank}`}
+          >
+            {rank}
+          </span>
+          <div className="min-w-0 flex-1">
+            {brand ? (
+              <div className="flex flex-wrap items-center gap-1.5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] sm:text-xs">
+                  {brand}
+                </p>
+                {showKoreanBadge ? (
+                  <span className="text-[10px] font-medium text-[var(--brand)]">
+                    {locale === "ko" ? "한국 브랜드" : "K-Beauty"}
+                  </span>
+                ) : null}
+                {softCareMode ? (
+                  <span className="text-[10px] font-medium text-[var(--text-subtle)]">
+                    {locale === "ko" ? "보조 관리 참고" : "Supportive care"}
+                  </span>
+                ) : null}
+              </div>
+            ) : null}
+            <h3 className="mt-1 break-words text-base font-semibold leading-snug text-[#2a1c14] sm:text-lg">
+              {displayName}
+            </h3>
+            {(sizeLabel || formLabel) && (
+              <p className="mt-1 text-xs text-[var(--text-subtle)]">
+                {[sizeLabel, formLabel].filter(Boolean).join(" · ")}
               </p>
-              {showKoreanBadge ? (
-                <span className="inline-flex rounded-md border border-[#C2185B]/25 bg-[#C2185B]/08 px-1.5 py-0.5 text-[10px] font-semibold text-[#C2185B]">
-                  {locale === "ko"
-                    ? "한국 브랜드"
-                    : locale === "ja"
-                      ? "K-Beauty"
-                      : "K-Beauty"}
-                </span>
-              ) : null}
-              {softCareMode ? (
-                <span className="inline-flex rounded-md border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium text-gray-600">
-                  {locale === "ko"
-                    ? "보조 관리 참고"
-                    : locale === "ja"
-                      ? "補助ケア参考"
-                      : "Supportive care"}
-                </span>
-              ) : null}
+            )}
+            {trustLabel ? (
+              <p className="mt-1 text-[11px] text-[var(--text-subtle)]">{trustLabel}</p>
+            ) : null}
+          </div>
+          <p className="shrink-0 text-right text-[10px] text-[var(--text-subtle)]">
+            <span className="block tracking-wide">
+              {locale === "ko" ? "참고 점수" : locale === "ja" ? "参考スコア" : "Ref. score"}
+            </span>
+            <span className="mt-0.5 block tabular-nums text-xs font-medium text-[var(--text-muted)]">
+              {score.toFixed(2)}
+            </span>
+          </p>
+        </div>
+
+        {matchReason ? (
+          <div>
+            <p className="mb-1 text-[11px] font-semibold tracking-wide text-[var(--accent-warm)]">
+              {locale === "ko"
+                ? "추천 이유"
+                : locale === "ja"
+                  ? "おすすめ理由"
+                  : "Why this product"}
+            </p>
+            <p className="text-sm leading-relaxed text-[var(--text-muted)]">{matchReason}</p>
+            {evidenceCitations.length > 0 ? (
+              <details className="mt-2">
+                <summary className="cursor-pointer text-xs font-medium text-[var(--brand)]">
+                  {locale === "ko" ? "근거 보기" : "Evidence"}
+                </summary>
+                <ul className="mt-2 space-y-1">
+                  {evidenceCitations.map((c) => (
+                    <li key={c.label} className="text-[11px] text-[var(--text-muted)]">
+                      <span className="font-medium text-gray-700">{c.levelKo}</span>
+                      {" · "}
+                      {c.href ? (
+                        <a
+                          href={c.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[var(--brand)] underline underline-offset-2"
+                        >
+                          {c.label}
+                        </a>
+                      ) : (
+                        <span>{c.label}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ) : null}
+          </div>
+        ) : null}
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <p className="mb-1.5 text-[11px] font-semibold tracking-wide text-[var(--text-subtle)]">
+              {locale === "ko"
+                ? "주요 매칭 성분"
+                : locale === "ja"
+                  ? "マッチ成分"
+                  : "Matched ingredients"}
+            </p>
+            {matchedLabels.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {matchedLabels.map((ing) => (
+                  <span
+                    key={`match-${ing}`}
+                    className="inline-flex rounded-md bg-[var(--brand-soft)] px-2 py-0.5 text-[11px] font-medium text-[var(--brand)]"
+                  >
+                    {ing}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-[var(--text-subtle)]">
+                {locale === "ko" ? "매칭된 성분 없음" : "No matched ingredients"}
+              </p>
+            )}
+          </div>
+
+          {hasExcluded && excludedLabels.length > 0 ? (
+            <div>
+              <p className="mb-1.5 text-[11px] font-semibold tracking-wide text-[var(--warning)]">
+                {locale === "ko"
+                  ? "주의 성분"
+                  : locale === "ja"
+                    ? "注意成分"
+                    : "Watch-outs"}
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {excludedLabels.map((ing) => (
+                  <span
+                    key={`avoid-${ing}`}
+                    className="inline-flex rounded-md bg-[var(--warning-soft)] px-2 py-0.5 text-[11px] font-medium text-[var(--warning)]"
+                  >
+                    {ing}
+                  </span>
+                ))}
+              </div>
             </div>
           ) : null}
-          <h3 className="mt-0.5 text-sm font-semibold leading-snug text-gray-900 sm:text-base">
-            {displayName}
-          </h3>
-          {(sizeLabel || formLabel) && (
-            <p className="mt-0.5 text-xs text-gray-500">
-              {[sizeLabel, formLabel].filter(Boolean).join(" · ")}
-            </p>
-          )}
-          {trustLabel ? (
-            <p className="mt-1 text-[11px] text-gray-500">{trustLabel}</p>
-          ) : null}
         </div>
-        <div className="shrink-0 text-right">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
-            {locale === "ko" ? "점수" : locale === "ja" ? "スコア" : "Score"}
-          </p>
-          <p className="text-sm font-bold text-[#C2185B] sm:text-base">
-            {score.toFixed(2)}
-          </p>
-        </div>
-      </div>
 
-      <div>
-        <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
-          {locale === "ko"
-            ? "매칭 성분"
-            : locale === "ja"
-              ? "マッチ成分"
-              : "Matched ingredients"}
-        </p>
-        {matchedLabels.length > 0 ? (
-          <div className="flex flex-wrap gap-1.5">
-            {matchedLabels.map((ing) => (
-              <span
-                key={`match-${ing}`}
-                className="inline-flex rounded-full bg-[#C2185B]/10 px-2.5 py-0.5 text-[11px] font-medium text-[#C2185B] sm:text-xs"
-              >
-                {ing}
-              </span>
-            ))}
-          </div>
-        ) : (
-          <p className="text-xs text-gray-400">
-            {locale === "ko"
-              ? "매칭된 성분 없음"
-              : locale === "ja"
-                ? "マッチ成分なし"
-                : "No matched ingredients"}
-          </p>
-        )}
-      </div>
-
-      {matchReason ? (
-        <div>
-          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
-            {locale === "ko"
-              ? "추천 이유"
-              : locale === "ja"
-                ? "おすすめ理由"
-                : "Why this product"}
-          </p>
-          <p className="text-xs leading-relaxed text-gray-700">{matchReason}</p>
-          {evidenceCitations.length > 0 ? (
-            <ul className="mt-2 space-y-1">
-              {evidenceCitations.map((c) => (
-                <li key={c.label} className="text-[11px] text-gray-600">
-                  <span className="font-medium text-gray-700">{c.levelKo}</span>
-                  {" · "}
-                  {c.href ? (
-                    <a
-                      href={c.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#C2185B] underline hover:no-underline"
-                    >
-                      {c.label}
-                    </a>
-                  ) : (
-                    <span>{c.label}</span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-      ) : null}
-
-      {hasExcluded && excludedLabels.length > 0 ? (
-        <div>
-          <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-amber-700">
-            {locale === "ko"
-              ? "주의 성분"
-              : locale === "ja"
-                ? "注意成分"
-                : "Watch-outs"}
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {excludedLabels.map((ing) => (
-              <span
-                key={`avoid-${ing}`}
-                className="inline-flex rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-medium text-amber-800 sm:text-xs"
-              >
-                {ing}
-              </span>
-            ))}
-          </div>
-        </div>
-      ) : null}
-
-      {purchase && !hidePurchaseCta ? (
-        <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div className="space-y-0.5">
-            <p className="text-[11px] font-medium text-gray-700 sm:text-xs">
-              {locale === "ko" ? "검증된 판매처" : locale === "ja" ? "確認済み販売先" : "Verified retailer"}
-              {purchase.isOfficial
-                ? locale === "ko"
-                  ? " · 공식몰"
-                  : locale === "ja"
-                    ? " · 公式"
+        {purchase && !hidePurchaseCta ? (
+          <div className="flex flex-col gap-3 border-t border-[var(--border-soft)] pt-3 sm:flex-row sm:items-end sm:justify-between">
+            <div className="space-y-0.5">
+              <p className="text-[11px] font-medium text-gray-700">
+                {locale === "ko" ? "검증된 판매처" : "Verified retailer"}
+                {purchase.isOfficial
+                  ? locale === "ko"
+                    ? " · 공식몰"
                     : " · Official"
-                : ""}
-            </p>
-            <p className="text-[11px] text-gray-500 sm:text-xs">
-              {retailerLabel}
-              {purchase.retailerCountry
-                ? ` · ${purchase.retailerCountry}`
-                : ""}
-            </p>
-            {hasDisplayablePrice ? (
-              <p className="text-sm font-semibold text-gray-900">
-                {offerPriceLabel}
+                  : ""}
               </p>
-            ) : (
-              <p className="text-xs text-gray-500">
-                {locale === "ko"
-                  ? "가격 정보 없음"
-                  : locale === "ja"
-                    ? "価格情報なし"
-                    : "Price unavailable"}
+              <p className="text-[11px] text-[var(--text-subtle)]">
+                {retailerLabel}
+                {purchase.retailerCountry ? ` · ${purchase.retailerCountry}` : ""}
               </p>
-            )}
-            {purchase.verifiedAt ? (
-              <p className="text-[10px] text-gray-400">
-                {formatVerifiedAtForDisplay(purchase.verifiedAt, locale) ??
-                  (locale === "ko"
+              {hasDisplayablePrice ? (
+                <p className="text-sm font-semibold text-gray-900">{offerPriceLabel}</p>
+              ) : (
+                <p className="text-xs text-[var(--text-subtle)]">
+                  {locale === "ko" ? "가격 정보 없음" : "Price unavailable"}
+                </p>
+              )}
+              <p className="text-[10px] text-[var(--text-subtle)]">
+                {purchase.verifiedAt
+                  ? formatVerifiedAtForDisplay(purchase.verifiedAt, locale) ??
+                    (locale === "ko" ? "확인일 정보 없음" : "Verification date unavailable")
+                  : locale === "ko"
                     ? "확인일 정보 없음"
-                    : locale === "ja"
-                      ? "確認日情報なし"
-                      : "Verification date unavailable")}
-              </p>
-            ) : (
-              <p className="text-[10px] text-gray-400">
-                {locale === "ko"
-                  ? "확인일 정보 없음"
-                  : locale === "ja"
-                    ? "確認日情報なし"
                     : "Verification date unavailable"}
               </p>
-            )}
+            </div>
+            <a
+              href={purchase.url}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="kb-btn kb-btn-primary px-4 py-2 text-xs"
+            >
+              {locale === "ko" ? "구매처 보기" : "View retailer"}
+            </a>
           </div>
-          <a
-            href={purchase.url}
-            target="_blank"
-            rel="noopener noreferrer sponsored"
-            className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#a3154f]"
-          >
+        ) : hidePurchaseCta ? (
+          <p className="text-xs leading-relaxed text-[var(--text-subtle)]">
             {locale === "ko"
-              ? "구매처 보기"
-              : locale === "ja"
-                ? "購入先を見る"
-                : "View retailer"}
-          </a>
-        </div>
-      ) : hidePurchaseCta ? (
-        <p className="mt-1 text-[11px] leading-relaxed text-gray-500 sm:text-xs">
-          {locale === "ko"
-            ? "지금은 제품 구매보다 상태 확인이 우선입니다."
-            : locale === "ja"
-              ? "今は購入より状態確認が優先です。"
+              ? "지금은 제품 구매보다 상태 확인이 우선입니다."
               : "Confirming your skin status comes before shopping right now."}
-        </p>
-      ) : (
-        <p className="mt-1 text-[11px] leading-relaxed text-gray-500 sm:text-xs">
-          {noPurchaseMessage}
-        </p>
-      )}
+          </p>
+        ) : (
+          <p className="kb-status-info text-xs">{noPurchaseMessage}</p>
+        )}
+      </div>
     </article>
   );
 }

@@ -9,29 +9,28 @@
 
 ## 0. 지금 할 일 (단일)
 
-**현재 단일 목표:** 한국 MVP 디자인 및 핵심 사용자 여정 완성  
-(상세: `docs/MVP_DESIGN_COMPLETION_PLAN.md` · `docs/AUTOMATED_MVP_EXECUTION_PLAN.md` Phase B)
+**현재 단일 목표:** Phase C — 제품·이미지·판매처 데이터 자동화 및 추천 가능 제품 확대
 
-- [x] **Phase A** — 현황판·`check:mvp`·CI·자동화 정책·워크스테이션 병렬 기반 (`automation-mvp-completion`)
-- [ ] **Phase B** — 홈→분석→문진→결과→인증→마이 디자인/여정
+- [x] **Phase A** — 현황판·`check:mvp`·CI·자동화 정책·워크스테이션 병렬 기반
+- [x] **Phase B** — 홈→분석→문진→결과→인증→마이 디자인/여정 (공개 PDP/비교는 후속)
 - [ ] **Phase C** — Staging 제품·이미지·판매처 (Production DB 쓰기 금지)
-- [ ] **Phase D** — 3·7·15·30 체크인 UX
+- [ ] **Phase D** — 3·7·15·30 체크인 UX 심화
 - [ ] **Phase E** — 최종 게이트 · Production 준비 체크리스트 (**배포는 승인 후**)
 
 ### 최근 완료 (요약)
 
-- [x] main 병합 완료 (`backup-sprint14-20260713` → `main` / `2b17f5f`) — **앱 Production 배포는 별개·미실행**
+- [x] Phase B: 디자인 토큰·JourneyProgress·홈 CTA 위계·analyze 수동 3단계·문진 팔레트 통일·결과 제품 정보 위계·로그인/마이 진입
+- [x] main 병합 완료 (`2b17f5f`) — **앱 Production 배포는 별개·미실행**
 - [x] Preview SSO UI · Staging 대체 검증 · 로컬 출시 준비 검사
 - [x] Staging INCI with_inci **57** · 잔여 27 **BLOCKED**
-- [x] A안 Production DB 신규 5건(id 188~192) — media/offer 없음 · verified_at NULL
-- [x] Snail 96 이미지 복구 · 공개 9/9
+- [x] A안 Production DB 신규 5건(id 188~192)
 
 ### 보류 / BLOCKED
 
 - [ ] Production 애플리케이션 배포 — **「Production 배포 진행」** 승인 후
+- [ ] 공개 제품 상세·비교 라우트 — Phase B 후속 / Phase C와 연계
 - [ ] 잔여 27 heroes 공식 INCI — **BLOCKED**
-- [ ] Production `AI_PROVIDER` / Auth URL Dashboard 확인 — Phase E
-- 판정: **디자인·여정 우선** (배포 대기열로 혼동하지 말 것)
+- 판정: **Phase C 데이터 밀도** 우선 (배포 대기열로 혼동하지 말 것)
 
 
 ---
