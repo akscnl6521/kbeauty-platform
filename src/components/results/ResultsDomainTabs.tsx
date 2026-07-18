@@ -99,7 +99,7 @@ export function ResultsDomainTabs({
             role="tab"
             aria-selected={tab === t.id}
             onClick={() => selectTab(t.id)}
-            className={`shrink-0 rounded-lg px-3 py-2 text-sm font-medium transition ${
+            className={`touch-target shrink-0 rounded-lg px-3 py-2.5 text-sm font-medium transition ${
               tab === t.id
                 ? "bg-[#8B4513] text-white"
                 : "bg-white text-gray-700 ring-1 ring-[#E8DFD8]"
@@ -128,21 +128,21 @@ export function ResultsDomainTabs({
               메이크업은 피부톤·언더톤·속성 매칭을 우선합니다. 논문 근거가 없는
               표현은 사실처럼 단정하지 않습니다.
             </p>
-            <div className="flex flex-wrap gap-2 text-xs">
+            <div className="flex flex-wrap gap-2 text-sm">
               <a
-                className="rounded-full border border-[#E8DFD8] px-3 py-1.5"
+                className="touch-target inline-flex items-center rounded-full border border-[#E8DFD8] px-3 py-2"
                 href="/quiz/mascara"
               >
                 마스카라 문진
               </a>
               <a
-                className="rounded-full border border-[#E8DFD8] px-3 py-1.5"
+                className="touch-target inline-flex items-center rounded-full border border-[#E8DFD8] px-3 py-2"
                 href="/quiz/lip"
               >
                 립 문진
               </a>
               <a
-                className="rounded-full border border-[#E8DFD8] px-3 py-1.5"
+                className="touch-target inline-flex items-center rounded-full border border-[#E8DFD8] px-3 py-2"
                 href="/quiz/base"
               >
                 베이스 문진
@@ -187,7 +187,7 @@ export function ResultsDomainTabs({
               두피·모발 추천은 스킨케어 랭킹과 분리된 도메인에서만 매칭합니다.
             </p>
             <a
-              className="mt-2 inline-flex rounded-full border border-[#E8DFD8] px-3 py-1.5 text-xs"
+              className="touch-target mt-2 inline-flex items-center rounded-full border border-[#E8DFD8] px-3 py-2 text-sm"
               href="/quiz/hair"
             >
               샴푸·두피 문진

@@ -5,8 +5,16 @@
 ## 다음 작업 (단일 · 재개 지침)
 
 **다음 작업:** Production 배포 — 「Production 배포하자」 명시 시에만.  
-**방금 완료:** Preview 스모크 통과 + 도메인 문진 터치 타깃.  
-**운영 메모:** quality·substitute·responsive OK · Production은 명시 승인 전 안 함.
+**방금 완료:** 피부 문진·Results 탭 터치 보강.  
+**운영 메모:** Preview는 계속 가능 · www는 명시 승인 전 안 함.
+
+### 2026-07-18 피부 문진·Results 탭 터치
+
+| 항목 | 결과 |
+|------|------|
+| `/quiz` | 선택 칩 touch-target |
+| Results 탭 | 탭·메이크업/헤어 문진 링크 터치 보강 |
+| Production | 미변경 |
 
 ### 2026-07-18 Preview 스모크 · 문진 터치
 
@@ -16,6 +24,8 @@
 | check:preview-substitute | 통과 (공개 14 · 8고민) |
 | check:responsive | 통과 |
 | UX | DomainQuiz · QuizDomainNav 터치 타깃 |
+| push | `883f82d` |
+| Preview | READY |
 | Production | 미변경 |
 
 ### 2026-07-18 UX CTA·모바일 묶음

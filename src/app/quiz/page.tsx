@@ -81,7 +81,7 @@ export default function QuizPage() {
 
   const optionClass = (key: StepKey, value: string) => {
     const selected = answers[key] === value;
-    return `rounded-full border px-5 py-2 text-sm font-medium transition ${
+    return `touch-target min-h-11 rounded-full border px-5 py-2.5 text-sm font-medium transition ${
       selected
         ? "border-[#C2185B] bg-[#C2185B] text-white shadow-md shadow-[#C2185B33]"
         : "border-pink-100 bg-white text-gray-800 hover:border-[#C2185B] hover:bg-pink-50"
