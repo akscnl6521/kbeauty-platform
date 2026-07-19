@@ -33,7 +33,9 @@ export function evaluateClinicStagingApplyGuard(
   }
 
   const audit = auditClinicStagingPlan(input.operations);
-  if (!audit.valid) reasonCodes.push(...audit.issueCodes.map((code) => `audit:${code}`));
+  if (!audit.valid) {
+    reasonCodes.push(...audit.issues.map((issue) => `audit:${issue.code}`));
+  }
 
   if (input.operations.some((operation) => operation.publishAllowed !== false)) {
     reasonCodes.push("publish_allowed_operation_blocked");
