@@ -6,8 +6,9 @@ const patcher = fs.readFileSync("scripts/patch-analyze-concern-observations.ts",
 assert.match(patcher, /expected exactly one match/);
 assert.match(patcher, /ConcernObservationPanel/);
 assert.match(patcher, /buildAnalyzeConcernObservationPayload/);
-assert.match(patcher, /concernObservations\?: Record<string, ConcernObservation>/);
+assert.match(patcher, /concernObservations\?: ConcernObservation\[\]/);
 assert.match(patcher, /ConcernObservationMap/);
+assert.match(patcher, /concernObservationPayload/);
 assert.match(patcher, /No changes generated/);
 
 console.log("analyze concern patcher self-test passed");
