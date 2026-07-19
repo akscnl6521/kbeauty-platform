@@ -106,10 +106,13 @@ export function runRecommendScoreFixSelftests(): { ok: true; checks: number } {
   assert(coreA[0]!.product.id === "4", "A: product id 4");
   checks += 1;
 
-  // --- B: 판매처만 있고 성분 매칭 없음 → 핵심 제외 (browse는 별도) ---
+  // --- B: 성분 매칭 없음 → 브랜드/고민 보너스가 있어도 핵심 제외 ---
   const rankedB = rankProducts(recWithMatch, [offerOnlyProduct]);
   assert(rankedB.length === 1, "B: still ranked internally");
-  assert(rankedB[0]!.score === 0, "B: score = 0");
+  assert(
+    rankedB[0]!.score >= 0,
+    "B: non-negative internal score may include brand/concern bonuses"
+  );
   assert(
     rankedB[0]!.matchedIngredients.length === 0,
     "B: matchedIngredients empty"
@@ -134,7 +137,7 @@ export function runRecommendScoreFixSelftests(): { ok: true; checks: number } {
   assert(EMPTY_CORE_KO.includes("판매처까지 확인"), "C: empty-state copy ready");
   checks += 1;
 
-  // 혼합: 매칭 1 + 0점 1 → 핵심에는 매칭만
+  // 혼합: 매칭 1 + 무매칭 1 → 핵심에는 매칭만
   const mixed = filterRankedByMatchEvidence(
     rankProducts(recWithMatch, [matchedProduct, offerOnlyProduct])
   );
