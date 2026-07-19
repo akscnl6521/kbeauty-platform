@@ -40,6 +40,7 @@
     "test:clinic-apply-manifest": "npx --yes tsx scripts/clinic-staging-apply-manifest-selftest.ts",
     "test:clinic-execution-policy": "npx --yes tsx scripts/clinic-staging-execution-policy-selftest.ts",
     "test:clinic-review-queue": "npx --yes tsx scripts/clinic-review-queue-selftest.ts",
+    "test:clinic-plan-artifact": "npx --yes tsx scripts/clinic-staging-plan-artifact-selftest.ts",
     "clinic:staging-plan": "npx --yes tsx scripts/build-clinic-staging-sync-plan.ts",
     "test:commercial-separation": "npx --yes tsx scripts/commercial-separation-policy-selftest.ts",
     "check:staging-quality": "node scripts/staging-verify-recommend-quality.mjs",
