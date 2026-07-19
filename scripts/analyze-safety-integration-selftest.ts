@@ -42,8 +42,33 @@ function applySafety(input: AnalyzeSkinRequest): Recommendation {
   };
   const result = applySafety(input);
   assert.equal(result.managementLevel, "expert_first");
+  assert.deepEqual(result.recommendedIngredients, []);
   assert.ok((result.expertReferralReasons ?? []).length > 0);
   assert.ok((result.notRecommendedReasons ?? []).length > 0);
+}
+
+{
+  const input: AnalyzeSkinRequest = {
+    mode: "manual",
+    skinTone: "중간",
+    undertone: "중립",
+    concerns: ["붉은기"],
+    sensitivity: "민감함",
+    rednessObservation: {
+      duration: "over_one_day",
+      symptoms: ["stinging"],
+      areas: ["eye_area"],
+      trigger: "after_cosmetic",
+    },
+  };
+  const result = applySafety(input);
+  assert.equal(result.managementLevel, "urgent_check");
+  assert.deepEqual(result.recommendedIngredients, []);
+  assert.ok(
+    (result.expertReferralReasons ?? []).some((reason) =>
+      reason.includes("눈 내부 자극")
+    )
+  );
 }
 
 {
