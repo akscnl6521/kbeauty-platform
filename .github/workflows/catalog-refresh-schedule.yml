@@ -1,0 +1,52 @@
+name: Catalog Refresh Schedule
+
+on:
+  schedule:
+    - cron: "20 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: catalog-refresh-schedule
+  cancel-in-progress: false
+
+jobs:
+  build-refresh-artifacts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build catalog refresh plan
+        run: npm run catalog:refresh-plan
+
+      - name: Build due refresh queue
+        run: npm run catalog:refresh-due
+
+      - name: Verify no database or production mutation
+        run: |
+          test -f data/catalog/refresh-plans/latest.json
+          test -f data/catalog/refresh-due/latest.json
+          node -e "const fs=require('fs'); for (const p of ['data/catalog/refresh-plans/latest.json','data/catalog/refresh-due/latest.json']) { const x=JSON.parse(fs.readFileSync(p,'utf8')); if (x.productionTouched !== false || x.databaseTouched !== false) throw new Error('unsafe artifact: '+p); }"
+
+      - name: Upload refresh artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-refresh-${{ github.run_id }}
+          path: |
+            data/catalog/refresh-plans/
+            data/catalog/refresh-due/
+          retention-days: 14
+          if-no-files-found: error
