@@ -61,6 +61,7 @@ jobs:
           npm run test:enrichment-portability
           npx --yes tsx scripts/automation-integrity-audit-selftest.ts
           npx --yes tsx scripts/unified-review-manifest-selftest.ts
+          npx --yes tsx scripts/admin-unified-review-screen-selftest.ts
       - name: Customer journey regression
         run: npm run test:journey
       - name: Apply analyze concern integration patch
