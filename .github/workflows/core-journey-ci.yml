@@ -34,6 +34,7 @@ jobs:
           npm run test:catalog-refresh
           npm run test:collection-decision
           npm run test:staging-sync-plan
+          npm run test:usage-media
       - name: Customer journey regression
         run: npm run test:journey
       - name: Build
