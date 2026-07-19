@@ -4,17 +4,55 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 
-const dir = await mkdtemp(join(tmpdir(), "usage-media-artifact-"));
-const input = join(dir, "input.json");
-const output = join(dir, "output.json");
-await writeFile(input, JSON.stringify([{ id:"m1", productId:"p1", mediaType:"video", sourceUrl:"https://example.com/a.mp4", storagePath:null, rightsStatus:"expired", rightsExpiresAt:null, consentReference:null, reviewStatus:"approved", productMatchVerified:true, applicationDemonstrationVerified:true, containsMedicalClaim:false, containsBeforeAfter:false, isSponsored:false, sponsorName:null, disclosureText:null, locale:"ko-KR" }]));
-const run = spawnSync(process.execPath, ["--import", "tsx", "scripts/build-usage-media-review-artifact.ts", input, output], { encoding:"utf8" });
-assert.equal(run.status, 0, run.stderr || run.stdout);
-const value = JSON.parse(await readFile(output, "utf8"));
-assert.equal(value.mode, "artifact_only");
-assert.equal(value.publishAllowed, false);
-assert.equal(value.databaseTouched, false);
-assert.equal(value.productionTouched, false);
-assert.equal(value.total, 1);
-assert.equal(value.queue[0].action, "unpublish");
-console.log("usage media review artifact selftest: ok");
+async function main() {
+  const dir = await mkdtemp(join(tmpdir(), "usage-media-artifact-"));
+  const input = join(dir, "input.json");
+  const output = join(dir, "output.json");
+
+  await writeFile(
+    input,
+    JSON.stringify([
+      {
+        id: "m1",
+        productId: "p1",
+        mediaType: "video",
+        sourceUrl: "https://example.com/a.mp4",
+        storagePath: null,
+        rightsStatus: "expired",
+        rightsExpiresAt: null,
+        consentReference: null,
+        reviewStatus: "approved",
+        productMatchVerified: true,
+        applicationDemonstrationVerified: true,
+        containsMedicalClaim: false,
+        containsBeforeAfter: false,
+        isSponsored: false,
+        sponsorName: null,
+        disclosureText: null,
+        locale: "ko-KR",
+      },
+    ]),
+  );
+
+  const run = spawnSync(
+    process.execPath,
+    ["--import", "tsx", "scripts/build-usage-media-review-artifact.ts", input, output],
+    { encoding: "utf8" },
+  );
+  assert.equal(run.status, 0, run.stderr || run.stdout);
+
+  const value = JSON.parse(await readFile(output, "utf8"));
+  assert.equal(value.mode, "artifact_only");
+  assert.equal(value.publishAllowed, false);
+  assert.equal(value.databaseTouched, false);
+  assert.equal(value.productionTouched, false);
+  assert.equal(value.total, 1);
+  assert.equal(value.queue[0].action, "unpublish");
+
+  console.log("usage media review artifact selftest: ok");
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
