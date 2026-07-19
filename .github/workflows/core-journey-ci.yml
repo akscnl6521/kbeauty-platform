@@ -27,6 +27,7 @@ jobs:
           npm run test:symptom-safety
           npm run test:analyze-safety
           npm run test:concern-observations
+          npm run test:concern-form-state
           npm run test:result-exposure
           npm run test:care-auto-save
           npm run test:care-referral
