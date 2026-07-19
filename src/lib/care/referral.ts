@@ -1,6 +1,4 @@
-/**
- * Dermatology referral rules — guidance only, never a diagnosis.
- */
+// Dermatology referral rules — guidance only, never a diagnosis.
 
 import type {
   CareCheckInAnswers,
@@ -28,9 +26,6 @@ function raiseLevel(
   return REFERRAL_RANK[next] > REFERRAL_RANK[current] ? next : current;
 }
 
-/**
- * Evaluate self-reported symptoms. Does not diagnose disease.
- */
 export function evaluateDermatologyReferral(
   answers: CareCheckInAnswers,
   options?: { daysSinceStart?: number; worsening?: boolean }
@@ -38,17 +33,32 @@ export function evaluateDermatologyReferral(
   const reasons: string[] = [];
   let level: CareReferralLevel = "none";
   let emergencyHint = false;
-
   const high = (n: number | null, t = 8) => n != null && n >= t;
+  const acute = answers.acuteSignals ?? {};
 
-  // Immediate / emergency-leaning signals (self-report only)
-  if (high(answers.swelling, 8)) {
-    reasons.push("심한 붓기 보고");
+  if (acute.breathingDifficulty || acute.systemicAllergy) {
+    reasons.push(
+      acute.breathingDifficulty ? "호흡 곤란 보고" : "전신 알레르기 반응 보고"
+    );
     level = raiseLevel(level, "seek_emergency_care");
     emergencyHint = true;
   }
 
-  // Prompt care
+  if (acute.rapidSwelling || high(answers.swelling, 8)) {
+    reasons.push("심하거나 급격한 붓기 보고");
+    level = raiseLevel(level, "seek_emergency_care");
+    emergencyHint = true;
+  }
+
+  if (acute.eyeIrritation) {
+    reasons.push("눈 내부 자극 보고");
+    level = raiseLevel(level, "seek_promptly");
+  }
+  if (acute.bleeding || acute.oozing || acute.pain || acute.spreadingRash) {
+    reasons.push("통증·출혈·진물·퍼지는 발진 중 하나 이상 보고");
+    level = raiseLevel(level, "seek_promptly");
+  }
+
   if (high(answers.sting, 8) || high(answers.itch, 8)) {
     reasons.push("강한 따가움/가려움 지속 가능");
     level = raiseLevel(level, "seek_promptly");
@@ -62,7 +72,6 @@ export function evaluateDermatologyReferral(
     level = raiseLevel(level, "seek_promptly");
   }
 
-  // Consider soon
   const days = options?.daysSinceStart ?? 0;
   if (options?.worsening && days >= 14) {
     reasons.push("2주 이상 관찰 중에도 악화 신호");
@@ -75,9 +84,9 @@ export function evaluateDermatologyReferral(
 
   const userMessage =
     level === "seek_emergency_care"
-      ? "증상이 심하거나 급격히 악화되면 가까운 의료기관·응급서비스에 문의하세요. 이 안내는 진단이 아닙니다."
+      ? "호흡 곤란, 전신 알레르기 반응 또는 급격한 붓기가 있으면 지체하지 말고 가까운 의료기관·응급서비스에 문의하세요. 이 안내는 진단이 아닙니다."
       : level === "seek_promptly"
-        ? "전문가 상담을 권장합니다. 화장품만으로 해결하기 어려운 신호일 수 있습니다. 진단은 하지 않습니다."
+        ? "제품 사용을 우선하기보다 피부과 등 전문가 확인을 권장합니다. 이 안내는 진단이 아닙니다."
         : level === "consider_soon"
           ? "경과가 기대와 다르면 피부과 등 전문가 상담을 고려해 보세요."
           : "현재 자기보고만으로는 추가 상담 신호가 뚜렷하지 않습니다.";
