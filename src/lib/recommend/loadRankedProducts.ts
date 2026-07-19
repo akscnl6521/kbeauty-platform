@@ -6,12 +6,14 @@ import {
   filterRankedProductsByKrVerifiedOffer,
   isRecommendationCacheVersionCurrent,
 } from "./recommendationCache";
+import { syncVerifiedUsageGuidesFromRankedProducts } from "./syncUsageGuides";
 
 /**
  * LocalStorage(skinRankedProducts)에서 랭킹 결과를 읽는다.
  * - 캐시 버전 불일치 시 Top 5 폐기 후 빈 배열
  * - 로드 후에도 한국 verified offer 기준으로 재필터
  * - 점수 0·매칭 성분 없는 항목은 핵심 추천에서 제외
+ * - 제품에 검증된 usageGuide가 있을 때만 루틴용 저장소로 동기화
  */
 export function loadRankedProductsFromStorage(): RankedProduct<CandidateProduct>[] {
   if (typeof window === "undefined") return [];
@@ -19,14 +21,23 @@ export function loadRankedProductsFromStorage(): RankedProduct<CandidateProduct>
   try {
     if (!isRecommendationCacheVersionCurrent()) {
       discardStaleRankedProductsCache();
+      window.localStorage.removeItem("skinProductUsageGuides");
       return [];
     }
 
     const raw = window.localStorage.getItem(RANKED_PRODUCTS_STORAGE_KEY);
-    if (!raw) return [];
+    if (!raw) {
+      window.localStorage.removeItem("skinProductUsageGuides");
+      return [];
+    }
 
     const parsed: unknown = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
+    if (!Array.isArray(parsed)) {
+      window.localStorage.removeItem("skinProductUsageGuides");
+      return [];
+    }
+
+    syncVerifiedUsageGuidesFromRankedProducts(parsed);
 
     const items: RankedProduct<CandidateProduct>[] = [];
     for (const entry of parsed) {
@@ -54,10 +65,10 @@ export function loadRankedProductsFromStorage(): RankedProduct<CandidateProduct>
       if (items.length >= RANKED_PRODUCTS_TOP_N) break;
     }
 
-    // 이전 저장분이 offer 없이 남아 있어도 여기서 제거
     const offerOk = filterRankedProductsByKrVerifiedOffer(items);
     return filterRankedByMatchEvidence(offerOk);
   } catch {
+    window.localStorage.removeItem("skinProductUsageGuides");
     return [];
   }
 }
