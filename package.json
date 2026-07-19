@@ -77,6 +77,7 @@
     "test:product-identity": "npx --yes tsx scripts/product-identity-selftest.ts",
     "test:enrichment-identity": "npx --yes tsx scripts/enrichment-identity-decisions-selftest.ts",
     "test:catalog-autopilot": "npx --yes tsx scripts/catalog-autopilot-selftest.ts",
+    "test:catalog-exception-queue": "npx --yes tsx scripts/catalog-exception-queue-selftest.ts",
     "test:labels": "npx --yes tsx scripts/curated-inci-selftest.ts",
     "test:labels-admin": "npx --yes tsx scripts/label-sheet-admin-selftest.ts"
   },
