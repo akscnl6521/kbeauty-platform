@@ -94,10 +94,23 @@ const acne = rankClinicCandidates(
 assert.equal(acne[0]?.id, "clinic-b");
 assert.match(acne[0]?.displayDisclosure ?? "", /수수료/);
 
-const split = splitOrganicAndPartnered(acne);
-assert.equal(split.organic.length, 1);
-assert.equal(split.partnered.length, 1);
-assert.equal(split.organic[0]?.organicScore, split.partnered[0]?.organicScore);
+const mixed = rankClinicCandidates(
+  clinics,
+  {
+    symptomTags: ["홍조", "여드름"],
+    requestedSpecialty: "피부과",
+    maxDistanceKm: 10,
+    urgent: false,
+  },
+  new Date("2026-07-19T00:00:00Z")
+);
+const split = splitOrganicAndPartnered(mixed);
+assert.deepEqual(split.organic.map((clinic) => clinic.id), ["clinic-a"]);
+assert.deepEqual(split.partnered.map((clinic) => clinic.id), ["clinic-b"]);
+assert.equal(
+  new Set([...split.organic, ...split.partnered].map((clinic) => clinic.id)).size,
+  split.organic.length + split.partnered.length
+);
 
 const urgent = rankClinicCandidates(clinics, {
   symptomTags: ["홍조"],
@@ -112,6 +125,13 @@ assert.ok(
     ...clinics[1]!,
     partnershipDisclosure: null,
   }).includes("partnership_disclosure_missing")
+);
+
+assert.ok(
+  validateClinicCandidate({
+    ...clinics[0]!,
+    partnershipType: "lead_fee",
+  }).includes("non_partner_partnership_type_mismatch")
 );
 
 console.log("clinic referral ranking self-test: ok");
