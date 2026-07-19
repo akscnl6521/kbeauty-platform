@@ -24,6 +24,7 @@ export function catalogAutopilotSteps(options?: {
     "catalog:enrich",
     "catalog:dedupe-plan",
     "catalog:inci",
+    "catalog:exception-queue",
   ];
   if (options?.includeCuratedLabels) steps.push("catalog:labels:sync");
   steps.push("catalog:refresh-plan");
@@ -93,6 +94,7 @@ function main(): void {
   }
   run("catalog:dedupe-plan");
   run("catalog:inci");
+  run("catalog:exception-queue");
   if (includeCuratedLabels) run("catalog:labels:sync");
   run("catalog:refresh-plan");
   console.log(
@@ -103,6 +105,7 @@ function main(): void {
       manualReview: "exceptions_only",
       curatedLabelsIncluded: includeCuratedLabels,
       dedupePlanGenerated: true,
+      exceptionQueueGenerated: true,
     })
   );
 }
