@@ -34,10 +34,12 @@ jobs:
           npm run test:care-auto-save
           npm run test:care-referral
 
-      - name: Existing deterministic regressions
-        run: |
-          npm run test:pipeline
-          npm run test:journey
+      - name: Pipeline regression
+        run: npm run test:pipeline
+
+      - name: Customer journey regression
+        run: npm run test:journey
 
       - name: Build
+        if: always()
         run: npm run build
