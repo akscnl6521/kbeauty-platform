@@ -1,0 +1,32 @@
+name: Clinic Refresh Plan
+
+on:
+  schedule:
+    - cron: "35 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build clinic refresh plan
+        run: npx --yes tsx scripts/build-clinic-refresh-plan.ts
+      - name: Upload clinic refresh plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: clinic-refresh-plan
+          path: artifacts/clinic-refresh-plan.json
+          retention-days: 14
