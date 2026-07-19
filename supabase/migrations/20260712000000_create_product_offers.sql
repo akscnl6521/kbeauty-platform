@@ -88,7 +88,7 @@ CREATE INDEX IF NOT EXISTS product_offers_ships_to_gin_idx
 -- ---------------------------------------------------------------------------
 ALTER TABLE public.product_offers ENABLE ROW LEVEL SECURITY;
 
--- Idempotent policy create/update (PostgreSQL has no CREATE OR REPLACE POLICY).
+-- Idempotent policy maintenance uses ALTER when present and CREATE otherwise.
 -- SELECT only for anon + authenticated. Pending verification rows stay hidden.
 DO $$
 BEGIN
