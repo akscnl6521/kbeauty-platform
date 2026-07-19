@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { hydrateCareDashboard } from "@/lib/care/client-hydrate";
 import { completeCheckIn } from "@/lib/care";
+import { getCheckInQuestionPolicy } from "@/lib/care/checkInQuestionPolicy";
 import type {
   CareAcuteSignals,
   CareCheckIn,
@@ -73,6 +74,11 @@ export default function MyCheckInDetailPage() {
     });
   }, [id]);
 
+  const policy = useMemo(
+    () => (checkIn ? getCheckInQuestionPolicy(checkIn.day) : null),
+    [checkIn]
+  );
+
   const hasEmergencySignal = Boolean(
     answers.acuteSignals?.breathingDifficulty ||
       answers.acuteSignals?.systemicAllergy ||
@@ -114,11 +120,13 @@ export default function MyCheckInDetailPage() {
     setSubmitting(false);
   }
 
-  if (!checkIn) {
+  if (!checkIn || !policy) {
     return (
       <main className="mx-auto max-w-3xl px-4 py-10 text-sm">
         <p>체크인을 찾을 수 없습니다.</p>
-        <Link href="/my/check-ins" className="text-[#8B6914] underline">목록</Link>
+        <Link href="/my/check-ins" className="text-[#8B6914] underline">
+          목록
+        </Link>
       </main>
     );
   }
@@ -127,7 +135,14 @@ export default function MyCheckInDetailPage() {
     <main className="mx-auto max-w-3xl px-4 py-10">
       <h1 className="text-2xl font-bold">Day {checkIn.day} 체크인</h1>
       <MyCareNav current="/my/check-ins" />
-      <p className="mt-2 text-sm text-gray-600">
+      <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+          이번 체크인의 목적
+        </p>
+        <h2 className="mt-1 text-lg font-semibold">{policy.title}</h2>
+        <p className="mt-2 text-sm leading-6 text-gray-600">{policy.purpose}</p>
+      </section>
+      <p className="mt-3 text-sm text-gray-600">
         현재 상태를 직접 기록하는 선택형 질문입니다. 질환을 진단하지 않습니다.
       </p>
 
@@ -141,9 +156,14 @@ export default function MyCheckInDetailPage() {
               현재 응답에는 전문가 확인을 우선할 신호가 포함되어 있습니다. 심하거나 급격히 악화되면 가까운 의료기관·응급서비스에 문의하세요.
             </p>
           ) : null}
-          <Link href="/my/progress" className="text-[#8B6914] underline">변화 보기</Link>
+          <Link href="/my/progress" className="text-[#8B6914] underline">
+            변화 보기
+          </Link>
           {suggestions.map((s) => (
-            <div key={s.id} className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-3">
+            <div
+              key={s.id}
+              className="rounded-lg border border-[#E8DFD8] bg-white px-3 py-3"
+            >
               <p className="font-medium">{s.title}</p>
               <p className="text-gray-700">{s.reason}</p>
               <p className="text-xs text-gray-500">{s.expectedEffect}</p>
@@ -151,15 +171,26 @@ export default function MyCheckInDetailPage() {
           ))}
         </div>
       ) : (
-        <form className="mt-6 space-y-6 text-sm" onSubmit={(e) => { e.preventDefault(); void submit(); }}>
+        <form
+          className="mt-6 space-y-6 text-sm"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void submit();
+          }}
+        >
           <fieldset className="rounded-2xl border border-rose-200 bg-rose-50/60 p-4">
-            <legend className="px-1 font-semibold text-rose-900">먼저 확인할 위험 신호</legend>
+            <legend className="px-1 font-semibold text-rose-900">
+              먼저 확인할 위험 신호
+            </legend>
             <p className="mb-3 text-xs leading-5 text-rose-800">
               현재 해당되는 항목만 선택하세요. 호흡 곤란·전신 알레르기 반응·급격한 붓기는 제품 사용보다 즉시 상태 확인이 우선입니다.
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
               {ACUTE_OPTIONS.map(({ key, label }) => (
-                <label key={key} className="flex min-h-10 items-center gap-2 rounded-lg border border-rose-100 bg-white px-3">
+                <label
+                  key={key}
+                  className="flex min-h-10 items-center gap-2 rounded-lg border border-rose-100 bg-white px-3"
+                >
                   <input
                     type="checkbox"
                     checked={Boolean(answers.acuteSignals?.[key])}
@@ -179,42 +210,71 @@ export default function MyCheckInDetailPage() {
               ))}
             </div>
             {hasEmergencySignal ? (
-              <p className="mt-3 rounded-lg bg-white px-3 py-2 font-semibold text-rose-900" role="alert">
+              <p
+                className="mt-3 rounded-lg bg-white px-3 py-2 font-semibold text-rose-900"
+                role="alert"
+              >
                 긴급 확인 신호가 선택되었습니다. 새 제품 사용을 중단하고 가까운 의료기관·응급서비스에 문의하는 것을 우선하세요.
               </p>
             ) : null}
           </fieldset>
 
-          {([
-            ["sting", "따가움"], ["itch", "가려움"], ["redness", "붉음"],
-            ["dryness", "건조"], ["oiliness", "유분"], ["breakouts", "트러블"],
-            ["swelling", "붓기"], ["peeling", "벗겨짐"],
-            ["satisfaction", "만족도"], ["adherence", "루틴 준수"],
-          ] as const).map(([key, label]) => (
-            <label key={key} className="block">
-              <span className="text-gray-700">{label} (0–10)</span>
-              <input
-                type="range"
-                min={0}
-                max={10}
-                className="mt-1 w-full"
-                value={answers[key] ?? 0}
-                onChange={(e) => setAnswers({ ...answers, [key]: Number(e.target.value) })}
-              />
-              <span className="tabular-nums text-xs text-gray-500">{answers[key]}</span>
-            </label>
-          ))}
+          <section className="space-y-5 rounded-2xl border border-[#E8DFD8] bg-white p-4">
+            <h2 className="font-semibold">상태 점수</h2>
+            {policy.metrics.map(({ key, label, helper }) => (
+              <label key={key} className="block">
+                <span className="font-medium text-gray-800">{label} (0–10)</span>
+                <span className="mt-1 block text-xs text-gray-500">{helper}</span>
+                <input
+                  type="range"
+                  min={0}
+                  max={10}
+                  className="mt-2 w-full"
+                  value={answers[key] ?? 0}
+                  onChange={(e) =>
+                    setAnswers({ ...answers, [key]: Number(e.target.value) })
+                  }
+                />
+                <span className="tabular-nums text-xs text-gray-500">
+                  현재 {answers[key]}
+                </span>
+              </label>
+            ))}
+          </section>
 
-          <label className="flex items-center gap-2">
+          <label className="flex items-center gap-2 rounded-xl border border-[#E8DFD8] bg-white px-3 py-3">
             <input
               type="checkbox"
               checked={answers.stillUsing === true}
-              onChange={(e) => setAnswers({ ...answers, stillUsing: e.target.checked })}
+              onChange={(e) =>
+                setAnswers({ ...answers, stillUsing: e.target.checked })
+              }
             />
-            현재 루틴을 계속 사용 중
+            {policy.stillUsingLabel}
           </label>
 
-          {submitError ? <p className="text-sm text-rose-700">{submitError}</p> : null}
+          <label className="block rounded-2xl border border-[#E8DFD8] bg-white p-4">
+            <span className="font-semibold text-gray-800">메모</span>
+            <span className="mt-1 block text-xs text-gray-500">
+              {policy.memoPrompt}
+            </span>
+            <textarea
+              value={answers.freeMemo ?? ""}
+              onChange={(e) =>
+                setAnswers({
+                  ...answers,
+                  freeMemo: e.target.value.trim() ? e.target.value : null,
+                })
+              }
+              rows={4}
+              className="mt-3 w-full rounded-xl border border-[#E8DFD8] px-3 py-2 text-sm"
+              placeholder={policy.memoPrompt}
+            />
+          </label>
+
+          {submitError ? (
+            <p className="text-sm text-rose-700">{submitError}</p>
+          ) : null}
           <button
             type="submit"
             disabled={submitting}
