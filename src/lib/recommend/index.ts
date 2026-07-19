@@ -168,7 +168,7 @@ export type {
   IngredientAuditRow,
   IngredientFormatAuditSummary,
 } from "./auditIngredientFormats";
-export { selectPurchaseLink } from "./selectPurchaseLink";
+export { selectPurchaseLink } from "./selectCandidatePurchaseLink";
 export type { PurchaseLinkSelection } from "./selectPurchaseLink";
 export {
   buildPurchaseLinksFromProduct,
