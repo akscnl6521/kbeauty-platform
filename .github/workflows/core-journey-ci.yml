@@ -52,6 +52,7 @@ jobs:
           npm run test:clinic-apply-guard
           npm run test:clinic-apply-manifest
           npm run test:clinic-execution-policy
+          npm run test:clinic-review-queue
           npm run test:commercial-separation
       - name: Customer journey regression
         run: npm run test:journey
