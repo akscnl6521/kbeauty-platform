@@ -9,6 +9,7 @@ export type ReviewSource =
   | "clinic_review";
 
 export type ReviewPriority = "critical" | "high" | "medium" | "low";
+export type ManifestDeliverySource = "remote_preview" | "local_file" | "none";
 
 export type UnifiedReviewItem = {
   id: string;
@@ -34,6 +35,7 @@ export type UnifiedReviewManifest = {
   countsByPriority: Record<ReviewPriority, number>;
   items: UnifiedReviewItem[];
   available: boolean;
+  deliverySource: ManifestDeliverySource;
 };
 
 const EMPTY_MANIFEST: UnifiedReviewManifest = {
@@ -61,6 +63,7 @@ const EMPTY_MANIFEST: UnifiedReviewManifest = {
   },
   items: [],
   available: false,
+  deliverySource: "none",
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -84,7 +87,10 @@ function isPriority(value: unknown): value is ReviewPriority {
   );
 }
 
-function parseManifest(value: unknown): UnifiedReviewManifest {
+function parseManifest(
+  value: unknown,
+  deliverySource: ManifestDeliverySource,
+): UnifiedReviewManifest {
   if (!isRecord(value)) throw new Error("Unified review manifest must be an object");
   if (value.mode !== "artifact_only") throw new Error("Unified review manifest must be artifact_only");
   if (value.publishAllowed !== false) throw new Error("Unified review manifest must block publishing");
@@ -144,10 +150,38 @@ function parseManifest(value: unknown): UnifiedReviewManifest {
     },
     items,
     available: true,
+    deliverySource,
   };
 }
 
+function getPreviewManifestUrl(): URL | null {
+  const raw = process.env.UNIFIED_REVIEW_MANIFEST_URL?.trim();
+  if (!raw || process.env.VERCEL_ENV === "production") return null;
+
+  const url = new URL(raw);
+  if (url.protocol !== "https:") {
+    throw new Error("UNIFIED_REVIEW_MANIFEST_URL must use HTTPS");
+  }
+  return url;
+}
+
+async function readRemotePreviewManifest(url: URL): Promise<UnifiedReviewManifest> {
+  const response = await fetch(url, {
+    cache: "no-store",
+    redirect: "error",
+    signal: AbortSignal.timeout(5_000),
+    headers: { accept: "application/json" },
+  });
+  if (!response.ok) {
+    throw new Error(`Unified review manifest request failed: ${response.status}`);
+  }
+  return parseManifest((await response.json()) as unknown, "remote_preview");
+}
+
 export async function getUnifiedReviewManifest(): Promise<UnifiedReviewManifest> {
+  const previewUrl = getPreviewManifestUrl();
+  if (previewUrl) return readRemotePreviewManifest(previewUrl);
+
   const filePath = path.join(
     process.cwd(),
     "data",
@@ -156,7 +190,10 @@ export async function getUnifiedReviewManifest(): Promise<UnifiedReviewManifest>
   );
 
   try {
-    return parseManifest(JSON.parse(await readFile(filePath, "utf8")) as unknown);
+    return parseManifest(
+      JSON.parse(await readFile(filePath, "utf8")) as unknown,
+      "local_file",
+    );
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") {
       return EMPTY_MANIFEST;
