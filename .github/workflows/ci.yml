@@ -48,10 +48,24 @@ jobs:
           echo "migration_count=$count"
           test "$count" -ge 1
 
-      - name: Ban unsupported CREATE OR REPLACE POLICY
+      - name: Find unsupported CREATE OR REPLACE POLICY
+        id: policy_check
+        shell: bash
         run: |
-          if grep -RIn --include='*.sql' 'CREATE OR REPLACE POLICY' supabase/migrations; then
+          set +e
+          grep -RIn --include='*.sql' 'CREATE OR REPLACE POLICY' supabase/migrations | tee migration-policy-diagnostic.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -eq 0 ]; then
             echo "PostgreSQL does not support CREATE OR REPLACE POLICY"
             exit 1
           fi
           echo "OK: no CREATE OR REPLACE POLICY"
+
+      - name: Upload migration diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: migration-policy-diagnostic
+          path: migration-policy-diagnostic.log
+          if-no-files-found: ignore
+          retention-days: 1
