@@ -5,7 +5,7 @@ import {
 } from "@/lib/ai/concernObservationFormState";
 
 export type AnalyzeConcernObservationPayload = {
-  concernObservations?: Record<string, ConcernObservation>;
+  concernObservations?: ConcernObservation[];
 };
 
 export function buildAnalyzeConcernObservationPayload(input: {
