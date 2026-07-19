@@ -1,0 +1,49 @@
+name: Scheduled Clinic Refresh Artifacts
+
+on:
+  schedule:
+    - cron: "40 0 * * 1,4" # 09:40 KST every Monday and Thursday
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  clinic-refresh-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build clinic staging sync plan
+        run: npm run clinic:staging-plan
+
+      - name: Verify dry-run safety
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const path = 'data/clinic/clinic-staging-sync-plan.json';
+          const value = JSON.parse(fs.readFileSync(path, 'utf8'));
+          if (value.mode !== 'dry_run') throw new Error('mode must be dry_run');
+          if (value.publishAllowed !== false) throw new Error('publishAllowed must be false');
+          if (value.productionTouched !== false) throw new Error('productionTouched must be false');
+          if (!value.audit || value.audit.valid !== true) throw new Error('clinic plan audit must be valid');
+          NODE
+
+      - name: Upload clinic refresh artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: clinic-refresh-plan-${{ github.run_number }}
+          path: data/clinic/clinic-staging-sync-plan.json
+          retention-days: 14
+          if-no-files-found: error
