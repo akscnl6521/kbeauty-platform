@@ -74,7 +74,7 @@ export default function CareGuidancePage() {
       <p className="mt-2 text-sm text-gray-600">
         제품 사용법, 안전 주의사항, 피부과 안내와 제휴 표시 원칙을 한곳에서 확인합니다.
       </p>
-      <MyCareNav current="/my" />
+      <MyCareNav current="/my/guidance" />
 
       {!loaded ? (
         <p className="mt-8 text-sm text-gray-600">가이드를 불러오는 중입니다.</p>
