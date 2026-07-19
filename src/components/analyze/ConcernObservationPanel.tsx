@@ -39,10 +39,11 @@ export function ConcernObservationPanel(props: {
         <ConcernObservationFields
           key={concern}
           concern={CONCERN_PARAM_LABELS[concern] ?? concern}
-          value={normalized[concern] ?? {}}
-          onChange={(observation) =>
-            props.onChange(updateConcernObservation(normalized, concern, observation))
-          }
+          value={{ concern, ...(normalized[concern] ?? {}) }}
+          onChange={(observation) => {
+            const { concern: _ignored, ...draft } = observation;
+            props.onChange(updateConcernObservation(normalized, concern, draft));
+          }}
         />
       ))}
     </section>
