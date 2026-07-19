@@ -14,13 +14,17 @@ writeFileSync(
   JSON.stringify([
     {
       sourceUrl: "https://clinic.example.com",
-      clinicName: "Example Dermatology",
+      sourceType: "official_site",
+      fetchedAt: "2026-07-19T00:00:00.000Z",
       sourceHash: "source-hash-1",
-      activityStatus: "active",
+      name: "Example Dermatology",
+      officialSiteUrl: "https://clinic.example.com",
+      bookingUrl: null,
       specialties: [],
       symptomTags: ["acne"],
-      officialSourceConfirmed: true,
-      partnershipDisclosure: "organic",
+      isActive: true,
+      partnershipType: "none",
+      partnershipDisclosure: null,
     },
   ]),
   "utf8"
