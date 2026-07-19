@@ -33,6 +33,7 @@
     "test:clinic-sync": "npx --yes tsx scripts/clinic-sync-decision-selftest.ts",
     "test:clinic-staging-sync": "npx --yes tsx scripts/clinic-staging-sync-plan-selftest.ts",
     "test:clinic-plan-audit": "npx --yes tsx scripts/clinic-plan-audit-selftest.ts",
+    "test:clinic-apply-guard": "npx --yes tsx scripts/clinic-staging-apply-guard-selftest.ts",
     "clinic:staging-plan": "npx --yes tsx scripts/build-clinic-staging-sync-plan.ts",
     "test:commercial-separation": "npx --yes tsx scripts/commercial-separation-policy-selftest.ts",
     "check:staging-quality": "node scripts/staging-verify-recommend-quality.mjs",
