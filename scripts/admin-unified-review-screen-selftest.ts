@@ -14,7 +14,8 @@ async function main() {
     ["clinic source", "피부과 후보"],
     ["read-only disclosure", "읽기 전용"],
     ["publish blocking disclosure", "자동 게시 차단"],
-    ["missing artifact state", "아직 통합 검수 파일이 없습니다"],
+    ["missing artifact state", "배포 환경에 연결된 검수 파일이 없습니다"],
+    ["artifact delivery disclosure", "GitHub Actions 아티팩트는 Vercel Preview에 자동 포함되지 않습니다"],
     ["empty review state", "현재 검수할 예외가 없습니다"],
   ] as const) {
     assert.ok(page.includes(expected), `${label} must be present`);
