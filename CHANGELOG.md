@@ -4,6 +4,19 @@
 
 ---
 
+## 2026-07-20
+
+### 추천 카드·루틴 공용 사용 가이드 표시
+
+- `src/components/usage/ProductUsageGuide.tsx` 공용 컴포넌트 분리
+- `/routine` · `RecommendedProductCard`가 동일 검증·표시 로직 사용
+- 추천 카드는 가이드 없을 때 영역 숨김(`emptyMode=hidden`), 루틴은 기존 빈 상태 유지
+- HTTPS 미디어·검증 필드만 표시 · `dangerouslySetInnerHTML` 미사용 · 자동재생 없음
+- Organic 점수 회귀 self-test 추가 (`usage-media-organic-score-regression-selftest`)
+- Production 배포 · Production DB · main 병합 미실행
+
+---
+
 ## 2026-07-16
 
 ### 로컬 출시 준비 검사 통과

@@ -7,11 +7,14 @@ import { useMemo, useState, useEffect } from "react";
 import { useLocale } from "@/hooks/useLocale";
 import { useCountry } from "@/hooks/useCountry";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
-import { RednessObservationFields } from "@/components/analyze/RednessObservationFields";
+import { ConcernObservationPanel } from "@/components/analyze/ConcernObservationPanel";
 import {
   parseRednessObservation,
   type RednessObservation,
 } from "@/lib/ai/rednessObservation";
+import type { ConcernObservation } from "@/lib/ai/types";
+import type { ConcernObservationMap } from "@/lib/ai/concernObservationFormState";
+import { buildAnalyzeConcernObservationPayload } from "@/lib/ai/analyzeConcernObservationPayload";
 import {
   analyzeInputSnapshotsEqual,
   clearAnalyzeInputSnapshot,
@@ -140,6 +143,7 @@ type IngredientPrefBody = {
   avoidedIngredients?: string[];
   currentProducts?: CurrentProductInput[];
   rednessObservation?: RednessObservation;
+  concernObservations?: ConcernObservation[];
 };
 
 const USAGE_TIME_OPTIONS: { value: CurrentProductUsageTime; label: string }[] =
@@ -717,6 +721,8 @@ export default function AnalyzePage() {
   const [manualSensitivity, setManualSensitivity] = useState<SensitivityKo>("보통");
   const [rednessObservation, setRednessObservation] =
     useState<RednessObservation>({});
+  const [concernObservationMap, setConcernObservationMap] =
+    useState<ConcernObservationMap>({});
   const [allergyIngredients, setAllergyIngredients] = useState<string[]>([]);
   const [avoidedIngredients, setAvoidedIngredients] = useState<string[]>([]);
   const [currentProducts, setCurrentProducts] = useState<CurrentProductInput[]>(
@@ -730,6 +736,14 @@ export default function AnalyzePage() {
     if (!showRednessDetails) return undefined;
     return parseRednessObservation(rednessObservation) ?? undefined;
   }, [showRednessDetails, rednessObservation]);
+  const concernObservationPayload = useMemo(
+    () =>
+      buildAnalyzeConcernObservationPayload({
+        selectedConcerns: manualConcerns.map(concernKoToParam),
+        observations: concernObservationMap,
+      }),
+    [manualConcerns, concernObservationMap]
+  );
 
   const currentInputSnapshot = useMemo((): AnalyzeInputSnapshot => {
     if (mode === "photo") {
@@ -751,6 +765,7 @@ export default function AnalyzePage() {
       rednessObservation: showRednessDetails
         ? { ...rednessObservation }
         : null,
+      concernObservations: concernObservationPayload.concernObservations ?? [],
     };
   }, [
     mode,
@@ -760,6 +775,7 @@ export default function AnalyzePage() {
     manualSensitivity,
     showRednessDetails,
     rednessObservation,
+    concernObservationPayload,
   ]);
 
   /** 수동 입력 현재값 — 규칙형 참고 미리보기 전용 */
@@ -924,6 +940,7 @@ export default function AnalyzePage() {
         concerns: manualConcerns,
         sensitivity: manualSensitivity,
         ...(rednessPayload ? { rednessObservation: rednessPayload } : {}),
+        ...concernObservationPayload,
         ...ingredientPrefs,
       });
       saveAnalyzeInputSnapshot({
@@ -935,6 +952,7 @@ export default function AnalyzePage() {
         rednessObservation: showRednessDetails
           ? { ...rednessObservation }
           : null,
+        concernObservations: concernObservationPayload.concernObservations ?? [],
       });
       setResult(analysis);
       persistAnalyzeBundle({
@@ -1441,12 +1459,11 @@ export default function AnalyzePage() {
                   </div>
                 </div>
 
-                {showRednessDetails ? (
-                  <RednessObservationFields
-                    value={rednessObservation}
-                    onChange={setRednessObservation}
-                  />
-                ) : null}
+                <ConcernObservationPanel
+                  concerns={manualConcerns.map(concernKoToParam)}
+                  value={concernObservationMap}
+                  onChange={setConcernObservationMap}
+                />
 
                 <div>
                   <p className="mb-2 text-sm font-semibold text-gray-900">

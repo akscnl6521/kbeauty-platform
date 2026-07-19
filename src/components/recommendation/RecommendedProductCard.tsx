@@ -28,6 +28,7 @@ import {
   normalizeShippingCountry,
   type ShippingCountry,
 } from "@/lib/recommend/selectPurchaseLink";
+import ProductUsageGuide from "@/components/usage/ProductUsageGuide";
 
 export type RecommendedProductCardProps = {
   /** 1부터 시작하는 순위 */
@@ -353,6 +354,13 @@ export function RecommendedProductCard({
           </div>
         </div>
       ) : null}
+
+      <ProductUsageGuide
+        productId={product.id}
+        locale={locale}
+        emptyMode="hidden"
+        className="border-t border-pink-100 pt-3 text-xs text-gray-700"
+      />
 
       {purchase && !hidePurchaseCta ? (
         <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

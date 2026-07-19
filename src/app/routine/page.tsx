@@ -10,7 +10,7 @@ import {
   displayBrandName,
   displayProductTitle,
 } from "@/lib/brand/displayBrandName";
-import RoutineUsageGuide from "./RoutineUsageGuide";
+import ProductUsageGuide from "@/components/usage/ProductUsageGuide";
 
 type Locale = "en" | "ja" | "ko";
 
@@ -324,7 +324,11 @@ export default function RoutinePage() {
                               {priceDisplay}
                             </p>
                           )}
-                          <RoutineUsageGuide productId={p.id} locale={locale} />
+                          <ProductUsageGuide
+                            productId={p.id}
+                            locale={locale}
+                            emptyMode="message"
+                          />
                         </div>
                       );
                     })}
