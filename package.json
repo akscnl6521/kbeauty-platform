@@ -19,6 +19,7 @@
     "test:care-dashboard": "npx --yes tsx scripts/care-dashboard-summary-selftest.ts",
     "test:catalog-refresh": "npx --yes tsx scripts/catalog-refresh-policy-selftest.ts",
     "test:collection-decision": "npx --yes tsx scripts/collection-decision-selftest.ts",
+    "test:staging-sync-plan": "npx --yes tsx scripts/staging-sync-plan-selftest.ts",
     "check:staging-quality": "node scripts/staging-verify-recommend-quality.mjs",
     "check:preview-quality": "node scripts/preview-concern-quality-smoke.mjs",
     "check:preview-substitute": "node scripts/staging-preview-substitute-quality.mjs",
