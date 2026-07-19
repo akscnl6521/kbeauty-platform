@@ -34,8 +34,8 @@ jobs:
           npm run test:care-auto-save
           npm run test:care-referral
 
-      - name: Pipeline regression
-        run: npm run test:pipeline
+      - name: Pipeline diagnostics
+        run: npx --yes tsx scripts/pipeline-diagnostic-selftest.ts
 
       - name: Customer journey regression
         run: npm run test:journey
