@@ -30,6 +30,7 @@
     "test:usage-media": "npx --yes tsx scripts/product-usage-media-policy-selftest.ts",
     "test:clinic-referral": "npx --yes tsx scripts/clinic-referral-ranking-selftest.ts",
     "test:clinic-refresh": "npx --yes tsx scripts/clinic-refresh-policy-selftest.ts",
+    "test:clinic-sync": "npx --yes tsx scripts/clinic-sync-decision-selftest.ts",
     "test:commercial-separation": "npx --yes tsx scripts/commercial-separation-policy-selftest.ts",
     "check:staging-quality": "node scripts/staging-verify-recommend-quality.mjs",
     "check:preview-quality": "node scripts/preview-concern-quality-smoke.mjs",
