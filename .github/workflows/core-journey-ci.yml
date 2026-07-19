@@ -34,6 +34,7 @@ jobs:
           npm run test:care-guidance
           npm run test:reminder-delivery
           npm run test:check-in-questions
+          npm run test:care-data
           npm run test:catalog-refresh
           npm run test:collection-decision
           npm run test:staging-sync-plan
