@@ -9,6 +9,26 @@ const maxEnrichmentPasses = Math.max(
   1,
   Number(process.env.CATALOG_AUTOPILOT_MAX_PASSES ?? "20")
 );
+const includeCuratedLabels =
+  process.env.CATALOG_AUTOPILOT_INCLUDE_CURATED_LABELS === "1";
+
+export function npmCommand(platform: NodeJS.Platform = process.platform): string {
+  return platform === "win32" ? "npm.cmd" : "npm";
+}
+
+export function catalogAutopilotSteps(options?: {
+  includeCuratedLabels?: boolean;
+}): string[] {
+  const steps = [
+    "catalog:full-beauty",
+    "catalog:enrich",
+    "catalog:dedupe-plan",
+    "catalog:inci",
+  ];
+  if (options?.includeCuratedLabels) steps.push("catalog:labels:sync");
+  steps.push("catalog:refresh-plan");
+  return steps;
+}
 
 function assertStagingLinked(): void {
   const refPath = path.join(root, "supabase", ".temp", "project-ref");
@@ -20,13 +40,16 @@ function assertStagingLinked(): void {
 
 function run(script: string, extraEnv: Record<string, string> = {}): void {
   console.error(`[catalog-autopilot] ${script}`);
-  const result = spawnSync("npm.cmd", ["run", script], {
+  const result = spawnSync(npmCommand(), ["run", script], {
     cwd: root,
     encoding: "utf8",
-    shell: true,
     stdio: "inherit",
     env: { ...process.env, ...extraEnv },
+    timeout: Number(process.env.CATALOG_AUTOPILOT_STEP_TIMEOUT_MS ?? "900000"),
   });
+  if (result.error) {
+    throw new Error(`AUTOPILOT_STEP_ERROR:${script}:${result.error.message}`);
+  }
   if ((result.status ?? 1) !== 0) {
     throw new Error(`AUTOPILOT_STEP_FAILED:${script}`);
   }
@@ -68,8 +91,9 @@ function main(): void {
       throw new Error("AUTOPILOT_ENRICHMENT_INCOMPLETE");
     }
   }
+  run("catalog:dedupe-plan");
   run("catalog:inci");
-  run("catalog:labels:sync");
+  if (includeCuratedLabels) run("catalog:labels:sync");
   run("catalog:refresh-plan");
   console.log(
     JSON.stringify({
@@ -77,13 +101,17 @@ function main(): void {
       mode: "staging_catalog_autopilot",
       productionTouched: false,
       manualReview: "exceptions_only",
+      curatedLabelsIncluded: includeCuratedLabels,
+      dedupePlanGenerated: true,
     })
   );
 }
 
-try {
-  main();
-} catch (error) {
-  console.error(error);
-  process.exit(1);
+if (process.env.CATALOG_AUTOPILOT_SELFTEST !== "1") {
+  try {
+    main();
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
 }
