@@ -1,0 +1,44 @@
+name: Scheduled Usage Media Review Artifacts
+
+on:
+  schedule:
+    - cron: "50 0 * * 1,4" # 09:50 KST every Monday and Thursday
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  usage-media-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build review artifact
+        run: npx --yes tsx scripts/build-usage-media-review-artifact.ts
+      - name: Verify artifact safety
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const path = 'data/media/usage-media-review-queue.json';
+          const value = JSON.parse(fs.readFileSync(path, 'utf8'));
+          if (value.mode !== 'artifact_only') throw new Error('mode must be artifact_only');
+          if (value.publishAllowed !== false) throw new Error('publishAllowed must be false');
+          if (value.databaseTouched !== false) throw new Error('databaseTouched must be false');
+          if (value.productionTouched !== false) throw new Error('productionTouched must be false');
+          NODE
+      - name: Upload review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-media-review-${{ github.run_number }}
+          path: data/media/usage-media-review-queue.json
+          retention-days: 14
+          if-no-files-found: error
