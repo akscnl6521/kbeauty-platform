@@ -1,0 +1,84 @@
+name: Catalog Autopilot
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_fetch:
+        description: Maximum official product pages to fetch in this run
+        required: false
+        default: "40"
+      dry_fetch:
+        description: Skip live HTTP fetches and validate orchestration only
+        required: false
+        type: boolean
+        default: false
+  schedule:
+    - cron: "17 18 * * 1,4"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: catalog-autopilot-staging
+  cancel-in-progress: false
+
+jobs:
+  staging-catalog-autopilot:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    environment: staging
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      STAGING_DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
+      ENRICH_MAX_FETCH: ${{ inputs.max_fetch || '40' }}
+      ENRICH_DRY_FETCH: ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_fetch) && '1' || '0' }}
+      CI: "1"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify staging credentials
+        shell: pwsh
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:SUPABASE_ACCESS_TOKEN)) {
+            throw "Missing GitHub environment secret: SUPABASE_ACCESS_TOKEN"
+          }
+          if ([string]::IsNullOrWhiteSpace($env:STAGING_DB_PASSWORD)) {
+            throw "Missing GitHub environment secret: STAGING_DB_PASSWORD"
+          }
+
+      - name: Link Supabase Staging
+        shell: pwsh
+        run: |
+          npx supabase link --project-ref jfnjufmldiqlgvgyugfd --password $env:STAGING_DB_PASSWORD
+          $linked = (Get-Content "supabase/.temp/project-ref" -Raw).Trim()
+          if ($linked -ne "jfnjufmldiqlgvgyugfd") {
+            throw "Refusing to continue: linked project is not Staging ($linked)"
+          }
+          if ($linked -eq "rhfrmvkjsummaylpzmns") {
+            throw "ABORT_PRODUCTION"
+          }
+
+      - name: Run catalog autopilot
+        run: npm run catalog:autopilot
+
+      - name: Upload catalog audit artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-autopilot-${{ github.run_id }}
+          path: |
+            data/catalog/**
+            data/backups/**
+          if-no-files-found: warn
+          retention-days: 14
