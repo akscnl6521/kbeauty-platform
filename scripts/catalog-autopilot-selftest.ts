@@ -12,6 +12,7 @@ assert.deepEqual(catalogAutopilotSteps(), [
   "catalog:enrich",
   "catalog:dedupe-plan",
   "catalog:inci",
+  "catalog:exception-queue",
   "catalog:refresh-plan",
 ]);
 
@@ -20,6 +21,7 @@ assert.deepEqual(catalogAutopilotSteps({ includeCuratedLabels: true }), [
   "catalog:enrich",
   "catalog:dedupe-plan",
   "catalog:inci",
+  "catalog:exception-queue",
   "catalog:labels:sync",
   "catalog:refresh-plan",
 ]);
