@@ -34,22 +34,16 @@ const cases: TestCase[] = [
 ];
 
 async function main(): Promise<void> {
-  const failures: string[] = [];
-  for (const test of cases) {
-    try {
-      await test.run();
-      console.log(`[pipeline-diagnostic] PASS ${test.name}`);
-    } catch (error) {
-      const message = error instanceof Error ? error.stack ?? error.message : String(error);
-      console.error(`[pipeline-diagnostic] FAIL ${test.name}\n${message}`);
-      failures.push(test.name);
-    }
+  const requested = process.argv[2]?.trim();
+  const selected = requested ? cases.filter((test) => test.name === requested) : cases;
+  if (selected.length === 0) {
+    throw new Error(`unknown pipeline diagnostic suite: ${requested}`);
   }
 
-  if (failures.length > 0) {
-    throw new Error(`pipeline diagnostics failed: ${failures.join(", ")}`);
+  for (const test of selected) {
+    await test.run();
+    console.log(`[pipeline-diagnostic] PASS ${test.name}`);
   }
-  console.log("[pipeline-diagnostic] all passed");
 }
 
 void main();
