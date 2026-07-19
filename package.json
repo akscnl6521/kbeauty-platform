@@ -11,6 +11,7 @@
     "test:journey": "node scripts/test-customer-journey.mjs",
     "test:quality": "npx --yes tsx scripts/quality-regression-selftest.ts",
     "test:symptom-safety": "npx --yes tsx scripts/symptom-safety-selftest.ts",
+    "test:analyze-safety": "npx --yes tsx scripts/analyze-safety-integration-selftest.ts",
     "check:staging-quality": "node scripts/staging-verify-recommend-quality.mjs",
     "check:preview-quality": "node scripts/preview-concern-quality-smoke.mjs",
     "check:preview-substitute": "node scripts/staging-preview-substitute-quality.mjs",
