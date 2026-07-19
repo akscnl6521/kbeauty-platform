@@ -1,7 +1,5 @@
-/**
- * Continuous care domain types (client + server safe).
- * No medical diagnosis claims.
- */
+// Continuous care domain types (client + server safe).
+// No medical diagnosis claims.
 
 export const CARE_CHECKIN_DAYS = [3, 7, 15, 30] as const;
 export type CareCheckInDay = (typeof CARE_CHECKIN_DAYS)[number];
@@ -47,7 +45,6 @@ export type CareAnalysisSession = {
   budgetBand: string | null;
   texturePreference: string | null;
   fragrancePreference: string | null;
-  /** Snapshot of analysis/recommendation at save time */
   analysisSnapshot: Record<string, unknown>;
   recommendationSnapshot: Record<string, unknown>;
   rankedProductIds: string[];
@@ -85,6 +82,17 @@ export type CareRoutine = {
   conflictNotes: string[];
 };
 
+export type CareAcuteSignals = {
+  pain: boolean;
+  bleeding: boolean;
+  oozing: boolean;
+  rapidSwelling: boolean;
+  spreadingRash: boolean;
+  eyeIrritation: boolean;
+  breathingDifficulty: boolean;
+  systemicAllergy: boolean;
+};
+
 export type CareCheckInAnswers = {
   stillUsing: boolean | null;
   sting: number | null;
@@ -99,6 +107,7 @@ export type CareCheckInAnswers = {
   adherence: number | null;
   photoAttached: boolean;
   freeMemo: string | null;
+  acuteSignals?: Partial<CareAcuteSignals>;
 };
 
 export type CareCheckIn = {
@@ -151,7 +160,6 @@ export type CareSuggestion = {
   reason: string;
   expectedEffect: string;
   applied: boolean;
-  /** Never auto-applied to saved routine */
   requiresUserConfirm: true;
   patch: Partial<{
     reduceFrequencyItemIds: string[];
