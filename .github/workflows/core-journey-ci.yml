@@ -32,6 +32,7 @@ jobs:
           npm run test:care-referral
           npm run test:care-dashboard
           npm run test:catalog-refresh
+          npm run test:collection-decision
       - name: Customer journey regression
         run: npm run test:journey
       - name: Build
