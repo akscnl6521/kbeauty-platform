@@ -29,7 +29,8 @@ const empty = getSelectedConcernObservations(["건조함"], { 건조함: {} });
 assert(empty === undefined, "omit empty observation payload");
 
 const payload = getSelectedConcernObservations(["건조함", "여드름"], updated);
-assert(payload?.["여드름"].redFlags?.includes("pain"), "build selected payload");
+const acneObservation = payload?.find((item) => item.concern === "여드름");
+assert(acneObservation?.redFlags?.includes("pain"), "build selected payload");
 assert(hasUrgentConcernObservation(payload), "detect red flag across concerns");
 assert(!hasUrgentConcernObservation(undefined), "undefined payload is safe");
 
