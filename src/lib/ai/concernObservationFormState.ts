@@ -1,6 +1,7 @@
 import type { ConcernObservation } from "@/lib/ai/types";
 
-export type ConcernObservationMap = Record<string, ConcernObservation>;
+export type ConcernObservationDraft = Omit<ConcernObservation, "concern">;
+export type ConcernObservationMap = Record<string, ConcernObservationDraft>;
 
 export function normalizeConcernObservationMap(
   concerns: string[],
@@ -16,7 +17,7 @@ export function normalizeConcernObservationMap(
 export function updateConcernObservation(
   current: ConcernObservationMap,
   concern: string,
-  observation: ConcernObservation
+  observation: ConcernObservationDraft
 ): ConcernObservationMap {
   return {
     ...current,
@@ -27,26 +28,29 @@ export function updateConcernObservation(
 export function getSelectedConcernObservations(
   concerns: string[],
   current: ConcernObservationMap
-): Record<string, ConcernObservation> | undefined {
+): ConcernObservation[] | undefined {
   const selected = normalizeConcernObservationMap(concerns, current);
-  const hasMeaningfulValue = Object.values(selected).some((observation) =>
-    Boolean(
-      observation.areas?.length ||
-        observation.severity ||
-        observation.duration ||
-        observation.worsening ||
-        observation.redFlags?.length
+  const observations = Object.entries(selected)
+    .filter(([, observation]) =>
+      Boolean(
+        observation.areas?.length ||
+          observation.severity ||
+          observation.duration ||
+          observation.worsening ||
+          observation.redFlags?.length
+      )
     )
-  );
+    .map(([concern, observation]) => ({
+      concern,
+      ...observation,
+    }));
 
-  return hasMeaningfulValue ? selected : undefined;
+  return observations.length > 0 ? observations : undefined;
 }
 
 export function hasUrgentConcernObservation(
-  observations: Record<string, ConcernObservation> | undefined
+  observations: ConcernObservation[] | undefined
 ): boolean {
   if (!observations) return false;
-  return Object.values(observations).some((observation) =>
-    Boolean(observation.redFlags?.length)
-  );
+  return observations.some((observation) => Boolean(observation.redFlags?.length));
 }
