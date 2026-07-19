@@ -1,7 +1,8 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import { buildClinicStagingSyncPlan } from "@/lib/clinic/clinicStagingSyncPlan";
 import { auditClinicStagingPlan } from "@/lib/clinic/clinicPlanAudit";
+import { buildClinicReviewQueue } from "@/lib/clinic/clinicReviewQueue";
+import { buildClinicStagingSyncPlan } from "@/lib/clinic/clinicStagingSyncPlan";
 import type { ClinicSourceSnapshot } from "@/lib/clinic/clinicSyncDecision";
 import type { ClinicCandidate } from "@/lib/clinic/referralRankingPolicy";
 
@@ -25,10 +26,26 @@ async function main() {
   const existing = await readArray<ClinicCandidate>(existingFile);
   const operations = buildClinicStagingSyncPlan({ snapshots, existing });
   const audit = auditClinicStagingPlan(operations);
+
+  if (!audit.valid) {
+    throw new Error(
+      `Clinic staging plan audit failed: ${audit.issues
+        .map((issue) => issue.code)
+        .join(", ")}`
+    );
+  }
+
+  const reviewQueue = buildClinicReviewQueue(operations);
   const summary = Object.fromEntries(
     ["insert_candidate", "update_candidate", "manual_review", "block_listing", "no_change"].map((action) => [
       action,
       operations.filter((item) => item.action === action).length,
+    ])
+  );
+  const reviewSummary = Object.fromEntries(
+    ["critical", "high", "medium", "low"].map((priority) => [
+      priority,
+      reviewQueue.filter((item) => item.priority === priority).length,
     ])
   );
   const result = {
@@ -42,17 +59,24 @@ async function main() {
       issues: audit.issues,
     },
     summary,
+    reviewSummary,
+    reviewQueue,
     operations,
   };
-
-  if (!audit.valid) {
-    console.error(JSON.stringify({ outputFile, summary, audit: result.audit }, null, 2));
-    throw new Error("Clinic staging sync plan audit failed; artifact was not written");
-  }
-
   await mkdir(dirname(outputFile), { recursive: true });
   await writeFile(outputFile, `${JSON.stringify(result, null, 2)}\n`, "utf8");
-  console.log(JSON.stringify({ outputFile, summary, audit: result.audit }, null, 2));
+  console.log(
+    JSON.stringify(
+      {
+        outputFile,
+        summary,
+        reviewSummary,
+        reviewQueueCount: reviewQueue.length,
+      },
+      null,
+      2
+    )
+  );
 }
 
 main().catch((error) => {
