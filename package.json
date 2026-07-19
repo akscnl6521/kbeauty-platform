@@ -72,6 +72,7 @@
     "catalog:fix-staging-names": "npx --yes tsx scripts/fix-staging-product-names.ts",
     "test:enrichment": "npx --yes tsx scripts/enrichment-selftest.ts",
     "test:crawler-extraction": "npx --yes tsx scripts/extract-labeled-ingredients-selftest.ts",
+    "test:offer-extraction": "npx --yes tsx scripts/jsonld-offer-extraction-selftest.ts",
     "test:labels": "npx --yes tsx scripts/curated-inci-selftest.ts",
     "test:labels-admin": "npx --yes tsx scripts/label-sheet-admin-selftest.ts"
   },
