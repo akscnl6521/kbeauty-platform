@@ -1,0 +1,1 @@
+Clinic staging sync plan: insert candidate, update candidate, no change, manual review, and block listing. Production writes and automatic publishing remain disabled.
