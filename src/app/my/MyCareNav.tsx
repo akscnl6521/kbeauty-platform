@@ -9,6 +9,7 @@ const LINKS = [
   { href: "/my/progress", label: "변화" },
   { href: "/my/analyses", label: "분석" },
   { href: "/my/recommendations", label: "추천" },
+  { href: "/my/guidance", label: "사용·상담 가이드" },
   { href: "/my/settings", label: "설정" },
 ];
 
