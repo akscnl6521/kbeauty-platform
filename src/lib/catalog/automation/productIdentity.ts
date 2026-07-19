@@ -10,7 +10,7 @@ export type ProductIdentity = {
 };
 
 export type ProductIdentityMatch =
-  | { kind: "exact_duplicate"; confidence: 1; reasons: string[] }
+  | { kind: "exact_duplicate"; confidence: number; reasons: string[] }
   | { kind: "same_product_different_size"; confidence: number; reasons: string[] }
   | { kind: "renewal_suspect"; confidence: number; reasons: string[] }
   | { kind: "distinct"; confidence: number; reasons: string[] };
