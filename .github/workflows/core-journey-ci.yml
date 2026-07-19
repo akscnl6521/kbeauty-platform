@@ -29,6 +29,7 @@ jobs:
           npm run test:concern-observations
           npm run test:concern-form-state
           npm run test:analyze-concern-payload
+          npm run test:analyze-concern-patcher
           npm run test:result-exposure
           npm run test:care-auto-save
           npm run test:care-referral
