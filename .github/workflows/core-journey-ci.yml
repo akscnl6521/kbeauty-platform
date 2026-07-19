@@ -46,6 +46,7 @@ jobs:
           npm run test:collection-decision
           npm run test:staging-sync-plan
           npm run test:usage-media
+          npx --yes tsx scripts/usage-media-review-queue-selftest.ts
           npm run test:clinic-referral
           npm run test:clinic-refresh
           npm run test:clinic-sync
