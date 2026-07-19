@@ -30,6 +30,7 @@ jobs:
           npm run test:result-exposure
           npm run test:care-auto-save
           npm run test:care-referral
+          npm run test:care-dashboard
       - name: Customer journey regression
         run: npm run test:journey
       - name: Build
