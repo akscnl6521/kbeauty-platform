@@ -15,6 +15,7 @@
     "test:concern-observations": "npx --yes tsx scripts/build-concern-observations-selftest.ts",
     "test:result-exposure": "npx --yes tsx scripts/result-exposure-policy-selftest.ts",
     "test:care-auto-save": "npx --yes tsx scripts/care-auto-save-selftest.ts",
+    "test:care-referral": "npx --yes tsx scripts/care-referral-selftest.ts",
     "check:staging-quality": "node scripts/staging-verify-recommend-quality.mjs",
     "check:preview-quality": "node scripts/preview-concern-quality-smoke.mjs",
     "check:preview-substitute": "node scripts/staging-preview-substitute-quality.mjs",
