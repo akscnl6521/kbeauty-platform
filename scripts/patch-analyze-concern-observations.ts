@@ -37,8 +37,8 @@ const replacements: Array<[string, string, string]> = [
   ],
   [
     "snapshot dependencies",
-    '    showRednessDetails,\n    rednessObservation,\n  ]);',
-    '    showRednessDetails,\n    rednessObservation,\n    concernObservationPayload,\n  ]);'
+    '  }, [\n    mode,\n    manualTone,\n    manualUndertone,\n    manualConcerns,\n    manualSensitivity,\n    showRednessDetails,\n    rednessObservation,\n  ]);',
+    '  }, [\n    mode,\n    manualTone,\n    manualUndertone,\n    manualConcerns,\n    manualSensitivity,\n    showRednessDetails,\n    rednessObservation,\n    concernObservationPayload,\n  ]);'
   ],
   [
     "manual request payload",
