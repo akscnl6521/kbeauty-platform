@@ -33,7 +33,16 @@ jobs:
       - name: Customer journey regression
         run: npm run test:journey
       - name: Build
-        run: npm run build
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee build.log
+      - name: Upload build diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: core-build-log
+          path: build.log
+          retention-days: 1
 
   legacy-suite:
     runs-on: ubuntu-latest
@@ -67,15 +76,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run isolated suite
-        shell: bash
-        run: |
-          set -o pipefail
-          npx --yes tsx scripts/pipeline-diagnostic-selftest.ts ${{ matrix.suite }} 2>&1 | tee diagnostic.log
+        run: npx --yes tsx scripts/pipeline-diagnostic-selftest.ts ${{ matrix.suite }} 2>&1 | tee diagnostic.log
       - name: Upload diagnostic log
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: diagnostic-${{ matrix.suite }}
           path: diagnostic.log
-          if-no-files-found: error
           retention-days: 1
