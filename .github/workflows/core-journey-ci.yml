@@ -45,6 +45,7 @@ jobs:
           npm run test:clinic-referral
           npm run test:clinic-refresh
           npm run test:clinic-sync
+          npm run test:clinic-staging-sync
           npm run test:commercial-separation
       - name: Customer journey regression
         run: npm run test:journey
