@@ -116,12 +116,17 @@ export function rankClinicCandidates(
     });
 }
 
+/**
+ * 자연 검색 결과와 제휴 영역을 완전히 분리한다.
+ * 제휴 여부는 organicScore 계산에 절대 사용하지 않으며,
+ * 동일 의료기관이 두 영역에 중복 노출되지 않는다.
+ */
 export function splitOrganicAndPartnered(ranked: RankedClinic[]): {
   organic: RankedClinic[];
   partnered: RankedClinic[];
 } {
   return {
-    organic: ranked,
+    organic: ranked.filter((clinic) => !clinic.isPartner),
     partnered: ranked.filter((clinic) => clinic.isPartner),
   };
 }
@@ -137,6 +142,12 @@ export function validateClinicCandidate(candidate: ClinicCandidate): string[] {
   }
   if (candidate.isPartner && !candidate.partnershipDisclosure?.trim()) {
     reasons.push("partnership_disclosure_missing");
+  }
+  if (!candidate.isPartner && candidate.partnershipType !== "none") {
+    reasons.push("non_partner_partnership_type_mismatch");
+  }
+  if (!candidate.isPartner && candidate.partnershipDisclosure?.trim()) {
+    reasons.push("non_partner_disclosure_mismatch");
   }
   return reasons;
 }
