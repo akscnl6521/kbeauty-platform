@@ -10,9 +10,18 @@ const payload = buildAnalyzeConcernObservationPayload({
   },
 });
 
-assert.deepEqual(Object.keys(payload.concernObservations ?? {}).sort(), ["Acne", "Dryness"]);
-assert.equal(payload.concernObservations?.Dryness.severity, "moderate");
-assert.equal(payload.concernObservations?.Acne.worsening, true);
+assert.deepEqual(payload.concernObservations, [
+  {
+    concern: "Dryness",
+    severity: "moderate",
+    duration: "over_3_months",
+  },
+  {
+    concern: "Acne",
+    areas: ["chin"],
+    worsening: true,
+  },
+]);
 
 const empty = buildAnalyzeConcernObservationPayload({
   selectedConcerns: ["UV"],
