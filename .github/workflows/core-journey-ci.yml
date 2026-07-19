@@ -9,22 +9,19 @@ permissions:
   contents: read
 
 jobs:
-  verify:
+  core:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-
       - name: Install dependencies
         run: npm ci
-
       - name: Core journey self-tests
         run: |
           npm run test:symptom-safety
@@ -33,13 +30,41 @@ jobs:
           npm run test:result-exposure
           npm run test:care-auto-save
           npm run test:care-referral
-
-      - name: Pipeline diagnostics
-        run: npx --yes tsx scripts/pipeline-diagnostic-selftest.ts
-
       - name: Customer journey regression
         run: npm run test:journey
-
       - name: Build
-        if: always()
         run: npm run build
+
+  legacy-suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          - pipeline
+          - journey
+          - recommend-score
+          - localization
+          - quality-regression
+          - redness
+          - analyze-input
+          - analyze-reference
+          - catalog-audit
+          - catalog-automation
+          - scalp-hair
+          - beauty-catalog
+          - product-create
+    name: legacy-${{ matrix.suite }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Run isolated suite
+        run: npx --yes tsx scripts/pipeline-diagnostic-selftest.ts ${{ matrix.suite }}
