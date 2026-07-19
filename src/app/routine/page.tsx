@@ -10,6 +10,7 @@ import {
   displayBrandName,
   displayProductTitle,
 } from "@/lib/brand/displayBrandName";
+import RoutineUsageGuide from "./RoutineUsageGuide";
 
 type Locale = "en" | "ja" | "ko";
 
@@ -126,7 +127,6 @@ export default function RoutinePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load favorite ids from localStorage
   useEffect(() => {
     try {
       const stored = window.localStorage.getItem("favoriteProductIds");
@@ -141,7 +141,6 @@ export default function RoutinePage() {
     }
   }, []);
 
-  // Fetch products for favorites
   useEffect(() => {
     if (favoriteIds.length === 0) {
       setLoading(false);
@@ -321,10 +320,11 @@ export default function RoutinePage() {
                             {displayName}
                           </p>
                           {priceDisplay && (
-                            <p className="mt-auto text-xs font-medium text-gray-800">
+                            <p className="text-xs font-medium text-gray-800">
                               {priceDisplay}
                             </p>
                           )}
+                          <RoutineUsageGuide productId={p.id} locale={locale} />
                         </div>
                       );
                     })}
@@ -338,4 +338,3 @@ export default function RoutinePage() {
     </div>
   );
 }
-

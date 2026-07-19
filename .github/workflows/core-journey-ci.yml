@@ -48,6 +48,7 @@ jobs:
           npm run test:usage-media
           npx --yes tsx scripts/usage-media-review-queue-selftest.ts
           npx --yes tsx scripts/usage-media-review-artifact-selftest.ts
+          npx --yes tsx scripts/routine-usage-guide-display-selftest.ts
           npm run test:clinic-referral
           npm run test:clinic-refresh
           npm run test:clinic-sync
