@@ -36,6 +36,7 @@ jobs:
           npm run test:staging-sync-plan
           npm run test:usage-media
           npm run test:clinic-referral
+          npm run test:commercial-separation
       - name: Customer journey regression
         run: npm run test:journey
       - name: Build
