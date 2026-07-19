@@ -18,11 +18,18 @@ async function main() {
     ["Preview delivery guidance", "UNIFIED_REVIEW_MANIFEST_URL"],
     ["Production remote guard disclosure", "Production에서는 이"],
     ["delivery source status", "전달 경로"],
-    ["empty review state", "현재 검수할 예외가 없습니다"],
+    ["search input", 'name="q"'],
+    ["source filter", 'name="source"'],
+    ["priority filter", 'name="priority"'],
+    ["filter reset", 'href="/admin/review"'],
+    ["filtered empty state", "조건에 맞는 검수 항목이 없습니다"],
+    ["query length guard", ".slice(0, 100)"],
   ] as const) {
     assert.ok(page.includes(expected), `${label} must be present`);
   }
 
+  assert.ok(page.includes('form method="get"'), "filters must use GET only");
+  assert.ok(!page.includes('method="post"'), "page must not submit POST requests");
   assert.ok(!page.includes('method: "POST"'), "page must not issue POST requests");
   assert.ok(!page.includes('method: "PUT"'), "page must not issue PUT requests");
   assert.ok(!page.includes('method: "PATCH"'), "page must not issue PATCH requests");
@@ -48,7 +55,6 @@ async function main() {
   assert.ok(!loader.includes(".insert("), "loader must not insert records");
   assert.ok(!loader.includes(".update("), "loader must not update records");
   assert.ok(!loader.includes(".delete("), "loader must not delete records");
-
   assert.ok(nav.includes('href: "/admin/review"'), "admin navigation must link to unified review");
   assert.ok(nav.includes('label: "통합 검수"'), "admin navigation label must be Korean");
 
