@@ -89,10 +89,7 @@ export default function MyCareSettingsPage() {
           <span className="font-medium">{email ?? "불러오는 중…"}</span>
         </p>
         <div className="mt-3 flex flex-wrap gap-3">
-          <Link
-            href="/forgot-password"
-            className="text-[#C2185B] underline"
-          >
+          <Link href="/forgot-password" className="text-[#C2185B] underline">
             비밀번호 재설정
           </Link>
           <Link href="/logout" className="text-gray-700 underline">
@@ -130,6 +127,9 @@ export default function MyCareSettingsPage() {
 
       <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
         <h2 className="font-semibold">알림 · Care 동의</h2>
+        <p className="mt-2 text-xs text-gray-600">
+          Day 3·7·15·30 체크인 알림은 채널별 동의와 중복 방지 규칙을 적용합니다.
+        </p>
         <label className="mt-3 flex items-center gap-2">
           <input
             type="checkbox"
@@ -146,9 +146,37 @@ export default function MyCareSettingsPage() {
           />
           이메일 알림 희망 (외부 발송은 설정 시에만)
         </label>
-        <p className="mt-2 text-xs text-gray-500">
-          야간 회피 {store.settings.quietHoursStart}:00–
-          {store.settings.quietHoursEnd}:00 · 진단이 아닌 관리 안내만 제공합니다.
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <label className="block">
+            조용한 시간 시작
+            <select
+              className="mt-1 w-full rounded-lg border border-[#E8DFD8] bg-white px-3 py-2"
+              value={store.settings.quietHoursStart}
+              onChange={(e) => patch({ quietHoursStart: Number(e.target.value) })}
+              aria-label="조용한 시간 시작"
+            >
+              {Array.from({ length: 24 }, (_, hour) => (
+                <option key={hour} value={hour}>{`${String(hour).padStart(2, "0")}:00`}</option>
+              ))}
+            </select>
+          </label>
+          <label className="block">
+            조용한 시간 종료
+            <select
+              className="mt-1 w-full rounded-lg border border-[#E8DFD8] bg-white px-3 py-2"
+              value={store.settings.quietHoursEnd}
+              onChange={(e) => patch({ quietHoursEnd: Number(e.target.value) })}
+              aria-label="조용한 시간 종료"
+            >
+              {Array.from({ length: 24 }, (_, hour) => (
+                <option key={hour} value={hour}>{`${String(hour).padStart(2, "0")}:00`}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <p className="mt-3 text-xs text-gray-500">
+          조용한 시간 {String(store.settings.quietHoursStart).padStart(2, "0")}:00–
+          {String(store.settings.quietHoursEnd).padStart(2, "0")}:00에는 일반 알림을 다음 허용 시간으로 미룹니다. 긴급 위험 신호는 지연하지 않습니다.
         </p>
       </section>
 
@@ -171,9 +199,7 @@ export default function MyCareSettingsPage() {
         >
           {attaching ? "연결 중…" : "이 기기의 기록을 계정에 연결"}
         </button>
-        {attachMsg ? (
-          <p className="mt-2 text-xs text-gray-700">{attachMsg}</p>
-        ) : null}
+        {attachMsg ? <p className="mt-2 text-xs text-gray-700">{attachMsg}</p> : null}
         <p className="mt-2 text-xs text-gray-500">
           연결해도 로컬 데이터는 자동 삭제되지 않습니다.
         </p>
