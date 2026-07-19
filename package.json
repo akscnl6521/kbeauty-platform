@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run patch:analyze-concerns",
     "dev": "next dev",
     "prebuild": "npm run patch:analyze-concerns",
     "build": "next build",
