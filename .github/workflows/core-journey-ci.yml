@@ -56,6 +56,7 @@ jobs:
           npm run test:clinic-review-queue
           npm run test:clinic-plan-artifact
           npm run test:commercial-separation
+          npm run test:catalog-exception-artifact
       - name: Customer journey regression
         run: npm run test:journey
       - name: Apply analyze concern integration patch
