@@ -55,6 +55,8 @@ jobs:
           npm run test:commercial-separation
       - name: Customer journey regression
         run: npm run test:journey
+      - name: Apply analyze concern integration patch
+        run: npm run patch:analyze-concerns
       - name: Build
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
