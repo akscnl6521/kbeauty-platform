@@ -160,10 +160,11 @@ export default async function UnifiedReviewPage() {
 
               {!manifest.available ? (
                 <div className="mt-4 rounded-xl border border-dashed border-[#D9CCC2] bg-white px-5 py-8 text-center">
-                  <p className="font-medium">아직 통합 검수 파일이 없습니다.</p>
+                  <p className="font-medium">배포 환경에 연결된 검수 파일이 없습니다.</p>
                   <p className="mt-2 text-sm text-gray-600">
-                    정기 자동화가 실행되면 제품 갱신·예외·피부과 후보가 이곳에
-                    표시됩니다.
+                    GitHub Actions 아티팩트는 Vercel Preview에 자동 포함되지 않습니다.
+                    Staging 저장소 연결 전에는 로컬 생성 파일 또는 다운로드한 검수
+                    아티팩트로만 확인할 수 있습니다.
                   </p>
                 </div>
               ) : manifest.items.length === 0 ? (
