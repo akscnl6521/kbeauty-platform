@@ -24,6 +24,14 @@ async function main() {
     ["filter reset", 'href="/admin/review"'],
     ["filtered empty state", "조건에 맞는 검수 항목이 없습니다"],
     ["query length guard", ".slice(0, 100)"],
+    ["evidence section", 'aria-label="검수 근거"'],
+    ["before label", "변경 전"],
+    ["after label", "변경 후"],
+    ["evidence label", "근거"],
+    ["verified label", "마지막 확인일"],
+    ["official source label", "공식 출처"],
+    ["HTTPS source guard", 'url.protocol === "https:"'],
+    ["external source protection", 'rel="noreferrer"'],
   ] as const) {
     assert.ok(page.includes(expected), `${label} must be present`);
   }
