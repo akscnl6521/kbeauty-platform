@@ -9,6 +9,7 @@ import {
   filterPublicCatalogProducts,
 } from "./publicCatalogFilter";
 import { filterCandidatesByOfferAvailability } from "./productOffer";
+import { getResultExposurePolicy } from "./resultExposurePolicy";
 import { writeRecommendationCacheVersion } from "./recommendationCache";
 import { rankProducts } from "./rankProducts";
 import type { CandidateProduct, RankedProduct, Recommendation } from "./types";
@@ -49,15 +50,18 @@ function writeRecommendationAndRanked(
   }
 }
 
-function isRiskLevel(recommendation: Recommendation): boolean {
-  const level = recommendation.managementLevel;
-  return level === "expert_first" || level === "urgent_check";
+function isExpertSoftCareLevel(recommendation: Recommendation): boolean {
+  return recommendation.managementLevel === "expert_first";
 }
 
 /**
  * Phase 3B / Phase 4 — verified catalog → KR offer → allergy hard filter → rank.
  * Never pads Top N with fake products when fewer than 5 qualify.
- * Risk: 자극 활성 성분 제외 후에도 보조 관리용 한국 제품 Top N을 저장한다.
+ *
+ * Exposure policy:
+ * - urgent_check: 제품 카드·구매 노출을 모두 차단하고 빈 랭킹을 저장한다.
+ * - expert_first: 자극 활성 성분을 제외한 보조 관리 참고만 저장한다.
+ * - 그 외: 일반 핵심 추천 흐름을 사용한다.
  *
  * @returns 저장된 Top N (실패·후보 0이면 []; 1~4개도 그대로 저장)
  */
@@ -75,6 +79,18 @@ export async function persistTopRankedProducts(
   );
   writeRecommendationAndRanked(withEvidence, "[]");
 
+  const exposure = getResultExposurePolicy(withEvidence.managementLevel);
+  if (!exposure.allowProductCards) {
+    if (process.env.NODE_ENV === "development") {
+      console.log("[coreRecommend]", {
+        managementLevel: withEvidence.managementLevel,
+        productExposureBlocked: true,
+        topNSaved: 0,
+      });
+    }
+    return [];
+  }
+
   try {
     const rawCandidates = await fetchCandidateProducts({ includeOffers: true });
     const candidates = filterPublicCatalogProducts(rawCandidates);
@@ -86,7 +102,7 @@ export async function persistTopRankedProducts(
       );
 
     let pool = sellable;
-    if (isRiskLevel(withEvidence)) {
+    if (isExpertSoftCareLevel(withEvidence)) {
       pool = filterOutStimulatingActives(pool);
     }
 
@@ -118,7 +134,7 @@ export async function persistTopRankedProducts(
         matchEvidencePass: withMatchEvidence.length,
         evidenceLinks: withEvidence.evidenceLinks?.length ?? 0,
         topNSaved: top.length,
-        riskSoftMode: isRiskLevel(withEvidence),
+        expertSoftCareMode: isExpertSoftCareLevel(withEvidence),
         padded: false,
         offerCountry: CORE_RECOMMEND_OFFER_COUNTRY,
       });
