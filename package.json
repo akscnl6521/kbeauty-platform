@@ -62,6 +62,7 @@
     "catalog:refresh-plan": "npx --yes tsx scripts/build-catalog-refresh-plan.ts",
     "catalog:enrich": "npx --yes tsx scripts/run-discovery-enrichment-sprint.ts",
     "catalog:dedupe-plan": "npx --yes tsx scripts/build-catalog-dedupe-plan.ts",
+    "catalog:exception-queue": "npx --yes tsx scripts/build-catalog-exception-queue.ts",
     "catalog:inci": "npx --yes tsx scripts/run-inci-label-enrichment.ts",
     "catalog:labels:build": "npx --yes tsx scripts/build-official-inci-sheet.ts",
     "catalog:labels:upsert-heroes": "npx --yes tsx scripts/upsert-label-sheet-heroes.ts",
