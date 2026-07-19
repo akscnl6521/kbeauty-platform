@@ -8,7 +8,7 @@ const replacements: Array<[string, string, string]> = [
   [
     "component import",
     'import { RednessObservationFields } from "@/components/analyze/RednessObservationFields";',
-    'import { RednessObservationFields } from "@/components/analyze/RednessObservationFields";\nimport { ConcernObservationPanel } from "@/components/analyze/ConcernObservationPanel";'
+    'import { ConcernObservationPanel } from "@/components/analyze/ConcernObservationPanel";'
   ],
   [
     "payload import",
@@ -18,7 +18,7 @@ const replacements: Array<[string, string, string]> = [
   [
     "request body type",
     '  rednessObservation?: RednessObservation;\n};',
-    '  rednessObservation?: RednessObservation;\n  concernObservations?: Record<string, ConcernObservation>;\n};'
+    '  rednessObservation?: RednessObservation;\n  concernObservations?: ConcernObservation[];\n};'
   ],
   [
     "state",
@@ -28,7 +28,32 @@ const replacements: Array<[string, string, string]> = [
   [
     "derived payload",
     '  const rednessPayload = useMemo(() => {\n    if (!showRednessDetails) return undefined;\n    return parseRednessObservation(rednessObservation) ?? undefined;\n  }, [showRednessDetails, rednessObservation]);',
-    '  const rednessPayload = useMemo(() => {\n    if (!showRednessDetails) return undefined;\n    return parseRednessObservation(rednessObservation) ?? undefined;\n  }, [showRednessDetails, rednessObservation]);\n  const concernObservationPayload = useMemo(\n    () =>\n      buildAnalyzeConcernObservationPayload(\n        manualConcerns.map(concernKoToParam),\n        concernObservationMap\n      ),\n    [manualConcerns, concernObservationMap]\n  );'
+    '  const rednessPayload = useMemo(() => {\n    if (!showRednessDetails) return undefined;\n    return parseRednessObservation(rednessObservation) ?? undefined;\n  }, [showRednessDetails, rednessObservation]);\n  const concernObservationPayload = useMemo(\n    () =>\n      buildAnalyzeConcernObservationPayload({\n        selectedConcerns: manualConcerns.map(concernKoToParam),\n        observations: concernObservationMap,\n      }),\n    [manualConcerns, concernObservationMap]\n  );'
+  ],
+  [
+    "current snapshot",
+    '      rednessObservation: showRednessDetails\n        ? { ...rednessObservation }\n        : null,',
+    '      rednessObservation: showRednessDetails\n        ? { ...rednessObservation }\n        : null,\n      concernObservations: concernObservationPayload.concernObservations ?? [],'
+  ],
+  [
+    "snapshot dependencies",
+    '    showRednessDetails,\n    rednessObservation,\n  ]);',
+    '    showRednessDetails,\n    rednessObservation,\n    concernObservationPayload,\n  ]);'
+  ],
+  [
+    "manual request payload",
+    '        ...(rednessPayload ? { rednessObservation: rednessPayload } : {}),\n        ...ingredientPrefs,',
+    '        ...(rednessPayload ? { rednessObservation: rednessPayload } : {}),\n        ...concernObservationPayload,\n        ...ingredientPrefs,'
+  ],
+  [
+    "saved snapshot",
+    '        rednessObservation: showRednessDetails\n          ? { ...rednessObservation }\n          : null,\n      });',
+    '        rednessObservation: showRednessDetails\n          ? { ...rednessObservation }\n          : null,\n        concernObservations: concernObservationPayload.concernObservations ?? [],\n      });'
+  ],
+  [
+    "detail panel",
+    '                {showRednessDetails ? (\n                  <RednessObservationFields\n                    value={rednessObservation}\n                    onChange={setRednessObservation}\n                  />\n                ) : null}',
+    '                <ConcernObservationPanel\n                  concerns={manualConcerns.map(concernKoToParam)}\n                  value={concernObservationMap}\n                  onChange={setConcernObservationMap}\n                />'
   ],
 ];
 
