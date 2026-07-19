@@ -15,7 +15,9 @@ async function main() {
     ["read-only disclosure", "읽기 전용"],
     ["publish blocking disclosure", "자동 게시 차단"],
     ["missing artifact state", "배포 환경에 연결된 검수 파일이 없습니다"],
-    ["artifact delivery disclosure", "GitHub Actions 아티팩트는 Vercel Preview에 자동 포함되지 않습니다"],
+    ["Preview delivery guidance", "UNIFIED_REVIEW_MANIFEST_URL"],
+    ["Production remote guard disclosure", "Production에서는 이"],
+    ["delivery source status", "전달 경로"],
     ["empty review state", "현재 검수할 예외가 없습니다"],
   ] as const) {
     assert.ok(page.includes(expected), `${label} must be present`);
@@ -32,6 +34,12 @@ async function main() {
     ["database protection", "value.databaseTouched !== false"],
     ["Production protection", "value.productionTouched !== false"],
     ["missing file handling", "ENOENT"],
+    ["Preview URL variable", "UNIFIED_REVIEW_MANIFEST_URL"],
+    ["Production environment guard", 'process.env.VERCEL_ENV === "production"'],
+    ["HTTPS-only delivery", 'url.protocol !== "https:"'],
+    ["redirect blocking", 'redirect: "error"'],
+    ["request timeout", "AbortSignal.timeout(5_000)"],
+    ["cache blocking", 'cache: "no-store"'],
   ] as const) {
     assert.ok(loader.includes(expected), `${label} must be present`);
   }
