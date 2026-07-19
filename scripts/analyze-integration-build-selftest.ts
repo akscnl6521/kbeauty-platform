@@ -13,7 +13,7 @@ assert.equal(
 
 const patcher = readFileSync("scripts/patch-analyze-concern-observations.ts", "utf8");
 assert.match(patcher, /ConcernObservationPanel/);
-assert.match(patcher, /already applied/i);
+assert.match(patcher, /already present/i);
 assert.match(patcher, /expected exactly one match/);
 
 console.log("analyze integration build self-test passed");
