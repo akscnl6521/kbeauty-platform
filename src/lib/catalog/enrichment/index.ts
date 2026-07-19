@@ -15,3 +15,4 @@ export {
   OFFICIAL_URL_OVERRIDES,
   resolveOfficialUrlOverride,
 } from "./officialUrlOverrides";
+export { applyIdentityDecisions } from "./applyIdentityDecisions";
