@@ -1,0 +1,37 @@
+name: Clinic Staging Sync Plan
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "47 18 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  build-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Prepare optional inputs
+        run: |
+          mkdir -p data/clinic
+          test -f data/clinic/source-snapshots.json || echo '[]' > data/clinic/source-snapshots.json
+          test -f data/clinic/existing-clinics.json || echo '[]' > data/clinic/existing-clinics.json
+      - name: Build dry-run plan
+        run: npm run clinic:staging-plan
+      - name: Upload plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: clinic-staging-sync-plan
+          path: data/clinic/clinic-staging-sync-plan.json
+          retention-days: 14
