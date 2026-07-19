@@ -1,6 +1,7 @@
 import { requireAdminUser } from "@/lib/auth/admin";
 import {
   getUnifiedReviewManifest,
+  type ManifestDeliverySource,
   type ReviewPriority,
   type ReviewSource,
   type UnifiedReviewItem,
@@ -24,6 +25,12 @@ const PRIORITY_LABELS: Record<ReviewPriority, string> = {
   high: "높음",
   medium: "보통",
   low: "낮음",
+};
+
+const DELIVERY_LABELS: Record<ManifestDeliverySource, string> = {
+  remote_preview: "Preview 원격 JSON",
+  local_file: "로컬 생성 파일",
+  none: "연결 없음",
 };
 
 function formatGeneratedAt(value: string | null) {
@@ -77,8 +84,8 @@ export default async function UnifiedReviewPage() {
             role="alert"
             className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-4 text-sm text-red-800"
           >
-            통합 검수 매니페스트를 읽지 못했습니다. 파일 형식과 안전 플래그를
-            확인해 주세요.
+            통합 검수 매니페스트를 읽지 못했습니다. 원격 URL, 파일 형식과 안전
+            플래그를 확인해 주세요.
           </div>
         ) : (
           <>
@@ -106,6 +113,9 @@ export default async function UnifiedReviewPage() {
                   <h2 className="font-semibold">안전 상태</h2>
                   <p className="mt-1 text-sm text-gray-600">
                     생성 시각: {formatGeneratedAt(manifest.generatedAt)}
+                  </p>
+                  <p className="mt-1 text-xs text-gray-500">
+                    전달 경로: {DELIVERY_LABELS[manifest.deliverySource]}
                   </p>
                 </div>
                 <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">
@@ -162,9 +172,9 @@ export default async function UnifiedReviewPage() {
                 <div className="mt-4 rounded-xl border border-dashed border-[#D9CCC2] bg-white px-5 py-8 text-center">
                   <p className="font-medium">배포 환경에 연결된 검수 파일이 없습니다.</p>
                   <p className="mt-2 text-sm text-gray-600">
-                    GitHub Actions 아티팩트는 Vercel Preview에 자동 포함되지 않습니다.
-                    Staging 저장소 연결 전에는 로컬 생성 파일 또는 다운로드한 검수
-                    아티팩트로만 확인할 수 있습니다.
+                    Preview에서는 HTTPS 원격 JSON 주소를 서버 전용 환경변수
+                    UNIFIED_REVIEW_MANIFEST_URL로 연결해야 합니다. Production에서는 이
+                    원격 경로를 자동으로 무시합니다.
                   </p>
                 </div>
               ) : manifest.items.length === 0 ? (
