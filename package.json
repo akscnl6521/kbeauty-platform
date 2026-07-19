@@ -18,6 +18,7 @@
     "test:care-referral": "npx --yes tsx scripts/care-referral-selftest.ts",
     "test:care-dashboard": "npx --yes tsx scripts/care-dashboard-summary-selftest.ts",
     "test:care-guidance": "npx --yes tsx scripts/care-guidance-view-model-selftest.ts",
+    "test:reminder-delivery": "npx --yes tsx scripts/reminder-delivery-policy-selftest.ts",
     "test:catalog-refresh": "npx --yes tsx scripts/catalog-refresh-policy-selftest.ts",
     "test:collection-decision": "npx --yes tsx scripts/collection-decision-selftest.ts",
     "test:staging-sync-plan": "npx --yes tsx scripts/staging-sync-plan-selftest.ts",
