@@ -1,4 +1,5 @@
 import type { Recommendation } from "@/lib/recommend";
+import type { RednessObservation } from "./rednessObservation";
 import type { AnalyzeSkinRequest, ConcernObservation, RedFlag } from "./types";
 
 const URGENT_RED_FLAGS = new Set<RedFlag>([
@@ -34,18 +35,89 @@ const RED_FLAG_LABELS: Record<RedFlag, string> = {
   systemic_allergy: "전신 알레르기 반응",
 };
 
-function observations(input: AnalyzeSkinRequest): ConcernObservation[] {
-  return Array.isArray(input.concernObservations)
-    ? input.concernObservations
-    : [];
-}
-
 function unique<T>(values: T[]): T[] {
   return [...new Set(values)];
 }
 
 function appendUnique(base: string[] | undefined, values: string[]): string[] {
   return unique([...(base ?? []), ...values].filter(Boolean));
+}
+
+function rednessFallbackObservation(
+  redness: RednessObservation | null | undefined
+): ConcernObservation | null {
+  if (!redness) return null;
+
+  const areas = (redness.areas ?? []).flatMap((area) => {
+    switch (area) {
+      case "cheeks":
+        return ["cheek" as const];
+      case "nose":
+        return ["nose" as const];
+      case "forehead":
+        return ["forehead" as const];
+      case "chin":
+        return ["chin" as const];
+      case "eye_area":
+        return ["eye_area" as const];
+      case "whole_face":
+        return ["forehead" as const, "cheek" as const, "nose" as const, "chin" as const];
+      default:
+        return [];
+    }
+  });
+
+  const symptoms = redness.symptoms ?? [];
+  const hasSwelling = symptoms.includes("swelling");
+  const hasBurning = symptoms.includes("burning");
+  const hasStinging = symptoms.includes("stinging");
+  const hasEyeArea = (redness.areas ?? []).includes("eye_area");
+
+  const severity =
+    hasSwelling || hasBurning
+      ? "severe"
+      : symptoms.some((symptom) => symptom !== "none")
+        ? "moderate"
+        : "mild";
+
+  const duration = (() => {
+    switch (redness.duration) {
+      case "persistent":
+        return "over_3_months" as const;
+      case "recurrent":
+        return "under_3_months" as const;
+      case "over_one_day":
+        return "under_2_weeks" as const;
+      case "under_one_hour":
+      case "several_hours":
+        return "under_3_days" as const;
+      default:
+        return "unknown" as const;
+    }
+  })();
+
+  const redFlags: RedFlag[] = [];
+  if (hasEyeArea && (hasStinging || hasBurning || hasSwelling)) {
+    redFlags.push("eye_irritation");
+  }
+
+  return {
+    concern: "붉은기",
+    ...(areas.length > 0 ? { areas: unique(areas) } : {}),
+    severity,
+    duration,
+    worsening: false,
+    ...(redFlags.length > 0 ? { redFlags } : {}),
+  };
+}
+
+function observations(input: AnalyzeSkinRequest): ConcernObservation[] {
+  if (Array.isArray(input.concernObservations) && input.concernObservations.length > 0) {
+    return input.concernObservations;
+  }
+
+  const fallback = rednessFallbackObservation(input.rednessObservation);
+  return fallback ? [fallback] : [];
 }
 
 /**
