@@ -61,6 +61,7 @@
     "catalog:bulk-kr": "npx --yes tsx scripts/run-bulk-kr-catalog-sprint.ts",
     "catalog:refresh-plan": "npx --yes tsx scripts/build-catalog-refresh-plan.ts",
     "catalog:enrich": "npx --yes tsx scripts/run-discovery-enrichment-sprint.ts",
+    "catalog:dedupe-plan": "npx --yes tsx scripts/build-catalog-dedupe-plan.ts",
     "catalog:inci": "npx --yes tsx scripts/run-inci-label-enrichment.ts",
     "catalog:labels:build": "npx --yes tsx scripts/build-official-inci-sheet.ts",
     "catalog:labels:upsert-heroes": "npx --yes tsx scripts/upsert-label-sheet-heroes.ts",
@@ -75,6 +76,7 @@
     "test:offer-extraction": "npx --yes tsx scripts/jsonld-offer-extraction-selftest.ts",
     "test:product-identity": "npx --yes tsx scripts/product-identity-selftest.ts",
     "test:enrichment-identity": "npx --yes tsx scripts/enrichment-identity-decisions-selftest.ts",
+    "test:catalog-autopilot": "npx --yes tsx scripts/catalog-autopilot-selftest.ts",
     "test:labels": "npx --yes tsx scripts/curated-inci-selftest.ts",
     "test:labels-admin": "npx --yes tsx scripts/label-sheet-admin-selftest.ts"
   },
