@@ -13,6 +13,7 @@
     "test:symptom-safety": "npx --yes tsx scripts/symptom-safety-selftest.ts",
     "test:analyze-safety": "npx --yes tsx scripts/analyze-safety-integration-selftest.ts",
     "test:concern-observations": "npx --yes tsx scripts/build-concern-observations-selftest.ts",
+    "test:result-exposure": "npx --yes tsx scripts/result-exposure-policy-selftest.ts",
     "check:staging-quality": "node scripts/staging-verify-recommend-quality.mjs",
     "check:preview-quality": "node scripts/preview-concern-quality-smoke.mjs",
     "check:preview-substitute": "node scripts/staging-preview-substitute-quality.mjs",
