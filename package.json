@@ -14,6 +14,7 @@
     "test:analyze-safety": "npx --yes tsx scripts/analyze-safety-integration-selftest.ts",
     "test:concern-observations": "npx --yes tsx scripts/build-concern-observations-selftest.ts",
     "test:concern-form-state": "npx --yes tsx scripts/concern-observation-form-state-selftest.ts",
+    "test:analyze-concern-payload": "npx --yes tsx scripts/analyze-concern-observation-payload-selftest.ts",
     "test:result-exposure": "npx --yes tsx scripts/result-exposure-policy-selftest.ts",
     "test:care-auto-save": "npx --yes tsx scripts/care-auto-save-selftest.ts",
     "test:care-referral": "npx --yes tsx scripts/care-referral-selftest.ts",
