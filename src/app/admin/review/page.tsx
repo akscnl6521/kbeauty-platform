@@ -32,6 +32,13 @@ const DELIVERY_LABELS: Record<ManifestDeliverySource, string> = {
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+type ReviewDetails = {
+  before: string | null;
+  after: string | null;
+  evidence: string | null;
+  sourceUrl: string | null;
+  verifiedAt: string | null;
+};
 
 function first(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] ?? "" : value ?? "";
@@ -42,8 +49,8 @@ function validSource(value: string): ReviewSource | "all" {
 function validPriority(value: string): ReviewPriority | "all" {
   return value === "critical" || value === "high" || value === "medium" || value === "low" ? value : "all";
 }
-function formatGeneratedAt(value: string | null) {
-  if (!value) return "아직 생성되지 않음";
+function formatDateTime(value: string | null, fallback = "아직 생성되지 않음") {
+  if (!value) return fallback;
   const date = new Date(value);
   return Number.isNaN(date.getTime())
     ? value
@@ -53,9 +60,47 @@ function formatGeneratedAt(value: string | null) {
         timeZone: "Asia/Seoul",
       }).format(date);
 }
+function primitiveText(value: unknown): string | null {
+  if (typeof value === "string" && value.trim()) return value.trim();
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  return null;
+}
+function pickText(payload: Record<string, unknown>, keys: string[]) {
+  for (const key of keys) {
+    const value = primitiveText(payload[key]);
+    if (value) return value;
+  }
+  return null;
+}
+function safeHttpsUrl(value: string | null) {
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+function reviewDetails(item: UnifiedReviewItem): ReviewDetails {
+  const payload = item.payload;
+  return {
+    before: pickText(payload, ["before", "previousValue", "oldValue", "currentValue", "current"]),
+    after: pickText(payload, ["after", "proposedValue", "newValue", "nextValue", "proposed"]),
+    evidence: pickText(payload, ["evidenceSummary", "evidence", "reason", "reviewReason", "sourceName"]),
+    sourceUrl: safeHttpsUrl(pickText(payload, ["evidenceUrl", "sourceUrl", "officialUrl", "url"])),
+    verifiedAt: pickText(payload, ["lastVerifiedAt", "verifiedAt", "lastCheckedAt", "checkedAt"]),
+  };
+}
 function payloadPreview(item: UnifiedReviewItem) {
+  const hiddenKeys = new Set([
+    "before", "previousValue", "oldValue", "currentValue", "current",
+    "after", "proposedValue", "newValue", "nextValue", "proposed",
+    "evidenceSummary", "evidence", "reason", "reviewReason", "sourceName",
+    "evidenceUrl", "sourceUrl", "officialUrl", "url",
+    "lastVerifiedAt", "verifiedAt", "lastCheckedAt", "checkedAt",
+  ]);
   return Object.entries(item.payload)
-    .filter(([, value]) => ["string", "number", "boolean"].includes(typeof value))
+    .filter(([key, value]) => !hiddenKeys.has(key) && ["string", "number", "boolean"].includes(typeof value))
     .slice(0, 4);
 }
 function matchesQuery(item: UnifiedReviewItem, query: string) {
@@ -123,7 +168,7 @@ export default async function UnifiedReviewPage({ searchParams }: { searchParams
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
                   <h2 className="font-semibold">안전 상태</h2>
-                  <p className="mt-1 text-sm text-gray-600">생성 시각: {formatGeneratedAt(manifest.generatedAt)}</p>
+                  <p className="mt-1 text-sm text-gray-600">생성 시각: {formatDateTime(manifest.generatedAt)}</p>
                   <p className="mt-1 text-xs text-gray-500">전달 경로: {DELIVERY_LABELS[manifest.deliverySource]}</p>
                 </div>
                 <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">
@@ -191,23 +236,42 @@ export default async function UnifiedReviewPage({ searchParams }: { searchParams
                 </div>
               ) : (
                 <ul className="mt-4 space-y-3">
-                  {filteredItems.map((item) => (
-                    <li key={item.id} className="rounded-xl border border-[#E8DFD8] bg-white px-4 py-4">
-                      <div className="flex flex-wrap gap-2 text-xs">
-                        <span className="rounded-full bg-[#F3ECE7] px-2 py-1 font-medium text-gray-700">{SOURCE_LABELS[item.source]}</span>
-                        <span className="rounded-full bg-amber-50 px-2 py-1 font-medium text-amber-800">{PRIORITY_LABELS[item.priority]}</span>
-                      </div>
-                      <h3 className="mt-3 font-semibold">{item.title}</h3>
-                      <p className="mt-1 text-xs text-gray-500">{item.id}</p>
-                      {payloadPreview(item).length > 0 ? (
-                        <dl className="mt-4 grid gap-x-6 gap-y-2 border-t border-[#EFE7E2] pt-3 text-sm sm:grid-cols-2">
-                          {payloadPreview(item).map(([key, value]) => (
-                            <div key={key} className="min-w-0"><dt className="text-xs text-gray-500">{key}</dt><dd className="truncate text-gray-800">{String(value)}</dd></div>
-                          ))}
-                        </dl>
-                      ) : null}
-                    </li>
-                  ))}
+                  {filteredItems.map((item) => {
+                    const details = reviewDetails(item);
+                    const hasEvidenceDetails = Boolean(details.before || details.after || details.evidence || details.sourceUrl || details.verifiedAt);
+                    const preview = payloadPreview(item);
+                    return (
+                      <li key={item.id} className="rounded-xl border border-[#E8DFD8] bg-white px-4 py-4">
+                        <div className="flex flex-wrap gap-2 text-xs">
+                          <span className="rounded-full bg-[#F3ECE7] px-2 py-1 font-medium text-gray-700">{SOURCE_LABELS[item.source]}</span>
+                          <span className="rounded-full bg-amber-50 px-2 py-1 font-medium text-amber-800">{PRIORITY_LABELS[item.priority]}</span>
+                        </div>
+                        <h3 className="mt-3 font-semibold">{item.title}</h3>
+                        <p className="mt-1 text-xs text-gray-500">{item.id}</p>
+
+                        {hasEvidenceDetails ? (
+                          <section aria-label="검수 근거" className="mt-4 rounded-lg bg-[#FAF7F5] p-3">
+                            <h4 className="text-sm font-semibold">검수 근거</h4>
+                            <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
+                              {details.before ? <div><dt className="text-xs text-gray-500">변경 전</dt><dd className="mt-1 break-words text-gray-800">{details.before}</dd></div> : null}
+                              {details.after ? <div><dt className="text-xs text-gray-500">변경 후</dt><dd className="mt-1 break-words text-gray-800">{details.after}</dd></div> : null}
+                              {details.evidence ? <div className="sm:col-span-2"><dt className="text-xs text-gray-500">근거</dt><dd className="mt-1 whitespace-pre-wrap break-words text-gray-800">{details.evidence}</dd></div> : null}
+                              {details.verifiedAt ? <div><dt className="text-xs text-gray-500">마지막 확인일</dt><dd className="mt-1 text-gray-800">{formatDateTime(details.verifiedAt, details.verifiedAt)}</dd></div> : null}
+                              {details.sourceUrl ? <div><dt className="text-xs text-gray-500">공식 출처</dt><dd className="mt-1"><a href={details.sourceUrl} target="_blank" rel="noreferrer" className="font-medium text-blue-700 underline underline-offset-2">새 창에서 확인</a></dd></div> : null}
+                            </dl>
+                          </section>
+                        ) : null}
+
+                        {preview.length > 0 ? (
+                          <dl className="mt-4 grid gap-x-6 gap-y-2 border-t border-[#EFE7E2] pt-3 text-sm sm:grid-cols-2">
+                            {preview.map(([key, value]) => (
+                              <div key={key} className="min-w-0"><dt className="text-xs text-gray-500">{key}</dt><dd className="truncate text-gray-800">{String(value)}</dd></div>
+                            ))}
+                          </dl>
+                        ) : null}
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </section>
