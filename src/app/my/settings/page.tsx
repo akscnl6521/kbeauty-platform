@@ -3,6 +3,12 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { loadCareStore, saveCareStore } from "@/lib/care";
+import { CARE_STORAGE_KEY, emptyCareStore } from "@/lib/care/local-store";
+import {
+  careExportFilename,
+  serializeCareExport,
+  summarizeCareStoreForDeletion,
+} from "@/lib/care/dataPortability";
 import {
   attachLocalCareStore,
   hydrateCareDashboard,
@@ -10,15 +16,14 @@ import {
 import type { CareStoreSnapshot } from "@/lib/care/types";
 import { MyCareNav } from "../MyCareNav";
 
-/**
- * Account & care preferences. No UID display. No DELETE actions.
- */
+/** Account, care preferences, and user-controlled local data actions. */
 export default function MyCareSettingsPage() {
   const [store, setStore] = useState<CareStoreSnapshot | null>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [linked, setLinked] = useState(false);
   const [source, setSource] = useState<"server" | "local">("local");
   const [attachMsg, setAttachMsg] = useState<string | null>(null);
+  const [dataMsg, setDataMsg] = useState<string | null>(null);
   const [attaching, setAttaching] = useState(false);
   const [country, setCountry] = useState("KR");
 
@@ -72,6 +77,42 @@ export default function MyCareSettingsPage() {
       setLinked(true);
       setSource("server");
     }
+  }
+
+  function handleLocalExport() {
+    try {
+      const now = new Date();
+      const blob = new Blob([serializeCareExport(store!, now)], {
+        type: "application/json;charset=utf-8",
+      });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = careExportFilename(now);
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+      setDataMsg("이 기기의 케어 기록을 JSON 파일로 저장했습니다.");
+    } catch {
+      setDataMsg("기록 파일을 만드는 중 오류가 발생했습니다.");
+    }
+  }
+
+  function handleLocalDelete() {
+    const counts = summarizeCareStoreForDeletion(store!);
+    const confirmed = window.confirm(
+      `이 기기의 케어 기록을 삭제합니다. 분석 ${counts.sessions}건, 루틴 ${counts.routines}건, 체크인 ${counts.checkIns}건이 삭제됩니다. 계정 서버에 이미 연결된 기록은 삭제되지 않습니다. 계속할까요?`
+    );
+    if (!confirmed) return;
+
+    const timezone = store!.settings.timezone || "Asia/Seoul";
+    window.localStorage.removeItem(CARE_STORAGE_KEY);
+    const next = emptyCareStore(timezone);
+    saveCareStore(next);
+    setStore(next);
+    setSource("local");
+    setDataMsg("이 기기의 로컬 케어 기록을 삭제했습니다. 서버 연결 기록은 변경하지 않았습니다.");
   }
 
   return (
@@ -206,29 +247,34 @@ export default function MyCareSettingsPage() {
       </section>
 
       <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
-        <h2 className="font-semibold">데이터 요청</h2>
-        <p className="mt-2 text-xs text-gray-600">
-          다운로드·삭제는 이번 단계에서 실행되지 않습니다. 요청만 준비 중이며,
-          운영자가 별도 절차로 처리합니다.
+        <h2 className="font-semibold">내 데이터 관리</h2>
+        <p className="mt-2 text-xs leading-5 text-gray-600">
+          아래 기능은 현재 브라우저에 저장된 케어 기록만 대상으로 합니다. 서버에 연결된 계정 기록은 변경하지 않습니다.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
-            disabled
-            className="rounded-lg border border-[#E8DFD8] px-3 py-2 text-xs text-gray-400"
-            title="준비 중"
+            onClick={handleLocalExport}
+            className="rounded-lg border border-[#C2185B] bg-white px-3 py-2 text-xs font-semibold text-[#C2185B]"
           >
-            데이터 다운로드 요청 (준비 중)
+            이 기기 기록 다운로드
           </button>
           <button
             type="button"
-            disabled
-            className="rounded-lg border border-[#E8DFD8] px-3 py-2 text-xs text-gray-400"
-            title="준비 중"
+            onClick={handleLocalDelete}
+            className="rounded-lg border border-rose-300 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-800"
           >
-            계정 삭제 요청 (준비 중)
+            이 기기 기록 삭제
           </button>
         </div>
+        {dataMsg ? (
+          <p className="mt-3 rounded-lg border border-[#E8DFD8] bg-[#FAF7F5] px-3 py-2 text-xs text-gray-700" role="status">
+            {dataMsg}
+          </p>
+        ) : null}
+        <p className="mt-3 text-xs text-gray-500">
+          계정 서버 기록 다운로드·삭제 요청은 별도의 본인 확인 절차가 필요하며 Production 운영 단계에서 연결합니다.
+        </p>
       </section>
     </main>
   );
