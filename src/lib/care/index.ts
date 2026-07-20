@@ -13,5 +13,7 @@ export {
   completeCheckIn,
   refreshCareDueState,
   emptyCareStore,
+  applyCheckinRoutineAdjustment,
+  undoLastCheckinRoutineAdjustment,
 } from "@/lib/care/local-store";
 export { runCareSelftests } from "@/lib/care/selftest";

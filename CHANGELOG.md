@@ -6,6 +6,17 @@
 
 ## 2026-07-20
 
+### 단계 5 — 체크인 응답 기반 루틴 조정 제안 UI
+
+- `routineAdjustmentPolicy` · `routineAdjustmentCopy` 공용 모듈 추가
+- 응답별 조정안: keep / simplify / pause recent·new / restart_later / record_only / consultation_first
+- 사용자 승인 전 루틴 불변 · 일시 중지≠삭제 · snapshot 되돌리기 · checkinId 중복 적용 방지
+- 자외선 차단 자동 중단 금지 · 위험 신호 시 제품 조정 적용 차단
+- 화면: `/my/check-ins/[id]` 완료 결과 아래 `RoutineAdjustmentPanel`
+- 저장: localStorage `kbeautyCareStoreV1` + `routineAdjustmentHistory` (DB migration 실행 없음)
+- self-test: `npm run test:routine-adjustment`
+- Organic 점수·순위 불변 · main 미병합 · Production 미배포
+
 ### 단계 5 시작 — 체크인 응답 분기 정책·화면 연결
 
 - `src/lib/retention/checkinPolicy.ts` · `checkinCopy.ts` 공용 순수 모듈 추가

@@ -28,6 +28,7 @@
     "test:reminder-delivery": "npx --yes tsx scripts/reminder-delivery-policy-selftest.ts",
     "test:check-in-questions": "npx --yes tsx scripts/check-in-question-policy-selftest.ts",
     "test:checkin-policy": "npx --yes tsx scripts/checkin-policy-selftest.ts",
+    "test:routine-adjustment": "npx --yes tsx scripts/routine-adjustment-policy-selftest.ts",
     "test:care-data": "npx --yes tsx scripts/care-data-portability-selftest.ts",
     "test:product-feedback": "npx --yes tsx scripts/product-feedback-selftest.ts",
     "test:feedback-summary": "npx --yes tsx scripts/feedback-summary-selftest.ts",

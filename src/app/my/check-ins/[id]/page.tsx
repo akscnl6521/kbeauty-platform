@@ -4,8 +4,14 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { CheckinDecisionPanel } from "@/components/care/CheckinDecisionPanel";
+import { RoutineAdjustmentPanel } from "@/components/care/RoutineAdjustmentPanel";
 import { hydrateCareDashboard } from "@/lib/care/client-hydrate";
-import { completeCheckIn } from "@/lib/care";
+import {
+  applyCheckinRoutineAdjustment,
+  completeCheckIn,
+  loadCareStore,
+  undoLastCheckinRoutineAdjustment,
+} from "@/lib/care";
 import { getCheckInQuestionPolicy } from "@/lib/care/checkInQuestionPolicy";
 import type {
   CareAcuteSignals,
@@ -13,6 +19,8 @@ import type {
   CareCheckInAnswers,
   CareCheckInOverallResponse,
   CareCheckInStoppedReason,
+  CareRoutine,
+  CareRoutineAdjustmentRecord,
   CareSuggestion,
 } from "@/lib/care/types";
 import {
@@ -85,11 +93,16 @@ export default function MyCheckInDetailPage() {
   const id = String(params.id ?? "");
   const [checkIn, setCheckIn] = useState<CareCheckIn | null>(null);
   const [suggestions, setSuggestions] = useState<CareSuggestion[]>([]);
+  const [routine, setRoutine] = useState<CareRoutine | null>(null);
+  const [adjustmentHistory, setAdjustmentHistory] = useState<
+    CareRoutineAdjustmentRecord[]
+  >([]);
   const [source, setSource] = useState<"server" | "local">("local");
   const [answers, setAnswers] = useState(emptyAnswers());
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [adjustMessage, setAdjustMessage] = useState<string | null>(null);
 
   useEffect(() => {
     void hydrateCareDashboard().then((h) => {
@@ -97,6 +110,9 @@ export default function MyCheckInDetailPage() {
       const found = h.dashboard.checkIns.find((c) => c.id === id) ?? null;
       setCheckIn(found);
       setSuggestions(h.dashboard.suggestions.filter((s) => s.checkInId === id));
+      setRoutine(h.dashboard.activeRoutine);
+      const local = h.localStore ?? (h.source === "local" ? loadCareStore() : null);
+      setAdjustmentHistory(local?.routineAdjustmentHistory ?? []);
       if (found?.status === "completed") {
         setDone(true);
         if (found.answers) setAnswers({ ...emptyAnswers(), ...found.answers });
@@ -221,6 +237,62 @@ export default function MyCheckInDetailPage() {
           </p>
           {completedDecision ? (
             <CheckinDecisionPanel decision={completedDecision} />
+          ) : null}
+          {completedDecision ? (
+            <RoutineAdjustmentPanel
+              decision={completedDecision}
+              checkIn={{
+                id: checkIn.id,
+                day: checkIn.day,
+                dueAt: checkIn.dueAt,
+                scheduledFor: checkIn.scheduledFor,
+              }}
+              routine={routine}
+              history={adjustmentHistory}
+              stoppedReason={
+                checkIn.answers?.stoppedReason ?? answers.stoppedReason ?? null
+              }
+              onApply={({ proposal, selectedItemIds, newStartAt }) => {
+                if (source === "server") {
+                  setAdjustMessage(
+                    "계정 동기화 모드에서는 브라우저 로컬 저장으로만 조정합니다. 서버 루틴 API 반영은 다음 단계에서 연결합니다."
+                  );
+                }
+                const next = applyCheckinRoutineAdjustment({
+                  proposal,
+                  selectedItemIds,
+                  newStartAt,
+                });
+                setRoutine(
+                  next.routines.find((r) => r.id === routine?.id) ??
+                    next.routines[0] ??
+                    null
+                );
+                setAdjustmentHistory(next.routineAdjustmentHistory ?? []);
+                setAdjustMessage("조정을 적용했습니다. 삭제가 아니라 일시 중지이며 되돌릴 수 있습니다.");
+              }}
+              onKeepCurrent={() =>
+                setAdjustMessage("현재 루틴을 유지합니다. 변경하지 않았습니다.")
+              }
+              onLater={() =>
+                setAdjustMessage("나중에 다시 확인할 수 있습니다. 루틴은 그대로입니다.")
+              }
+              onUndo={() => {
+                const next = undoLastCheckinRoutineAdjustment(checkIn.id);
+                setRoutine(
+                  next.routines.find((r) => r.id === routine?.id) ??
+                    next.routines[0] ??
+                    null
+                );
+                setAdjustmentHistory(next.routineAdjustmentHistory ?? []);
+                setAdjustMessage("최근 조정을 되돌렸습니다.");
+              }}
+            />
+          ) : null}
+          {adjustMessage ? (
+            <p className="rounded-lg border border-[#E8DFD8] bg-[#FBF7F2] px-3 py-2 text-sm text-gray-800">
+              {adjustMessage}
+            </p>
           ) : null}
           {checkIn.referralLevel !== "none" ? (
             <p className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-3 font-medium text-rose-900">

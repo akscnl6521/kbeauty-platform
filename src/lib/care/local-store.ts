@@ -16,6 +16,12 @@ import {
 import { computeProgressDeltas } from "@/lib/care/progress";
 import { evaluateDermatologyReferral } from "@/lib/care/referral";
 import { buildRoutineSuggestions } from "@/lib/care/routine-suggestions";
+import {
+  applyRoutineAdjustment,
+  undoRoutineAdjustment,
+  type RoutineAdjustmentProposal,
+} from "@/lib/retention/routineAdjustmentPolicy";
+import { mergeCheckinScheduleAfterStartChange } from "@/lib/retention/checkinPolicy";
 import type {
   CareAnalysisSession,
   CareCheckIn,
@@ -53,6 +59,7 @@ export function emptyCareStore(timezone = "Asia/Seoul"): CareStoreSnapshot {
     notifications: [],
     feedback: [],
     settings: defaultSettings(timezone),
+    routineAdjustmentHistory: [],
     updatedAt: new Date().toISOString(),
   };
 }
@@ -67,6 +74,7 @@ export function loadCareStore(): CareStoreSnapshot {
     return {
       ...parsed,
       checkIns: refreshCheckInStatuses(dedupeCheckInsByDay(parsed.checkIns ?? [])),
+      routineAdjustmentHistory: parsed.routineAdjustmentHistory ?? [],
     };
   } catch {
     return emptyCareStore();
@@ -298,6 +306,111 @@ export function refreshCareDueState(): CareStoreSnapshot {
     notifications: store.settings.notificationsEnabled
       ? mergeNotifications(store.notifications, notes, checkIns)
       : store.notifications,
+  };
+  saveCareStore(next);
+  return next;
+}
+
+/**
+ * Apply a check-in routine adjustment only after explicit user confirmation.
+ * Never deletes routine items — pauses or reschedules only.
+ */
+export function applyCheckinRoutineAdjustment(input: {
+  proposal: RoutineAdjustmentProposal;
+  selectedItemIds?: string[];
+  newStartAt?: string | null;
+}): CareStoreSnapshot {
+  const store = loadCareStore();
+  const history = store.routineAdjustmentHistory ?? [];
+  const routine =
+    store.routines.find((r) =>
+      store.checkIns.some(
+        (c) => c.id === input.proposal.checkInId && c.routineId === r.id
+      )
+    ) ??
+    store.routines[0] ??
+    null;
+  if (!routine) return store;
+
+  const checkIn = store.checkIns.find((c) => c.id === input.proposal.checkInId);
+  const result = applyRoutineAdjustment({
+    routine,
+    proposal: input.proposal,
+    selectedItemIds: input.selectedItemIds,
+    newStartAt: input.newStartAt,
+    history,
+  });
+  if (!result.ok) return store;
+
+  let checkIns = store.checkIns;
+  let record = result.record;
+
+  if (
+    input.proposal.type === "restart_later" &&
+    input.newStartAt &&
+    checkIn
+  ) {
+    const beforeCheckIns = store.checkIns.map((c) => ({ ...c }));
+    checkIns = mergeCheckinScheduleAfterStartChange({
+      existing: store.checkIns,
+      analysisSessionId: checkIn.analysisSessionId,
+      routineId: checkIn.routineId,
+      newStartAt: input.newStartAt,
+      timezone: checkIn.timezone || store.settings.timezone,
+      idFactory: () => rid("ci"),
+      consent: { careCheckinConsent: true },
+    });
+    record = {
+      ...record,
+      beforeCheckIns,
+      afterCheckIns: checkIns.map((c) => ({ ...c })),
+    };
+  }
+
+  const next: CareStoreSnapshot = {
+    ...store,
+    routines: store.routines.map((r) =>
+      r.id === routine.id ? result.routine : r
+    ),
+    checkIns,
+    routineAdjustmentHistory: [record, ...history].slice(0, 30),
+  };
+  saveCareStore(next);
+  return next;
+}
+
+export function undoLastCheckinRoutineAdjustment(
+  checkInId?: string
+): CareStoreSnapshot {
+  const store = loadCareStore();
+  const history = store.routineAdjustmentHistory ?? [];
+  const record = history.find(
+    (r) =>
+      r.undoneAt == null && (checkInId == null || r.checkInId === checkInId)
+  );
+  if (!record) return store;
+
+  const current =
+    store.routines.find((r) => r.id === record.routineId) ?? null;
+  if (!current) return store;
+
+  const undone = undoRoutineAdjustment({
+    currentRoutine: current,
+    record,
+  });
+  if (!undone.ok) return store;
+
+  const nextHistory = history.map((r) =>
+    r.id === record.id ? undone.record : r
+  );
+
+  const next: CareStoreSnapshot = {
+    ...store,
+    routines: store.routines.map((r) =>
+      r.id === current.id ? undone.routine : r
+    ),
+    checkIns: record.beforeCheckIns ?? store.checkIns,
+    routineAdjustmentHistory: nextHistory,
   };
   saveCareStore(next);
   return next;

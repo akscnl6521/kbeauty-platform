@@ -55,6 +55,8 @@ export type CareAnalysisSession = {
   anonymousDeviceId: string | null;
 };
 
+export type CareRoutineItemStatus = "active" | "paused" | "stopped";
+
 export type CareRoutineItem = {
   id: string;
   step: CareRoutineStep;
@@ -69,6 +71,14 @@ export type CareRoutineItem = {
   cautionNotes: string[];
   allergyConflict: boolean;
   active: boolean;
+  /** Optional pause metadata (local care store). Deletion is never implied. */
+  itemStatus?: CareRoutineItemStatus;
+  pausedAt?: string | null;
+  pauseReason?: string | null;
+  previousActive?: boolean | null;
+  resumeAt?: string | null;
+  adjustmentSource?: "checkin" | null;
+  adjustmentCheckInId?: string | null;
 };
 
 export type CareRoutine = {
@@ -143,6 +153,23 @@ export type CareCheckIn = {
   progressDelta: CareProgressDelta | null;
   referralLevel: CareReferralLevel;
   suggestionIds: string[];
+};
+
+/** Local snapshot history for check-in-driven routine adjustments (undo support). */
+export type CareRoutineAdjustmentRecord = {
+  id: string;
+  checkInId: string;
+  type: string;
+  appliedAt: string;
+  undoneAt: string | null;
+  routineId: string;
+  beforeRoutine: CareRoutine;
+  afterRoutine: CareRoutine;
+  selectedItemIds: string[];
+  newStartAt?: string | null;
+  beforeCheckIns?: CareCheckIn[] | null;
+  afterCheckIns?: CareCheckIn[] | null;
+  adjustmentSource: "checkin";
 };
 
 export type CareProgressMetric =
@@ -231,5 +258,7 @@ export type CareStoreSnapshot = {
   notifications: CareNotification[];
   feedback: CareFeedback[];
   settings: CareUserSettings;
+  /** Optional local history for check-in routine adjustments / undo. */
+  routineAdjustmentHistory?: CareRoutineAdjustmentRecord[];
   updatedAt: string;
 };
