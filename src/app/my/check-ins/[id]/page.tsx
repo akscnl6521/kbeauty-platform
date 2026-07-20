@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { CheckinDecisionPanel } from "@/components/care/CheckinDecisionPanel";
 import { hydrateCareDashboard } from "@/lib/care/client-hydrate";
 import { completeCheckIn } from "@/lib/care";
 import { getCheckInQuestionPolicy } from "@/lib/care/checkInQuestionPolicy";
@@ -10,8 +11,20 @@ import type {
   CareAcuteSignals,
   CareCheckIn,
   CareCheckInAnswers,
+  CareCheckInOverallResponse,
+  CareCheckInStoppedReason,
   CareSuggestion,
 } from "@/lib/care/types";
+import {
+  evaluateCheckinResponse,
+  evaluateCheckinReminderPolicy,
+  milestoneFromDay,
+} from "@/lib/retention/checkinPolicy";
+import {
+  CHECKIN_RESPONSE_OPTIONS,
+  getCheckinResponseLabel,
+  getStoppedReasonLabel,
+} from "@/lib/retention/checkinCopy";
 import { MyCareNav } from "../../MyCareNav";
 
 const emptyAcuteSignals = (): CareAcuteSignals => ({
@@ -20,6 +33,8 @@ const emptyAcuteSignals = (): CareAcuteSignals => ({
   oozing: false,
   rapidSwelling: false,
   spreadingRash: false,
+  infectionSuspect: false,
+  burn: false,
   eyeIrritation: false,
   breathingDifficulty: false,
   systemicAllergy: false,
@@ -40,6 +55,9 @@ const emptyAnswers = (): CareCheckInAnswers => ({
   photoAttached: false,
   freeMemo: null,
   acuteSignals: emptyAcuteSignals(),
+  overallResponse: null,
+  stoppedReason: null,
+  stoppedReasonNote: null,
 });
 
 const ACUTE_OPTIONS: { key: keyof CareAcuteSignals; label: string }[] = [
@@ -48,9 +66,18 @@ const ACUTE_OPTIONS: { key: keyof CareAcuteSignals; label: string }[] = [
   { key: "oozing", label: "진물" },
   { key: "rapidSwelling", label: "급격한 붓기" },
   { key: "spreadingRash", label: "퍼지는 발진" },
+  { key: "infectionSuspect", label: "감염 의심" },
+  { key: "burn", label: "화상" },
   { key: "eyeIrritation", label: "눈 내부 자극" },
   { key: "breathingDifficulty", label: "호흡 곤란" },
   { key: "systemicAllergy", label: "전신 알레르기 반응" },
+];
+
+const STOPPED_REASONS: CareCheckInStoppedReason[] = [
+  "irritation",
+  "complexity",
+  "purchase_failed",
+  "other",
 ];
 
 export default function MyCheckInDetailPage() {
@@ -70,7 +97,10 @@ export default function MyCheckInDetailPage() {
       const found = h.dashboard.checkIns.find((c) => c.id === id) ?? null;
       setCheckIn(found);
       setSuggestions(h.dashboard.suggestions.filter((s) => s.checkInId === id));
-      if (found?.status === "completed") setDone(true);
+      if (found?.status === "completed") {
+        setDone(true);
+        if (found.answers) setAnswers({ ...emptyAnswers(), ...found.answers });
+      }
     });
   }, [id]);
 
@@ -78,6 +108,26 @@ export default function MyCheckInDetailPage() {
     () => (checkIn ? getCheckInQuestionPolicy(checkIn.day) : null),
     [checkIn]
   );
+
+  const milestone = checkIn ? milestoneFromDay(checkIn.day) : null;
+
+  const liveDecision = useMemo(() => {
+    if (!milestone) return null;
+    return evaluateCheckinResponse({ answers, milestone });
+  }, [answers, milestone]);
+
+  const completedDecision = useMemo(() => {
+    if (!checkIn?.answers || !milestone) return null;
+    return evaluateCheckinResponse({
+      answers: checkIn.answers,
+      milestone,
+    });
+  }, [checkIn, milestone]);
+
+  const reminderPolicy = useMemo(() => {
+    if (!checkIn || checkIn.status === "completed") return null;
+    return evaluateCheckinReminderPolicy({ checkIn });
+  }, [checkIn]);
 
   const hasEmergencySignal = Boolean(
     answers.acuteSignals?.breathingDifficulty ||
@@ -120,7 +170,7 @@ export default function MyCheckInDetailPage() {
     setSubmitting(false);
   }
 
-  if (!checkIn || !policy) {
+  if (!checkIn || !policy || !milestone) {
     return (
       <main className="mx-auto max-w-3xl px-4 py-10 text-sm">
         <p>체크인을 찾을 수 없습니다.</p>
@@ -130,6 +180,11 @@ export default function MyCheckInDetailPage() {
       </main>
     );
   }
+
+  const showPending =
+    checkIn.status !== "completed" &&
+    !done &&
+    (checkIn.status === "due" || checkIn.status === "scheduled");
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
@@ -142,18 +197,36 @@ export default function MyCheckInDetailPage() {
         <h2 className="mt-1 text-lg font-semibold">{policy.title}</h2>
         <p className="mt-2 text-sm leading-6 text-gray-600">{policy.purpose}</p>
       </section>
+
+      {showPending && reminderPolicy ? (
+        <p className="mt-3 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+          {reminderPolicy.reminderStatus === "awaiting_due"
+            ? "아직 체크인 예정 시점 전입니다."
+            : reminderPolicy.reminderStatus === "awaiting_first_reminder"
+              ? "응답이 없으면 48시간 후 1회 재알림 후보가 됩니다."
+              : reminderPolicy.shouldRemind
+                ? "재알림 후보 시점입니다. (실제 발송은 아직 연결되지 않았습니다.)"
+                : null}
+        </p>
+      ) : null}
+
       <p className="mt-3 text-sm text-gray-600">
         현재 상태를 직접 기록하는 선택형 질문입니다. 질환을 진단하지 않습니다.
       </p>
 
       {checkIn.status === "completed" || done ? (
-        <div className="mt-6 space-y-3 text-sm">
+        <div className="mt-6 space-y-4 text-sm">
           <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2">
             완료되었습니다. 제안은 동의 후에만 루틴에 반영됩니다.
           </p>
+          {completedDecision ? (
+            <CheckinDecisionPanel decision={completedDecision} />
+          ) : null}
           {checkIn.referralLevel !== "none" ? (
             <p className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-3 font-medium text-rose-900">
-              현재 응답에는 전문가 확인을 우선할 신호가 포함되어 있습니다. 심하거나 급격히 악화되면 가까운 의료기관·응급서비스에 문의하세요.
+              현재 응답에는 전문가 확인을 우선할 신호가 포함되어 있습니다.
+              심하거나 급격히 악화되면 가까운 의료기관·응급서비스에
+              문의하세요.
             </p>
           ) : null}
           <Link href="/my/progress" className="text-[#8B6914] underline">
@@ -178,12 +251,70 @@ export default function MyCheckInDetailPage() {
             void submit();
           }}
         >
+          <fieldset className="rounded-2xl border border-[#E8DFD8] bg-white p-4">
+            <legend className="px-1 font-semibold text-gray-900">
+              전체적으로 어떠신가요?
+            </legend>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {CHECKIN_RESPONSE_OPTIONS.map((option) => (
+                <label
+                  key={option}
+                  className="flex min-h-10 cursor-pointer items-center gap-2 rounded-lg border border-[#E8DFD8] px-3 py-2"
+                >
+                  <input
+                    type="radio"
+                    name="overallResponse"
+                    checked={answers.overallResponse === option}
+                    onChange={() =>
+                      setAnswers({
+                        ...answers,
+                        overallResponse: option as CareCheckInOverallResponse,
+                        stillUsing:
+                          option === "stopped"
+                            ? false
+                            : option === "not_started"
+                              ? null
+                              : answers.stillUsing,
+                      })
+                    }
+                  />
+                  {getCheckinResponseLabel(option)}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          {answers.overallResponse === "stopped" ? (
+            <fieldset className="rounded-2xl border border-[#E8DFD8] bg-white p-4">
+              <legend className="px-1 font-semibold">중단 이유</legend>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {STOPPED_REASONS.map((reason) => (
+                  <label
+                    key={reason}
+                    className="flex min-h-10 items-center gap-2 rounded-lg border border-[#E8DFD8] px-3"
+                  >
+                    <input
+                      type="radio"
+                      name="stoppedReason"
+                      checked={answers.stoppedReason === reason}
+                      onChange={() =>
+                        setAnswers({ ...answers, stoppedReason: reason })
+                      }
+                    />
+                    {getStoppedReasonLabel(reason)}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ) : null}
+
           <fieldset className="rounded-2xl border border-rose-200 bg-rose-50/60 p-4">
             <legend className="px-1 font-semibold text-rose-900">
               먼저 확인할 위험 신호
             </legend>
             <p className="mb-3 text-xs leading-5 text-rose-800">
-              현재 해당되는 항목만 선택하세요. 호흡 곤란·전신 알레르기 반응·급격한 붓기는 제품 사용보다 즉시 상태 확인이 우선입니다.
+              현재 해당되는 항목만 선택하세요. 호흡 곤란·전신 알레르기 반응·급격한
+              붓기는 제품 사용보다 즉시 상태 확인이 우선입니다.
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
               {ACUTE_OPTIONS.map(({ key, label }) => (
@@ -214,10 +345,18 @@ export default function MyCheckInDetailPage() {
                 className="mt-3 rounded-lg bg-white px-3 py-2 font-semibold text-rose-900"
                 role="alert"
               >
-                긴급 확인 신호가 선택되었습니다. 새 제품 사용을 중단하고 가까운 의료기관·응급서비스에 문의하는 것을 우선하세요.
+                긴급 확인 신호가 선택되었습니다. 새 제품 사용을 중단하고 가까운
+                의료기관·응급서비스에 문의하는 것을 우선하세요.
               </p>
             ) : null}
           </fieldset>
+
+          {liveDecision && answers.overallResponse ? (
+            <CheckinDecisionPanel
+              decision={liveDecision}
+              showConsultationBanner={false}
+            />
+          ) : null}
 
           <section className="space-y-5 rounded-2xl border border-[#E8DFD8] bg-white p-4">
             <h2 className="font-semibold">상태 점수</h2>
@@ -242,16 +381,19 @@ export default function MyCheckInDetailPage() {
             ))}
           </section>
 
-          <label className="flex items-center gap-2 rounded-xl border border-[#E8DFD8] bg-white px-3 py-3">
-            <input
-              type="checkbox"
-              checked={answers.stillUsing === true}
-              onChange={(e) =>
-                setAnswers({ ...answers, stillUsing: e.target.checked })
-              }
-            />
-            {policy.stillUsingLabel}
-          </label>
+          {answers.overallResponse !== "not_started" &&
+          answers.overallResponse !== "stopped" ? (
+            <label className="flex items-center gap-2 rounded-xl border border-[#E8DFD8] bg-white px-3 py-3">
+              <input
+                type="checkbox"
+                checked={answers.stillUsing === true}
+                onChange={(e) =>
+                  setAnswers({ ...answers, stillUsing: e.target.checked })
+                }
+              />
+              {policy.stillUsingLabel}
+            </label>
+          ) : null}
 
           <label className="block rounded-2xl border border-[#E8DFD8] bg-white p-4">
             <span className="font-semibold text-gray-800">메모</span>
@@ -277,7 +419,7 @@ export default function MyCheckInDetailPage() {
           ) : null}
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || !answers.overallResponse}
             className="rounded-lg bg-[#8B6914] px-4 py-2 text-white disabled:opacity-50"
           >
             {submitting ? "저장 중…" : "체크인 저장"}

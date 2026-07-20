@@ -50,18 +50,21 @@
 
 ## 현재 진행 단계
 
-Master Plan v4.1 구현 우선순위의 **단계 4 제품 사용 영상과 루틴 연결부**다.
+Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 시작했다.
 
-- 단계 4 본기능: 코드·자동 테스트(`test:usage-media` 등)·Staging build 검증 **완료** (HEAD `555d317`)
+- 단계 4 본기능: 코드·자동 테스트·Staging build 검증 **완료**
+- 단계 5 첫 작업: 3·7·15·30일 체크인 응답 분기 정책·화면 연결 **코드 완료** (실제 알림 발송·DB migration 실행 없음)
 - Preview 콘솔 localStorage 수동 주입 검수: **중단**
 - `/qa/usage-guide` 임시 QA 페이지: **본기능에 포함하지 않음** (미채택)
 - main 미병합 · Production 미배포 · Production DB·환경변수 변경 없음
 
-## 다음 작업 (운영·Preview 검수)
+## 다음 작업
 
-1. Preview 수동 샘플 육안 확인 (콘솔 주입 대체 방법 포함, 미완료)
-2. Preview 관리자 로그인 후 실제 Staging 미디어·통합 검수 화면 육안 확인 (미완료)
-3. Preview 원격 검수 JSON 전달 경로 연결 (미완료)
+1. 체크인 재알림 실제 채널 연결 (이메일·웹푸시·SMS 미구현)
+2. 체크인 응답 기반 루틴 조정 UI 보강
+3. Preview 수동 샘플 육안 확인 (단계 4 운영 검수 잔여)
+4. Preview 관리자 로그인 후 Staging 미디어·통합 검수 육안
+5. Preview 원격 검수 JSON 전달 경로 연결
 
 ## 현재 차단 또는 사람 확인이 필요한 항목
 

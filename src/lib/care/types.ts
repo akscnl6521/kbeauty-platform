@@ -88,10 +88,26 @@ export type CareAcuteSignals = {
   oozing: boolean;
   rapidSwelling: boolean;
   spreadingRash: boolean;
+  infectionSuspect: boolean;
+  burn: boolean;
   eyeIrritation: boolean;
   breathingDifficulty: boolean;
   systemicAllergy: boolean;
 };
+
+export type CareCheckInStoppedReason =
+  | "irritation"
+  | "complexity"
+  | "purchase_failed"
+  | "other";
+
+export type CareCheckInOverallResponse =
+  | "improved"
+  | "unchanged"
+  | "worsened"
+  | "not_started"
+  | "stopped"
+  | "unsure";
 
 export type CareCheckInAnswers = {
   stillUsing: boolean | null;
@@ -108,6 +124,9 @@ export type CareCheckInAnswers = {
   photoAttached: boolean;
   freeMemo: string | null;
   acuteSignals?: Partial<CareAcuteSignals>;
+  overallResponse?: CareCheckInOverallResponse | null;
+  stoppedReason?: CareCheckInStoppedReason | null;
+  stoppedReasonNote?: string | null;
 };
 
 export type CareCheckIn = {

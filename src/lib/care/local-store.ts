@@ -165,14 +165,17 @@ export function saveAnalysisSessionFromLocalRecommendation(input: {
     conflictNotes: conflicts,
   };
 
-  let checkIns = createCheckInSchedule({
-    analysisSessionId: session.id,
-    routineId: routine.id,
-    startAt: session.createdAt,
-    timezone,
-    idFactory: () => rid("ci"),
-  });
-  checkIns = refreshCheckInStatuses(checkIns);
+  let checkIns: CareCheckIn[] = [];
+  if (input.consentCareTracking) {
+    checkIns = createCheckInSchedule({
+      analysisSessionId: session.id,
+      routineId: routine.id,
+      startAt: session.createdAt,
+      timezone,
+      idFactory: () => rid("ci"),
+    });
+    checkIns = refreshCheckInStatuses(checkIns);
+  }
 
   const dueNotes = checkIns
     .filter((c) => c.status === "due")

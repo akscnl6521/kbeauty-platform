@@ -6,6 +6,18 @@
 
 ## 2026-07-20
 
+### 단계 5 시작 — 체크인 응답 분기 정책·화면 연결
+
+- `src/lib/retention/checkinPolicy.ts` · `checkinCopy.ts` 공용 순수 모듈 추가
+- 3·7·15·30일 일정: 동의(`consentCareTracking`) 없으면 미생성 · 시작일 없으면 미생성 · 완료 기록 보존 · milestone 중복 방지
+- 응답 6종(improved/unchanged/worsened/not_started/stopped/unsure)별 다음 행동 분기
+- 위험 신호(통증·출혈·진물·감염 의심·화상 등) → 상담 우선 (`prioritizeConsultation`)
+- 48시간 1회 재알림 정책 (`shouldRemind` · `reminderCount`) — 실제 발송 미연결
+- 화면: `/my/check-ins` · `/my/check-ins/[id]` (응답 선택·다음 행동·위험 안내)
+- careCheckinConsent ↔ `consentCareTracking` · marketingConsent ↔ `emailOptIn` 분리 매핑
+- DB migration 실행 없음 · Production·main 미변경
+- self-test: `npm run test:checkin-policy`
+
 ### 단계 4 코드 검증 완료 · Preview 운영 검수 잔여
 
 - 단계 4 본기능(사용 가이드·부위 필터·disclosure·관리자 미디어 검수) 코드·자동 테스트·Staging build 검증 완료 (HEAD `555d317`)

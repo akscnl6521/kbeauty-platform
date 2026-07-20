@@ -54,6 +54,12 @@ export function evaluateDermatologyReferral(
     reasons.push("눈 내부 자극 보고");
     level = raiseLevel(level, "seek_promptly");
   }
+  if (acute.infectionSuspect || acute.burn) {
+    reasons.push(
+      acute.burn ? "화상 가능성 보고" : "감염 의심 신호 보고"
+    );
+    level = raiseLevel(level, "seek_promptly");
+  }
   if (acute.bleeding || acute.oozing || acute.pain || acute.spreadingRash) {
     reasons.push("통증·출혈·진물·퍼지는 발진 중 하나 이상 보고");
     level = raiseLevel(level, "seek_promptly");
