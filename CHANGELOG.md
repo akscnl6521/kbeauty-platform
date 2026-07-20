@@ -6,6 +6,15 @@
 
 ## 2026-07-20
 
+### 단계 5 — 체크인 이메일 dry-run provider (실제 발송 없음)
+
+- `disabled` / `dry_run` / `live` 모드 해석 · live는 `live_mode_blocked`만 반환 (실발송·SDK·API 키 없음)
+- payload: 텍스트만 · 안전 경로 `/my/check-ins/{id}`, `/my/settings` · photo/health/affiliate/http URL 거부
+- consent: care checkin + care email 필수 · marketing만이면 `marketing_only_consent`
+- self-test: `npm run test:checkin-email-provider`
+- admin UI·실제 provider 연동·DB migration 후순위 · main 미병합 · Production 미배포
+
+
 ### 단계 5 — 체크인 이메일 큐 정책 (발송 미연결)
 
 - `checkinEmailQueuePolicy` · `checkinEmailCopy` 공용 순수 모듈 추가

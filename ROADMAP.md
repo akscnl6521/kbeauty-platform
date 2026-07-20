@@ -94,7 +94,8 @@
 - [x] 위험 신호 상담 우선 · 48시간 1회 재알림 정책 (발송 미연결)
 - [x] `/my/check-ins` · `/my/check-ins/[id]` 화면 연결
 - [x] 체크인 응답 기반 루틴 조정 제안 UI (승인 전 불변 · 일시 중지 · 되돌리기)
-- [x] 체크인 이메일 큐 정책 (`checkinEmailQueuePolicy` · care/마케팅 동의 분리 · idempotency · retry) — **실제 발송 미연결** · DB migration 미적용
+- [x] 체크인 이메일 큐 정책 (발송 미연결 · DRAFT migration)
+- [x] 체크인 이메일 dry-run provider (disabled/dry_run/live_blocked · 실제 발송·SDK·API 키 없음 · admin UI 후순위)
 - [ ] 승인 후 실제 이메일 provider 연결
 - [ ] 사진 비교 동의·삭제 흐름
 - [ ] 재방문 대시보드 보강
