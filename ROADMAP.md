@@ -74,11 +74,16 @@
 - [x] 부위별 화면 사용 가이드 연결 (`/face-explorer`, results `area`, `/my/guidance`)
 - [x] 관리자 영상 검수 화면 (제품 상세 읽기 전용)
 - [x] AI 생성·광고·협찬 표시 정책 보강 (공용 disclosure)
+- [x] 단계 4 본기능 코드·자동 테스트·Staging build 검증 완료
+- [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함)
+- [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수
+- [ ] Preview 원격 검수 JSON 경로 연결
 
 ## 다음 작업
 
-1. Preview 로그인 후 관리자 통합 검수 화면 육안 확인
-2. Preview 원격 검수 JSON 전달 경로 연결
+1. Preview 수동 샘플 육안 확인 (운영 검수 잔여)
+2. Preview 관리자 로그인 후 Staging 미디어·통합 검수 육안
+3. Preview 원격 검수 JSON 전달 경로 연결
 
 ### 단계 5 — 리텐션 보강
 

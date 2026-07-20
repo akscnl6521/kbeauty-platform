@@ -52,24 +52,26 @@
 
 Master Plan v4.1 구현 우선순위의 **단계 4 제품 사용 영상과 루틴 연결부**다.
 
-- 루틴 화면·추천 결과 핵심 제품 카드 연결 완료
-- 영상 권리 점검 큐 완료
-- 관리자 제품 상세 영상·가이드 검수 UI 완료 (승인 쓰기·DB migration 미실행)
-- 부위별 화면 사용 가이드 연결 완료 (`applicationArea` 교집합 필터, 없으면 기존 UI 유지)
-- AI 생성·광고·협찬 표시 정책 보강 완료 (공용 `contentDisclosurePolicy` · `ContentDisclosure`, DB migration 없음)
+- 단계 4 본기능: 코드·자동 테스트(`test:usage-media` 등)·Staging build 검증 **완료** (HEAD `555d317`)
+- Preview 콘솔 localStorage 수동 주입 검수: **중단**
+- `/qa/usage-guide` 임시 QA 페이지: **본기능에 포함하지 않음** (미채택)
+- main 미병합 · Production 미배포 · Production DB·환경변수 변경 없음
 
-## 다음 작업
+## 다음 작업 (운영·Preview 검수)
 
-1. Preview 로그인 후 관리자 통합 검수 화면 육안 확인
-2. Preview 원격 검수 JSON 전달 경로 연결
+1. Preview 수동 샘플 육안 확인 (콘솔 주입 대체 방법 포함, 미완료)
+2. Preview 관리자 로그인 후 실제 Staging 미디어·통합 검수 화면 육안 확인 (미완료)
+3. Preview 원격 검수 JSON 전달 경로 연결 (미완료)
 
 ## 현재 차단 또는 사람 확인이 필요한 항목
 
+- Preview 수동 샘플 육안 확인 (단계 4 운영 검수 잔여)
+- Preview 관리자 로그인 후 Staging `catalog_product_media` 실제 미디어 육안
+- Preview 원격 검수 JSON 주소와 환경변수 연결
 - 공식 전성분 미확보 제품의 최종 검증
 - 실제 제품 이미지·가격·재고·구매 링크의 사람 최종 확인
 - 실제 피부과 진료 범주·의료진·주소·예약 정보 확인
 - 외부 영상 사용권과 게시 기간 확인
-- Preview 원격 검수 JSON 주소와 환경변수 연결
 - Production 배포와 Production DB·환경변수 변경
 - 광고·제휴 계약 실제 활성화
 

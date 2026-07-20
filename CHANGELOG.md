@@ -6,6 +6,14 @@
 
 ## 2026-07-20
 
+### 단계 4 코드 검증 완료 · Preview 운영 검수 잔여
+
+- 단계 4 본기능(사용 가이드·부위 필터·disclosure·관리자 미디어 검수) 코드·자동 테스트·Staging build 검증 완료 (HEAD `555d317`)
+- Preview 콘솔 localStorage 수동 주입 검수 중단
+- Preview 수동 샘플 육안·관리자 Staging 미디어 육안·원격 검수 JSON 연결은 미완료 운영 검수 항목
+- `/qa/usage-guide` 임시 QA 페이지는 본기능에 포함하지 않음
+- main 미병합 · Production 미배포 · Production DB·환경변수 변경 없음
+
 ### AI 생성·광고·협찬 공용 disclosure 정책 보강
 
 - `contentDisclosurePolicy` · `ContentDisclosure` 공용 모듈/UI 추가 (ko/en/ja)
