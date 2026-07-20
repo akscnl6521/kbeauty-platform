@@ -6,6 +6,15 @@
 
 ## 2026-07-20
 
+### 관리자 사용 영상·가이드 검수 화면 (읽기 전용)
+
+- 관리자 제품 상세에 `사용 영상·가이드 검수` 섹션 추가 (`catalog_product_media` SELECT)
+- 표시 자격 순수 함수 `isUsageMediaDisplayEligible` · catalog 평가 `evaluateCatalogProductMediaDisplay`
+- HTTPS만 클릭 가능 · iframe/자동재생/`dangerouslySetInnerHTML` 없음 · 승인·삭제 쓰기 없음
+- 스키마 부족 항목은 UI·`DRAFT_DO_NOT_APPLY_usage_media_extensions.sql`에만 기록 (DB 미적용)
+- self-test: `test:admin-usage-media` · `test:usage-media`에 포함
+- Organic 점수·순위 불변 · Production DB·배포·main 병합 미실행
+
 ### 추천 카드·루틴 공용 사용 가이드 표시
 
 - `src/components/usage/ProductUsageGuide.tsx` 공용 컴포넌트 분리

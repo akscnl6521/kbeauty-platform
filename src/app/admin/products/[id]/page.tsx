@@ -9,6 +9,12 @@ import {
   type AdminProductDetailPayload,
   type AdminProductOfferItem,
 } from "@/lib/admin/product-detail";
+import {
+  USAGE_MEDIA_SCHEMA_GAPS,
+  getAdminProductUsageMediaReview,
+  type AdminCatalogMediaReviewItem,
+  type AdminProductUsageMediaReview,
+} from "@/lib/admin/product-usage-media";
 import { AdminLogoutButton } from "../../AdminLogoutButton";
 
 export const dynamic = "force-dynamic";
@@ -69,6 +75,275 @@ function OfferLink({ offer }: { offer: AdminProductOfferItem }) {
   );
 }
 
+function SafeHttpsLink({
+  href,
+  label,
+}: {
+  href: string | null | undefined;
+  label: string;
+}) {
+  if (!href || !href.trim()) {
+    return <span className="text-xs text-gray-400">URL 없음</span>;
+  }
+  try {
+    if (new URL(href).protocol !== "https:") {
+      return (
+        <span className="break-all text-xs text-gray-400" title={href}>
+          HTTPS 아님 · 클릭 불가
+        </span>
+      );
+    }
+  } catch {
+    return <span className="text-xs text-gray-400">URL 형식 오류</span>;
+  }
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="break-all text-sm font-medium text-[#8B6914] underline"
+    >
+      {label}
+    </a>
+  );
+}
+
+function ChecklistRow({
+  ok,
+  label,
+  note,
+}: {
+  ok: boolean | null;
+  label: string;
+  note?: string;
+}) {
+  const mark =
+    ok === true ? "예" : ok === false ? "아니오" : "스키마 없음";
+  return (
+    <li className="text-sm text-gray-800">
+      <span className="font-medium">{label}:</span> {mark}
+      {note ? <span className="text-gray-500"> ({note})</span> : null}
+    </li>
+  );
+}
+
+function UsageMediaCard({ item }: { item: AdminCatalogMediaReviewItem }) {
+  return (
+    <article className="rounded-lg border border-[#E8DFD8] bg-white p-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="rounded border border-[#E8DFD8] bg-[#FAF7F5] px-2 py-0.5 text-xs font-medium text-gray-800">
+          상태: {item.statusLabel}
+        </span>
+        <span className="rounded border border-[#E8DFD8] px-2 py-0.5 text-xs text-gray-700">
+          validation: {item.validationStatus}
+        </span>
+        <span className="rounded border border-[#E8DFD8] px-2 py-0.5 text-xs text-gray-700">
+          rights: {item.usageRightsStatus}
+        </span>
+        <span
+          className={
+            item.displayEligible
+              ? "rounded border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-900"
+              : "rounded border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-900"
+          }
+        >
+          사용자 화면 표시 자격: {item.displayEligible ? "가능" : "불가"}
+        </span>
+      </div>
+
+      <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+        <div>
+          <dt className="text-gray-500">미디어 ID</dt>
+          <dd className="break-all font-mono text-xs">{item.id}</dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">제품 ID</dt>
+          <dd className="tabular-nums">{item.productId ?? "—"}</dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">staging_product_id</dt>
+          <dd className="break-all font-mono text-xs">
+            {item.stagingProductId ?? "—"}
+          </dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">variant_key / shade</dt>
+          <dd>
+            {item.variantKey ?? "—"}
+            {item.shadeName ? ` / ${item.shadeName}` : ""}
+          </dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">media_type</dt>
+          <dd>{item.mediaType}</dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">source_type / tier</dt>
+          <dd>
+            {item.sourceType} · tier {item.sourceTier}
+            {item.isOfficialSource ? " · official" : ""}
+          </dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">source_domain</dt>
+          <dd>{item.sourceDomain || "—"}</dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">mime / size</dt>
+          <dd>
+            {item.mimeType ?? "—"}
+            {item.width != null && item.height != null
+              ? ` · ${item.width}×${item.height}`
+              : ""}
+          </dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">verified_at</dt>
+          <dd className="tabular-nums">{formatDate(item.verifiedAt)}</dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">last_checked_at</dt>
+          <dd className="tabular-nums">{formatDate(item.lastCheckedAt)}</dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">is_primary / accessible / fixture</dt>
+          <dd>
+            primary=<BoolLabel value={item.isPrimary} /> · accessible=
+            <BoolLabel value={item.isAccessible} /> · fixture=
+            <BoolLabel value={item.isFixture} />
+          </dd>
+        </div>
+        <div>
+          <dt className="text-gray-500">rights_notes</dt>
+          <dd className="text-xs text-gray-700">{item.rightsNotes ?? "—"}</dd>
+        </div>
+      </dl>
+
+      <div className="mt-3 space-y-1 text-sm">
+        <p>
+          <span className="text-gray-500">image_url: </span>
+          <SafeHttpsLink href={item.imageUrl} label="이미지 열기" />
+        </p>
+        <p>
+          <span className="text-gray-500">canonical_image_url: </span>
+          <SafeHttpsLink
+            href={item.canonicalImageUrl}
+            label="canonical 열기"
+          />
+        </p>
+        <p>
+          <span className="text-gray-500">source_page_url: </span>
+          <SafeHttpsLink href={item.sourcePageUrl} label="출처 페이지 열기" />
+        </p>
+      </div>
+
+      {!item.displayEligible && item.ineligibilityReasons.length > 0 ? (
+        <div className="mt-3 rounded border border-amber-100 bg-amber-50/80 px-3 py-2">
+          <p className="text-xs font-semibold text-amber-900">표시 불가 사유</p>
+          <ul className="mt-1 list-disc pl-5 text-xs text-amber-900">
+            {item.ineligibilityReasons.map((code) => (
+              <li key={code}>{code}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      <div className="mt-3">
+        <p className="text-xs font-semibold text-gray-800">검수 체크리스트</p>
+        <ul className="mt-1 space-y-0.5">
+          <ChecklistRow ok={item.checklist.httpsSource} label="HTTPS 출처인가" />
+          <ChecklistRow
+            ok={item.checklist.sourceTypePresent}
+            label="출처 유형이 확인되었는가"
+          />
+          <ChecklistRow
+            ok={item.checklist.productLinked}
+            label="제품 또는 variant 연결이 있는가"
+          />
+          <ChecklistRow
+            ok={item.checklist.rightsStatusValid}
+            label="권리 상태가 유효한가"
+          />
+          <ChecklistRow
+            ok={item.checklist.rightsEndDateOk}
+            label="권리 종료일이 지나지 않았는가"
+            note="rights_ends_at 컬럼 없음"
+          />
+          <ChecklistRow
+            ok={item.checklist.verifiedAtPresent}
+            label="검증일(verified_at)이 존재하는가"
+          />
+          <ChecklistRow
+            ok={
+              item.checklist.disclosureRequired
+                ? item.checklist.disclosurePresent
+                : true
+            }
+            label="광고·협찬·AI 생성 고지가 필요한가 / 문구 존재"
+            note={
+              item.checklist.disclosureRequired
+                ? "disclosure_text 컬럼 없음"
+                : "공식 등 — 고지 강제 아님"
+            }
+          />
+          <ChecklistRow
+            ok={item.checklist.displayEligible}
+            label="사용자 화면 표시 자격이 있는가"
+          />
+        </ul>
+      </div>
+    </article>
+  );
+}
+
+function UsageMediaReviewSection({
+  review,
+}: {
+  review: AdminProductUsageMediaReview;
+}) {
+  return (
+    <Section
+      title="사용 영상·가이드 검수"
+      description="catalog_product_media SELECT 전용. 승인·삭제·상태 변경 없음. 자동재생·iframe 임베드 없음."
+    >
+      <div className="mb-4 rounded-lg border border-[#E8DFD8] bg-[#FAF7F5] px-3 py-2 text-xs text-gray-700">
+        <p className="font-semibold text-gray-900">스키마 참고</p>
+        <p className="mt-1">
+          사용 가이드 전용 테이블:{" "}
+          {review.usageGuideTablePresent
+            ? "있음"
+            : "없음 (LocalStorage / 정책 레이어만)"}
+        </p>
+        <ul className="mt-1 list-disc pl-5">
+          {review.schemaGaps.map((gap) => (
+            <li key={gap}>현재 스키마에 없음 — {gap}</li>
+          ))}
+        </ul>
+      </div>
+
+      {review.loadError ? (
+        <div
+          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          role="alert"
+        >
+          미디어 조회 오류 (빈 목록과 구분됨): {review.loadError}
+        </div>
+      ) : review.items.length === 0 ? (
+        <p className="text-sm text-gray-500">
+          연결된 미디어 없음 (catalog_product_media에 product_id 행이 없습니다).
+          사용 가이드 전용 DB 행도 없습니다.
+        </p>
+      ) : (
+        <div className="space-y-4">
+          {review.items.map((item) => (
+            <UsageMediaCard key={item.id} item={item} />
+          ))}
+        </div>
+      )}
+    </Section>
+  );
+}
+
 function StringList({
   items,
   empty,
@@ -89,7 +364,13 @@ function StringList({
   );
 }
 
-function DetailBody({ data }: { data: AdminProductDetailPayload }) {
+function DetailBody({
+  data,
+  usageMediaReview,
+}: {
+  data: AdminProductDetailPayload;
+  usageMediaReview: AdminProductUsageMediaReview;
+}) {
   const { product, variants, ingredients, offers, statusSummary, primaryMedia } =
     data;
 
@@ -153,6 +434,8 @@ function DetailBody({ data }: { data: AdminProductDetailPayload }) {
           <p className="text-sm text-gray-500">연결된 이미지 없음</p>
         )}
       </Section>
+
+      <UsageMediaReviewSection review={usageMediaReview} />
 
       <Section
         title="검증 상태"
@@ -544,14 +827,33 @@ export default async function AdminProductDetailPage({
   }
 
   let data: AdminProductDetailPayload | null = null;
+  let usageMediaReview: AdminProductUsageMediaReview = {
+    items: [],
+    loadError: null,
+    schemaGaps: USAGE_MEDIA_SCHEMA_GAPS,
+    usageGuideTablePresent: false,
+  };
   let loadFailed = false;
 
   try {
     data = await getAdminProductDetail(productId);
-  } catch (error) {
+  } catch {
     loadFailed = true;
-    if (!(error instanceof AdminConfigurationError)) {
-      loadFailed = true;
+  }
+
+  if (!loadFailed && data) {
+    try {
+      usageMediaReview = await getAdminProductUsageMediaReview(productId);
+    } catch (error) {
+      usageMediaReview = {
+        items: [],
+        loadError:
+          error instanceof AdminConfigurationError
+            ? "관리자 설정 오류로 미디어를 조회하지 못했습니다."
+            : "미디어 조회 중 오류가 발생했습니다.",
+        schemaGaps: USAGE_MEDIA_SCHEMA_GAPS,
+        usageGuideTablePresent: false,
+      };
     }
   }
 
@@ -602,7 +904,7 @@ export default async function AdminProductDetailPage({
             </Link>
           </div>
         ) : (
-          <DetailBody data={data} />
+          <DetailBody data={data} usageMediaReview={usageMediaReview} />
         )}
       </div>
     </main>
