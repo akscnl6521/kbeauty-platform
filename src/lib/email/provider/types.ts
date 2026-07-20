@@ -8,6 +8,7 @@ export type EmailProviderName = "none" | "dry_run" | "resend" | "sendgrid" | "se
 
 export type EmailProviderErrorCode =
   | "provider_disabled"
+  | "provider_configuration_missing"
   | "live_mode_blocked"
   | "invalid_request"
   | "invalid_recipient"

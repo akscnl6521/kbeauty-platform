@@ -31,6 +31,7 @@
     "test:routine-adjustment": "npx --yes tsx scripts/routine-adjustment-policy-selftest.ts",
     "test:checkin-email-queue": "npx --yes tsx scripts/checkin-email-queue-policy-selftest.ts",
     "test:checkin-email-provider": "npx --yes tsx scripts/checkin-email-provider-selftest.ts",
+    "test:checkin-email-resend": "npx --yes tsx scripts/checkin-email-resend-provider-selftest.ts",
     "test:care-data": "npx --yes tsx scripts/care-data-portability-selftest.ts",
     "test:product-feedback": "npx --yes tsx scripts/product-feedback-selftest.ts",
     "test:feedback-summary": "npx --yes tsx scripts/feedback-summary-selftest.ts",
@@ -104,6 +105,7 @@
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "resend": "^6.17.2",
     "server-only": "^0.0.1",
     "xlsx": "^0.18.5"
   },

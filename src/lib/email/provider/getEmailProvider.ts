@@ -3,14 +3,22 @@
  * Pure helpers are testable. Do not import from client components.
  */
 
+import { validateEmailFromAddress } from "./emailFromAddress";
+import { evaluateEmailLiveProviderGate } from "./emailLiveGate";
 import { createDisabledEmailProvider } from "./disabledProvider";
 import {
   createDryRunEmailProvider,
   DryRunIdempotencyRegistry,
 } from "./dryRunProvider";
+import {
+  createResendEmailProvider,
+  type ResendIdempotencyRegistry,
+  type ResendTransport,
+} from "./resendProvider";
 import type {
   EmailDeliveryMode,
   EmailProvider,
+  EmailProviderErrorCode,
   EmailProviderName,
   EmailSendRequest,
   EmailSendResult,
@@ -42,7 +50,10 @@ export function resolveEmailProviderName(env: EnvLike): EmailProviderName {
   return "none";
 }
 
-function createLiveBlockedProvider(): EmailProvider {
+function createGateBlockedProvider(
+  errorCode: EmailProviderErrorCode,
+  detail?: string
+): EmailProvider {
   return {
     name: "live_blocked",
     mode: "live",
@@ -50,10 +61,10 @@ function createLiveBlockedProvider(): EmailProvider {
       return {
         ok: false,
         mode: "live",
-        errorCode: "live_mode_blocked",
+        errorCode,
         retryable: false,
         recipientMask: null,
-        detail: "live_mode_not_implemented",
+        detail,
       };
     },
   };
@@ -61,21 +72,45 @@ function createLiveBlockedProvider(): EmailProvider {
 
 export function createEmailProviderFromEnv(
   env: EnvLike,
-  options?: { registry?: DryRunIdempotencyRegistry }
+  options?: {
+    registry?: DryRunIdempotencyRegistry | ResendIdempotencyRegistry;
+    resendTransport?: ResendTransport;
+  }
 ): EmailProvider {
   const mode = resolveEmailDeliveryMode(env);
   if (mode === "dry_run") {
-    return createDryRunEmailProvider({ registry: options?.registry });
+    return createDryRunEmailProvider({
+      registry: options?.registry as DryRunIdempotencyRegistry | undefined,
+    });
   }
   if (mode === "live") {
-    return createLiveBlockedProvider();
+    const gate = evaluateEmailLiveProviderGate(env);
+    if (!gate.ok) {
+      return createGateBlockedProvider(gate.errorCode, gate.detail);
+    }
+
+    const fromResult = validateEmailFromAddress(env.EMAIL_FROM_ADDRESS);
+    if (!fromResult.ok) {
+      return createGateBlockedProvider(
+        "provider_configuration_missing",
+        fromResult.reason
+      );
+    }
+
+    return createResendEmailProvider({
+      apiKey: (env.RESEND_API_KEY ?? "").trim(),
+      fromAddress: fromResult.value,
+      transport: options?.resendTransport,
+      registry: options?.registry as ResendIdempotencyRegistry | undefined,
+    });
   }
   return createDisabledEmailProvider();
 }
 
 /** Server entry — reads process.env once. Never logs env values. */
 export function getEmailProvider(options?: {
-  registry?: DryRunIdempotencyRegistry;
+  registry?: DryRunIdempotencyRegistry | ResendIdempotencyRegistry;
+  resendTransport?: ResendTransport;
 }): EmailProvider {
   return createEmailProviderFromEnv(process.env, options);
 }
@@ -84,4 +119,19 @@ export {
   createDisabledEmailProvider,
   createDryRunEmailProvider,
   DryRunIdempotencyRegistry,
+  createResendEmailProvider,
 };
+export {
+  evaluateEmailLiveProviderGate,
+  isEmailLiveKillSwitchEnabled,
+} from "./emailLiveGate";
+export {
+  isProductionEmailEnvironment,
+  resolveEmailRuntimeEnvironment,
+} from "./emailEnvironment";
+export { validateEmailFromAddress } from "./emailFromAddress";
+export {
+  isRecipientAllowlisted,
+  parseRecipientAllowlist,
+} from "./recipientAllowlist";
+export { normalizeResendError } from "./normalizeResendError";

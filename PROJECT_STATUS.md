@@ -20,6 +20,7 @@
 - 현재 제품·루틴 관리
 - Day 3·7·15·30 체크인과 지속 관리
 - 체크인 이메일 dry-run provider (실제 발송 없음 · live 차단 · API 키 없음 · admin UI 후순위)
+- 체크인 이메일 Resend live adapter 코드 준비 (실제 발송 없음 · API 키 미설정 · DNS 미변경 · staging allowlist · kill switch · Production 강제 차단)
 - 관리자 제품·성분·검증·카탈로그 도구
 - 한국 화장품 후보 수집·정규화·Staging 검수 구조
 - 제품 갱신 계획과 due queue 자동화
@@ -58,13 +59,14 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 - 단계 5 두 번째 작업: 체크인 응답 기반 루틴 조정 제안 UI **코드 완료** (사용자 승인 전 자동 변경 없음 · 일시 중지≠삭제 · 되돌리기 · DB migration 미실행)
 - 단계 5 세 번째 작업: 체크인 이메일 큐 정책 **코드 시작** (후보 생성·동의·중복방지·재시도·상태전이 · **실제 발송 미연결** · DB migration 미실행)
 - 단계 5 네 번째 작업: 체크인 이메일 dry-run provider **코드 완료** (disabled/dry_run · live_mode_blocked · 실제 발송·SDK·API 키 없음 · admin UI 후순위)
+- 단계 5 다섯 번째 작업: 체크인 이메일 Resend live adapter **코드 준비 완료** (게이트·allowlist·kill switch · mock self-test만 · 실제 발송·API 키·DNS 변경 없음 · Preview API 미구현 · main 미병합)
 - Preview 콘솔 localStorage 수동 주입 검수: **중단**
 - `/qa/usage-guide` 임시 QA 페이지: **본기능에 포함하지 않음** (미채택)
 - main 미병합 · Production 미배포 · Production DB·환경변수 변경 없음
 
 ## 다음 작업
 
-1. 승인 후 실제 이메일 provider 연결 (Resend/SendGrid 등 · Staging 먼저)
+1. Preview Staging에서 Resend live send API 연결 (환경변수·allowlist·kill switch 승인 후)
 2. 체크인 이메일 큐 DB migration Staging 검토 후 적용 (현재 DRAFT 미적용)
 3. 사진 비교 동의·삭제 흐름
 4. 재방문 대시보드 보강

@@ -6,6 +6,13 @@
 
 ## 2026-07-20
 
+### 단계 5 — 체크인 이메일 Resend live adapter (코드만 · 실발송 없음)
+
+- `resend` npm 패키지 추가 · live provider·게이트·allowlist·kill switch·Production 강제 차단
+- `EMAIL_DELIVERY_MODE=live` + `EMAIL_PROVIDER=resend` + kill switch + API key + from address 필요 (Production은 항상 차단)
+- Staging-only `EMAIL_STAGING_RECIPIENT_ALLOWLIST` · mock transport self-test만 (`npm run test:checkin-email-resend`)
+- 실제 발송 없음 · API 키 미설정 · DNS 미변경 · Preview API 미구현 · main 미병합 · Production 미배포
+
 ### 단계 5 — 체크인 이메일 dry-run provider (실제 발송 없음)
 
 - `disabled` / `dry_run` / `live` 모드 해석 · live는 `live_mode_blocked`만 반환 (실발송·SDK·API 키 없음)
