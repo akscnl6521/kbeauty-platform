@@ -54,7 +54,7 @@ export const CATALOG_PRODUCT_MEDIA_SELECT = [
 /** Documented gaps vs Master Plan usage-video model (do not query these). */
 export const USAGE_MEDIA_SCHEMA_GAPS = [
   "rights_starts_at / rights_ends_at (권리 시작·종료일)",
-  "disclosure_text / is_sponsored (광고·협찬 고지 전용 컬럼)",
+  "disclosure_text / is_sponsored / content_relationship (광고·협찬·AI 고지 전용 컬럼)",
   "locale / country (미디어 언어·국가)",
   "duration_seconds (영상 길이)",
   "routine_step (루틴 단계)",

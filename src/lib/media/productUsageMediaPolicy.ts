@@ -1,3 +1,9 @@
+import type { ContentRelationship } from "@/lib/media/contentDisclosurePolicy";
+import {
+  deriveUsageMediaRelationship,
+  evaluateContentDisclosure,
+} from "@/lib/media/contentDisclosurePolicy";
+
 export type MediaRightsStatus =
   | "owned"
   | "licensed"
@@ -30,6 +36,8 @@ export type UsageMediaAsset = {
   isSponsored: boolean;
   sponsorName: string | null;
   disclosureText: string | null;
+  /** Optional explicit commercial/AI relationship; defaults via isSponsored. */
+  contentRelationship?: ContentRelationship | null;
   locale: string;
 };
 
@@ -92,19 +100,29 @@ export function decideUsageMediaPublication(
   if (asset.containsMedicalClaim) reasons.push("medical_claim_requires_rejection");
   if (asset.containsBeforeAfter) reasons.push("before_after_requires_manual_review");
 
-  const requiresDisclosure = asset.isSponsored;
-  const disclosureText = asset.isSponsored
-    ? asset.disclosureText?.trim() ||
-      (asset.sponsorName ? `${asset.sponsorName}의 유료 광고가 포함되어 있습니다.` : null)
-    : null;
+  const relationship = deriveUsageMediaRelationship({
+    contentRelationship: asset.contentRelationship,
+    isSponsored: asset.isSponsored,
+  });
+  const disclosure = evaluateContentDisclosure({
+    relationship,
+    disclosureText: asset.disclosureText,
+    sponsorName: asset.sponsorName,
+    containsMedicalOverclaim: false,
+  });
 
-  if (requiresDisclosure && !disclosureText) reasons.push("sponsorship_disclosure_missing");
+  if (disclosure.requiresDisclosure && disclosure.reasonCodes.includes("disclosure_missing")) {
+    reasons.push("sponsorship_disclosure_missing");
+  }
+  if (disclosure.reasonCodes.includes("disclosure_type_mismatch")) {
+    reasons.push("disclosure_type_mismatch");
+  }
 
   return {
     publishable: reasons.length === 0,
     reasonCodes: [...new Set(reasons)],
-    requiresDisclosure,
-    disclosureText,
+    requiresDisclosure: disclosure.requiresDisclosure,
+    disclosureText: disclosure.disclosureText,
   };
 }
 

@@ -42,7 +42,7 @@ const sponsored = decideUsageMediaPublication({
 });
 assert.equal(sponsored.publishable, true);
 assert.equal(sponsored.requiresDisclosure, true);
-assert.match(sponsored.disclosureText ?? "", /유료 광고/);
+assert.match(sponsored.disclosureText ?? "", /협찬|광고/);
 
 const expired = decideUsageMediaPublication(
   {

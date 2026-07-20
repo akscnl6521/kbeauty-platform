@@ -6,6 +6,14 @@
 
 ## 2026-07-20
 
+### AI 생성·광고·협찬 공용 disclosure 정책 보강
+
+- `contentDisclosurePolicy` · `ContentDisclosure` 공용 모듈/UI 추가 (ko/en/ja)
+- `ProductUsageGuide`·미디어 표시 자격·관리자 catalog 검수가 동일 정책 사용
+- AI/광고/협찬 고지 없으면 미디어 비표시 · 공식 Organic은 광고로 오인 표시하지 않음
+- Organic 점수·순위 불변 · DB migration 없음 · Production·main 미변경
+- self-test: `test:content-disclosure` · `test:usage-media`에 포함
+
 ### 부위별 화면 검증된 사용 가이드 연결
 
 - `/face-explorer` 존 선택 시 LocalStorage 검증 가이드를 `applicationArea` 교집합으로만 표시

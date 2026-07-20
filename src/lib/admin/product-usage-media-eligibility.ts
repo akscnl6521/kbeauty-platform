@@ -6,6 +6,11 @@ import type {
   UsageRightsStatus,
   MediaValidationStatus,
 } from "@/lib/catalog/media/validateMedia";
+import {
+  evaluateContentDisclosure,
+  mapCatalogSourceTypeToRelationship,
+  type ContentRelationship,
+} from "@/lib/media/contentDisclosurePolicy";
 
 function isSafeHttpsUrl(url: string | null | undefined): boolean {
   if (!url || !url.trim()) return false;
@@ -26,6 +31,8 @@ export type AdminCatalogMediaChecklist = {
   disclosureRequired: boolean;
   disclosurePresent: boolean | null; // null = schema absent
   displayEligible: boolean;
+  contentRelationship: ContentRelationship;
+  disclosureLabel: string | null;
 };
 
 const PUBLISHABLE_RIGHTS = new Set<UsageRightsStatus>([
@@ -74,10 +81,33 @@ export function evaluateCatalogProductMediaDisplay(row: {
     reasons.push("verified_at_missing");
   }
 
-  const disclosureRequired =
-    row.sourceType === "ai_generated" || row.sourceType === "user_ugc";
-  if (disclosureRequired) {
+  const relationship = mapCatalogSourceTypeToRelationship(row.sourceType);
+  // catalog_product_media has no disclosure_text column — required relationships fail.
+  const disclosure = evaluateContentDisclosure({
+    relationship,
+    disclosureText: null,
+    sponsorName: null,
+    httpsOk: httpsSource,
+    verified: row.validationStatus === "verified" && Boolean(row.verifiedAt),
+    rightsValid,
+    rightsNotExpired: true,
+    productLinked: Boolean(row.productId),
+  });
+
+  if (disclosure.requiresDisclosure) {
     reasons.push("disclosure_schema_missing");
+  }
+  for (const code of disclosure.reasonCodes) {
+    if (
+      code !== "disclosure_missing" &&
+      code !== "https_required" &&
+      code !== "media_not_verified" &&
+      code !== "rights_not_publishable" &&
+      code !== "product_link_missing" &&
+      !reasons.includes(code)
+    ) {
+      reasons.push(code);
+    }
   }
 
   const checklist: AdminCatalogMediaChecklist = {
@@ -89,9 +119,11 @@ export function evaluateCatalogProductMediaDisplay(row: {
     verifiedAtPresent: Boolean(
       row.verifiedAt && !Number.isNaN(new Date(row.verifiedAt).getTime())
     ),
-    disclosureRequired,
-    disclosurePresent: disclosureRequired ? null : true,
+    disclosureRequired: disclosure.requiresDisclosure,
+    disclosurePresent: disclosure.requiresDisclosure ? null : true,
     displayEligible: false,
+    contentRelationship: relationship,
+    disclosureLabel: disclosure.disclosureLabel,
   };
 
   const displayEligible = reasons.length === 0;

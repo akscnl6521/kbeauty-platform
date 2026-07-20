@@ -185,6 +185,24 @@ function UsageMediaCard({ item }: { item: AdminCatalogMediaReviewItem }) {
           </dd>
         </div>
         <div>
+          <dt className="text-gray-500">콘텐츠 관계 (disclosure)</dt>
+          <dd>
+            {item.checklist.contentRelationship}
+            {item.checklist.disclosureRequired
+              ? ` · 고지 필요${
+                  item.checklist.disclosureLabel
+                    ? ` · ${item.checklist.disclosureLabel}`
+                    : ""
+                }`
+              : " · 광고 고지 불필요 (Organic/공식)"}
+            {item.checklist.disclosurePresent === null
+              ? " · disclosure 컬럼 없음"
+              : item.checklist.disclosurePresent
+                ? " · 고지 존재"
+                : " · 고지 없음"}
+          </dd>
+        </div>
+        <div>
           <dt className="text-gray-500">source_domain</dt>
           <dd>{item.sourceDomain || "—"}</dd>
         </div>
@@ -279,11 +297,19 @@ function UsageMediaCard({ item }: { item: AdminCatalogMediaReviewItem }) {
                 ? item.checklist.disclosurePresent
                 : true
             }
-            label="광고·협찬·AI 생성 고지가 필요한가 / 문구 존재"
+            label={
+              item.checklist.disclosureRequired
+                ? `고지 필요 (${item.checklist.contentRelationship}${
+                    item.checklist.disclosureLabel
+                      ? ` / ${item.checklist.disclosureLabel}`
+                      : ""
+                  })`
+                : "광고·협찬·AI 고지 불필요 (Organic)"
+            }
             note={
               item.checklist.disclosureRequired
-                ? "disclosure_text 컬럼 없음"
-                : "공식 등 — 고지 강제 아님"
+                ? "disclosure_text 컬럼 없음 → 사용자 화면 표시 불가"
+                : "공식 등 — 광고로 오인 표시하지 않음"
             }
           />
           <ChecklistRow

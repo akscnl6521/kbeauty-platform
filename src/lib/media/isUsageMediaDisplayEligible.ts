@@ -6,6 +6,10 @@ import {
   decideUsageMediaPublication,
   type UsageMediaAsset,
 } from "@/lib/media/productUsageMediaPolicy";
+import {
+  deriveUsageMediaRelationship,
+  evaluateContentDisclosure,
+} from "@/lib/media/contentDisclosurePolicy";
 
 export type UsageMediaEligibilityChecklist = {
   httpsSource: boolean;
@@ -24,6 +28,8 @@ export type UsageMediaEligibilityResult = {
   checklist: UsageMediaEligibilityChecklist;
   requiresDisclosure: boolean;
   disclosureText: string | null;
+  disclosureLabel: string | null;
+  relationship: ReturnType<typeof deriveUsageMediaRelationship>;
 };
 
 function isHttpsUrl(value: string | null | undefined): boolean {
@@ -37,7 +43,7 @@ function isHttpsUrl(value: string | null | undefined): boolean {
 
 /**
  * Display eligibility for policy-layer UsageMediaAsset (localStorage / review queue).
- * HTTP sourceUrl is never eligible. Sponsored content requires disclosure.
+ * HTTP sourceUrl is never eligible. Disclosure follows contentDisclosurePolicy.
  */
 export function isUsageMediaDisplayEligible(
   asset: UsageMediaAsset,
@@ -59,6 +65,29 @@ export function isUsageMediaDisplayEligible(
     if (!reasons.includes(code)) reasons.push(code);
   }
 
+  const relationship = deriveUsageMediaRelationship({
+    contentRelationship: asset.contentRelationship,
+    isSponsored: asset.isSponsored,
+  });
+  const disclosure = evaluateContentDisclosure({
+    relationship,
+    disclosureText: asset.disclosureText,
+    sponsorName: asset.sponsorName,
+    httpsOk: hasHttps || (hasStorage && !asset.sourceUrl),
+    verified: asset.reviewStatus === "approved",
+    rightsValid:
+      asset.rightsStatus !== "unknown" &&
+      asset.rightsStatus !== "revoked" &&
+      asset.rightsStatus !== "expired",
+    rightsNotExpired: !decision.reasonCodes.includes("rights_expired"),
+    productLinked: Boolean(asset.productId?.trim()),
+    containsMedicalOverclaim: asset.containsMedicalClaim,
+  });
+
+  for (const code of disclosure.reasonCodes) {
+    if (!reasons.includes(code)) reasons.push(code);
+  }
+
   const checklist: UsageMediaEligibilityChecklist = {
     httpsSource: hasHttps || (hasStorage && !asset.sourceUrl),
     sourceTypeKnown: true,
@@ -69,11 +98,13 @@ export function isUsageMediaDisplayEligible(
       asset.rightsStatus !== "expired",
     rightsNotExpired: !reasons.includes("rights_expired"),
     verifiedOrApproved: asset.reviewStatus === "approved",
-    disclosureOk: !decision.requiresDisclosure || Boolean(decision.disclosureText),
+    disclosureOk: !disclosure.requiresDisclosure || Boolean(disclosure.disclosureText),
     displayEligible: false,
   };
 
-  if (!checklist.productLinked) reasons.push("product_link_missing");
+  if (!checklist.productLinked && !reasons.includes("product_link_missing")) {
+    reasons.push("product_link_missing");
+  }
 
   const eligible = reasons.length === 0;
   checklist.displayEligible = eligible;
@@ -82,7 +113,9 @@ export function isUsageMediaDisplayEligible(
     eligible,
     reasonCodes: [...new Set(reasons)],
     checklist,
-    requiresDisclosure: decision.requiresDisclosure,
-    disclosureText: decision.disclosureText,
+    requiresDisclosure: disclosure.requiresDisclosure,
+    disclosureText: disclosure.disclosureText,
+    disclosureLabel: disclosure.disclosureLabel,
+    relationship,
   };
 }

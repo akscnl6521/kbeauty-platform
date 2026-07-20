@@ -35,6 +35,7 @@
 - 추천 결과 핵심 제품 카드 검증된 사용 가이드 연결 (공용 `ProductUsageGuide`)
 - 관리자 제품 상세 사용 영상·가이드 검수 화면 (읽기 전용, `catalog_product_media` SELECT)
 - 부위별 화면(`/face-explorer`)·결과(`area` 쿼리)·관리 가이드에 검증된 사용 가이드 연결 (applicationArea 일치 시만)
+- AI 생성·광고·협찬·브랜드 제공·제휴 공용 disclosure 정책 및 UI 라벨
 
 ## 자동화 안전 상태
 
@@ -55,12 +56,12 @@ Master Plan v4.1 구현 우선순위의 **단계 4 제품 사용 영상과 루�
 - 영상 권리 점검 큐 완료
 - 관리자 제품 상세 영상·가이드 검수 UI 완료 (승인 쓰기·DB migration 미실행)
 - 부위별 화면 사용 가이드 연결 완료 (`applicationArea` 교집합 필터, 없으면 기존 UI 유지)
+- AI 생성·광고·협찬 표시 정책 보강 완료 (공용 `contentDisclosurePolicy` · `ContentDisclosure`, DB migration 없음)
 
 ## 다음 작업
 
-1. AI 생성·광고·협찬 표시 정책 보강
-2. Preview 로그인 후 관리자 통합 검수 화면 육안 확인
-3. Preview 원격 검수 JSON 전달 경로 연결
+1. Preview 로그인 후 관리자 통합 검수 화면 육안 확인
+2. Preview 원격 검수 JSON 전달 경로 연결
 
 ## 현재 차단 또는 사람 확인이 필요한 항목
 

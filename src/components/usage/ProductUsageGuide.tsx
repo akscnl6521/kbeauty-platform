@@ -6,6 +6,13 @@ import {
   normalizeUsageAreaToken,
   usageGuideMatchesSelectedAreas,
 } from "@/lib/media/usageGuideApplicationArea";
+import {
+  deriveUsageMediaRelationship,
+  evaluateContentDisclosure,
+  isContentRelationship,
+  type ContentRelationship,
+} from "@/lib/media/contentDisclosurePolicy";
+import ContentDisclosure from "@/components/disclosure/ContentDisclosure";
 
 export type ProductUsageGuideLocale = "en" | "ja" | "ko";
 
@@ -22,6 +29,9 @@ export type StoredUsageGuide = {
     mediaType: "video" | "image" | "animation";
     sourceUrl: string;
     disclosureText?: string | null;
+    contentRelationship?: ContentRelationship | null;
+    sponsorName?: string | null;
+    isSponsored?: boolean;
   } | null;
 };
 
@@ -120,14 +130,43 @@ export function parseVerifiedUsageGuide(
       ["video", "image", "animation"].includes(String(candidate.mediaType)) &&
       isHttpsUrl(candidate.sourceUrl)
     ) {
-      media = {
-        mediaType: candidate.mediaType as "video" | "image" | "animation",
-        sourceUrl: candidate.sourceUrl,
-        disclosureText:
-          typeof candidate.disclosureText === "string"
-            ? candidate.disclosureText.trim() || null
-            : null,
-      };
+      const contentRelationship = isContentRelationship(candidate.contentRelationship)
+        ? candidate.contentRelationship
+        : null;
+      const isSponsored = candidate.isSponsored === true;
+      const disclosureText =
+        typeof candidate.disclosureText === "string"
+          ? candidate.disclosureText.trim() || null
+          : null;
+      const sponsorName =
+        typeof candidate.sponsorName === "string"
+          ? candidate.sponsorName.trim() || null
+          : null;
+      const relationship = deriveUsageMediaRelationship({
+        contentRelationship,
+        isSponsored,
+      });
+      const disclosure = evaluateContentDisclosure({
+        relationship,
+        disclosureText,
+        sponsorName,
+        httpsOk: true,
+        verified: true,
+        productLinked: true,
+      });
+      // Disclosure required but missing / mismatched → do not show media.
+      if (!disclosure.eligible) {
+        media = null;
+      } else {
+        media = {
+          mediaType: candidate.mediaType as "video" | "image" | "animation",
+          sourceUrl: candidate.sourceUrl as string,
+          disclosureText: disclosure.disclosureText,
+          contentRelationship: relationship,
+          sponsorName,
+          isSponsored,
+        };
+      }
     }
   }
 
@@ -286,11 +325,11 @@ export default function ProductUsageGuide({
           >
             {copy.source}
           </a>
-          {guide.media.disclosureText ? (
-            <p className="mt-1 text-[11px] text-gray-500">
-              {guide.media.disclosureText}
-            </p>
-          ) : null}
+          <ContentDisclosure
+            relationship={guide.media.contentRelationship ?? "organic"}
+            disclosureText={guide.media.disclosureText}
+            locale={locale}
+          />
         </div>
       ) : null}
       <p className="mt-2 text-[11px] text-gray-500">
