@@ -6,6 +6,16 @@
 
 ## 2026-07-20
 
+### 단계 5 — Preview 관리자 체크인 이메일 테스트 발송 UI/API (mock만 · 실발송 없음)
+
+- `/admin/care/check-in-email-test` · `POST /api/admin/checkin-email/test-send`
+- Production 404/403 · `VERCEL_ENV=preview` 필수 · 관리자 인증 · same-origin
+- 수신자는 `EMAIL_STAGING_RECIPIENT_ALLOWLIST` 첫 유효 주소만 (클라이언트 recipient 무시)
+- 테스트 payload: `preview-email-test` · care consent 고정 · 마케팅 미사용
+- in-memory rate limit: 60초 1건 · 시간당 10건 (서버리스 임시 · DB audit 없음)
+- self-test: `npm run test:checkin-email-test-api` (mock transport · resend.com fetch 차단)
+- 실제 발송 없음 · Preview 재배포 후 관리자 UI 클릭 시에만 가능 · main 미병합 · Production 미배포
+
 ### 단계 5 — 체크인 이메일 Resend live adapter (코드만 · 실발송 없음)
 
 - `resend` npm 패키지 추가 · live provider·게이트·allowlist·kill switch·Production 강제 차단

@@ -81,7 +81,7 @@
 
 ## 다음 작업
 
-1. Preview Staging Resend live send API 연결 (환경변수·allowlist·kill switch 승인 후)
+1. Preview 배포에서 관리자 체크인 이메일 테스트 발송 UI 육안 확인 (실제 1건은 관리자 명시 클릭 시만)
 2. 체크인 이메일 큐 DB migration Staging 검토·적용 (현재 DRAFT 미적용)
 3. 사진 비교 동의·삭제 흐름
 4. 재방문 대시보드 보강
@@ -96,8 +96,9 @@
 - [x] 체크인 응답 기반 루틴 조정 제안 UI (승인 전 불변 · 일시 중지 · 되돌리기)
 - [x] 체크인 이메일 큐 정책 (발송 미연결 · DRAFT migration)
 - [x] 체크인 이메일 dry-run provider (disabled/dry_run/live_blocked · 실제 발송·SDK·API 키 없음 · admin UI 후순위)
-- [x] 체크인 이메일 Resend live adapter 코드 준비 (게이트·allowlist·kill switch · mock self-test · 실제 발송·API 키·DNS 변경 없음 · Preview API 미구현 · main 미병합)
-- [ ] Preview Staging Resend live send API 연결 (승인·환경변수·allowlist 후)
+- [x] 체크인 이메일 Resend live adapter 코드 준비 (게이트·allowlist·kill switch · mock self-test · 실제 발송·API 키·DNS 변경 없음 · main 미병합)
+- [x] Preview 관리자 체크인 이메일 테스트 발송 UI/API (Production 차단 · same-origin · allowlist 서버 고정 · in-memory rate limit · mock self-test · 실제 발송 미실행 · DB audit 미구현 · main 미병합)
+- [ ] Preview 배포에서 관리자 테스트 발송 UI 육안 확인 (실제 발송은 관리자 클릭 시만)
 - [ ] 사진 비교 동의·삭제 흐름
 - [ ] 재방문 대시보드 보강
 - [ ] 알림 채널별 동의 분리 UI
