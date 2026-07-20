@@ -9,6 +9,10 @@ import { useCountry } from "@/hooks/useCountry";
 import { useLocale } from "@/hooks/useLocale";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import {
+  faceExplorerZoneApplicationAreas,
+  isFaceExplorerZone,
+} from "@/lib/media/usageGuideApplicationArea";
+import {
   displayIngredientNames,
   getShippingCountryLabel,
   loadLatestRecommendationPipeline,
@@ -370,6 +374,11 @@ function ResultsPageInner() {
   const tone = searchParams.get("tone");
   const concern = searchParams.get("concern");
   const budget = searchParams.get("budget");
+  const areaParam = searchParams.get("area");
+  const usageGuideApplicationAreas = useMemo(() => {
+    if (!areaParam || !isFaceExplorerZone(areaParam)) return undefined;
+    return faceExplorerZoneApplicationAreas(areaParam);
+  }, [areaParam]);
 
   // 설문 조건(tone/concern/budget) 기반 1차 필터
   const quizFilteredProducts = useMemo(() => {
@@ -1399,6 +1408,7 @@ function ResultsPageInner() {
                               hidePurchaseCta
                               softCareMode
                               recommendation={savedRecommendation}
+                              applicationAreas={usageGuideApplicationAreas}
                             />
                           ))}
                         </div>
@@ -1470,6 +1480,7 @@ function ResultsPageInner() {
                           locale={locale}
                           countryCode={countryCode ?? "KR"}
                           recommendation={savedRecommendation}
+                          applicationAreas={usageGuideApplicationAreas}
                         />
                       ))}
                     </div>

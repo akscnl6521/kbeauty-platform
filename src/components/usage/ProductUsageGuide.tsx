@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from "react";
 
+import {
+  normalizeUsageAreaToken,
+  usageGuideMatchesSelectedAreas,
+} from "@/lib/media/usageGuideApplicationArea";
+
 export type ProductUsageGuideLocale = "en" | "ja" | "ko";
 
 export type StoredUsageGuide = {
@@ -144,24 +149,35 @@ export type ProductUsageGuideProps = {
   locale: ProductUsageGuideLocale;
   /**
    * message: 루틴 화면 — 가이드 없을 때 짧은 문구 표시
-   * hidden: 추천 카드 — 가이드 없으면 영역 전체 숨김
+   * hidden: 추천 카드·부위 화면 — 가이드 없으면 영역 전체 숨김
    */
   emptyMode?: "message" | "hidden";
+  /**
+   * 사용자가 선택한 부위 토큰. 지정 시 applicationArea와 교집합이 있는
+   * 검증된 가이드만 표시. 미지정 시 기존처럼 productId만으로 표시.
+   */
+  applicationAreas?: readonly string[];
   className?: string;
 };
 
 /**
- * 검증된 제품 사용 가이드 표시 (루틴·추천 카드 공용).
+ * 검증된 제품 사용 가이드 표시 (루틴·추천 카드·부위 화면 공용).
  * 임의 사용법 추론 없음. HTTP/미검증 미디어 표시 없음. 자동재생 없음.
  */
 export default function ProductUsageGuide({
   productId,
   locale,
   emptyMode = "message",
+  applicationAreas,
   className,
 }: ProductUsageGuideProps) {
   const [guide, setGuide] = useState<StoredUsageGuide | null>(null);
   const [loaded, setLoaded] = useState(false);
+
+  const areasKey =
+    applicationAreas === undefined
+      ? "__unfiltered__"
+      : [...applicationAreas].map(normalizeUsageAreaToken).sort().join("|");
 
   useEffect(() => {
     try {
@@ -172,16 +188,27 @@ export default function ProductUsageGuide({
         setLoaded(true);
         return;
       }
-      setGuide(
-        values.map((value) => parseVerifiedUsageGuide(value, productId)).find(Boolean) ??
-          null
-      );
+      const parsed =
+        values
+          .map((value) => parseVerifiedUsageGuide(value, productId))
+          .find(Boolean) ?? null;
+      if (
+        parsed &&
+        applicationAreas !== undefined &&
+        !usageGuideMatchesSelectedAreas(parsed.applicationArea, applicationAreas)
+      ) {
+        setGuide(null);
+      } else {
+        setGuide(parsed);
+      }
     } catch {
       setGuide(null);
     } finally {
       setLoaded(true);
     }
-  }, [productId]);
+    // areasKey serializes applicationAreas for stable deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- areasKey covers applicationAreas
+  }, [productId, areasKey]);
 
   const copy = COPY[locale];
 

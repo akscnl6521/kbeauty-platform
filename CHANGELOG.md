@@ -6,6 +6,13 @@
 
 ## 2026-07-20
 
+### 부위별 화면 검증된 사용 가이드 연결
+
+- `/face-explorer` 존 선택 시 LocalStorage 검증 가이드를 `applicationArea` 교집합으로만 표시
+- `/results?area=` 쿼리로 추천 카드 가이드 필터 · `/my/guidance`는 분석 부위 스냅샷 기준 필터
+- 일치 가이드 없으면 기존 부위·카드 UI 유지 (`emptyMode=hidden`) · 사용법 추론 없음
+- Organic 점수·순위 불변 · Production DB·배포·main 병합 미실행
+
 ### 관리자 사용 영상·가이드 검수 화면 (읽기 전용)
 
 - 관리자 제품 상세에 `사용 영상·가이드 검수` 섹션 추가 (`catalog_product_media` SELECT)

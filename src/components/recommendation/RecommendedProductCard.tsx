@@ -44,6 +44,11 @@ export type RecommendedProductCardProps = {
   recommendation?: Recommendation | null;
   /** 보조 관리 모드 라벨 */
   softCareMode?: boolean;
+  /**
+   * 부위 화면에서 전달된 applicationArea 필터.
+   * 지정 시 검증된 가이드 중 부위가 일치할 때만 표시.
+   */
+  applicationAreas?: readonly string[];
 };
 
 /**
@@ -58,6 +63,7 @@ export function RecommendedProductCard({
   hidePurchaseCta = false,
   recommendation = null,
   softCareMode = false,
+  applicationAreas,
 }: RecommendedProductCardProps) {
   const { product, score, matchedIngredients, excludedIngredients } = ranked;
 
@@ -359,6 +365,7 @@ export function RecommendedProductCard({
         productId={product.id}
         locale={locale}
         emptyMode="hidden"
+        applicationAreas={applicationAreas}
         className="border-t border-pink-100 pt-3 text-xs text-gray-700"
       />
 
