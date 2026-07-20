@@ -6,6 +6,17 @@
 
 ## 2026-07-20
 
+### 단계 5 — 체크인 이메일 큐 정책 (발송 미연결)
+
+- `checkinEmailQueuePolicy` · `checkinEmailCopy` 공용 순수 모듈 추가
+- care 체크인 동의 + care 이메일 채널 동의 필수 (marketingConsent만으로는 후보 생성 금지)
+- idempotency key · 상태 전이 · 재시도(5분/30분/2시간, 최대 3회) · dead_letter
+- payload에 사진·건강상세 금지 · 수신자는 mask/hash만 (평문 email 미저장)
+- DRAFT migration `DRAFT_DO_NOT_APPLY_checkin_email_queue.sql` (실제 DB 미적용)
+- self-test: `npm run test:checkin-email-queue`
+- 실제 이메일 provider 미연결 · main 미병합 · Production 미배포
+
+
 ### 단계 5 — 체크인 응답 기반 루틴 조정 제안 UI
 
 - `routineAdjustmentPolicy` · `routineAdjustmentCopy` 공용 모듈 추가
