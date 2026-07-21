@@ -29,6 +29,7 @@ id: WQ-B-photo-compare-consent
 title: Photo compare consent and deletion flow
 priority: 20
 status: completed
+result_commit: a55d72a0914fe381c796b12f6ca77321d3f82713
 environment: staging
 deps: WQ-A-checkin-email-queue-staging
 tests:
