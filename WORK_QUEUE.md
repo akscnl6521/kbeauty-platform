@@ -75,6 +75,7 @@ id: WQ-E-care-worker-admin
 title: Care worker admin and dry-run delivery
 priority: 50
 status: completed
+result_commit: c2711d5fae25dba44f08caa0d6c748fdb84c44fa
 environment: staging
 deps: WQ-D-checkin-scheduling
 tests:
