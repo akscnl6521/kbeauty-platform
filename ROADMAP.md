@@ -81,9 +81,9 @@
 
 ## 다음 작업
 
-1. Staging Dashboard에서 `20260722010000_create_checkin_email_queue.sql` 적용 후 dry-run claim 검증
-2. 사진 비교 동의·삭제 흐름
-3. 재방문 대시보드 보강
+1. Staging Dashboard에서 `20260722010000_create_checkin_email_queue.sql` 적용 후 dry-run claim 검증 (WQ-A · Fast Execution active)
+2. 사진 비교 동의·삭제 흐름 (WQ-B)
+3. 재방문 대시보드 보강 (WQ-C)
 4. 알림 채널별 동의 분리 UI
 
 ### 단계 5 — 리텐션 보강

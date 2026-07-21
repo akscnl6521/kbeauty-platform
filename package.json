@@ -102,7 +102,15 @@
     "test:catalog-exception-queue": "npx --yes tsx scripts/catalog-exception-queue-selftest.ts",
     "test:catalog-exception-artifact": "npx --yes tsx scripts/catalog-exception-artifact-audit-selftest.ts",
     "test:labels": "npx --yes tsx scripts/curated-inci-selftest.ts",
-    "test:labels-admin": "npx --yes tsx scripts/label-sheet-admin-selftest.ts"
+    "test:labels-admin": "npx --yes tsx scripts/label-sheet-admin-selftest.ts",
+    "project:status": "node scripts/project-orchestrator.mjs status",
+    "project:next": "node scripts/project-orchestrator.mjs next",
+    "project:verify": "node scripts/project-orchestrator.mjs verify",
+    "project:complete": "node scripts/project-orchestrator.mjs complete",
+    "project:continue": "node scripts/project-orchestrator.mjs continue",
+    "test:project-orchestrator": "node scripts/project-orchestrator-selftest.mjs",
+    "test:safe-command-gate": "node scripts/safe-command-gate-selftest.mjs",
+    "test:work-queue": "node scripts/work-queue-parser-selftest.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

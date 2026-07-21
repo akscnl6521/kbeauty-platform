@@ -25,6 +25,7 @@
 - Preview 이메일 미리보기 `siteOrigin` 서버 prop · Care admin readiness · service_role care SELECT · Preview `/admin/care` 육안 **통과**
 - Preview `/admin/care/check-in-email-test` 육안 **통과** (2026-07-22 · 폼·미리보기 정상 · milestone/locale/kind 변경 정상 · migration/permission 오류 없음 · 실발송 없음 · `checkin_email_queue` Staging·Production 미적용)
 - 체크인 이메일 큐 Schema A 구현 **코드·게이트 완료** · dated migration `20260722010000_create_checkin_email_queue.sql` · persistence/claim/retry/dry-run worker · Staging DB 적용은 **Dashboard SQL 대기** (Production **미적용**)
+- Fast Execution System v1 **추가** (`WORK_QUEUE.md` · `npm run project:*` · safe-command-gate · docs/FAST_EXECUTION_SYSTEM.md)
 - 관리자 제품·성분·검증·카탈로그 도구
 - 한국 화장품 후보 수집·정규화·Staging 검수 구조
 - 제품 갱신 계획과 due queue 자동화
@@ -71,10 +72,10 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 
 ## 다음 작업
 
-1. Staging Dashboard에서 `20260722010000_create_checkin_email_queue.sql` 적용 후 dry-run claim 검증
-2. 사진 비교 동의·삭제 흐름
-3. 재방문 대시보드 보강
-4. 알림 채널별 동의 분리 UI
+1. Staging Dashboard에서 `20260722010000_create_checkin_email_queue.sql` 적용 → `node scripts/probe-checkin-email-queue-staging.mjs` → dry-run 검증 (WORK_QUEUE: WQ-A)
+2. 사진 비교 동의·삭제 흐름 (WQ-B)
+3. 재방문 대시보드 보강 (WQ-C)
+4. 알림 채널별 동의 분리 UI / 스케줄링 연결 (WQ-D)
 
 ## 현재 차단 또는 사람 확인이 필요한 항목
 

@@ -6,6 +6,14 @@
 
 ## 2026-07-22
 
+### Fast Execution System v1
+
+- `WORK_QUEUE.md` · `docs/FAST_EXECUTION_SYSTEM.md` · `docs/APPROVAL_POLICY.md`
+- `npm run project:status|next|verify|complete|continue`
+- `safe-command-gate` · work-queue parser · orchestrator selftests
+- Staging probe: `scripts/probe-checkin-email-queue-staging.mjs` (현재 `missing` — Dashboard SQL 대기)
+- Production/main/실발송 기본 차단 유지
+
 ### 체크인 이메일 큐 Schema A Staging 구현 (코드·게이트 · DB 적용 대기)
 
 - dated migration 승격: `20260722010000_create_checkin_email_queue.sql` (DRAFT는 참고용 유지)

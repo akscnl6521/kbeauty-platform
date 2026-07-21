@@ -1,0 +1,12 @@
+# Fast Execution System — resume triggers
+
+When the user says any of: 계속 진행해 / 다음 작업 / 빠르게 진행해 / 계속하자 / 작업 재개
+
+1. Read in order: PROJECT_STATUS.md → ROADMAP.md → WORK_QUEUE.md → CHANGELOG.md (also MASTER_PLAN / PROJECT_RULE when architecture unclear).
+2. Run npm run project:status (or parse WORK_QUEUE) and take the active task, else highest-priority runnable queued task (dependencies completed).
+3. Do not re-run completed WORK_QUEUE items.
+4. Auto-progress on feature branch + Staging/Preview: read, edit, test, build, dry-run, Staging SELECT, approved Staging migration, Preview deploy, commit/push, docs update — without asking per step.
+5. Stop immediately for: main merge, Production deploy/DB/env, DROP/TRUNCATE/bulk DELETE, real user email/SMS/push, PII migration, ads activation.
+6. If Staging Dashboard SQL is required (e.g. WQ-A), give one Korean instruction block with exact click path and stop.
+7. Report once at the end. Never print .env values or service_role keys.
+8. Details: docs/FAST_EXECUTION_SYSTEM.md, docs/APPROVAL_POLICY.md.
