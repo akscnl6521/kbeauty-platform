@@ -242,7 +242,12 @@ export type CareFeedback = {
 
 export type CareUserSettings = {
   notificationsEnabled: boolean;
+  /** Marketing / promotional email opt-in (not Care check-in channel). */
   emailOptIn: boolean;
+  /** Care check-in transactional email channel; default false. */
+  careEmailChannelConsent?: boolean;
+  /** Notification / email copy locale; default ko. */
+  locale?: "ko" | "en" | "ja";
   quietHoursStart: number;
   quietHoursEnd: number;
   timezone: string;

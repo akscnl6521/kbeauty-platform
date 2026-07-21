@@ -31,6 +31,10 @@ import type {
   CareStoreSnapshot,
   CareUserSettings,
 } from "@/lib/care/types";
+import {
+  defaultCareUserSettings,
+  normalizeCareUserSettings,
+} from "@/lib/care/settingsDefaults";
 
 export const CARE_STORAGE_KEY = "kbeautyCareStoreV1";
 
@@ -39,13 +43,7 @@ function rid(prefix: string): string {
 }
 
 function defaultSettings(timezone: string): CareUserSettings {
-  return {
-    notificationsEnabled: true,
-    emailOptIn: false,
-    quietHoursStart: 22,
-    quietHoursEnd: 8,
-    timezone,
-  };
+  return defaultCareUserSettings(timezone);
 }
 
 export function emptyCareStore(timezone = "Asia/Seoul"): CareStoreSnapshot {
@@ -74,6 +72,7 @@ export function loadCareStore(): CareStoreSnapshot {
     return {
       ...parsed,
       checkIns: refreshCheckInStatuses(dedupeCheckInsByDay(parsed.checkIns ?? [])),
+      settings: normalizeCareUserSettings(parsed.settings, parsed.settings?.timezone || "Asia/Seoul"),
       routineAdjustmentHistory: parsed.routineAdjustmentHistory ?? [],
     };
   } catch {

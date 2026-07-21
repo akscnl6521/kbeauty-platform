@@ -113,7 +113,9 @@
     "project:continue": "node scripts/project-orchestrator.mjs continue",
     "test:project-orchestrator": "node scripts/project-orchestrator-selftest.mjs",
     "test:safe-command-gate": "node scripts/safe-command-gate-selftest.mjs",
-    "test:work-queue": "node scripts/work-queue-parser-selftest.mjs"
+    "test:work-queue": "node scripts/work-queue-parser-selftest.mjs",
+    "test:checkin-scheduling": "npx --yes tsx scripts/checkin-scheduling-selftest.ts && npx --yes tsx scripts/notification-preferences-selftest.ts",
+    "verify:checkin-scheduling-staging": "node scripts/verify-checkin-scheduling-staging.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

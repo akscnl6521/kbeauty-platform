@@ -58,20 +58,22 @@ notes: revisitDashboard + quickSkinCheck pure · /my 섹션 재구성 · photo-c
 id: WQ-D-checkin-scheduling
 title: Checkin scheduling and notification channels
 priority: 40
-status: active
+status: completed
 environment: staging
 deps: WQ-A-checkin-email-queue-staging
 tests:
   - npm run test:checkin-policy
   - npm run test:reminder-delivery
+  - npm run test:checkin-scheduling
 approval_required: false
+notes: orchestrator + channel consent UI + worker enqueue (no live send) · docs/checkin-scheduling.md
 
 ### TASK WQ-E-care-worker-admin
 
 id: WQ-E-care-worker-admin
 title: Care worker admin and dry-run delivery
 priority: 50
-status: queued
+status: active
 environment: staging
 deps: WQ-D-checkin-scheduling
 tests:

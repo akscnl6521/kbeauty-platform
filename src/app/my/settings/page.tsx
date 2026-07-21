@@ -43,6 +43,24 @@ export default function MyCareSettingsPage() {
       .catch(() => {
         /* ignore */
       });
+    void fetch("/api/care/notification-preferences", { credentials: "include" })
+      .then((r) => r.json())
+      .then((j) => {
+        if (!j?.ok || !j.data?.settings) return;
+        const s = j.data.settings;
+        setStore((prev) => {
+          const base = prev ?? loadCareStore();
+          const next = {
+            ...base,
+            settings: { ...base.settings, ...s },
+          };
+          saveCareStore(next);
+          return next;
+        });
+      })
+      .catch(() => {
+        /* ignore */
+      });
   }, []);
 
   if (!store) {
@@ -60,6 +78,14 @@ export default function MyCareSettingsPage() {
     };
     saveCareStore(next);
     setStore(next);
+    void fetch("/api/care/notification-preferences", {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(next.settings),
+    }).catch(() => {
+      /* offline / anonymous: local only */
+    });
   }
 
   async function handleAttach() {
@@ -142,7 +168,7 @@ export default function MyCareSettingsPage() {
       </section>
 
       <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
-        <h2 className="font-semibold">지역 · 시간</h2>
+        <h2 className="font-semibold">지역 · 시간 · 언어</h2>
         <label className="mt-3 block">
           국가
           <select
@@ -166,12 +192,27 @@ export default function MyCareSettingsPage() {
             aria-label="시간대"
           />
         </label>
+        <label className="mt-3 block">
+          알림 언어
+          <select
+            className="mt-1 w-full rounded-lg border border-[#E8DFD8] bg-white px-3 py-2"
+            value={store.settings.locale ?? "ko"}
+            onChange={(e) =>
+              patch({ locale: e.target.value as "ko" | "en" | "ja" })
+            }
+            aria-label="알림 언어"
+          >
+            <option value="ko">한국어</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+          </select>
+        </label>
       </section>
 
       <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
         <h2 className="font-semibold">알림 · Care 동의</h2>
         <p className="mt-2 text-xs text-gray-600">
-          Day 3·7·15·30 체크인 알림은 채널별 동의와 중복 방지 규칙을 적용합니다.
+          Day 3·7·15·30 체크인 알림은 채널별로 따로 동의합니다. 마케팅 수신 거부와 케어 체크인 이메일은 서로 다릅니다.
         </p>
         <label className="mt-3 flex items-center gap-2">
           <input
@@ -179,7 +220,17 @@ export default function MyCareSettingsPage() {
             checked={store.settings.notificationsEnabled}
             onChange={(e) => patch({ notificationsEnabled: e.target.checked })}
           />
-          사이트 내 알림
+          사이트 알림
+        </label>
+        <label className="mt-2 flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={store.settings.careEmailChannelConsent === true}
+            onChange={(e) =>
+              patch({ careEmailChannelConsent: e.target.checked })
+            }
+          />
+          케어 체크인 이메일
         </label>
         <label className="mt-2 flex items-center gap-2">
           <input
@@ -187,8 +238,11 @@ export default function MyCareSettingsPage() {
             checked={store.settings.emailOptIn}
             onChange={(e) => patch({ emailOptIn: e.target.checked })}
           />
-          이메일 알림 희망 (외부 발송은 설정 시에만)
+          마케팅 이메일
         </label>
+        <p className="mt-2 text-xs text-gray-500">
+          케어 체크인 이메일을 끄면 큐에 새 발송 후보를 넣지 않습니다. 마케팅 수신 거부만으로는 케어 체크인 메일이 자동으로 켜지거나 꺼지지 않습니다.
+        </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <label className="block">
             조용한 시간 시작

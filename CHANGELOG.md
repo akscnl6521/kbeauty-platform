@@ -6,6 +6,17 @@
 
 ## 2026-07-22
 
+### 체크인 스케줄링 (WQ-D · 코드·테스트 완료)
+
+- Pure orchestrator: `checkinSchedulingOrchestrator.ts` (in-app + email due/reminder)
+- Settings: `careEmailChannelConsent` · `locale` · 마케팅(`emailOptIn`) 분리 UI (`/my/settings`)
+- Preferences 영속: auth user_metadata + `GET/PATCH /api/care/notification-preferences` (새 migration 없음)
+- Worker: profiles.email + metadata settings 로드 후 enqueue
+- Worker: `runCheckinSchedulingTick` enqueue only · dry-run/live send 없음
+- Admin: `GET /api/admin/care/checkin-email-queue-status` · `/admin/care` 패널
+- Tests: `npm run test:checkin-scheduling` · Staging SELECT gate `verify:checkin-scheduling-staging`
+- Schema A migration 유지 · Preview test-send in-memory 유지 · Production/main 미변경
+
 ### 재방문 대시보드 (WQ-C · 코드·테스트 완료)
 
 - Pure: `revisitDashboard.ts` · `quickSkinCheck.ts`

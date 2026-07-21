@@ -65,8 +65,14 @@ export function decideReminderDelivery(input: {
     return { deliver: false, channel: input.channel, reason: "in_app_opt_out", deliverAt: null, priority, fingerprint };
   }
 
-  if (input.channel === "email" && !input.settings.emailOptIn) {
-    return { deliver: false, channel: input.channel, reason: "email_opt_out", deliverAt: null, priority, fingerprint };
+  if (input.channel === "email") {
+    const careConsent = input.settings.careEmailChannelConsent;
+    const emailAllowed =
+      careConsent === true ||
+      (careConsent === undefined && Boolean(input.settings.emailOptIn));
+    if (!emailAllowed) {
+      return { deliver: false, channel: input.channel, reason: "email_opt_out", deliverAt: null, priority, fingerprint };
+    }
   }
 
   const dueAt = new Date(input.checkIn.dueAt);

@@ -13,6 +13,11 @@ import { runCheckinEmailQueueDryRunWorker } from "../src/lib/retention/processCh
 import { buildPreviewTestIdempotencyKey } from "../src/lib/admin/checkinEmailTestSendPolicy";
 import type { EmailProvider, EmailSendRequest } from "../src/lib/email/provider/types";
 
+// Synthetic origin for dry-run absolute links (no network).
+if (!process.env.SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL) {
+  process.env.SITE_URL = "https://example.com";
+}
+
 let checks = 0;
 function ok(cond: boolean, msg: string) {
   assert.equal(cond, true, msg);

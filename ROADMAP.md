@@ -81,7 +81,7 @@
 
 ## 다음 작업
 
-1. 알림 채널별 동의 분리 UI
+1. Care worker admin / dry-run delivery (WQ-E)
 2. (승인 대기) 사진 비교 Staging migration · `care-photos` bucket
 
 ### 단계 5 — 리텐션 보강
@@ -102,8 +102,8 @@
 - [x] 사진 비교 동의·저장·삭제 (WQ-B · policy/API/UI/selftest · DRAFT migration 미적용 · Storage 미연결)
 - [x] Staging에 `20260722010000_create_checkin_email_queue.sql` Dashboard 적용 · `verify:checkin-email-queue-staging` **통과** (2026-07-22 · FK/status/payload negative · claim RPC · 실발송 없음 · Production 미적용)
 - [ ] 사진 비교 동의·삭제 흐름
-- [ ] 재방문 대시보드 보강
-- [ ] 알림 채널별 동의 분리 UI
+- [x] 재방문 대시보드 보강 (WQ-C)
+- [x] 알림 채널별 동의 분리 UI / 스케줄링 연결 (WQ-D · enqueue only · 실발송 없음)
 
 ### 단계 6 — 증상 기반 피부과 실제 데이터
 
