@@ -6,6 +6,14 @@
 
 ## 2026-07-22
 
+### Care worker admin dry-run (WQ-E · 코드·테스트 완료)
+
+- Policy/service: Production·prod-ref 차단 · CONFIRM 필수 · dry-run tick · manual retry/cancel
+- API: `GET|POST /api/admin/care/checkin-email-worker` · UI `/admin/care/checkin-email-worker`
+- Admin retry: failed→pending · retry_count=0 · last_error clear · audit `checkin_email_*`
+- self-test: `npm run test:checkin-email-worker-admin` · Staging SELECT verify (Resend 미호출)
+- UTF-8 rewrite: `checkin-email-queue-status/route.ts`
+- Production 미배포 · main 미병합 · 실발송 없음
 ### 체크인 스케줄링 (WQ-D · 코드·테스트 완료)
 
 - Pure orchestrator: `checkinSchedulingOrchestrator.ts` (in-app + email due/reminder)

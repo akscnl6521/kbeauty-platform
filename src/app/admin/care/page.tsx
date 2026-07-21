@@ -110,6 +110,14 @@ export default async function AdminCarePage() {
           </li>
           <li>
             <Link
+              href="/admin/care/checkin-email-worker"
+              className="text-[#8B6914] underline"
+            >
+              Worker 관리 (dry-run only · 실발송 없음)
+            </Link>
+          </li>
+          <li>
+            <Link
               href="/admin/care/check-in-email-test"
               className="text-[#8B6914] underline"
             >

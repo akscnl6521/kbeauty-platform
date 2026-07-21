@@ -377,3 +377,53 @@ export function toDbStatusFromMemory(
 ): DbCheckinEmailQueueStatus {
   return memoryStatusToDbStatus(status);
 }
+
+/**
+ * Admin manual retry: reset job to pending.
+ * Choice: retry_count reset to 0; last_error cleared.
+ */
+export async function adminResetCheckinEmailJobToPending(
+  db: CheckinEmailQueueDb,
+  input: { id: string; now?: Date }
+): Promise<CheckinEmailQueueRow> {
+  const now = (input.now ?? new Date()).toISOString();
+  const updated = await db
+    .from("checkin_email_queue")
+    .update({
+      status: "pending" satisfies DbCheckinEmailQueueStatus,
+      retry_count: 0,
+      last_error: null,
+      next_attempt_at: now,
+      scheduled_at: now,
+      claimed_at: null,
+      failed_at: null,
+      updated_at: now,
+    })
+    .eq("id", input.id)
+    .select("*")
+    .maybeSingle();
+
+  if (updated.error || !updated.data) {
+    throw new Error(
+      sanitizeCheckinEmailError(updated.error?.message, "admin_reset_pending_failed")
+    );
+  }
+  return updated.data;
+}
+
+export async function getCheckinEmailQueueRowById(
+  db: CheckinEmailQueueDb,
+  id: string
+): Promise<CheckinEmailQueueRow | null> {
+  const result = await db
+    .from("checkin_email_queue")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  if (result.error) {
+    throw new Error(
+      sanitizeCheckinEmailError(result.error.message, "queue_row_lookup_failed")
+    );
+  }
+  return result.data;
+}

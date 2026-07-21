@@ -74,20 +74,22 @@ notes: orchestrator + channel consent UI + worker enqueue (no live send) · docs
 id: WQ-E-care-worker-admin
 title: Care worker admin and dry-run delivery
 priority: 50
-status: active
+status: completed
 environment: staging
 deps: WQ-D-checkin-scheduling
 tests:
   - npm run test:care-guidance
   - npm run test:routine-adjustment
+  - npm run test:checkin-email-worker-admin
 approval_required: false
+notes: dry-run worker admin · claim/retry/stale · manual retry/cancel · Staging SELECT verify · no live send
 
 ### TASK WQ-F-catalog-remaining
 
 id: WQ-F-catalog-remaining
 title: Catalog remaining sprint and refresh
 priority: 60
-status: queued
+status: active
 environment: staging
 deps:
 tests:
