@@ -101,7 +101,7 @@
 - [x] Preview `/admin/care` 육안 확인 (migration/permission 경고 없음 · counts only — no PII · 집계 카드 정상)
 - [x] 체크인 이메일 큐 DRAFT Staging 검토 (적용 보류 · 테이블 미생성)
 - [x] 체크인 이메일 큐 DRAFT v2 보완 (RLS·GRANT·mask-only·idempotency v1 · Staging 미적용)
-- [x] Preview `/admin/care/check-in-email-test` 육안 확인 (2026-07-22 · 실발송 미클릭 · UI/폼/미리보기 정상)
+- [x] Preview `/admin/care/check-in-email-test` 육안 확인 (2026-07-22 · 폼·미리보기 정상 · milestone/locale/kind 변경 정상 · migration/permission 오류 없음 · 실발송 없음 · `checkin_email_queue` Staging·Production 미적용)
 - [ ] 체크인 이메일 큐 DRAFT v2 Staging 적용 승인
 - [ ] 사진 비교 동의·삭제 흐름
 - [ ] 재방문 대시보드 보강

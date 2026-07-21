@@ -8,9 +8,11 @@
 
 ### Preview 체크인 이메일 테스트 UI 육안 확인
 
-- `/admin/care/check-in-email-test` Preview 육안 **통과** (페이지·폼·미리보기 · milestone/locale/kind 변경 정상)
-- 실발송 버튼 미클릭 · migration/permission 오류 없음 · queue 테이블 없이 UI 정상
-- Staging/Production DB·Production 발송 변경 없음
+- Preview `/admin/care/check-in-email-test` 육안 **완료**
+- 폼·미리보기 정상 · milestone / locale / kind 변경 정상
+- migration / permission 오류 없음 · 깨진 화면 없음
+- 실제 이메일 발송 없음 (발송 버튼 미클릭)
+- `checkin_email_queue` Staging·Production **미적용**
 
 ## 2026-07-21
 
