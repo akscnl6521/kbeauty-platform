@@ -81,8 +81,8 @@
 
 ## 다음 작업
 
-1. Preview 배포에서 Care 집계(`/admin/care`)·체크인 이메일 테스트 UI 육안 확인
-2. 체크인 이메일 큐 DB migration Staging 검토 (DRAFT 미적용)
+1. 체크인 이메일 큐 DRAFT 보완 (RLS·service_role GRANT·recipient_mask-only·idempotency v1) 후 Staging 적용 승인
+2. Preview 관리자 체크인 이메일 테스트 UI 육안 재확인
 3. 사진 비교 동의·삭제 흐름
 4. 재방문 대시보드 보강
 
@@ -98,6 +98,9 @@
 - [x] Preview 관리자 체크인 이메일 테스트 발송 UI/API (Production 차단 · same-origin · allowlist 서버 고정 · in-memory rate limit · mock self-test · 실제 발송 미실행 · DB audit 미구현 · main 미병합)
 - [x] Care admin readiness 오류 분류 (`42501` vs `PGRST205`) · service_role care SELECT grant migration 작성
 - [x] Staging care service_role SELECT grant migration 적용 (2026-07-21 · probe ready)
+- [x] Preview `/admin/care` 육안 확인 (migration/permission 경고 없음 · counts only — no PII · 집계 카드 정상)
+- [x] 체크인 이메일 큐 DRAFT Staging 검토 (적용 보류 · 테이블 미생성)
+- [ ] 체크인 이메일 큐 DRAFT 보완 후 Staging 적용 승인
 - [ ] 사진 비교 동의·삭제 흐름
 - [ ] 재방문 대시보드 보강
 - [ ] 알림 채널별 동의 분리 UI

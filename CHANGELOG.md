@@ -18,8 +18,16 @@
 
 - Staging (`jfnj***gfd`)에 GRANT SELECT 적용 완료 · `care_check_ins` probe `ready`
 - `getAdminCareOpsSummary` → `readiness=ready` · note=`counts only — no PII` (migration/permission 오표시 해소)
-- self-test에 summary 경로 assert 추가 · Preview 배포 후 `/admin/care` 육안 확인 대기
+- self-test에 summary 경로 assert 추가
+- Preview `/admin/care` 육안 **통과** (경고 없음 · 집계 카드 정상)
 - Production·`checkin_email_queue` 변경 없음
+
+### 체크인 이메일 큐 DRAFT Staging 검토 (적용 보류 · 2026-07-21)
+
+- 대상: `DRAFT_DO_NOT_APPLY_checkin_email_queue.sql` · **테이블 미생성**
+- 결론: Staging 적용 **불가** (보완 후 재승인)
+- 차단: RLS/정책 미작성 · service_role GRANT 없음 · `recipient_hash` NOT NULL(v1 mask-only와 불일치) · idempotency `scheduleDate` 포함 vs v1 `checkin-email:v1:…:email` · status CHECK 미비
+- Preview는 Schema A(in-memory) 유지 · Production/DB 변경 없음
 
 ## 2026-07-20
 

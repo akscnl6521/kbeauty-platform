@@ -3,9 +3,19 @@
 -- This file is intentionally not a dated migration runner target.
 -- Apply only after explicit Staging approval and schema review.
 --
+-- Staging review 2026-07-21: NOT READY (do not create table yet).
+-- Blockers before any Staging apply:
+--   1) ENABLE RLS + policies (service_role worker write; no anon)
+--   2) GRANT SELECT/INSERT/UPDATE to service_role (no DELETE/TRUNCATE)
+--   3) v1 privacy: recipient_mask required; recipient_hash optional/nullable (no new pepper)
+--   4) Align idempotency with policy v1: checkin-email:v1:{subject}:{checkin}:{milestone}:{kind}:email
+--      (exclude scheduleDate / locale / template_version)
+--   5) status CHECK constraint for queue statuses
+-- Preview remains Schema A: in-memory + console audit (no queue table required).
+--
 -- Privacy:
 --   - Do NOT store recipient_email plaintext.
---   - Store recipient_mask (e.g. u***@example.com) and recipient_hash only.
+--   - Store recipient_mask (e.g. u***@example.com); recipient_hash optional for v1.
 -- RLS:
 --   - Enable RLS before any Staging apply.
 --   - service_role for worker writes; authenticated users SELECT own rows only.
