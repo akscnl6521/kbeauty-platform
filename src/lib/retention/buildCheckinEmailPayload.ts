@@ -17,6 +17,7 @@ import type {
   EmailProviderErrorCode,
   EmailSendRequest,
 } from "@/lib/email/provider/types";
+import { resolveCareEmailSiteOrigin } from "@/lib/retention/resolveCareEmailSiteOrigin";
 
 const CHECKIN_PATH_RE = /^\/my\/check-ins\/[A-Za-z0-9_-]+$/;
 const PREFERENCE_PATH_RE = /^\/my\/settings(?:\?[A-Za-z0-9_=&%-]*)?$/;
@@ -38,40 +39,6 @@ export function isSafePreferenceUrlPath(path: string): boolean {
   return PREFERENCE_PATH_RE.test(p);
 }
 
-function resolveEmailSiteOrigin(): string | null {
-  const candidates = [
-    process.env.SITE_URL,
-    process.env.NEXT_PUBLIC_SITE_URL,
-    process.env.VERCEL_URL,
-  ];
-
-  for (const candidate of candidates) {
-    const trimmed = candidate?.trim();
-    if (!trimmed) continue;
-
-    const withProtocol = /^https?:\/\//i.test(trimmed)
-      ? trimmed
-      : `https://${trimmed}`;
-
-    try {
-      const url = new URL(withProtocol);
-      const hostname = url.hostname.toLowerCase();
-      if (url.protocol !== "https:") continue;
-      if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1") {
-        continue;
-      }
-      url.pathname = "";
-      url.search = "";
-      url.hash = "";
-      return url.toString().replace(/\/$/, "");
-    } catch {
-      continue;
-    }
-  }
-
-  return null;
-}
-
 export function buildAbsoluteCareEmailUrl(path: string): string | null {
   const normalizedPath = path.trim();
   if (
@@ -81,7 +48,7 @@ export function buildAbsoluteCareEmailUrl(path: string): string | null {
     return null;
   }
 
-  const origin = resolveEmailSiteOrigin();
+  const origin = resolveCareEmailSiteOrigin();
   if (!origin) return null;
 
   try {

@@ -15,6 +15,7 @@ import {
   isSafeCheckinUrlPath,
   isSafePreferenceUrlPath,
 } from "../src/lib/retention/buildCheckinEmailPayload";
+import { resolveCareEmailSiteOrigin } from "../src/lib/retention/resolveCareEmailSiteOrigin";
 import { processCheckinEmailDryRun } from "../src/lib/retention/processCheckinEmailDryRun";
 import type { CheckinEmailQueueItem } from "../src/lib/retention/checkinEmailQueuePolicy";
 import { maskEmailAddress } from "../src/lib/retention/checkinEmailQueuePolicy";
@@ -62,6 +63,77 @@ function sampleItem(
 
 async function main() {
   let checks = 0;
+
+  ok(
+    resolveCareEmailSiteOrigin({
+      VERCEL_ENV: "preview",
+      VERCEL_URL: "kbeauty-platform-git-feature.vercel.app",
+      SITE_URL: "https://www.kbeautymatch.com",
+      NEXT_PUBLIC_SITE_URL: "https://www.kbeautymatch.com",
+    }) === "https://kbeauty-platform-git-feature.vercel.app",
+    "preview prefers vercel url over production site"
+  );
+  ok(
+    resolveCareEmailSiteOrigin({
+      VERCEL_ENV: "preview",
+      VERCEL_BRANCH_URL: "kbeauty-platform-preview.vercel.app",
+      SITE_URL: "https://www.kbeautymatch.com",
+    }) === "https://kbeauty-platform-preview.vercel.app",
+    "preview uses branch url fallback"
+  );
+  ok(
+    resolveCareEmailSiteOrigin({
+      VERCEL_ENV: "production",
+      SITE_URL: "https://www.kbeautymatch.com",
+      VERCEL_URL: "kbeauty-platform-git-feature.vercel.app",
+    }) === "https://www.kbeautymatch.com",
+    "production uses canonical site url"
+  );
+  ok(
+    resolveCareEmailSiteOrigin({
+      VERCEL_ENV: "production",
+      VERCEL_URL: "kbeauty-platform-git-feature.vercel.app",
+    }) === null,
+    "production rejects vercel preview url"
+  );
+  checks += 1;
+
+  const savedEnv = {
+    VERCEL_ENV: process.env.VERCEL_ENV,
+    VERCEL_URL: process.env.VERCEL_URL,
+    VERCEL_BRANCH_URL: process.env.VERCEL_BRANCH_URL,
+    SITE_URL: process.env.SITE_URL,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+  };
+  process.env.VERCEL_ENV = "preview";
+  process.env.VERCEL_URL = "kbeauty-platform-git-feature.vercel.app";
+  process.env.VERCEL_BRANCH_URL = "";
+  process.env.SITE_URL = "https://www.kbeautymatch.com";
+  process.env.NEXT_PUBLIC_SITE_URL = "https://www.kbeautymatch.com";
+  const previewCheckinUrl = buildAbsoluteCareEmailUrl("/my/check-ins/ci_day7");
+  const previewSettingsUrl = buildAbsoluteCareEmailUrl("/my/settings");
+  ok(
+    previewCheckinUrl ===
+      "https://kbeauty-platform-git-feature.vercel.app/my/check-ins/ci_day7",
+    "preview check-in absolute url"
+  );
+  ok(
+    previewSettingsUrl ===
+      "https://kbeauty-platform-git-feature.vercel.app/my/settings",
+    "preview settings absolute url"
+  );
+  ok(
+    !previewCheckinUrl?.includes("?") &&
+      !previewCheckinUrl?.includes("#") &&
+      !previewSettingsUrl?.includes("?") &&
+      !previewSettingsUrl?.includes("#"),
+    "absolute urls have no query or hash"
+  );
+  for (const [key, value] of Object.entries(savedEnv)) {
+    if (value === undefined) delete process.env[key];
+    else process.env[key] = value;
+  }
+  checks += 1;
 
   ok(resolveEmailDeliveryMode({}) === "disabled", "env unset → disabled");
   checks += 1;
