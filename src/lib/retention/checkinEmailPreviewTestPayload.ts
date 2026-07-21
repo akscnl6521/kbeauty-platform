@@ -9,7 +9,10 @@ import {
   getCheckinEmailSubject,
   type CheckinEmailCopyKind,
 } from "@/lib/retention/checkinEmailCopy";
-import { buildCheckinEmailSendRequest } from "@/lib/retention/buildCheckinEmailPayload";
+import {
+  buildAbsoluteCareEmailUrl,
+  buildCheckinEmailSendRequest,
+} from "@/lib/retention/buildCheckinEmailPayload";
 import type {
   CheckinEmailKind,
   CheckinEmailQueueItem,
@@ -28,6 +31,7 @@ export type PreviewTestEmailKind = Extract<
 >;
 
 const PREVIEW_SUBJECT_PREFIX = "[Preview Test] ";
+export const SITE_URL_NOT_CONFIGURED = "[site-url-not-configured]";
 
 function copyKindFromQueue(kind: PreviewTestEmailKind): CheckinEmailCopyKind {
   if (kind === "checkin_due") return "due";
@@ -112,7 +116,23 @@ export function buildPreviewTestEmailPreview(input: {
   const subject = getCheckinEmailSubject(copyKind, input.milestone, input.locale);
   const bodyCore = getCheckinEmailBody(copyKind, input.milestone, input.locale);
   const disclaimer = getCheckinEmailDisclaimer(input.locale);
-  const textBody = [banner, "", bodyCore, "", disclaimer].join("\n");
+  const checkinUrl = buildAbsoluteCareEmailUrl(
+    `/my/check-ins/${PREVIEW_EMAIL_TEST_CHECKIN_ID}`
+  );
+  const settingsUrl = buildAbsoluteCareEmailUrl("/my/settings");
+  const urlSection =
+    checkinUrl && settingsUrl
+      ? [`Check-in: ${checkinUrl}`, "", `Settings: ${settingsUrl}`]
+      : [SITE_URL_NOT_CONFIGURED];
+  const textBody = [
+    banner,
+    "",
+    bodyCore,
+    "",
+    ...urlSection,
+    "",
+    disclaimer,
+  ].join("\n");
   return { subject, textBody };
 }
 

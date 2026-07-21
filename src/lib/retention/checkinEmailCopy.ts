@@ -1,6 +1,6 @@
 /**
  * Check-in care-notification email copy (ko/en/ja).
- * Care channel only ? not marketing copy.
+ * Care channel only · not marketing copy.
  */
 
 import type {
@@ -23,44 +23,44 @@ const SUBJECTS: Record<
 > = {
   ko: {
     due: {
-      day3: "3일 체크인 안내 ? 피부 관리 알림",
-      day7: "7일 체크인 안내 ? 피부 관리 알림",
-      day15: "15일 체크인 안내 ? 피부 관리 알림",
-      day30: "30일 체크인 안내 ? 피부 관리 알림",
+      day3: "3일 체크인 안내 · 피부 관리 알림",
+      day7: "7일 체크인 안내 · 피부 관리 알림",
+      day15: "15일 체크인 안내 · 피부 관리 알림",
+      day30: "30일 체크인 안내 · 피부 관리 알림",
     },
     reminder: {
-      day3: "3일 체크인 재알림 ? 피부 관리 알림",
-      day7: "7일 체크인 재알림 ? 피부 관리 알림",
-      day15: "15일 체크인 재알림 ? 피부 관리 알림",
-      day30: "30일 체크인 재알림 ? 피부 관리 알림",
+      day3: "3일 체크인 재알림 · 피부 관리 알림",
+      day7: "7일 체크인 재알림 · 피부 관리 알림",
+      day15: "15일 체크인 재알림 · 피부 관리 알림",
+      day30: "30일 체크인 재알림 · 피부 관리 알림",
     },
   },
   en: {
     due: {
-      day3: "Day 3 check-in ? care notification",
-      day7: "Day 7 check-in ? care notification",
-      day15: "Day 15 check-in ? care notification",
-      day30: "Day 30 check-in ? care notification",
+      day3: "Day 3 check-in · care notification",
+      day7: "Day 7 check-in · care notification",
+      day15: "Day 15 check-in · care notification",
+      day30: "Day 30 check-in · care notification",
     },
     reminder: {
-      day3: "Day 3 check-in reminder ? care notification",
-      day7: "Day 7 check-in reminder ? care notification",
-      day15: "Day 15 check-in reminder ? care notification",
-      day30: "Day 30 check-in reminder ? care notification",
+      day3: "Day 3 check-in reminder · care notification",
+      day7: "Day 7 check-in reminder · care notification",
+      day15: "Day 15 check-in reminder · care notification",
+      day30: "Day 30 check-in reminder · care notification",
     },
   },
   ja: {
     due: {
-      day3: "3日チェックインのご案内 ? ケア通知",
-      day7: "7日チェックインのご案内 ? ケア通知",
-      day15: "15日チェックインのご案内 ? ケア通知",
-      day30: "30日チェックインのご案内 ? ケア通知",
+      day3: "3日チェックインのご案内 · ケア通知",
+      day7: "7日チェックインのご案内 · ケア通知",
+      day15: "15日チェックインのご案内 · ケア通知",
+      day30: "30日チェックインのご案内 · ケア通知",
     },
     reminder: {
-      day3: "3日チェックイン再通知 ? ケア通知",
-      day7: "7日チェックイン再通知 ? ケア通知",
-      day15: "15日チェックイン再通知 ? ケア通知",
-      day30: "30日チェックイン再通知 ? ケア通知",
+      day3: "3日チェックイン再通知 · ケア通知",
+      day7: "7日チェックイン再通知 · ケア通知",
+      day15: "15日チェックイン再通知 · ケア通知",
+      day30: "30日チェックイン再通知 · ケア通知",
     },
   },
 };
@@ -120,9 +120,9 @@ const DISCLAIMERS: Record<CheckinLocale, string> = {
 };
 
 const PREFERENCE_HINTS: Record<CheckinLocale, string> = {
-  ko: "알림을 끄거나 이메일 채널을 변경하려면 설정(/my/settings)을 열어 주세요.",
-  en: "To turn off alerts or change the email channel, open Settings (/my/settings).",
-  ja: "通知をオフにする、またはメールチャネルを変更するには設定（/my/settings）を開いてください。",
+  ko: "알림을 끄거나 이메일 채널을 변경하려면 설정 화면을 열어 주세요.",
+  en: "To turn off alerts or change the email channel, open Settings.",
+  ja: "通知をオフにする、またはメールチャネルを変更するには設定画面を開いてください。",
 };
 
 export function getCheckinEmailSubject(

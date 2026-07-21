@@ -20,8 +20,7 @@ import type {
 
 const CHECKIN_PATH_RE = /^\/my\/check-ins\/[A-Za-z0-9_-]+$/;
 const PREFERENCE_PATH_RE = /^\/my\/settings(?:\?[A-Za-z0-9_=&%-]*)?$/;
-const UNSAFE_RE =
-  /photo|acute|diagnos|affiliate|sponsored|javascript:|data:|https?:\/\//i;
+const UNSAFE_RE = /photo|acute|diagnos|affiliate|sponsored|javascript:|data:/i;
 
 export function isSafeCheckinUrlPath(path: string): boolean {
   if (typeof path !== "string") return false;
@@ -37,6 +36,63 @@ export function isSafePreferenceUrlPath(path: string): boolean {
   if (!p || p.includes("\\") || p.includes("//")) return false;
   if (/^(javascript|data|https?):/i.test(p)) return false;
   return PREFERENCE_PATH_RE.test(p);
+}
+
+function resolveEmailSiteOrigin(): string | null {
+  const candidates = [
+    process.env.SITE_URL,
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.VERCEL_URL,
+  ];
+
+  for (const candidate of candidates) {
+    const trimmed = candidate?.trim();
+    if (!trimmed) continue;
+
+    const withProtocol = /^https?:\/\//i.test(trimmed)
+      ? trimmed
+      : `https://${trimmed}`;
+
+    try {
+      const url = new URL(withProtocol);
+      const hostname = url.hostname.toLowerCase();
+      if (url.protocol !== "https:") continue;
+      if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1") {
+        continue;
+      }
+      url.pathname = "";
+      url.search = "";
+      url.hash = "";
+      return url.toString().replace(/\/$/, "");
+    } catch {
+      continue;
+    }
+  }
+
+  return null;
+}
+
+export function buildAbsoluteCareEmailUrl(path: string): string | null {
+  const normalizedPath = path.trim();
+  if (
+    !isSafeCheckinUrlPath(normalizedPath) &&
+    !isSafePreferenceUrlPath(normalizedPath)
+  ) {
+    return null;
+  }
+
+  const origin = resolveEmailSiteOrigin();
+  if (!origin) return null;
+
+  try {
+    const url = new URL(normalizedPath, `${origin}/`);
+    if (url.protocol !== "https:" || url.search || url.hash) {
+      return null;
+    }
+    return url.toString();
+  } catch {
+    return null;
+  }
 }
 
 function copyKindFromQueue(
@@ -72,6 +128,11 @@ export function buildCheckinEmailSendRequest(input: {
   if (!isSafePreferenceUrlPath(preferenceUrlPath)) {
     return { ok: false, errorCode: "unsafe_payload" };
   }
+  const checkinUrl = buildAbsoluteCareEmailUrl(checkinUrlPath);
+  const preferenceUrl = buildAbsoluteCareEmailUrl(preferenceUrlPath);
+  if (!checkinUrl || !preferenceUrl) {
+    return { ok: false, errorCode: "provider_configuration_missing" };
+  }
 
   const locale = item.locale ?? item.payload.locale ?? "ko";
   const milestone = item.milestone;
@@ -80,7 +141,8 @@ export function buildCheckinEmailSendRequest(input: {
   const disclaimer = getCheckinEmailDisclaimer(locale);
   const textBody = [
     bodyCore,
-    `Check-in: ${checkinUrlPath}`,
+    `Check-in: ${checkinUrl}`,
+    `Settings: ${preferenceUrl}`,
     disclaimer,
   ].join("\n\n");
 

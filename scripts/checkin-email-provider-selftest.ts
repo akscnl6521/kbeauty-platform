@@ -10,6 +10,7 @@ import {
   resolveEmailDeliveryMode,
 } from "../src/lib/email/provider/getEmailProvider";
 import {
+  buildAbsoluteCareEmailUrl,
   buildCheckinEmailSendRequest,
   isSafeCheckinUrlPath,
   isSafePreferenceUrlPath,
@@ -120,7 +121,23 @@ async function main() {
   });
   ok(built.ok === true, "payload build ok");
   if (!built.ok) throw new Error("build failed");
-  ok(!/photo|affiliate|sponsored|https?:\/\//i.test(built.request.textBody), "safe body");
+  const expectedCheckinUrl = buildAbsoluteCareEmailUrl(
+    built.request.metadata.checkinUrlPath
+  );
+  const expectedSettingsUrl = buildAbsoluteCareEmailUrl(
+    built.request.metadata.preferenceUrlPath
+  );
+  ok(!!expectedCheckinUrl && !!expectedSettingsUrl, "absolute care urls available");
+  const bodyWithoutAllowedUrls = built.request.textBody
+    .replaceAll(expectedCheckinUrl!, "")
+    .replaceAll(expectedSettingsUrl!, "");
+  ok(
+    !/photo|affiliate|sponsored/i.test(built.request.textBody) &&
+      built.request.textBody.includes(`Check-in: ${expectedCheckinUrl}`) &&
+      built.request.textBody.includes(`Settings: ${expectedSettingsUrl}`) &&
+      !/https?:\/\//i.test(bodyWithoutAllowedUrls),
+    "safe body"
+  );
   ok(built.request.metadata.preferenceUrlPath === "/my/settings", "preference url");
   checks += 1;
 
@@ -209,6 +226,78 @@ async function main() {
     recipientEmail: "user@example.com",
   });
   ok(!unsafeBuild.ok && unsafeBuild.errorCode === "unsafe_payload", "unsafe url rejected");
+  checks += 1;
+
+  const urlGate = createDryRunEmailProvider({
+    registry: new DryRunIdempotencyRegistry(),
+  });
+  const allowedOrigin = new URL(expectedCheckinUrl!).origin;
+  const rejectCases: Array<{ key: string; textBody: string; label: string }> = [
+    {
+      key: "k-url-external",
+      textBody: `${built.request.textBody}\nhttps://evil.example/hack`,
+      label: "reject external https",
+    },
+    {
+      key: "k-url-wrong-path",
+      textBody: built.request.textBody.replace(
+        expectedCheckinUrl!,
+        `${allowedOrigin}/admin/secret`
+      ),
+      label: "reject same-origin wrong path",
+    },
+    {
+      key: "k-url-query",
+      textBody: built.request.textBody.replace(
+        expectedCheckinUrl!,
+        `${expectedCheckinUrl}?x=1`
+      ),
+      label: "reject query url",
+    },
+    {
+      key: "k-url-hash",
+      textBody: built.request.textBody.replace(
+        expectedSettingsUrl!,
+        `${expectedSettingsUrl}#section`
+      ),
+      label: "reject hash url",
+    },
+    {
+      key: "k-url-http",
+      textBody: built.request.textBody.replaceAll("https://", "http://"),
+      label: "reject http url",
+    },
+    {
+      key: "k-url-affiliate",
+      textBody: `${built.request.textBody}\naffiliate offer`,
+      label: "reject affiliate content",
+    },
+    {
+      key: "k-url-sponsored",
+      textBody: `${built.request.textBody}\nsponsored link`,
+      label: "reject sponsored content",
+    },
+  ];
+  for (const c of rejectCases) {
+    const rejected = await urlGate.send({
+      ...built.request,
+      idempotencyKey: c.key,
+      textBody: c.textBody,
+    });
+    ok(!rejected.ok && rejected.errorCode === "unsafe_payload", c.label);
+  }
+  const mismatch = await urlGate.send({
+    ...built.request,
+    idempotencyKey: "k-url-mismatch",
+    metadata: {
+      ...built.request.metadata,
+      checkinUrlPath: "/my/check-ins/other_id",
+    },
+  });
+  ok(
+    !mismatch.ok && mismatch.errorCode === "unsafe_payload",
+    "reject metadata body url mismatch"
+  );
   checks += 1;
 
   for (const locale of ["ko", "en", "ja"] as const) {

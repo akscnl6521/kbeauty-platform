@@ -7,14 +7,12 @@ import {
   isValidCheckinEmailAddress,
   maskEmailAddress,
 } from "@/lib/retention/checkinEmailQueuePolicy";
+import { hasUnsafeCareEmailContent } from "./validateCareEmailBodyUrls";
 import type {
   EmailProvider,
   EmailSendRequest,
   EmailSendResult,
 } from "./types";
-
-const UNSAFE_RE =
-  /photo|acute|diagnos|affiliate|sponsored|javascript:|data:|https?:\/\//i;
 
 export class DryRunIdempotencyRegistry {
   private seen = new Map<string, string>();
@@ -42,15 +40,6 @@ function dryRunMessageId(idempotencyKey: string): string {
     h = (h * 31 + idempotencyKey.charCodeAt(i)) >>> 0;
   }
   return `dry_run_${h.toString(16)}`;
-}
-
-function hasUnsafeContent(request: EmailSendRequest): boolean {
-  const blob = [
-    request.subject,
-    request.textBody,
-    JSON.stringify(request.metadata),
-  ].join("\n");
-  return UNSAFE_RE.test(blob);
 }
 
 export function createDryRunEmailProvider(options?: {
@@ -90,7 +79,7 @@ export function createDryRunEmailProvider(options?: {
           recipientMask: mask,
         };
       }
-      if (hasUnsafeContent(request)) {
+      if (hasUnsafeCareEmailContent(request)) {
         return {
           ok: false,
           mode: "dry_run",

@@ -8,14 +8,12 @@ import {
   maskEmailAddress,
 } from "@/lib/retention/checkinEmailQueuePolicy";
 import { normalizeResendError } from "./normalizeResendError";
+import { hasUnsafeCareEmailContent } from "./validateCareEmailBodyUrls";
 import type {
   EmailProvider,
   EmailSendRequest,
   EmailSendResult,
 } from "./types";
-
-const UNSAFE_RE =
-  /photo|acute|diagnos|affiliate|sponsored|javascript:|data:|https?:\/\//i;
 
 export type ResendSendInput = {
   from: string;
@@ -38,15 +36,6 @@ export type ResendIdempotencyRegistry = {
   has(key: string): boolean;
   set(key: string, messageId: string): void;
 };
-
-function hasUnsafeContent(request: EmailSendRequest): boolean {
-  const blob = [
-    request.subject,
-    request.textBody,
-    JSON.stringify(request.metadata),
-  ].join("\n");
-  return UNSAFE_RE.test(blob);
-}
 
 function buildInternalMetadata(request: EmailSendRequest): Record<string, string> {
   return {
@@ -120,7 +109,7 @@ export function createResendEmailProvider(options: {
           recipientMask: mask,
         };
       }
-      if (hasUnsafeContent(request)) {
+      if (hasUnsafeCareEmailContent(request)) {
         return {
           ok: false,
           mode: "live",
