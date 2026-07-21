@@ -6,6 +6,14 @@
 
 ## 2026-07-22
 
+### 재방문 대시보드 (WQ-C · 코드·테스트 완료)
+
+- Pure: `revisitDashboard.ts` · `quickSkinCheck.ts`
+- `/my` 모바일 우선 섹션 (다음 할 일 · quick check · 체크인 · 루틴 · 사진 상태)
+- `GET /api/care/photo-consents` 클라이언트 병렬 fetch (migration pending OK)
+- `npm run test:revisit-dashboard` · `docs/revisit-dashboard.md`
+- Staging photo migration/bucket **미적용** · Production/main **미변경**
+
 ### 사진 비교 동의·저장·삭제 (WQ-B · 코드·테스트 완료)
 
 - 정책: `photoComparisonPolicy.ts` · EXIF strip · in-memory service

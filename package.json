@@ -24,6 +24,7 @@
     "test:care-auto-save": "npx --yes tsx scripts/care-auto-save-selftest.ts",
     "test:care-referral": "npx --yes tsx scripts/care-referral-selftest.ts",
     "test:care-dashboard": "npx --yes tsx scripts/care-dashboard-summary-selftest.ts",
+    "test:revisit-dashboard": "npx --yes tsx scripts/revisit-dashboard-selftest.ts",
     "test:care-guidance": "npx --yes tsx scripts/care-guidance-view-model-selftest.ts",
     "test:reminder-delivery": "npx --yes tsx scripts/reminder-delivery-policy-selftest.ts",
     "test:check-in-questions": "npx --yes tsx scripts/check-in-question-policy-selftest.ts",

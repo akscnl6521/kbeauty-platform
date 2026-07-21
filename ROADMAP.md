@@ -81,9 +81,8 @@
 
 ## 다음 작업
 
-1. 재방문 대시보드 보강 (WQ-C)
-2. 알림 채널별 동의 분리 UI
-3. (승인 대기) 사진 비교 Staging migration · `care-photos` bucket
+1. 알림 채널별 동의 분리 UI
+2. (승인 대기) 사진 비교 Staging migration · `care-photos` bucket
 
 ### 단계 5 — 리텐션 보강
 

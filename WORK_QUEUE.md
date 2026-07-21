@@ -43,19 +43,21 @@ notes: Code+tests complete; Staging DRAFT migration NOT applied — awaiting app
 id: WQ-C-revisit-dashboard
 title: Revisit dashboard enhancements
 priority: 30
-status: active
+status: completed
 environment: staging
 deps: WQ-B-photo-compare-consent
 tests:
+  - npm run test:revisit-dashboard
   - npm run test:care-dashboard
 approval_required: false
+notes: revisitDashboard + quickSkinCheck pure · /my 섹션 재구성 · photo-consents 클라이언트 fetch · migration 미적용 유지
 
 ### TASK WQ-D-checkin-scheduling
 
 id: WQ-D-checkin-scheduling
 title: Checkin scheduling and notification channels
 priority: 40
-status: queued
+status: active
 environment: staging
 deps: WQ-A-checkin-email-queue-staging
 tests:
