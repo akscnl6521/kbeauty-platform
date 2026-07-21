@@ -1,7 +1,5 @@
--- DRAFT ONLY - DO NOT APPLY (v2 / Schema A) — REFERENCE COPY
--- Promoted dated migration: 20260722010000_create_checkin_email_queue.sql
--- Do not auto-apply this DRAFT file. Staging apply uses the dated migration only.
--- Do NOT apply to Production from this file alone.
+-- Staging/dated migration: check-in care email queue (Schema A / DRAFT v2 promoted).
+-- Apply only to Staging (jfnj***gfd). Do NOT apply to Production without separate approval.
 --
 -- Schema A:
 --   - Production care check-in emails may persist rows here.
@@ -9,12 +7,14 @@
 --
 -- Privacy:
 --   - Never store recipient_email plaintext.
---   - recipient_mask only (no recipient_hash / pepper for v1).
+--   - recipient_mask only (no recipient_hash).
 --   - Never store subject/body plaintext; payload holds copy keys + URL paths only.
 --
 -- Idempotency (app layer):
 --   checkin-email:v1:{user_id}:{checkin_id}:{milestone}:{kind}:email
 --   Excludes scheduleDate, locale, template_version, recipient email.
+--
+-- Re-run safety: IF NOT EXISTS / CREATE OR REPLACE / IF NOT EXISTS indexes.
 
 CREATE TABLE IF NOT EXISTS public.checkin_email_queue (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -91,13 +91,73 @@ CREATE INDEX IF NOT EXISTS checkin_email_queue_claimed_at_idx
 
 ALTER TABLE public.checkin_email_queue ENABLE ROW LEVEL SECURITY;
 
--- No authenticated/anon policies: clients must not read or write the queue.
--- service_role bypasses RLS; still grant only SELECT/INSERT/UPDATE (no DELETE).
-
 REVOKE ALL ON TABLE public.checkin_email_queue FROM PUBLIC;
 REVOKE ALL ON TABLE public.checkin_email_queue FROM anon;
 REVOKE ALL ON TABLE public.checkin_email_queue FROM authenticated;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE public.checkin_email_queue TO service_role;
 
-SELECT 'DRAFT_DO_NOT_APPLY_checkin_email_queue_v2' AS notice;
+-- Atomic claim: pending (due) -> processing with FOR UPDATE SKIP LOCKED.
+-- Also recovers stale processing rows back to pending.
+CREATE OR REPLACE FUNCTION public.claim_checkin_email_jobs(
+  p_limit integer DEFAULT 5,
+  p_stale_seconds integer DEFAULT 900
+)
+RETURNS SETOF public.checkin_email_queue
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  IF p_limit IS NULL OR p_limit < 1 THEN
+    p_limit := 1;
+  END IF;
+  IF p_limit > 50 THEN
+    p_limit := 50;
+  END IF;
+  IF p_stale_seconds IS NULL OR p_stale_seconds < 60 THEN
+    p_stale_seconds := 60;
+  END IF;
+
+  -- Recover stale processing claims (worker crash / timeout).
+  UPDATE public.checkin_email_queue q
+  SET
+    status = 'pending',
+    claimed_at = NULL,
+    updated_at = now(),
+    last_error = CASE
+      WHEN q.last_error IS NULL OR btrim(q.last_error) = '' THEN 'stale_claim_recovered'
+      ELSE q.last_error
+    END
+  WHERE q.status = 'processing'
+    AND (
+      q.claimed_at IS NULL
+      OR q.claimed_at < now() - make_interval(secs => p_stale_seconds)
+    );
+
+  RETURN QUERY
+  WITH picked AS (
+    SELECT q.id
+    FROM public.checkin_email_queue q
+    WHERE q.status = 'pending'
+      AND (q.next_attempt_at IS NULL OR q.next_attempt_at <= now())
+    ORDER BY COALESCE(q.next_attempt_at, q.scheduled_at, q.created_at) ASC
+    FOR UPDATE SKIP LOCKED
+    LIMIT p_limit
+  )
+  UPDATE public.checkin_email_queue q
+  SET
+    status = 'processing',
+    claimed_at = now(),
+    updated_at = now()
+  FROM picked
+  WHERE q.id = picked.id
+  RETURNING q.*;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.claim_checkin_email_jobs(integer, integer) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.claim_checkin_email_jobs(integer, integer) FROM anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.claim_checkin_email_jobs(integer, integer) TO service_role;
+
+SELECT 'create_checkin_email_queue_v1' AS notice;

@@ -6,13 +6,27 @@
 
 ## 2026-07-22
 
+### 체크인 이메일 큐 Schema A Staging 구현 (코드·게이트 · DB 적용 대기)
+
+- dated migration 승격: `20260722010000_create_checkin_email_queue.sql` (DRAFT는 참고용 유지)
+- Schema A: Production 체크인만 DB queue · Preview test-send는 in-memory (`preview-email-test:…`) 유지 · queue 없어도 Preview UI 동작
+- idempotency v1: `checkin-email:v1:{user_id}:{checkin_id}:{milestone}:{kind}:email`
+- DB status: pending/processing/sent/failed/skipped_duplicate/cancelled
+- 메모리 매핑: scheduled→pending · sending→processing · retry_scheduled→pending(+retry_count/next_attempt) · duplicate→skipped_duplicate
+- claim: `claim_checkin_email_jobs` · `FOR UPDATE SKIP LOCKED` · stale processing 복구 · service_role EXECUTE만
+- persistence: enqueue/claim/markSent/markFailed/markCancelled · last_error sanitize · max retry 3
+- dry-run worker: live provider 거부 · 실제 발송 없음
+- 게이트 `npm run gate:checkin-email-queue-staging` **통과** (ref Staging · build · Care/selftest)
+- Staging DB 적용: CLI `SUPABASE_ACCESS_TOKEN` 없어 **미적용** · Production **미변경** · 실발송 **없음**
+- 적용 후 수동 정리: synthetic fixture는 DELETE 자동 실행 금지 · `status='cancelled'` 권장
+
 ### Preview 체크인 이메일 테스트 UI 육안 확인
 
 - Preview `/admin/care/check-in-email-test` 육안 **완료**
 - 폼·미리보기 정상 · milestone / locale / kind 변경 정상
 - migration / permission 오류 없음 · 깨진 화면 없음
 - 실제 이메일 발송 없음 (발송 버튼 미클릭)
-- `checkin_email_queue` Staging·Production **미적용**
+- `checkin_email_queue` Staging·Production **미적용** (당시 기준)
 
 ## 2026-07-21
 
