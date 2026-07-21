@@ -8,7 +8,7 @@ id: WQ-A-checkin-email-queue-staging
 title: Checkin email queue Staging migration and verify
 priority: 10
 status: completed
-result_commit: PENDING
+result_commit: 3a79fbccd078e73e3530ae58e2ebfa4b991ae54a
 environment: staging
 deps:
 tests:
