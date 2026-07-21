@@ -21,6 +21,7 @@ import {
   getCheckinEmailDisclaimer,
   getCheckinEmailSubject,
 } from "../src/lib/retention/checkinEmailCopy";
+import { buildPreviewTestIdempotencyKey } from "../src/lib/admin/checkinEmailTestSendPolicy";
 
 let checks = 0;
 function ok(cond: boolean, msg: string) {
@@ -249,23 +250,85 @@ ok(
   "duplicate key"
 );
 
-// key normalization
+// idempotency v1 — exclude scheduleDate / locale / template_version / recipient
 const k1 = buildCheckinEmailIdempotencyKey({
   subjectId: " User 1 ",
   checkInId: "CI-Day7",
   milestone: "day7",
   kind: "checkin_due",
-  scheduleDate: "2026-07-08",
 });
 const k2 = buildCheckinEmailIdempotencyKey({
   subjectId: "user 1",
   checkInId: "ci-day7",
   milestone: "day7",
   kind: "checkin_due",
-  scheduleDate: "2026-07-08",
 });
 ok(k1 === k2, "idempotency normalize");
-ok(k1.includes("checkin-email:"), "idempotency prefix");
+ok(
+  k1 === "checkin-email:v1:user 1:ci-day7:day7:checkin_due:email",
+  "idempotency v1 shape"
+);
+ok(
+  buildCheckinEmailIdempotencyKey({
+    subjectId: "user 1",
+    checkInId: "ci-day7",
+    milestone: "day7",
+    kind: "checkin_due",
+  }) ===
+    buildCheckinEmailIdempotencyKey({
+      subjectId: "user 1",
+      checkInId: "ci-day7",
+      milestone: "day7",
+      kind: "checkin_due",
+    }),
+  "same key ignores scheduleDate absence"
+);
+ok(
+  buildCheckinEmailIdempotencyKey({
+    subjectId: "user-1",
+    checkInId: "ci-a",
+    milestone: "day7",
+    kind: "checkin_due",
+  }) !==
+    buildCheckinEmailIdempotencyKey({
+      subjectId: "user-1",
+      checkInId: "ci-a",
+      milestone: "day7",
+      kind: "checkin_reminder",
+    }),
+  "kind changes key"
+);
+ok(
+  buildCheckinEmailIdempotencyKey({
+    subjectId: "user-1",
+    checkInId: "ci-a",
+    milestone: "day7",
+    kind: "checkin_due",
+  }) !==
+    buildCheckinEmailIdempotencyKey({
+      subjectId: "user-1",
+      checkInId: "ci-a",
+      milestone: "day15",
+      kind: "checkin_due",
+    }),
+  "milestone changes key"
+);
+ok(
+  buildCheckinEmailIdempotencyKey({
+    subjectId: "user-1",
+    checkInId: "ci-a",
+    milestone: "day7",
+    kind: "checkin_due",
+  }) !==
+    buildCheckinEmailIdempotencyKey({
+      subjectId: "user-1",
+      checkInId: "ci-b",
+      milestone: "day7",
+      kind: "checkin_due",
+    }),
+  "checkin_id changes key"
+);
+ok(!k1.startsWith("preview-email-test"), "production key not preview prefix");
 
 // alert suppressed
 ok(
@@ -425,5 +488,25 @@ const policySrc = readFileSync(
 );
 ok(!/rankProducts|MATCH_WEIGHT|affiliate|sponsored/i.test(policySrc), "no rank/affiliate");
 ok(!/resend|sendgrid|ses\.amazonaws|nodemailer/i.test(policySrc), "no provider");
+
+const previewKey = buildPreviewTestIdempotencyKey({
+  deploymentId: "d1",
+  adminUserId: "admin-1",
+  milestone: "day7",
+  kind: "checkin_due",
+  locale: "ko",
+  now: nowDue,
+});
+ok(previewKey.startsWith("preview-email-test:"), "preview key prefix");
+ok(
+  previewKey !==
+    buildCheckinEmailIdempotencyKey({
+      subjectId: "admin-1",
+      checkInId: "preview-email-test",
+      milestone: "day7",
+      kind: "checkin_due",
+    }),
+  "preview key != production queue key"
+);
 
 console.log(`[checkin-email-queue] ${checks} checks passed`);

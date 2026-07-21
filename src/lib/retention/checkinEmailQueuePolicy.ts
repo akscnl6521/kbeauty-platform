@@ -216,14 +216,13 @@ export function buildCheckinEmailIdempotencyKey(input: {
   checkInId: string;
   milestone: CheckinMilestone;
   kind: CheckinEmailKind;
-  scheduleDate: string;
 }): string {
   const subjectId = normalizeIdPart(input.subjectId);
   const checkInId = normalizeIdPart(input.checkInId);
   const milestone = normalizeIdPart(input.milestone);
   const kind = normalizeIdPart(input.kind);
-  const scheduleDate = normalizeIdPart(input.scheduleDate);
-  return `checkin-email:${subjectId}:${checkInId}:${milestone}:${kind}:${scheduleDate}`;
+  // Production queue v1 — exclude scheduleDate / locale / template_version / recipient
+  return `checkin-email:v1:${subjectId}:${checkInId}:${milestone}:${kind}:email`;
 }
 
 export function isRetryableCheckinEmailFailure(
@@ -380,12 +379,11 @@ export function evaluateCheckinEmailEligibility(
   const milestone = milestoneFromDay(input.checkIn.day);
   const scheduleDate = toScheduleDate(input.checkIn.dueAt);
   const idempotencyKey = buildCheckinEmailIdempotencyKey({
-    subjectId: input.subjectId,
-    checkInId,
-    milestone,
-    kind,
-    scheduleDate,
-  });
+      subjectId: input.subjectId,
+      checkInId,
+      milestone,
+      kind,
+    });
 
   const existing = new Set(
     [...(input.existingIdempotencyKeys ?? [])].map((k) => k.trim())

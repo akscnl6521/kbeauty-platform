@@ -30,6 +30,7 @@
     "test:checkin-policy": "npx --yes tsx scripts/checkin-policy-selftest.ts",
     "test:routine-adjustment": "npx --yes tsx scripts/routine-adjustment-policy-selftest.ts",
     "test:checkin-email-queue": "npx --yes tsx scripts/checkin-email-queue-policy-selftest.ts",
+    "test:checkin-email-queue-migration": "npx --yes tsx scripts/checkin-email-queue-migration-selftest.ts",
     "test:checkin-email-provider": "npx --yes tsx scripts/checkin-email-provider-selftest.ts",
     "test:checkin-email-resend": "npx --yes tsx scripts/checkin-email-resend-provider-selftest.ts",
     "test:checkin-email-test-api": "npx --yes tsx scripts/checkin-email-test-api-selftest.ts",

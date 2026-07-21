@@ -29,6 +29,15 @@
 - 차단: RLS/정책 미작성 · service_role GRANT 없음 · `recipient_hash` NOT NULL(v1 mask-only와 불일치) · idempotency `scheduleDate` 포함 vs v1 `checkin-email:v1:…:email` · status CHECK 미비
 - Preview는 Schema A(in-memory) 유지 · Production/DB 변경 없음
 
+### 체크인 이메일 큐 DRAFT v2 보완 (Staging 미적용 · 2026-07-21)
+
+- Schema A: Production queue만 DB · Preview test-send in-memory 유지
+- idempotency: `checkin-email:v1:{user_id}:{checkin_id}:{milestone}:{kind}:email` (scheduleDate/locale/template/recipient 제외)
+- DRAFT: RLS ON · PUBLIC/anon/authenticated REVOKE · service_role SELECT/INSERT/UPDATE · DELETE/TRUNCATE 없음
+- `recipient_hash` 제거 · `recipient_mask` NOT NULL · checkin_id/user_id FK · status/milestone/kind/channel CHECK
+- self-test: `test:checkin-email-queue` · `test:checkin-email-queue-migration`
+- Staging/Production DB 미적용 · 실발송 없음
+
 ## 2026-07-20
 
 ### 단계 5 — Preview 관리자 체크인 이메일 테스트 발송 UI/API (mock만 · 실발송 없음)
