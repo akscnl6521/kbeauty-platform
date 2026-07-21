@@ -81,10 +81,9 @@
 
 ## 다음 작업
 
-1. Staging Dashboard에서 `20260722010000_create_checkin_email_queue.sql` 적용 후 dry-run claim 검증 (WQ-A · Fast Execution active)
-2. 사진 비교 동의·삭제 흐름 (WQ-B)
-3. 재방문 대시보드 보강 (WQ-C)
-4. 알림 채널별 동의 분리 UI
+1. 사진 비교 동의·삭제 흐름 (WQ-B · Fast Execution queued)
+2. 재방문 대시보드 보강 (WQ-C)
+3. 알림 채널별 동의 분리 UI
 
 ### 단계 5 — 리텐션 보강
 
@@ -101,7 +100,7 @@
 - [x] Preview `/admin/care` 육안 확인 (migration/permission 경고 없음 · counts only — no PII · 집계 카드 정상)
 - [x] 체크인 이메일 큐 DRAFT Staging 검토 (적용 보류 · 테이블 미생성)
 - [x] 체크인 이메일 큐 Schema A 코드·게이트 (dated migration · persistence · SKIP LOCKED claim · dry-run worker · Preview 분리 유지)
-- [ ] Staging에 `20260722010000_create_checkin_email_queue.sql` Dashboard 적용 (게이트 통과 · CLI 토큰 없음 · Production 미적용)
+- [x] Staging에 `20260722010000_create_checkin_email_queue.sql` Dashboard 적용 · `verify:checkin-email-queue-staging` **통과** (2026-07-22 · FK/status/payload negative · claim RPC · 실발송 없음 · Production 미적용)
 - [ ] 사진 비교 동의·삭제 흐름
 - [ ] 재방문 대시보드 보강
 - [ ] 알림 채널별 동의 분리 UI

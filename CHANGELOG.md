@@ -6,12 +6,22 @@
 
 ## 2026-07-22
 
+### 체크인 이메일 큐 Staging 적용·검증 완료 (WQ-A)
+
+- Staging Dashboard SQL: `20260722010000_create_checkin_email_queue.sql` **적용 완료**
+- 검증: `npm run verify:checkin-email-queue-staging` **통과**
+  - Staging ref guard · Production ref 차단
+  - service_role SELECT/INSERT/UPDATE · claim RPC · anon SELECT 거부
+  - FK negative (fake UUID) · status CHECK negative · payload plaintext CHECK negative
+  - care_check_ins 행 없음 → positive insert/claim/sent/cancel 경로 스킵 (negative·RPC 검증은 완료)
+- 실발송 **없음** · DELETE **없음** · Production/main/Production DB **미변경**
+
 ### Fast Execution System v1
 
 - `WORK_QUEUE.md` · `docs/FAST_EXECUTION_SYSTEM.md` · `docs/APPROVAL_POLICY.md`
 - `npm run project:status|next|verify|complete|continue`
 - `safe-command-gate` · work-queue parser · orchestrator selftests
-- Staging probe: `scripts/probe-checkin-email-queue-staging.mjs` (현재 `missing` — Dashboard SQL 대기)
+- Staging probe: `scripts/probe-checkin-email-queue-staging.mjs` (post-apply verify는 `verify:checkin-email-queue-staging` 사용)
 - Production/main/실발송 기본 차단 유지
 
 ### 체크인 이메일 큐 Schema A Staging 구현 (코드·게이트 · DB 적용 대기)
@@ -25,7 +35,7 @@
 - persistence: enqueue/claim/markSent/markFailed/markCancelled · last_error sanitize · max retry 3
 - dry-run worker: live provider 거부 · 실제 발송 없음
 - 게이트 `npm run gate:checkin-email-queue-staging` **통과** (ref Staging · build · Care/selftest)
-- Staging DB 적용: CLI `SUPABASE_ACCESS_TOKEN` 없어 **미적용** · Production **미변경** · 실발송 **없음**
+- Staging DB 적용: Dashboard SQL **완료** (2026-07-22) · `verify:checkin-email-queue-staging` **통과** · Production **미변경** · 실발송 **없음**
 - 적용 후 수동 정리: synthetic fixture는 DELETE 자동 실행 금지 · `status='cancelled'` 권장
 
 ### Preview 체크인 이메일 테스트 UI 육안 확인

@@ -23,8 +23,8 @@
 - 체크인 이메일 Resend live adapter 코드 준비 (실제 발송 없음 · API 키 미설정 · DNS 미변경 · staging allowlist · kill switch · Production 강제 차단)
 - Preview 전용 관리자 체크인 이메일 테스트 발송 UI/API (mock self-test만 · in-memory rate limit · DB audit 없음 · 실제 발송은 Preview 배포 후 관리자 클릭 시만)
 - Preview 이메일 미리보기 `siteOrigin` 서버 prop · Care admin readiness · service_role care SELECT · Preview `/admin/care` 육안 **통과**
-- Preview `/admin/care/check-in-email-test` 육안 **통과** (2026-07-22 · 폼·미리보기 정상 · milestone/locale/kind 변경 정상 · migration/permission 오류 없음 · 실발송 없음 · `checkin_email_queue` Staging·Production 미적용)
-- 체크인 이메일 큐 Schema A 구현 **코드·게이트 완료** · dated migration `20260722010000_create_checkin_email_queue.sql` · persistence/claim/retry/dry-run worker · Staging DB 적용은 **Dashboard SQL 대기** (Production **미적용**)
+- Preview `/admin/care/check-in-email-test` 육안 **통과** (2026-07-22 · 폼·미리보기 정상 · milestone/locale/kind 변경 정상 · migration/permission 오류 없음 · 실발송 없음)
+- 체크인 이메일 큐 Schema A **Staging 적용·검증 완료** (2026-07-22 · `20260722010000_create_checkin_email_queue.sql` Dashboard 적용 · `npm run verify:checkin-email-queue-staging` **통과** · FK/status/payload negative · claim RPC · anon SELECT 거부 · 실발송 없음 · Production **미적용**)
 - Fast Execution System v1 **추가** (`WORK_QUEUE.md` · `npm run project:*` · safe-command-gate · docs/FAST_EXECUTION_SYSTEM.md)
 - 관리자 제품·성분·검증·카탈로그 도구
 - 한국 화장품 후보 수집·정규화·Staging 검수 구조
@@ -72,23 +72,22 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 
 ## 다음 작업
 
-1. Staging Dashboard에서 `20260722010000_create_checkin_email_queue.sql` 적용 → `node scripts/probe-checkin-email-queue-staging.mjs` → dry-run 검증 (WORK_QUEUE: WQ-A)
-2. 사진 비교 동의·삭제 흐름 (WQ-B)
-3. 재방문 대시보드 보강 (WQ-C)
-4. 알림 채널별 동의 분리 UI / 스케줄링 연결 (WQ-D)
+1. 사진 비교 동의·삭제 흐름 (WQ-B)
+2. 재방문 대시보드 보강 (WQ-C)
+3. 알림 채널별 동의 분리 UI / 스케줄링 연결 (WQ-D)
 
 ## 현재 차단 또는 사람 확인이 필요한 항목
 
 - Care persistence Staging: service_role SELECT grant · Preview `/admin/care` 육안 **통과**
 - Preview `/admin/care/check-in-email-test` 육안 **통과** (2026-07-22 · 폼·미리보기 정상 · milestone/locale/kind 변경 정상 · migration/permission 오류 없음 · 실발송 없음)
-- 체크인 이메일 큐 Schema A **코드·게이트 완료** (dated migration · claim SKIP LOCKED · persistence · dry-run worker · Staging DB는 Dashboard SQL 대기 · Production 미적용)
+- 체크인 이메일 큐 Schema A **Staging 적용·검증 완료** (2026-07-22 · Dashboard SQL · `verify:checkin-email-queue-staging` 통과 · FK/status/payload negative · claim RPC · anon SELECT 거부 · care_check_ins 없어 positive insert 스킵 · 실발송 없음 · Production **미적용**)
   - Schema A: Production만 DB queue · Preview test-send in-memory 유지
   - idempotency `checkin-email:v1:{user_id}:{checkin_id}:{milestone}:{kind}:email`
   - 상태 매핑: scheduled→pending · sending→processing · retry_scheduled→pending(+retry) · duplicate→skipped_duplicate
   - claim: `claim_checkin_email_jobs` FOR UPDATE SKIP LOCKED · stale processing 복구
   - retry: max 3 · last_error sanitize · 초과 시 failed
   - 게이트: `npm run gate:checkin-email-queue-staging` **통과** (2026-07-22)
-  - Staging 적용 차단: 로컬 `SUPABASE_ACCESS_TOKEN`/CLI login 없음 → Dashboard SQL Editor 필요
+  - Staging 적용: Dashboard SQL Editor 적용 **완료** · `npm run verify:checkin-email-queue-staging` **통과**
 - Preview 관리자 로그인 후 Staging `catalog_product_media` 실제 미디어 육안
 - Preview 원격 검수 JSON 주소와 환경변수 연결
 - 공식 전성분 미확보 제품의 최종 검증

@@ -7,7 +7,8 @@
 id: WQ-A-checkin-email-queue-staging
 title: Checkin email queue Staging migration and verify
 priority: 10
-status: active
+status: completed
+result_commit: PENDING
 environment: staging
 deps:
 tests:
@@ -16,17 +17,18 @@ tests:
   - npm run test:checkin-email-queue-persistence
   - npm run test:admin-care-readiness
   - npm run gate:checkin-email-queue-staging
+  - npm run verify:checkin-email-queue-staging
 approval_required: false
 dashboard_sql: true
 dashboard_sql_file: supabase/migrations/20260722010000_create_checkin_email_queue.sql
-notes: Staging Dashboard SQL apply pending; probe after apply
+notes: Staging Dashboard SQL applied; verify pass (FK/status/payload negative + claim RPC; positive insert skipped — no care_check_ins rows)
 
 ### TASK WQ-B-photo-compare-consent
 
 id: WQ-B-photo-compare-consent
 title: Photo compare consent and deletion flow
 priority: 20
-status: queued
+status: active
 environment: staging
 deps: WQ-A-checkin-email-queue-staging
 tests:
