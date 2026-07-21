@@ -59,6 +59,7 @@ id: WQ-D-checkin-scheduling
 title: Checkin scheduling and notification channels
 priority: 40
 status: completed
+result_commit: a568bed6b723ac65e163bbf75e4a83f403d44de8
 environment: staging
 deps: WQ-A-checkin-email-queue-staging
 tests:
