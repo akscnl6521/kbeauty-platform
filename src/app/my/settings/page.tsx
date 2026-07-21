@@ -14,6 +14,8 @@ import {
   hydrateCareDashboard,
 } from "@/lib/care/client-hydrate";
 import type { CareStoreSnapshot } from "@/lib/care/types";
+import { PhotoAssetsSettingsPanel } from "@/components/care/PhotoAssetsSettingsPanel";
+import { PhotoConsentPanel } from "@/components/care/PhotoConsentPanel";
 import { MyCareNav } from "../MyCareNav";
 
 /** Account, care preferences, and user-controlled local data actions. */
@@ -245,6 +247,18 @@ export default function MyCareSettingsPage() {
           연결해도 로컬 데이터는 자동 삭제되지 않습니다.
         </p>
       </section>
+
+      <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
+        <h2 className="font-semibold">사진 비교 동의</h2>
+        <p className="mt-2 text-xs text-gray-600">
+          분석만 또는 비교용 저장 중 선택합니다. 저장한 사진은 아래에서 삭제할 수 있습니다.
+        </p>
+        <div className="mt-3">
+          <PhotoConsentPanel />
+        </div>
+      </section>
+
+      <PhotoAssetsSettingsPanel />
 
       <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
         <h2 className="font-semibold">내 데이터 관리</h2>

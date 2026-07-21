@@ -9,6 +9,17 @@ import { useCountry } from "@/hooks/useCountry";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import { ConcernObservationPanel } from "@/components/analyze/ConcernObservationPanel";
 import {
+  PhotoConsentPanel,
+  photoAnalysisOnlyAckMessage,
+  photoConsentBlockedMessage,
+} from "@/components/care/PhotoConsentPanel";
+import {
+  defaultPhotoConsentChoices,
+  shouldAutoPurgeAfterAnalysis,
+  validatePhotoConsentChoices,
+  type PhotoConsentChoices,
+} from "@/lib/care/photoComparisonPolicy";
+import {
   parseRednessObservation,
   type RednessObservation,
 } from "@/lib/ai/rednessObservation";
@@ -688,6 +699,9 @@ export default function AnalyzePage() {
   const { countryCode } = useCountry();
   const router = useRouter();
   const [mode, setMode] = useState<InputMode>("photo");
+  const [photoConsentChoices, setPhotoConsentChoices] =
+    useState<PhotoConsentChoices>(defaultPhotoConsentChoices());
+  const [photoConsentAck, setPhotoConsentAck] = useState<string | null>(null);
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
@@ -877,6 +891,17 @@ export default function AnalyzePage() {
     if (!imageBase64) {
       setError(locale === "ko" ? "먼저 사진을 업로드해주세요." : "Please upload an image first.");
       return;
+    }
+    const blocked = photoConsentBlockedMessage(photoConsentChoices);
+    if (blocked) {
+      setError(blocked);
+      return;
+    }
+    const consentValidation = validatePhotoConsentChoices(photoConsentChoices);
+    if (shouldAutoPurgeAfterAnalysis(consentValidation.effectiveMode)) {
+      setPhotoConsentAck(photoAnalysisOnlyAckMessage());
+    } else {
+      setPhotoConsentAck(null);
     }
     setLoading(true);
     setError(null);
@@ -1309,7 +1334,12 @@ export default function AnalyzePage() {
           <div className="rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
             {mode === "photo" ? (
               <div>
-                <p className="mb-3 text-sm font-semibold text-gray-900">
+                <PhotoConsentPanel
+                  value={photoConsentChoices}
+                  onChange={(choices) => setPhotoConsentChoices(choices)}
+                  compact
+                />
+                <p className="mb-3 mt-4 text-sm font-semibold text-gray-900">
                   사진 업로드
                 </p>
                 <div
@@ -1349,6 +1379,11 @@ export default function AnalyzePage() {
                 <p className="mt-3 text-xs text-gray-500">
                   AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
                 </p>
+                {photoConsentAck ? (
+                  <p className="mt-2 text-xs text-gray-600" role="status">
+                    {photoConsentAck}
+                  </p>
+                ) : null}
 
                 <div className="mt-4">
                   <button

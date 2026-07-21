@@ -28,19 +28,21 @@ notes: Staging Dashboard SQL applied; verify pass (FK/status/payload negative + 
 id: WQ-B-photo-compare-consent
 title: Photo compare consent and deletion flow
 priority: 20
-status: active
+status: completed
 environment: staging
 deps: WQ-A-checkin-email-queue-staging
 tests:
+  - npm run test:photo-comparison
   - npm run test:care-data
-approval_required: false
+approval_required: true
+notes: Code+tests complete; Staging DRAFT migration NOT applied — awaiting approval; care-photos bucket not created
 
 ### TASK WQ-C-revisit-dashboard
 
 id: WQ-C-revisit-dashboard
 title: Revisit dashboard enhancements
 priority: 30
-status: queued
+status: active
 environment: staging
 deps: WQ-B-photo-compare-consent
 tests:

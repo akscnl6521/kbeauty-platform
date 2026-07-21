@@ -6,6 +6,15 @@
 
 ## 2026-07-22
 
+### 사진 비교 동의·저장·삭제 (WQ-B · 코드·테스트 완료)
+
+- 정책: `photoComparisonPolicy.ts` · EXIF strip · in-memory service
+- API: photo-consents / photo-assets / delete-all (synthetic fixture Preview only)
+- UI: `PhotoConsentPanel` · `PhotoAssetsSettingsPanel` · analyze/settings 연결
+- DRAFT migration: `DRAFT_DO_NOT_APPLY_care_photo_comparison.sql` (**미적용**)
+- `npm run test:photo-comparison` 추가
+- 승인 대기: Staging migration apply · private `care-photos` bucket · 실제 업로드/Storage delete
+
 ### 체크인 이메일 큐 Staging 적용·검증 완료 (WQ-A)
 
 - Staging Dashboard SQL: `20260722010000_create_checkin_email_queue.sql` **적용 완료**

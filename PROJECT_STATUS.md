@@ -26,6 +26,7 @@
 - Preview `/admin/care/check-in-email-test` 육안 **통과** (2026-07-22 · 폼·미리보기 정상 · milestone/locale/kind 변경 정상 · migration/permission 오류 없음 · 실발송 없음)
 - 체크인 이메일 큐 Schema A **Staging 적용·검증 완료** (2026-07-22 · `20260722010000_create_checkin_email_queue.sql` Dashboard 적용 · `npm run verify:checkin-email-queue-staging` **통과** · FK/status/payload negative · claim RPC · anon SELECT 거부 · 실발송 없음 · Production **미적용**)
 - Fast Execution System v1 **추가** (`WORK_QUEUE.md` · `npm run project:*` · safe-command-gate · docs/FAST_EXECUTION_SYSTEM.md)
+- 사진 비교 동의·저장·삭제 흐름 **코드·테스트 완료** (WQ-B · DRAFT migration 미적용 · `care-photos` bucket 미생성 · 실제 업로드 501)
 - 관리자 제품·성분·검증·카탈로그 도구
 - 한국 화장품 후보 수집·정규화·Staging 검수 구조
 - 제품 갱신 계획과 due queue 자동화
@@ -72,9 +73,9 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 
 ## 다음 작업
 
-1. 사진 비교 동의·삭제 흐름 (WQ-B)
-2. 재방문 대시보드 보강 (WQ-C)
-3. 알림 채널별 동의 분리 UI / 스케줄링 연결 (WQ-D)
+1. 재방문 대시보드 보강 (WQ-C)
+2. 알림 채널별 동의 분리 UI / 스케줄링 연결 (WQ-D)
+3. (승인 대기) 사진 비교 Staging migration 적용 · `care-photos` bucket 생성
 
 ## 현재 차단 또는 사람 확인이 필요한 항목
 
@@ -95,6 +96,7 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 - 실제 피부과 진료 범주·의료진·주소·예약 정보 확인
 - 외부 영상 사용권과 게시 기간 확인
 - Production 배포와 Production DB·환경변수 변경
+- 사진 비교 Staging migration 적용 (`DRAFT_DO_NOT_APPLY_care_photo_comparison.sql`) · private `care-photos` Storage bucket 생성
 - 광고·제휴 계약 실제 활성화
 
 ## 승인 경계
