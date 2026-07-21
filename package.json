@@ -34,6 +34,8 @@
     "test:checkin-email-resend": "npx --yes tsx scripts/checkin-email-resend-provider-selftest.ts",
     "test:checkin-email-test-api": "npx --yes tsx scripts/checkin-email-test-api-selftest.ts",
     "test:care-data": "npx --yes tsx scripts/care-data-portability-selftest.ts",
+    "test:admin-care-readiness": "npx --yes tsx scripts/care-dashboard-summary-selftest.ts --admin-care-readiness",
+    "fix:utf16le-migration-grant": "node -e \"const fs=require('fs');const p='supabase/migrations/20260721100000_grant_service_role_care_read.sql';if(!fs.existsSync(p))process.exit(0);const b=fs.readFileSync(p);if(b.length>1&&b[1]===0)fs.writeFileSync(p,fs.readFileSync(p,'utf16le'),'utf8');\"",
     "test:product-feedback": "npx --yes tsx scripts/product-feedback-selftest.ts",
     "test:feedback-summary": "npx --yes tsx scripts/feedback-summary-selftest.ts",
     "test:catalog-refresh": "npx --yes tsx scripts/catalog-refresh-policy-selftest.ts",

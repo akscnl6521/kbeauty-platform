@@ -1,6 +1,6 @@
 # ROADMAP.md — K-Beauty Match
 
-최종 갱신: 2026-07-20
+최종 갱신: 2026-07-21
 
 현재 실제 진행 상태는 이 문서를 우선한다. 최상위 방향은 Master Plan v4.1을 따른다.
 
@@ -81,12 +81,11 @@
 
 ## 다음 작업
 
-1. Preview 배포에서 관리자 체크인 이메일 테스트 발송 UI 육안 확인 (실제 1건은 관리자 명시 클릭 시만)
-2. 체크인 이메일 큐 DB migration Staging 검토·적용 (현재 DRAFT 미적용)
-3. 사진 비교 동의·삭제 흐름
-4. 재방문 대시보드 보강
-5. Preview 수동 샘플 육안 확인 (단계 4 운영 검수 잔여)
-6. Preview 관리자 로그인 후 Staging 미디어·통합 검수 육안
+1. Staging에 `20260721100000_grant_service_role_care_read.sql` 적용 후 `/admin/care` 집계 확인
+2. Preview 배포에서 Care 집계·체크인 이메일 테스트 UI 육안 확인
+3. 체크인 이메일 큐 DB migration Staging 검토 (DRAFT 미적용)
+4. 사진 비교 동의·삭제 흐름
+5. 재방문 대시보드 보강
 
 ### 단계 5 — 리텐션 보강
 
@@ -98,7 +97,8 @@
 - [x] 체크인 이메일 dry-run provider (disabled/dry_run/live_blocked · 실제 발송·SDK·API 키 없음 · admin UI 후순위)
 - [x] 체크인 이메일 Resend live adapter 코드 준비 (게이트·allowlist·kill switch · mock self-test · 실제 발송·API 키·DNS 변경 없음 · main 미병합)
 - [x] Preview 관리자 체크인 이메일 테스트 발송 UI/API (Production 차단 · same-origin · allowlist 서버 고정 · in-memory rate limit · mock self-test · 실제 발송 미실행 · DB audit 미구현 · main 미병합)
-- [ ] Preview 배포에서 관리자 테스트 발송 UI 육안 확인 (실제 발송은 관리자 클릭 시만)
+- [x] Care admin readiness 오류 분류 (`42501` vs `PGRST205`) · service_role care SELECT grant migration 작성
+- [ ] Staging care service_role SELECT grant migration 적용
 - [ ] 사진 비교 동의·삭제 흐름
 - [ ] 재방문 대시보드 보강
 - [ ] 알림 채널별 동의 분리 UI

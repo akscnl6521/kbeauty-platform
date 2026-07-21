@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-07-21
+
+### Care admin readiness · service_role SELECT grant (Staging migration 작성)
+
+- `/admin/care`: `42501` → permission_missing · `PGRST205`/relation missing → migration_missing · 기타 → query_error
+- migration `20260721100000_grant_service_role_care_read.sql`: care_check_ins, care_notifications, care_audit_events, care_analysis_sessions, care_routines, profiles에 service_role **SELECT만**
+- self-test: `npm run test:admin-care-readiness` (Preview ref ≠ Production guard · probe 분류 · `care-dashboard-summary-selftest.ts --admin-care-readiness`)
+- Staging apply 전: `npm run fix:utf16le-migration-grant` (Windows UTF-16LE migration 파일 보정)
+- checkin_email_queue **미생성** · Production/Production DB 변경 없음 · Staging apply는 operator
+
 ## 2026-07-20
 
 ### 단계 5 — Preview 관리자 체크인 이메일 테스트 발송 UI/API (mock만 · 실발송 없음)
