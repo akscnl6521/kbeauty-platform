@@ -19,7 +19,7 @@ export type CheckInEmailTestClientProps = {
   initialMilestone: CheckinMilestone;
   initialLocale: CheckinLocale;
   initialKind: PreviewTestEmailKind;
-  initialPreview: { subject: string; textBody: string };
+  siteOrigin: string | null;
 };
 
 const MILESTONES: CheckinMilestone[] = ["day3", "day7", "day15", "day30"];
@@ -45,8 +45,14 @@ export function CheckInEmailTestClient(props: CheckInEmailTestClientProps) {
   } | null>(null);
 
   const preview = useMemo(
-    () => buildPreviewTestEmailPreview({ milestone, kind, locale }),
-    [milestone, kind, locale]
+    () =>
+      buildPreviewTestEmailPreview({
+        milestone,
+        kind,
+        locale,
+        siteOrigin: props.siteOrigin,
+      }),
+    [milestone, kind, locale, props.siteOrigin]
   );
 
   const inCooldown = cooldownUntil !== null && Date.now() < cooldownUntil;

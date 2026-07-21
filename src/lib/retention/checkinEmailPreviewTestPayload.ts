@@ -39,6 +39,27 @@ function copyKindFromQueue(kind: PreviewTestEmailKind): CheckinEmailCopyKind {
   return "due";
 }
 
+function buildCareEmailUrlFromOrigin(
+  siteOrigin: string,
+  path: string
+): string | null {
+  const normalizedPath = path.trim();
+  if (!normalizedPath.startsWith("/")) return null;
+
+  const origin = siteOrigin.trim().replace(/\/$/, "");
+  if (!origin) return null;
+
+  try {
+    const url = new URL(normalizedPath, `${origin}/`);
+    if (url.protocol !== "https:") return null;
+    if (url.search || url.hash) return null;
+    if (url.username || url.password) return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
 export function buildPreviewTestEmailBanner(locale: CheckinLocale): string {
   const lines: Record<CheckinLocale, string[]> = {
     ko: [
@@ -110,16 +131,22 @@ export function buildPreviewTestEmailPreview(input: {
   milestone: CheckinMilestone;
   kind: PreviewTestEmailKind;
   locale: CheckinLocale;
+  siteOrigin?: string | null;
 }): { subject: string; textBody: string } {
   const copyKind = copyKindFromQueue(input.kind);
   const banner = buildPreviewTestEmailBanner(input.locale);
   const subject = getCheckinEmailSubject(copyKind, input.milestone, input.locale);
   const bodyCore = getCheckinEmailBody(copyKind, input.milestone, input.locale);
   const disclaimer = getCheckinEmailDisclaimer(input.locale);
-  const checkinUrl = buildAbsoluteCareEmailUrl(
-    `/my/check-ins/${PREVIEW_EMAIL_TEST_CHECKIN_ID}`
-  );
-  const settingsUrl = buildAbsoluteCareEmailUrl("/my/settings");
+  const checkinPath = `/my/check-ins/${PREVIEW_EMAIL_TEST_CHECKIN_ID}`;
+  const settingsPath = "/my/settings";
+  const siteOrigin = input.siteOrigin?.trim();
+  const checkinUrl = siteOrigin
+    ? buildCareEmailUrlFromOrigin(siteOrigin, checkinPath)
+    : buildAbsoluteCareEmailUrl(checkinPath);
+  const settingsUrl = siteOrigin
+    ? buildCareEmailUrlFromOrigin(siteOrigin, settingsPath)
+    : buildAbsoluteCareEmailUrl(settingsPath);
   const urlSection =
     checkinUrl && settingsUrl
       ? [`Check-in: ${checkinUrl}`, "", `Settings: ${settingsUrl}`]

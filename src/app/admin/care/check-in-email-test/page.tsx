@@ -13,7 +13,7 @@ import {
 import { validateEmailFromAddress } from "@/lib/email/provider/emailFromAddress";
 import { parseRecipientAllowlist } from "@/lib/email/provider/recipientAllowlist";
 import { maskEmailAddress } from "@/lib/retention/checkinEmailQueuePolicy";
-import { buildPreviewTestEmailPreview } from "@/lib/retention/checkinEmailPreviewTestPayload";
+import { resolveCareEmailSiteOrigin } from "@/lib/retention/resolveCareEmailSiteOrigin";
 import { AdminSubnav } from "../../AdminSubnav";
 import { CheckInEmailTestClient } from "./CheckInEmailTestClient";
 
@@ -54,11 +54,7 @@ export default async function AdminCheckInEmailTestPage() {
     ? maskEmailAddress(firstRecipient)
     : "[allowlist-empty]";
 
-  const initialPreview = buildPreviewTestEmailPreview({
-    milestone: "day7",
-    kind: "checkin_due",
-    locale: "ko",
-  });
+  const siteOrigin = resolveCareEmailSiteOrigin();
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 text-sm">
@@ -76,7 +72,7 @@ export default async function AdminCheckInEmailTestPage() {
           initialMilestone="day7"
           initialLocale="ko"
           initialKind="checkin_due"
-          initialPreview={initialPreview}
+          siteOrigin={siteOrigin}
         />
       </div>
       <Link href="/admin/care" className="mt-6 inline-block text-[#8B6914] underline">
