@@ -252,6 +252,25 @@ async function runAdminCareReadinessSelftest() {
         "[admin-care-readiness] hint: apply 20260721100000_grant_service_role_care_read.sql on staging"
       );
     }
+    assert(status === "ready", "care_check_ins_probe must be ready after grant");
+
+    process.env.NEXT_PUBLIC_SUPABASE_URL = url;
+    process.env.SUPABASE_SERVICE_ROLE_KEY = env.SUPABASE_SERVICE_ROLE_KEY;
+    const { getAdminCareOpsSummary } = await import("../src/lib/admin/care-ops");
+    const summary = await getAdminCareOpsSummary();
+    console.log(
+      `[admin-care-readiness] admin_care_summary readiness=${summary.readinessStatus} tablesReady=${summary.tablesReady} note=${summary.note}`
+    );
+    assert(summary.readinessStatus === "ready", "summary readiness must be ready");
+    assert(summary.tablesReady, "tablesReady must be true");
+    assert(
+      !summary.note.includes("migration is not applied"),
+      "must not show migration missing"
+    );
+    assert(
+      !summary.note.includes("admin service role"),
+      "must not show permission missing"
+    );
   }
 
   console.log("[admin-care-readiness] all checks passed");

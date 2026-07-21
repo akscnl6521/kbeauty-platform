@@ -22,7 +22,7 @@
 - 체크인 이메일 dry-run provider (실제 발송 없음 · live 차단 · API 키 없음 · admin UI 후순위)
 - 체크인 이메일 Resend live adapter 코드 준비 (실제 발송 없음 · API 키 미설정 · DNS 미변경 · staging allowlist · kill switch · Production 강제 차단)
 - Preview 전용 관리자 체크인 이메일 테스트 발송 UI/API (mock self-test만 · in-memory rate limit · DB audit 없음 · 실제 발송은 Preview 배포 후 관리자 클릭 시만)
-- Preview 이메일 미리보기 `siteOrigin` 서버 prop (`d1a4d7e`) · Care admin readiness 오류 분류 · service_role care SELECT grant migration 작성
+- Preview 이메일 미리보기 `siteOrigin` 서버 prop (`d1a4d7e`) · Care admin readiness 오류 분류 · service_role care SELECT grant migration 작성·**Staging 적용 완료** (probe `ready`)
 - 관리자 제품·성분·검증·카탈로그 도구
 - 한국 화장품 후보 수집·정규화·Staging 검수 구조
 - 제품 갱신 계획과 due queue 자동화
@@ -69,15 +69,14 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 
 ## 다음 작업
 
-1. Staging에 `20260721100000_grant_service_role_care_read.sql` 적용 후 `/admin/care` 집계 probe 확인
-2. Preview 배포에서 관리자 테스트 발송 UI·Care 집계 육안 확인
-3. 체크인 이메일 큐 DB migration Staging 검토 (DRAFT 미적용 · queue 테이블 없음)
-4. 사진 비교 동의·삭제 흐름
-5. 재방문 대시보드 보강
+1. Preview 배포에서 관리자 테스트 발송 UI·Care 집계 육안 확인
+2. 체크인 이메일 큐 DB migration Staging 검토 (DRAFT 미적용 · queue 테이블 없음)
+3. 사진 비교 동의·삭제 흐름
+4. 재방문 대시보드 보강
 
 ## 현재 차단 또는 사람 확인이 필요한 항목
 
-- Care persistence Staging: 테이블 적용됨 · **service_role SELECT grant migration Staging 미적용** → admin 집계 42501
+- Care persistence Staging: 테이블 적용됨 · **service_role SELECT grant 적용 완료** (2026-07-21) · admin probe `ready`
 - Preview 관리자 로그인 후 Staging `catalog_product_media` 실제 미디어 육안
 - Preview 원격 검수 JSON 주소와 환경변수 연결
 - 공식 전성분 미확보 제품의 최종 검증

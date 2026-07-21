@@ -14,6 +14,13 @@
 - Staging apply 전: `npm run fix:utf16le-migration-grant` (Windows UTF-16LE migration 파일 보정)
 - checkin_email_queue **미생성** · Production/Production DB 변경 없음 · Staging apply는 operator
 
+### Care Staging service_role SELECT grant 적용·검증 (2026-07-21)
+
+- Staging (`jfnj***gfd`)에 GRANT SELECT 적용 완료 · `care_check_ins` probe `ready`
+- `getAdminCareOpsSummary` → `readiness=ready` · note=`counts only — no PII` (migration/permission 오표시 해소)
+- self-test에 summary 경로 assert 추가 · Preview 배포 후 `/admin/care` 육안 확인 대기
+- Production·`checkin_email_queue` 변경 없음
+
 ## 2026-07-20
 
 ### 단계 5 — Preview 관리자 체크인 이메일 테스트 발송 UI/API (mock만 · 실발송 없음)

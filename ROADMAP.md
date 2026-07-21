@@ -81,11 +81,10 @@
 
 ## 다음 작업
 
-1. Staging에 `20260721100000_grant_service_role_care_read.sql` 적용 후 `/admin/care` 집계 확인
-2. Preview 배포에서 Care 집계·체크인 이메일 테스트 UI 육안 확인
-3. 체크인 이메일 큐 DB migration Staging 검토 (DRAFT 미적용)
-4. 사진 비교 동의·삭제 흐름
-5. 재방문 대시보드 보강
+1. Preview 배포에서 Care 집계(`/admin/care`)·체크인 이메일 테스트 UI 육안 확인
+2. 체크인 이메일 큐 DB migration Staging 검토 (DRAFT 미적용)
+3. 사진 비교 동의·삭제 흐름
+4. 재방문 대시보드 보강
 
 ### 단계 5 — 리텐션 보강
 
@@ -98,7 +97,7 @@
 - [x] 체크인 이메일 Resend live adapter 코드 준비 (게이트·allowlist·kill switch · mock self-test · 실제 발송·API 키·DNS 변경 없음 · main 미병합)
 - [x] Preview 관리자 체크인 이메일 테스트 발송 UI/API (Production 차단 · same-origin · allowlist 서버 고정 · in-memory rate limit · mock self-test · 실제 발송 미실행 · DB audit 미구현 · main 미병합)
 - [x] Care admin readiness 오류 분류 (`42501` vs `PGRST205`) · service_role care SELECT grant migration 작성
-- [ ] Staging care service_role SELECT grant migration 적용
+- [x] Staging care service_role SELECT grant migration 적용 (2026-07-21 · probe ready)
 - [ ] 사진 비교 동의·삭제 흐름
 - [ ] 재방문 대시보드 보강
 - [ ] 알림 채널별 동의 분리 UI
