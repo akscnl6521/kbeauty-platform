@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-21
+최종 갱신: 2026-07-22
 
 ## 현재 기준
 
@@ -22,8 +22,9 @@
 - 체크인 이메일 dry-run provider (실제 발송 없음 · live 차단 · API 키 없음 · admin UI 후순위)
 - 체크인 이메일 Resend live adapter 코드 준비 (실제 발송 없음 · API 키 미설정 · DNS 미변경 · staging allowlist · kill switch · Production 강제 차단)
 - Preview 전용 관리자 체크인 이메일 테스트 발송 UI/API (mock self-test만 · in-memory rate limit · DB audit 없음 · 실제 발송은 Preview 배포 후 관리자 클릭 시만)
-- Preview 이메일 미리보기 `siteOrigin` 서버 prop (`d1a4d7e`) · Care admin readiness 오류 분류 · service_role care SELECT grant migration 작성·**Staging 적용 완료** · Preview `/admin/care` 육안 **통과** (2026-07-21)
-- 체크인 이메일 큐 DRAFT Staging 검토 **완료** → v2 보완 **완료** · Staging **미적용** (승인 대기)
+- Preview 이메일 미리보기 `siteOrigin` 서버 prop · Care admin readiness · service_role care SELECT · Preview `/admin/care` 육안 **통과**
+- Preview `/admin/care/check-in-email-test` 육안 **통과** (2026-07-22 · 실발송 미실행 · queue 테이블 없이 UI 정상)
+- 체크인 이메일 큐 DRAFT v2 보완 **완료** · Staging **미적용** (승인 대기)
 - 관리자 제품·성분·검증·카탈로그 도구
 - 한국 화장품 후보 수집·정규화·Staging 검수 구조
 - 제품 갱신 계획과 due queue 자동화
@@ -70,15 +71,16 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 
 ## 다음 작업
 
-1. 체크인 이메일 큐 DRAFT v2 Staging 적용 **승인 후** 실행 (현재 미적용 · 테이블 없음)
-2. Preview 관리자 체크인 이메일 테스트 UI 육안 재확인
-3. 사진 비교 동의·삭제 흐름
-4. 재방문 대시보드 보강
+1. 사진 비교 동의·삭제 흐름
+2. 재방문 대시보드 보강
+3. 알림 채널별 동의 분리 UI
+4. 체크인 이메일 큐 DRAFT v2 Staging 적용 (**명시 승인 후** · 현재 미적용)
 
 ## 현재 차단 또는 사람 확인이 필요한 항목
 
-- Care persistence Staging: service_role SELECT grant 적용·probe `ready` · Preview `/admin/care` 육안 **통과** (2026-07-21)
-- 체크인 이메일 큐 DRAFT v2 보완 **완료** · Staging **미적용** (승인 대기)
+- Care persistence Staging: service_role SELECT grant · Preview `/admin/care` 육안 **통과**
+- Preview `/admin/care/check-in-email-test` 육안 **통과** (2026-07-22 · 실발송 미클릭 · queue 테이블 없이 UI 정상)
+- 체크인 이메일 큐 DRAFT v2 보완 **완료** · Staging **미적용** (「Staging 적용 승인」 대기)
   - Schema A: Production만 DB queue · Preview test-send in-memory 유지
   - idempotency `checkin-email:v1:{user_id}:{checkin_id}:{milestone}:{kind}:email`
   - recipient_mask only · RLS ON · service_role SELECT/INSERT/UPDATE · DELETE 금지

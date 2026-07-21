@@ -1,6 +1,6 @@
 # ROADMAP.md — K-Beauty Match
 
-최종 갱신: 2026-07-21
+최종 갱신: 2026-07-22
 
 현재 실제 진행 상태는 이 문서를 우선한다. 최상위 방향은 Master Plan v4.1을 따른다.
 
@@ -81,10 +81,10 @@
 
 ## 다음 작업
 
-1. 체크인 이메일 큐 DRAFT v2 Staging 적용 **승인 후** 실행 (현재 미적용)
-2. Preview 관리자 체크인 이메일 테스트 UI 육안 재확인
-3. 사진 비교 동의·삭제 흐름
-4. 재방문 대시보드 보강
+1. 사진 비교 동의·삭제 흐름
+2. 재방문 대시보드 보강
+3. 알림 채널별 동의 분리 UI
+4. 체크인 이메일 큐 DRAFT v2 Staging 적용 (**명시 승인 후** · 현재 미적용)
 
 ### 단계 5 — 리텐션 보강
 
@@ -101,6 +101,7 @@
 - [x] Preview `/admin/care` 육안 확인 (migration/permission 경고 없음 · counts only — no PII · 집계 카드 정상)
 - [x] 체크인 이메일 큐 DRAFT Staging 검토 (적용 보류 · 테이블 미생성)
 - [x] 체크인 이메일 큐 DRAFT v2 보완 (RLS·GRANT·mask-only·idempotency v1 · Staging 미적용)
+- [x] Preview `/admin/care/check-in-email-test` 육안 확인 (2026-07-22 · 실발송 미클릭 · UI/폼/미리보기 정상)
 - [ ] 체크인 이메일 큐 DRAFT v2 Staging 적용 승인
 - [ ] 사진 비교 동의·삭제 흐름
 - [ ] 재방문 대시보드 보강

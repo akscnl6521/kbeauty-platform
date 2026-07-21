@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-07-22
+
+### Preview 체크인 이메일 테스트 UI 육안 확인
+
+- `/admin/care/check-in-email-test` Preview 육안 **통과** (페이지·폼·미리보기 · milestone/locale/kind 변경 정상)
+- 실발송 버튼 미클릭 · migration/permission 오류 없음 · queue 테이블 없이 UI 정상
+- Staging/Production DB·Production 발송 변경 없음
+
 ## 2026-07-21
 
 ### Care admin readiness · service_role SELECT grant (Staging migration 작성)
