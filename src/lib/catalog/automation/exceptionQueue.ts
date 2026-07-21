@@ -124,9 +124,10 @@ export function buildCatalogExceptionQueue(
 
   return [...deduped.values()]
     .map((input) => {
+      // Floor so renewal_suspect@0.9 stays high (85+4=89); duplicate base 90 stays critical.
       const confidenceBoost =
         typeof input.confidence === "number" && Number.isFinite(input.confidence)
-          ? Math.round(Math.max(0, Math.min(1, input.confidence)) * 5)
+          ? Math.floor(Math.max(0, Math.min(1, input.confidence)) * 5)
           : 0;
       const score = Math.min(100, BASE_SCORE[input.kind] + confidenceBoost);
       return {

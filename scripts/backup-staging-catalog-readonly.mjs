@@ -23,7 +23,9 @@ import { tmpdir } from "node:os";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PROD = "rhfrmvkjsummaylpzmns";
 const EXPECTED = "jfnjufmldiqlgvgyugfd";
-const OUT = path.join(root, "data/backups/2026-07-14-catalog");
+const OUT = process.env.BACKUP_OUT
+  ? path.resolve(root, process.env.BACKUP_OUT)
+  : path.join(root, "data/backups/2026-07-14-catalog");
 const exportedAt = new Date().toISOString();
 
 const TABLES = [

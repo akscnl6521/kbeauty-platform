@@ -90,13 +90,16 @@ notes: dry-run worker admin · claim/retry/stale · manual retry/cancel · Stagi
 id: WQ-F-catalog-remaining
 title: Catalog remaining sprint and refresh
 priority: 60
-status: active
+status: completed
 environment: staging
 deps:
 tests:
   - npm run test:catalog-refresh
   - npm run test:catalog-refresh-due
+  - npm run test:catalog-quality-status
+  - npm run test:catalog-exception-queue
 approval_required: false
+notes: officialCrawl Shopify-list extract · qualityStatus · exception queue · Staging discovery candidates upsert (no publish)
 
 ### TASK WQ-G-prelaunch-integration
 

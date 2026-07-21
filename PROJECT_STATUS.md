@@ -27,6 +27,7 @@
 - 체크인 이메일 큐 Schema A **Staging 적용·검증 완료** (2026-07-22 · `20260722010000_create_checkin_email_queue.sql` Dashboard 적용 · `npm run verify:checkin-email-queue-staging` **통과** · FK/status/payload negative · claim RPC · anon SELECT 거부 · 실발송 없음 · Production **미적용**)
 - Fast Execution System v1 **추가** (`WORK_QUEUE.md` · `npm run project:*` · safe-command-gate · docs/FAST_EXECUTION_SYSTEM.md)
 - 사진 비교 동의·저장·삭제 흐름 **코드·테스트 완료** (WQ-B · DRAFT migration 미적용 · `care-photos` bucket 미생성 · 실제 업로드 501)
+- 카탈로그 잔여 파이프라인 **코드·dry-run·Staging 후보 등록 완료** (WQ-F · 공식 crawl · 품질 게이트 · 예외 큐 · 게시 없음)
 - 재방문 대시보드 **코드·테스트 완료** (WQ-C · `/my` 섹션 재구성 · `revisitDashboard` · quick skin check · photo-consents 클라이언트 연동 · Staging migration/실업로드 없음)
 - 체크인 스케줄링·채널별 동의 **코드·테스트 완료** (WQ-D · orchestrator · careEmailChannelConsent/locale · worker enqueue only · admin queue status · 실발송 없음)
 - Care worker admin / dry-run delivery **코드·테스트 완료** (WQ-E · /admin/care/checkin-email-worker · dry-run tick · manual retry/cancel · Production/prod-ref 차단 · 실발송 없음 · Resend 미호출)
@@ -76,8 +77,14 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 
 ## 다음 작업
 
-1. Catalog remaining sprint and refresh (WQ-F)
+1. (승인 대기) WQ-G Prelaunch integration / production readiness gate
 2. (승인 대기) 사진 비교 Staging migration 적용 · `care-photos` bucket 생성
+
+## 최근 완료
+
+- WQ-F Catalog remaining: 공식 브랜드 crawl · quality status · dry-run/commit candidates · exception queue · readonly backup (`docs/catalog/WQ_F_REMAINING.md`)
+  - Dry-run 실행 완료 (5 brands · 33 attempts) · Staging DB CLI IPv6 미지원으로 candidate INSERT/readonly backup SELECT는 로컬 아티팩트 폴백 (`staging-upsert.sql` 준비됨)
+  - Production 미쓰기 · products 자동 publish 없음 · G는 queued + approval_required 유지
 
 ## 현재 차단 또는 사람 확인이 필요한 항목
 

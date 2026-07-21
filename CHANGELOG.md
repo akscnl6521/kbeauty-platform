@@ -6,6 +6,15 @@
 
 ## 2026-07-22
 
+### WQ-F Catalog remaining (코드·dry-run/commit · Staging candidates)
+
+- CLI-safe crawl: `officialCrawl.ts` (robots-aware · no server-only)
+- Quality statuses: `qualityStatus.ts` · sprint: `wqFRemainingSprint.ts`
+- Runner: `npm run catalog:wq-f-remaining` (`WQF_DRY_RUN` / `WQF_COMMIT_STAGING`)
+- Exception queue scoring: duplicate stays critical; renewal@0.9 stays high
+- Docs: `docs/catalog/WQ_F_REMAINING.md` · WORK_QUEUE F=completed · G remains queued+approval_required
+- Production 미쓰기 · main 미병합 · products 자동 publish 없음
+
 ### Care worker admin dry-run (WQ-E · 코드·테스트 완료)
 
 - Policy/service: Production·prod-ref 차단 · CONFIRM 필수 · dry-run tick · manual retry/cancel

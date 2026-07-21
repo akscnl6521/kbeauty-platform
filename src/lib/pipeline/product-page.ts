@@ -3,7 +3,7 @@
  */
 
 const NON_PRODUCT_PATH =
-  /(collection|collections|category|categories|board|blog|news|about|contact|cart|account|search|login|policy|privacy|terms|review|reviews|qa|qna|event|events|coupon|member|login|join|faq|notice|community)(\/|$|\?)/i;
+  /(collection|collections|category|categories|board|blog|news|about|contact|cart|account|search|login|policy|privacy|terms|review|reviews|qa|qna|event|events|coupon|member|login|join|faq|notice|community|list\.html|\/product\/list|\/product\/search)(\/|$|\?)/i;
 
 const PRODUCT_PATH =
   /\/products?\/|\/product\/|\/goods\/|\/item\/|\/shopdetail|branduid=|[?&]product[_-]?id=|\/product_detail|\/goods_view/i;

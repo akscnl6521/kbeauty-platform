@@ -18,9 +18,9 @@ export type KrBrandSeedEntry = {
 };
 
 export const KR_BRAND_SEED_REGISTRY: KrBrandSeedEntry[] = [
-  { brandId: "cosrx", canonicalBrand: "COSRX", officialDomains: ["cosrx.co.kr", "www.cosrx.co.kr", "cosrx.com"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
+  { brandId: "cosrx", canonicalBrand: "COSRX", officialDomains: ["cosrx.com", "www.cosrx.co.kr", "cosrx.co.kr"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
   { brandId: "beauty-of-joseon", canonicalBrand: "Beauty of Joseon", officialDomains: ["beautyofjoseon.com"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
-  { brandId: "anua", canonicalBrand: "Anua", officialDomains: ["anua.shop", "anuabeauty.com"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
+  { brandId: "anua", canonicalBrand: "Anua", officialDomains: ["anuabeauty.com", "anua.shop"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
   { brandId: "round-lab", canonicalBrand: "ROUND LAB", officialDomains: ["roundlab.co.kr", "roundlab.com"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
   { brandId: "isntree", canonicalBrand: "Isntree", officialDomains: ["isntree.com"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
   { brandId: "some-by-mi", canonicalBrand: "SOME BY MI", officialDomains: ["somebymi.com"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
