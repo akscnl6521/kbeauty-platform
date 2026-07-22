@@ -45,3 +45,9 @@ WASM `/mediapipe/wasm` · model `/models/face_landmarker.task` (~3.7MB)
 ## 7. 미룸
 
 실기기 Android/iOS 육안 재확인 · 위/아래 각도 · Storage · Production · WQ-G
+
+## 8. Preview / commit (3.1.1)
+
+- Preview: `https://kbeauty-platform-6crs10vnz-akscnl6521s-projects.vercel.app`
+- commit: `de0ffab`
+- Debug: Preview에서「정렬 디버그 ON」또는 `?landmarkDebug=1`
