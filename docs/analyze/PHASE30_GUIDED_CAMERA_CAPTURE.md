@@ -48,3 +48,17 @@
 | 품질 | `qualityCheck.ts` · EXIF strip (`stripExif`) |
 | API | 기존 `/api/analyze` photo 1장(정면 우선) |
 | 테스트 | `npm run test:guided-capture` · `npm run build` 통과 |
+
+## 6. BLOCKER fix (2026-07-22) — permission grant 후 카메라 미표시
+
+### 원인
+1. `CameraCapturePanel` effect deps에 매 렌더 새로 생기는 `onPermissionDenied`/`onUnavailable` 포함 → 권한 팝업 중/직후 cleanup이 스트림을 `track.stop()`으로 끊음
+2. stream attach 전에 `capturing_front`로 선전환하거나, videoRef 없이 `live` 처리
+3. 허용 후 실패를 `permission_denied`/`unavailable`로 오분류해 chooser로 튕김
+
+### 수정
+- 콜백은 ref로 고정, effect deps는 `facingMode`/`restartToken`만
+- `requesting_permission` 유지 → play 성공 후 `capturing_front`
+- video element 대기 + loadedmetadata/canplay 후 `play()` · Overconstrained fallback
+- stream identity 비교 cleanup · 5초 startup timeout · `camera_start_failed`/`video_play_failed`
+- Preview/dev 진단 로그 (`[guided-camera]`)

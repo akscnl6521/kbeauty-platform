@@ -78,6 +78,14 @@ export function applyCameraUnavailable(session: CaptureSession): CaptureSession 
   return { ...session, state: "camera_unavailable" };
 }
 
+export function applyCameraStartFailed(session: CaptureSession): CaptureSession {
+  return { ...session, state: "camera_start_failed" };
+}
+
+export function applyVideoPlayFailed(session: CaptureSession): CaptureSession {
+  return { ...session, state: "video_play_failed" };
+}
+
 export function startCapturing(
   session: CaptureSession,
   angle: CaptureAngle = "front"
@@ -87,6 +95,13 @@ export function startCapturing(
     state: capturingStateFor(angle),
     failedAngle: null,
   };
+}
+
+/** Keep requesting_permission until live preview is confirmed. */
+export function beginPermissionRequest(
+  session: CaptureSession = createEmptyCaptureSession()
+): CaptureSession {
+  return beginCameraRequest(session);
 }
 
 export function acceptShot(

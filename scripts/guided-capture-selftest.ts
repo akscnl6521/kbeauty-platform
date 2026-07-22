@@ -24,9 +24,12 @@ import {
 import {
   acceptShot,
   allRequiredShotsPassed,
+  applyCameraStartFailed,
   applyCameraUnavailable,
   applyPermissionDenied,
+  applyVideoPlayFailed,
   beginCameraRequest,
+  beginPermissionRequest,
   cancelSession,
   confirmReview,
   createEmptyCaptureSession,
@@ -45,6 +48,18 @@ import {
   QUALITY_LIMITS,
 } from "../src/lib/analyze/guidedCapture/qualityCheck";
 import { revokePreviewUrl, revokeAllShotUrls } from "../src/lib/analyze/guidedCapture/sessionCleanup";
+import {
+  attachStreamAndPlay,
+  CAMERA_STARTUP_TIMEOUT_MS,
+  classifyCameraStartFailure,
+  fallbackVideoConstraints,
+  isDuplicateCameraRequest,
+  preferredVideoConstraints,
+  shouldRetryWithFallbackConstraints,
+  stopStreamIfOwned,
+  waitForVideoElement,
+} from "../src/lib/analyze/guidedCapture/cameraStart";
+import { isCameraDiagnosticsEnabled } from "../src/lib/analyze/guidedCapture/cameraDiagnostics";
 import type { CapturedShot } from "../src/lib/analyze/guidedCapture/types";
 
 function ok(cond: unknown, msg: string) {
@@ -270,4 +285,166 @@ ok(
   "pose reason present"
 );
 
-console.log("[guided-capture] passed");
+// --- Phase 3.0.1 camera start stabilisation ---
+ok(CAMERA_STARTUP_TIMEOUT_MS === 5_000, "startup timeout 5s");
+ok(
+  preferredVideoConstraints("user").video &&
+    typeof preferredVideoConstraints("user").video === "object",
+  "preferred constraints"
+);
+ok(fallbackVideoConstraints().video === true, "fallback video true");
+ok(
+  shouldRetryWithFallbackConstraints({ name: "OverconstrainedError" }),
+  "overconstrained retry"
+);
+ok(
+  !shouldRetryWithFallbackConstraints({ name: "NotAllowedError" }),
+  "denied no constraint retry"
+);
+
+ok(
+  classifyCameraStartFailure({ name: "NotAllowedError" }, "getUserMedia") ===
+    "permission_denied",
+  "denied classify"
+);
+ok(
+  classifyCameraStartFailure({ name: "NotReadableError" }, "getUserMedia") ===
+    "camera_unavailable",
+  "unavailable classify"
+);
+ok(
+  classifyCameraStartFailure(new Error("x"), "play") === "video_play_failed",
+  "play fail classify"
+);
+ok(
+  classifyCameraStartFailure(new Error("x"), "timeout") === "startup_timeout",
+  "timeout classify"
+);
+ok(
+  classifyCameraStartFailure(new Error("x"), "getUserMedia") ===
+    "camera_start_failed",
+  "generic start fail — not permission_denied"
+);
+
+const fakeTrack = {
+  stopCalls: 0,
+  stop() {
+    this.stopCalls += 1;
+  },
+  readyState: "live",
+};
+const streamA = {
+  id: "a",
+  active: true,
+  getTracks: () => [fakeTrack],
+} as unknown as MediaStream;
+const streamB = {
+  id: "b",
+  active: true,
+  getTracks: () => [fakeTrack],
+} as unknown as MediaStream;
+ok(!stopStreamIfOwned(streamA, streamB), "different identity not stopped");
+ok(stopStreamIfOwned(streamA, streamA), "same identity stopped");
+ok(fakeTrack.stopCalls === 1, "track.stop once");
+
+ok(isDuplicateCameraRequest({ inFlight: true }), "duplicate camera request");
+ok(!isDuplicateCameraRequest({ inFlight: false }), "camera request allowed");
+
+let cam = beginPermissionRequest();
+ok(cam.state === "requesting_permission", "requesting_permission first");
+cam = startCapturing(cam, "front");
+ok(cam.state === "capturing_front", "live → capturing_front");
+ok(applyCameraStartFailed(cam).state === "camera_start_failed", "start failed");
+ok(applyVideoPlayFailed(cam).state === "video_play_failed", "play failed state");
+
+ok(
+  isCameraDiagnosticsEnabled({ NODE_ENV: "development" }),
+  "diag on in development"
+);
+ok(
+  !isCameraDiagnosticsEnabled({
+    NODE_ENV: "production",
+    VERCEL_ENV: "production",
+  }),
+  "diag off in production"
+);
+ok(
+  isCameraDiagnosticsEnabled({
+    NODE_ENV: "production",
+    VERCEL_ENV: "preview",
+  }),
+  "diag on in preview"
+);
+
+async function runAsyncCameraStartTests() {
+  let el: { tag: string } | null = null;
+  const late = await waitForVideoElement(
+    () => el as unknown as HTMLVideoElement | null,
+    {
+      timeoutMs: 200,
+      now: (() => {
+        let t = 0;
+        return () => {
+          t += 60;
+          if (t >= 120) el = { tag: "video" };
+          return t;
+        };
+      })(),
+      delay: async () => undefined,
+    }
+  );
+  ok(!!late, "late video element found");
+
+  const missing = await waitForVideoElement(() => null, {
+    timeoutMs: 30,
+    now: (() => {
+      let t = 0;
+      return () => {
+        t += 40;
+        return t;
+      };
+    })(),
+    delay: async () => undefined,
+  });
+  ok(missing === null, "video wait timeout");
+
+  const videoMock = {
+    muted: false,
+    playsInline: false,
+    autoplay: false,
+    readyState: 2,
+    srcObject: null as MediaStream | null,
+    setAttribute() {},
+    addEventListener() {},
+    removeEventListener() {},
+  };
+  const playOk = await attachStreamAndPlay({
+    video: videoMock as unknown as HTMLVideoElement,
+    stream: streamA,
+    play: async () => undefined,
+    waitForReady: async () => undefined,
+  });
+  ok(playOk.ok && videoMock.srcObject === streamA, "stream attached + play ok");
+
+  const playFail = await attachStreamAndPlay({
+    video: videoMock as unknown as HTMLVideoElement,
+    stream: streamA,
+    play: async () => {
+      throw Object.assign(new Error("play blocked"), { name: "NotAllowedError" });
+    },
+    waitForReady: async () => undefined,
+  });
+  ok(
+    !playFail.ok && playFail.kind === "video_play_failed",
+    "play reject → video_play_failed"
+  );
+}
+
+void runAsyncCameraStartTests()
+  .then(() => {
+    console.log("[guided-capture] passed");
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });

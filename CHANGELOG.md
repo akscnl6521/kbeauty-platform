@@ -6,6 +6,14 @@
 
 ## 2026-07-22
 
+### Phase 3.0.1 — Fix camera blank after permission grant
+
+- Root cause: unstable effect deps stopped MediaStream right after allow; play/attach race
+- requesting_permission until live preview; Overconstrained → `{ video: true }` fallback
+- 5s startup timeout + retry/gallery/manual; `camera_start_failed` / `video_play_failed` (not mislabeled denied)
+- Preview/dev diagnostics `[guided-camera]`; stream-identity cleanup for StrictMode
+- Tests extended in `test:guided-capture`
+
 ### Phase 3.0 — Guided camera capture MVP + analysis waiting UX
 
 - Camera-first multi-angle capture (front / left45 / right45) on `/analyze`

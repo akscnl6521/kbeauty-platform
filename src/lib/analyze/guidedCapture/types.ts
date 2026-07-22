@@ -12,6 +12,8 @@ export type CaptureFlowState =
   | "requesting_permission"
   | "permission_denied"
   | "camera_unavailable"
+  | "camera_start_failed"
+  | "video_play_failed"
   | "capturing_front"
   | "reviewing_front"
   | "capturing_left"

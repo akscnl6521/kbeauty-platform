@@ -27,8 +27,10 @@ import { detectCameraSupport } from "@/lib/analyze/guidedCapture/cameraSupport";
 import {
   acceptShot,
   allRequiredShotsPassed,
+  applyCameraStartFailed,
   applyCameraUnavailable,
   applyPermissionDenied,
+  applyVideoPlayFailed,
   attachRequestId,
   beginCameraRequest,
   cancelSession,
@@ -40,6 +42,8 @@ import {
   startCapturing,
   angleFromCapturingState,
 } from "@/lib/analyze/guidedCapture/captureSession";
+import type { CameraStartFailureKind } from "@/lib/analyze/guidedCapture/cameraStart";
+import { cameraStartFailureMessageKo } from "@/lib/analyze/guidedCapture/cameraStart";
 import {
   checkBrightnessVarianceAcrossShots,
   qualityReasonMessageKo,
@@ -78,6 +82,15 @@ function isCapturing(state: CaptureFlowState): boolean {
     state === "capturing_front" ||
     state === "capturing_left" ||
     state === "capturing_right"
+  );
+}
+
+function isCameraPanelState(state: CaptureFlowState): boolean {
+  return (
+    state === "requesting_permission" ||
+    isCapturing(state) ||
+    state === "camera_start_failed" ||
+    state === "video_play_failed"
   );
 }
 
@@ -120,6 +133,7 @@ export function GuidedCaptureFlow({
   const [analyzing, setAnalyzing] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [leaveWarn, setLeaveWarn] = useState(false);
+  const [cameraRestartToken, setCameraRestartToken] = useState(0);
   const galleryInputRef = useRef<HTMLInputElement | null>(null);
   const startedAtRef = useRef<number>(0);
   const tickRef = useRef<number | null>(null);
@@ -196,24 +210,61 @@ export function GuidedCaptureFlow({
       return;
     }
     setError(null);
-    setSession(startCapturing(beginCameraRequest(createEmptyCaptureSession())));
+    // Stay on requesting_permission until preview is live — do not fake capturing.
+    setSession(beginCameraRequest(createEmptyCaptureSession()));
     setEntry("camera");
+    setCameraRestartToken((n) => n + 1);
   }
 
-  function handlePermissionDenied() {
+  const handleCameraLive = useCallback(() => {
+    setSession((s) => {
+      if (isCapturing(s.state)) return s;
+      const angle =
+        angleFromCapturingState(s.state) ??
+        s.failedAngle ??
+        "front";
+      return startCapturing(s, angle);
+    });
+    setError(null);
+  }, []);
+
+  const handlePermissionDenied = useCallback(() => {
     setSession((s) => applyPermissionDenied(s));
     setEntry("chooser");
-    setError(
-      "카메라 권한이 거부되었습니다. 브라우저 설정에서 허용하거나 갤러리·문진으로 진행해 주세요."
-    );
-  }
+    setError(cameraStartFailureMessageKo("permission_denied"));
+  }, []);
 
-  function handleUnavailable() {
+  const handleUnavailable = useCallback(() => {
     setSession((s) => applyCameraUnavailable(s));
     setEntry("chooser");
-    setError(
-      "카메라를 찾을 수 없거나 사용할 수 없습니다. 갤러리 업로드 또는 문진으로 진행해 주세요."
+    setError(cameraStartFailureMessageKo("camera_unavailable"));
+  }, []);
+
+  const handleStartFailed = useCallback((kind: CameraStartFailureKind) => {
+    setSession((s) => {
+      if (kind === "video_play_failed") return applyVideoPlayFailed(s);
+      return applyCameraStartFailed(s);
+    });
+    setError(cameraStartFailureMessageKo(kind));
+  }, []);
+
+  function retryCamera() {
+    setError(null);
+    setSession((s) => beginCameraRequest({ ...s, shots: s.shots }));
+    setEntry("camera");
+    setCameraRestartToken((n) => n + 1);
+  }
+
+  function openGalleryFallback() {
+    setError(null);
+    setEntry("gallery");
+    setSession((s) =>
+      startCapturing(
+        { ...createEmptyCaptureSession(), shots: s.shots },
+        angleFromCapturingState(s.state) ?? s.failedAngle ?? "front"
+      )
     );
+    window.setTimeout(() => galleryInputRef.current?.click(), 0);
   }
 
   function onShotAccepted(shot: CapturedShot) {
@@ -377,7 +428,11 @@ export function GuidedCaptureFlow({
     }
   }
 
-  const showCamera = entry === "camera" && isCapturing(session.state);
+  const showCamera =
+    entry === "camera" && isCameraPanelState(session.state);
+  const showCameraFailureActions =
+    session.state === "camera_start_failed" ||
+    session.state === "video_play_failed";
   const reviewShot =
     isReviewing(session.state)
       ? session.shots[
@@ -465,12 +520,15 @@ export function GuidedCaptureFlow({
         <CameraCapturePanel
           angle={currentAngle}
           facingMode={session.activeFacingMode}
+          restartToken={cameraRestartToken}
           onFacingModeChange={(mode) =>
             setSession((s) => ({ ...s, activeFacingMode: mode }))
           }
           onCaptured={onShotAccepted}
+          onLive={handleCameraLive}
           onPermissionDenied={handlePermissionDenied}
           onUnavailable={handleUnavailable}
+          onStartFailed={handleStartFailed}
           onCancel={() => {
             if (Object.keys(session.shots).length > 0) {
               setLeaveWarn(true);
@@ -479,6 +537,32 @@ export function GuidedCaptureFlow({
             resetToChooser(cancelSession(session));
           }}
         />
+      ) : null}
+
+      {showCameraFailureActions ? (
+        <div className="flex flex-wrap gap-2 rounded-2xl border border-amber-200 bg-amber-50/80 p-3">
+          <button
+            type="button"
+            onClick={retryCamera}
+            className="rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white"
+          >
+            다시 시도
+          </button>
+          <button
+            type="button"
+            onClick={openGalleryFallback}
+            className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
+          >
+            갤러리에서 가져오기
+          </button>
+          <button
+            type="button"
+            onClick={onSwitchToManual}
+            className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
+          >
+            문진만 계속하기
+          </button>
+        </div>
       ) : null}
 
       {reviewShot ? (

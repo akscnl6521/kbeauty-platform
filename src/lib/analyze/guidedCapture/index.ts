@@ -1,3 +1,5 @@
+export * from "./cameraStart";
+export * from "./cameraDiagnostics";
 export {
   isGuidedCameraCaptureEnabled,
 } from "./isEnabled";
