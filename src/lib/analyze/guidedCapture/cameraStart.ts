@@ -189,17 +189,17 @@ export function isDuplicateCameraRequest(input: {
 export function cameraStartFailureMessageKo(kind: CameraStartFailureKind): string {
   switch (kind) {
     case "permission_denied":
-      return "카메라 권한이 거부되었습니다. 브라우저 설정에서 허용하거나 갤러리·문진으로 진행해 주세요.";
+      return "카메라 권한이 거부되었습니다. 브라우저 설정에서 카메라를 허용하거나, 사진 없이 문진으로 계속해 주세요.";
     case "camera_unavailable":
-      return "카메라를 찾을 수 없거나 다른 앱이 사용 중일 수 있어요.";
+      return "카메라를 찾을 수 없거나 다른 앱이 사용 중일 수 있어요. 다시 시도하거나 문진으로 계속해 주세요.";
     case "video_play_failed":
-      return "카메라 화면을 재생하지 못했어요. 다시 시도해 주세요.";
+      return "카메라 화면을 재생하지 못했어요. 다시 시도하거나 문진으로 계속해 주세요.";
     case "startup_timeout":
-      return "카메라를 시작하지 못했어요. 시간이 초과되었습니다.";
+      return "카메라를 시작하지 못했어요. 시간이 초과되었습니다. 다시 시도하거나 문진으로 계속해 주세요.";
     case "video_element_missing":
-      return "카메라 화면을 준비하지 못했어요.";
+      return "카메라 화면을 준비하지 못했어요. 다시 시도하거나 문진으로 계속해 주세요.";
     case "camera_start_failed":
     default:
-      return "카메라를 시작하지 못했어요. 다시 시도하거나 갤러리·문진으로 진행해 주세요.";
+      return "카메라를 시작하지 못했어요. 다시 시도하거나 사진 없이 문진으로 계속해 주세요.";
   }
 }

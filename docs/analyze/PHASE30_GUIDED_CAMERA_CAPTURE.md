@@ -49,7 +49,17 @@
 | API | 기존 `/api/analyze` photo 1장(정면 우선) |
 | 테스트 | `npm run test:guided-capture` · `npm run build` 통과 |
 
-## 6. BLOCKER fix (2026-07-22) — permission grant 후 카메라 미표시
+## 7. 입력 정책 변경 (2026-07-22) — 일반 사용자 갤러리 금지
+
+일반 사용자 허용 경로:
+
+1. 카메라로 현재 피부 촬영하기
+2. 사진 없이 문진으로 계속하기
+
+- `/analyze` UI에서 갤러리 버튼·file input 제거
+- 카메라 실패 fallback: 다시 시도 · 권한 안내 · 문진만
+- `gallery`는 legacy/dev-only 타입 잔존, 일반 경로 미사용
+- Master Plan §22.1 / §22.6 동기화
 
 ### 원인
 1. `CameraCapturePanel` effect deps에 매 렌더 새로 생기는 `onPermissionDenied`/`onUnavailable` 포함 → 권한 팝업 중/직후 cleanup이 스트림을 `track.stop()`으로 끊음

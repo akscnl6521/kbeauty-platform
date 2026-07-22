@@ -6,6 +6,13 @@
 
 ## 2026-07-22
 
+### Phase 3.0.2 — Forbid gallery upload on general user analyze path
+
+- User-facing inputs: camera + questionnaire_only only
+- Removed gallery buttons/file inputs from `/analyze` GuidedCaptureFlow and legacy upload UI
+- Camera failure fallback: retry + permission help + questionnaire (no gallery)
+- Master Plan §22 updated; `inputPolicy.ts` + selftest DOM/source checks
+
 ### Phase 3.0.1 — Fix camera blank after permission grant
 
 - Root cause: unstable effect deps stopped MediaStream right after allow; play/attach race

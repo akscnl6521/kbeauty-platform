@@ -3,6 +3,8 @@
  * No DB, no camera hardware, no fake face detection.
  */
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import {
   assertProgressInvariant,
   canStartAnalyze,
@@ -60,6 +62,12 @@ import {
   waitForVideoElement,
 } from "../src/lib/analyze/guidedCapture/cameraStart";
 import { isCameraDiagnosticsEnabled } from "../src/lib/analyze/guidedCapture/cameraDiagnostics";
+import {
+  CAMERA_ONLY_POLICY_COPY_KO,
+  isGalleryAllowedForGeneralUsers,
+  isUserFacingInputSource,
+  USER_FACING_INPUT_SOURCES,
+} from "../src/lib/analyze/guidedCapture/inputPolicy";
 import type { CapturedShot } from "../src/lib/analyze/guidedCapture/types";
 
 function ok(cond: unknown, msg: string) {
@@ -375,6 +383,46 @@ ok(
   }),
   "diag on in preview"
 );
+
+ok(!isGalleryAllowedForGeneralUsers(), "gallery forbidden for general users");
+ok(isUserFacingInputSource("camera"), "camera user-facing");
+ok(isUserFacingInputSource("questionnaire_only"), "questionnaire user-facing");
+ok(!isUserFacingInputSource("gallery"), "gallery not user-facing");
+ok(
+  USER_FACING_INPUT_SOURCES.join(",") === "camera,questionnaire_only",
+  "only two user sources"
+);
+ok(
+  CAMERA_ONLY_POLICY_COPY_KO.noGallery.includes("갤러리"),
+  "policy copy mentions no gallery"
+);
+
+const flowSrc = readFileSync(
+  path.join(
+    process.cwd(),
+    "src/components/analyze/guidedCapture/GuidedCaptureFlow.tsx"
+  ),
+  "utf8"
+);
+ok(!/갤러리에서 가져오기/.test(flowSrc), "no gallery button label in flow UI");
+ok(!/type=\"file\"/.test(flowSrc), "no file input in guided flow");
+ok(!/galleryInputRef/.test(flowSrc), "no gallery input ref");
+ok(
+  /data-testid=\"analyze-camera-start\"/.test(flowSrc),
+  "camera start test id"
+);
+ok(
+  /data-testid=\"analyze-questionnaire-only\"/.test(flowSrc),
+  "questionnaire test id"
+);
+ok(!/openGalleryFallback/.test(flowSrc), "no gallery fallback helper");
+
+const pageSrc = readFileSync(
+  path.join(process.cwd(), "src/app/analyze/page.tsx"),
+  "utf8"
+);
+ok(!/id=\"file-input\"/.test(pageSrc), "no file-input on analyze page");
+ok(!/사진을 업로드하세요/.test(pageSrc), "no upload CTA copy on analyze page");
 
 async function runAsyncCameraStartTests() {
   let el: { tag: string } | null = null;

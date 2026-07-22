@@ -421,7 +421,7 @@ export function CameraCapturePanel({
           </p>
           <p className="mt-1 text-amber-900/80">
             권한은 허용됐더라도 미리보기가 시작되지 않을 수 있어요. 다시 시도하거나
-            다른 방법으로 진행해 주세요.
+            사진 없이 문진으로 계속해 주세요.
           </p>
         </div>
       ) : null}

@@ -5,7 +5,11 @@
 
 export type CaptureAngle = "front" | "left45" | "right45";
 
-export type CaptureInputSource = "camera" | "gallery";
+export type CaptureInputSource =
+  | "camera"
+  | "questionnaire_only"
+  /** @deprecated General users must not use gallery. Dev/selftest/admin only. */
+  | "gallery";
 
 export type CaptureFlowState =
   | "idle"

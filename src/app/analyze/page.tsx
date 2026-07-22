@@ -705,7 +705,6 @@ export default function AnalyzePage() {
     useState<PhotoConsentChoices>(defaultPhotoConsentChoices());
   const [photoConsentAck, setPhotoConsentAck] = useState<string | null>(null);
 
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -848,30 +847,6 @@ export default function AnalyzePage() {
     return first ? concernKoToParam(first) : "Redness";
   }, [manualConcerns]);
 
-  const handleFile = (file: File | null) => {
-    if (!file) return;
-    setError(null);
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result as string;
-      setImagePreview(dataUrl);
-      const base64 = dataUrl.split(",")[1] ?? "";
-      setImageBase64(base64);
-      setResult(null);
-    };
-    reader.onerror = () => {
-      setError("Failed to read image file.");
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFile(e.dataTransfer.files[0]);
-    }
-  };
-
   const navigateToResults = (opts?: {
     tone?: string;
     concern?: string;
@@ -889,67 +864,6 @@ export default function AnalyzePage() {
     );
     params.set("ai", "1");
     router.push(`/results?${params.toString()}`);
-  };
-
-  const handleAnalyzePhoto = async () => {
-    if (!imageBase64) {
-      setError(locale === "ko" ? "먼저 사진을 업로드해주세요." : "Please upload an image first.");
-      return;
-    }
-    const blocked = photoConsentBlockedMessage(photoConsentChoices);
-    if (blocked) {
-      setError(blocked);
-      return;
-    }
-    const consentValidation = validatePhotoConsentChoices(photoConsentChoices);
-    if (shouldAutoPurgeAfterAnalysis(consentValidation.effectiveMode)) {
-      setPhotoConsentAck(photoAnalysisOnlyAckMessage());
-    } else {
-      setPhotoConsentAck(null);
-    }
-    setLoading(true);
-    setError(null);
-    setResult(null);
-
-    try {
-      const {
-        analysis,
-        recommendation: nextRecommendation,
-        source,
-      } = await callAnalyzeApi({
-        mode: "photo",
-        imageBase64,
-        mediaType: "image/jpeg",
-        ...ingredientPrefs,
-      });
-      saveAnalyzeInputSnapshot({
-        mode: "photo",
-        skinTone: "",
-        undertone: "",
-        concerns: [],
-        sensitivity: "",
-        rednessObservation: null,
-      });
-      setResult(analysis);
-      persistAnalyzeBundle({
-        analysis,
-        recommendation: nextRecommendation,
-        source,
-      });
-      await runRankingPipeline(nextRecommendation, countryCode);
-      setRankedProducts(loadRankedProductsFromStorage());
-      navigateToResults({
-        tone: "Medium",
-        concern: analysis.concerns?.[0]
-          ? String(analysis.concerns[0])
-          : "Redness",
-      });
-    } catch (e) {
-      const err = e instanceof Error ? e : new Error(String(e));
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleAnalyzeManual = async () => {
@@ -1024,8 +938,6 @@ export default function AnalyzePage() {
           ? result.summary_ja
           : result.summary_en
       : null;
-
-  const canAnalyzePhoto = !!imageBase64 && !loading;
 
   const clearResult = () => {
     try {
@@ -1392,7 +1304,6 @@ export default function AnalyzePage() {
                         countryCode
                       );
                       setRankedProducts(loadRankedProductsFromStorage());
-                      setImagePreview(null);
                       setImageBase64(null);
                       navigateToResults({
                         tone: "Medium",
@@ -1406,72 +1317,30 @@ export default function AnalyzePage() {
                   }}
                 />
               ) : (
-              <div>
-                <PhotoConsentPanel
-                  value={photoConsentChoices}
-                  onChange={(choices) => setPhotoConsentChoices(choices)}
-                  compact
-                />
-                <p className="mb-3 mt-4 text-sm font-semibold text-gray-900">
-                  사진 업로드
+              <div className="space-y-4">
+                <p className="text-sm font-semibold text-gray-900">
+                  사진 분석
                 </p>
-                <div
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={handleDrop}
-                  className="flex h-56 cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-pink-200 bg-pink-50/40 p-4 text-center text-sm text-gray-600"
-                  onClick={() => {
-                    const input = document.getElementById("file-input");
-                    if (input) (input as HTMLInputElement).click();
-                  }}
-                >
-                  {imagePreview ? (
-                    <img
-                      src={imagePreview}
-                      alt="Uploaded preview"
-                      className="h-full w-auto rounded-2xl object-cover"
-                    />
-                  ) : (
-                    <div>
-                      <p className="mb-1 font-medium text-gray-800">
-                        사진을 업로드하세요
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        밝은 조명에서 정면 사진을 권장합니다
-                      </p>
-                    </div>
-                  )}
-                  <input
-                    id="file-input"
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
-                  />
-                </div>
-
-                <p className="mt-3 text-xs text-gray-500">
-                  AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
-                </p>
-                {photoConsentAck ? (
-                  <p className="mt-2 text-xs text-gray-600" role="status">
-                    {photoConsentAck}
+                <div className="rounded-2xl border border-[#E8DFD8] bg-[#FAF7F4] p-3 text-xs leading-5 text-stone-700">
+                  <p>
+                    현재 피부 상태를 정확히 보기 위해 지금 촬영한 사진만
+                    사용합니다.
                   </p>
-                ) : null}
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    onClick={handleAnalyzePhoto}
-                    disabled={!canAnalyzePhoto}
-                    className={`inline-flex items-center justify-center rounded-full px-6 py-2 text-xs font-semibold text-white shadow-sm transition ${
-                      canAnalyzePhoto
-                        ? "bg-[#C2185B] hover:bg-[#a3154f]"
-                        : "cursor-not-allowed bg-gray-300"
-                    }`}
-                  >
-                    {loading ? "분석 중..." : "AI 분석 시작"}
-                  </button>
+                  <p>
+                    기존 사진이나 갤러리 사진은 분석에 사용하지 않습니다.
+                  </p>
+                  <p>
+                    안내형 카메라가 꺼져 있을 때는 사진 없이 문진으로 진행해
+                    주세요.
+                  </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setMode("manual")}
+                  className="rounded-full bg-[#C2185B] px-5 py-2 text-xs font-semibold text-white"
+                >
+                  사진 없이 문진으로 계속하기
+                </button>
               </div>
               )
             ) : (

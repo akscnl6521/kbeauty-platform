@@ -34,7 +34,7 @@ export function CaptureReviewCard(props: {
         {typeof shot.brightnessScore === "number"
           ? ` · 밝기 ${Math.round(shot.brightnessScore)}`
           : ""}
-        {shot.inputSource === "camera" ? " · 카메라" : " · 갤러리"}
+        {" · 실시간 촬영"}
       </p>
       {infoReasons.length > 0 ? (
         <p className="text-xs text-amber-800" role="status">

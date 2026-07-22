@@ -50,7 +50,8 @@ Master Plan v4.2 **Phase 3.0 안내형 촬영 MVP** 코드·selftest·build 완�
 - 필수 3장: 정면 · 왼쪽 45° · 오른쪽 45°
 - 로컬 품질: 해상도·밝기·선명도·파일·형식 · pose=`pose_check_unavailable`
 - 분석 대기: 단계형 진행 + soft 0–90% · 완료 후 100% · timeout/retry
-- **3.0.1 BLOCKER fix**: 권한 허용 후 스트림이 effect cleanup에 끊기던 문제 수정 · Preview 재검증 필요
+- **3.0.2**: 일반 사용자 갤러리 업로드 금지 · 카메라/문진만 · Master Plan §22 반영
+- **3.0.1 BLOCKER fix**: 권한 허용 후 스트림이 effect cleanup에 끊기던 문제 수정
 - 문서: `docs/analyze/PHASE30_GUIDED_CAMERA_CAPTURE.md`
 - 테스트: `npm run test:guided-capture`
 

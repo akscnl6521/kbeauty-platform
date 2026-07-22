@@ -1,3 +1,4 @@
+export * from "./inputPolicy";
 export * from "./cameraStart";
 export * from "./cameraDiagnostics";
 export {

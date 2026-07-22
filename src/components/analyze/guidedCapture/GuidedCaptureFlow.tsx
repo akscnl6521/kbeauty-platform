@@ -48,8 +48,8 @@ import {
   checkBrightnessVarianceAcrossShots,
   qualityReasonMessageKo,
 } from "@/lib/analyze/guidedCapture/qualityCheck";
-import { processImageBlobToShot } from "@/lib/analyze/guidedCapture/processImageClient";
 import { revokeAllShotUrls } from "@/lib/analyze/guidedCapture/sessionCleanup";
+import { CAMERA_ONLY_POLICY_COPY_KO } from "@/lib/analyze/guidedCapture/inputPolicy";
 import type {
   CaptureAngle,
   CaptureFlowState,
@@ -75,7 +75,7 @@ export type GuidedCaptureFlowProps = {
   onAnalyzeSuccess?: () => void;
 };
 
-type EntryChoice = "chooser" | "camera" | "gallery" | "ready";
+type EntryChoice = "chooser" | "camera" | "ready";
 
 function isCapturing(state: CaptureFlowState): boolean {
   return (
@@ -134,7 +134,6 @@ export function GuidedCaptureFlow({
   const [reducedMotion, setReducedMotion] = useState(false);
   const [leaveWarn, setLeaveWarn] = useState(false);
   const [cameraRestartToken, setCameraRestartToken] = useState(0);
-  const galleryInputRef = useRef<HTMLInputElement | null>(null);
   const startedAtRef = useRef<number>(0);
   const tickRef = useRef<number | null>(null);
   const inFlightRef = useRef(false);
@@ -204,8 +203,8 @@ export function GuidedCaptureFlow({
       setEntry("chooser");
       setError(
         support.reason === "insecure_context"
-          ? "안전한 연결(HTTPS)에서만 카메라를 사용할 수 있어요. 갤러리 업로드 또는 문진으로 진행해 주세요."
-          : "이 기기에서는 카메라를 사용할 수 없어요. 갤러리 업로드 또는 문진으로 진행해 주세요."
+          ? "안전한 연결(HTTPS)에서만 카메라를 사용할 수 있어요. 사진 없이 문진으로 계속해 주세요."
+          : "이 기기에서는 카메라를 사용할 수 없어요. 사진 없이 문진으로 계속해 주세요."
       );
       return;
     }
@@ -231,7 +230,9 @@ export function GuidedCaptureFlow({
   const handlePermissionDenied = useCallback(() => {
     setSession((s) => applyPermissionDenied(s));
     setEntry("chooser");
-    setError(cameraStartFailureMessageKo("permission_denied"));
+    setError(
+      `${cameraStartFailureMessageKo("permission_denied")} ${CAMERA_ONLY_POLICY_COPY_KO.permissionHelp}`
+    );
   }, []);
 
   const handleUnavailable = useCallback(() => {
@@ -255,48 +256,12 @@ export function GuidedCaptureFlow({
     setCameraRestartToken((n) => n + 1);
   }
 
-  function openGalleryFallback() {
-    setError(null);
-    setEntry("gallery");
-    setSession((s) =>
-      startCapturing(
-        { ...createEmptyCaptureSession(), shots: s.shots },
-        angleFromCapturingState(s.state) ?? s.failedAngle ?? "front"
-      )
-    );
-    window.setTimeout(() => galleryInputRef.current?.click(), 0);
-  }
-
   function onShotAccepted(shot: CapturedShot) {
     setSession((s) => {
       const prev = s.shots[shot.angle];
       if (prev) revokeAllShotUrls({ [shot.angle]: prev });
       return acceptShot(s, shot);
     });
-  }
-
-  async function handleGalleryFile(file: File | null, angle: CaptureAngle) {
-    if (!file) return;
-    setError(null);
-    try {
-      const shot = await processImageBlobToShot({
-        blob: file,
-        angle,
-        inputSource: "gallery",
-      });
-      setSession((s) => {
-        const base =
-          s.state === "idle" || s.state === "camera_unavailable"
-            ? startCapturing(createEmptyCaptureSession(), angle)
-            : s;
-        const prev = base.shots[angle];
-        if (prev) revokeAllShotUrls({ [angle]: prev });
-        return acceptShot(base, shot);
-      });
-      setEntry("camera");
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "사진을 읽지 못했습니다.");
-    }
   }
 
   function confirmCurrentReview() {
@@ -450,7 +415,10 @@ export function GuidedCaptureFlow({
         compact
       />
       <div className="rounded-2xl border border-[#E8DFD8] bg-[#FAF7F4] p-3 text-xs leading-5 text-stone-700">
-        <p>사진은 피부 분석 목적으로 사용됩니다.</p>
+        <p>{CAMERA_ONLY_POLICY_COPY_KO.currentSkinOnly}</p>
+        <p>{CAMERA_ONLY_POLICY_COPY_KO.noGallery}</p>
+        <p>{CAMERA_ONLY_POLICY_COPY_KO.questionnaireFallback}</p>
+        <p className="mt-2">사진은 피부 분석 목적으로만 사용됩니다.</p>
         <p>비교 저장에 동의하지 않으면 원본은 보관하지 않습니다.</p>
         <p>얼굴 신원 확인에는 사용하지 않습니다.</p>
         <p className="mt-1 text-stone-500">
@@ -459,54 +427,33 @@ export function GuidedCaptureFlow({
         </p>
       </div>
 
-      <input
-        ref={galleryInputRef}
-        type="file"
-        accept="image/jpeg,image/png,image/webp,image/*"
-        className="hidden"
-        onChange={(e) => {
-          const file = e.target.files?.[0] ?? null;
-          void handleGalleryFile(file, currentAngle);
-          e.target.value = "";
-        }}
-      />
-
       {entry === "chooser" ? (
         <div className="space-y-3">
           <p className="text-sm font-semibold text-stone-900">
-            사진 입력 방식을 선택하세요
+            분석 입력 방식을 선택하세요
           </p>
           <div className="grid gap-2">
             <button
               type="button"
+              data-testid="analyze-camera-start"
               onClick={startCameraFlow}
               className="rounded-2xl bg-[#C2185B] px-4 py-3 text-left text-sm font-semibold text-white"
             >
-              카메라로 촬영하기
+              카메라로 현재 피부 촬영하기
               <span className="mt-1 block text-xs font-normal text-white/85">
                 정면 · 왼쪽 45° · 오른쪽 45° 안내 촬영
               </span>
             </button>
             <button
               type="button"
-              onClick={() => {
-                setEntry("gallery");
-                setSession(startCapturing(createEmptyCaptureSession(), "front"));
-                window.setTimeout(() => galleryInputRef.current?.click(), 0);
-              }}
-              className="rounded-2xl border border-stone-200 bg-white px-4 py-3 text-left text-sm font-semibold text-stone-800"
-            >
-              갤러리에서 가져오기
-              <span className="mt-1 block text-xs font-normal text-stone-500">
-                보조 수단 · 실시간 촬영과 같은 신뢰도로 보지 않습니다
-              </span>
-            </button>
-            <button
-              type="button"
+              data-testid="analyze-questionnaire-only"
               onClick={onSwitchToManual}
               className="rounded-2xl border border-stone-200 bg-white px-4 py-3 text-left text-sm font-semibold text-stone-800"
             >
-              사진 없이 문진만 진행
+              사진 없이 문진으로 계속하기
+              <span className="mt-1 block text-xs font-normal text-stone-500">
+                촬영이 어렵거나 카메라가 없으면 문진만으로 진행합니다
+              </span>
             </button>
           </div>
         </div>
@@ -540,28 +487,28 @@ export function GuidedCaptureFlow({
       ) : null}
 
       {showCameraFailureActions ? (
-        <div className="flex flex-wrap gap-2 rounded-2xl border border-amber-200 bg-amber-50/80 p-3">
-          <button
-            type="button"
-            onClick={retryCamera}
-            className="rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white"
-          >
-            다시 시도
-          </button>
-          <button
-            type="button"
-            onClick={openGalleryFallback}
-            className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
-          >
-            갤러리에서 가져오기
-          </button>
-          <button
-            type="button"
-            onClick={onSwitchToManual}
-            className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
-          >
-            문진만 계속하기
-          </button>
+        <div className="space-y-2 rounded-2xl border border-amber-200 bg-amber-50/80 p-3">
+          <p className="text-xs text-amber-950">
+            {CAMERA_ONLY_POLICY_COPY_KO.permissionHelp}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              data-testid="analyze-camera-retry"
+              onClick={retryCamera}
+              className="rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white"
+            >
+              카메라 다시 시도
+            </button>
+            <button
+              type="button"
+              data-testid="analyze-camera-fail-questionnaire"
+              onClick={onSwitchToManual}
+              className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
+            >
+              사진 없이 문진으로 계속하기
+            </button>
+          </div>
         </div>
       ) : null}
 
@@ -613,47 +560,16 @@ export function GuidedCaptureFlow({
             </button>
             <button
               type="button"
-              onClick={() => setSession((s) => retakeAngle(s, "front"))}
+              onClick={() => {
+                setSession((s) => retakeAngle(s, "front"));
+                setEntry("camera");
+                setCameraRestartToken((n) => n + 1);
+              }}
               className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
             >
               일부 다시 촬영
             </button>
-            <button
-              type="button"
-              onClick={() => {
-                galleryInputRef.current?.click();
-              }}
-              className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
-            >
-              갤러리로 교체
-            </button>
           </div>
-        </div>
-      ) : null}
-
-      {entry === "gallery" && isCapturing(session.state) && !showCamera ? (
-        <div className="rounded-2xl border border-dashed border-stone-300 p-4 text-center">
-          <p className="text-sm text-stone-700">
-            {currentAngle === "front"
-              ? "정면 사진을 선택해 주세요."
-              : currentAngle === "left45"
-                ? "왼쪽 45도 사진을 선택해 주세요."
-                : "오른쪽 45도 사진을 선택해 주세요."}
-          </p>
-          <button
-            type="button"
-            className="mt-3 rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white"
-            onClick={() => galleryInputRef.current?.click()}
-          >
-            사진 선택
-          </button>
-          <button
-            type="button"
-            className="mt-2 block w-full text-xs text-stone-500"
-            onClick={() => resetToChooser()}
-          >
-            입력 방식 다시 선택
-          </button>
         </div>
       ) : null}
 
