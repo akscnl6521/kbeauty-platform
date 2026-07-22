@@ -6,6 +6,15 @@
 
 ## 2026-07-22
 
+### Phase 3.1.2 — Fix false no_face/center loop + always-on alignment diagnostics
+
+- Root cause: `detect()` gated on `video.currentTime` (often stalls on Android) → null → mapped to misleading “중앙에 맞춰 주세요” (`no_face`)
+- Throttle by `minIntervalMs` + MediaPipe monotonic timestamps; reuse last snapshot with `stale_landmark` age
+- Always-on Preview/dev diagnostic panel (fail, display/video centers, deltas, cover crop, mirror count) — local only
+- Distinct messages for center_x/y, size, stale, transform; soft features unchanged
+- Mirror applied once in `displaySpace`; tests for cover crops + center-inside invariant
+- Tests: `npm run test:guided-landmark`
+
 ### Phase 3.1.1 — Fix landmark alignment BLOCKER (cover transform + soft features)
 
 - Root cause: object-fit cover crop mismatch + absolute eye/nose/mouth hard fails + elongated oval guide

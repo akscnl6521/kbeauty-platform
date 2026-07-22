@@ -14,24 +14,20 @@ const FRONT: CaptureAngleTemplate = {
   id: "front_template_v1",
   version: "v1",
   angle: "front",
-  // ±~10% of screen width around center
-  faceCenter: { xMin: 0.38, xMax: 0.62, yMin: 0.35, yMax: 0.62 },
-  // Relative eye-line Y within face bounds (soft)
+  // target 0.5 ±0.14 X, ±0.16 Y
+  faceCenter: { xMin: 0.36, xMax: 0.64, yMin: 0.34, yMax: 0.66 },
   eyeLineY: { min: 0.28, max: 0.48 },
   leftEye: { xMin: 0.12, xMax: 0.48, yMin: 0.22, yMax: 0.5 },
   rightEye: { xMin: 0.52, xMax: 0.88, yMin: 0.22, yMax: 0.5 },
   noseTip: { xMin: 0.35, xMax: 0.65, yMin: 0.42, yMax: 0.68 },
   mouthCenter: { xMin: 0.28, xMax: 0.72, yMin: 0.58, yMax: 0.82 },
   chinTip: { xMin: 0.28, xMax: 0.72, yMin: 0.82, yMax: 1.05 },
-  // Face height ~45–72% of screen; width loose for long/round faces
-  faceWidth: { min: 0.22, max: 0.72 },
-  faceHeight: { min: 0.42, max: 0.78 },
-  // Wide initial pose ranges — tighten later with device data
+  faceWidth: { min: 0.2, max: 0.75 },
+  faceHeight: { min: 0.42, max: 0.82 },
   yawDeg: { min: -22, max: 22 },
   pitchDeg: { min: -20, max: 20 },
   rollDeg: { min: -18, max: 18 },
   stableHoldMs: 1000,
-  /** Soft feature checks never block aligned by themselves. */
   softFeaturesOnly: true,
 };
 

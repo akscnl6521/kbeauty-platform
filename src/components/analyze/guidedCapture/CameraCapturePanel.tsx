@@ -49,11 +49,15 @@ import { sampleLiveVideoQuality } from "@/lib/analyze/guidedCapture/landmark/liv
 import { createCaptureSpeechController } from "@/lib/analyze/guidedCapture/landmark/speechController";
 import { templateForAngle } from "@/lib/analyze/guidedCapture/landmark/templates";
 import type {
+  AlignmentDiagnostics,
   AlignmentMode,
   AutoCaptureMachineState,
   LandmarkSnapshot,
 } from "@/lib/analyze/guidedCapture/landmark/types";
-import type { VideoDisplayMetrics } from "@/lib/analyze/guidedCapture/landmark/displaySpace";
+import type {
+  CoverTransform,
+  VideoDisplayMetrics,
+} from "@/lib/analyze/guidedCapture/landmark/displaySpace";
 import {
   alignmentStatusMessage,
   capturedUtterance,
@@ -62,6 +66,19 @@ import {
   resolveCaptureVoiceLocale,
 } from "@/lib/analyze/guidedCapture/landmark/voiceMessages";
 import { FaceGuideOverlay } from "./FaceGuideOverlay";
+
+function shouldShowCaptureDiagnostics(): boolean {
+  if (typeof window === "undefined") return false;
+  if (process.env.NODE_ENV === "development") return true;
+  if (process.env.NEXT_PUBLIC_VERCEL_ENV === "preview") return true;
+  if (process.env.NEXT_PUBLIC_LANDMARK_CAPTURE_DEBUG === "1") return true;
+  try {
+    return new URLSearchParams(window.location.search).get("landmarkDebug") ===
+      "1";
+  } catch {
+    return false;
+  }
+}
 
 export type CameraCapturePanelProps = {
   angle: CaptureAngle;
@@ -175,22 +192,33 @@ export function CameraCapturePanel({
     pitch: number | null;
     roll: number | null;
   }>({ score: null, yaw: null, pitch: null, roll: null });
+  const lastSnapRef = useRef<{
+    snap: LandmarkSnapshot;
+    atMs: number;
+  } | null>(null);
+
   const [liveBounds, setLiveBounds] = useState<
     LandmarkSnapshot["faceBounds"]
   >(null);
   const [debugSnap, setDebugSnap] = useState<LandmarkSnapshot | null>(null);
   const [softWarnings, setSoftWarnings] = useState<string[]>([]);
   const [failReason, setFailReason] = useState<string | null>(null);
+  const [diagnostics, setDiagnostics] = useState<AlignmentDiagnostics | null>(
+    null
+  );
   const [debugMetrics, setDebugMetrics] = useState<VideoDisplayMetrics | null>(
     null
   );
-  const [debugOn, setDebugOn] = useState(false);
+  const [coverInfo, setCoverInfo] = useState<CoverTransform | null>(null);
+  const [showDiag, setShowDiag] = useState(false);
+  const [expandedDebug, setExpandedDebug] = useState(false);
 
   const template = useMemo(() => templateForAngle(angle), [angle]);
   const guidance = guidanceForAngle(angle);
 
   useEffect(() => {
-    setDebugOn(isLandmarkCaptureDebugEnabled());
+    setShowDiag(shouldShowCaptureDiagnostics());
+    setExpandedDebug(isLandmarkCaptureDebugEnabled());
   }, []);
 
   useEffect(() => {
@@ -552,6 +580,7 @@ export function CameraCapturePanel({
       }
 
       const minInterval = 1000 / LANDMARK_INFER_MAX_FPS;
+      lastSnapRef.current = null;
 
       const loop = (nowMs: number) => {
         if (cancelled || session.disposed) return;
@@ -560,18 +589,31 @@ export function CameraCapturePanel({
           return;
         }
         const video = videoRef.current;
-        if (!video || status !== "live") {
+        if (!video) {
           rafRef.current = requestAnimationFrame(loop);
           return;
         }
 
-        if (nowMs - lastInferAtRef.current >= minInterval) {
-          lastInferAtRef.current = nowMs;
-          const snap = session.detect(video, {
-            mirrorX: facingMode === "user",
-            nowMs,
-          });
-          if (snap && snap.inferenceDurationMs > LANDMARK_SLOW_MS) {
+        const outcome = session.detect(video, {
+          mirrorX: facingMode === "user",
+          nowMs,
+          minIntervalMs: minInterval,
+        });
+
+        let snapshot: LandmarkSnapshot | null = null;
+        let ageMs: number | null = null;
+        let transformOk = true;
+
+        if (outcome.status === "transform_error") {
+          transformOk = false;
+          setDebugMetrics(outcome.metrics);
+        } else if (outcome.status === "ok") {
+          lastSnapRef.current = { snap: outcome.snapshot, atMs: nowMs };
+          snapshot = outcome.snapshot;
+          ageMs = 0;
+          setDebugMetrics(outcome.metrics);
+          setCoverInfo(outcome.cover);
+          if (outcome.snapshot.inferenceDurationMs > LANDMARK_SLOW_MS) {
             slowCountRef.current += 1;
             if (slowCountRef.current >= 8) {
               logCameraDiagnostic({
@@ -589,82 +631,82 @@ export function CameraCapturePanel({
               speechRef.current?.cancel();
               return;
             }
-          } else if (snap) {
+          } else {
             slowCountRef.current = Math.max(0, slowCountRef.current - 1);
           }
+        } else if (lastSnapRef.current) {
+          snapshot = lastSnapRef.current.snap;
+          ageMs = nowMs - lastSnapRef.current.atMs;
+        }
 
-          const quality = sampleLiveVideoQuality(video);
-          const evalResult = evaluateAlignment({
-            snapshot: snap,
-            template,
-            quality: {
-              brightnessMean: quality.brightnessMean,
-              sharpnessScore: quality.sharpnessScore,
-            },
-            inferenceSlowMs: LANDMARK_SLOW_MS * 3,
-          });
+        const quality = sampleLiveVideoQuality(video);
+        const evalResult = evaluateAlignment({
+          snapshot,
+          template,
+          quality: {
+            brightnessMean: quality.brightnessMean,
+            sharpnessScore: quality.sharpnessScore,
+          },
+          inferenceSlowMs: LANDMARK_SLOW_MS * 3,
+          landmarkAgeMs: ageMs,
+          transformOk,
+        });
 
-          setLastMeta({
+        setLastMeta({
+          score: evalResult.score,
+          yaw: snapshot?.yaw ?? null,
+          pitch: snapshot?.pitch ?? null,
+          roll: snapshot?.roll ?? null,
+        });
+        setLiveBounds(snapshot?.faceBounds ?? null);
+        setSoftWarnings(evalResult.softWarnings);
+        setFailReason(evalResult.primaryFailReason);
+        setDiagnostics(evalResult.diagnostics);
+        if (expandedDebug) setDebugSnap(snapshot);
+
+        const tick = tickAutoCapture(machineRef.current, {
+          nowMs,
+          alignmentStatus: evalResult.status,
+          stableHoldMs: template.stableHoldMs,
+        });
+        machineRef.current = tick.state;
+        setMachinePhase(tick.state.phase);
+        setCountdownDigit(tick.state.countdownDigit);
+
+        const koMsg = primaryGuidanceMessage(
+          tick.state.alignmentStatus,
+          evalResult.softWarnings,
+          angle,
+          evalResult.primaryFailReason
+        );
+        const msg = alignmentStatusMessage(
+          voiceLocale,
+          tick.state.alignmentStatus,
+          koMsg
+        );
+        setHint(msg);
+
+        if (tick.shouldCancelSpeech) {
+          speechRef.current?.cancel();
+        }
+        if (tick.speakHoldStill) {
+          speechRef.current?.speak(holdStillUtterance(voiceLocale));
+        }
+        if (tick.speakDigit) {
+          speechRef.current?.speak(
+            countdownUtterance(voiceLocale, tick.speakDigit)
+          );
+        }
+
+        if (tick.shouldCapture && !capturingLockRef.current) {
+          capturingLockRef.current = true;
+          void doCaptureRef.current(true, {
             score: evalResult.score,
-            yaw: snap?.yaw ?? null,
-            pitch: snap?.pitch ?? null,
-            roll: snap?.roll ?? null,
+            yaw: snapshot?.yaw ?? null,
+            pitch: snapshot?.pitch ?? null,
+            roll: snapshot?.roll ?? null,
           });
-          setLiveBounds(snap?.faceBounds ?? null);
-          setSoftWarnings(evalResult.softWarnings);
-          setFailReason(
-            evalResult.status === "aligned"
-              ? null
-              : evalResult.reasons[0] ?? evalResult.status
-          );
-          if (debugOn) {
-            setDebugSnap(snap);
-            setDebugMetrics(session.lastMetrics);
-          }
-
-          const tick = tickAutoCapture(machineRef.current, {
-            nowMs,
-            alignmentStatus: evalResult.status,
-            stableHoldMs: template.stableHoldMs,
-          });
-          machineRef.current = tick.state;
-          setMachinePhase(tick.state.phase);
-          setCountdownDigit(tick.state.countdownDigit);
-
-          const koMsg = primaryGuidanceMessage(
-            tick.state.alignmentStatus,
-            evalResult.softWarnings,
-            angle
-          );
-          const msg = alignmentStatusMessage(
-            voiceLocale,
-            tick.state.alignmentStatus,
-            koMsg
-          );
-          setHint(msg);
-
-          if (tick.shouldCancelSpeech) {
-            speechRef.current?.cancel();
-          }
-          if (tick.speakHoldStill) {
-            speechRef.current?.speak(holdStillUtterance(voiceLocale));
-          }
-          if (tick.speakDigit) {
-            speechRef.current?.speak(
-              countdownUtterance(voiceLocale, tick.speakDigit)
-            );
-          }
-
-          if (tick.shouldCapture && !capturingLockRef.current) {
-            capturingLockRef.current = true;
-            void doCaptureRef.current(true, {
-              score: evalResult.score,
-              yaw: snap?.yaw ?? null,
-              pitch: snap?.pitch ?? null,
-              roll: snap?.roll ?? null,
-            });
-            return;
-          }
+          return;
         }
 
         rafRef.current = requestAnimationFrame(loop);
@@ -682,7 +724,7 @@ export function CameraCapturePanel({
       speechRef.current?.cancel();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, landmarkFlag, alignmentMode, angle, facingMode, template, voiceLocale, debugOn]);
+  }, [status, landmarkFlag, alignmentMode, angle, facingMode, template, voiceLocale, expandedDebug]);
 
   // Cancel speech when leaving countdown due to misalignment is handled in tick;
   // extra: when alignment leaves aligned during countdown cancel speech
@@ -811,11 +853,14 @@ export function CameraCapturePanel({
             stepLabel={stepLabelFor(angle)}
             reducedMotion={reducedMotion}
             liveBounds={liveBounds}
-            debug={debugOn}
+            showDiagnostics={showDiag}
+            diagnostics={diagnostics}
+            cover={coverInfo}
+            metrics={debugMetrics}
+            expandedDebug={expandedDebug}
             debugSnapshot={debugSnap}
-            debugSoftWarnings={softWarnings}
-            debugFailReason={failReason}
-            debugMetrics={debugMetrics}
+            softWarnings={softWarnings}
+            primaryFailReason={failReason}
           />
         ) : (
           <p
@@ -875,16 +920,14 @@ export function CameraCapturePanel({
             음성 안내 {voiceOn ? "켜짐" : "꺼짐"}
           </button>
         ) : null}
-        {process.env.NODE_ENV === "development" ||
-        process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" ||
-        process.env.NEXT_PUBLIC_LANDMARK_CAPTURE_DEBUG === "1" ? (
+        {showDiag ? (
           <button
             type="button"
-            aria-pressed={debugOn}
-            onClick={() => setDebugOn((v) => !v)}
+            aria-pressed={expandedDebug}
+            onClick={() => setExpandedDebug((v) => !v)}
             className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
           >
-            정렬 디버그 {debugOn ? "ON" : "OFF"}
+            랜드마크 점 {expandedDebug ? "ON" : "OFF"}
           </button>
         ) : null}
         <button

@@ -12,7 +12,15 @@ export type LandmarkSnapshot = {
   noseTip: NormPoint | null;
   mouthCenter: NormPoint | null;
   chinTip: NormPoint | null;
+  /** Display-space bounds (after cover + single mirror). */
   faceBounds: {
+    xMin: number;
+    yMin: number;
+    xMax: number;
+    yMax: number;
+  } | null;
+  /** Video-normalized bounds before display transform (diagnostics). */
+  videoFaceBounds: {
     xMin: number;
     yMin: number;
     xMax: number;
@@ -25,6 +33,9 @@ export type LandmarkSnapshot = {
   detectionConfidence: number | null;
   inferenceTimestamp: number;
   inferenceDurationMs: number;
+  /** Always "display" after client mapping. */
+  coordinateSpace: "display";
+  videoTime: number;
 };
 
 export type AlignmentStatus =
@@ -49,6 +60,8 @@ export type AlignmentStatus =
   | "aligned"
   | "detector_unavailable"
   | "inference_slow"
+  | "stale_landmark"
+  | "transform_error"
   | "error";
 
 export type AutoCapturePhase =
@@ -116,9 +129,32 @@ export type CaptureAngleTemplate = {
 export type AlignmentEvaluation = {
   status: AlignmentStatus;
   score: number | null;
+  /** Machine reason code (center_x, face_small, …). */
+  primaryFailReason: string | null;
   reasons: string[];
-  /** Soft guidance codes — never alone block aligned. */
   softWarnings: string[];
+  diagnostics: AlignmentDiagnostics | null;
+};
+
+/** Local-only numbers for on-screen diagnosis — never send to server logs. */
+export type AlignmentDiagnostics = {
+  faceCenterVideoX: number | null;
+  faceCenterVideoY: number | null;
+  faceCenterDisplayX: number | null;
+  faceCenterDisplayY: number | null;
+  targetCenterX: number;
+  targetCenterY: number;
+  centerDeltaX: number | null;
+  centerDeltaY: number | null;
+  allowedDeltaX: number;
+  allowedDeltaY: number;
+  faceWidthRatio: number | null;
+  faceHeightRatio: number | null;
+  yaw: number | null;
+  pitch: number | null;
+  roll: number | null;
+  landmarkAgeMs: number | null;
+  coordinateSpace: string;
 };
 
 export type AutoCaptureMachineState = {

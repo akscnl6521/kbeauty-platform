@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import type {
+  AlignmentDiagnostics,
   CaptureAngleTemplate,
   CaptureGuideVisualState,
   LandmarkSnapshot,
@@ -10,7 +11,10 @@ import {
   FRONT_GUIDE_OVAL,
   relativeBoxToDisplay,
 } from "@/lib/analyze/guidedCapture/landmark/templates";
-import type { VideoDisplayMetrics } from "@/lib/analyze/guidedCapture/landmark/displaySpace";
+import type {
+  CoverTransform,
+  VideoDisplayMetrics,
+} from "@/lib/analyze/guidedCapture/landmark/displaySpace";
 
 export type FaceGuideOverlayProps = {
   template: CaptureAngleTemplate;
@@ -20,14 +24,17 @@ export type FaceGuideOverlayProps = {
   angleLabel: string;
   stepLabel: string;
   reducedMotion?: boolean;
-  /** Live face bounds in display-space — guide follows real face scale when available. */
   liveBounds?: LandmarkSnapshot["faceBounds"];
-  /** Preview/dev debug only — never log to server. */
-  debug?: boolean;
+  /** Always-on mini panel on Preview/dev. */
+  showDiagnostics?: boolean;
+  diagnostics?: AlignmentDiagnostics | null;
+  cover?: CoverTransform | null;
+  metrics?: VideoDisplayMetrics | null;
+  /** Extra landmark dots / boxes when expanded debug on. */
+  expandedDebug?: boolean;
   debugSnapshot?: LandmarkSnapshot | null;
-  debugSoftWarnings?: string[];
-  debugFailReason?: string | null;
-  debugMetrics?: VideoDisplayMetrics | null;
+  softWarnings?: string[];
+  primaryFailReason?: string | null;
 };
 
 function borderClass(state: CaptureGuideVisualState): string {
@@ -66,7 +73,6 @@ function guideFaceRegion(
   liveBounds: LandmarkSnapshot["faceBounds"]
 ): { xMin: number; xMax: number; yMin: number; yMax: number } {
   if (liveBounds) {
-    // Expand slightly so guides feel like allowances, not a tight mask.
     const w = liveBounds.xMax - liveBounds.xMin;
     const h = liveBounds.yMax - liveBounds.yMin;
     return {
@@ -83,6 +89,11 @@ function guideFaceRegion(
   return { xMin: 0.22, xMax: 0.86, yMin: 0.16, yMax: 0.84 };
 }
 
+function fmt(n: number | null | undefined, digits = 2): string {
+  if (typeof n !== "number" || Number.isNaN(n)) return "-";
+  return n.toFixed(digits);
+}
+
 export function FaceGuideOverlay({
   template,
   visualState,
@@ -92,11 +103,14 @@ export function FaceGuideOverlay({
   stepLabel,
   reducedMotion,
   liveBounds,
-  debug,
+  showDiagnostics,
+  diagnostics,
+  cover,
+  metrics,
+  expandedDebug,
   debugSnapshot,
-  debugSoftWarnings,
-  debugFailReason,
-  debugMetrics,
+  softWarnings,
+  primaryFailReason,
 }: FaceGuideOverlayProps) {
   const face = guideFaceRegion(template, liveBounds ?? null);
   const leftEye = relativeBoxToDisplay(template.leftEye, face);
@@ -105,7 +119,6 @@ export function FaceGuideOverlay({
   const mouth = relativeBoxToDisplay(template.mouthCenter, face);
   const chin = relativeBoxToDisplay(template.chinTip, face);
 
-  // Softer oval — not a long/narrow decorative face silhouette.
   const ovalPadX = (face.xMax - face.xMin) * 0.08;
   const ovalPadY = (face.yMax - face.yMin) * 0.04;
   const oval = {
@@ -115,6 +128,16 @@ export function FaceGuideOverlay({
     yMax: Math.min(0.92, face.yMax + ovalPadY),
   };
 
+  const targetBox = template.faceCenter;
+  const detectedCenter =
+    diagnostics?.faceCenterDisplayX != null &&
+    diagnostics?.faceCenterDisplayY != null
+      ? {
+          x: diagnostics.faceCenterDisplayX,
+          y: diagnostics.faceCenterDisplayY,
+        }
+      : null;
+
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden={false}>
       <div
@@ -123,7 +146,6 @@ export function FaceGuideOverlay({
         aria-hidden
       />
 
-      {/* Soft feature guides — large allowance regions */}
       <div
         className="absolute rounded-[40%] border border-white/45"
         style={boxStyle(leftEye)}
@@ -134,7 +156,6 @@ export function FaceGuideOverlay({
         style={boxStyle(rightEye)}
         aria-hidden
       />
-      {/* Nose: vertical band */}
       <div
         className="absolute rounded-full border border-cyan-200/50"
         style={boxStyle({
@@ -195,56 +216,104 @@ export function FaceGuideOverlay({
         {message}
       </p>
 
-      {debug ? (
+      {showDiagnostics ? (
         <>
-          {debugSnapshot?.faceBounds ? (
+          {/* Allowed center rectangle (engine target) */}
+          <div
+            className="absolute border-2 border-dashed border-amber-300/90"
+            style={boxStyle(targetBox)}
+            aria-hidden
+          />
+          {/* Target center cross */}
+          <span
+            className="absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-amber-200 bg-amber-400/80"
+            style={{
+              left: `${((targetBox.xMin + targetBox.xMax) / 2) * 100}%`,
+              top: `${((targetBox.yMin + targetBox.yMax) / 2) * 100}%`,
+            }}
+            aria-hidden
+          />
+          {liveBounds ? (
             <div
-              className="absolute border border-lime-400/80"
-              style={boxStyle(debugSnapshot.faceBounds)}
+              className="absolute border border-lime-400/90"
+              style={boxStyle(liveBounds)}
               aria-hidden
             />
           ) : null}
-          {debugSnapshot?.leftEyeCenter ? (
-            <Dot p={debugSnapshot.leftEyeCenter} color="#4ade80" />
+          {detectedCenter ? (
+            <span
+              className="absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-lime-400"
+              style={{
+                left: `${detectedCenter.x * 100}%`,
+                top: `${detectedCenter.y * 100}%`,
+              }}
+              aria-hidden
+            />
           ) : null}
-          {debugSnapshot?.rightEyeCenter ? (
-            <Dot p={debugSnapshot.rightEyeCenter} color="#4ade80" />
-          ) : null}
-          {debugSnapshot?.noseTip ? (
-            <Dot p={debugSnapshot.noseTip} color="#67e8f9" />
-          ) : null}
-          {debugSnapshot?.mouthCenter ? (
-            <Dot p={debugSnapshot.mouthCenter} color="#fde68a" />
-          ) : null}
-          {debugSnapshot?.chinTip ? (
-            <Dot p={debugSnapshot.chinTip} color="#fda4af" />
-          ) : null}
+
           <div
-            className="absolute left-2 top-12 max-w-[92%] rounded-lg bg-black/70 px-2 py-1 font-mono text-[10px] leading-snug text-lime-200"
+            className="absolute left-2 top-12 max-h-[42%] max-w-[94%] overflow-auto rounded-lg bg-black/75 px-2 py-1 font-mono text-[9px] leading-snug text-lime-200"
             aria-hidden
           >
             <p>
-              fail={debugFailReason ?? "-"} soft=
-              {(debugSoftWarnings ?? []).join(",") || "-"}
+              fail={primaryFailReason ?? "-"} soft=
+              {(softWarnings ?? []).join(",") || "-"}
             </p>
             <p>
-              yaw={fmt(debugSnapshot?.yaw)} pitch={fmt(debugSnapshot?.pitch)}{" "}
-              roll={fmt(debugSnapshot?.roll)}
+              dispC={fmt(diagnostics?.faceCenterDisplayX)},
+              {fmt(diagnostics?.faceCenterDisplayY)} target=
+              {fmt(diagnostics?.targetCenterX)},
+              {fmt(diagnostics?.targetCenterY)}
             </p>
             <p>
-              bounds=
-              {debugSnapshot?.faceBounds
-                ? `${pct(debugSnapshot.faceBounds.xMin)}-${pct(debugSnapshot.faceBounds.xMax)},${pct(debugSnapshot.faceBounds.yMin)}-${pct(debugSnapshot.faceBounds.yMax)}`
-                : "-"}
+              Δx={fmt(diagnostics?.centerDeltaX)} (allow ±
+              {fmt(diagnostics?.allowedDeltaX)}) Δy=
+              {fmt(diagnostics?.centerDeltaY)} (allow ±
+              {fmt(diagnostics?.allowedDeltaY)})
             </p>
             <p>
-              vw={debugMetrics?.videoWidth ?? "-"}×
-              {debugMetrics?.videoHeight ?? "-"} cw=
-              {debugMetrics?.clientWidth ?? "-"}×
-              {debugMetrics?.clientHeight ?? "-"} mir=
-              {debugMetrics?.mirrorX ? "1" : "0"}
+              vidC={fmt(diagnostics?.faceCenterVideoX)},
+              {fmt(diagnostics?.faceCenterVideoY)} w=
+              {fmt(diagnostics?.faceWidthRatio)} h=
+              {fmt(diagnostics?.faceHeightRatio)}
+            </p>
+            <p>
+              yaw={fmt(diagnostics?.yaw, 1)} pitch=
+              {fmt(diagnostics?.pitch, 1)} roll={fmt(diagnostics?.roll, 1)} age=
+              {fmt(diagnostics?.landmarkAgeMs, 0)}ms
+            </p>
+            <p>
+              space={diagnostics?.coordinateSpace ?? "-"} mir=
+              {metrics?.mirrorX ? "1" : "0"} coverMir=
+              {cover?.mirrorApplyCount ?? "-"} scale=
+              {fmt(cover?.scale, 3)}
+            </p>
+            <p>
+              crop={fmt(cover?.cropX, 1)},{fmt(cover?.cropY, 1)} vw=
+              {metrics?.videoWidth ?? "-"}×{metrics?.videoHeight ?? "-"} cw=
+              {metrics?.clientWidth ?? "-"}×{metrics?.clientHeight ?? "-"}
             </p>
           </div>
+        </>
+      ) : null}
+
+      {expandedDebug && debugSnapshot ? (
+        <>
+          {debugSnapshot.leftEyeCenter ? (
+            <Dot p={debugSnapshot.leftEyeCenter} color="#4ade80" />
+          ) : null}
+          {debugSnapshot.rightEyeCenter ? (
+            <Dot p={debugSnapshot.rightEyeCenter} color="#4ade80" />
+          ) : null}
+          {debugSnapshot.noseTip ? (
+            <Dot p={debugSnapshot.noseTip} color="#67e8f9" />
+          ) : null}
+          {debugSnapshot.mouthCenter ? (
+            <Dot p={debugSnapshot.mouthCenter} color="#fde68a" />
+          ) : null}
+          {debugSnapshot.chinTip ? (
+            <Dot p={debugSnapshot.chinTip} color="#fda4af" />
+          ) : null}
         </>
       ) : null}
     </div>
@@ -262,13 +331,4 @@ function Dot({ p, color }: { p: { x: number; y: number }; color: string }) {
       }}
     />
   );
-}
-
-function fmt(n: number | null | undefined): string {
-  if (typeof n !== "number" || Number.isNaN(n)) return "-";
-  return n.toFixed(1);
-}
-
-function pct(n: number): string {
-  return `${Math.round(n * 100)}`;
 }
