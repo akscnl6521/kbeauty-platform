@@ -1,0 +1,3242 @@
+{
+  "packDate": "2026-07-22",
+  "notes": [
+    "No fake or invented INCI: rows omit ingredients when official verbatim text was not captured.",
+    "Naver Shopping, Coupang official, and Olive Young live marketplace fetch blocked_by_policy (not executed in this pack).",
+    "Aestura derma-uv-365-barrier-hydro-sunscreen (mineral/filter SKU) is not mapped to pilot hydro-chemical identity aestura-atobarrier365-cream — separate product identities."
+  ],
+  "products": [
+    {
+      "productIdentity": "cosrx-advanced-snail-92-all-in-one-cream",
+      "canonicalUrl": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+      "ingredients": [
+        {
+          "raw": "Snail Secretion Filtrate, Betaine, Caprylic/Capric Triglyceride, Butylene Glycol, Cetearyl Olivate, Sorbitan Olivate, Cetearyl Alcohol, Carbomer, Ethyl Hexanediol, Phenoxyethanol, Arginine, Dimethicone, Sodium Polyacrylate, Sodium Hyaluronate, Allantoin, Palmitic Acid, Panthenol, Xanthan Gum, Stearic acid, Adenosine, Water, Myristic Acid",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        },
+        {
+          "raw": "달팽이점액여과물, 베타인, 카프릴릭/카프릭트라이글리세라이드, 세테아릴올리베이트, 솔비탄올리베이트, 세테아릴알코올, 카보머, 알지닌, 다이메티콘, 소듐폴리아크릴레이트, 페녹시에탄올, 소듐하이알루로네이트, 스테아릭애씨드, 알란토인, 판테놀, 잔탄검, 에틸헥산다이올, 아데노신",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://www.cosrx.com/cdn/shop/files/snail_cream_thumbnail.png?v=1748420673",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "cosrx.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+          "price": 26,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "KR official shop listing; partial KO INCI from prior verified batch."
+          ]
+        },
+        {
+          "channel": "naver_brand_store",
+          "trust": "B",
+          "url": "https://brand.naver.com/cosrx",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "aestura-atobarrier365-cream",
+      "canonicalUrl": "https://int.aestura.com/products/atobarrier365-cream",
+      "ingredients": [
+        {
+          "raw": "WATER / AQUA / EAU, BUTYLENE GLYCOL, GLYCERIN, BUTYLENE GLYCOL DICAPRYLATE/ DICAPRATE, CETYL ETHYLHEXANOATE, SQUALANE, PENTAERYTHRITYL TETRAISOSTEARATE, DICAPRYLYL CARBONATE, BEHENYL ALCOHOL, DIMETHICONE, HYDROXYPROPYL BISPALMITAMIDE MEA, STEARIC ACID, BETAINE, MANNITOL, C14-22 ALCOHOLS, PALMITIC ACID, HYDROXYPROPYL BISLAURAMIDE MEA, ARACHIDYL ALCOHOL, CHOLESTEROL, POLYACRYLATE-13, C12-20 ALKYL GLUCOSIDE, ALLANTOIN, ARACHIDYL GLUCOSIDE, NIACINAMIDE, CERAMIDE NP, GLYCERYL CAPRYLATE, ETHYLHEXYLGLYCERIN, HYDROGENATED POLYISOBUTENE, CARBOMER, TROMETHAMINE, DIMETHICONOL, POLYGLYCERYL-10 LAURATE, HYDROGENATED LECITHIN, ETHYLHEXYL PALMITATE, ACRYLATES / AMMONIUM METHACRYLATE COPOLYMER, SORBITAN ISOSTEARATE, SILICA, PHYTOSPHINGOSINE, SPHINGOLIPIDS, ARACHIDIC ACID, TOCOPHEROL, OLEIC ACID",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://int.aestura.com/products/atobarrier365-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "int.aestura.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://int.aestura.com/products/atobarrier365-cream",
+          "price": null,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://int.aestura.com/products/atobarrier365-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "illiyoon-ceramide-ato-concentrate-cream",
+      "canonicalUrl": "https://illiyoon.co.kr/",
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://illiyoon.co.kr/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "etude-soonjung-2x-barrier-intensive-cream",
+      "canonicalUrl": "https://www.etude.com/",
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.etude.com/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "round-lab-dokdo-cream",
+      "canonicalUrl": "https://roundlab.com/products/1025-dokdo-cream",
+      "ingredients": [
+        {
+          "raw": "Water, Glycerin, Caprylic/Capric Triglyceride, Dipropylene Glycol, Hydrogenated Poly(C6-14 Olefin), Cetearyl Alcohol, Methyl Trimethicone, 1,2-Hexanediol, Caprylyl Methicone, Phenyl Trimethicone, C12-16 Alcohols, Butyrospermum Parkii (Shea) Butter, Sea Water, Chondrus Crispus Extract, Saccharum Officinarum (Sugarcane) Extract, Hyaluronic Acid, Hydrolyzed Hyaluronic Acid, Sodium Hyaluronate, Glyceryl Stearate SE, Ceramide AP, Ceramide AS, Ceramide EOP, Ceramide NP, Ceramide NS, Polymethylsilsesquioxane, Palmitic Acid, Cetearyl Glucoside, Cetearyl Olivate, Sorbitan Olivate, Hydrogenated Lecithin, Copernicia Cerifera (Carnauba) Wax, Stearic Acid, Ammonium Acryloyldimethyltaurate/VP Copolymer, Ethylhexylglycerin, Glyceryl Caprylate, Allantoin, Panthenol, Butylene Glycol, Beta-Glucan, Cholesterol, Phytosphingosine, Disodium EDTA",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://roundlab.com/products/1025-dokdo-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "roundlab.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://roundlab.com/products/1025-dokdo-cream",
+          "price": 36,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://roundlab.com/products/1025-dokdo-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "cosrx-advanced-snail-96-mucin-power-essence",
+      "canonicalUrl": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+      "ingredients": [
+        {
+          "raw": "Water, Snail Secretion Filtrate, Betaine, Butylene Glycol, Niacinamide, Sodium Hyaluronate, Panthenol, Arginine, Allantoin, Glycerin, Sodium Polyacrylate, Copper Tripeptide-1, Caprylyl Glycol, Carbomer, Phenoxyethanol",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://www.cosrx.com/cdn/shop/files/snail-96-mucin-power-essence_thumbnail.png?v=1748420673",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "cosrx.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+          "price": 20,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "torriden-dive-in-serum",
+      "canonicalUrl": "https://torriden.us/products/dive-in-serum",
+      "ingredients": [
+        {
+          "raw": "Water, Butylene Glycol, Glycerin, Dipropylene Glycol, 1,2-Hexanediol, Panthenol, Sodium Hyaluronate, Hydrolyzed Hyaluronic Acid, Sodium Acetylated Hyaluronate, Sodium Hyaluronate Crosspolymer, Hydrolyzed Sodium Hyaluronate, Allantoin, Trehalose, Betaine, Propanediol, Portulaca Oleracea Extract, Hamamelis Virginiana (Witch Hazel) Leaf Extract, Madecassoside, Madecassic Acid, Ceramide NP, Beta-Glucan, Malachite Extract, Cholesterol, Pentylene Glycol, Glyceryl Acrylate/Acrylic Acid Copolymer, PVM/MA Copolymer, Polyglyceryl-10 Laurate, Xanthan Gum, Tromethamine, Carbomer, Ethylhexylglycerin, Scutellaria Baicalensis Root Extract, Paeonia Suffruticosa Root Extract",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://torriden.us/products/dive-in-serum",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "torriden.us",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://torriden.us/products/dive-in-serum",
+          "price": 24,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://torriden.us/products/dive-in-serum",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "beauty-of-joseon-glow-serum-propolis-niacinamide",
+      "canonicalUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+      "ingredients": [
+        {
+          "raw": "Propolis Extract, Dipropylene Glycol, Glycerin, Butylene Glycol, Aqua, Niacinamide, 1,2-Hexanediol, Betaine Salicylate, Sodium Polyacryloyldimethyl Taurate, Tromethamine, Polyglyceryl-10 Laurate, Xanthan Gum, Caprylyl Glycol, Carbomer, Ethylhexylglycerin, Melia Azadirachta Flower Extract, Melaleuca Alternifolia Extract, Melia Azadirachta Leaf Extract, Sodium Hyaluronate, Curcuma Longa Root Extract, Ocimum Sanctum Leaf Extract, Dextrin, Theobroma Cacao Seed Extract, Centella Asiatica Extract, Corallina Officinalis Extract, Lotus Corniculatus Seed Extract, Pentylene Glycol, Octanediol, Calophyllum Inophyllum Seed Oil, Tocopherol",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://beautyofjoseon.com/pages/glow-serum-cpnp-scpn-information",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/glow-serum-propolis-niacinamide-1-front.webp?v=1770278801",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "beautyofjoseon.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+          "price": null,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/pages/glow-serum-cpnp-scpn-information",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "pyunkang-yul-ato-cream-deep-moisture",
+      "canonicalUrl": "https://pyunkangyul.us/",
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://pyunkangyul.us/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "drjart-cicapair-intensive-soothing-repair-cream",
+      "canonicalUrl": "https://www.drjart.com/",
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.drjart.com/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "isntree-hyaluronic-acid-water-essence",
+      "canonicalUrl": "https://isntree.com/",
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://isntree.com/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "skin1004-madagascar-centella-ampoule",
+      "canonicalUrl": "https://skin1004.com/",
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://skin1004.com/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "cosrx-aha-bha-clarifying-treatment-toner",
+      "canonicalUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+      "ingredients": [
+        {
+          "raw": "Water, Salix Alba (Willow) Bark Water, Pyrus Malus (Apple) Fruit Water, Butylene Glycol, 1,2-Hexanediol, Sodium Lactate, Glycolic Acid, Betaine Salicylate, Allantoin, Panthenol, Ethyl Hexanediol",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://www.cosrx.com/cdn/shop/files/aha-bha-clarifying-treatment-toner_thumbnail.png?v=1748420673",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "cosrx.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+          "price": 14,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "anua-heartleaf-77-soothing-toner",
+      "canonicalUrl": "https://anua.us/products/heartleaf-77-soothing-toner",
+      "ingredients": [
+        {
+          "raw": "Houttuynia Cordata Flower/Leaf/Stem Water, Water, 1,2-Hexanediol, Glycerin, Betaine, Butylene Glycol, Isopentyldiol, Panthenol, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Disodium EDTA, Tromethamine, Centella Asiatica Extract, Arctium Lappa Root Extract, Phellinus Linteus Extract, Portulaca Oleracea Extract, Chamomilla Recutita (Matricaria) Flower Extract, Vitex Agnus-Castus Extract, Sodium Hyaluronate, Hydroxypropyltrimonium Hyaluronate, Hydrolyzed Hyaluronic Acid, Sodium Acetylated Hyaluronate, Hyaluronic Acid, Sodium Hyaluronate Crosspolymer, Potassium Hyaluronate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://anua.us/products/heartleaf-77-soothing-toner",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "anua.us",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://anua.us/products/heartleaf-77-soothing-toner",
+          "price": 23,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://anua.us/products/heartleaf-77-soothing-toner",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "beauty-of-joseon-green-plum-refreshing-toner",
+      "canonicalUrl": "https://beautyofjoseon.com/pages/green-plum-refreshing-toner-aha-bha-cpnp-scpn-information",
+      "cautionIngredients": [
+        "glycolic acid",
+        "salicylic acid"
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/pages/green-plum-refreshing-toner-aha-bha-cpnp-scpn-information",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "CPNP/SCPN INCI captured from official brand information page."
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "ingredients": [
+        {
+          "raw": "Aqua, Prunus Mume Fruit Water, Dipropylene Glycol, Glycerin, Glycolic Acid, Butylene Glycol, Tromethamine, 1,2-Hexanediol, Vigna Radiata Seed Extract, Hydroxyacetophenone, Salicylic Acid, Ethylhexylglycerin, Disodium EDTA, Melia Azadirachta Leaf Extract, Melia Azadirachta Flower Extract, Ocimum Sanctum Leaf Extract, Coccinia Indica Fruit Extract, Curcuma Longa Root Extract, Corallina Officinalis Extract, Aloe Barbadensis Flower Extract, Solanum Melongena Fruit Extract, C12-14 Pareth-12, Octyldodeceth-16, Xanthan Gum.",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://beautyofjoseon.com/pages/green-plum-refreshing-toner-aha-bha-cpnp-scpn-information",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "beautyofjoseon.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "price": null,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ]
+    },
+    {
+      "productIdentity": "isntree-green-tea-fresh-toner",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "round-lab-dokdo-toner",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "pyunkang-yul-essence-toner",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "celimax-dual-barrier-creamy-toner",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "numbuzin-no3-super-glowing-essence-toner",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "round-lab-birch-juice-moisturizing-sunscreen",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "beauty-of-joseon-relief-sun-rice-probiotics",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "isntree-hyaluronic-acid-watery-sun-gel",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "skin1004-hyalu-cica-water-fit-sun-serum",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "torriden-dive-in-mild-suncream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "cosrx-aloe-soothing-sun-cream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "drg-green-mild-up-sun-plus",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "make-prem-uv-defense-me-blue-ray-sun-fluid",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "celimax-oil-control-cooling-suncream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "aestura-derma-uv-365-barrier-hydro-sunscreen",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "cosrx-advanced-snail-peptide-eye-cream",
+      "canonicalUrl": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+      "ingredients": [
+        {
+          "raw": "Snail Secretion Filtrate, Butylene Glycol, Glycerin, Helianthus Annuus (Sunflower) Seed Oil, 1,2-Hexanediol, Niacinamide, Water, Palmitic Acid, Arginine, Carbomer, Stearic Acid, Betaine, Cetearyl Olivate, Sorbitan Olivate, Sodium Polyacrylate, Allantoin, Tocopheryl Acetate, Panthenol, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Sodium Hyaluronate, Adenosine, Xanthan Gum, Myristic Acid, Copper Tripeptide-1, Acetyl Hexapeptide-8, Palmitoyl Pentapeptide-4, Palmitoyl Tripeptide-1, Palmitoyl Tetrapeptide-7",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://www.cosrx.com/cdn/shop/files/advanced-snail-peptide-eye-cream_thumbnail.png?v=1748420673",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "cosrx.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+          "price": 28,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "beauty-of-joseon-revive-eye-serum",
+      "canonicalUrl": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+      "cautionIngredients": [
+        "retinal"
+      ],
+      "ingredients": [
+        {
+          "raw": "Panax Ginseng Root Extract, Glycerin, Dipropylene Glycol, Caprylic/Capric Triglyceride, 1,2-Hexanediol, Butylene Glycol Dicaprylate/Dicaprate, Niacinamide, Pentaerythrityl Tetraethylhexanoate, Cetearyl Alcohol, Cetearyl Olivate, Sorbitan Olivate, Butylene Glycol, Hydrogenated Lecithin, Carbomer, Glyceryl Stearate, Tromethamine, Macadamia Ternifolia Seed Oil, Ethylhexylglycerin, Adenosine, Cholesterol, Dextrin, Polyglyceryl-10 Oleate, Theobroma Cacao Extract, Disodium EDTA, Brassica Campestris Sterols,Phytosteryl/Behenyl/Octyldodecyl Lauroyl Glutamate, Retinal, Silica, Aluminum/Magnesium Hydroxide Stearate, Sodium Hyaluronate, Tocopherol, Ceramide NP, Potassium Cetyl Phosphate, Pentaerythrityl Tetra-di-t-butyl Hydroxyhydrocinnamate, Palmitoyl Tripeptide-5.",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://beautyofjoseon.com/pages/revive-eye-serum-cpnp-scpn-information",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "beautyofjoseon.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+          "price": null,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/pages/revive-eye-serum-cpnp-scpn-information",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "illiyoon-ceramide-ato-eye-cream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "pyunkang-yul-eye-cream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "drjart-ceramidin-eye-cream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "laneige-perfect-renew-youth-regenerator-eye-cream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "innisfree-green-tea-seed-eye-cream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "torriden-dive-in-eye-cream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "aestura-atobarrier365-eye-cream",
+      "canonicalUrl": null,
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "round-lab-birch-juice-moisturizing-serum",
+      "canonicalUrl": "https://roundlab.com/products/birch-moisturizing-serum",
+      "ingredients": [
+        {
+          "raw": "Water, Methylpropanediol, Glycerin, 1,2-Hexanediol, Polyglycerin-3, Caprylic/Capric Triglyceride, Betula Platyphylla Japonica Juice(10,000ppm), Sodium Hyaluronate, Glyceryl Glucoside, Hydrolyzed Hyaluronic Acid, Butylene Glycol, Hyaluronic Acid, Ascorbic Acid, Beta-Glucan, Dipotassium Glycyrrhizate, Hydrogenated Lecithin, Ethylhexylglycerin, Eclipta Prostrata Leaf Extract, Laminaria Japonica Extract, Avena Sativa (Oat) Kernel Extract, Cynara Scolymus (Artichoke) Leaf Extract, Pteris Multifida Extract, Melia Azadirachta Leaf Extract, Melia Azadirachta Flower Extract, Coccinia Indica Fruit Extract, Aloe Barbadensis Flower Extract, Solanum Melongena (Eggplant) Fruit Extract, Ocimum Sanctum Leaf Extract, Corallina Officinalis Extract, Curcuma Longa (Turmeric) Root Extract, Cyclohexasiloxane, Dipropylene Glycol, Ammonium Acryloyldimethyltaurate/VP Copolymer, Xanthan Gum, Fructooligosaccharides, Carbomer, Disodium EDTA, Polyquaternium-51, Tromethamine, Tocopherol",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://roundlab.com/products/birch-moisturizing-serum",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "roundlab.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://roundlab.com/products/birch-moisturizing-serum",
+          "price": 24.8,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://roundlab.com/products/birch-moisturizing-serum",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done - policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done - policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done - policy."
+          ]
+        }
+      ]
+    }
+  ],
+  "crossMembership": [
+    {
+      "productIdentity": "cosrx-advanced-snail-92-all-in-one-cream",
+      "scenarioIds": [
+        "kr-redness-sensitive-cream",
+        "pilot-dryness-barrier-serum"
+      ],
+      "fitNotes": "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+      "categoryException": "cream_in_serum_scenario"
+    },
+    {
+      "productIdentity": "aestura-atobarrier365-cream",
+      "scenarioIds": [
+        "kr-redness-sensitive-cream",
+        "pilot-dryness-barrier-serum"
+      ],
+      "fitNotes": "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+      "categoryException": "cream_in_serum_scenario"
+    },
+    {
+      "productIdentity": "illiyoon-ceramide-ato-concentrate-cream",
+      "scenarioIds": [
+        "kr-redness-sensitive-cream",
+        "pilot-dryness-barrier-serum"
+      ],
+      "fitNotes": "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+      "categoryException": "cream_in_serum_scenario"
+    },
+    {
+      "productIdentity": "etude-soonjung-2x-barrier-intensive-cream",
+      "scenarioIds": [
+        "kr-redness-sensitive-cream",
+        "pilot-dryness-barrier-serum"
+      ],
+      "fitNotes": "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+      "categoryException": "cream_in_serum_scenario"
+    },
+    {
+      "productIdentity": "round-lab-dokdo-cream",
+      "scenarioIds": [
+        "kr-redness-sensitive-cream",
+        "pilot-dryness-barrier-serum"
+      ],
+      "fitNotes": "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+      "categoryException": "cream_in_serum_scenario"
+    },
+    {
+      "productIdentity": "cosrx-advanced-snail-96-mucin-power-essence",
+      "scenarioIds": [
+        "kr-redness-sensitive-cream",
+        "pilot-dryness-barrier-serum"
+      ],
+      "fitNotes": "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+      "categoryException": "serum_in_cream_scenario"
+    },
+    {
+      "productIdentity": "torriden-dive-in-serum",
+      "scenarioIds": [
+        "kr-redness-sensitive-cream",
+        "pilot-dryness-barrier-serum"
+      ],
+      "fitNotes": "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+      "categoryException": "serum_in_cream_scenario"
+    },
+    {
+      "productIdentity": "beauty-of-joseon-glow-serum-propolis-niacinamide",
+      "scenarioIds": [
+        "kr-redness-sensitive-cream",
+        "pilot-dryness-barrier-serum"
+      ],
+      "fitNotes": "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+      "categoryException": "serum_in_cream_scenario"
+    }
+  ],
+  "poolSlotPlan": {
+    "kr-redness-sensitive-cream": [
+      "cosrx-advanced-snail-92-all-in-one-cream",
+      "aestura-atobarrier365-cream",
+      "illiyoon-ceramide-ato-concentrate-cream",
+      "etude-soonjung-2x-barrier-intensive-cream",
+      "round-lab-dokdo-cream",
+      "cosrx-advanced-snail-96-mucin-power-essence",
+      "torriden-dive-in-serum",
+      "beauty-of-joseon-glow-serum-propolis-niacinamide",
+      "pyunkang-yul-ato-cream-deep-moisture",
+      "drjart-cicapair-intensive-soothing-repair-cream"
+    ],
+    "pilot-dryness-barrier-serum": [
+      "cosrx-advanced-snail-92-all-in-one-cream",
+      "aestura-atobarrier365-cream",
+      "illiyoon-ceramide-ato-concentrate-cream",
+      "etude-soonjung-2x-barrier-intensive-cream",
+      "round-lab-dokdo-cream",
+      "cosrx-advanced-snail-96-mucin-power-essence",
+      "torriden-dive-in-serum",
+      "beauty-of-joseon-glow-serum-propolis-niacinamide",
+      "isntree-hyaluronic-acid-water-essence",
+      "skin1004-madagascar-centella-ampoule"
+    ],
+    "kr-acne-pores-toner": [
+      "cosrx-aha-bha-clarifying-treatment-toner",
+      "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+      "anua-heartleaf-77-soothing-toner",
+      "beauty-of-joseon-green-plum-refreshing-toner",
+      "isntree-green-tea-fresh-toner",
+      "round-lab-dokdo-toner",
+      "pyunkang-yul-essence-toner",
+      "haruharu-wonder-black-rice-hyaluronic-toner",
+      "celimax-dual-barrier-creamy-toner",
+      "numbuzin-no3-super-glowing-essence-toner"
+    ],
+    "kr-uv-sunscreen-sensitive": [
+      "round-lab-birch-juice-moisturizing-sunscreen",
+      "beauty-of-joseon-relief-sun-rice-probiotics",
+      "isntree-hyaluronic-acid-watery-sun-gel",
+      "skin1004-hyalu-cica-water-fit-sun-serum",
+      "torriden-dive-in-mild-suncream",
+      "cosrx-aloe-soothing-sun-cream",
+      "drg-green-mild-up-sun-plus",
+      "make-prem-uv-defense-me-blue-ray-sun-fluid",
+      "celimax-oil-control-cooling-suncream",
+      "aestura-derma-uv-365-barrier-hydro-sunscreen"
+    ],
+    "kr-aging-eye-cream": [
+      "cosrx-advanced-snail-peptide-eye-cream",
+      "beauty-of-joseon-revive-eye-serum",
+      "illiyoon-ceramide-ato-eye-cream",
+      "pyunkang-yul-eye-cream",
+      "drjart-ceramidin-eye-cream",
+      "laneige-perfect-renew-youth-regenerator-eye-cream",
+      "innisfree-green-tea-seed-eye-cream",
+      "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
+      "torriden-dive-in-eye-cream",
+      "aestura-atobarrier365-eye-cream"
+    ]
+  }
+}

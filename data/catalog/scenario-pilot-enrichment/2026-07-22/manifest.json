@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-07-22T06:09:14.523Z",
+  "pilotDir": "C:\\Users\\조병선.DESKTOP-0S17OGB\\Desktop\\kbeauty-platform\\data\\catalog\\scenario-pilot\\2026-07-22",
+  "evidencePackPath": "C:\\Users\\조병선.DESKTOP-0S17OGB\\Desktop\\kbeauty-platform\\data\\catalog\\scenario-pilot-enrichment\\2026-07-22\\_evidence-pack.json",
+  "outDir": "C:\\Users\\조병선.DESKTOP-0S17OGB\\Desktop\\kbeauty-platform\\data\\catalog\\scenario-pilot-enrichment\\2026-07-22",
+  "brandCapDefault": 2,
+  "affiliateOrAdInScore": false,
+  "organicScoreFields": "absent",
+  "scenarioCount": 5,
+  "slotCount": 50,
+  "uniqueProducts": 42,
+  "reuseRate": 0.16,
+  "recommendationReadyTotal": 8,
+  "buildProductIdExample": "cosrx-advanced-snail-92-all-in-one-cream",
+  "limits": [
+    "No WQ-G / DB / Staging write / Production / UI / runtime recommend wiring",
+    "No CAPTCHA bypass / mass crawl",
+    "Naver/Coupang/OY live fetch blocked_by_policy or skipped in evidence pack",
+    "recommendation_ready never forced with fake INCI"
+  ]
+}

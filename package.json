@@ -122,6 +122,7 @@
     "test:catalog-quality-status": "npx --yes tsx scripts/catalog-quality-status-selftest.ts",
     "test:recommendation-scenarios": "npx --yes tsx scripts/recommendation-scenario-selftest.ts",
     "test:recommendation-pilot": "npx --yes tsx scripts/recommendation-pilot-selftest.ts",
+    "test:recommendation-pilot-enrichment": "npx --yes tsx scripts/recommendation-pilot-enrichment-selftest.ts",
     "analyze:scenario-catalog-gap": "npx --yes tsx scripts/analyze-scenario-catalog-gap.ts"
   },
   "dependencies": {

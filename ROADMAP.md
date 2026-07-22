@@ -107,6 +107,7 @@
 - [x] Care worker admin / dry-run delivery (WQ-E · dry-run tick · retry/cancel · 실발송 없음)
 - [x] WQ-F Phase 0/1: scenario Top10 model + KR core scenarios (30) + gap analysis (no fake pool fill)
 - [x] WQ-F Scenario Top10 pilot artifacts (2026-07-22 · offline pools + selftest · no runtime fill)
+- [x] WQ-F Scenario Top10 pilot enrichment (2026-07-22 · multiSource · global products + many-to-many pools · reuse 15–35% · honest ready shortfall · no runtime)
 - [x] 프로젝트 UI 스킬 설치 (frontend-design, ui-ux-pro-max) + kbeauty-match-design + design-system 초안 (페이지 재디자인 미실시)
 - [ ] WQ-F Phase 2+: scenario/pool schema + multi-source fill + runtime Top3–5 from pools
 

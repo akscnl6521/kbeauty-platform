@@ -82,7 +82,8 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 
 ## 최근 완료
 
-- Scenario Top10 pilot artifacts (2026-07-22 · 5 scenarios · data/catalog/scenario-pilot/2026-07-22/ · pm run test:recommendation-pilot · no runtime/UI/DB)
+- Scenario Top10 pilot enrichment (2026-07-22 · multiSource + evidence pack · reuseRate 0.16 · recommendation_ready 8/50 slots honest shortfall · `npm run test:recommendation-pilot-enrichment` · no WQ-G/DB/UI/runtime)
+- Scenario Top10 pilot artifacts (2026-07-22 · 5 scenarios · data/catalog/scenario-pilot/2026-07-22/ · npm run test:recommendation-pilot · no runtime/UI/DB)
 
 - UI 스킬 설치 (frontend-design, ui-ux-pro-max) + kbeauty-match-design + design-system 초안 (페이지 재디자인 미실시)
 - WQ-F → 추천 상황 Top10 풀 구축으로 재정의 (Phase 0/1 문서·타입·selftest · `docs/catalog/RECOMMENDATION_SCENARIOS.md`)

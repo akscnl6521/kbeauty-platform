@@ -1,0 +1,61 @@
+{
+  "totals": {
+    "trend_candidate": 33,
+    "catalog_ready": 0,
+    "ingredient_candidate": 9,
+    "recommendation_ready": 8,
+    "review_required": 0,
+    "unavailable": 0
+  },
+  "perScenario": {
+    "kr-redness-sensitive-cream": {
+      "trend_candidate": 4,
+      "catalog_ready": 0,
+      "ingredient_candidate": 3,
+      "recommendation_ready": 3,
+      "review_required": 0,
+      "unavailable": 0
+    },
+    "pilot-dryness-barrier-serum": {
+      "trend_candidate": 4,
+      "catalog_ready": 0,
+      "ingredient_candidate": 3,
+      "recommendation_ready": 3,
+      "review_required": 0,
+      "unavailable": 0
+    },
+    "kr-acne-pores-toner": {
+      "trend_candidate": 7,
+      "catalog_ready": 0,
+      "ingredient_candidate": 2,
+      "recommendation_ready": 1,
+      "review_required": 0,
+      "unavailable": 0
+    },
+    "kr-uv-sunscreen-sensitive": {
+      "trend_candidate": 10,
+      "catalog_ready": 0,
+      "ingredient_candidate": 0,
+      "recommendation_ready": 0,
+      "review_required": 0,
+      "unavailable": 0
+    },
+    "kr-aging-eye-cream": {
+      "trend_candidate": 8,
+      "catalog_ready": 0,
+      "ingredient_candidate": 1,
+      "recommendation_ready": 1,
+      "review_required": 0,
+      "unavailable": 0
+    }
+  },
+  "recommendationReadyTotal": 8,
+  "shortfallNotes": [
+    "kr-redness-sensitive-cream: recommendation_ready=3 (<5); honest shortfall — no fake INCI.",
+    "pilot-dryness-barrier-serum: recommendation_ready=3 (<5); honest shortfall — no fake INCI.",
+    "kr-acne-pores-toner: recommendation_ready=1 (<5); honest shortfall — no fake INCI.",
+    "kr-uv-sunscreen-sensitive: recommendation_ready=0 (<5); honest shortfall — no fake INCI.",
+    "kr-aging-eye-cream: recommendation_ready=1 (<5); honest shortfall — no fake INCI.",
+    "Total recommendation_ready=8 (<30); limited official INCI+image+offer packs."
+  ]
+}

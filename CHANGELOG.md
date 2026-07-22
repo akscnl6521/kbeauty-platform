@@ -6,6 +6,10 @@
 
 ## 2026-07-22
 
+### Scenario Top10 pilot enrichment (multiSource)
+
+- Global products + many-to-many scenario pools; reuseRate 0.16; recommendation_ready 8 (honest shortfall); `test:recommendation-pilot-enrichment`; no DB/UI/runtime
+
 ### Scenario Top10 pilot + WQ-F local archive cleanup
 
 - Archive WQ-F clutter under data/archive/; curated JSON Top10 pilot pools + pure-logic selftest (	est:recommendation-pilot); no DB/runtime wiring
@@ -854,7 +858,7 @@
 - 설정 누락 → `/admin/unavailable`
 - 로그인 성공만으로 admin 인정하지 않음 (`admin_users` 재검증)
 - `docs/50-admin-login-implementation.md`
-- `SUPABASE_SERVICE_ROLE_KEY` 로컬 missing → E2E BLOCKER
+- `Supabase service role key (env)` 로컬 missing → E2E BLOCKER
 - commit/push·원격 DB 변경 없음
 
 ### 관리자 인증 가드 최소 구현

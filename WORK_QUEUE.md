@@ -105,6 +105,7 @@ notes: |
   Modifiers (age/climate/country/budget/routine/avoid/allergy/availability) re-rank within pool only.
   Phase 2+: schema + pool fill + runtime Top3-5. No WQ-G / Production / main / auto-publish.
   Pilot Top10 artifacts: data/catalog/scenario-pilot/2026-07-22/ (docs/catalog/SCENARIO_TOP10_PILOT.md · npm run test:recommendation-pilot).
+  Enrichment artifacts: data/catalog/scenario-pilot-enrichment/2026-07-22/ (npm run test:recommendation-pilot-enrichment).
 
 ### TASK WQ-G-prelaunch-integration
 

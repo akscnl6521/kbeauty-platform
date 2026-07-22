@@ -21,6 +21,8 @@ Offline pilot only. **No** runtime recommendation wiring, UI surfacing, DB migra
 
 Artifact path: `data/catalog/scenario-pilot/2026-07-22/`
 
+**Enrichment (reuse + readiness, offline):** see `docs/catalog/SCENARIO_PILOT_ENRICHMENT.md` and `data/catalog/scenario-pilot-enrichment/2026-07-22/` (`npm run test:recommendation-pilot-enrichment`).
+
 ## Honesty about readiness
 
 Expect **few** `recommendation_ready` rows. Most slots are `catalog_ready`, `ingredient_candidate`, or `trend_candidate` with an explicit `rejectionReason`. Fake products and padded ready counts are forbidden.
