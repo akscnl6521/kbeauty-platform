@@ -1,0 +1,634 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  PhotoConsentPanel,
+  photoConsentBlockedMessage,
+  photoAnalysisOnlyAckMessage,
+} from "@/components/care/PhotoConsentPanel";
+import {
+  defaultPhotoConsentChoices,
+  shouldAutoPurgeAfterAnalysis,
+  validatePhotoConsentChoices,
+  type PhotoConsentChoices,
+} from "@/lib/care/photoComparisonPolicy";
+import {
+  ANALYSIS_TIMEOUT_MS,
+  advanceLocalPhase,
+  canStartAnalyze,
+  createInitialProgress,
+  markCompleted,
+  markFailed,
+  softProgressPercent,
+  tickWaitingProgress,
+  type AnalysisProgressSnapshot,
+} from "@/lib/analyze/guidedCapture/analysisProgress";
+import { detectCameraSupport } from "@/lib/analyze/guidedCapture/cameraSupport";
+import {
+  acceptShot,
+  allRequiredShotsPassed,
+  applyCameraUnavailable,
+  applyPermissionDenied,
+  attachRequestId,
+  beginCameraRequest,
+  cancelSession,
+  confirmReview,
+  createEmptyCaptureSession,
+  createRequestId,
+  primaryShotForAnalysis,
+  retakeAngle,
+  startCapturing,
+  angleFromCapturingState,
+} from "@/lib/analyze/guidedCapture/captureSession";
+import {
+  checkBrightnessVarianceAcrossShots,
+  qualityReasonMessageKo,
+} from "@/lib/analyze/guidedCapture/qualityCheck";
+import { processImageBlobToShot } from "@/lib/analyze/guidedCapture/processImageClient";
+import { revokeAllShotUrls } from "@/lib/analyze/guidedCapture/sessionCleanup";
+import type {
+  CaptureAngle,
+  CaptureFlowState,
+  CaptureSession,
+  CapturedShot,
+} from "@/lib/analyze/guidedCapture/types";
+import { CaptureAngleStepper } from "./CaptureAngleStepper";
+import { CameraCapturePanel } from "./CameraCapturePanel";
+import { CaptureReviewCard } from "./CaptureReviewCard";
+import { AnalysisProgressOverlay } from "./AnalysisProgressOverlay";
+
+export type GuidedCaptureAnalyzePayload = {
+  imageBase64: string;
+  mediaType: "image/jpeg" | "image/png" | "image/webp" | "image/gif";
+  requestId: string;
+  photoConsentChoices: PhotoConsentChoices;
+};
+
+export type GuidedCaptureFlowProps = {
+  onAnalyze: (payload: GuidedCaptureAnalyzePayload) => Promise<void>;
+  onSwitchToManual: () => void;
+  /** Called after successful analyze (parent navigates). */
+  onAnalyzeSuccess?: () => void;
+};
+
+type EntryChoice = "chooser" | "camera" | "gallery" | "ready";
+
+function isCapturing(state: CaptureFlowState): boolean {
+  return (
+    state === "capturing_front" ||
+    state === "capturing_left" ||
+    state === "capturing_right"
+  );
+}
+
+function isReviewing(state: CaptureFlowState): boolean {
+  return (
+    state === "reviewing_front" ||
+    state === "reviewing_left" ||
+    state === "reviewing_right" ||
+    state === "quality_failed"
+  );
+}
+
+function mediaTypeFromMime(
+  mime: string
+): "image/jpeg" | "image/png" | "image/webp" | "image/gif" {
+  const m = mime.toLowerCase();
+  if (m.includes("png")) return "image/png";
+  if (m.includes("webp")) return "image/webp";
+  if (m.includes("gif")) return "image/gif";
+  return "image/jpeg";
+}
+
+export function GuidedCaptureFlow({
+  onAnalyze,
+  onSwitchToManual,
+  onAnalyzeSuccess,
+}: GuidedCaptureFlowProps) {
+  const [session, setSession] = useState<CaptureSession>(() =>
+    createEmptyCaptureSession()
+  );
+  const [entry, setEntry] = useState<EntryChoice>("chooser");
+  const [consent, setConsent] = useState<PhotoConsentChoices>(
+    defaultPhotoConsentChoices()
+  );
+  const [consentAck, setConsentAck] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState<AnalysisProgressSnapshot | null>(
+    null
+  );
+  const [analyzing, setAnalyzing] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [leaveWarn, setLeaveWarn] = useState(false);
+  const galleryInputRef = useRef<HTMLInputElement | null>(null);
+  const startedAtRef = useRef<number>(0);
+  const tickRef = useRef<number | null>(null);
+  const inFlightRef = useRef(false);
+
+  const currentAngle: CaptureAngle =
+    angleFromCapturingState(session.state) ??
+    session.failedAngle ??
+    "front";
+
+  const passedMap = useMemo(() => {
+    const out: Partial<Record<CaptureAngle, boolean>> = {};
+    for (const [k, v] of Object.entries(session.shots)) {
+      out[k as CaptureAngle] = v?.qualityStatus === "pass";
+    }
+    return out;
+  }, [session.shots]);
+
+  const cleanupShots = useCallback((shots: CaptureSession["shots"]) => {
+    revokeAllShotUrls(shots);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const onChange = () => setReducedMotion(mq.matches);
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      cleanupShots(session.shots);
+      if (tickRef.current) window.clearInterval(tickRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- unmount only
+  }, []);
+
+  useEffect(() => {
+    const dirty =
+      Object.keys(session.shots).length > 0 &&
+      session.state !== "ready_for_analysis" &&
+      session.state !== "canceled";
+    if (!dirty) return;
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [session.shots, session.state]);
+
+  function resetToChooser(nextSession?: CaptureSession) {
+    cleanupShots(session.shots);
+    setSession(nextSession ?? createEmptyCaptureSession());
+    setEntry("chooser");
+    setError(null);
+    setLeaveWarn(false);
+  }
+
+  function startCameraFlow() {
+    const support = detectCameraSupport(
+      typeof window !== "undefined" ? window : null
+    );
+    if (!support.supported) {
+      setSession(applyCameraUnavailable(createEmptyCaptureSession()));
+      setEntry("chooser");
+      setError(
+        support.reason === "insecure_context"
+          ? "안전한 연결(HTTPS)에서만 카메라를 사용할 수 있어요. 갤러리 업로드 또는 문진으로 진행해 주세요."
+          : "이 기기에서는 카메라를 사용할 수 없어요. 갤러리 업로드 또는 문진으로 진행해 주세요."
+      );
+      return;
+    }
+    setError(null);
+    setSession(startCapturing(beginCameraRequest(createEmptyCaptureSession())));
+    setEntry("camera");
+  }
+
+  function handlePermissionDenied() {
+    setSession((s) => applyPermissionDenied(s));
+    setEntry("chooser");
+    setError(
+      "카메라 권한이 거부되었습니다. 브라우저 설정에서 허용하거나 갤러리·문진으로 진행해 주세요."
+    );
+  }
+
+  function handleUnavailable() {
+    setSession((s) => applyCameraUnavailable(s));
+    setEntry("chooser");
+    setError(
+      "카메라를 찾을 수 없거나 사용할 수 없습니다. 갤러리 업로드 또는 문진으로 진행해 주세요."
+    );
+  }
+
+  function onShotAccepted(shot: CapturedShot) {
+    setSession((s) => {
+      const prev = s.shots[shot.angle];
+      if (prev) revokeAllShotUrls({ [shot.angle]: prev });
+      return acceptShot(s, shot);
+    });
+  }
+
+  async function handleGalleryFile(file: File | null, angle: CaptureAngle) {
+    if (!file) return;
+    setError(null);
+    try {
+      const shot = await processImageBlobToShot({
+        blob: file,
+        angle,
+        inputSource: "gallery",
+      });
+      setSession((s) => {
+        const base =
+          s.state === "idle" || s.state === "camera_unavailable"
+            ? startCapturing(createEmptyCaptureSession(), angle)
+            : s;
+        const prev = base.shots[angle];
+        if (prev) revokeAllShotUrls({ [angle]: prev });
+        return acceptShot(base, shot);
+      });
+      setEntry("camera");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "사진을 읽지 못했습니다.");
+    }
+  }
+
+  function confirmCurrentReview() {
+    const angle =
+      session.failedAngle ??
+      angleFromCapturingState(session.state) ??
+      currentAngle;
+    const shot = session.shots[angle];
+    if (!shot) return;
+
+    const brightnessVar = checkBrightnessVarianceAcrossShots(
+      Object.values(session.shots).map((s) => s?.brightnessScore)
+    );
+    if (brightnessVar && allRequiredShotsPassed({ ...session, shots: { ...session.shots, [angle]: shot } })) {
+      // soft warning only — do not wipe other shots
+      setError(qualityReasonMessageKo(brightnessVar));
+    }
+
+    setSession((s) => confirmReview(s, angle));
+  }
+
+  function stopProgressTicker() {
+    if (tickRef.current) {
+      window.clearInterval(tickRef.current);
+      tickRef.current = null;
+    }
+  }
+
+  async function runAnalyze() {
+    if (!canStartAnalyze({ inFlight: inFlightRef.current })) return;
+    if (!allRequiredShotsPassed(session) && session.state !== "ready_for_analysis") {
+      setError("정면·왼쪽·오른쪽 사진이 모두 필요합니다.");
+      return;
+    }
+    const primary = primaryShotForAnalysis(session);
+    if (!primary) {
+      setError("분석에 사용할 사진이 없습니다.");
+      return;
+    }
+    const blocked = photoConsentBlockedMessage(consent);
+    if (blocked) {
+      setError(blocked);
+      return;
+    }
+    const validation = validatePhotoConsentChoices(consent);
+    setConsentAck(
+      shouldAutoPurgeAfterAnalysis(validation.effectiveMode)
+        ? photoAnalysisOnlyAckMessage()
+        : null
+    );
+
+    const requestId = createRequestId();
+    setSession((s) => attachRequestId(s, requestId));
+    inFlightRef.current = true;
+    setAnalyzing(true);
+    startedAtRef.current = Date.now();
+    let snap = createInitialProgress(requestId);
+    snap = advanceLocalPhase(snap, "checking_photo_quality", 0);
+    snap = advanceLocalPhase(snap, "uploading", 200);
+    snap = advanceLocalPhase(snap, "analyzing", 400);
+    setProgress(snap);
+    setError(null);
+
+    stopProgressTicker();
+    tickRef.current = window.setInterval(() => {
+      const elapsed = Date.now() - startedAtRef.current;
+      setProgress((prev) => {
+        if (!prev || !prev.inFlight) return prev;
+        if (elapsed >= ANALYSIS_TIMEOUT_MS) {
+          return markFailed(prev, "timed_out");
+        }
+        return tickWaitingProgress(prev, elapsed);
+      });
+    }, 400);
+
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      window.setTimeout(() => {
+        reject(new Error("ANALYSIS_TIMEOUT"));
+      }, ANALYSIS_TIMEOUT_MS);
+    });
+
+    try {
+      await Promise.race([
+        onAnalyze({
+          imageBase64: primary.imageBase64,
+          mediaType: mediaTypeFromMime(primary.mimeType),
+          requestId,
+          photoConsentChoices: consent,
+        }),
+        timeoutPromise,
+      ]);
+
+      const elapsed = Date.now() - startedAtRef.current;
+      setProgress((prev) => {
+        if (!prev) return prev;
+        let next = advanceLocalPhase(
+          { ...prev, percent: Math.max(prev.percent, softProgressPercent(elapsed)) },
+          "matching_scenario",
+          elapsed
+        );
+        next = advanceLocalPhase(next, "checking_ingredients", elapsed + 50);
+        next = advanceLocalPhase(next, "ranking_products", elapsed + 100);
+        next = advanceLocalPhase(next, "building_routine", elapsed + 150);
+        next = advanceLocalPhase(next, "saving_result", elapsed + 200);
+        return markCompleted(next, [
+          ...next.completedPhases,
+          "saving_result",
+        ]);
+      });
+      stopProgressTicker();
+      inFlightRef.current = false;
+      setAnalyzing(false);
+      cleanupShots(session.shots);
+      setSession((s) => ({ ...s, shots: {}, state: "ready_for_analysis" }));
+      onAnalyzeSuccess?.();
+    } catch (e) {
+      stopProgressTicker();
+      inFlightRef.current = false;
+      setAnalyzing(false);
+      const isTimeout =
+        e instanceof Error &&
+        (e.message === "ANALYSIS_TIMEOUT" || /timeout/i.test(e.message));
+      setProgress((prev) =>
+        prev ? markFailed(prev, isTimeout ? "timed_out" : "failed") : prev
+      );
+      if (!isTimeout) {
+        setError(e instanceof Error ? e.message : "분석에 실패했습니다.");
+      }
+    }
+  }
+
+  const showCamera = entry === "camera" && isCapturing(session.state);
+  const reviewShot =
+    isReviewing(session.state)
+      ? session.shots[
+          session.failedAngle ??
+            angleFromCapturingState(session.state) ??
+            currentAngle
+        ]
+      : null;
+
+  return (
+    <div className="space-y-4">
+      <PhotoConsentPanel
+        value={consent}
+        onChange={(c) => setConsent(c)}
+        compact
+      />
+      <div className="rounded-2xl border border-[#E8DFD8] bg-[#FAF7F4] p-3 text-xs leading-5 text-stone-700">
+        <p>사진은 피부 분석 목적으로 사용됩니다.</p>
+        <p>비교 저장에 동의하지 않으면 원본은 보관하지 않습니다.</p>
+        <p>얼굴 신원 확인에는 사용하지 않습니다.</p>
+        <p className="mt-1 text-stone-500">
+          이번 단계에서는 서버에 사진을 영구 저장하지 않으며, 분석 후 이 기기의
+          임시 미리보기는 정리됩니다.
+        </p>
+      </div>
+
+      <input
+        ref={galleryInputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0] ?? null;
+          void handleGalleryFile(file, currentAngle);
+          e.target.value = "";
+        }}
+      />
+
+      {entry === "chooser" ? (
+        <div className="space-y-3">
+          <p className="text-sm font-semibold text-stone-900">
+            사진 입력 방식을 선택하세요
+          </p>
+          <div className="grid gap-2">
+            <button
+              type="button"
+              onClick={startCameraFlow}
+              className="rounded-2xl bg-[#C2185B] px-4 py-3 text-left text-sm font-semibold text-white"
+            >
+              카메라로 촬영하기
+              <span className="mt-1 block text-xs font-normal text-white/85">
+                정면 · 왼쪽 45° · 오른쪽 45° 안내 촬영
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEntry("gallery");
+                setSession(startCapturing(createEmptyCaptureSession(), "front"));
+                window.setTimeout(() => galleryInputRef.current?.click(), 0);
+              }}
+              className="rounded-2xl border border-stone-200 bg-white px-4 py-3 text-left text-sm font-semibold text-stone-800"
+            >
+              갤러리에서 가져오기
+              <span className="mt-1 block text-xs font-normal text-stone-500">
+                보조 수단 · 실시간 촬영과 같은 신뢰도로 보지 않습니다
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={onSwitchToManual}
+              className="rounded-2xl border border-stone-200 bg-white px-4 py-3 text-left text-sm font-semibold text-stone-800"
+            >
+              사진 없이 문진만 진행
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {(showCamera || reviewShot || session.state === "ready_for_analysis") && (
+        <CaptureAngleStepper current={currentAngle} passed={passedMap} />
+      )}
+
+      {showCamera ? (
+        <CameraCapturePanel
+          angle={currentAngle}
+          facingMode={session.activeFacingMode}
+          onFacingModeChange={(mode) =>
+            setSession((s) => ({ ...s, activeFacingMode: mode }))
+          }
+          onCaptured={onShotAccepted}
+          onPermissionDenied={handlePermissionDenied}
+          onUnavailable={handleUnavailable}
+          onCancel={() => {
+            if (Object.keys(session.shots).length > 0) {
+              setLeaveWarn(true);
+              return;
+            }
+            resetToChooser(cancelSession(session));
+          }}
+        />
+      ) : null}
+
+      {reviewShot ? (
+        <CaptureReviewCard
+          shot={reviewShot}
+          onRetake={() =>
+            setSession((s) =>
+              retakeAngle(
+                s,
+                s.failedAngle ??
+                  angleFromCapturingState(s.state) ??
+                  currentAngle
+              )
+            )
+          }
+          onConfirm={confirmCurrentReview}
+        />
+      ) : null}
+
+      {session.state === "ready_for_analysis" ? (
+        <div className="space-y-3 rounded-2xl border border-emerald-100 bg-emerald-50/40 p-4">
+          <p className="text-sm font-semibold text-emerald-900">
+            3장 촬영을 마쳤습니다. AI 분석을 시작할 수 있어요.
+          </p>
+          <div className="grid grid-cols-3 gap-2">
+            {(["front", "left45", "right45"] as CaptureAngle[]).map((a) => {
+              const shot = session.shots[a];
+              if (!shot) return null;
+              return (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={a}
+                  src={shot.previewUrl}
+                  alt={`${a} 썸네일`}
+                  className="aspect-square rounded-xl object-cover"
+                />
+              );
+            })}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => void runAnalyze()}
+              disabled={analyzing}
+              className="rounded-full bg-[#C2185B] px-5 py-2 text-xs font-semibold text-white disabled:bg-stone-300"
+            >
+              {analyzing ? "분석 중…" : "AI 분석 시작"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setSession((s) => retakeAngle(s, "front"))}
+              className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
+            >
+              일부 다시 촬영
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                galleryInputRef.current?.click();
+              }}
+              className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
+            >
+              갤러리로 교체
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {entry === "gallery" && isCapturing(session.state) && !showCamera ? (
+        <div className="rounded-2xl border border-dashed border-stone-300 p-4 text-center">
+          <p className="text-sm text-stone-700">
+            {currentAngle === "front"
+              ? "정면 사진을 선택해 주세요."
+              : currentAngle === "left45"
+                ? "왼쪽 45도 사진을 선택해 주세요."
+                : "오른쪽 45도 사진을 선택해 주세요."}
+          </p>
+          <button
+            type="button"
+            className="mt-3 rounded-full bg-[#C2185B] px-4 py-2 text-xs font-semibold text-white"
+            onClick={() => galleryInputRef.current?.click()}
+          >
+            사진 선택
+          </button>
+          <button
+            type="button"
+            className="mt-2 block w-full text-xs text-stone-500"
+            onClick={() => resetToChooser()}
+          >
+            입력 방식 다시 선택
+          </button>
+        </div>
+      ) : null}
+
+      {consentAck ? (
+        <p className="text-xs text-stone-600" role="status">
+          {consentAck}
+        </p>
+      ) : null}
+      {error ? (
+        <p className="text-xs text-rose-700" role="alert">
+          {error}
+        </p>
+      ) : null}
+
+      {leaveWarn ? (
+        <div
+          className="rounded-2xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-950"
+          role="alertdialog"
+        >
+          <p>촬영을 종료하면 임시 사진이 삭제됩니다. 계속할까요?</p>
+          <div className="mt-2 flex gap-2">
+            <button
+              type="button"
+              className="rounded-full bg-amber-800 px-3 py-1.5 text-white"
+              onClick={() => resetToChooser(cancelSession(session))}
+            >
+              종료
+            </button>
+            <button
+              type="button"
+              className="rounded-full border border-amber-300 bg-white px-3 py-1.5"
+              onClick={() => setLeaveWarn(false)}
+            >
+              계속 촬영
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {progress ? (
+        <AnalysisProgressOverlay
+          progress={progress}
+          reducedMotion={reducedMotion}
+          onRetry={() => {
+            setProgress(null);
+            void runAnalyze();
+          }}
+          onRetakeFailed={() => {
+            setProgress(null);
+            setSession((s) => retakeAngle(s, s.failedAngle ?? "front"));
+            setEntry("camera");
+          }}
+          onContinueManual={() => {
+            setProgress(null);
+            onSwitchToManual();
+          }}
+          onDismiss={() => setProgress(null)}
+        />
+      ) : null}
+    </div>
+  );
+}

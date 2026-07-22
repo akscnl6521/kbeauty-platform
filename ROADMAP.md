@@ -6,7 +6,7 @@
 
 ## 현재 단계
 
-**단계 5 — 리텐션 보강** (단계 4 코드 검증 완료 · Phase 2.6.2 종료 · Preview 운영 검수 잔여)
+**단계 5 — 리텐션 보강** + **Phase 3.0 안내형 촬영 MVP** (코드 완료 · Preview 검수 대기)
 
 ## 완료
 
@@ -81,8 +81,9 @@
 
 ## 다음 작업
 
-1. (승인 대기) WQ-G Prelaunch integration / production readiness gate
+1. Phase 3.0 Preview 수동·모바일 검수
 2. (승인 대기) 사진 비교 Staging migration · `care-photos` bucket
+3. (승인 대기) WQ-G Prelaunch integration / production readiness gate
 
 ### 단계 5 — 리텐션 보강
 
@@ -111,7 +112,9 @@
 - [x] Phase 2.5 — recommendation ↔ commerce 분리 (`RECOMMEND_COMMERCE_SEPARATION`)
 - [x] Phase 2.6 — Staging SELECT + Preview commerce 분리 검증
 - [x] Phase 2.6.2 — A 엄격 RLS + BOJ verified OOS + Preview 수동 UI 검수 **종료** (2026-07-22)
+- [x] Phase 3.0 — 안내형 얼굴 촬영 MVP + AI 분석 대기 UX (카메라 3각도 · 로컬 품질 · progress overlay · Storage/migration 없음 · `NEXT_PUBLIC_GUIDED_CAMERA_CAPTURE`)
 - [x] 프로젝트 UI 스킬 설치 (frontend-design, ui-ux-pro-max) + kbeauty-match-design + design-system 초안 (페이지 재디자인 미실시)
+- [ ] Phase 3.0 Preview 실기기 검수 (권한·갤러리·문진 fallback · reduced motion)
 - [ ] WQ-F Phase 2+ 잔여: schema/runtime 확장 (D/E 보강 없이 · 별도 승인)
 
 ### 단계 6 — 증상 기반 피부과 실제 데이터

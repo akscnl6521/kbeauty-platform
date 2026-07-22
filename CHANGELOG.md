@@ -6,6 +6,16 @@
 
 ## 2026-07-22
 
+### Phase 3.0 — Guided camera capture MVP + analysis waiting UX
+
+- Camera-first multi-angle capture (front / left45 / right45) on `/analyze`
+- Gallery + questionnaire-only fallbacks; permission/HTTPS/device unavailable paths
+- Local quality checks (resolution/brightness/sharpness/file/format); pose=`pose_check_unavailable` (no fake face ML)
+- Analysis progress overlay with soft 0–90% then 100% on real completion; timeout/retry; duplicate-submit guard
+- Ephemeral object URLs only — no Storage/migration/care-photos; EXIF strip via existing helper
+- Flag: `NEXT_PUBLIC_GUIDED_CAMERA_CAPTURE` (default on; `0` restores legacy single upload)
+- Docs: `docs/analyze/PHASE30_GUIDED_CAMERA_CAPTURE.md` · test: `npm run test:guided-capture`
+
 ### Phase 2.6.2 종료 — A 엄격 RLS + BOJ verified OOS + Preview UI
 
 - Staging Dashboard v2: BOJ offer `verification_status` unverified→verified (stock OOS·price·URL 불변)

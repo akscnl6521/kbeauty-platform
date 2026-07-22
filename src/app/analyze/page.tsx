@@ -13,6 +13,8 @@ import {
   photoAnalysisOnlyAckMessage,
   photoConsentBlockedMessage,
 } from "@/components/care/PhotoConsentPanel";
+import { GuidedCaptureFlow } from "@/components/analyze/guidedCapture/GuidedCaptureFlow";
+import { isGuidedCameraCaptureEnabled } from "@/lib/analyze/guidedCapture/isEnabled";
 import {
   defaultPhotoConsentChoices,
   shouldAutoPurgeAfterAnalysis,
@@ -719,6 +721,7 @@ export default function AnalyzePage() {
    * 클라이언트 마운트 후 NODE_ENV 를 확인해 프로덕션에서는 절대 보이지 않게 한다.
    */
   const [showMockButton, setShowMockButton] = useState(false);
+  const [guidedCaptureEnabled, setGuidedCaptureEnabled] = useState(false);
   /** Sprint 3 Phase 1 — LocalStorage 랭킹 제품 (최대 5) */
   const [rankedProducts, setRankedProducts] = useState<
     RankedProduct<CandidateProduct>[]
@@ -727,6 +730,7 @@ export default function AnalyzePage() {
   useEffect(() => {
     // next dev 에서만 true. production 빌드에서는 false.
     setShowMockButton(process.env.NODE_ENV === "development");
+    setGuidedCaptureEnabled(isGuidedCameraCaptureEnabled());
   }, []);
 
   const [manualTone, setManualTone] = useState<ToneKo>("중간");
@@ -1333,6 +1337,75 @@ export default function AnalyzePage() {
           {/* Left: input */}
           <div className="rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
             {mode === "photo" ? (
+              guidedCaptureEnabled ? (
+                <GuidedCaptureFlow
+                  onSwitchToManual={() => setMode("manual")}
+                  onAnalyze={async (payload) => {
+                    setPhotoConsentChoices(payload.photoConsentChoices);
+                    const blocked = photoConsentBlockedMessage(
+                      payload.photoConsentChoices
+                    );
+                    if (blocked) throw new Error(blocked);
+                    const consentValidation = validatePhotoConsentChoices(
+                      payload.photoConsentChoices
+                    );
+                    if (
+                      shouldAutoPurgeAfterAnalysis(
+                        consentValidation.effectiveMode
+                      )
+                    ) {
+                      setPhotoConsentAck(photoAnalysisOnlyAckMessage());
+                    } else {
+                      setPhotoConsentAck(null);
+                    }
+                    setLoading(true);
+                    setError(null);
+                    setResult(null);
+                    setImageBase64(payload.imageBase64);
+                    try {
+                      const {
+                        analysis,
+                        recommendation: nextRecommendation,
+                        source,
+                      } = await callAnalyzeApi({
+                        mode: "photo",
+                        imageBase64: payload.imageBase64,
+                        mediaType: payload.mediaType,
+                        ...ingredientPrefs,
+                      });
+                      saveAnalyzeInputSnapshot({
+                        mode: "photo",
+                        skinTone: "",
+                        undertone: "",
+                        concerns: [],
+                        sensitivity: "",
+                        rednessObservation: null,
+                      });
+                      setResult(analysis);
+                      persistAnalyzeBundle({
+                        analysis,
+                        recommendation: nextRecommendation,
+                        source,
+                      });
+                      await runRankingPipeline(
+                        nextRecommendation,
+                        countryCode
+                      );
+                      setRankedProducts(loadRankedProductsFromStorage());
+                      setImagePreview(null);
+                      setImageBase64(null);
+                      navigateToResults({
+                        tone: "Medium",
+                        concern: analysis.concerns?.[0]
+                          ? String(analysis.concerns[0])
+                          : "Redness",
+                      });
+                    } finally {
+                      setLoading(false);
+                    }
+                  }}
+                />
+              ) : (
               <div>
                 <PhotoConsentPanel
                   value={photoConsentChoices}
@@ -1400,6 +1473,7 @@ export default function AnalyzePage() {
                   </button>
                 </div>
               </div>
+              )
             ) : (
               <div className="space-y-5">
                 <div>
