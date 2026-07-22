@@ -88,19 +88,22 @@ notes: dry-run worker admin · claim/retry/stale · manual retry/cancel · Stagi
 ### TASK WQ-F-catalog-remaining
 
 id: WQ-F-catalog-remaining
-title: Catalog remaining sprint and refresh
+title: Recommendation-scenario Top10 candidate pools (not mass SKU)
 priority: 60
-status: completed
-result_commit: 5fdf42fb35c32dfcb61d358b8fc6981234064672
+status: active
 environment: staging
 deps:
 tests:
-  - npm run test:catalog-refresh
-  - npm run test:catalog-refresh-due
+  - npm run test:recommendation-scenarios
+  - npm run analyze:scenario-catalog-gap
   - npm run test:catalog-quality-status
-  - npm run test:catalog-exception-queue
 approval_required: false
-notes: officialCrawl Shopify-list extract · qualityStatus · exception queue · Staging discovery candidates upsert (no publish)
+notes: |
+  Phase 0/1: curated KR scenarios (30), types, match/pool/gap pure logic, docs.
+  Official crawl + product_discovery_candidates = ingestion feed for scenario pools (not storefront).
+  Not shopping/price-comparison. No Cartesian scenario explosion.
+  Modifiers (age/climate/country/budget/routine/avoid/allergy/availability) re-rank within pool only.
+  Phase 2+: schema + pool fill + runtime Top3-5. No WQ-G / Production / main / auto-publish.
 
 ### TASK WQ-G-prelaunch-integration
 

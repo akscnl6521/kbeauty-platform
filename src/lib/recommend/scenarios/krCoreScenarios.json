@@ -1,0 +1,1113 @@
+[
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-redness-sensitive-cream",
+    "displayNameKo": "민감·홍조 · 진정 크림",
+    "primaryConcern": "redness",
+    "secondaryConcerns": [
+      "sensitivity"
+    ],
+    "productCategory": "cream",
+    "bodyArea": "face",
+    "sensitivityLevel": "high",
+    "prohibitedOrCautionIngredients": [
+      "Fragrance",
+      "Alcohol Denat",
+      "Menthol",
+      "Retinol",
+      "Salicylic Acid"
+    ],
+    "expectedBenefitScope": "soothing moisturize assist",
+    "cosmeticLimitations": "not medical treatment; cosmetic soothing only",
+    "dermatologistEscalationConditions": [
+      "pain",
+      "oozing",
+      "spreading_rash",
+      "persistent_burning"
+    ],
+    "priorityArea": "redness_sensitive"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-redness-soothing-serum",
+    "displayNameKo": "홍조 · 저자극 진정 세·¼",
+    "primaryConcern": "redness",
+    "secondaryConcerns": [
+      "sensitivity",
+      "barrier"
+    ],
+    "productCategory": "serum",
+    "bodyArea": "face",
+    "sensitivityLevel": "high",
+    "prohibitedOrCautionIngredients": [
+      "Fragrance",
+      "Essential Oils",
+      "Alcohol Denat",
+      "Menthol"
+    ],
+    "expectedBenefitScope": "calm visible redness",
+    "cosmeticLimitations": "does not treat rosacea diagnosis",
+    "dermatologistEscalationConditions": [
+      "swelling",
+      "heat_pain",
+      "capillary_burst"
+    ],
+    "priorityArea": "redness_sensitive"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-redness-gentle-cleanser",
+    "displayNameKo": "민감 피부 · 순한 클렘저",
+    "primaryConcern": "sensitivity",
+    "secondaryConcerns": [
+      "redness"
+    ],
+    "productCategory": "cleanser",
+    "bodyArea": "face",
+    "sensitivityLevel": "high",
+    "prohibitedOrCautionIngredients": [
+      "SLS",
+      "Fragrance",
+      "Alcohol Denat"
+    ],
+    "expectedBenefitScope": "gentle cleanse without stripping",
+    "cosmeticLimitations": "rinse-off only",
+    "dermatologistEscalationConditions": [
+      "post_wash_stinging",
+      "contact_dermatitis"
+    ],
+    "priorityArea": "redness_sensitive"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-redness-toner-pad",
+    "displayNameKo": "붉은기 · 진정 토너 패드",
+    "primaryConcern": "redness",
+    "secondaryConcerns": [
+      "sensitivity"
+    ],
+    "productCategory": "toner_pad",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Fragrance",
+      "Alcohol Denat",
+      "Witch Hazel"
+    ],
+    "expectedBenefitScope": "cooling pad for flush",
+    "cosmeticLimitations": "avoid over-exfoliation",
+    "dermatologistEscalationConditions": [
+      "pad_irritation",
+      "worsening_redness"
+    ],
+    "priorityArea": "redness_sensitive"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-redness-calming-mist",
+    "displayNameKo": "열감·홍조 · 진정 미스트",
+    "primaryConcern": "redness",
+    "secondaryConcerns": [
+      "sensitivity",
+      "dryness"
+    ],
+    "productCategory": "mist",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Fragrance",
+      "Peppermint",
+      "Alcohol Denat"
+    ],
+    "expectedBenefitScope": "instant cooling mist",
+    "cosmeticLimitations": "temporary relief only",
+    "dermatologistEscalationConditions": [
+      "mist_stings",
+      "persistent_flush"
+    ],
+    "priorityArea": "redness_sensitive"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-dryness-barrier-cream",
+    "displayNameKo": "건조·장방 · 보습 크림",
+    "primaryConcern": "dryness",
+    "secondaryConcerns": [
+      "barrier",
+      "sensitivity"
+    ],
+    "productCategory": "cream",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "High Alcohol",
+      "Strong Fragrance"
+    ],
+    "expectedBenefitScope": "barrier moisture seal",
+    "cosmeticLimitations": "not for open wounds",
+    "dermatologistEscalationConditions": [
+      "cracking_bleeding",
+      "eczema_flare"
+    ],
+    "priorityArea": "dry_barrier"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-dryness-barrier-essence",
+    "displayNameKo": "장방 강화 · 보습 에센스",
+    "primaryConcern": "barrier",
+    "secondaryConcerns": [
+      "dryness"
+    ],
+    "productCategory": "essence",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Alcohol Denat",
+      "Menthol"
+    ],
+    "expectedBenefitScope": "hydrating barrier layer",
+    "cosmeticLimitations": "layer with moisturizer",
+    "dermatologistEscalationConditions": [
+      "peeling_pain",
+      "barrier_failure"
+    ],
+    "priorityArea": "dry_barrier"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-dryness-hydrating-toner",
+    "displayNameKo": "건조함 · 수분 토너",
+    "primaryConcern": "dryness",
+    "secondaryConcerns": [
+      "barrier"
+    ],
+    "productCategory": "toner",
+    "bodyArea": "face",
+    "sensitivityLevel": "low",
+    "prohibitedOrCautionIngredients": [
+      "Alcohol Denat",
+      "Astringents"
+    ],
+    "expectedBenefitScope": "hydration prep step",
+    "cosmeticLimitations": "not a standalone moisturizer",
+    "dermatologistEscalationConditions": [
+      "severe_tightness",
+      "fissures"
+    ],
+    "priorityArea": "dry_barrier"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-dryness-cream-moderate",
+    "displayNameKo": "중건성 · 데일리 크림",
+    "primaryConcern": "dryness",
+    "secondaryConcerns": [
+      "sensitivity"
+    ],
+    "productCategory": "moisturizer",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Heavy Fragrance",
+      "Essential Oils"
+    ],
+    "expectedBenefitScope": "daily moisture balance",
+    "cosmeticLimitations": "adjust for climate",
+    "dermatologistEscalationConditions": [
+      "no_improvement_4_weeks"
+    ],
+    "priorityArea": "dry_barrier"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-dryness-mask",
+    "displayNameKo": "건조·당김 · 수분 마스크",
+    "primaryConcern": "dryness",
+    "secondaryConcerns": [
+      "barrier"
+    ],
+    "productCategory": "mask",
+    "bodyArea": "face",
+    "sensitivityLevel": "low",
+    "prohibitedOrCautionIngredients": [
+      "Fragrance",
+      "Strong Acids"
+    ],
+    "expectedBenefitScope": "intensive hydration mask",
+    "cosmeticLimitations": "1-2x weekly max",
+    "dermatologistEscalationConditions": [
+      "mask_burn",
+      "allergic_reaction"
+    ],
+    "priorityArea": "dry_barrier"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-acne-sebum-cleanser",
+    "displayNameKo": "여드·피지 · 클렘저",
+    "primaryConcern": "acne",
+    "secondaryConcerns": [
+      "pores"
+    ],
+    "productCategory": "cleanser",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Heavy Oils",
+      "Comedogenic Waxes"
+    ],
+    "expectedBenefitScope": "oil control cleanse",
+    "cosmeticLimitations": "not antibiotic substitute",
+    "dermatologistEscalationConditions": [
+      "cystic_acne",
+      "nodular_pain"
+    ],
+    "priorityArea": "acne_sebum"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-acne-spot-treatment",
+    "displayNameKo": "트러블 · 스팯 케어",
+    "primaryConcern": "acne",
+    "secondaryConcerns": [
+      "pores"
+    ],
+    "productCategory": "spot_treatment",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Undiluted Essential Oils"
+    ],
+    "expectedBenefitScope": "localized blemish care",
+    "cosmeticLimitations": "spot use only",
+    "dermatologistEscalationConditions": [
+      "deep_cyst",
+      "spreading_infection"
+    ],
+    "priorityArea": "acne_sebum"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-acne-serum",
+    "displayNameKo": "여드· 세·¼",
+    "primaryConcern": "acne",
+    "secondaryConcerns": [
+      "pores",
+      "pigmentation"
+    ],
+    "productCategory": "serum",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Heavy Silicones",
+      "Fragrance"
+    ],
+    "expectedBenefitScope": "blemish control serum",
+    "cosmeticLimitations": "introduce gradually",
+    "dermatologistEscalationConditions": [
+      "severe_inflammatory_acne"
+    ],
+    "priorityArea": "acne_sebum"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-acne-pores-toner",
+    "displayNameKo": "모공·피지 · 토너",
+    "primaryConcern": "pores",
+    "secondaryConcerns": [
+      "acne"
+    ],
+    "productCategory": "toner",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "High Alcohol",
+      "Aggressive Acids"
+    ],
+    "expectedBenefitScope": "pore refining prep",
+    "cosmeticLimitations": "cannot shrink pores permanently",
+    "dermatologistEscalationConditions": [
+      "toner_burn",
+      "breakout_worsening"
+    ],
+    "priorityArea": "acne_sebum"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-acne-mattifying-emulsion",
+    "displayNameKo": "유분·트러블 · 에메론",
+    "primaryConcern": "acne",
+    "secondaryConcerns": [
+      "pores"
+    ],
+    "productCategory": "emulsion",
+    "bodyArea": "face",
+    "sensitivityLevel": "low",
+    "prohibitedOrCautionIngredients": [
+      "Heavy Oils",
+      "Coconut Oil"
+    ],
+    "expectedBenefitScope": "light sebum balance",
+    "cosmeticLimitations": "not for very dry skin",
+    "dermatologistEscalationConditions": [
+      "dehydrated_oily_combo"
+    ],
+    "priorityArea": "acne_sebum"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-uv-sunscreen-face",
+    "displayNameKo": "얼굴 · 데일리 선크크림",
+    "primaryConcern": "uv",
+    "secondaryConcerns": [
+      "pigmentation",
+      "antiaging"
+    ],
+    "productCategory": "sunscreen",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Known Photoallergens"
+    ],
+    "expectedBenefitScope": "daily UV protection",
+    "cosmeticLimitations": "reapply outdoors",
+    "dermatologistEscalationConditions": [
+      "sunburn_blister",
+      "mole_change"
+    ],
+    "priorityArea": "uv_suncare"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-uv-sunscreen-sensitive",
+    "displayNameKo": "민감 피부 · 순한 선크크림",
+    "primaryConcern": "uv",
+    "secondaryConcerns": [
+      "sensitivity",
+      "redness"
+    ],
+    "productCategory": "sunscreen",
+    "bodyArea": "face",
+    "sensitivityLevel": "high",
+    "prohibitedOrCautionIngredients": [
+      "Fragrance",
+      "Alcohol Denat",
+      "Chemical Filters if stinging"
+    ],
+    "expectedBenefitScope": "gentle UV shield",
+    "cosmeticLimitations": "patch test recommended",
+    "dermatologistEscalationConditions": [
+      "spf_sting",
+      "photo_dermatitis"
+    ],
+    "priorityArea": "uv_suncare"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-uv-antiaging-sunscreen",
+    "displayNameKo": "광노화 · SPF 케어",
+    "primaryConcern": "uv",
+    "secondaryConcerns": [
+      "antiaging",
+      "pigmentation"
+    ],
+    "productCategory": "sunscreen",
+    "bodyArea": "face",
+    "sensitivityLevel": "low",
+    "prohibitedOrCautionIngredients": [
+      "Tanning Accelerators"
+    ],
+    "expectedBenefitScope": "photoaging prevention",
+    "cosmeticLimitations": "SPF not anti-wrinkle treatment alone",
+    "dermatologistEscalationConditions": [
+      "rapid_pigment_spread"
+    ],
+    "priorityArea": "uv_suncare"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-dryness-hydrating-sunscreen",
+    "displayNameKo": "건조 피부 · 보습 선크크림",
+    "primaryConcern": "uv",
+    "secondaryConcerns": [
+      "dryness",
+      "barrier"
+    ],
+    "productCategory": "sunscreen",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Mattifying Powders",
+      "High Alcohol"
+    ],
+    "expectedBenefitScope": "moisturizing SPF",
+    "cosmeticLimitations": "may feel rich for oily skin",
+    "dermatologistEscalationConditions": [
+      "spf_dryness_cracks"
+    ],
+    "priorityArea": "uv_suncare"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-uv-mist-spf",
+    "displayNameKo": "야외 · 선 미스트",
+    "primaryConcern": "uv",
+    "secondaryConcerns": [
+      "pigmentation"
+    ],
+    "productCategory": "mist",
+    "bodyArea": "face",
+    "sensitivityLevel": "low",
+    "prohibitedOrCautionIngredients": [
+      "Inhalation Irritants"
+    ],
+    "expectedBenefitScope": "SPF touch-up mist",
+    "cosmeticLimitations": "not primary sunscreen alone",
+    "dermatologistEscalationConditions": [
+      "outdoor_burn_despite_mist"
+    ],
+    "priorityArea": "uv_suncare"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-aging-firmness-serum",
+    "displayNameKo": "탄력 · 안티에이징 세·¼",
+    "primaryConcern": "antiaging",
+    "secondaryConcerns": [
+      "dryness",
+      "pigmentation"
+    ],
+    "productCategory": "serum",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "High Retinol without tolerance"
+    ],
+    "expectedBenefitScope": "firmness support serum",
+    "cosmeticLimitations": "gradual results only",
+    "dermatologistEscalationConditions": [
+      "retinol_burn",
+      "sudden_sagging"
+    ],
+    "priorityArea": "aging_firmness"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-aging-firmness-ampoule",
+    "displayNameKo": "주름·탄력 · 압플",
+    "primaryConcern": "antiaging",
+    "secondaryConcerns": [
+      "dryness"
+    ],
+    "productCategory": "ampoule",
+    "bodyArea": "face",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Undiluted Acids"
+    ],
+    "expectedBenefitScope": "intensive firming ampoule",
+    "cosmeticLimitations": "course not cure",
+    "dermatologistEscalationConditions": [
+      "ampoule_irritation"
+    ],
+    "priorityArea": "aging_firmness"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-aging-eye-cream",
+    "displayNameKo": "눈가 · 아이크림",
+    "primaryConcern": "antiaging",
+    "secondaryConcerns": [
+      "dryness"
+    ],
+    "productCategory": "eye_cream",
+    "bodyArea": "eye_area",
+    "sensitivityLevel": "high",
+    "prohibitedOrCautionIngredients": [
+      "Retinol high dose",
+      "Fragrance"
+    ],
+    "expectedBenefitScope": "eye area moisture and fine lines",
+    "cosmeticLimitations": "avoid eye mucosa",
+    "dermatologistEscalationConditions": [
+      "eye_swelling",
+      "vision_changes"
+    ],
+    "priorityArea": "aging_firmness"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-aging-neck-cream",
+    "displayNameKo": "목주름 · 크림",
+    "primaryConcern": "antiaging",
+    "secondaryConcerns": [
+      "dryness"
+    ],
+    "productCategory": "cream",
+    "bodyArea": "neck",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Heavy Fragrance"
+    ],
+    "expectedBenefitScope": "neck line moisture",
+    "cosmeticLimitations": "cannot reverse deep bands alone",
+    "dermatologistEscalationConditions": [
+      "neck_rash",
+      "rapid_texture_change"
+    ],
+    "priorityArea": "aging_firmness"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-aging-essence",
+    "displayNameKo": "노화늜지 · 에센스",
+    "primaryConcern": "antiaging",
+    "secondaryConcerns": [
+      "pigmentation",
+      "dryness"
+    ],
+    "productCategory": "essence",
+    "bodyArea": "face",
+    "sensitivityLevel": "low",
+    "prohibitedOrCautionIngredients": [
+      "Aggressive Peels"
+    ],
+    "expectedBenefitScope": "antiaging hydration base",
+    "cosmeticLimitations": "combine with SPF",
+    "dermatologistEscalationConditions": [
+      "essence_sting"
+    ],
+    "priorityArea": "aging_firmness"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-eye-wrinkle-cream",
+    "displayNameKo": "눈가 주름 · 아이크림",
+    "primaryConcern": "antiaging",
+    "secondaryConcerns": [
+      "dryness",
+      "sensitivity"
+    ],
+    "productCategory": "eye_cream",
+    "bodyArea": "eye_area",
+    "sensitivityLevel": "high",
+    "prohibitedOrCautionIngredients": [
+      "Fragrance",
+      "Strong Retinoids"
+    ],
+    "expectedBenefitScope": "eye wrinkle moisture",
+    "cosmeticLimitations": "pea-sized amount only",
+    "dermatologistEscalationConditions": [
+      "milialar_reaction",
+      "eye_puffiness_severe"
+    ],
+    "priorityArea": "eye_neck"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-eye-dark-circle-serum",
+    "displayNameKo": "다크서클 · 아이 세·¼",
+    "primaryConcern": "pigmentation",
+    "secondaryConcerns": [
+      "antiaging"
+    ],
+    "productCategory": "serum",
+    "bodyArea": "eye_area",
+    "sensitivityLevel": "high",
+    "prohibitedOrCautionIngredients": [
+      "High Vitamin C without buffer"
+    ],
+    "expectedBenefitScope": "under-eye tone assist",
+    "cosmeticLimitations": "genetic circles limited effect",
+    "dermatologistEscalationConditions": [
+      "hyperpigment_spread"
+    ],
+    "priorityArea": "eye_neck"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-neck-firming-cream",
+    "displayNameKo": "목 · 탄력 크림",
+    "primaryConcern": "antiaging",
+    "secondaryConcerns": [
+      "dryness"
+    ],
+    "productCategory": "cream",
+    "bodyArea": "neck",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Heavy Fragrance"
+    ],
+    "expectedBenefitScope": "neck firming moisture",
+    "cosmeticLimitations": "massage gently upward",
+    "dermatologistEscalationConditions": [
+      "neck_dermatitis"
+    ],
+    "priorityArea": "eye_neck"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-neck-serum",
+    "displayNameKo": "목주름 · 세·¼",
+    "primaryConcern": "antiaging",
+    "secondaryConcerns": [
+      "dryness"
+    ],
+    "productCategory": "serum",
+    "bodyArea": "neck",
+    "sensitivityLevel": "moderate",
+    "prohibitedOrCautionIngredients": [
+      "Undiluted Acids"
+    ],
+    "expectedBenefitScope": "neck line serum",
+    "cosmeticLimitations": "layer with cream",
+    "dermatologistEscalationConditions": [
+      "serum_irritation_neck"
+    ],
+    "priorityArea": "eye_neck"
+  },
+  {
+    "candidatePoolSize": 10,
+    "finalRecommendationMin": 3,
+    "finalRecommendationMax": 5,
+    "brandCapDefault": 2,
+    "brandCapMaxWithEvidence": 3,
+    "marketPriority": "KR",
+    "status": "active",
+    "requiredProductEvidence": {
+      "identityConfirmed": true,
+      "ingredientsOrTrustedEvidence": true,
+      "imageRequired": true,
+      "minOffers": 1,
+      "safetyFilterApplicable": true,
+      "noCriticalSourceConflict": true
+    },
+    "scenarioId": "kr-eye-neck-multi-cream",
+    "displayNameKo": "눈가·목 · 멀티 크림",
+    "primaryConcern": "antiaging",
+    "secondaryConcerns": [
+      "dryness",
+      "sensitivity"
+    ],
+    "productCategory": "cream",
+    "bodyArea": "eye_area",
+    "sensitivityLevel": "high",
+    "prohibitedOrCautionIngredients": [
+      "Fragrance",
+      "Essential Oils"
+    ],
+    "expectedBenefitScope": "eye and neck dual care",
+    "cosmeticLimitations": "avoid direct eye contact",
+    "dermatologistEscalationConditions": [
+      "multi_area_irritation"
+    ],
+    "priorityArea": "eye_neck"
+  }
+]

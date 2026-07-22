@@ -1,3 +1,13 @@
+# WQ-F ? Recommendation Scenario Top10 Pools
+
+> **2026-07-22 Phase 0/1 redirect:** WQ-F is no longer mass brand SKU registration.
+> Goal: curated recommendation scenarios with candidate pool of 10, then personal Top 3-5.
+> Official crawl + product_discovery_candidates remain as ingestion feeds into pools.
+> See docs/catalog/RECOMMENDATION_SCENARIOS.md and RECOMMENDATION_SCENARIO_PHASE2_SCHEMA.md.
+> Forbidden: WQ-G, Production, main merge, auto-publish, CAPTCHA bypass, affiliate-ranked organic.
+
+---
+
 # WQ-F Catalog Remaining
 
 Korean cosmetics official crawl → normalize → quality gate → dry-run → Staging candidate bulk register → exceptions-only admin review → non-PII backup.

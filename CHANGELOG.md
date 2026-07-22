@@ -6,13 +6,20 @@
 
 ## 2026-07-22
 
-### WQ-F Catalog remaining (코드·dry-run/commit · Staging candidates)
+### WQ-F Phase 0/1 — Recommendation scenario Top10 model
+
+- Curated KR core scenarios: **30** (not Cartesian) · types/match/pool/gap pure logic
+- Docs: `RECOMMENDATION_SCENARIOS.md` · Phase2 schema draft · WORK_QUEUE/MASTER_PLAN redirect
+- Tests: `npm run test:recommendation-scenarios` · `npm run analyze:scenario-catalog-gap`
+- No fake pool fill · no migration apply · no Staging write · no WQ-G / Production / main
+
+### WQ-F Catalog remaining (legacy ingestion layer · earlier same day)
 
 - CLI-safe crawl: `officialCrawl.ts` (robots-aware · no server-only)
 - Quality statuses: `qualityStatus.ts` · sprint: `wqFRemainingSprint.ts`
 - Runner: `npm run catalog:wq-f-remaining` (`WQF_DRY_RUN` / `WQF_COMMIT_STAGING`)
 - Exception queue scoring: duplicate stays critical; renewal@0.9 stays high
-- Docs: `docs/catalog/WQ_F_REMAINING.md` · WORK_QUEUE F=completed · G remains queued+approval_required
+- Docs: `docs/catalog/WQ_F_REMAINING.md` · demoted to **ingestion feed for scenario pools**
 - Production 미쓰기 · main 미병합 · products 자동 publish 없음
 
 ### Care worker admin dry-run (WQ-E · 코드·테스트 완료)

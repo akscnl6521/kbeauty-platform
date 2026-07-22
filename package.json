@@ -119,7 +119,9 @@
     "test:checkin-scheduling": "npx --yes tsx scripts/checkin-scheduling-selftest.ts && npx --yes tsx scripts/notification-preferences-selftest.ts",
     "verify:checkin-scheduling-staging": "node scripts/verify-checkin-scheduling-staging.mjs",
     "catalog:wq-f-remaining": "npx --yes tsx scripts/run-wq-f-catalog-remaining.ts",
-    "test:catalog-quality-status": "npx --yes tsx scripts/catalog-quality-status-selftest.ts"
+    "test:catalog-quality-status": "npx --yes tsx scripts/catalog-quality-status-selftest.ts",
+    "test:recommendation-scenarios": "npx --yes tsx scripts/recommendation-scenario-selftest.ts",
+    "analyze:scenario-catalog-gap": "npx --yes tsx scripts/analyze-scenario-catalog-gap.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",
