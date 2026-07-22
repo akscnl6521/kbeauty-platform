@@ -1,0 +1,81 @@
+{
+  "products": [
+    {
+      "id": 21,
+      "slug": "aestura-atobarrier365-cream",
+      "active": true,
+      "verified": true,
+      "keyCount": 7,
+      "fullCount": 45,
+      "existingIngredientLinks": 0,
+      "newlyLinked": 45,
+      "linkErrorSample": []
+    },
+    {
+      "id": 22,
+      "slug": "round-lab-dokdo-cream",
+      "active": true,
+      "verified": true,
+      "keyCount": 7,
+      "fullCount": 44,
+      "existingIngredientLinks": 0,
+      "newlyLinked": 44,
+      "linkErrorSample": []
+    },
+    {
+      "id": 23,
+      "slug": "torriden-dive-in-serum",
+      "active": true,
+      "verified": true,
+      "keyCount": 8,
+      "fullCount": 35,
+      "existingIngredientLinks": 0,
+      "newlyLinked": 35,
+      "linkErrorSample": []
+    },
+    {
+      "id": 24,
+      "slug": "skin1004-madagascar-centella-ampoule",
+      "active": true,
+      "verified": true,
+      "keyCount": 2,
+      "fullCount": 7,
+      "existingIngredientLinks": 0,
+      "newlyLinked": 7,
+      "linkErrorSample": []
+    },
+    {
+      "id": 25,
+      "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+      "active": true,
+      "verified": true,
+      "keyCount": 3,
+      "fullCount": 27,
+      "existingIngredientLinks": 0,
+      "newlyLinked": 27,
+      "linkErrorSample": []
+    },
+    {
+      "id": 26,
+      "slug": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "active": true,
+      "verified": true,
+      "keyCount": 3,
+      "fullCount": 28,
+      "existingIngredientLinks": 0,
+      "newlyLinked": 28,
+      "linkErrorSample": []
+    }
+  ],
+  "offers": [
+    {
+      "slug": "round-lab-dokdo-cream",
+      "status": "exists"
+    },
+    {
+      "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+      "status": "exists"
+    }
+  ],
+  "errors": []
+}
