@@ -75,6 +75,14 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 - `/qa/usage-guide` 임시 QA 페이지: **본기능에 포함하지 않음** (미채택)
 - main 미병합 · Production 미배포 · Production DB·환경변수 변경 없음
 
+## Phase 2.6 (2026-07-22) — Staging Preview 실검증
+
+- A/B/C commerce separation Staging SELECT 검증 완료 (write 0)
+- C Top: COSRX / BOJ / Anua (+ Haruharu 4위) — CTA는 in_stock만 ON
+- BOJ: DB는 OOS이나 anon RLS로 app은 `availability_unknown` 표시 (DRAFT RLS 미적용)
+- rollback OFF 시 C Top 0 복원 확인
+- 문서: `docs/catalog/SCENARIO_PILOT_PHASE26_STAGING_PREVIEW.md`
+
 ## Phase 2.5 (2026-07-22) — recommendation ↔ commerce 분리
 
 - Organic 추천 자격과 구매 가능 상태 분리 (**로컬 코드·테스트·문서만**, DB write 0)
@@ -87,7 +95,8 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 ## 다음 작업
 
 1. (승인 대기) WQ-G Prelaunch integration / production readiness gate
-2. (승인 대기) 사진 비교 Staging migration 적용 · `care-photos` bucket 생성
+2. (승인 대기) DRAFT RLS `DRAFT_DO_NOT_APPLY_20260722_product_offers_oos_read_policy.sql` Staging 적용 여부
+3. (승인 대기) 사진 비교 Staging migration 적용 · `care-photos` bucket 생성
 
 ## 최근 완료
 

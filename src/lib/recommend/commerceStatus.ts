@@ -30,7 +30,7 @@ export type CommerceAvailability = {
  * legacy KR in_stock gate for ranking eligibility.
  */
 export function isRecommendCommerceSeparationEnabled(
-  env: NodeJS.ProcessEnv = process.env
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env
 ): boolean {
   const raw = (env.RECOMMEND_COMMERCE_SEPARATION ?? "1").trim().toLowerCase();
   return raw !== "0" && raw !== "false" && raw !== "off";
