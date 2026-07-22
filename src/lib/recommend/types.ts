@@ -117,6 +117,10 @@ export interface Recommendation {
    * 제품 효능 단정이 아니라 추천 힌트·citation용.
    */
   evidenceLinks?: import("@/lib/evidence").ApprovedEvidenceLink[];
+  /** Phase 2 scenario pilot — analysis-time pool snapshot for check-in tracking. */
+  scenarioPilot?: import("./scenarios/pilotPhase2/types").ScenarioPilotSnapshot;
+  /** Phase 2 pilot — usage/limitations metadata (no fake efficacy claims). */
+  scenarioPilotDetails?: import("./scenarios/pilotPhase2/types").ScenarioPilotRecommendationDetails;
 }
 
 /** localStorage key for the structured recommendation (Phase 1). */
@@ -138,7 +142,7 @@ export const RANKED_PRODUCTS_STORAGE_KEY = "skinRankedProducts";
  * 핵심 추천 캐시 버전.
  * 이미지/offer 부착 로직이 바뀌면 올려서 기존 Top 5를 폐기한다.
  */
-export const RECOMMENDATION_CACHE_VERSION = "KR_MATCH_EVIDENCE_V3";
+export const RECOMMENDATION_CACHE_VERSION = "KR_SCENARIO_PILOT_PHASE2_V1";
 
 /** 캐시 버전 localStorage 키 */
 export const RECOMMENDATION_CACHE_VERSION_KEY = "recommendationCacheVersion";

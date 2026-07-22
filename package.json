@@ -124,6 +124,7 @@
     "test:recommendation-pilot": "npx --yes tsx scripts/recommendation-pilot-selftest.ts",
     "test:recommendation-pilot-enrichment": "npx --yes tsx scripts/recommendation-pilot-enrichment-selftest.ts",
     "test:recommendation-pilot-de-enrichment": "npx --yes tsx scripts/recommendation-pilot-de-enrichment-selftest.ts",
+    "test:recommendation-scenario-phase2": "npx --yes tsx scripts/recommendation-scenario-phase2-selftest.ts",
     "analyze:scenario-catalog-gap": "npx --yes tsx scripts/analyze-scenario-catalog-gap.ts"
   },
   "dependencies": {
