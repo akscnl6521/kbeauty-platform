@@ -1,0 +1,94 @@
+{
+  "phase": "2.4",
+  "checked_at": "2026-07-22T20:00:00+09:00",
+  "staging_ref_masked": "jfnj***gfd",
+  "decision": "STOP_NO_WRITE",
+  "reason": "No alternate C candidate currently meets official KR in_stock + identity + dual INCI + match-evidence gates",
+  "production_writes": 0,
+  "c_baseline": {
+    "verified_count": 2,
+    "top_n": 0,
+    "match_keys": [
+      "Heartleaf",
+      "Salicylic Acid",
+      "Glycolic Acid",
+      "Niacinamide",
+      "Hyaluronic Acid"
+    ]
+  },
+  "candidates_reviewed": [
+    {
+      "brand": "Abib",
+      "product_name": "Heartleaf Calming Toner Skin Booster",
+      "slug_suggested": "abib-heartleaf-calming-toner-skin-booster",
+      "volume": "200ml",
+      "official_kr_url": "https://abib.com/product/%EC%96%B4%EC%84%B1%EC%B4%88-%EC%B9%B4%EB%B0%8D-%ED%86%A0%EB%84%88-%EC%8A%A4%ED%82%A8-%EB%B6%80%EC%8A%A4%ED%84%B0/133/",
+      "price_krw_list": 23000,
+      "price_krw_sale_observed": 16100,
+      "stock": "out_of_stock",
+      "meets_all_gates": false,
+      "blocker": "official_sold_out"
+    },
+    {
+      "brand": "Isntree",
+      "product_name": "Green Tea Fresh Toner",
+      "slug_suggested": "isntree-green-tea-fresh-toner",
+      "volume": "200ml",
+      "official_kr_url": "https://isntree.com/product/%EA%B7%B8%EB%A6%B0%ED%8B%B0-%ED%94%84%EB%A0%88%EC%89%AC-%ED%86%A0%EB%84%88-200ml/177/",
+      "price_krw_sale": 13200,
+      "stock": "out_of_stock",
+      "pool_status": "already_in_c_pool_as_trend_candidate",
+      "meets_all_gates": false,
+      "blocker": "official_sold_out"
+    },
+    {
+      "brand": "AXIS-Y",
+      "product_name": "Daily Purifying Treatment Toner",
+      "slug_suggested": "axis-y-daily-purifying-treatment-toner",
+      "volume": "200ml",
+      "official_kr_url": "https://axis-y.co.kr/product/%EB%8D%B0%EC%9D%BC%EB%A6%AC-%ED%93%A8%EB%A6%AC%ED%8C%8C%EC%9E%89-%ED%8A%B8%EB%A6%AC%ED%8A%B8%EB%A8%BC%ED%8A%B8-%ED%86%A0%EB%84%88-200ml/45/",
+      "price_krw": 28000,
+      "stock": "out_of_stock",
+      "inci_risk": "KR PDP INCI appears cleanser-like; conflicts with overseas BHA toner INCI",
+      "meets_all_gates": false,
+      "blocker": "sold_out_and_inci_identity_risk"
+    },
+    {
+      "brand": "Torriden",
+      "product_name": "DIVE IN Low Molecular Hyaluronic Acid Toner",
+      "slug_suggested": "torriden-dive-in-low-molecular-hyaluronic-acid-toner",
+      "volume": "300ml",
+      "official_kr_url": "https://www.torriden.com/goods/goods_view.php?goodsNo=90",
+      "price_krw_sale": 15700,
+      "price_krw_list": 21000,
+      "stock": "purchase_unavailable",
+      "meets_all_gates": false,
+      "blocker": "official_purchase_unavailable"
+    },
+    {
+      "brand": "Pyunkang Yul",
+      "product_name": "Essence Toner",
+      "slug_suggested": "pyunkang-yul-essence-toner",
+      "volume": "100ml",
+      "official_kr_url": "https://pyunkangyul.com/product/%EC%97%90%EC%84%BC%EC%8A%A4-%ED%86%A0%EB%84%88-100ml/39/",
+      "price_krw_sale": 9400,
+      "stock": "out_of_stock",
+      "meets_all_gates": false,
+      "blocker": "official_sold_out"
+    },
+    {
+      "brand": "Dr.G",
+      "product_name": "Red Blemish Clear Soothing Toner",
+      "slug_suggested": "dr-g-red-blemish-clear-soothing-toner",
+      "volume": "300ml",
+      "official_kr_url": "https://www.dr-g.co.kr/item/4242",
+      "match_reason": "Niacinamide in official INCI; gentle soothing toner for blemish-prone face",
+      "stock": "not_confirmed_in_stock_restock_alert_language",
+      "meets_all_gates": false,
+      "blocker": "official_in_stock_not_confirmed"
+    }
+  ],
+  "qualifying_for_staging_write": [],
+  "staging_write_plan": null,
+  "rollback": "N/A"
+}

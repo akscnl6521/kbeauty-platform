@@ -142,7 +142,8 @@ export const RANKED_PRODUCTS_STORAGE_KEY = "skinRankedProducts";
  * 핵심 추천 캐시 버전.
  * 이미지/offer 부착 로직이 바뀌면 올려서 기존 Top 5를 폐기한다.
  */
-export const RECOMMENDATION_CACHE_VERSION = "KR_SCENARIO_PILOT_PHASE2_V1";
+export const RECOMMENDATION_CACHE_VERSION =
+  "KR_SCENARIO_PILOT_PHASE25_COMMERCE_SEP_V1";
 
 /** 캐시 버전 localStorage 키 */
 export const RECOMMENDATION_CACHE_VERSION_KEY = "recommendationCacheVersion";
@@ -228,7 +229,8 @@ export interface CandidateProduct extends RankableProduct {
   purchase_links?: PurchaseLink[] | null;
   /**
    * 국가별 ProductOffer (product_offers 테이블 또는 정규화된 배열).
-   * 핵심 추천은 배송 국가에 verified + 가격·통화·재고 적격 offer가 있는 제품만 사용한다.
+   * Phase 2.5: 랭킹은 recommendation-eligible offer(또는 availability_unknown)로 통과하고,
+   * 구매 CTA는 in_stock verified offer만 사용한다.
    */
   offers?: ProductOffer[] | null;
 }

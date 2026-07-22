@@ -1,0 +1,33 @@
+{
+  "phase": "2.5",
+  "checked_at": "2026-07-22T19:58:00+09:00",
+  "decision": "CODE_ONLY_NO_DB_WRITE",
+  "production_writes": 0,
+  "staging_writes": 0,
+  "migration_apply": false,
+  "draft_migration_needed": false,
+  "feature_flag": {
+    "name": "RECOMMEND_COMMERCE_SEPARATION",
+    "default": "1",
+    "rollback": "0"
+  },
+  "gates": {
+    "ranking": "isOfferEligibleForRecommendation",
+    "purchase_cta": "isOfferEligibleForCoreRecommendation"
+  },
+  "c_rejudge": {
+    "beauty-of-joseon-green-plum-refreshing-toner": {
+      "recommendation_ready": true,
+      "commerce_status": "out_of_stock",
+      "preserve_oos_offer": true
+    },
+    "haruharu-wonder-black-rice-hyaluronic-toner": {
+      "recommendation_ready": true,
+      "commerce_status": "availability_unknown",
+      "unscented_sku_mix": false,
+      "note": "Pool INCI includes Lavender Oil; do not attach unscented #517"
+    }
+  },
+  "expected_c_top_min": 3,
+  "cache_version": "KR_SCENARIO_PILOT_PHASE25_COMMERCE_SEP_V1"
+}

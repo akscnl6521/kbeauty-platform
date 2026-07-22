@@ -1,0 +1,47 @@
+{
+  "phase": "2.3",
+  "checked_at": "2026-07-22T10:40:00+09:00",
+  "staging_ref_masked": "jfnj***gfd",
+  "decision": "STOP_NO_WRITE",
+  "reason": "No official KR source currently confirms verified + in_stock for either target SKU",
+  "production_writes": 0,
+  "candidates": {
+    "beauty-of-joseon-green-plum-refreshing-toner": {
+      "product_id": 25,
+      "official_kr_url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/",
+      "product_name_kr": "청매실 AHA BHA 토너",
+      "volume": "150ml",
+      "price_krw": 18000,
+      "seller": "조선미녀 공식몰",
+      "stock": "out_of_stock",
+      "meets_verified_in_stock": false,
+      "existing_offer_id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+      "duplicate_of_existing_oos": true,
+      "planned_write": null
+    },
+    "haruharu-wonder-black-rice-hyaluronic-toner": {
+      "product_id": 26,
+      "identity_notes": "Pool INCI includes Lavender Oil; image indicates 150ml; unscented is separate SKU",
+      "official_kr_unscented_150ml": {
+        "url": "https://haruharu.com/product/%EB%B8%94%EB%9E%99%EB%9D%BC%EC%9D%B4%EC%8A%A4-%ED%9E%88%EC%95%8C%EB%A3%A8%EB%A1%9C%EB%8B%89-%ED%86%A0%EB%84%88-%EB%AC%B4%ED%96%A5-150ml/517/",
+        "price_krw_list": 20000,
+        "price_krw_sale": 19000,
+        "stock": "out_of_stock",
+        "sku_match": false
+      },
+      "official_en_scented_150ml": {
+        "url": "https://en.haruharu.com/product/black-rice-hyaluronic-toner-150ml/519/",
+        "stock": "out_of_stock",
+        "currency": "not_KRW_page",
+        "sku_match": true
+      },
+      "existing_offers": [],
+      "meets_verified_in_stock": false,
+      "planned_write": null
+    }
+  },
+  "expected_c_verified_count": 2,
+  "expected_c_top_n": 0,
+  "insert_update_planned": [],
+  "rollback": "N/A (no write)"
+}

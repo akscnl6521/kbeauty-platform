@@ -75,6 +75,15 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 - `/qa/usage-guide` 임시 QA 페이지: **본기능에 포함하지 않음** (미채택)
 - main 미병합 · Production 미배포 · Production DB·환경변수 변경 없음
 
+## Phase 2.5 (2026-07-22) — recommendation ↔ commerce 분리
+
+- Organic 추천 자격과 구매 가능 상태 분리 (**로컬 코드·테스트·문서만**, DB write 0)
+- `isOfferEligibleForRecommendation` vs CTA `isOfferEligibleForCoreRecommendation`
+- flag: `RECOMMEND_COMMERCE_SEPARATION` (기본 on, `0` 롤백)
+- C: BOJ OOS·Haruharu availability_unknown 도 Top 포함 가능 (CTA는 비활성)
+- 문서: `docs/catalog/SCENARIO_PILOT_PHASE25_COMMERCE_SEPARATION.md`
+- DRAFT migration: **불필요** (기존 offer 파생)
+
 ## 다음 작업
 
 1. (승인 대기) WQ-G Prelaunch integration / production readiness gate

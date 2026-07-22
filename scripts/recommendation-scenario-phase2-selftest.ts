@@ -73,6 +73,24 @@ function baseRecommendation(
   };
 }
 
+function krOfferOosOfficial(productId: string): ProductOffer {
+  return {
+    id: `offer-oos-${productId}`,
+    productId,
+    retailerName: "beautyofjoseon",
+    retailerCountry: "KR",
+    shipsToCountries: ["KR"],
+    purchaseUrl: "https://beautyofjoseon.co.kr/product/example/31/",
+    price: 18000,
+    currency: "KRW",
+    stockStatus: "out_of_stock",
+    verificationStatus: "unverified",
+    isOfficial: true,
+    lastCheckedAt: "2026-07-22T10:40:00+09:00",
+    active: true,
+  };
+}
+
 async function mockFetchFromPool(slugs: string[]): Promise<CandidateProduct[]> {
   const catalog: Record<string, CandidateProduct> = {
     "cosrx-advanced-snail-92-all-in-one-cream": mockProduct(
@@ -110,6 +128,38 @@ async function mockFetchFromPool(slugs: string[]): Promise<CandidateProduct[]> {
       ["Niacinamide"],
       "ROUND LAB"
     ),
+    // C scenario — commerce separation fixtures
+    "cosrx-aha-bha-clarifying-treatment-toner": mockProduct(
+      "cosrx-aha-bha-clarifying-treatment-toner",
+      ["Salicylic Acid", "Glycolic Acid"],
+      "COSRX"
+    ),
+    "anua-heartleaf-77-soothing-toner": mockProduct(
+      "anua-heartleaf-77-soothing-toner",
+      ["Heartleaf", "Panthenol"],
+      "Anua"
+    ),
+    "beauty-of-joseon-green-plum-refreshing-toner": {
+      ...mockProduct(
+        "beauty-of-joseon-green-plum-refreshing-toner",
+        ["Salicylic Acid", "Glycolic Acid", "Prunus Mume Fruit Extract"],
+        "Beauty of Joseon"
+      ),
+      offers: [krOfferOosOfficial("id-beauty-of-joseon-green-plum-refreshing-toner")],
+    },
+    "round-lab-dokdo-toner": mockProduct(
+      "round-lab-dokdo-toner",
+      ["Sea Water", "Panthenol"],
+      "ROUND LAB"
+    ),
+    "haruharu-wonder-black-rice-hyaluronic-toner": {
+      ...mockProduct(
+        "haruharu-wonder-black-rice-hyaluronic-toner",
+        ["Hyaluronic Acid", "Glycerin", "Lavender Oil"],
+        "Haruharu Wonder"
+      ),
+      offers: [],
+    },
   };
   return slugs
     .map((slug) => catalog[slug])
@@ -309,12 +359,55 @@ async function testSnapshotVersions() {
   assert.ok(result.snapshot.productEvidenceVersion);
 }
 
+// 12) C Top 3 with OOS / availability_unknown (Phase 2.5 commerce separation)
+async function testCTop3CommerceSeparation() {
+  const result = await runScenarioPilotPhase2({
+    recommendation: baseRecommendation({
+      skinConcerns: ["Pores", "Acne"],
+      recommendedIngredients: [
+        "Heartleaf",
+        "Salicylic Acid",
+        "Glycolic Acid",
+        "Niacinamide",
+        "Hyaluronic Acid",
+      ],
+    }),
+    fetchCandidatesBySlugs: mockFetchFromPool,
+    shippingCountry: "KR",
+  });
+
+  assert.equal(
+    result.status,
+    "ok",
+    `C expected ok, got ${result.status}: ${result.snapshot.shortageReason ?? ""}`
+  );
+  assert.equal(result.snapshot.scenarioId, "kr-acne-pores-toner");
+  assert.ok(
+    result.ranked.length >= 3,
+    `C Top expected >=3, got ${result.ranked.length}`
+  );
+  const slugs = result.ranked.map((r) => r.product.slug);
+  assert.ok(
+    slugs.includes("beauty-of-joseon-green-plum-refreshing-toner"),
+    "BOJ OOS must remain in Organic Top"
+  );
+  const boj = result.ranked.find(
+    (r) => r.product.slug === "beauty-of-joseon-green-plum-refreshing-toner"
+  );
+  assert.equal(
+    (boj?.product.purchase_links ?? []).length,
+    0,
+    "BOJ OOS must not expose purchasable CTA links"
+  );
+}
+
 async function main() {
   await testDeInsufficient();
   await testAvoidExclusion();
   await testAllergyExclusion();
   await testSymptomSafetyPriority();
   await testSnapshotVersions();
+  await testCTop3CommerceSeparation();
 
   assert.equal(countRecommendationReadyInPool("kr-redness-sensitive-cream"), 6);
   assert.equal(countRecommendationReadyInPool("pilot-dryness-barrier-serum"), 7);

@@ -267,7 +267,7 @@ export async function runScenarioPilotPhase2(
       match,
       scenarioId,
       safe.length,
-      `${scenarioId}: verified offer + safety pass=${safe.length} (<${PILOT_FINAL_RECOMMENDATION_MIN}); no padding.`
+      `${scenarioId}: recommendation-eligible pool + safety pass=${safe.length} (<${PILOT_FINAL_RECOMMENDATION_MIN}); no padding.`
     );
   }
 

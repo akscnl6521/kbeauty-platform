@@ -16,6 +16,7 @@ import {
   buildPurchaseLinksFromProduct,
   normalizeShippingCountry,
 } from "./selectPurchaseLink";
+import { isRecommendCommerceSeparationEnabled } from "./commerceStatus";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -307,18 +308,14 @@ export function productOfferToPurchaseLink(offer: ProductOffer): PurchaseLink {
 }
 
 /**
- * 핵심 추천용 offer 적격성.
- * - 공통: verified, verifiedAt, price > 0, 통화, https URL, 배송국 포함, 판매국=배송국, active !== false
- * - KR: retailerCountry=KR, KRW, in_stock 만 허용 (GLOBAL/US/JP·unknown 재고 제외)
- * - 레거시 purchase_links 변환분도 동일 조건을 통과해야 포함된다
+ * Shared identity / region / price / URL checks (stock-agnostic).
+ * Used by both recommendation ranking and purchase CTA gates.
  */
-export function isOfferEligibleForCoreRecommendation(
+function passesOfferIdentityAndCommerceBase(
   offer: ProductOffer,
   shippingCountry: ShippingCountry
 ): boolean {
   if (offer.active === false) return false;
-  if (offer.verificationStatus !== "verified") return false;
-  if (!offer.verifiedAt || !offer.verifiedAt.trim()) return false;
   if (offer.price == null || !Number.isFinite(offer.price) || offer.price <= 0) {
     return false;
   }
@@ -326,18 +323,81 @@ export function isOfferEligibleForCoreRecommendation(
   if (offer.currency !== expectedCurrency(shippingCountry)) return false;
   if (!offer.purchaseUrl || !isHttpsUrl(offer.purchaseUrl)) return false;
   if (!offer.shipsToCountries.includes(shippingCountry)) return false;
-  // 국가 일치 규칙: GLOBAL 및 타국 판매처는 해당 배송국 핵심 추천에서 제외
   if (offer.retailerCountry !== shippingCountry) return false;
+  return true;
+}
+
+/**
+ * 구매 CTA / 구매 가능 판정 (commerce availability).
+ * - 공통: verified, verifiedAt, price > 0, 통화, https URL, 배송국 포함, 판매국=배송국, active !== false
+ * - KR: retailerCountry=KR, KRW, in_stock 만 허용
+ * - US/JP: in_stock 또는 unknown
+ * Organic 점수·추천 자격에는 사용하지 않는다.
+ */
+export function isOfferEligibleForCoreRecommendation(
+  offer: ProductOffer,
+  shippingCountry: ShippingCountry
+): boolean {
+  if (!passesOfferIdentityAndCommerceBase(offer, shippingCountry)) return false;
+  if (offer.verificationStatus !== "verified") return false;
+  if (!offer.verifiedAt || !offer.verifiedAt.trim()) return false;
 
   if (shippingCountry === "KR") {
-    // 한국: 재고 unknown 제외, in_stock만 허용
     if (offer.stockStatus !== "in_stock") return false;
     return true;
   }
 
-  // US / JP: in_stock 또는 unknown 허용
   if (!CORE_ALLOWED_STOCK.has(offer.stockStatus)) return false;
   return true;
+}
+
+/**
+ * 추천 랭킹용 offer 적격성 (recommendation_ready 경로의 commerce 존재 확인).
+ * in_stock 을 요구하지 않는다. Organic 점수 가산도 하지 않는다.
+ *
+ * - verified + verifiedAt: 재고 in_stock | out_of_stock | unknown 허용
+ * - 공식 KR sale-checked: 미검증이어도 OOS/unknown 이면 랭킹 풀에 유지
+ *   (품절 공식몰이 추천 자격을 끄지 않도록)
+ */
+export function isOfferEligibleForRecommendation(
+  offer: ProductOffer,
+  shippingCountry: ShippingCountry
+): boolean {
+  if (!passesOfferIdentityAndCommerceBase(offer, shippingCountry)) return false;
+
+  const stockOk =
+    offer.stockStatus === "in_stock" ||
+    offer.stockStatus === "out_of_stock" ||
+    offer.stockStatus === "unknown";
+  if (!stockOk) return false;
+
+  if (
+    offer.verificationStatus === "verified" &&
+    offer.verifiedAt &&
+    offer.verifiedAt.trim()
+  ) {
+    return true;
+  }
+
+  // Official sale-checked OOS / unknown — keep in Organic pool without flipping stock
+  if (
+    offer.isOfficial === true &&
+    (offer.stockStatus === "out_of_stock" ||
+      offer.stockStatus === "unknown") &&
+    offer.verificationStatus !== "invalid"
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+/** Alias — purchase CTA gate (explicit name for callers). */
+export function isOfferPurchasableForCta(
+  offer: ProductOffer,
+  shippingCountry: ShippingCountry
+): boolean {
+  return isOfferEligibleForCoreRecommendation(offer, shippingCountry);
 }
 
 /** PurchaseLink(+stock) → ProductOffer 형태 (레거시 변환) */
@@ -412,8 +472,16 @@ export type OfferFilterResult<T> = {
 };
 
 /**
- * 핵심 추천 전: 배송 국가에 적격 verified offer가 있는 제품만 통과.
- * 랭킹 점수 계산은 변경하지 않는다.
+ * 핵심 추천 전 후보 필터.
+ *
+ * RECOMMEND_COMMERCE_SEPARATION=1 (기본):
+ * - 랭킹: recommendation offer 적격(OOS/unknown 포함) 또는 offer 없음(availability_unknown)
+ * - purchase_links: 구매 CTA 가능(in_stock verified)만 부착 — 점수와 무관
+ *
+ * RECOMMEND_COMMERCE_SEPARATION=0:
+ * - 레거시: KR in_stock verified offer 필수
+ *
+ * 랭킹 점수 자체는 변경하지 않는다 (재고·affiliate 가산 금지).
  */
 export function filterCandidatesByOfferAvailability<
   T extends LegacyPurchaseLinkFields & {
@@ -434,16 +502,23 @@ export function filterCandidatesByOfferAvailability<
     return { eligible: [], excludedCount: products.length };
   }
 
+  const separationOn = isRecommendCommerceSeparationEnabled();
+
   const eligible: T[] = [];
   let excludedCount = 0;
 
   for (const product of products) {
     const offers = resolveProductOffers(product);
-    const hasEligible = offers.some((o) =>
-      isOfferEligibleForCoreRecommendation(o, country)
+    const hasRankingOffer = offers.some((o) =>
+      separationOn
+        ? isOfferEligibleForRecommendation(o, country)
+        : isOfferEligibleForCoreRecommendation(o, country)
     );
-    if (hasEligible) {
-      // 표시용 purchase_links 를 적격 offer 기준으로 보강
+    const allowUnknownAvailability =
+      separationOn && offers.length === 0;
+
+    if (hasRankingOffer || allowUnknownAvailability) {
+      // CTA용 links — 구매 가능만 (OOS는 빈 배열 → CTA 비활성)
       const purchase_links = offers
         .filter((o) => isOfferEligibleForCoreRecommendation(o, country))
         .map(productOfferToPurchaseLink);
@@ -453,7 +528,9 @@ export function filterCandidatesByOfferAvailability<
         purchase_links:
           purchase_links.length > 0
             ? purchase_links
-            : product.purchase_links ?? null,
+            : separationOn
+              ? []
+              : product.purchase_links ?? null,
       });
     } else {
       excludedCount += 1;
