@@ -1,0 +1,328 @@
+{
+  "packDate": "2026-07-22",
+  "notes": [
+    "D/E enrichment overlay — int.aestura.com INCI kept as reference evidence only (not KR-label verified).",
+    "KR/US SKU split: Round Lab UVLock US identity separated; KR label not verified — review_required retained.",
+    "BOJ Relief Sun Rice+Probiotics vs US Daily Relief SPF40 remain distinct — no forced merge.",
+    "Naver/Olive Young/Coupang live fetch skipped (blocked_by_policy). No invented INCI.",
+    "E scenario: no pool replacements — official PDP/INCI still missing for 7/10 slots."
+  ],
+  "productPatches": [
+    {
+      "productIdentity": "aestura-derma-uv-365-barrier-hydro-sunscreen",
+      "unavailable": true,
+      "canonicalUrl": null,
+      "criticalConflict": true,
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": ["identity"],
+          "notes": [
+            "Superseded by aestura-derma-uv365-barrier-hydro-mineral-sunscreen — prior id was SKU mismatch."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "round-lab-birch-juice-moisturizing-sunscreen",
+      "unavailable": true,
+      "canonicalUrl": null,
+      "criticalConflict": true,
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": ["identity"],
+          "notes": [
+            "Superseded by round-lab-birch-juice-moisturizing-sunscreen-us KR/US split."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "aestura-derma-uv365-barrier-hydro-mineral-sunscreen",
+      "volumeLabel": "40ml",
+      "canonicalUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+      "ingredients": [
+        {
+          "raw": "WATER / AQUA / EAU, ZINC OXIDE (NANO), CYCLOHEXASILOXANE, PROPANEDIOL, BUTYLOCTYL SALICYLATE, PROPYLHEPTYL CAPRYLATE, ISODODECANE, POLYGLYCERYL-3 POLYDIMETHYLSILOXYETHYL DIMETHICONE, CAPRYLYL METHICONE, DISILOXANE, DISTEARDIMONIUM HECTORITE, MAGNESIUM SULFATE, TRIETHOXYCAPRYLYLSILANE, 1,2-HEXANEDIOL, POLYMETHYLSILSESQUIOXANE, POLYGLYCERYL-2 DIPOLYHYDROXYSTEARATE, LAURYL POLYGLYCERYL-3 POLYDIMETHYLSILOXYETHYL DIMETHICONE, ALLANTOIN, CAPRYLYL GLYCOL, GLYCERYL CAPRYLATE, ETHYLHEXYLGLYCERIN, SODIUM HYALURONATE, CERAMIDE NP, TOCOPHEROL, SODIUM ACETYLATED HYALURONATE, HYDROLYZED HYALURONIC ACID",
+          "trust": "C",
+          "channel": "authorized_retailer",
+          "sourceUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "checkedAt": "2026-07-22T10:30:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0723/3775/2306/files/1200x1200___UV365__JP_72dpi_dabb991d-a730-4b60-99e0-85f7ac7bc3b3.png?v=1742874043",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "int.aestura.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "price": null,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "authorized_retailer",
+          "trust": "C",
+          "url": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T10:30:00.000Z",
+          "fields": ["ingredients"],
+          "notes": [
+            "International official INCI reference only (int.aestura.com global SKU).",
+            "KR official label or KR authorized-retailer INCI for same SKU not captured — not recommendation_ready."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T10:30:00.000Z",
+          "fields": ["image", "offer", "spf_pa", "volume"],
+          "notes": [
+            "Global mineral sunscreen SKU — SPF50+ PA++++, 40ml/25ml variants.",
+            "Replaces ambiguous hydro-chemical pilot id; KR/Global identity kept separate."
+          ]
+        }
+      ],
+      "cautionIngredients": ["zinc_oxide_nano", "UV_filters_region_specific"],
+      "criticalConflict": false
+    },
+    {
+      "productIdentity": "round-lab-birch-juice-moisturizing-sunscreen-us",
+      "volumeLabel": "50ml",
+      "canonicalUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/BIRCH_JUICE_MOISTURIZING_UVLOCK3_Large_10126e46-dfcc-4cd5-970c-146d4be65989.webp?v=1772852134",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "roundlab.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+          "price": 19.99,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": ["image", "offer", "spf_pa"],
+          "notes": [
+            "US official UVLock SPF45 PDP — image+offer only.",
+            "KR Birch Juice Moisturizing Sunscreen SPF50+ PA++++ is a separate SKU; filters/INCI not cross-confirmed.",
+            "KR sensitive-UV scenario: US SKU kept as review_required until KR label matches."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": ["ingredients", "offer", "image"],
+          "notes": ["KR cross-check not fetched — policy."]
+        }
+      ],
+      "cautionIngredients": ["UV_filters_region_specific"],
+      "criticalConflict": true
+    },
+    {
+      "productIdentity": "beauty-of-joseon-relief-sun-rice-probiotics",
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": ["image", "offer"],
+          "notes": [
+            "US Daily Relief Sunscreen SPF40 wired for image/offer only.",
+            "KR Relief Sun Rice+Probiotics is a distinct SKU — not merged with US Daily Relief.",
+            "Full KR INCI not captured; remains review_required for KR scenario."
+          ]
+        }
+      ],
+      "criticalConflict": true,
+      "cautionIngredients": ["UV_filters_region_specific"]
+    },
+    {
+      "productIdentity": "beauty-of-joseon-revive-eye-serum",
+      "ingredients": [
+        {
+          "raw": "Aqua, Panax Ginseng Root Extract, Glycerin, Dipropylene Glycol, Caprylic/Capric Triglyceride, 1,2-Hexanediol, Butylene Glycol Dicaprylate/Dicaprate, Niacinamide, Pentaerythrityl Tetraethylhexanoate, Cetearyl Alcohol, Cetearyl Olivate, Sorbitan Olivate, Butylene Glycol, Hydrogenated Lecithin, Carbomer, Glyceryl Stearate, Tromethamine, Macadamia Ternifolia Seed Oil, Ethylhexylglycerin, Adenosine, Cholesterol, Dextrin, Polyglyceryl-10 Oleate, Theobroma Cacao Extract, Disodium EDTA, Brassica Campestris Sterols, Phytosteryl/Behenyl/Octyldodecyl Lauroyl Glutamate, Retinal, Silica, Aluminum/Magnesium Hydroxide Stearate, Sodium Hyaluronate, Tocopherol, Ceramide NP, Potassium Cetyl Phosphate, Pentaerythrityl Tetra-di-t-butyl Hydroxyhydrocinnamate, Palmitoyl Tripeptide-5",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://beautyofjoseon.com/pages/revive-eye-serum-cpnp-scpn-information",
+          "checkedAt": "2026-07-22T09:30:00.000Z"
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/pages/revive-eye-serum-cpnp-scpn-information",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": ["ingredients", "caution"],
+          "notes": [
+            "CPNP/SCPN official ingredient table — retinal caution for eye area.",
+            "Pregnancy/breastfeeding disclaimer on official PDP."
+          ]
+        }
+      ],
+      "cautionIngredients": ["retinal"]
+    },
+    {
+      "productIdentity": "skin1004-hyalu-cica-water-fit-sun-serum",
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": ["image", "offer"],
+          "notes": [
+            "Shopify PDP lists key ingredients only — full INCI absent.",
+            "catalog_ready only; not promoted to recommendation_ready."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": ["image", "offer"],
+          "notes": [
+            "US PDP title Rejuvenating vs pilot Renewing — same line, naming variance.",
+            "Full INCI not on US PDP body — catalog_ready only."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "innisfree-green-tea-seed-eye-cream",
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://us.innisfree.com/products/green-tea-seed-eye-cream-30ml",
+          "outcome": "not_found",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": ["ingredients", "offer", "image"],
+          "notes": [
+            "US official handle 404 — product line renamed/discontinued on US store.",
+            "KR SKU not verified in this pass; stays trend_candidate."
+          ]
+        }
+      ]
+    },
+    {
+      "productIdentity": "torriden-dive-in-eye-cream",
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://torriden.us/collections/all/products.json",
+          "outcome": "empty",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": ["offer", "ingredients"],
+          "notes": [
+            "Dive-In eye cream not listed on torriden.us — likely KR-only SKU.",
+            "Not reclassified as face cream; verification incomplete."
+          ]
+        }
+      ]
+    }
+  ],
+  "candidateAdds": [
+    {
+      "productIdentity": "aestura-derma-uv365-barrier-hydro-mineral-sunscreen",
+      "scenarioId": "kr-uv-sunscreen-sensitive",
+      "brand": "AESTURA",
+      "normalizedProductName": "Derma UV365 Barrier Hydro Mineral Sunscreen",
+      "category": "sunscreen",
+      "roleTags": ["safety"],
+      "cautionIngredients": ["zinc_oxide_nano", "UV_filters_region_specific"],
+      "volumeLabel": "40ml",
+      "regionalSku": "GLOBAL",
+      "spfPa": "SPF50+ PA++++",
+      "fitNotes": "Global mineral SKU identity — int.aestura.com reference INCI only; KR label not verified."
+    },
+    {
+      "productIdentity": "round-lab-birch-juice-moisturizing-sunscreen-us",
+      "scenarioId": "kr-uv-sunscreen-sensitive",
+      "brand": "ROUND LAB",
+      "normalizedProductName": "Birch Juice Moisturizing Sunscreen UVLock (US)",
+      "category": "sunscreen",
+      "roleTags": ["popular", "safety"],
+      "cautionIngredients": ["UV_filters_region_specific"],
+      "volumeLabel": "50ml",
+      "regionalSku": "US",
+      "spfPa": "SPF45",
+      "fitNotes": "US UVLock SKU split — KR formula not verified for recommendation_ready."
+    }
+  ],
+  "poolReplacements": {
+    "kr-uv-sunscreen-sensitive": [
+      {
+        "out": "aestura-derma-uv-365-barrier-hydro-sunscreen",
+        "in": "aestura-derma-uv365-barrier-hydro-mineral-sunscreen",
+        "reason": "Global mineral SKU identity correction — int.aestura.com reference INCI retained; KR label not verified for recommendation_ready."
+      },
+      {
+        "out": "round-lab-birch-juice-moisturizing-sunscreen",
+        "in": "round-lab-birch-juice-moisturizing-sunscreen-us",
+        "reason": "KR/US filter SKU separation — US UVLock PDP wired; KR SPF50+ label cross-check pending (review_required)."
+      }
+    ]
+  }
+}

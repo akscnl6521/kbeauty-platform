@@ -119,6 +119,10 @@ export type EnrichmentOptions = {
   evidencePackPath: string;
   outDir: string;
   brandCapDefault?: number;
+  /** Inject candidates not present in pilot JSON (e.g. KR/US SKU splits). */
+  extraCandidatesByScenario?: Record<string, PilotCandidate[]>;
+  /** Override pool slot plan after evidence pack plan (e.g. D/E replacements). */
+  poolSlotPlanOverride?: Record<string, string[]>;
 };
 
 export type EnrichmentResult = {
@@ -309,7 +313,9 @@ export function runPilotEnrichment(
 
   for (const file of PILOT_FILES) {
     const pool = readJson<PilotPoolFile>(path.join(opts.pilotDir, file));
-    for (const c of pool.candidates) {
+    const extras = opts.extraCandidatesByScenario?.[pool.scenarioId] ?? [];
+    const allCandidates = [...pool.candidates, ...extras];
+    for (const c of allCandidates) {
       const packRow = packById.get(c.productIdentity);
       const incoming: WorkingProduct = {
         productId: c.productIdentity,
@@ -400,9 +406,10 @@ export function runPilotEnrichment(
   ];
 
   const slotsByScenario: Record<string, string[]> = {};
-  if (pack.poolSlotPlan) {
+  const slotPlanSource = opts.poolSlotPlanOverride ?? pack.poolSlotPlan;
+  if (slotPlanSource) {
     for (const sid of scenarioIds) {
-      slotsByScenario[sid] = [...(pack.poolSlotPlan[sid] || [])];
+      slotsByScenario[sid] = [...(slotPlanSource[sid] || [])];
     }
   } else {
     for (const sid of scenarioIds) {

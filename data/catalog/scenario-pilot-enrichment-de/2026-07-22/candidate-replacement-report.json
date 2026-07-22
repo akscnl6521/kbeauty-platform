@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-07-22T08:42:18.200Z",
+  "scenarios": {
+    "kr-uv-sunscreen-sensitive": {
+      "replacements": [
+        {
+          "out": "aestura-derma-uv-365-barrier-hydro-sunscreen",
+          "in": "aestura-derma-uv365-barrier-hydro-mineral-sunscreen",
+          "reason": "Global mineral SKU identity correction — int.aestura.com reference INCI retained; KR label not verified for recommendation_ready."
+        },
+        {
+          "out": "round-lab-birch-juice-moisturizing-sunscreen",
+          "in": "round-lab-birch-juice-moisturizing-sunscreen-us",
+          "reason": "KR/US filter SKU separation — US UVLock PDP wired; KR SPF50+ label cross-check pending (review_required)."
+        }
+      ],
+      "priorReady": 1,
+      "finalReady": 1
+    },
+    "kr-aging-eye-cream": {
+      "replacements": [],
+      "priorReady": 2,
+      "finalReady": 2
+    }
+  },
+  "notes": [
+    "D/E enrichment overlay — int.aestura.com INCI kept as reference evidence only (not KR-label verified).",
+    "KR/US SKU split: Round Lab UVLock US identity separated; KR label not verified — review_required retained.",
+    "BOJ Relief Sun Rice+Probiotics vs US Daily Relief SPF40 remain distinct — no forced merge.",
+    "Naver/Olive Young/Coupang live fetch skipped (blocked_by_policy). No invented INCI.",
+    "E scenario: no pool replacements — official PDP/INCI still missing for 7/10 slots."
+  ]
+}

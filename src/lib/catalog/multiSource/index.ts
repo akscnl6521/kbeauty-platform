@@ -46,3 +46,17 @@ export type {
   EvidencePack,
   PilotPoolFile,
 } from "./pilotEnrichment";
+
+export {
+  runPilotDeEnrichment,
+  writeDeEnrichmentArtifacts,
+  mergeDeEvidencePack,
+  applyPoolReplacements,
+} from "./pilotDeEnrichment";
+export type {
+  DeEnrichmentOptions,
+  DeEnrichmentResult,
+  DeEvidenceOverlay,
+  DePoolReplacement,
+  CandidateReplacementReport,
+} from "./pilotDeEnrichment";
