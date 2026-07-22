@@ -122,6 +122,49 @@ function confidencePercent(score: number): number {
   return Math.round(clamped * 100);
 }
 
+type ScenarioStatusBadge =
+  | "scenario_matched"
+  | "recommendations_ready"
+  | "insufficient_verified_candidates"
+  | "no_matching_scenario"
+  | "safety_escalation";
+
+function scenarioBadgeLabel(
+  badge: ScenarioStatusBadge,
+  locale: Locale
+): string {
+  if (locale !== "ko") {
+    const labels: Record<ScenarioStatusBadge, string> = {
+      scenario_matched: "Scenario matched",
+      recommendations_ready: "Recommendations ready",
+      insufficient_verified_candidates: "Verified products still limited",
+      no_matching_scenario: "No matching scenario",
+      safety_escalation: "Professional care first",
+    };
+    return labels[badge];
+  }
+  const labels: Record<ScenarioStatusBadge, string> = {
+    scenario_matched: "scenario_matched",
+    recommendations_ready: "recommendations_ready",
+    insufficient_verified_candidates: "insufficient_verified_candidates",
+    no_matching_scenario: "no_matching_scenario",
+    safety_escalation: "safety_escalation",
+  };
+  return labels[badge];
+}
+
+function scenarioDisplayNameKo(scenarioId?: string | null): string | null {
+  if (!scenarioId) return null;
+  const labels: Record<string, string> = {
+    "kr-redness-sensitive-cream": "민감·홍조 진정 크림",
+    "pilot-dryness-barrier-serum": "건조·장벽 세럼",
+    "kr-acne-pores-toner": "여드름·피지 토너",
+    "kr-uv-sunscreen-sensitive": "민감 피부 선크림",
+    "kr-aging-eye-cream": "탄력·건조 아이크림",
+  };
+  return labels[scenarioId] ?? scenarioId;
+}
+
 /** 값이 있을 때만 제목+본문을 렌더 */
 function GuideBlock({
   title,
@@ -469,6 +512,26 @@ function ResultsPageInner() {
   const isRiskResults = isRiskManagementLevel(
     savedRecommendation?.managementLevel
   );
+  const scenarioPilot = savedRecommendation?.scenarioPilot;
+  const scenarioPilotDetails = savedRecommendation?.scenarioPilotDetails;
+  const scenarioMatched = Boolean(scenarioPilot?.scenarioId);
+  const scenarioBadges: ScenarioStatusBadge[] = [];
+  if (scenarioMatched) scenarioBadges.push("scenario_matched");
+  if (isRiskResults) {
+    scenarioBadges.push("safety_escalation");
+  } else if (scenarioPilot?.status === "ok" && rankedProducts.length > 0) {
+    scenarioBadges.push("recommendations_ready");
+  } else if (
+    scenarioPilot?.status === "insufficient_verified_candidates"
+  ) {
+    scenarioBadges.push("insufficient_verified_candidates");
+  } else if (scenarioPilot?.status === "no_match") {
+    scenarioBadges.push("no_matching_scenario");
+  }
+  const hideCatalogBrowse =
+    isRiskResults ||
+    scenarioPilot?.status === "insufficient_verified_candidates" ||
+    scenarioPilot?.status === "no_match";
 
   // Sprint 4 Phase 2: 항상 최신 skinRecommendation + skinRankedProducts 만 사용
   useEffect(() => {
@@ -736,6 +799,104 @@ function ResultsPageInner() {
                         savedRecommendation.ingredientsToAvoid
                       ).slice(0, 6)}
                     />
+                    {scenarioBadges.length > 0 ? (
+                      <div className="rounded-3xl border border-[#C2185B]/15 bg-[#FCF7F8] p-4 sm:p-5">
+                        <div className="flex flex-wrap gap-2">
+                          {scenarioBadges.map((badge) => (
+                            <span
+                              key={badge}
+                              className={`inline-flex rounded-full px-3 py-1 text-[11px] font-semibold ${
+                                badge === "safety_escalation"
+                                  ? "bg-[#8B1E3F] text-white"
+                                  : badge === "recommendations_ready"
+                                    ? "bg-[#1f6b45] text-white"
+                                    : "border border-[#C2185B]/20 bg-white text-[#7A2447]"
+                              }`}
+                            >
+                              {scenarioBadgeLabel(badge, locale)}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                          <div className="min-w-0">
+                            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#7A2447]">
+                              {locale === "ko" ? "매칭된 피부 관리 상황" : "Matched care scenario"}
+                            </p>
+                            <p className="mt-1 text-base font-semibold text-gray-900">
+                              {scenarioDisplayNameKo(scenarioPilot?.scenarioId) ??
+                                (locale === "ko"
+                                  ? "검증 시나리오 매칭 없음"
+                                  : "No verified scenario match")}
+                            </p>
+                            {scenarioPilot?.matchReason ? (
+                              <p className="mt-2 break-words text-xs leading-relaxed text-gray-600">
+                                {locale === "ko"
+                                  ? `매칭 근거: ${scenarioPilot.matchReason}`
+                                  : `Match reason: ${scenarioPilot.matchReason}`}
+                              </p>
+                            ) : null}
+                          </div>
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div className="rounded-2xl bg-white px-3 py-2">
+                              <p className="text-[11px] text-gray-500">
+                                {locale === "ko" ? "검증 제품 수" : "Verified count"}
+                              </p>
+                              <p className="mt-1 font-semibold text-gray-900">
+                                {scenarioPilot?.verifiedCount ?? rankedProducts.length}
+                              </p>
+                            </div>
+                            <div className="rounded-2xl bg-white px-3 py-2">
+                              <p className="text-[11px] text-gray-500">
+                                {locale === "ko" ? "최종 추천 수" : "Top picks"}
+                              </p>
+                              <p className="mt-1 font-semibold text-gray-900">
+                                {rankedProducts.length}
+                              </p>
+                            </div>
+                            {scenarioPilot?.candidatePoolVersion ? (
+                              <div className="col-span-2 rounded-2xl bg-white px-3 py-2">
+                                <p className="text-[11px] text-gray-500">
+                                  {locale === "ko" ? "추천 기준 스냅샷" : "Snapshot"}
+                                </p>
+                                <p className="mt-1 break-words text-xs text-gray-700">
+                                  {scenarioPilot.candidatePoolVersion}
+                                </p>
+                              </div>
+                            ) : null}
+                          </div>
+                        </div>
+                        {scenarioPilot?.userMessageKo ? (
+                          <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-3 py-3 text-sm leading-relaxed text-amber-900">
+                            {locale === "ko"
+                              ? scenarioPilot.userMessageKo
+                              : "Verified products are still being expanded for this situation."}
+                          </div>
+                        ) : null}
+                        {scenarioPilotDetails ? (
+                          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                            {scenarioPilotDetails.recommendationReasons.length > 0 ? (
+                              <GuideBlock
+                                title={locale === "ko" ? "추천 이유" : "Why these products"}
+                              >
+                                <BulletList
+                                  items={scenarioPilotDetails.recommendationReasons.slice(0, 5)}
+                                />
+                              </GuideBlock>
+                            ) : null}
+                            <GuideBlock
+                              title={locale === "ko" ? "사용 범위와 한계" : "Scope and limits"}
+                            >
+                              <div className="space-y-2">
+                                <p>{scenarioPilotDetails.expectedCosmeticScope}</p>
+                                <p className="text-gray-600">
+                                  {scenarioPilotDetails.limitations}
+                                </p>
+                              </div>
+                            </GuideBlock>
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : null}
                     {(() => {
                       const summaryKo = pickKoreanSummary(savedRecommendation);
                       const skinType =
@@ -1489,25 +1650,31 @@ function ResultsPageInner() {
                   <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-5 sm:p-6">
                     <h3 className="font-['Playfair_Display',serif] text-xl font-semibold text-gray-900">
                       {locale === "ko"
-                        ? "나를 위한 핵심 추천 제품"
+                        ? scenarioPilot?.status ===
+                          "insufficient_verified_candidates"
+                          ? "검증 제품 보강 중"
+                          : scenarioPilot?.status === "no_match"
+                            ? "현재는 검증된 추천 시나리오와 맞지 않습니다"
+                            : "나를 위한 핵심 추천 제품"
                         : locale === "ja"
                           ? "あなたへのコアおすすめ"
                           : "Your core recommendations"}
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-gray-700">
                       {locale === "ko"
-                        ? "현재 조건에 맞고 판매처까지 확인된 제품을 준비 중입니다."
+                        ? scenarioPilot?.userMessageKo ??
+                          "현재 조건에 맞고 판매처까지 확인된 제품을 준비 중입니다."
                         : locale === "ja"
                           ? "現在の条件に合い、販売先まで確認できた製品を準備中です。"
                           : "We're preparing products that match your criteria and have a verified retailer."}
                     </p>
-                    <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                      {locale === "ko"
-                        ? "일반 제품 정보는 아래 ‘다른 제품 둘러보기’에서 확인할 수 있습니다. 구매 추천이 아닙니다."
-                        : locale === "ja"
-                          ? "一般製品情報は下の「他の製品を見る」から確認できます。購入おすすめではありません。"
-                          : "Browse catalog info below. This is not a purchase recommendation."}
-                    </p>
+                    {scenarioPilot?.shortageReason ? (
+                      <p className="mt-2 break-words text-sm leading-relaxed text-gray-600">
+                        {locale === "ko"
+                          ? `제외 사유: ${scenarioPilot.shortageReason}`
+                          : `Reason: ${scenarioPilot.shortageReason}`}
+                      </p>
+                    ) : null}
                     <Link
                       href="/analyze"
                       className="mt-4 inline-block text-xs font-semibold text-[#C2185B] underline hover:no-underline"
@@ -1567,10 +1734,11 @@ function ResultsPageInner() {
         ) : null}
 
         {/* 일반 제품 탐색 — expert_first는 기본 접힘 */}
-        <section
-          className="mt-4 flex-1 border-t border-pink-100 pt-10"
-          aria-label="Browse products"
-        >
+        {!hideCatalogBrowse ? (
+          <section
+            className="mt-4 flex-1 border-t border-pink-100 pt-10"
+            aria-label="Browse products"
+          >
           <div className="mb-2">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gray-400">
               {locale === "ko"
@@ -1895,7 +2063,8 @@ function ResultsPageInner() {
               )}
             </div>
           )}
-        </section>
+          </section>
+        ) : null}
 
         {/* Footer actions */}
         <footer className="mt-12 flex items-center justify-between border-t border-gray-100 pt-6">

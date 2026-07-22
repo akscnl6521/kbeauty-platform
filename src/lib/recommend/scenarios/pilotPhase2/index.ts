@@ -6,4 +6,5 @@ export * from "./pilotScenarioRegistry";
 export * from "./recommendationToMatchInput";
 export * from "./matchPilotScenario";
 export * from "./personalReranking";
+export * from "./previewDebug";
 export * from "./runScenarioPilotPhase2";

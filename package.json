@@ -125,6 +125,9 @@
     "test:recommendation-pilot-enrichment": "npx --yes tsx scripts/recommendation-pilot-enrichment-selftest.ts",
     "test:recommendation-pilot-de-enrichment": "npx --yes tsx scripts/recommendation-pilot-de-enrichment-selftest.ts",
     "test:recommendation-scenario-phase2": "npx --yes tsx scripts/recommendation-scenario-phase2-selftest.ts",
+    "test:recommendation-scenario-phase21-flags": "npx --yes tsx scripts/recommendation-scenario-phase21-flag-selftest.ts",
+    "verify:recommendation-scenario-phase21-staging": "npx --yes tsx scripts/recommendation-scenario-phase21-staging.ts",
+    "check:preview-scenario-phase21": "node scripts/recommendation-scenario-phase21-preview-smoke.mjs",
     "analyze:scenario-catalog-gap": "npx --yes tsx scripts/analyze-scenario-catalog-gap.ts"
   },
   "dependencies": {
