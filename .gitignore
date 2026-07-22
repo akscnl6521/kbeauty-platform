@@ -100,3 +100,13 @@ supabase/.temp/
 
 # Accidental nested clone
 /kbeauty-platform/
+# Pilot enrichment one-off fetch temps (regenerable)
+/scripts/_fetch-*.mjs
+/scripts/_extract-html-inci.mjs
+/scripts/_shopify-search.mjs
+/scripts/_patch-pilot-evidence-expand.cjs
+/data/catalog/scenario-pilot-enrichment/**/_fetch-*.json
+/data/catalog/scenario-pilot-enrichment/**/_html-*.json
+/data/catalog/scenario-pilot-enrichment/**/_inci-*.json
+/data/catalog/scenario-pilot-enrichment/**/_shopify-*.json
+
