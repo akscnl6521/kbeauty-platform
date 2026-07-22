@@ -91,7 +91,7 @@ id: WQ-F-catalog-remaining
 title: Catalog remaining sprint and refresh
 priority: 60
 status: completed
-result_commit: cf68e0eba42a403bac665fd1ee8914325ae3c18a
+result_commit: 5fdf42fb35c32dfcb61d358b8fc6981234064672
 environment: staging
 deps:
 tests:
