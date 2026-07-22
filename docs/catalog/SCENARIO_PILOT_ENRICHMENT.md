@@ -39,9 +39,12 @@ Legitimate A↔B cross-membership (documented cream/serum barrier exceptions) fo
 | Scenarios × slots | 5 × 10 |
 | Unique products | 42 |
 | reuseRate | **0.16** (target met) |
-| recommendation_ready (slot count) | **8** |
-| Per-scenario ready | A3 · B3 · C1 · D0 · E1 |
-| Target ≥5/scenario & ≥30 total | **Shortfall** — honest; limited official INCI+image+offer packs |
+| recommendation_ready (slot count) | **21** |
+| catalog_ready / review_required / trend_candidate | **2 / 3 / 24** |
+| Per-scenario ready | A6 · B7 · C5 · D1 · E2 |
+| Target ≥5/scenario & ≥30 total | **Shortfall** — honest; A/B/C ≥5 met; D/E + total &lt; target (no fake INCI) |
+
+Evidence expand (2026-07-22): official Shopify/HTML packs for image+offer; Full Ingredients from brand PDPs where present (e.g. Round Lab Dokdo toner/cream, Haruharu toner, COSRX Aloe Sun, SKIN1004 Centella Ampoule, BOJ eye/plum). Sunscreen US/KR SKU conflicts → `review_required` (Birch UVLock, BOJ Daily Relief SPF40, Aestura mineral). Identity + official image/offer without INCI → `catalog_ready` (not stuck `trend_candidate`).
 
 Affiliate/ad never in organic score. Brand cap default ≤2. Organic score fields absent.
 

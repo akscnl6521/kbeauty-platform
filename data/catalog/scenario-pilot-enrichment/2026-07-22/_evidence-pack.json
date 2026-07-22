@@ -3,7 +3,10 @@
   "notes": [
     "No fake or invented INCI: rows omit ingredients when official verbatim text was not captured.",
     "Naver Shopping, Coupang official, and Olive Young live marketplace fetch blocked_by_policy (not executed in this pack).",
-    "Aestura derma-uv-365-barrier-hydro-sunscreen (mineral/filter SKU) is not mapped to pilot hydro-chemical identity aestura-atobarrier365-cream — separate product identities."
+    "Aestura derma-uv-365-barrier-hydro-sunscreen (mineral/filter SKU) is not mapped to pilot hydro-chemical identity aestura-atobarrier365-cream — separate product identities.",
+    "2026-07-22 expand: added official Shopify image/offer for INCI-ready SKUs; Round Lab Dokdo toner + Haruharu toner INCI from official PDP; sunscreen US PDPs wired with criticalConflict when KR formula unclear.",
+    "2026-07-22 expand skipped: 23 products without capturable official INCI/image/offer.",
+    "2026-07-22 html-inci: COSRX Aloe Sun + SKIN1004 Centella Ampoule Full Ingredients from official PDP HTML; BOJ eye/plum INCI refreshed; Sulwhasoo eye image+offer only due to Renewing/Rejuvenating naming variance."
   ],
   "products": [
     {
@@ -151,11 +154,11 @@
           "trust": "A",
           "channel": "official_brand",
           "purchaseUrl": "https://int.aestura.com/products/atobarrier365-cream",
-          "price": null,
+          "price": 44,
           "currency": "USD",
           "inStock": null,
           "isOfficialStore": true,
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
           "sourceVerified": true
         }
       ],
@@ -165,10 +168,11 @@
           "trust": "A",
           "url": "https://int.aestura.com/products/atobarrier365-cream",
           "outcome": "ok",
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
           "fields": [
             "ingredients",
-            "offer"
+            "offer",
+            "image"
           ]
         },
         {
@@ -215,6 +219,16 @@
           "notes": [
             "Live marketplace fetch not done — policy."
           ]
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0723/3775/2306/files/1_Atobarrier365-Cream_thumbnail_Product-80ml__1200x1200_961c8e7e-0afb-48bd-bea7-d47f285ab4d4.png?v=1734030421",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://int.aestura.com/products/atobarrier365-cream",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
         }
       ]
     },
@@ -277,7 +291,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -341,7 +356,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -355,7 +371,7 @@
           "trust": "A",
           "channel": "official_brand",
           "sourceUrl": "https://roundlab.com/products/1025-dokdo-cream",
-          "checkedAt": "2026-07-22T05:00:00.000Z"
+          "checkedAt": "2026-07-22T07:00:00.000Z"
         }
       ],
       "offers": [
@@ -368,7 +384,7 @@
           "currency": "USD",
           "inStock": null,
           "isOfficialStore": true,
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
           "sourceVerified": true
         }
       ],
@@ -378,10 +394,11 @@
           "trust": "A",
           "url": "https://roundlab.com/products/1025-dokdo-cream",
           "outcome": "ok",
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
           "fields": [
             "ingredients",
-            "offer"
+            "offer",
+            "image"
           ]
         },
         {
@@ -428,6 +445,16 @@
           "notes": [
             "Live marketplace fetch not done — policy."
           ]
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/1025-dokdo-cream-round-lab-1_66b8271b-613f-4510-82e8-b15abb0f1e37.jpg?v=1772849283",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://roundlab.com/products/1025-dokdo-cream",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
         }
       ]
     },
@@ -549,7 +576,7 @@
           "currency": "USD",
           "inStock": null,
           "isOfficialStore": true,
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
           "sourceVerified": true
         }
       ],
@@ -559,10 +586,11 @@
           "trust": "A",
           "url": "https://torriden.us/products/dive-in-serum",
           "outcome": "ok",
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
           "fields": [
             "ingredients",
-            "offer"
+            "offer",
+            "image"
           ]
         },
         {
@@ -609,6 +637,16 @@
           "notes": [
             "Live marketplace fetch not done — policy."
           ]
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/DIVEINSerum1_631ac0e3-a77b-422a-a806-bf34477cac19.jpg?v=1753346213",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://torriden.us/products/dive-in-serum",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
         }
       ]
     },
@@ -765,7 +803,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -829,7 +868,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -893,15 +933,31 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
     },
     {
       "productIdentity": "skin1004-madagascar-centella-ampoule",
-      "canonicalUrl": "https://skin1004.com/",
+      "canonicalUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "fields": [
+            "image",
+            "offer",
+            "ingredients"
+          ],
+          "notes": [
+            "Official Full Ingredients captured from brand PDP HTML."
+          ]
+        },
         {
           "channel": "naver_shopping",
           "trust": "C",
@@ -959,6 +1015,39 @@
           "notes": [
             "No invented INCI; official extraction not captured in this pack."
           ]
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-ampoule-serum-centella-ampoule-1246455500.png?v=1782787571",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "skin1004.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "price": 19.8,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "ingredients": [
+        {
+          "raw": "Water, Glycerin, Butylene Glycol, Centella Asiatica Extract, 1,2-Hexanediol, Cellulose Gum, Ethylhexylglycerin",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "checkedAt": "2026-07-22T08:00:00.000Z"
         }
       ]
     },
@@ -1117,7 +1206,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -1144,7 +1234,7 @@
           "currency": "USD",
           "inStock": null,
           "isOfficialStore": true,
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
           "sourceVerified": true
         }
       ],
@@ -1154,10 +1244,11 @@
           "trust": "A",
           "url": "https://anua.us/products/heartleaf-77-soothing-toner",
           "outcome": "ok",
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
           "fields": [
             "ingredients",
-            "offer"
+            "offer",
+            "image"
           ]
         },
         {
@@ -1205,16 +1296,41 @@
             "Live marketplace fetch not done — policy."
           ]
         }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-toner-heartleaf-77-soothing-toner-1239193744.jpg?v=1779181932",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://anua.us/products/heartleaf-77-soothing-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
       ]
     },
     {
       "productIdentity": "beauty-of-joseon-green-plum-refreshing-toner",
-      "canonicalUrl": "https://beautyofjoseon.com/pages/green-plum-refreshing-toner-aha-bha-cpnp-scpn-information",
+      "canonicalUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
       "cautionIngredients": [
         "glycolic acid",
         "salicylic acid"
       ],
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "fields": [
+            "image",
+            "offer",
+            "ingredients"
+          ],
+          "notes": [
+            "Official Full Ingredients captured from brand PDP HTML."
+          ]
+        },
         {
           "channel": "official_brand",
           "trust": "A",
@@ -1276,11 +1392,11 @@
       ],
       "ingredients": [
         {
-          "raw": "Aqua, Prunus Mume Fruit Water, Dipropylene Glycol, Glycerin, Glycolic Acid, Butylene Glycol, Tromethamine, 1,2-Hexanediol, Vigna Radiata Seed Extract, Hydroxyacetophenone, Salicylic Acid, Ethylhexylglycerin, Disodium EDTA, Melia Azadirachta Leaf Extract, Melia Azadirachta Flower Extract, Ocimum Sanctum Leaf Extract, Coccinia Indica Fruit Extract, Curcuma Longa Root Extract, Corallina Officinalis Extract, Aloe Barbadensis Flower Extract, Solanum Melongena Fruit Extract, C12-14 Pareth-12, Octyldodeceth-16, Xanthan Gum.",
+          "raw": "Water, Prunus Mume Fruit Water, Dipropylene Glycol, Glycerin, Glycolic Acid, Butylene Glycol, Tromethamine, 1,2-Hexanediol, Hydroxyacetophenone, Salicylic Acid, Ethylhexylglycerin, Vigna Radiata Seed Extract, Disodium EDTA, Melia Azadirachta Leaf Extract, Melia Azadirachta Flower Extract, Coccinia Indica Fruit Extract, Ocimum Sanctum Leaf Extract, Curcuma Longa (Turmeric) Root Extract, Aloe Barbadensis Flower Extract, Solanum Melongena (Eggplant) Fruit Extract, Corallina Officinalis Extract, C12-14 Pareth-12, Xanthan Gum, Octyldodeceth-16 Key Ingredients Green Plum Water Refreshes and gently exfoliates Mung Bean Extract Hydrates and helps soothe AHA, BHA If you have sensitive skin, we recommend a 24-hour patch test before use. Wear under sunscreen during the day",
           "trust": "A",
           "channel": "official_brand",
-          "sourceUrl": "https://beautyofjoseon.com/pages/green-plum-refreshing-toner-aha-bha-cpnp-scpn-information",
-          "checkedAt": "2026-07-22T05:00:00.000Z"
+          "sourceUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "checkedAt": "2026-07-22T08:00:00.000Z"
         }
       ],
       "offers": [
@@ -1289,12 +1405,22 @@
           "trust": "A",
           "channel": "official_brand",
           "purchaseUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
-          "price": null,
+          "price": 14.4,
           "currency": "USD",
           "inStock": null,
           "isOfficialStore": true,
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
           "sourceVerified": true
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/green-plum-refreshing-toner-aha-bha-1-front.webp?v=1770279162",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "isOfficialSource": true
         }
       ]
     },
@@ -1357,15 +1483,28 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
     },
     {
       "productIdentity": "round-lab-dokdo-toner",
-      "canonicalUrl": null,
+      "canonicalUrl": "https://roundlab.com/products/1025-dokdo-toner",
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://roundlab.com/products/1025-dokdo-toner",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
         {
           "channel": "naver_shopping",
           "trust": "C",
@@ -1423,6 +1562,39 @@
           "notes": [
             "No invented INCI; official extraction not captured in this pack."
           ]
+        }
+      ],
+      "ingredients": [
+        {
+          "raw": "Water, Butylene Glycol, Glycerin, Pentylene Glycol, Propanediol, Chondrus Crispus Extract, Saccharum Officinarum (Sugarcane) Extract, Sea Water, 1,2-Hexanediol, Protease, Betaine, Panthenol, Ethylhexylglycerin, Allantoin, Xanthan Gum, Disodium EDTA",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://roundlab.com/products/1025-dokdo-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/Dokdo_Toner_2025.png?v=1772851199",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://roundlab.com/products/1025-dokdo-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "roundlab.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://roundlab.com/products/1025-dokdo-toner",
+          "price": 6,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
         }
       ]
     },
@@ -1485,15 +1657,28 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
     },
     {
       "productIdentity": "haruharu-wonder-black-rice-hyaluronic-toner",
-      "canonicalUrl": null,
+      "canonicalUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
         {
           "channel": "naver_shopping",
           "trust": "C",
@@ -1551,6 +1736,39 @@
           "notes": [
             "No invented INCI; official extraction not captured in this pack."
           ]
+        }
+      ],
+      "ingredients": [
+        {
+          "raw": "Water, Betaine, Glycerin, Propanediol, Oryza Sativa (Rice) Extract, Phyllostachys Pubescens Shoot Bark Extract, Aspergillus Ferment, Panax Ginseng Root Extract, Cyclodextrin, Scutellaria Baicalensis Root Extract, Hyaluronic Acid, Beta-glucan, Cellulose Gum, Xanthan Gum, Butylene Glycol, Usnea Barbata (Lichen) Extract, Zanthoxylum Piperitum Fruit Extract, Pulsatilla Koreana Extract, Sodium Phytate, Tamarindus Indica Seed Gum, Polyglyceryl-10 Laurate, Polyglyceryl-10 Myristate, Glucose, 1,2-Hexanediol, Alcohol, Lavandula Angustifolia (Lavender) Oil, Limonene, Linalool",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0707/0190/8217/files/150ml_11e70ee9-f850-4fe7-8e7e-a960590e938d.jpg?v=1751443548",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "haruharuwonder.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "price": 18,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
         }
       ]
     },
@@ -1613,7 +1831,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -1677,15 +1896,31 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
     },
     {
       "productIdentity": "round-lab-birch-juice-moisturizing-sunscreen",
-      "canonicalUrl": null,
+      "canonicalUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "image",
+            "offer"
+          ],
+          "notes": [
+            "US official UVLock SPF45 PDP wired for image/offer only.",
+            "KR vs US filter/SKU conflict unresolved — not recommendation_ready."
+          ]
+        },
         {
           "channel": "naver_shopping",
           "trust": "C",
@@ -1744,12 +1979,55 @@
             "No invented INCI; official extraction not captured in this pack."
           ]
         }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/BIRCH_JUICE_MOISTURIZING_UVLOCK3_Large_10126e46-dfcc-4cd5-970c-146d4be65989.webp?v=1772852134",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "roundlab.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+          "price": 19.99,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "criticalConflict": true,
+      "cautionIngredients": [
+        "UV_filters_region_specific"
       ]
     },
     {
       "productIdentity": "beauty-of-joseon-relief-sun-rice-probiotics",
-      "canonicalUrl": null,
+      "canonicalUrl": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "image",
+            "offer"
+          ],
+          "notes": [
+            "US Daily Relief Sunscreen SPF40 mapped for image/offer; KR Relief Sun Rice+Probiotics formula not confirmed identical.",
+            "US/KR filter conflict — review_required until KR formula verified."
+          ]
+        },
         {
           "channel": "naver_shopping",
           "trust": "C",
@@ -1808,6 +2086,34 @@
             "No invented INCI; official extraction not captured in this pack."
           ]
         }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/02_0529.jpg?v=1780214476",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "beautyofjoseon.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+          "price": 13.5,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "criticalConflict": true,
+      "cautionIngredients": [
+        "UV_filters_region_specific"
       ]
     },
     {
@@ -1869,15 +2175,31 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
     },
     {
       "productIdentity": "skin1004-hyalu-cica-water-fit-sun-serum",
-      "canonicalUrl": null,
+      "canonicalUrl": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "image",
+            "offer"
+          ],
+          "notes": [
+            "Official image+offer captured; full INCI not present on Shopify body — left incomplete.",
+            "US handle hyalu-cica-water-fit-sun-serum-uv; KR filter confirmation pending for recommendation_ready."
+          ]
+        },
         {
           "channel": "naver_shopping",
           "trust": "C",
@@ -1935,6 +2257,30 @@
           "notes": [
             "No invented INCI; official extraction not captured in this pack."
           ]
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-50ml-hyalu-cica-water-fit-sun-serum-uv-1204112543.png?v=1762764544",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "skin1004.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+          "price": 17.1,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
         }
       ]
     },
@@ -1997,15 +2343,31 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
     },
     {
       "productIdentity": "cosrx-aloe-soothing-sun-cream",
-      "canonicalUrl": null,
+      "canonicalUrl": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "fields": [
+            "image",
+            "offer",
+            "ingredients"
+          ],
+          "notes": [
+            "Official Full Ingredients captured from brand PDP HTML."
+          ]
+        },
         {
           "channel": "naver_shopping",
           "trust": "C",
@@ -2063,6 +2425,39 @@
           "notes": [
             "No invented INCI; official extraction not captured in this pack."
           ]
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/aloe-soothing-sun-cream-spf50-pa-cosrx-official-1.jpg?v=1724835559",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "cosrx.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+          "price": 16,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "ingredients": [
+        {
+          "raw": "WATER, ETHYLHEXYL METHOXYCINNAMATE, GLYCERIN, PROPYLENE GLYCOL, CYCLOPENTASILOXANE, PHENYLBENZIMIDAZOLE SULFONIC ACID, BIS-ETHYLHEXYLOXYPHENOL METHOXYPHENYL TRIAZINE, DICAPRYLYL CARBONATE, ISOAMYL P-METHOXYCINNAMATE, POTASSIUM CETYL PHOSPHATE, ALCOHOL, DIMETHICONE, BUTYLENE GLYCOL, GLYCERYL STEARATE, TITANIUM DIOXIDE, C14-22 ALCOHOLS, POLYMETHYL METHACRYLATE, CETEARYL ALCOHOL, PEG-100 STEARATE, TRIETHANOLAMINE, SILICA, SODIUM HYDROXIDE, DIMETHICONE/VINYL DIMETHICONE CROSSPOLYMER, C12-20 ALKYL GLUCOSIDE, ALUMINUM HYDROXIDE, STEARIC ACID, FRAGRANCE, CAPRYLYL GLYCOL, PHENOXYETHANOL, ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER, ALOE ARBORESCENS LEAF EXTRACT, DIPOTASSIUM GLYCYRRHIZATE, CARBOMER, XANTHAN GUM, LIMONENE, TOCOPHERYL ACETATE, DISODIUM EDTA, HEXYL CINNAMAL, LINALOOL, BENZYL SALICYLATE, GERANIOL, BENZYL ALCOHOL, CITRONELLOL, BENZYL BENZOATE, CITRAL",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+          "checkedAt": "2026-07-22T08:00:00.000Z"
         }
       ]
     },
@@ -2125,7 +2520,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -2189,7 +2585,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -2253,15 +2650,31 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
     },
     {
       "productIdentity": "aestura-derma-uv-365-barrier-hydro-sunscreen",
-      "canonicalUrl": null,
+      "canonicalUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "image",
+            "offer"
+          ],
+          "notes": [
+            "Official page is DERMA UV365 Barrier Hydro Mineral Sunscreen — mineral SKU.",
+            "Pilot hydro-chemical identity unresolved; review_required."
+          ]
+        },
         {
           "channel": "naver_shopping",
           "trust": "C",
@@ -2320,7 +2733,32 @@
             "No invented INCI; official extraction not captured in this pack."
           ]
         }
-      ]
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0723/3775/2306/files/1200x1200___UV365__JP_72dpi_dabb991d-a730-4b60-99e0-85f7ac7bc3b3.png?v=1742874043",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "int.aestura.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "price": 0,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "criticalConflict": true
     },
     {
       "productIdentity": "cosrx-advanced-snail-peptide-eye-cream",
@@ -2426,11 +2864,11 @@
       ],
       "ingredients": [
         {
-          "raw": "Panax Ginseng Root Extract, Glycerin, Dipropylene Glycol, Caprylic/Capric Triglyceride, 1,2-Hexanediol, Butylene Glycol Dicaprylate/Dicaprate, Niacinamide, Pentaerythrityl Tetraethylhexanoate, Cetearyl Alcohol, Cetearyl Olivate, Sorbitan Olivate, Butylene Glycol, Hydrogenated Lecithin, Carbomer, Glyceryl Stearate, Tromethamine, Macadamia Ternifolia Seed Oil, Ethylhexylglycerin, Adenosine, Cholesterol, Dextrin, Polyglyceryl-10 Oleate, Theobroma Cacao Extract, Disodium EDTA, Brassica Campestris Sterols,Phytosteryl/Behenyl/Octyldodecyl Lauroyl Glutamate, Retinal, Silica, Aluminum/Magnesium Hydroxide Stearate, Sodium Hyaluronate, Tocopherol, Ceramide NP, Potassium Cetyl Phosphate, Pentaerythrityl Tetra-di-t-butyl Hydroxyhydrocinnamate, Palmitoyl Tripeptide-5.",
+          "raw": "Water, Glycerin, Dipropylene Glycol, Caprylic/Capric Triglyceride, 1,2-Hexanediol, Butylene Glycol Dicaprylate/Dicaprate, Niacinamide, Pentaerythrityl Tetraethylhexanoate, Cetearyl Alcohol, Cetearyl Olivate, Sorbitan Olivate, Butylene Glycol, Hydrogenated Lecithin, Panax Ginseng Root Extract, Carbomer, Glyceryl Stearate, Tromethamine, Macadamia Ternifolia Seed Oil, Ethylhexylglycerin, Adenosine, Cholesterol, Dextrin, Polyglyceryl-10 Oleate, Theobroma Cacao (Cocoa) Extract, Disodium EDTA, Brassica Campestris (Rapeseed) Sterols, Phytosteryl/Behenyl/Octyldodecyl Lauroyl Glutamate, Retinal, Silica, Aluminum/Magnesium Hydroxide Stearate, Sodium Hyaluronate, Tocopherol, Potassium Cetyl Phosphate, Pentaerythrityl Tetra-di-t-butyl Hydroxyhydrocinnamate, Ceramide NP, Palmitoyl Tripeptide-5",
           "trust": "A",
           "channel": "official_brand",
-          "sourceUrl": "https://beautyofjoseon.com/pages/revive-eye-serum-cpnp-scpn-information",
-          "checkedAt": "2026-07-22T05:00:00.000Z"
+          "sourceUrl": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+          "checkedAt": "2026-07-22T08:00:00.000Z"
         }
       ],
       "offers": [
@@ -2439,15 +2877,30 @@
           "trust": "A",
           "channel": "official_brand",
           "purchaseUrl": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
-          "price": null,
+          "price": 13.6,
           "currency": "USD",
           "inStock": null,
           "isOfficialStore": true,
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
           "sourceVerified": true
         }
       ],
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "fields": [
+            "image",
+            "offer",
+            "ingredients"
+          ],
+          "notes": [
+            "Official Full Ingredients captured from brand PDP HTML."
+          ]
+        },
         {
           "channel": "official_brand",
           "trust": "A",
@@ -2502,6 +2955,16 @@
           "notes": [
             "Live marketplace fetch not done — policy."
           ]
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/revive-eye-serum-ginseng-retinal-1-front.webp?v=1770287139",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "isOfficialSource": true
         }
       ]
     },
@@ -2564,7 +3027,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -2628,7 +3092,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -2692,7 +3157,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -2756,7 +3222,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -2820,15 +3287,30 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
     },
     {
       "productIdentity": "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
-      "canonicalUrl": null,
+      "canonicalUrl": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
       "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "fields": [
+            "image",
+            "offer"
+          ],
+          "notes": [
+            "US official PDP title uses Rejuvenating (pilot id Renewing); image+offer only — INCI not captured; identity naming variance noted."
+          ]
+        },
         {
           "channel": "naver_shopping",
           "trust": "C",
@@ -2884,8 +3366,33 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0249/8399/4413/files/Brand.com_1080x1080_NewCGREyeCream_01.Packshot_15ml.jpg?v=1736981469",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "us.sulwhasoo.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+          "price": 120,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "sourceVerified": true
         }
       ]
     },
@@ -2948,7 +3455,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -3012,7 +3520,8 @@
             "ingredients"
           ],
           "notes": [
-            "No invented INCI; official extraction not captured in this pack."
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
           ]
         }
       ]
@@ -3026,7 +3535,7 @@
           "trust": "A",
           "channel": "official_brand",
           "sourceUrl": "https://roundlab.com/products/birch-moisturizing-serum",
-          "checkedAt": "2026-07-22T05:00:00.000Z"
+          "checkedAt": "2026-07-22T07:00:00.000Z"
         }
       ],
       "offers": [
@@ -3039,7 +3548,7 @@
           "currency": "USD",
           "inStock": null,
           "isOfficialStore": true,
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
           "sourceVerified": true
         }
       ],
@@ -3049,10 +3558,11 @@
           "trust": "A",
           "url": "https://roundlab.com/products/birch-moisturizing-serum",
           "outcome": "ok",
-          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
           "fields": [
             "ingredients",
-            "offer"
+            "offer",
+            "image"
           ]
         },
         {
@@ -3099,6 +3609,16 @@
           "notes": [
             "Live marketplace fetch not done - policy."
           ]
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/Birch_Serum_2026.jpg?v=1776123015",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://roundlab.com/products/birch-moisturizing-serum",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
         }
       ]
     }
@@ -3238,5 +3758,122 @@
       "torriden-dive-in-eye-cream",
       "aestura-atobarrier365-eye-cream"
     ]
-  }
+  },
+  "expandSkipped": [
+    {
+      "id": "illiyoon-ceramide-ato-concentrate-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://illiyoon.co.kr/"
+    },
+    {
+      "id": "etude-soonjung-2x-barrier-intensive-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://www.etude.com/"
+    },
+    {
+      "id": "pyunkang-yul-ato-cream-deep-moisture",
+      "reason": "official_pdp_not_captured",
+      "url": "https://pyunkangyul.us/"
+    },
+    {
+      "id": "drjart-cicapair-intensive-soothing-repair-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://www.drjart.com/"
+    },
+    {
+      "id": "isntree-hyaluronic-acid-water-essence",
+      "reason": "official_pdp_not_captured",
+      "url": "https://isntree.com/"
+    },
+    {
+      "id": "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "isntree-green-tea-fresh-toner",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "pyunkang-yul-essence-toner",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "celimax-dual-barrier-creamy-toner",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "numbuzin-no3-super-glowing-essence-toner",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "isntree-hyaluronic-acid-watery-sun-gel",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "torriden-dive-in-mild-suncream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "drg-green-mild-up-sun-plus",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "make-prem-uv-defense-me-blue-ray-sun-fluid",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "celimax-oil-control-cooling-suncream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "illiyoon-ceramide-ato-eye-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "pyunkang-yul-eye-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "drjart-ceramidin-eye-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "laneige-perfect-renew-youth-regenerator-eye-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "innisfree-green-tea-seed-eye-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "torriden-dive-in-eye-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    },
+    {
+      "id": "aestura-atobarrier365-eye-cream",
+      "reason": "official_pdp_not_captured",
+      "url": "https://"
+    }
+  ]
 }

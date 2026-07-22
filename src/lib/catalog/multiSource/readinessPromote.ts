@@ -118,11 +118,16 @@ export function promoteReadiness(
     };
   }
 
-  // ingredient_incomplete path
+  // ingredient_incomplete path — identity + official offer OR image → catalog_ready
+  // (not trend_candidate). trend_candidate is identity-only with neither wired.
   if (identityOk && (offerOk || imageOk)) {
     return {
       readiness: "catalog_ready",
-      rejectionReason: "Identity + PDP/offer/image; INCI not verified.",
+      rejectionReason: !offerOk
+        ? "Identity + official image; offer/INCI incomplete."
+        : !imageOk
+          ? "Identity + verified offer; image/INCI incomplete."
+          : "Identity + PDP/offer/image; INCI not verified.",
     };
   }
 

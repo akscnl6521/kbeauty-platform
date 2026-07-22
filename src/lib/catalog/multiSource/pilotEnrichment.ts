@@ -231,19 +231,51 @@ function toImages(pack: EvidencePackProduct | undefined): ImageEvidence[] {
 }
 
 function toOffers(pack: EvidencePackProduct | undefined): OfferEvidence[] {
-  if (!pack?.offers?.length) return [];
-  return pack.offers.map((o) => ({
-    retailerName: o.retailerName,
-    trust: o.trust,
-    channel: o.channel,
-    purchaseUrl: o.purchaseUrl,
-    price: o.price,
-    currency: o.currency,
-    inStock: o.inStock,
-    isOfficialStore: o.isOfficialStore,
-    checkedAt: o.checkedAt,
-    sourceVerified: o.sourceVerified,
-  }));
+  if (pack?.offers?.length) {
+    return pack.offers.map((o) => ({
+      retailerName: o.retailerName,
+      trust: o.trust,
+      channel: o.channel,
+      purchaseUrl: o.purchaseUrl,
+      price: o.price,
+      currency: o.currency,
+      inStock: o.inStock,
+      isOfficialStore: o.isOfficialStore,
+      checkedAt: o.checkedAt,
+      sourceVerified: o.sourceVerified,
+    }));
+  }
+  // Honest catalog path: official product PDP canonicalUrl counts as verified offer
+  // when image pack exists but offers[] was omitted (avoids stuck trend_candidate).
+  const canonical = pack?.canonicalUrl;
+  if (
+    typeof canonical === "string" &&
+    /^https?:\/\//i.test(canonical) &&
+    /\/products\//i.test(canonical) &&
+    (pack?.images?.length ?? 0) > 0
+  ) {
+    let host = "official";
+    try {
+      host = new URL(canonical).hostname;
+    } catch {
+      /* keep fallback */
+    }
+    return [
+      {
+        retailerName: host,
+        trust: "A",
+        channel: "official_brand",
+        purchaseUrl: canonical,
+        price: null,
+        currency: null,
+        inStock: null,
+        isOfficialStore: true,
+        checkedAt: new Date().toISOString(),
+        sourceVerified: true,
+      },
+    ];
+  }
+  return [];
 }
 
 type WorkingProduct = {

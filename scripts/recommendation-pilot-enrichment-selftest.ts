@@ -215,6 +215,40 @@ const needsReview = promoteReadiness({
 });
 assert.equal(needsReview.readiness, "review_required");
 
+const catalogReady = promoteReadiness({
+  ingredientStatus: "ingredient_incomplete",
+  images: [
+    {
+      imageUrl: "https://example.invalid/img.jpg",
+      trust: "A",
+      channel: "official_brand",
+      sourcePageUrl: "https://example.invalid/products/x",
+      checkedAt: "2026-07-22T00:00:00.000Z",
+      isOfficialSource: true,
+    },
+  ],
+  offers: [
+    {
+      retailerName: "official",
+      trust: "A",
+      channel: "official_brand",
+      purchaseUrl: "https://example.invalid/products/x",
+      price: null,
+      currency: "USD",
+      inStock: null,
+      isOfficialStore: true,
+      checkedAt: "2026-07-22T00:00:00.000Z",
+      sourceVerified: true,
+    },
+  ],
+  hasIdentity: true,
+});
+assert.equal(
+  catalogReady.readiness,
+  "catalog_ready",
+  "identity+image+offer with incomplete INCI must be catalog_ready, not trend_candidate"
+);
+
 console.log("\nreadiness totals", readinessReport.totals);
 console.log(
   "recommendationReadyTotal",
