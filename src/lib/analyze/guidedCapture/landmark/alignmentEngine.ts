@@ -1,7 +1,10 @@
 /**
  * Pure alignment evaluator — requires real LandmarkSnapshot; never invents aligned.
+ * Hard: face count, center, size, yaw/roll (pitch soft for front), brightness, sharpness.
+ * Soft: eye/nose/mouth/chin relative positions (warnings only when softFeaturesOnly).
  */
 
+import { toFaceRelative } from "./displaySpace";
 import type {
   AlignmentEvaluation,
   AlignmentStatus,
@@ -37,6 +40,14 @@ export type QualityHints = {
   sharpnessMin?: number;
 };
 
+function fail(
+  status: AlignmentStatus,
+  reasons: string[],
+  softWarnings: string[] = []
+): AlignmentEvaluation {
+  return { status, score: null, reasons, softWarnings };
+}
+
 export function evaluateAlignment(input: {
   snapshot: LandmarkSnapshot | null;
   template: CaptureAngleTemplate;
@@ -45,172 +56,192 @@ export function evaluateAlignment(input: {
 }): AlignmentEvaluation {
   const { snapshot, template } = input;
   if (!snapshot) {
-    return { status: "no_face", score: null, reasons: ["no_snapshot"] };
+    return fail("no_face", ["no_snapshot"]);
   }
   if (snapshot.faceCount <= 0) {
-    return { status: "no_face", score: null, reasons: ["faceCount=0"] };
+    return fail("no_face", ["faceCount=0"]);
   }
   if (snapshot.faceCount > 1) {
-    return {
-      status: "multiple_faces",
-      score: null,
-      reasons: [`faceCount=${snapshot.faceCount}`],
-    };
+    return fail("multiple_faces", [`faceCount=${snapshot.faceCount}`]);
   }
   if (
     typeof input.inferenceSlowMs === "number" &&
     snapshot.inferenceDurationMs > input.inferenceSlowMs
   ) {
-    return {
-      status: "inference_slow",
-      score: null,
-      reasons: [`inferenceMs=${snapshot.inferenceDurationMs}`],
-    };
+    return fail("inference_slow", [
+      `inferenceMs=${snapshot.inferenceDurationMs}`,
+    ]);
   }
 
   const q = input.quality;
   if (q && typeof q.brightnessMean === "number") {
-    const dark = q.darkThreshold ?? 45;
-    const bright = q.brightThreshold ?? 220;
+    const dark = q.darkThreshold ?? 40;
+    const bright = q.brightThreshold ?? 230;
     if (q.brightnessMean < dark) {
-      return { status: "too_dark", score: null, reasons: ["brightness"] };
+      return fail("too_dark", ["brightness"]);
     }
     if (q.brightnessMean > bright) {
-      return { status: "too_bright", score: null, reasons: ["brightness"] };
+      return fail("too_bright", ["brightness"]);
     }
   }
   if (
     q &&
     typeof q.sharpnessScore === "number" &&
-    q.sharpnessScore < (q.sharpnessMin ?? 12)
+    q.sharpnessScore < (q.sharpnessMin ?? 8)
   ) {
-    return { status: "too_blurry", score: null, reasons: ["sharpness"] };
+    return fail("too_blurry", ["sharpness"]);
   }
 
   if (!snapshot.faceBounds) {
-    return { status: "error", score: null, reasons: ["missing_bounds"] };
+    return fail("error", ["missing_bounds"]);
   }
   const bounds = snapshot.faceBounds;
   const width = bounds.xMax - bounds.xMin;
   const height = bounds.yMax - bounds.yMin;
   const center = centerOfBounds(bounds);
 
-  if (width < template.faceWidth.min || height < template.faceHeight.min) {
-    return { status: "move_closer", score: null, reasons: ["face_small"] };
+  // Prefer height for “closer/farther”; width alone can fail long faces.
+  if (height < template.faceHeight.min) {
+    return fail("move_closer", ["face_small"]);
   }
-  if (width > template.faceWidth.max || height > template.faceHeight.max) {
-    return { status: "move_farther", score: null, reasons: ["face_large"] };
+  if (height > template.faceHeight.max) {
+    return fail("move_farther", ["face_large"]);
+  }
+  if (width < template.faceWidth.min) {
+    return fail("move_closer", ["face_narrow"]);
+  }
+  if (width > template.faceWidth.max) {
+    return fail("move_farther", ["face_wide"]);
   }
 
   if (center.x < template.faceCenter.xMin) {
-    return { status: "move_right", score: null, reasons: ["center_x"] };
+    return fail("move_right", ["center_x"]);
   }
   if (center.x > template.faceCenter.xMax) {
-    return { status: "move_left", score: null, reasons: ["center_x"] };
+    return fail("move_left", ["center_x"]);
   }
   if (center.y < template.faceCenter.yMin) {
-    return { status: "move_down", score: null, reasons: ["center_y"] };
+    return fail("move_down", ["center_y"]);
   }
   if (center.y > template.faceCenter.yMax) {
-    return { status: "move_up", score: null, reasons: ["center_y"] };
+    return fail("move_up", ["center_y"]);
   }
 
-  // Auto-align requires real pose estimates — never invent yaw/pitch/roll.
-  if (
-    snapshot.yaw === null ||
-    snapshot.pitch === null ||
-    snapshot.roll === null
-  ) {
-    return {
-      status: "error",
-      score: null,
-      reasons: ["pose_matrix_unavailable"],
-    };
+  // Hard pose: yaw + roll required. Pitch soft for front (phone angle varies).
+  if (snapshot.yaw === null || snapshot.roll === null) {
+    return fail("error", ["pose_matrix_unavailable"]);
   }
   if (snapshot.yaw < template.yawDeg.min) {
-    return { status: "rotate_right", score: null, reasons: ["yaw"] };
+    return fail("rotate_right", ["yaw"]);
   }
   if (snapshot.yaw > template.yawDeg.max) {
-    return { status: "rotate_left", score: null, reasons: ["yaw"] };
-  }
-  if (snapshot.pitch < template.pitchDeg.min) {
-    return { status: "tilt_up", score: null, reasons: ["pitch"] };
-  }
-  if (snapshot.pitch > template.pitchDeg.max) {
-    return { status: "tilt_down", score: null, reasons: ["pitch"] };
+    return fail("rotate_left", ["yaw"]);
   }
   if (
     snapshot.roll < template.rollDeg.min ||
     snapshot.roll > template.rollDeg.max
   ) {
-    return { status: "level_head", score: null, reasons: ["roll"] };
+    return fail("level_head", ["roll"]);
   }
 
-  const eyeY =
-    snapshot.leftEyeCenter && snapshot.rightEyeCenter
-      ? (snapshot.leftEyeCenter.y + snapshot.rightEyeCenter.y) / 2
-      : null;
-  if (eyeY !== null && !inAxis(eyeY, template.eyeLineY)) {
-    return {
-      status: eyeY < template.eyeLineY.min ? "move_down" : "move_up",
-      score: null,
-      reasons: ["eye_line"],
-    };
-  }
-
-  if (snapshot.leftEyeCenter && !inBox(snapshot.leftEyeCenter, template.leftEye)) {
-    return { status: "move_left", score: null, reasons: ["left_eye_box"] };
-  }
+  const softWarnings: string[] = [];
   if (
-    snapshot.rightEyeCenter &&
-    !inBox(snapshot.rightEyeCenter, template.rightEye)
+    typeof snapshot.pitch === "number" &&
+    (snapshot.pitch < template.pitchDeg.min ||
+      snapshot.pitch > template.pitchDeg.max)
   ) {
-    return { status: "move_right", score: null, reasons: ["right_eye_box"] };
-  }
-  if (snapshot.noseTip && !inBox(snapshot.noseTip, template.noseTip)) {
-    const nx = snapshot.noseTip.x;
-    if (nx < template.noseTip.xMin) {
-      return { status: "move_right", score: null, reasons: ["nose_box"] };
+    if (template.angle === "front" && template.softFeaturesOnly) {
+      softWarnings.push("pitch_soft");
+    } else if (snapshot.pitch < template.pitchDeg.min) {
+      return fail("tilt_up", ["pitch"], softWarnings);
+    } else {
+      return fail("tilt_down", ["pitch"], softWarnings);
     }
-    if (nx > template.noseTip.xMax) {
-      return { status: "move_left", score: null, reasons: ["nose_box"] };
+  }
+
+  // Soft relative features (glasses-tolerant).
+  const soft = template.softFeaturesOnly;
+  const hasNose = !!snapshot.noseTip;
+  const hasChin = !!snapshot.chinTip;
+  const hasMouth = !!snapshot.mouthCenter;
+  const hasBothEyes = !!snapshot.leftEyeCenter && !!snapshot.rightEyeCenter;
+
+  // Occlusion: only hard-fail when nose AND most features missing (not glasses alone).
+  if (!hasNose && !hasChin && !hasMouth) {
+    return fail("face_occluded", ["missing_core_keypoints"], softWarnings);
+  }
+
+  if (hasBothEyes) {
+    const relL = toFaceRelative(snapshot.leftEyeCenter!, bounds);
+    const relR = toFaceRelative(snapshot.rightEyeCenter!, bounds);
+    if (relL && relR) {
+      const eyeY = (relL.y + relR.y) / 2;
+      if (!inAxis(eyeY, template.eyeLineY)) {
+        softWarnings.push("eye_line");
+        if (!soft) {
+          return fail(
+            eyeY < template.eyeLineY.min ? "move_down" : "move_up",
+            ["eye_line"],
+            softWarnings
+          );
+        }
+      }
+      if (!inBox(relL, template.leftEye) || !inBox(relR, template.rightEye)) {
+        softWarnings.push("eye_box");
+        // Glasses often shift eye landmarks — never hard-block when soft.
+      }
     }
-    return {
-      status:
-        snapshot.noseTip.y < template.noseTip.yMin ? "move_down" : "move_up",
-      score: null,
-      reasons: ["nose_box"],
-    };
-  }
-  if (
-    snapshot.mouthCenter &&
-    !inBox(snapshot.mouthCenter, template.mouthCenter)
-  ) {
-    return { status: "move_closer", score: null, reasons: ["mouth_box"] };
-  }
-  if (snapshot.chinTip && !inBox(snapshot.chinTip, template.chinTip)) {
-    return { status: "move_up", score: null, reasons: ["chin_box"] };
+  } else {
+    softWarnings.push("eyes_missing_or_low_confidence");
+    // Glasses: fall back to bounds + nose + pose (already passed).
   }
 
-  // Occlusion heuristic: missing key points
-  if (
-    !snapshot.leftEyeCenter ||
-    !snapshot.rightEyeCenter ||
-    !snapshot.noseTip ||
-    !snapshot.chinTip ||
-    !snapshot.mouthCenter
-  ) {
-    return { status: "face_occluded", score: null, reasons: ["missing_keypoints"] };
+  if (snapshot.noseTip) {
+    const rel = toFaceRelative(snapshot.noseTip, bounds);
+    if (rel && !inBox(rel, template.noseTip)) {
+      softWarnings.push("nose_box");
+      if (!soft) {
+        return fail(
+          rel.x < template.noseTip.xMin ? "move_right" : "move_left",
+          ["nose_box"],
+          softWarnings
+        );
+      }
+    }
+  }
+  if (snapshot.mouthCenter) {
+    const rel = toFaceRelative(snapshot.mouthCenter, bounds);
+    if (rel && !inBox(rel, template.mouthCenter)) {
+      softWarnings.push("mouth_box");
+    }
+  }
+  if (snapshot.chinTip) {
+    const rel = toFaceRelative(snapshot.chinTip, bounds);
+    if (rel && !inBox(rel, template.chinTip)) {
+      softWarnings.push("chin_box");
+    }
   }
 
-  if (bounds.yMin < 0.02 || bounds.yMax > 0.98 || bounds.xMin < 0.02 || bounds.xMax > 0.98) {
-    return { status: "move_farther", score: null, reasons: ["clipped"] };
+  // Mild clip OK; severe clip → move farther
+  if (
+    bounds.yMin < -0.02 ||
+    bounds.yMax > 1.02 ||
+    bounds.xMin < -0.02 ||
+    bounds.xMax > 1.02
+  ) {
+    return fail("move_farther", ["clipped"], softWarnings);
   }
 
   let score = 1;
   const mid = (template.yawDeg.min + template.yawDeg.max) / 2;
-  score -= Math.min(0.3, Math.abs(snapshot.yaw - mid) / 90);
-  return { status: "aligned", score: Math.max(0, score), reasons: [] };
+  score -= Math.min(0.25, Math.abs(snapshot.yaw - mid) / 90);
+  score -= Math.min(0.15, softWarnings.length * 0.03);
+  return {
+    status: "aligned",
+    score: Math.max(0, score),
+    reasons: [],
+    softWarnings,
+  };
 }
 
 export function alignmentStatusMessageKo(status: AlignmentStatus): string {
@@ -218,7 +249,7 @@ export function alignmentStatusMessageKo(status: AlignmentStatus): string {
     case "loading_model":
       return "얼굴 가이드를 준비하고 있어요.";
     case "no_face":
-      return "얼굴을 가이드 안에 맞춰 주세요.";
+      return "얼굴을 화면 중앙에 맞춰 주세요.";
     case "multiple_faces":
       return "한 명의 얼굴만 보이도록 해 주세요.";
     case "move_left":
@@ -228,11 +259,11 @@ export function alignmentStatusMessageKo(status: AlignmentStatus): string {
     case "move_up":
       return "휴대폰을 조금 내려 주세요.";
     case "move_down":
-      return "휴대폰을 조금 올려 주세요.";
+      return "휴대폰을 눈높이로 올려 주세요.";
     case "move_closer":
       return "조금 더 가까이 와 주세요.";
     case "move_farther":
-      return "조금 더 멀리 떨어져 주세요.";
+      return "얼굴을 조금 더 멀리해 주세요.";
     case "rotate_left":
       return "얼굴을 화면의 왼쪽 방향으로 천천히 돌려 주세요.";
     case "rotate_right":
@@ -252,7 +283,7 @@ export function alignmentStatusMessageKo(status: AlignmentStatus): string {
     case "face_occluded":
       return "얼굴을 가리는 머리카락이나 손을 정리해 주세요.";
     case "aligned":
-      return "좋아요. 그대로 유지해 주세요.";
+      return "거의 맞았어요. 그대로 유지해 주세요.";
     case "detector_unavailable":
       return "자동 정렬을 사용할 수 없어 수동 가이드로 촬영합니다.";
     case "inference_slow":
@@ -260,4 +291,24 @@ export function alignmentStatusMessageKo(status: AlignmentStatus): string {
     case "error":
       return "얼굴 가이드에 문제가 있어요. 수동 촬영으로 진행해 주세요.";
   }
+}
+
+/** Prefer a single primary guidance message. */
+export function primaryGuidanceMessage(
+  status: AlignmentStatus,
+  softWarnings: string[],
+  angle: "front" | "left45" | "right45" = "front"
+): string {
+  if (status === "aligned") {
+    return softWarnings.length > 0
+      ? "거의 맞았어요. 그대로 유지해 주세요."
+      : alignmentStatusMessageKo("aligned");
+  }
+  if (
+    angle === "front" &&
+    (status === "rotate_left" || status === "rotate_right")
+  ) {
+    return "고개를 정면으로 돌려 주세요.";
+  }
+  return alignmentStatusMessageKo(status);
 }

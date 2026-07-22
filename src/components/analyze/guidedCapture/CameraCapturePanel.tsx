@@ -29,6 +29,7 @@ import type {
 import {
   alignmentStatusMessageKo,
   evaluateAlignment,
+  primaryGuidanceMessage,
 } from "@/lib/analyze/guidedCapture/landmark/alignmentEngine";
 import {
   createAutoCaptureState,
@@ -40,6 +41,7 @@ import { FaceLandmarkerSession } from "@/lib/analyze/guidedCapture/landmark/face
 import {
   isCaptureVoiceCountdownEnabled,
   isFaceLandmarkAutoCaptureEnabled,
+  isLandmarkCaptureDebugEnabled,
   LANDMARK_INFER_MAX_FPS,
   LANDMARK_SLOW_MS,
 } from "@/lib/analyze/guidedCapture/landmark/isEnabled";
@@ -49,7 +51,9 @@ import { templateForAngle } from "@/lib/analyze/guidedCapture/landmark/templates
 import type {
   AlignmentMode,
   AutoCaptureMachineState,
+  LandmarkSnapshot,
 } from "@/lib/analyze/guidedCapture/landmark/types";
+import type { VideoDisplayMetrics } from "@/lib/analyze/guidedCapture/landmark/displaySpace";
 import {
   alignmentStatusMessage,
   capturedUtterance,
@@ -171,9 +175,23 @@ export function CameraCapturePanel({
     pitch: number | null;
     roll: number | null;
   }>({ score: null, yaw: null, pitch: null, roll: null });
+  const [liveBounds, setLiveBounds] = useState<
+    LandmarkSnapshot["faceBounds"]
+  >(null);
+  const [debugSnap, setDebugSnap] = useState<LandmarkSnapshot | null>(null);
+  const [softWarnings, setSoftWarnings] = useState<string[]>([]);
+  const [failReason, setFailReason] = useState<string | null>(null);
+  const [debugMetrics, setDebugMetrics] = useState<VideoDisplayMetrics | null>(
+    null
+  );
+  const [debugOn, setDebugOn] = useState(false);
 
   const template = useMemo(() => templateForAngle(angle), [angle]);
   const guidance = guidanceForAngle(angle);
+
+  useEffect(() => {
+    setDebugOn(isLandmarkCaptureDebugEnabled());
+  }, []);
 
   useEffect(() => {
     onLiveRef.current = onLive;
@@ -592,6 +610,17 @@ export function CameraCapturePanel({
             pitch: snap?.pitch ?? null,
             roll: snap?.roll ?? null,
           });
+          setLiveBounds(snap?.faceBounds ?? null);
+          setSoftWarnings(evalResult.softWarnings);
+          setFailReason(
+            evalResult.status === "aligned"
+              ? null
+              : evalResult.reasons[0] ?? evalResult.status
+          );
+          if (debugOn) {
+            setDebugSnap(snap);
+            setDebugMetrics(session.lastMetrics);
+          }
 
           const tick = tickAutoCapture(machineRef.current, {
             nowMs,
@@ -602,10 +631,15 @@ export function CameraCapturePanel({
           setMachinePhase(tick.state.phase);
           setCountdownDigit(tick.state.countdownDigit);
 
+          const koMsg = primaryGuidanceMessage(
+            tick.state.alignmentStatus,
+            evalResult.softWarnings,
+            angle
+          );
           const msg = alignmentStatusMessage(
             voiceLocale,
             tick.state.alignmentStatus,
-            alignmentStatusMessageKo(tick.state.alignmentStatus)
+            koMsg
           );
           setHint(msg);
 
@@ -648,7 +682,7 @@ export function CameraCapturePanel({
       speechRef.current?.cancel();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, landmarkFlag, alignmentMode, angle, facingMode, template, voiceLocale]);
+  }, [status, landmarkFlag, alignmentMode, angle, facingMode, template, voiceLocale, debugOn]);
 
   // Cancel speech when leaving countdown due to misalignment is handled in tick;
   // extra: when alignment leaves aligned during countdown cancel speech
@@ -776,6 +810,12 @@ export function CameraCapturePanel({
             angleLabel={angleLabelKo(angle)}
             stepLabel={stepLabelFor(angle)}
             reducedMotion={reducedMotion}
+            liveBounds={liveBounds}
+            debug={debugOn}
+            debugSnapshot={debugSnap}
+            debugSoftWarnings={softWarnings}
+            debugFailReason={failReason}
+            debugMetrics={debugMetrics}
           />
         ) : (
           <p
@@ -833,6 +873,18 @@ export function CameraCapturePanel({
             className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
           >
             음성 안내 {voiceOn ? "켜짐" : "꺼짐"}
+          </button>
+        ) : null}
+        {process.env.NODE_ENV === "development" ||
+        process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" ||
+        process.env.NEXT_PUBLIC_LANDMARK_CAPTURE_DEBUG === "1" ? (
+          <button
+            type="button"
+            aria-pressed={debugOn}
+            onClick={() => setDebugOn((v) => !v)}
+            className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
+          >
+            정렬 디버그 {debugOn ? "ON" : "OFF"}
           </button>
         ) : null}
         <button

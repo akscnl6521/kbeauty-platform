@@ -50,7 +50,8 @@ Master Plan v4.2 **Phase 3.1** 코드·selftest·build·Preview 배포 완료. �
 ## Phase 3.1 — 랜드마크 자동 촬영 (2026-07-22)
 
 - `@mediapipe/tasks-vision` FaceLandmarker (Apache-2.0) · same-origin WASM/model
-- 템플릿: front / left45 / right45 (normalized) · 1초 안정 → 3·2·1 → 자동 촬영
+- **3.1.1 BLOCKER fix**: cover 좌표 통일 · soft feature · 안경 허용 · 가이드 타원 완화
+- 템플릿: front / left45 / right45 · 1초 안정 → 3·2·1 → 자동 촬영
 - 음성: ko/en/ja/zh-CN/es · SpeechSynthesis · OFF·미지원 시 화면만
 - Fallback: 수동 가이드 또는 문진 · **갤러리 없음**
 - 문서: `docs/analyze/PHASE31_FACE_LANDMARK_AUTO_CAPTURE.md`

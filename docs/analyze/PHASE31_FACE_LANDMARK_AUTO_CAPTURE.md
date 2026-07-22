@@ -1,81 +1,47 @@
 # Phase 3.1 — Face landmark auto-capture + voice countdown
 
-최종 갱신: 2026-07-22  
-기준: MASTER_PLAN.md §22 · Phase 3.0 / 3.0.1 / 3.0.2 완료 상태
+최종 갱신: 2026-07-22 (3.1.1 alignment BLOCKER fix)  
+기준: MASTER_PLAN.md §22
 
-## 1. 조사 결과
+## 1. 조사 결과 (요약)
 
 | 영역 | 현황 |
 | --- | --- |
-| CameraCapturePanel | getUserMedia → attach/play · FaceGuideOverlay · landmark loop · 자동/수동 셔터 |
-| GuidedCaptureFlow | requesting_permission → capturing · 갤러리 제거됨 (카메라/문진만) |
-| captureSession | idle/requesting/capturing/reviewing/ready |
-| cameraStart | preferred+fallback · stream identity cleanup |
-| video 좌표 | CSS `scale-x-[-1]` 전면 미러(표시) · 랜드마크도 display-space로 mirror · 캡처 canvas 별도 미러 |
-| locale | `useLocale` + `resolveCaptureVoiceLocale` (ko/en/ja/zh-CN/es, else en) |
-| SpeechSynthesis | Web Speech API · 실패해도 자동 촬영 유지 |
-| CSP / Permissions | `camera=(self)` · `wasm-unsafe-eval` · `worker-src 'self' blob:` |
-| connect-src | same-origin `/models` · `/mediapipe/wasm` (CDN 모델 fetch 없음) |
-| Feature flags | `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE` · `NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN` (기본 ON) |
+| CameraCapturePanel | landmark loop · auto/manual · voice · debug toggle |
+| 좌표 | MediaPipe video-norm → **object-fit:cover display-norm** (+ mirror) |
+| 템플릿 | 절대: 중심/크기/pose · **상대(face bounds)**: 눈·코·입·턱 |
+| 판정 | 필수=얼굴1·중심·크기·yaw·roll·밝기·선명도 · 보조=눈·코·입·턱(soft) |
+| 갤러리 | 일반 사용자 금지 |
 
-## 2. 기술 선택
+## 2. BLOCKER 원인 (3.1.1)
 
-**`@mediapipe/tasks-vision` FaceLandmarker (Apache-2.0, 0.10.32)**
+1. **object-fit: cover crop 미보정** — detector는 video frame, overlay는 CSS box → 눈·코 가이드 불일치
+2. **눈·코·입·턱을 화면 절대 좌표로 hard fail** — 얼굴형·안경에서 aligned 불가
+3. **가이드 타원이 길고 좁음** — template 절대 box에서 파생한 장식 타원
 
-이유:
-- 브라우저 로컬 추론 · 프레임 서버 전송 없음
-- 478 landmarks + facialTransformationMatrix (yaw/pitch/roll)
-- 신원 embedding / 본인인증 API 아님
-- Android Chrome · iOS Safari 실사용 사례 다수
+## 3. 수정
 
-자산 (same-origin):
-- WASM: `/mediapipe/wasm` (패키지에서 복사)
-- Model: `/models/face_landmarker.task` (~3.7MB float16)
+- `displaySpace.ts`: video↔display 공용 변환 (overlay·engine 동일)
+- front/left/right 허용 완화 · feature는 face-relative · `softFeaturesOnly`
+- FaceGuideOverlay: 둥근 안내 타원 + liveBounds 기반 허용 영역
+- Preview/dev **정렬 디버그** 토글 (`?landmarkDebug=1` 또는 버튼)
+- 안경: 눈 landmark 없어도 bounds+nose+pose로 aligned 가능
 
-GPU 실패 시 CPU delegate 1회 재시도. CDN 모델 fetch 금지.
+## 4. 기술
 
-## 3. yaw/pitch/roll
+`@mediapipe/tasks-vision` FaceLandmarker 0.10.32 · Apache-2.0  
+WASM `/mediapipe/wasm` · model `/models/face_landmarker.task` (~3.7MB)
 
-MediaPipe `facialTransformationMatrixes[0]` (column-major 4×4)에서 Euler 분해.
-전면 카메라 display-space에서는 yaw 부호를 반전하여 화면 왼쪽/오른쪽 안내와 일치시킨다.
+## 5. Feature flags
 
-## 4. 템플릿
+- `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE` (default ON)
+- `NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN` (default ON)
+- `NEXT_PUBLIC_LANDMARK_CAPTURE_DEBUG` / `?landmarkDebug=1`
 
-| id | 용도 |
-| --- | --- |
-| `front_template_v1` | 정면 · yaw ±12° |
-| `left_45_template_v1` | 화면 왼쪽 방향 · yaw −55~−25° |
-| `right_45_template_v1` | 화면 오른쪽 방향 · yaw 25~55° |
+## 6. 테스트
 
-모든 좌표는 0~1 normalized. `stableHoldMs=1000`.
+`npm run test:guided-landmark` · `npm run test:guided-capture` · `npm run build`
 
-## 5. 자동 촬영
+## 7. 미룸
 
-조건: 모델 로드 · faceCount=1 · 템플릿 정렬 · 크기/yaw/pitch/roll · 밝기·선명도 · ≥1초 안정.
-흐름: adjusting → ready → countdown 3·2·1 → capturing(각도당 1회).
-이탈 시 즉시 cancel + speech cancel. 품질 fail 시 해당 각도만 재촬영.
-
-## 6. 개인정보
-
-- 랜드마크 좌표·행렬·프레임: 메모리만 · 로그/Storage/DB 금지
-- 진단 로그: 로딩 성공/실패 · inference ms · fallback · 상태 코드만
-- 얼굴 신원 식별·embedding 금지
-
-## 7. Fallback
-
-모델/WASM/느린 inference → `alignmentMode=manual_guidance` + 수동 셔터  
-또는 문진만 · **갤러리 없음**
-
-## 8. 테스트
-
-`npm run test:guided-landmark` · `npm run test:guided-capture`
-
-## 9. 미룸
-
-위/아래 각도 · QR 이어촬영 · Storage/비교 DB · Production env · WQ-G · 실기기 Android/iOS 육안 수치 확정
-
-## 10. Preview / commit
-
-- Preview: `https://kbeauty-platform-n4kbtnoli-akscnl6521s-projects.vercel.app`
-- commit: `ea7bb0e`
-- tests: `npm run test:guided-landmark` · `npm run test:guided-capture` · `npm run build` OK
+실기기 Android/iOS 육안 재확인 · 위/아래 각도 · Storage · Production · WQ-G

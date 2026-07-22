@@ -40,11 +40,11 @@ const COUNTDOWN: Record<CaptureVoiceLocale, Record<3 | 2 | 1, string>> = {
 };
 
 const HOLD: Record<CaptureVoiceLocale, string> = {
-  ko: "좋아요. 그대로 유지해 주세요.",
-  en: "Great. Hold still.",
-  ja: "そのまま動かないでください。",
-  "zh-CN": "很好，请保持不动。",
-  es: "Muy bien. Mantén la posición.",
+  ko: "거의 맞았어요. 그대로 유지해 주세요.",
+  en: "Almost there. Hold still.",
+  ja: "ほぼ合っています。そのまま動かないでください。",
+  "zh-CN": "差不多了，请保持不动。",
+  es: "Casi listo. Mantén la posición.",
 };
 
 const CAPTURED: Record<CaptureVoiceLocale, string> = {
@@ -76,7 +76,7 @@ const STATUS_MSG: Record<CaptureVoiceLocale, Partial<Record<string, string>>> = 
     too_bright: "The lighting is too bright.",
     too_blurry: "Image is blurry. Hold still.",
     face_occluded: "Clear hair or hands covering your face.",
-    aligned: "Great. Hold still.",
+    aligned: "Almost there. Hold still.",
     detector_unavailable: "Auto-align unavailable. Use the manual guide.",
     inference_slow: "Device is slow. Switching to manual guide.",
     error: "Face guide error. Please capture manually.",

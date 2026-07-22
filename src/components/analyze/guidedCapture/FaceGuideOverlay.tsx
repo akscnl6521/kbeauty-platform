@@ -4,7 +4,13 @@ import type { CSSProperties } from "react";
 import type {
   CaptureAngleTemplate,
   CaptureGuideVisualState,
+  LandmarkSnapshot,
 } from "@/lib/analyze/guidedCapture/landmark/types";
+import {
+  FRONT_GUIDE_OVAL,
+  relativeBoxToDisplay,
+} from "@/lib/analyze/guidedCapture/landmark/templates";
+import type { VideoDisplayMetrics } from "@/lib/analyze/guidedCapture/landmark/displaySpace";
 
 export type FaceGuideOverlayProps = {
   template: CaptureAngleTemplate;
@@ -14,6 +20,14 @@ export type FaceGuideOverlayProps = {
   angleLabel: string;
   stepLabel: string;
   reducedMotion?: boolean;
+  /** Live face bounds in display-space — guide follows real face scale when available. */
+  liveBounds?: LandmarkSnapshot["faceBounds"];
+  /** Preview/dev debug only — never log to server. */
+  debug?: boolean;
+  debugSnapshot?: LandmarkSnapshot | null;
+  debugSoftWarnings?: string[];
+  debugFailReason?: string | null;
+  debugMetrics?: VideoDisplayMetrics | null;
 };
 
 function borderClass(state: CaptureGuideVisualState): string {
@@ -42,9 +56,31 @@ function boxStyle(box: {
   return {
     left: `${box.xMin * 100}%`,
     top: `${box.yMin * 100}%`,
-    width: `${(box.xMax - box.xMin) * 100}%`,
-    height: `${(box.yMax - box.yMin) * 100}%`,
+    width: `${Math.max(0, box.xMax - box.xMin) * 100}%`,
+    height: `${Math.max(0, box.yMax - box.yMin) * 100}%`,
   };
+}
+
+function guideFaceRegion(
+  template: CaptureAngleTemplate,
+  liveBounds: LandmarkSnapshot["faceBounds"]
+): { xMin: number; xMax: number; yMin: number; yMax: number } {
+  if (liveBounds) {
+    // Expand slightly so guides feel like allowances, not a tight mask.
+    const w = liveBounds.xMax - liveBounds.xMin;
+    const h = liveBounds.yMax - liveBounds.yMin;
+    return {
+      xMin: Math.max(0.05, liveBounds.xMin - w * 0.06),
+      xMax: Math.min(0.95, liveBounds.xMax + w * 0.06),
+      yMin: Math.max(0.05, liveBounds.yMin - h * 0.04),
+      yMax: Math.min(0.95, liveBounds.yMax + h * 0.04),
+    };
+  }
+  if (template.angle === "front") return { ...FRONT_GUIDE_OVAL };
+  if (template.angle === "left45") {
+    return { xMin: 0.14, xMax: 0.78, yMin: 0.16, yMax: 0.84 };
+  }
+  return { xMin: 0.22, xMax: 0.86, yMin: 0.16, yMax: 0.84 };
 }
 
 export function FaceGuideOverlay({
@@ -55,58 +91,74 @@ export function FaceGuideOverlay({
   angleLabel,
   stepLabel,
   reducedMotion,
+  liveBounds,
+  debug,
+  debugSnapshot,
+  debugSoftWarnings,
+  debugFailReason,
+  debugMetrics,
 }: FaceGuideOverlayProps) {
-  const faceOval = {
-    xMin: template.faceCenter.xMin - 0.12,
-    xMax: template.faceCenter.xMax + 0.12,
-    yMin: template.eyeLineY.min - 0.08,
-    yMax: template.chinTip.yMax + 0.02,
+  const face = guideFaceRegion(template, liveBounds ?? null);
+  const leftEye = relativeBoxToDisplay(template.leftEye, face);
+  const rightEye = relativeBoxToDisplay(template.rightEye, face);
+  const nose = relativeBoxToDisplay(template.noseTip, face);
+  const mouth = relativeBoxToDisplay(template.mouthCenter, face);
+  const chin = relativeBoxToDisplay(template.chinTip, face);
+
+  // Softer oval — not a long/narrow decorative face silhouette.
+  const ovalPadX = (face.xMax - face.xMin) * 0.08;
+  const ovalPadY = (face.yMax - face.yMin) * 0.04;
+  const oval = {
+    xMin: Math.max(0.08, face.xMin - ovalPadX),
+    xMax: Math.min(0.92, face.xMax + ovalPadX),
+    yMin: Math.max(0.1, face.yMin - ovalPadY),
+    yMax: Math.min(0.92, face.yMax + ovalPadY),
   };
 
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden={false}>
       <div
-        className={`absolute rounded-[48%] border-2 ${borderClass(visualState)} shadow-[0_0_0_9999px_rgba(0,0,0,0.32)]`}
-        style={boxStyle({
-          xMin: Math.max(0.08, faceOval.xMin),
-          xMax: Math.min(0.92, faceOval.xMax),
-          yMin: Math.max(0.08, faceOval.yMin),
-          yMax: Math.min(0.95, faceOval.yMax),
-        })}
+        className={`absolute rounded-[42%] border-2 ${borderClass(visualState)} shadow-[0_0_0_9999px_rgba(0,0,0,0.28)]`}
+        style={boxStyle(oval)}
         aria-hidden
       />
 
-      {/* Eye / nose / mouth / chin target guides */}
+      {/* Soft feature guides — large allowance regions */}
       <div
-        className="absolute rounded-full border border-white/50"
-        style={boxStyle(template.leftEye)}
+        className="absolute rounded-[40%] border border-white/45"
+        style={boxStyle(leftEye)}
         aria-hidden
       />
       <div
-        className="absolute rounded-full border border-white/50"
-        style={boxStyle(template.rightEye)}
+        className="absolute rounded-[40%] border border-white/45"
+        style={boxStyle(rightEye)}
         aria-hidden
       />
+      {/* Nose: vertical band */}
       <div
-        className="absolute rounded-full border border-cyan-200/60"
-        style={boxStyle(template.noseTip)}
+        className="absolute rounded-full border border-cyan-200/50"
+        style={boxStyle({
+          xMin: nose.xMin + (nose.xMax - nose.xMin) * 0.25,
+          xMax: nose.xMax - (nose.xMax - nose.xMin) * 0.25,
+          yMin: nose.yMin,
+          yMax: nose.yMax,
+        })}
         aria-hidden
       />
       <div
         className="absolute rounded-full border border-white/40"
-        style={boxStyle(template.mouthCenter)}
+        style={boxStyle(mouth)}
         aria-hidden
       />
       <div
         className="absolute rounded-full border border-white/35"
-        style={boxStyle(template.chinTip)}
+        style={boxStyle(chin)}
         aria-hidden
       />
 
-      {/* Rotation arrow hint for 45° */}
       {template.angle !== "front" ? (
         <div
-          className="absolute top-[18%] left-1/2 -translate-x-1/2 text-2xl text-white/80"
+          className="absolute top-[14%] left-1/2 -translate-x-1/2 text-2xl text-white/80"
           aria-hidden
         >
           {template.angle === "left45" ? "↶" : "↷"}
@@ -142,6 +194,81 @@ export function FaceGuideOverlay({
       >
         {message}
       </p>
+
+      {debug ? (
+        <>
+          {debugSnapshot?.faceBounds ? (
+            <div
+              className="absolute border border-lime-400/80"
+              style={boxStyle(debugSnapshot.faceBounds)}
+              aria-hidden
+            />
+          ) : null}
+          {debugSnapshot?.leftEyeCenter ? (
+            <Dot p={debugSnapshot.leftEyeCenter} color="#4ade80" />
+          ) : null}
+          {debugSnapshot?.rightEyeCenter ? (
+            <Dot p={debugSnapshot.rightEyeCenter} color="#4ade80" />
+          ) : null}
+          {debugSnapshot?.noseTip ? (
+            <Dot p={debugSnapshot.noseTip} color="#67e8f9" />
+          ) : null}
+          {debugSnapshot?.mouthCenter ? (
+            <Dot p={debugSnapshot.mouthCenter} color="#fde68a" />
+          ) : null}
+          {debugSnapshot?.chinTip ? (
+            <Dot p={debugSnapshot.chinTip} color="#fda4af" />
+          ) : null}
+          <div
+            className="absolute left-2 top-12 max-w-[92%] rounded-lg bg-black/70 px-2 py-1 font-mono text-[10px] leading-snug text-lime-200"
+            aria-hidden
+          >
+            <p>
+              fail={debugFailReason ?? "-"} soft=
+              {(debugSoftWarnings ?? []).join(",") || "-"}
+            </p>
+            <p>
+              yaw={fmt(debugSnapshot?.yaw)} pitch={fmt(debugSnapshot?.pitch)}{" "}
+              roll={fmt(debugSnapshot?.roll)}
+            </p>
+            <p>
+              bounds=
+              {debugSnapshot?.faceBounds
+                ? `${pct(debugSnapshot.faceBounds.xMin)}-${pct(debugSnapshot.faceBounds.xMax)},${pct(debugSnapshot.faceBounds.yMin)}-${pct(debugSnapshot.faceBounds.yMax)}`
+                : "-"}
+            </p>
+            <p>
+              vw={debugMetrics?.videoWidth ?? "-"}×
+              {debugMetrics?.videoHeight ?? "-"} cw=
+              {debugMetrics?.clientWidth ?? "-"}×
+              {debugMetrics?.clientHeight ?? "-"} mir=
+              {debugMetrics?.mirrorX ? "1" : "0"}
+            </p>
+          </div>
+        </>
+      ) : null}
     </div>
   );
+}
+
+function Dot({ p, color }: { p: { x: number; y: number }; color: string }) {
+  return (
+    <span
+      className="absolute h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+      style={{
+        left: `${p.x * 100}%`,
+        top: `${p.y * 100}%`,
+        background: color,
+      }}
+    />
+  );
+}
+
+function fmt(n: number | null | undefined): string {
+  if (typeof n !== "number" || Number.isNaN(n)) return "-";
+  return n.toFixed(1);
+}
+
+function pct(n: number): string {
+  return `${Math.round(n * 100)}`;
 }

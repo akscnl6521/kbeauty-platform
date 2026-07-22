@@ -87,7 +87,12 @@ export type CaptureAngleTemplate = {
   id: CaptureAngleTemplateId;
   version: "v1";
   angle: "front" | "left45" | "right45";
+  /** Absolute display-space face center tolerance. */
   faceCenter: BoxRange;
+  /**
+   * Feature ranges are face-relative (0–1 inside detected face bounds),
+   * not absolute screen coordinates.
+   */
   eyeLineY: AxisRange;
   leftEye: BoxRange;
   rightEye: BoxRange;
@@ -101,12 +106,19 @@ export type CaptureAngleTemplate = {
   rollDeg: AxisRange;
   /** ms aligned must hold before countdown */
   stableHoldMs: number;
+  /**
+   * When true, eye/nose/mouth/chin mismatches are soft warnings only
+   * and do not block `aligned` (glasses / face-shape tolerance).
+   */
+  softFeaturesOnly: boolean;
 };
 
 export type AlignmentEvaluation = {
   status: AlignmentStatus;
   score: number | null;
   reasons: string[];
+  /** Soft guidance codes — never alone block aligned. */
+  softWarnings: string[];
 };
 
 export type AutoCaptureMachineState = {

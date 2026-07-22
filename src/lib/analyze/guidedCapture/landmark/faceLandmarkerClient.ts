@@ -1,6 +1,6 @@
 /**
  * MediaPipe FaceLandmarker client — browser only, local WASM/model.
- * Does not create identity embeddings or send frames off-device.
+ * Landmarks are converted to display-space (object-fit:cover + mirror).
  */
 
 "use client";
@@ -11,7 +11,13 @@ import {
   FACE_LANDMARKER_WASM_PATH,
   LANDMARK_SLOW_MS,
 } from "./isEnabled";
-import { eulerFromColumnMajor4x4, LM, midpoint, mirrorNormX } from "./poseMath";
+import {
+  readVideoDisplayMetrics,
+  videoBoundsToDisplayBounds,
+  videoNormToDisplayNorm,
+  type VideoDisplayMetrics,
+} from "./displaySpace";
+import { eulerFromColumnMajor4x4, LM, midpoint } from "./poseMath";
 import type { LandmarkSnapshot, NormPoint } from "./types";
 import { logCameraDiagnostic } from "../cameraDiagnostics";
 
@@ -45,12 +51,12 @@ function boundsOf(
   return { xMin, yMin, xMax, yMax };
 }
 
-function mapDisplaySpace(
+function mapPoint(
   p: NormPoint | null | undefined,
-  mirrorX: boolean
+  metrics: VideoDisplayMetrics
 ): NormPoint | null {
   if (!p) return null;
-  return mirrorX ? { x: mirrorNormX(p.x), y: p.y } : { x: p.x, y: p.y };
+  return videoNormToDisplayNorm(p, metrics);
 }
 
 export class FaceLandmarkerSession {
@@ -58,6 +64,8 @@ export class FaceLandmarkerSession {
   private lastVideoTime = -1;
   private inferInFlight = false;
   disposed = false;
+  /** Last display metrics used — for debug overlay (no PII log). */
+  lastMetrics: VideoDisplayMetrics | null = null;
 
   async load(): Promise<FaceLandmarkerLoadResult> {
     const t0 = performance.now();
@@ -83,7 +91,6 @@ export class FaceLandmarkerSession {
       return { ok: true, loadMs };
     } catch (err) {
       const loadMs = Math.round(performance.now() - t0);
-      // GPU fail → CPU retry once
       try {
         const vision = await import("@mediapipe/tasks-vision");
         const fileset = await vision.FilesetResolver.forVisionTasks(
@@ -137,6 +144,9 @@ export class FaceLandmarkerSession {
     const t0 = performance.now();
     try {
       this.lastVideoTime = video.currentTime;
+      const metrics = readVideoDisplayMetrics(video, opts.mirrorX);
+      this.lastMetrics = metrics;
+
       const result = this.landmarker.detectForVideo(video, opts.nowMs);
       const duration = Math.round(performance.now() - t0);
       const faces = result.faceLandmarks ?? [];
@@ -159,8 +169,12 @@ export class FaceLandmarkerSession {
       }
 
       const lm = faces[0]!;
-      const rawLeft = midpoint(pt(lm, LM.leftEyeOuter), pt(lm, LM.leftEyeInner));
-      const rawRight = midpoint(
+      // MediaPipe indices: 33=subject's left eye (appears on viewer's right without mirror)
+      const rawSubjectLeft = midpoint(
+        pt(lm, LM.leftEyeOuter),
+        pt(lm, LM.leftEyeInner)
+      );
+      const rawSubjectRight = midpoint(
         pt(lm, LM.rightEyeOuter),
         pt(lm, LM.rightEyeInner)
       );
@@ -182,21 +196,24 @@ export class FaceLandmarkerSession {
           yaw = e.yaw;
           pitch = e.pitch;
           roll = e.roll;
-          if (opts.mirrorX && yaw !== null) {
-            yaw = -yaw;
-          }
+          // Mirror display: invert yaw so screen-left turn stays negative.
+          if (opts.mirrorX && yaw !== null) yaw = -yaw;
         }
       }
 
-      const mirror = opts.mirrorX;
-      const mappedBounds = rawBounds
-        ? {
-            xMin: mirror ? mirrorNormX(rawBounds.xMax) : rawBounds.xMin,
-            xMax: mirror ? mirrorNormX(rawBounds.xMin) : rawBounds.xMax,
-            yMin: rawBounds.yMin,
-            yMax: rawBounds.yMax,
-          }
+      const displayBounds = rawBounds
+        ? videoBoundsToDisplayBounds(rawBounds, metrics)
         : null;
+
+      // After display transform (+mirror), subject's right eye lands on viewer's left.
+      const mappedSubjectLeft = mapPoint(rawSubjectLeft, metrics);
+      const mappedSubjectRight = mapPoint(rawSubjectRight, metrics);
+      const leftEyeCenter = opts.mirrorX
+        ? mappedSubjectRight
+        : mappedSubjectLeft;
+      const rightEyeCenter = opts.mirrorX
+        ? mappedSubjectLeft
+        : mappedSubjectRight;
 
       if (duration > LANDMARK_SLOW_MS * 2) {
         logCameraDiagnostic({
@@ -205,23 +222,14 @@ export class FaceLandmarkerSession {
         });
       }
 
-      // Display-space: mirror X when front camera preview is CSS-mirrored.
-      // Also swap L/R eye labels so "left eye" means viewer's left on screen.
-      const leftEyeCenter = mirror
-        ? mapDisplaySpace(rawRight, true)
-        : mapDisplaySpace(rawLeft, false);
-      const rightEyeCenter = mirror
-        ? mapDisplaySpace(rawLeft, true)
-        : mapDisplaySpace(rawRight, false);
-
       return {
         faceCount: faces.length,
         leftEyeCenter,
         rightEyeCenter,
-        noseTip: mapDisplaySpace(rawNose, mirror),
-        mouthCenter: mapDisplaySpace(rawMouth, mirror),
-        chinTip: mapDisplaySpace(rawChin, mirror),
-        faceBounds: mappedBounds,
+        noseTip: mapPoint(rawNose, metrics),
+        mouthCenter: mapPoint(rawMouth, metrics),
+        chinTip: mapPoint(rawChin, metrics),
+        faceBounds: displayBounds,
         yaw,
         pitch,
         roll,

@@ -6,6 +6,14 @@
 
 ## 2026-07-22
 
+### Phase 3.1.1 — Fix landmark alignment BLOCKER (cover transform + soft features)
+
+- Root cause: object-fit cover crop mismatch + absolute eye/nose/mouth hard fails + elongated oval guide
+- Shared `displaySpace` video→display transform (mirror + cover crop) for detector and overlay
+- Templates: wider center/size/pose; features face-relative; softFeaturesOnly (glasses-tolerant)
+- Debug overlay toggle on Preview/dev; primary single guidance message
+- Tests: `npm run test:guided-landmark`
+
 ### Phase 3.1 — Face landmark auto-capture + multilingual voice countdown
 
 - `@mediapipe/tasks-vision` FaceLandmarker (Apache-2.0) · same-origin WASM (`/mediapipe/wasm`) + model (`/models/face_landmarker.task` ~3.7MB)
