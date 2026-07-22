@@ -6,6 +6,16 @@
 
 ## 2026-07-22
 
+### Phase 3.1.3 — Block exploded landmark coords + keep inference loop alive
+
+- Reject non-finite / out-of-range landmark, bounds, and display values (`invalid_landmark_data`); never clamp into fake-normal
+- Face bounds from validated landmark min/max only; facialTransformationMatrix used for pose (copied) never as center/bounds
+- Display cover transform: single path, width/height via two corners, mirror once
+- Inference: `finally` clears lock; rAF always reschedules; monotonic `performance.now()` timestamps
+- Stale policy: reuse ≤250ms, stale >700ms, detector restart >2s → manual_guidance fallback
+- Diagnostics: rawC / preMirrorC / dispC / invalidStage / infer / loop / lock / restart; garbage shown as INVALID
+- Tests: `npm run test:guided-landmark` · build OK · **Android 실기기 미확인**
+
 ### Phase 3.1.2 — Fix false no_face/center loop + always-on alignment diagnostics
 
 - Root cause: `detect()` gated on `video.currentTime` (often stalls on Android) → null → mapped to misleading “중앙에 맞춰 주세요” (`no_face`)

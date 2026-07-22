@@ -31,7 +31,9 @@ export type QualityHints = {
   sharpnessMin?: number;
 };
 
+export const LANDMARK_REUSE_MS = 250;
 export const LANDMARK_STALE_MS = 700;
+export const LANDMARK_RESTART_MS = 2000;
 
 function targetOf(template: CaptureAngleTemplate): {
   x: number;
@@ -51,10 +53,35 @@ function targetOf(template: CaptureAngleTemplate): {
   };
 }
 
+function emptyExtraDiag() {
+  return {
+    rawC: "-",
+    rawBounds: "-",
+    preMirrorC: "-",
+    displayC: "-",
+    invalidStage: null as string | null,
+    inferenceCount: 0,
+    lastInferenceAt: null as number | null,
+    inferenceError: null as string | null,
+    loopRunning: true,
+    lockState: false,
+    detectorRestartCount: 0,
+    poseReliable: null as boolean | null,
+  };
+}
+
+function safeCoord(n: number | null | undefined): number | null {
+  if (typeof n !== "number" || !Number.isFinite(n) || Math.abs(n) > 10) {
+    return null;
+  }
+  return n;
+}
+
 function buildDiagnostics(input: {
   snapshot: LandmarkSnapshot | null;
   template: CaptureAngleTemplate;
   landmarkAgeMs: number | null;
+  extras?: Partial<AlignmentDiagnostics>;
 }): AlignmentDiagnostics {
   const t = targetOf(input.template);
   const vb = input.snapshot?.videoFaceBounds ?? null;
@@ -63,27 +90,51 @@ function buildDiagnostics(input: {
   const displayCenter = db ? boundsCenter(db) : null;
   const w = db ? db.xMax - db.xMin : null;
   const h = db ? db.yMax - db.yMin : null;
+  const base = emptyExtraDiag();
   return {
-    faceCenterVideoX: videoCenter?.x ?? null,
-    faceCenterVideoY: videoCenter?.y ?? null,
-    faceCenterDisplayX: displayCenter?.x ?? null,
-    faceCenterDisplayY: displayCenter?.y ?? null,
+    ...base,
+    faceCenterVideoX: safeCoord(videoCenter?.x),
+    faceCenterVideoY: safeCoord(videoCenter?.y),
+    faceCenterDisplayX: safeCoord(displayCenter?.x),
+    faceCenterDisplayY: safeCoord(displayCenter?.y),
     targetCenterX: t.x,
     targetCenterY: t.y,
-    centerDeltaX:
-      displayCenter != null ? displayCenter.x - t.x : null,
-    centerDeltaY:
-      displayCenter != null ? displayCenter.y - t.y : null,
+    centerDeltaX: safeCoord(
+      displayCenter != null ? displayCenter.x - t.x : null
+    ),
+    centerDeltaY: safeCoord(
+      displayCenter != null ? displayCenter.y - t.y : null
+    ),
     allowedDeltaX: t.allowedX,
     allowedDeltaY: t.allowedY,
-    faceWidthRatio: w,
-    faceHeightRatio: h,
-    yaw: input.snapshot?.yaw ?? null,
-    pitch: input.snapshot?.pitch ?? null,
-    roll: input.snapshot?.roll ?? null,
+    faceWidthRatio: safeCoord(w),
+    faceHeightRatio: safeCoord(h),
+    yaw: safeCoord(input.snapshot?.yaw ?? null),
+    pitch: safeCoord(input.snapshot?.pitch ?? null),
+    roll: safeCoord(input.snapshot?.roll ?? null),
     landmarkAgeMs: input.landmarkAgeMs,
     coordinateSpace: input.snapshot?.coordinateSpace ?? "none",
+    ...input.extras,
   };
+}
+
+/** Landmark-based front facing check when matrix pose is unreliable. */
+function landmarkFrontFacingOk(snapshot: LandmarkSnapshot): boolean {
+  const b = snapshot.faceBounds;
+  if (!b) return false;
+  const nose = snapshot.noseTip;
+  const le = snapshot.leftEyeCenter;
+  const re = snapshot.rightEyeCenter;
+  if (!nose || !le || !re) return false;
+  const cx = (b.xMin + b.xMax) / 2;
+  const eyeMidX = (le.x + re.x) / 2;
+  const eyeSpan = Math.abs(re.x - le.x);
+  const faceW = b.xMax - b.xMin;
+  if (!(faceW > 0) || eyeSpan < faceW * 0.15) return false;
+  // Nose and eye midpoint near face center horizontally.
+  if (Math.abs(nose.x - cx) > faceW * 0.22) return false;
+  if (Math.abs(eyeMidX - cx) > faceW * 0.2) return false;
+  return true;
 }
 
 function result(
@@ -109,9 +160,12 @@ export function evaluateAlignment(input: {
   template: CaptureAngleTemplate;
   quality?: QualityHints;
   inferenceSlowMs?: number;
-  /** Age of snapshot since inference (ms). */
   landmarkAgeMs?: number | null;
   transformOk?: boolean;
+  invalidLandmark?: boolean;
+  invalidStage?: string | null;
+  poseReliable?: boolean | null;
+  diagExtras?: Partial<AlignmentDiagnostics>;
 }): AlignmentEvaluation {
   const { snapshot, template } = input;
   const age =
@@ -121,11 +175,24 @@ export function evaluateAlignment(input: {
       snapshot,
       template,
       landmarkAgeMs: age,
+      extras: {
+        ...input.diagExtras,
+        invalidStage: input.invalidStage ?? input.diagExtras?.invalidStage ?? null,
+        poseReliable: input.poseReliable ?? null,
+      },
     });
 
-  // Priority 1–3
   if (input.transformOk === false) {
     return result("transform_error", "invalid_transform", ["transform"], [], diag());
+  }
+  if (input.invalidLandmark) {
+    return result(
+      "invalid_landmark_data",
+      "invalid_landmark_data",
+      [input.invalidStage ?? "invalid"],
+      [],
+      diag()
+    );
   }
   if (!snapshot) {
     return result("no_face", "no_snapshot", ["no_snapshot"], [], diag());
@@ -171,10 +238,44 @@ export function evaluateAlignment(input: {
   const bounds = snapshot.faceBounds;
   const width = bounds.xMax - bounds.xMin;
   const height = bounds.yMax - bounds.yMin;
+  // Reject exploded bounds — never treat as center fail.
+  if (
+    !Number.isFinite(width) ||
+    !Number.isFinite(height) ||
+    width <= 0 ||
+    height <= 0 ||
+    width > 1.5 ||
+    height > 1.5 ||
+    !Number.isFinite(bounds.xMin) ||
+    Math.abs(bounds.xMin) > 10
+  ) {
+    return result(
+      "invalid_landmark_data",
+      "invalid_landmark_data",
+      ["exploded_bounds"],
+      [],
+      diag()
+    );
+  }
+
   const center = boundsCenter(bounds);
+  if (
+    !Number.isFinite(center.x) ||
+    !Number.isFinite(center.y) ||
+    Math.abs(center.x) > 10 ||
+    Math.abs(center.y) > 10
+  ) {
+    return result(
+      "invalid_landmark_data",
+      "invalid_landmark_data",
+      ["exploded_center"],
+      [],
+      diag()
+    );
+  }
+
   const softWarnings: string[] = [];
 
-  // Priority 4 — size before center (user request)
   if (height < template.faceHeight.min) {
     return result("move_closer", "face_too_small", ["face_small"], softWarnings, diag());
   }
@@ -188,7 +289,6 @@ export function evaluateAlignment(input: {
     return result("move_farther", "face_too_wide", ["face_wide"], softWarnings, diag());
   }
 
-  // Priority 5–6 — center (display-space bounds center)
   if (center.x < template.faceCenter.xMin) {
     return result("move_right", "center_x", ["center_x"], softWarnings, diag());
   }
@@ -202,41 +302,70 @@ export function evaluateAlignment(input: {
     return result("move_up", "center_y", ["center_y"], softWarnings, diag());
   }
 
-  // Priority 7–8 — yaw / roll
-  if (snapshot.yaw === null || snapshot.roll === null) {
+  // Pose: use matrix when reliable; else landmark substitute for front only.
+  const poseReliable =
+    input.poseReliable === true ||
+    (input.poseReliable == null &&
+      snapshot.yaw != null &&
+      snapshot.roll != null &&
+      Math.abs(snapshot.yaw) <= 90 &&
+      Math.abs(snapshot.roll) <= 45 &&
+      (snapshot.pitch == null || Math.abs(snapshot.pitch) <= 45));
+  if (poseReliable) {
+    if (snapshot.yaw === null || snapshot.roll === null) {
+      return result(
+        "error",
+        "pose_matrix_unavailable",
+        ["pose_matrix_unavailable"],
+        softWarnings,
+        diag()
+      );
+    }
+    if (snapshot.yaw < template.yawDeg.min) {
+      return result("rotate_right", "yaw", ["yaw"], softWarnings, diag());
+    }
+    if (snapshot.yaw > template.yawDeg.max) {
+      return result("rotate_left", "yaw", ["yaw"], softWarnings, diag());
+    }
+    if (
+      snapshot.roll < template.rollDeg.min ||
+      snapshot.roll > template.rollDeg.max
+    ) {
+      return result("level_head", "roll", ["roll"], softWarnings, diag());
+    }
+    if (
+      typeof snapshot.pitch === "number" &&
+      (snapshot.pitch < template.pitchDeg.min ||
+        snapshot.pitch > template.pitchDeg.max)
+    ) {
+      if (template.angle === "front" && template.softFeaturesOnly) {
+        softWarnings.push("pitch_soft");
+      } else if (snapshot.pitch < template.pitchDeg.min) {
+        return result("tilt_up", "pitch", ["pitch"], softWarnings, diag());
+      } else {
+        return result("tilt_down", "pitch", ["pitch"], softWarnings, diag());
+      }
+    }
+  } else if (template.angle === "front") {
+    softWarnings.push("detector_unreliable_pose");
+    if (!landmarkFrontFacingOk(snapshot)) {
+      return result(
+        "rotate_left",
+        "landmark_pose_not_front",
+        ["landmark_pose"],
+        softWarnings,
+        diag()
+      );
+    }
+  } else {
+    // 45° needs matrix yaw — without it, cannot claim aligned.
     return result(
       "error",
       "pose_matrix_unavailable",
-      ["pose_matrix_unavailable"],
+      ["pose_required_for_45"],
       softWarnings,
       diag()
     );
-  }
-  if (snapshot.yaw < template.yawDeg.min) {
-    return result("rotate_right", "yaw", ["yaw"], softWarnings, diag());
-  }
-  if (snapshot.yaw > template.yawDeg.max) {
-    return result("rotate_left", "yaw", ["yaw"], softWarnings, diag());
-  }
-  if (
-    snapshot.roll < template.rollDeg.min ||
-    snapshot.roll > template.rollDeg.max
-  ) {
-    return result("level_head", "roll", ["roll"], softWarnings, diag());
-  }
-
-  if (
-    typeof snapshot.pitch === "number" &&
-    (snapshot.pitch < template.pitchDeg.min ||
-      snapshot.pitch > template.pitchDeg.max)
-  ) {
-    if (template.angle === "front" && template.softFeaturesOnly) {
-      softWarnings.push("pitch_soft");
-    } else if (snapshot.pitch < template.pitchDeg.min) {
-      return result("tilt_up", "pitch", ["pitch"], softWarnings, diag());
-    } else {
-      return result("tilt_down", "pitch", ["pitch"], softWarnings, diag());
-    }
   }
 
   // Priority 9–10 — brightness / sharpness
@@ -329,8 +458,10 @@ export function evaluateAlignment(input: {
   }
 
   let score = 1;
-  const mid = (template.yawDeg.min + template.yawDeg.max) / 2;
-  score -= Math.min(0.25, Math.abs(snapshot.yaw - mid) / 90);
+  if (typeof snapshot.yaw === "number") {
+    const mid = (template.yawDeg.min + template.yawDeg.max) / 2;
+    score -= Math.min(0.25, Math.abs(snapshot.yaw - mid) / 90);
+  }
   score -= Math.min(0.15, softWarnings.length * 0.03);
   return result(
     "aligned",
@@ -390,6 +521,8 @@ export function alignmentStatusMessageKo(status: AlignmentStatus): string {
       return "얼굴 위치를 다시 확인하고 있어요.";
     case "transform_error":
       return "카메라 정렬 정보를 다시 계산하고 있어요.";
+    case "invalid_landmark_data":
+      return "얼굴 인식 데이터가 불안정해요. 잠시 후 다시 맞춰 주세요.";
     case "error":
       return "얼굴 가이드에 문제가 있어요. 수동 촬영으로 진행해 주세요.";
   }
@@ -426,6 +559,9 @@ export function primaryGuidanceMessage(
     primaryFailReason === "face_too_narrow"
   ) {
     return "조금 더 가까이 와 주세요.";
+  }
+  if (primaryFailReason === "invalid_landmark_data") {
+    return "얼굴 인식 데이터가 불안정해요. 잠시 후 다시 맞춰 주세요.";
   }
   if (
     angle === "front" &&

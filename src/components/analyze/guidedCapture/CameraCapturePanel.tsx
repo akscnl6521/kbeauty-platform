@@ -30,6 +30,9 @@ import {
   alignmentStatusMessageKo,
   evaluateAlignment,
   primaryGuidanceMessage,
+  LANDMARK_RESTART_MS,
+  LANDMARK_REUSE_MS,
+  LANDMARK_STALE_MS,
 } from "@/lib/analyze/guidedCapture/landmark/alignmentEngine";
 import {
   createAutoCaptureState,
@@ -581,135 +584,264 @@ export function CameraCapturePanel({
 
       const minInterval = 1000 / LANDMARK_INFER_MAX_FPS;
       lastSnapRef.current = null;
+      let badSinceMs: number | null = null;
+      let restartInFlight = false;
+      let loopRunningFlag = true;
+
+      const scheduleNext = () => {
+        if (cancelled || session.disposed) return;
+        rafRef.current = requestAnimationFrame(loop);
+      };
 
       const loop = (nowMs: number) => {
-        if (cancelled || session.disposed) return;
-        if (document.visibilityState === "hidden") {
-          rafRef.current = requestAnimationFrame(loop);
+        if (cancelled || session.disposed) {
+          loopRunningFlag = false;
           return;
         }
-        const video = videoRef.current;
-        if (!video) {
-          rafRef.current = requestAnimationFrame(loop);
-          return;
-        }
-
-        const outcome = session.detect(video, {
-          mirrorX: facingMode === "user",
-          nowMs,
-          minIntervalMs: minInterval,
-        });
-
-        let snapshot: LandmarkSnapshot | null = null;
-        let ageMs: number | null = null;
-        let transformOk = true;
-
-        if (outcome.status === "transform_error") {
-          transformOk = false;
-          setDebugMetrics(outcome.metrics);
-        } else if (outcome.status === "ok") {
-          lastSnapRef.current = { snap: outcome.snapshot, atMs: nowMs };
-          snapshot = outcome.snapshot;
-          ageMs = 0;
-          setDebugMetrics(outcome.metrics);
-          setCoverInfo(outcome.cover);
-          if (outcome.snapshot.inferenceDurationMs > LANDMARK_SLOW_MS) {
-            slowCountRef.current += 1;
-            if (slowCountRef.current >= 8) {
-              logCameraDiagnostic({
-                event: "camera_state_changed",
-                detail: "landmark_fallback_slow",
-              });
-              setAlignmentMode("manual_guidance");
-              setHint(
-                alignmentStatusMessage(
-                  voiceLocale,
-                  "inference_slow",
-                  alignmentStatusMessageKo("inference_slow")
-                )
-              );
-              speechRef.current?.cancel();
-              return;
-            }
-          } else {
-            slowCountRef.current = Math.max(0, slowCountRef.current - 1);
+        try {
+          if (document.visibilityState === "hidden") {
+            scheduleNext();
+            return;
           }
-        } else if (lastSnapRef.current) {
-          snapshot = lastSnapRef.current.snap;
-          ageMs = nowMs - lastSnapRef.current.atMs;
-        }
+          const video = videoRef.current;
+          if (!video) {
+            scheduleNext();
+            return;
+          }
 
-        const quality = sampleLiveVideoQuality(video);
-        const evalResult = evaluateAlignment({
-          snapshot,
-          template,
-          quality: {
-            brightnessMean: quality.brightnessMean,
-            sharpnessScore: quality.sharpnessScore,
-          },
-          inferenceSlowMs: LANDMARK_SLOW_MS * 3,
-          landmarkAgeMs: ageMs,
-          transformOk,
-        });
+          const outcome = session.detect(video, {
+            mirrorX: facingMode === "user",
+            nowMs,
+            minIntervalMs: minInterval,
+          });
 
-        setLastMeta({
-          score: evalResult.score,
-          yaw: snapshot?.yaw ?? null,
-          pitch: snapshot?.pitch ?? null,
-          roll: snapshot?.roll ?? null,
-        });
-        setLiveBounds(snapshot?.faceBounds ?? null);
-        setSoftWarnings(evalResult.softWarnings);
-        setFailReason(evalResult.primaryFailReason);
-        setDiagnostics(evalResult.diagnostics);
-        if (expandedDebug) setDebugSnap(snapshot);
+          let snapshot: LandmarkSnapshot | null = null;
+          let ageMs: number | null = null;
+          let transformOk = true;
+          let invalidLandmark = false;
+          let invalidStage: string | null = null;
+          let poseReliable: boolean | null = null;
+          let traceExtras: Partial<
+            import("@/lib/analyze/guidedCapture/landmark/types").AlignmentDiagnostics
+          > = {
+            loopRunning: loopRunningFlag,
+            ...session.stats,
+            lockState: session.lockState,
+            detectorRestartCount: session.restartCount,
+            inferenceError: session.stats.inferenceError,
+          };
 
-        const tick = tickAutoCapture(machineRef.current, {
-          nowMs,
-          alignmentStatus: evalResult.status,
-          stableHoldMs: template.stableHoldMs,
-        });
-        machineRef.current = tick.state;
-        setMachinePhase(tick.state.phase);
-        setCountdownDigit(tick.state.countdownDigit);
+          if (outcome.status === "transform_error") {
+            transformOk = false;
+            setDebugMetrics(outcome.metrics);
+            lastSnapRef.current = null;
+            badSinceMs = badSinceMs ?? nowMs;
+          } else if (outcome.status === "invalid_landmark_data") {
+            invalidLandmark = true;
+            invalidStage = outcome.invalidStage;
+            setDebugMetrics(outcome.metrics);
+            if (outcome.cover) setCoverInfo(outcome.cover);
+            lastSnapRef.current = null; // never cache invalid
+            badSinceMs = badSinceMs ?? nowMs;
+            traceExtras = {
+              ...traceExtras,
+              rawC: outcome.trace.rawC,
+              rawBounds: outcome.trace.rawBounds,
+              preMirrorC: outcome.trace.preMirrorC,
+              displayC: outcome.trace.displayC,
+              invalidStage: outcome.invalidStage,
+            };
+          } else if (outcome.status === "inference_error") {
+            lastSnapRef.current = null;
+            badSinceMs = badSinceMs ?? nowMs;
+            session.softReset();
+            traceExtras = {
+              ...traceExtras,
+              inferenceError: outcome.reason,
+            };
+          } else if (outcome.status === "ok") {
+            // Only cache frames with faceCount>=0 that are structurally valid.
+            // faceCount 0 is valid "no face" — cache briefly for messaging.
+            if (
+              outcome.snapshot.faceCount === 0 ||
+              (outcome.snapshot.faceBounds &&
+                Number.isFinite(outcome.snapshot.faceBounds.xMin) &&
+                Math.abs(outcome.snapshot.faceBounds.xMin) < 10)
+            ) {
+              if (outcome.snapshot.faceCount > 0) {
+                lastSnapRef.current = {
+                  snap: outcome.snapshot,
+                  atMs: nowMs,
+                };
+              } else {
+                lastSnapRef.current = null;
+              }
+              snapshot = outcome.snapshot;
+              ageMs = 0;
+              badSinceMs = null;
+            } else {
+              invalidLandmark = true;
+              invalidStage = "ok_but_exploded";
+              lastSnapRef.current = null;
+              badSinceMs = badSinceMs ?? nowMs;
+            }
+            poseReliable = outcome.poseReliable;
+            setDebugMetrics(outcome.metrics);
+            setCoverInfo(outcome.cover);
+            traceExtras = {
+              ...traceExtras,
+              rawC: outcome.trace.rawC,
+              rawBounds: outcome.trace.rawBounds,
+              preMirrorC: outcome.trace.preMirrorC,
+              displayC: outcome.trace.displayC,
+              invalidStage: outcome.trace.invalidStage,
+              poseReliable: outcome.poseReliable,
+            };
+            if (outcome.snapshot.inferenceDurationMs > LANDMARK_SLOW_MS) {
+              slowCountRef.current += 1;
+              if (slowCountRef.current >= 12) {
+                logCameraDiagnostic({
+                  event: "camera_state_changed",
+                  detail: "landmark_fallback_slow",
+                });
+                setAlignmentMode("manual_guidance");
+                setHint(
+                  alignmentStatusMessage(
+                    voiceLocale,
+                    "inference_slow",
+                    alignmentStatusMessageKo("inference_slow")
+                  )
+                );
+                speechRef.current?.cancel();
+                loopRunningFlag = false;
+                return;
+              }
+            } else {
+              slowCountRef.current = Math.max(0, slowCountRef.current - 1);
+            }
+          } else if (
+            lastSnapRef.current &&
+            nowMs - lastSnapRef.current.atMs <= LANDMARK_REUSE_MS
+          ) {
+            snapshot = lastSnapRef.current.snap;
+            ageMs = nowMs - lastSnapRef.current.atMs;
+          } else if (lastSnapRef.current) {
+            snapshot = lastSnapRef.current.snap;
+            ageMs = nowMs - lastSnapRef.current.atMs;
+            if (ageMs > LANDMARK_STALE_MS) {
+              badSinceMs = badSinceMs ?? nowMs;
+            }
+          }
 
-        const koMsg = primaryGuidanceMessage(
-          tick.state.alignmentStatus,
-          evalResult.softWarnings,
-          angle,
-          evalResult.primaryFailReason
-        );
-        const msg = alignmentStatusMessage(
-          voiceLocale,
-          tick.state.alignmentStatus,
-          koMsg
-        );
-        setHint(msg);
+          // Auto-recover after prolonged invalid/stale
+          if (
+            badSinceMs != null &&
+            nowMs - badSinceMs > LANDMARK_RESTART_MS &&
+            !restartInFlight
+          ) {
+            restartInFlight = true;
+            setHint("얼굴 인식을 다시 시작하고 있어요.");
+            void (async () => {
+              try {
+                session.softReset();
+                lastSnapRef.current = null;
+                const ok = await session.hardRestart();
+                if (!ok && !cancelled) {
+                  setAlignmentMode("manual_guidance");
+                  setHint(
+                    alignmentStatusMessageKo("detector_unavailable")
+                  );
+                  loopRunningFlag = false;
+                }
+              } finally {
+                restartInFlight = false;
+                badSinceMs = null;
+              }
+            })();
+          }
 
-        if (tick.shouldCancelSpeech) {
-          speechRef.current?.cancel();
-        }
-        if (tick.speakHoldStill) {
-          speechRef.current?.speak(holdStillUtterance(voiceLocale));
-        }
-        if (tick.speakDigit) {
-          speechRef.current?.speak(
-            countdownUtterance(voiceLocale, tick.speakDigit)
-          );
-        }
+          const quality = sampleLiveVideoQuality(video);
+          const evalResult = evaluateAlignment({
+            snapshot,
+            template,
+            quality: {
+              brightnessMean: quality.brightnessMean,
+              sharpnessScore: quality.sharpnessScore,
+            },
+            inferenceSlowMs: LANDMARK_SLOW_MS * 3,
+            landmarkAgeMs: ageMs,
+            transformOk,
+            invalidLandmark,
+            invalidStage,
+            poseReliable,
+            diagExtras: traceExtras,
+          });
 
-        if (tick.shouldCapture && !capturingLockRef.current) {
-          capturingLockRef.current = true;
-          void doCaptureRef.current(true, {
+          setLastMeta({
             score: evalResult.score,
             yaw: snapshot?.yaw ?? null,
             pitch: snapshot?.pitch ?? null,
             roll: snapshot?.roll ?? null,
           });
-          return;
-        }
+          setLiveBounds(
+            evalResult.status === "invalid_landmark_data"
+              ? null
+              : snapshot?.faceBounds ?? null
+          );
+          setSoftWarnings(evalResult.softWarnings);
+          setFailReason(evalResult.primaryFailReason);
+          setDiagnostics(evalResult.diagnostics);
+          if (expandedDebug) setDebugSnap(snapshot);
 
-        rafRef.current = requestAnimationFrame(loop);
+          const tick = tickAutoCapture(machineRef.current, {
+            nowMs,
+            alignmentStatus: evalResult.status,
+            stableHoldMs: template.stableHoldMs,
+          });
+          machineRef.current = tick.state;
+          setMachinePhase(tick.state.phase);
+          setCountdownDigit(tick.state.countdownDigit);
+
+          const koMsg = primaryGuidanceMessage(
+            tick.state.alignmentStatus,
+            evalResult.softWarnings,
+            angle,
+            evalResult.primaryFailReason
+          );
+          setHint(
+            alignmentStatusMessage(
+              voiceLocale,
+              tick.state.alignmentStatus,
+              koMsg
+            )
+          );
+
+          if (tick.shouldCancelSpeech) speechRef.current?.cancel();
+          if (tick.speakHoldStill) {
+            speechRef.current?.speak(holdStillUtterance(voiceLocale));
+          }
+          if (tick.speakDigit) {
+            speechRef.current?.speak(
+              countdownUtterance(voiceLocale, tick.speakDigit)
+            );
+          }
+
+          if (tick.shouldCapture && !capturingLockRef.current) {
+            capturingLockRef.current = true;
+            void doCaptureRef.current(true, {
+              score: evalResult.score,
+              yaw: snapshot?.yaw ?? null,
+              pitch: snapshot?.pitch ?? null,
+              roll: snapshot?.roll ?? null,
+            });
+            // Keep loop alive for subsequent angles after parent advances.
+          }
+        } catch {
+          session.softReset();
+          lastSnapRef.current = null;
+        } finally {
+          scheduleNext();
+        }
       };
 
       rafRef.current = requestAnimationFrame(loop);

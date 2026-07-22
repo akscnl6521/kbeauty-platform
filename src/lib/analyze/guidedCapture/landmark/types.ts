@@ -62,6 +62,7 @@ export type AlignmentStatus =
   | "inference_slow"
   | "stale_landmark"
   | "transform_error"
+  | "invalid_landmark_data"
   | "error";
 
 export type AutoCapturePhase =
@@ -155,6 +156,19 @@ export type AlignmentDiagnostics = {
   roll: number | null;
   landmarkAgeMs: number | null;
   coordinateSpace: string;
+  /** Pipeline stage traces (local UI only). */
+  rawC: string;
+  rawBounds: string;
+  preMirrorC: string;
+  displayC: string;
+  invalidStage: string | null;
+  inferenceCount: number;
+  lastInferenceAt: number | null;
+  inferenceError: string | null;
+  loopRunning: boolean;
+  lockState: boolean;
+  detectorRestartCount: number;
+  poseReliable: boolean | null;
 };
 
 export type AutoCaptureMachineState = {

@@ -1,34 +1,38 @@
 # Phase 3.1 — Face landmark auto-capture
 
-최종 갱신: 2026-07-22 (3.1.2 diagnosis + false no_face fix)
+최종 갱신: 2026-07-22 (3.1.3 coordinate explosion + inference loop)
 
-## BLOCKER 원인 (3.1.2)
+## BLOCKER 원인 (3.1.3)
 
-첨부 화면처럼 얼굴이 중앙인데도 “얼굴을 화면 중앙에 맞춰 주세요”만 반복된 이유:
+실기기 진단: `dispC`/`w`/`h`가 1e16~1e17, `age≈17s`, `fail=stale_landmark`, pitch/roll 비현실.
 
-1. `FaceLandmarkerSession.detect()`가 `video.currentTime` 동일 시 `null` 반환
-2. Android Chrome에서 muted 미리보기 `currentTime`이 거의 안 바뀌거나 반복됨
-3. `null` → `evaluateAlignment` → **`no_face` / `no_snapshot`**
-4. 문구가 잘못 “중앙에 맞춰 주세요”로 공통 처리되어 **실제 fail reason이 가려짐**
+핵심:
 
-좌표 center_x 실패가 아니라 **검출 스킵을 no_face로 오인**한 것이 핵심.
+1. **비정상 landmark/bounds가 alignment·캐시·UI까지 도달** (finite/범위 미검증)
+2. **transformation matrix를 위치/bounds에 섞을 위험** · pose와 위치 분리 미흡
+3. **추론 루프가 throw/early-return 후 rAF 미재개** → age 폭증 → stale
+4. 비정상 결과를 “최근 정상”으로 재사용해 판정 오염
 
-## 수정
+## 수정 (3.1.3)
 
-- currentTime gate 제거 → `minIntervalMs` 스로틀 + MediaPipe 단조 증가 timestamp
-- skip 시 최근 snapshot 재사용 · `ageMs > 700`이면 `stale_landmark`
-- Preview/dev **진단 패널 상시** (fail, display/video center, Δ, cover, mirror count)
-- fail reason별 문구 분리 (center_x/y, size, stale, transform, no_face)
-- mirror는 `displaySpace`에서 **1회만**
+- `landmarkSanity`: finite + 범위 검사 · invalid → `invalid_landmark_data` · **clamp/위장 금지**
+- bounds = 검증된 landmark x/y min/max만 · matrix translation 미사용
+- pose = matrix **복사본**에서만 Euler · 배열 mutate 금지 · 비정상 pose는 `detector_unreliable` + landmark front 대체
+- display 변환: video px → cover scale → crop → client norm → mirror **1회** · width/height는 두 모서리 변환 차
+- 추론: `finally`에서 lock 해제 · rAF 항상 재스케줄 · timestamp `performance.now()` 단조 증가
+- stale: 재사용 ≤250ms · >700ms stale · >2s detector restart → 실패 시 manual_guidance
+- 진단: rawC / preMirrorC / dispC / invalidStage / infer / loop / lock / restart · 비정상은 `INVALID`
+
+## 이전 (3.1.2)
+
+- currentTime gate 제거 → minInterval + monotonic timestamp
+- false `no_face` / 잘못된 “중앙에 맞춰” 문구 분리
 
 ## 실기기
 
 Cursor는 Android를 직접 확인할 수 없음 → **실기기 미확인**.  
-Preview에서 진단 패널의 `fail=` / `dispC=` / `Δx` 값을 사용자가 읽어 확인.
+Preview 진단에서 `fail=` / `rawC=` / `dispC=` / `w`/`h`(0~1) / `age<300` / `loop=1` 확인.
 
-## Preview / commit
+## 테스트
 
-- Preview: `https://kbeauty-platform-mnk60iebw-akscnl6521s-projects.vercel.app`
-- commit: `64a4681`
-- 진단: 카메라 화면 좌상단 패널 · `fail=` / `dispC=` / `Δx` 확인 (서버 전송 없음)
-- **실기기 자동 촬영 성공 여부: Cursor 미확인 — 사용자 Android 재검수 필요**
+`npm run test:guided-landmark` · `npm run test:guided-capture` · `npm run build`

@@ -81,6 +81,7 @@ const STATUS_MSG: Record<CaptureVoiceLocale, Partial<Record<string, string>>> = 
     inference_slow: "Device is slow. Switching to manual guide.",
     stale_landmark: "Rechecking face position…",
     transform_error: "Recalculating camera alignment…",
+    invalid_landmark_data: "Face data is unstable. Please wait a moment.",
     error: "Face guide error. Please capture manually.",
   },
   ja: {
