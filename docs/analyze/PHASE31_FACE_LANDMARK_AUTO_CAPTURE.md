@@ -73,3 +73,9 @@ MediaPipe `facialTransformationMatrixes[0]` (column-major 4×4)에서 Euler 분�
 ## 9. 미룸
 
 위/아래 각도 · QR 이어촬영 · Storage/비교 DB · Production env · WQ-G · 실기기 Android/iOS 육안 수치 확정
+
+## 10. Preview / commit
+
+- Preview: `https://kbeauty-platform-n4kbtnoli-akscnl6521s-projects.vercel.app`
+- commit: `ea7bb0e`
+- tests: `npm run test:guided-landmark` · `npm run test:guided-capture` · `npm run build` OK
