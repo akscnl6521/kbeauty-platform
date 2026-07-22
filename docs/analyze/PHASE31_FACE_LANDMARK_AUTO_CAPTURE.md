@@ -28,4 +28,7 @@ Preview에서 진단 패널의 `fail=` / `dispC=` / `Δx` 값을 사용자가 �
 
 ## Preview / commit
 
-배포 후 이 문서와 PROJECT_STATUS에 URL·해시 기록.
+- Preview: `https://kbeauty-platform-mnk60iebw-akscnl6521s-projects.vercel.app`
+- commit: `64a4681`
+- 진단: 카메라 화면 좌상단 패널 · `fail=` / `dispC=` / `Δx` 확인 (서버 전송 없음)
+- **실기기 자동 촬영 성공 여부: Cursor 미확인 — 사용자 Android 재검수 필요**

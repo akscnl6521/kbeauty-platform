@@ -43,8 +43,8 @@ Master Plan v4.2 **Phase 3.1** 코드·selftest·build·Preview 배포 완료. �
 
 - Phase 2.6.2 종료 · Phase 3.0 / 3.0.1 / 3.0.2 완료
 - Flags: `NEXT_PUBLIC_GUIDED_CAMERA_CAPTURE`, `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE`, `NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN` (기본 ON)
-- Preview: `https://kbeauty-platform-6crs10vnz-akscnl6521s-projects.vercel.app`
-- commit: `de0ffab` (3.1.1 alignment fix)
+- Preview: `https://kbeauty-platform-mnk60iebw-akscnl6521s-projects.vercel.app`
+- commit: `64a4681` (3.1.2 false no_face + diagnostics)
 - main 미병합 · Production 미배포 · care-photos/migration 미적용
 
 ## Phase 3.1 — 랜드마크 자동 촬영 (2026-07-22)
