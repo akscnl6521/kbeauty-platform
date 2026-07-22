@@ -18,6 +18,7 @@ import {
   parseJsonLdProductDocument,
 } from "@/lib/catalog/automation/jsonLdParser";
 import type { FetchedProductDocument } from "@/lib/catalog/automation/types";
+import { createHash } from "node:crypto";
 import { looksLikeProductUrl } from "@/lib/pipeline/product-page";
 
 const USER_AGENT =
@@ -260,7 +261,7 @@ export function extractFromShopifyListProduct(
         sourceType: "official_brand_page",
         sourceTier: 1,
         sourceVerified: true,
-      }).tokens.map((t) => t.raw);
+      }).tokens.map((t) => t.inciName || t.ingredientRaw);
     } catch {
       ingredients = [];
     }
@@ -585,17 +586,7 @@ export async function extractOfficialProductFromUrl(
         if (product?.title) {
           const html = String(product.body_html || "");
           const labeled = extractLabeledIngredientsRaw(html);
-          const fromJsonLd = parseJsonLdIngredients({
-            url: jsonUrl,
-            httpStatus: 200,
-            fetchedAt: new Date().toISOString(),
-            contentType: "text/html",
-            html,
-          } as FetchedProductDocument);
-          const ingredientsRaw =
-            labeled?.raw ||
-            fromJsonLd.join(", ") ||
-            null;
+          const ingredientsRaw = labeled?.raw || null;
           const ingredients = ingredientsRaw
             ? parseOfficialIngredientsRaw({
                 ingredientsRaw,
@@ -603,7 +594,7 @@ export async function extractOfficialProductFromUrl(
                 sourceType: "official_brand_page",
                 sourceTier: 1,
                 sourceVerified: true,
-              }).tokens.map((t) => t.raw)
+              }).tokens.map((t) => t.inciName || t.ingredientRaw)
             : [];
           const variant = product.variants?.[0];
           const price =
@@ -680,6 +671,8 @@ export async function extractOfficialProductFromUrl(
     fetchedAt: new Date().toISOString(),
     contentType: "text/html",
     html: page.text,
+    contentHash: createHash("sha256").update(page.text).digest("hex"),
+    sourceMethod: "http_get_robots_allowed",
   };
 
   const jsonProduct = parseJsonLdProductDocument(document);
@@ -709,21 +702,34 @@ export async function extractOfficialProductFromUrl(
   const offer = offers[0];
   const price = offer?.price ?? null;
   const currency = offer?.currency ?? null;
-  const availability = offer?.availability ?? null;
+  const availability =
+    offer?.inStock === true
+      ? "InStock"
+      : offer?.inStock === false
+        ? "OutOfStock"
+        : offer?.availabilityRaw ?? null;
 
   let ingredients: string[] = [];
   let ingredientsRaw: string | null = null;
   const jsonInci = jsonProduct
     ? parseJsonLdIngredients(document, jsonProduct)
-    : [];
-  if (jsonInci.length) {
-    ingredients = jsonInci;
-    ingredientsRaw = jsonInci.join(", ");
+    : null;
+  if (jsonInci?.tokens.length) {
+    ingredients = jsonInci.tokens
+      .map((t) => t.inciName || t.ingredientRaw)
+      .filter((x): x is string => Boolean(x));
+    ingredientsRaw = jsonInci.ingredientsRaw || ingredients.join(", ");
   } else {
     const labeled = extractLabeledIngredientsRaw(page.text);
     if (labeled?.raw) {
       ingredientsRaw = labeled.raw;
-      ingredients = parseOfficialIngredientsRaw(labeled.raw).map((t) => t.displayName);
+      ingredients = parseOfficialIngredientsRaw({
+        ingredientsRaw: labeled.raw,
+        sourceUrl: page.finalUrl,
+        sourceType: "official_label_html",
+        sourceTier: 1,
+        sourceVerified: true,
+      }).tokens.map((t) => t.inciName || t.ingredientRaw);
     }
   }
 
