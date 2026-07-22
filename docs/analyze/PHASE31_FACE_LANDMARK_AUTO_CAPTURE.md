@@ -33,6 +33,9 @@
 Cursor는 Android를 직접 확인할 수 없음 → **실기기 미확인**.  
 Preview 진단에서 `fail=` / `rawC=` / `dispC=` / `w`/`h`(0~1) / `age<300` / `loop=1` 확인.
 
-## 테스트
+## Preview / commit
 
-`npm run test:guided-landmark` · `npm run test:guided-capture` · `npm run build`
+- Preview: `https://kbeauty-platform-o9qbtzsps-akscnl6521s-projects.vercel.app`
+- commit: `08459cd`
+- 진단: `rawC` / `preMirrorC` / `dispC` / `w` / `h` / `age` / `loop` / `invalid=`
+- **실기기 자동 촬영: Cursor 미확인 — 사용자 Android 재검수 필요**

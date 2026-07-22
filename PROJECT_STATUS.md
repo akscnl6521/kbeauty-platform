@@ -43,7 +43,8 @@ Master Plan v4.2 **Phase 3.1.3** 좌표 폭주·추론 루프 수정 완료. And
 
 - Phase 2.6.2 종료 · Phase 3.0 / 3.0.1 / 3.0.2 / 3.1 / 3.1.1 / 3.1.2 완료
 - Flags: `NEXT_PUBLIC_GUIDED_CAMERA_CAPTURE`, `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE`, `NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN` (기본 ON)
-- Preview: (배포 후 갱신)
+- Preview: `https://kbeauty-platform-o9qbtzsps-akscnl6521s-projects.vercel.app`
+- commit: `08459cd` (3.1.3 coordinate explosion + inference loop)
 - **실기기 미확인** — 진단 패널 `rawC`/`dispC`/`w`/`h`/`age`/`loop` 사용자 확인 필요
 - main 미병합 · Production 미배포 · care-photos/migration 미적용
 
