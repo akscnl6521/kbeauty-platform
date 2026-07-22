@@ -2,11 +2,11 @@
 
 최종 갱신: 2026-07-22
 
-현재 실제 진행 상태는 이 문서를 우선한다. 최상위 방향은 Master Plan v4.1을 따른다.
+현재 실제 진행 상태는 이 문서를 우선한다. 최상위 방향은 Master Plan **v4.2**를 따른다.
 
 ## 현재 단계
 
-**단계 5 — 리텐션 보강** (단계 4 코드 검증 완료 · Preview 운영 검수 잔여)
+**단계 5 — 리텐션 보강** (단계 4 코드 검증 완료 · Phase 2.6.2 종료 · Preview 운영 검수 잔여)
 
 ## 완료
 
@@ -108,8 +108,11 @@
 - [x] WQ-F Phase 0/1: scenario Top10 model + KR core scenarios (30) + gap analysis (no fake pool fill)
 - [x] WQ-F Scenario Top10 pilot artifacts (2026-07-22 · offline pools + selftest · no runtime fill)
 - [x] WQ-F Scenario Top10 pilot enrichment (2026-07-22 · multiSource · global products + many-to-many pools · reuse 15–35% · honest ready shortfall · no runtime)
+- [x] Phase 2.5 — recommendation ↔ commerce 분리 (`RECOMMEND_COMMERCE_SEPARATION`)
+- [x] Phase 2.6 — Staging SELECT + Preview commerce 분리 검증
+- [x] Phase 2.6.2 — A 엄격 RLS + BOJ verified OOS + Preview 수동 UI 검수 **종료** (2026-07-22)
 - [x] 프로젝트 UI 스킬 설치 (frontend-design, ui-ux-pro-max) + kbeauty-match-design + design-system 초안 (페이지 재디자인 미실시)
-- [ ] WQ-F Phase 2+: scenario/pool schema + multi-source fill + runtime Top3–5 from pools
+- [ ] WQ-F Phase 2+ 잔여: schema/runtime 확장 (D/E 보강 없이 · 별도 승인)
 
 ### 단계 6 — 증상 기반 피부과 실제 데이터
 

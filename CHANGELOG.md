@@ -6,6 +6,21 @@
 
 ## 2026-07-22
 
+### Phase 2.6.2 종료 — A 엄격 RLS + BOJ verified OOS + Preview UI
+
+- Staging Dashboard v2: BOJ offer `verification_status` unverified→verified (stock OOS·price·URL 불변)
+- A 엄격 RLS: verified+in_stock 또는 verified official KR OOS/unknown (unverified 공개 없음)
+- anon 가시 20→21 (추가 BOJ 1건 · ROUND LAB unverified 비가시)
+- C Top: COSRX / BOJ(OOS·CTA OFF) / Anua · Haruharu=availability_unknown
+- Preview 수동 UI 검수 완료 · Production write 0 · B 예외안 미적용
+- Docs: `SCENARIO_PILOT_PHASE262_POST_APPLY_VERIFY.md` · rollback SQL v2
+
+### Phase 2.5~2.6 — recommendation ↔ commerce 분리
+
+- Ranking gate vs purchase CTA 분리 · `RECOMMEND_COMMERCE_SEPARATION` (기본 on)
+- Staging SELECT + Preview Ready 검증 · rollback OFF 시 C Top 0 복원
+- Docs: `SCENARIO_PILOT_PHASE25_COMMERCE_SEPARATION.md` · `SCENARIO_PILOT_PHASE26_STAGING_PREVIEW.md`
+
 ### Scenario Top10 pilot enrichment (multiSource)
 
 - Global products + many-to-many scenario pools; reuseRate 0.16; recommendation_ready 8 (honest shortfall); `test:recommendation-pilot-enrichment`; no DB/UI/runtime

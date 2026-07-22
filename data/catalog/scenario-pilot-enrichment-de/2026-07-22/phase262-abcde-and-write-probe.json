@@ -1,0 +1,57 @@
+{
+  "ok": true,
+  "projectRef": "jfnj***gfd",
+  "write": 0,
+  "anon_write_blocked": {
+    "update_error": "permission denied for table product_offers",
+    "insert_error": "permission denied for table product_offers",
+    "delete_error": "permission denied for table product_offers",
+    "update_blocked": true,
+    "insert_blocked": true,
+    "delete_blocked": true
+  },
+  "scenarios": [
+    {
+      "id": "A",
+      "status": "ok",
+      "rankedCount": 5,
+      "top": [
+        "cosrx-advanced-snail-96-mucin-power-essence",
+        "cosrx-advanced-snail-92-all-in-one-cream",
+        "torriden-dive-in-serum"
+      ]
+    },
+    {
+      "id": "B",
+      "status": "ok",
+      "rankedCount": 5,
+      "top": [
+        "torriden-dive-in-serum",
+        "cosrx-advanced-snail-96-mucin-power-essence",
+        "cosrx-advanced-snail-92-all-in-one-cream"
+      ]
+    },
+    {
+      "id": "C",
+      "status": "ok",
+      "rankedCount": 4,
+      "top": [
+        "cosrx-aha-bha-clarifying-treatment-toner",
+        "beauty-of-joseon-green-plum-refreshing-toner",
+        "anua-heartleaf-77-soothing-toner"
+      ]
+    },
+    {
+      "id": "D",
+      "status": "insufficient_verified_candidates",
+      "rankedCount": 0,
+      "top": []
+    },
+    {
+      "id": "E",
+      "status": "insufficient_verified_candidates",
+      "rankedCount": 0,
+      "top": []
+    }
+  ]
+}

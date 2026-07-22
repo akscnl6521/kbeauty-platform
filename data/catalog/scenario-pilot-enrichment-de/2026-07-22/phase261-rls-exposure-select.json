@@ -1,0 +1,107 @@
+{
+  "ok": true,
+  "phase": "2.6.1_rls_review_select_only",
+  "projectRef": "jfnj***gfd",
+  "write": 0,
+  "table_total_rows_service_role": 28,
+  "anon_visible_now": 20,
+  "current_policy_estimate": {
+    "label": "current",
+    "visible_total": 20,
+    "added_beyond_current": 0,
+    "added_rows": []
+  },
+  "draft_as_written": {
+    "label": "draft_as_written",
+    "visible_total": 22,
+    "added_beyond_current": 2,
+    "added_rows": [
+      {
+        "id": "2fcb8bde-d3f6-482f-8eca-f0908378bff3",
+        "product_id": 22,
+        "retailer_name": "ROUND LAB 공식몰",
+        "retailer_country": "KR",
+        "stock_status": "out_of_stock",
+        "verification_status": "unverified",
+        "is_official": true,
+        "price": 25600,
+        "currency": "KRW"
+      },
+      {
+        "id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+        "product_id": 25,
+        "retailer_name": "조선미녀 공식몰",
+        "retailer_country": "KR",
+        "stock_status": "out_of_stock",
+        "verification_status": "unverified",
+        "is_official": true,
+        "price": 18000,
+        "currency": "KRW"
+      }
+    ]
+  },
+  "acceptance_verified_official_kr": {
+    "label": "acceptance_verified_official_kr",
+    "visible_total": 20,
+    "added_beyond_current": 0,
+    "added_rows": []
+  },
+  "hybrid_official_kr_allow_unverified_oos": {
+    "label": "hybrid_official_kr_allow_unverified_oos",
+    "visible_total": 22,
+    "added_beyond_current": 2,
+    "added_rows": [
+      {
+        "id": "2fcb8bde-d3f6-482f-8eca-f0908378bff3",
+        "product_id": 22,
+        "retailer_name": "ROUND LAB 공식몰",
+        "retailer_country": "KR",
+        "stock_status": "out_of_stock",
+        "verification_status": "unverified",
+        "is_official": true,
+        "price": 25600,
+        "currency": "KRW"
+      },
+      {
+        "id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+        "product_id": 25,
+        "retailer_name": "조선미녀 공식몰",
+        "retailer_country": "KR",
+        "stock_status": "out_of_stock",
+        "verification_status": "unverified",
+        "is_official": true,
+        "price": 18000,
+        "currency": "KRW"
+      }
+    ]
+  },
+  "column_inventory": [
+    "id",
+    "product_id",
+    "retailer_name",
+    "retailer_country",
+    "ships_to_countries",
+    "purchase_url",
+    "price",
+    "currency",
+    "stock_status",
+    "verification_status",
+    "is_official",
+    "verified_at",
+    "last_checked_at",
+    "active",
+    "rating",
+    "review_count",
+    "source",
+    "last_review_sync_at",
+    "created_at",
+    "updated_at"
+  ],
+  "sensitive_columns_present": {
+    "internal_memo": false,
+    "cost_or_cogs": false,
+    "admin_notes": false,
+    "source_field_exists": true,
+    "rating_review_fields_exist": true
+  }
+}
