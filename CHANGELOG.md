@@ -6,6 +6,10 @@
 
 ## 2026-07-22
 
+### Scenario Top10 pilot + WQ-F local archive cleanup
+
+- Archive WQ-F clutter under data/archive/; curated JSON Top10 pilot pools + pure-logic selftest (	est:recommendation-pilot); no DB/runtime wiring
+
 ### WQ-F Phase 0/1 — Recommendation scenario Top10 model
 
 - Curated KR core scenarios: **30** (not Cartesian) · types/match/pool/gap pure logic

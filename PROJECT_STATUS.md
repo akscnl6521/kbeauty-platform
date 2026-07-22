@@ -82,6 +82,8 @@ Master Plan v4.1 구현 우선순위의 **단계 5 리텐션 보강**을 진행 
 
 ## 최근 완료
 
+- Scenario Top10 pilot artifacts (2026-07-22 · 5 scenarios · data/catalog/scenario-pilot/2026-07-22/ · pm run test:recommendation-pilot · no runtime/UI/DB)
+
 - UI 스킬 설치 (frontend-design, ui-ux-pro-max) + kbeauty-match-design + design-system 초안 (페이지 재디자인 미실시)
 - WQ-F → 추천 상황 Top10 풀 구축으로 재정의 (Phase 0/1 문서·타입·selftest · `docs/catalog/RECOMMENDATION_SCENARIOS.md`)
   - Dry-run 실행 완료 (5 brands · 33 attempts) · Staging DB CLI IPv6 미지원으로 candidate INSERT/readonly backup SELECT는 로컬 아티팩트 폴백 (`staging-upsert.sql` 준비됨)

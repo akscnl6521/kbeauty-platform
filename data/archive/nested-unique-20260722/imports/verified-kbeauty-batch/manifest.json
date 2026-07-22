@@ -1,0 +1,43 @@
+{
+  "batch_id": "verified-kbeauty-batch-2026-07-18",
+  "created_at": "2026-07-18T10:00:00+09:00",
+  "branch_target": "automation-mvp-completion",
+  "auto_verified": false,
+  "production_write": false,
+  "staging": {
+    "linked_ref": "rhfrmvkjsummaylpzmns",
+    "is_production_ref": true,
+    "has_service_role": false,
+    "write_allowed": false,
+    "write_status": "SKIPPED",
+    "skip_reason": "local_env_points_to_production_ref"
+  },
+  "counts": {
+    "total_candidates": 12,
+    "READY_FOR_REVIEW": 7,
+    "REVIEW_REQUIRED": 1,
+    "BLOCKED": 4,
+    "DUPLICATE": 0,
+    "official_images": 7,
+    "official_inci": 8,
+    "kr_offers": 7
+  },
+  "categories_ready": [
+    "foam_cleanser",
+    "toner",
+    "serum",
+    "essence",
+    "moisturizer",
+    "sunscreen"
+  ],
+  "admin_import_hint": {
+    "ui": "/admin/products/import",
+    "files": [
+      "products.csv",
+      "images/ (zip recommended)",
+      "offers.csv for manual offer attach"
+    ],
+    "commit_mode": "needs_review / review_pending only — never set verified_at automatically"
+  },
+  "preview_note": "Preview 핵심 추천 노출은 active+verified_at+verified KR offer 필요. 본 배치는 needs_review 전용."
+}

@@ -47,3 +47,9 @@ npm run analyze:scenario-catalog-gap
 ## Forbidden
 
 WQ-G, Production writes, main merge, auto-publish, CAPTCHA bypass, fake pool fill, mass storefront UI.
+
+## Pilot Top10 (2026-07-22)
+
+Offline honest Top10 pools (5 scenarios): data/catalog/scenario-pilot/2026-07-22/.
+Doc: docs/catalog/SCENARIO_TOP10_PILOT.md. Validate: pm run test:recommendation-pilot.
+No runtime/UI/DB/multiSource wiring in this pilot.

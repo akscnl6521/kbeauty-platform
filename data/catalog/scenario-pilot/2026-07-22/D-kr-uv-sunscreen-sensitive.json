@@ -1,0 +1,534 @@
+{
+  "scenarioId": "kr-uv-sunscreen-sensitive",
+  "displayNameKo": "?? ?? ???",
+  "coreScenarioRef": "kr-uv-sunscreen-sensitive",
+  "pilotDate": "2026-07-22",
+  "brandCapDefault": 2,
+  "affiliateOrAdInScore": false,
+  "notes": "ROUND LAB birch = ingredient_candidate (KR vs US filter SKU conflict). BOJ Relief Sun = catalog_ready (PDP OK, INCI not extracted).",
+  "candidates": [
+    {
+      "productIdentity": "round-lab-birch-juice-moisturizing-sunscreen",
+      "brand": "ROUND LAB",
+      "normalizedProductName": "Birch Juice Moisturizing Sunscreen",
+      "category": "sunscreen",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "popular",
+        "safety"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": true,
+        "inciAvailable": true,
+        "sourceUrls": [],
+        "notes": "KR formula filters differ from US-marketed SKU; regional conflict blocks recommendation_ready."
+      },
+      "imageEvidence": {
+        "present": true,
+        "sourceUrls": [],
+        "notes": "Images exist but may depict region-specific packaging."
+      },
+      "offerEvidence": {
+        "present": true,
+        "offerUrl": "https://roundlab.com/",
+        "notes": "PDP reachable; SKU region must be disambiguated."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [
+        "UV_filters_region_specific"
+      ],
+      "readiness": "ingredient_candidate",
+      "rejectionReason": "KR vs US filter / SKU conflict ? keep as ingredient_candidate until regional SKU resolved.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "beauty-of-joseon-relief-sun-rice-probiotics",
+      "brand": "Beauty of Joseon",
+      "normalizedProductName": "Relief Sun Rice + Probiotics",
+      "category": "sunscreen",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "popular",
+        "rising"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": true,
+        "offerUrl": "https://beautyofjoseon.com/products/relief-sun-rice-probiotics",
+        "notes": "PDP reachable; INCI not extracted in this pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "PDP reachable; INCI not extracted ? catalog_ready (not recommendation_ready).",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "isntree-hyaluronic-acid-watery-sun-gel",
+      "brand": "Isntree",
+      "normalizedProductName": "Hyaluronic Acid Watery Sun Gel",
+      "category": "sunscreen",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "popular",
+        "value"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Known KR sunscreen; evidence pack incomplete.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "skin1004-hyalu-cica-water-fit-sun-serum",
+      "brand": "SKIN1004",
+      "normalizedProductName": "Hyalu-Cica Water-Fit Sun Serum",
+      "category": "sunscreen",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "rising"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "trend_candidate",
+      "rejectionReason": "Rising product; verification incomplete.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "torriden-dive-in-mild-suncream",
+      "brand": "Torriden",
+      "normalizedProductName": "Dive-In Mild Suncream",
+      "category": "sunscreen",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "rising",
+        "safety"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Identity OK; INCI not extracted.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "cosrx-aloe-soothing-sun-cream",
+      "brand": "COSRX",
+      "normalizedProductName": "Aloe Soothing Sun Cream SPF50+",
+      "category": "sunscreen",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "value"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Catalog identity; incomplete evidence.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "drg-green-mild-up-sun-plus",
+      "brand": "Dr.G",
+      "normalizedProductName": "Green Mild Up Sun+",
+      "category": "sunscreen",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "safety"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": true,
+        "inciAvailable": true,
+        "sourceUrls": [],
+        "notes": "Dermocosmetic sunscreen; filters need KR SKU confirm."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "ingredient_candidate",
+      "rejectionReason": "INCI candidate; regional/filter confirm pending.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "make-prem-uv-defense-me-blue-ray-sun-fluid",
+      "brand": "Make P:rem",
+      "normalizedProductName": "UV Defense Me Blue Ray Sun Fluid",
+      "category": "sunscreen",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "emerging"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "trend_candidate",
+      "rejectionReason": "Emerging; incomplete evidence.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "celimax-oil-control-cooling-suncream",
+      "brand": "celimax",
+      "normalizedProductName": "Oil Control Cooling Suncream",
+      "category": "sunscreen",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "value"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Identity OK; incomplete evidence.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "aestura-derma-uv-365-barrier-hydro-sunscreen",
+      "brand": "AESTURA",
+      "normalizedProductName": "Derma UV 365 Barrier Hydro Sunscreen",
+      "category": "sunscreen",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "safety"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": true,
+        "inciAvailable": true,
+        "sourceUrls": [],
+        "notes": "Sensitive-skin sunscreen line; full ready pack not completed."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "ingredient_candidate",
+      "rejectionReason": "INCI candidate; offer/image not locked for recommendation_ready.",
+      "affiliateOrAdInScore": false
+    }
+  ],
+  "metrics": {
+    "scenarioId": "kr-uv-sunscreen-sensitive",
+    "poolSize": 10,
+    "brandCapDefault": 2,
+    "affiliateOrAdInScore": false,
+    "readinessCounts": {
+      "trend_candidate": 2,
+      "catalog_ready": 5,
+      "ingredient_candidate": 3,
+      "recommendation_ready": 0,
+      "review_required": 0,
+      "unavailable": 0
+    },
+    "recommendationReadyCount": 0,
+    "distinctBrands": 10,
+    "brandCounts": {
+      "round lab": 1,
+      "beauty of joseon": 1,
+      "isntree": 1,
+      "skin1004": 1,
+      "torriden": 1,
+      "cosrx": 1,
+      "dr.g": 1,
+      "make p:rem": 1,
+      "celimax": 1,
+      "aestura": 1
+    },
+    "distinctRoleTags": [
+      "emerging",
+      "popular",
+      "rising",
+      "safety",
+      "value"
+    ],
+    "identities": [
+      "round-lab-birch-juice-moisturizing-sunscreen",
+      "beauty-of-joseon-relief-sun-rice-probiotics",
+      "isntree-hyaluronic-acid-watery-sun-gel",
+      "skin1004-hyalu-cica-water-fit-sun-serum",
+      "torriden-dive-in-mild-suncream",
+      "cosrx-aloe-soothing-sun-cream",
+      "drg-green-mild-up-sun-plus",
+      "make-prem-uv-defense-me-blue-ray-sun-fluid",
+      "celimax-oil-control-cooling-suncream",
+      "aestura-derma-uv-365-barrier-hydro-sunscreen"
+    ]
+  }
+}

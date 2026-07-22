@@ -1,0 +1,544 @@
+{
+  "scenarioId": "kr-acne-pores-toner",
+  "displayNameKo": "?????? ??",
+  "coreScenarioRef": "kr-acne-pores-toner",
+  "pilotDate": "2026-07-22",
+  "brandCapDefault": 2,
+  "affiliateOrAdInScore": false,
+  "notes": null,
+  "candidates": [
+    {
+      "productIdentity": "cosrx-aha-bha-clarifying-treatment-toner",
+      "brand": "COSRX",
+      "normalizedProductName": "AHA/BHA Clarifying Treatment Toner",
+      "category": "toner",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "popular"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": true,
+        "inciAvailable": true,
+        "sourceUrls": [
+          "https://www.cosrx.com/"
+        ],
+        "notes": "Actives known; full ready pack not completed."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [
+        "AHA",
+        "BHA"
+      ],
+      "readiness": "ingredient_candidate",
+      "rejectionReason": "INCI candidate; image/offer pack incomplete for recommendation_ready.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+      "brand": "Some By Mi",
+      "normalizedProductName": "AHA BHA PHA 30 Days Miracle Toner",
+      "category": "toner",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "popular",
+        "value"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [
+        "AHA",
+        "BHA",
+        "PHA"
+      ],
+      "readiness": "catalog_ready",
+      "rejectionReason": "PDP known; INCI not extracted in pilot.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "anua-heartleaf-77-soothing-toner",
+      "brand": "Anua",
+      "normalizedProductName": "Heartleaf 77% Soothing Toner",
+      "category": "toner",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "rising",
+        "popular"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "High visibility; evidence pack incomplete.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "beauty-of-joseon-green-plum-refreshing-toner",
+      "brand": "Beauty of Joseon",
+      "normalizedProductName": "Green Plum Refreshing Toner AHA + BHA",
+      "category": "toner",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "rising"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": true,
+        "offerUrl": "https://beautyofjoseon.com/",
+        "notes": "Brand catalog."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [
+        "AHA",
+        "BHA"
+      ],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Catalog ready; INCI not extracted.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "isntree-green-tea-fresh-toner",
+      "brand": "Isntree",
+      "normalizedProductName": "Green Tea Fresh Toner",
+      "category": "toner",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "value"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Identity OK; incomplete evidence.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "round-lab-dokdo-toner",
+      "brand": "ROUND LAB",
+      "normalizedProductName": "Dokdo Toner",
+      "category": "toner",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "safety",
+        "value"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": true,
+        "inciAvailable": true,
+        "sourceUrls": [],
+        "notes": "Mineral toner INCI commonly published; not full ready pack."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "ingredient_candidate",
+      "rejectionReason": "INCI candidate only.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "pyunkang-yul-essence-toner",
+      "brand": "Pyunkang Yul",
+      "normalizedProductName": "Essence Toner",
+      "category": "toner",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "safety"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Minimalist toner; evidence incomplete.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "brand": "haruharu wonder",
+      "normalizedProductName": "Black Rice Hyaluronic Toner",
+      "category": "toner",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "rising"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "trend_candidate",
+      "rejectionReason": "Trend visibility; verification incomplete.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "celimax-dual-barrier-creamy-toner",
+      "brand": "celimax",
+      "normalizedProductName": "Dual Barrier Creamy Toner",
+      "category": "toner",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "emerging",
+        "safety"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Barrier toner; INCI not extracted.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "numbuzin-no3-super-glowing-essence-toner",
+      "brand": "numbuzin",
+      "normalizedProductName": "No.3 Super Glowing Essence Toner",
+      "category": "toner",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "emerging"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "trend_candidate",
+      "rejectionReason": "Emerging; incomplete catalog evidence.",
+      "affiliateOrAdInScore": false
+    }
+  ],
+  "metrics": {
+    "scenarioId": "kr-acne-pores-toner",
+    "poolSize": 10,
+    "brandCapDefault": 2,
+    "affiliateOrAdInScore": false,
+    "readinessCounts": {
+      "trend_candidate": 2,
+      "catalog_ready": 6,
+      "ingredient_candidate": 2,
+      "recommendation_ready": 0,
+      "review_required": 0,
+      "unavailable": 0
+    },
+    "recommendationReadyCount": 0,
+    "distinctBrands": 10,
+    "brandCounts": {
+      "cosrx": 1,
+      "some by mi": 1,
+      "anua": 1,
+      "beauty of joseon": 1,
+      "isntree": 1,
+      "round lab": 1,
+      "pyunkang yul": 1,
+      "haruharu wonder": 1,
+      "celimax": 1,
+      "numbuzin": 1
+    },
+    "distinctRoleTags": [
+      "emerging",
+      "popular",
+      "rising",
+      "safety",
+      "value"
+    ],
+    "identities": [
+      "cosrx-aha-bha-clarifying-treatment-toner",
+      "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+      "anua-heartleaf-77-soothing-toner",
+      "beauty-of-joseon-green-plum-refreshing-toner",
+      "isntree-green-tea-fresh-toner",
+      "round-lab-dokdo-toner",
+      "pyunkang-yul-essence-toner",
+      "haruharu-wonder-black-rice-hyaluronic-toner",
+      "celimax-dual-barrier-creamy-toner",
+      "numbuzin-no3-super-glowing-essence-toner"
+    ]
+  }
+}

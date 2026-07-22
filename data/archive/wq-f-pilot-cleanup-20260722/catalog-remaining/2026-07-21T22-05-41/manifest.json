@@ -1,0 +1,75 @@
+{
+  "phase": "wq-f-catalog-remaining",
+  "stamp": "2026-07-21T22-05-41",
+  "linked": "jfnjufmldiqlgvgyugfd",
+  "productionTouched": false,
+  "dryRun": true,
+  "commitStaging": false,
+  "counts": {
+    "brandsCrawled": 5,
+    "productsAttempted": 32,
+    "success": 1,
+    "fail": 31,
+    "duplicate": 0,
+    "review": 27,
+    "stagingReady": 1
+  },
+  "rates": {
+    "ingredient": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "image": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "offer": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "stagingReady": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "duplicate": {
+      "count": 0,
+      "total": 32,
+      "ratePct": 0
+    },
+    "reviewOrBlocked": {
+      "count": 31,
+      "total": 32,
+      "ratePct": 96.9
+    }
+  },
+  "statusCounts": {
+    "staging_ready": 1,
+    "review_required": 0,
+    "source_unverified": 8,
+    "ingredient_incomplete": 0,
+    "image_missing": 0,
+    "offer_missing": 0,
+    "duplicate": 0,
+    "unavailable": 4,
+    "discontinued": 0,
+    "blocked_by_policy": 19
+  },
+  "staging": {
+    "insertAttempted": 0,
+    "table": "product_discovery_candidates",
+    "productsPublished": false
+  },
+  "outputs": {
+    "dryRunReport": "data/catalog/wq-f-remaining/2026-07-21T22-05-41/dry-run-report.json",
+    "exceptionQueue": "data/catalog/wq-f-remaining/2026-07-21T22-05-41/exception-queue.json",
+    "crawlSummary": "data/catalog/wq-f-remaining/2026-07-21T22-05-41/crawl-summary.json",
+    "stagingUpsertSql": "data/catalog/wq-f-remaining/2026-07-21T22-05-41/staging-upsert.sql",
+    "backupDir": "data/backups/wq-f-2026-07-21T22-05-41",
+    "backupOk": true,
+    "backupMessage": "local artifact fallback (DB readonly backup unavailable)"
+  }
+}

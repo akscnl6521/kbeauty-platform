@@ -82,3 +82,21 @@ supabase/.temp/
 # Python bytecode
 **/__pycache__/
 *.py[cod]
+
+# Generated recommendation analysis (local / CI artifacts)
+/data/generated/recommendation/
+
+# WQ-F local crawl/backup artifacts (use data/archive/ for curated keep)
+/data/backups/wq-f-*/
+/data/catalog/wq-f-remaining/
+
+# Root agent/build temp logs
+/build-output-temp.txt
+/build-staging-run-log.txt
+/build-staging-run-log-temp-agent.txt
+/data/catalog/*-console.txt
+/data/catalog/uipro-install-log.txt
+/data/catalog/wq-f-vercel-ls*.txt
+
+# Accidental nested clone
+/kbeauty-platform/

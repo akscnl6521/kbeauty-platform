@@ -1,0 +1,534 @@
+{
+  "scenarioId": "kr-aging-eye-cream",
+  "displayNameKo": "??? ????",
+  "coreScenarioRef": "kr-aging-eye-cream",
+  "pilotDate": "2026-07-22",
+  "brandCapDefault": 2,
+  "affiliateOrAdInScore": false,
+  "notes": null,
+  "candidates": [
+    {
+      "productIdentity": "cosrx-advanced-snail-peptide-eye-cream",
+      "brand": "COSRX",
+      "normalizedProductName": "Advanced Snail Peptide Eye Cream",
+      "category": "eye_cream",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "popular"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": true,
+        "offerUrl": "https://www.cosrx.com/",
+        "notes": "Brand catalog."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "PDP known; INCI/image not fully locked.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "beauty-of-joseon-revive-eye-serum",
+      "brand": "Beauty of Joseon",
+      "normalizedProductName": "Revive Eye Serum Ginseng + Retinal",
+      "category": "eye_cream",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "popular",
+        "rising"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": true,
+        "offerUrl": "https://beautyofjoseon.com/",
+        "notes": "Official catalog; retinal caution for sensitive users."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [
+        "retinal"
+      ],
+      "readiness": "catalog_ready",
+      "rejectionReason": "PDP OK; INCI not extracted in pilot.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "illiyoon-ceramide-ato-eye-cream",
+      "brand": "Illiyoon",
+      "normalizedProductName": "Ceramide Ato Eye Cream",
+      "category": "eye_cream",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "safety",
+        "value"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": true,
+        "inciAvailable": true,
+        "sourceUrls": [],
+        "notes": "Ceramide eye cream INCI commonly listed."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "ingredient_candidate",
+      "rejectionReason": "INCI candidate; ready pack incomplete.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "pyunkang-yul-eye-cream",
+      "brand": "Pyunkang Yul",
+      "normalizedProductName": "Eye Cream",
+      "category": "eye_cream",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "value",
+        "safety"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Identity OK; incomplete evidence.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "drjart-ceramidin-eye-cream",
+      "brand": "Dr.Jart+",
+      "normalizedProductName": "Ceramidin Eye Cream",
+      "category": "eye_cream",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "popular"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Catalog ready; INCI not extracted.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "laneige-perfect-renew-youth-regenerator-eye-cream",
+      "brand": "Laneige",
+      "normalizedProductName": "Perfect Renew Youth Regenerator Eye Cream",
+      "category": "eye_cream",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "popular"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "trend_candidate",
+      "rejectionReason": "Brand-known SKU; pilot evidence incomplete.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "innisfree-green-tea-seed-eye-cream",
+      "brand": "Innisfree",
+      "normalizedProductName": "Green Tea Seed Eye Cream",
+      "category": "eye_cream",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "value"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Identity OK; incomplete evidence.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
+      "brand": "Sulwhasoo",
+      "normalizedProductName": "Concentrated Ginseng Renewing Eye Cream",
+      "category": "eye_cream",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "emerging",
+        "popular"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "catalog_ready",
+      "rejectionReason": "Premium aging eye cream; evidence pack incomplete.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "torriden-dive-in-eye-cream",
+      "brand": "Torriden",
+      "normalizedProductName": "Dive-In Eye Cream",
+      "category": "eye_cream",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "rising"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": false,
+        "inciAvailable": false,
+        "sourceUrls": [],
+        "notes": "INCI not verified for pilot."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "trend_candidate",
+      "rejectionReason": "Rising line extension; verification incomplete.",
+      "affiliateOrAdInScore": false
+    },
+    {
+      "productIdentity": "aestura-atobarrier365-eye-cream",
+      "brand": "AESTURA",
+      "normalizedProductName": "Atobarrier 365 Eye Cream",
+      "category": "eye_cream",
+      "scenarioFit": {
+        "fitNotes": "Aligned with scenario concern and category for pilot pool.",
+        "fitScore": 0.75
+      },
+      "roleTags": [
+        "safety"
+      ],
+      "trendEvidence": {
+        "present": false,
+        "notes": "No formal trend score; pilot qualitative only.",
+        "signals": []
+      },
+      "ingredientEvidence": {
+        "present": true,
+        "inciAvailable": true,
+        "sourceUrls": [],
+        "notes": "Barrier eye cream; not full recommendation_ready pack."
+      },
+      "imageEvidence": {
+        "present": false,
+        "sourceUrls": [],
+        "notes": "Official product image not captured in pilot."
+      },
+      "offerEvidence": {
+        "present": false,
+        "offerUrl": null,
+        "notes": "Offer URL not confirmed in pilot."
+      },
+      "sourceUrls": [],
+      "sourceTrust": {
+        "tier": "secondary",
+        "notes": "Pilot trust based on known brand PDP / public knowledge."
+      },
+      "dataFreshness": {
+        "checkedAt": "2026-07-22",
+        "staleness": "pilot_manual"
+      },
+      "cautionIngredients": [],
+      "readiness": "ingredient_candidate",
+      "rejectionReason": "INCI candidate; offer/image not locked.",
+      "affiliateOrAdInScore": false
+    }
+  ],
+  "metrics": {
+    "scenarioId": "kr-aging-eye-cream",
+    "poolSize": 10,
+    "brandCapDefault": 2,
+    "affiliateOrAdInScore": false,
+    "readinessCounts": {
+      "trend_candidate": 2,
+      "catalog_ready": 6,
+      "ingredient_candidate": 2,
+      "recommendation_ready": 0,
+      "review_required": 0,
+      "unavailable": 0
+    },
+    "recommendationReadyCount": 0,
+    "distinctBrands": 10,
+    "brandCounts": {
+      "cosrx": 1,
+      "beauty of joseon": 1,
+      "illiyoon": 1,
+      "pyunkang yul": 1,
+      "dr.jart+": 1,
+      "laneige": 1,
+      "innisfree": 1,
+      "sulwhasoo": 1,
+      "torriden": 1,
+      "aestura": 1
+    },
+    "distinctRoleTags": [
+      "emerging",
+      "popular",
+      "rising",
+      "safety",
+      "value"
+    ],
+    "identities": [
+      "cosrx-advanced-snail-peptide-eye-cream",
+      "beauty-of-joseon-revive-eye-serum",
+      "illiyoon-ceramide-ato-eye-cream",
+      "pyunkang-yul-eye-cream",
+      "drjart-ceramidin-eye-cream",
+      "laneige-perfect-renew-youth-regenerator-eye-cream",
+      "innisfree-green-tea-seed-eye-cream",
+      "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
+      "torriden-dive-in-eye-cream",
+      "aestura-atobarrier365-eye-cream"
+    ]
+  }
+}

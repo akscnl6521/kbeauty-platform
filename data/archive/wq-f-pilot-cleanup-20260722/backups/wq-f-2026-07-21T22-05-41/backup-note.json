@@ -1,0 +1,7 @@
+{
+  "mode": "local_artifact_fallback",
+  "reason": "p/kbeauty-platform/scripts/backup-staging-catalog-readonly.mjs:90:13)\r\n    at queryRows (file:///C:/Users/%EC%A1%B0%EB%B3%91%EC%84%A0.DESKTOP-0S17OGB/Desktop/kbeauty-platform/scripts/backup-staging-catalog-readonly.mjs:125:15)\r\n    at file:///C:/Users/%EC%A1%B0%EB%B3%91%EC%84%A0.DESKTOP-0S17OGB/Desktop/kbeauty-platform/scripts/backup-staging-catalog-readonly.mjs:282:22\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\r\n    at async node:internal/modules/esm/loader:643:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.18.0\r\n",
+  "sourceDir": "data/catalog/wq-f-remaining/2026-07-21T22-05-41",
+  "productionTouched": false,
+  "pii": false
+}
