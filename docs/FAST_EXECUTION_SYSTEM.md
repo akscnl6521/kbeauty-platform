@@ -40,3 +40,17 @@
 - `scripts/project-state-summary.mjs` — 상태 요약
 - `scripts/verify-current-task.mjs` — active task 검증
 - `scripts/project-orchestrator.mjs` — CLI 진입점
+
+## Recommendation scenario model (2026-07-22)
+
+- Platform: skin analysis -> scenario pool Top10 -> personal Top 3-5 -> routine -> check-in (not a storefront).
+- WQ-F builds scenario pools; mass SKU crawl is ingestion only.
+- See `docs/catalog/RECOMMENDATION_SCENARIOS.md`.
+- Do not start WQ-G / Production / main merge / auto-publish from this track.
+
+## UI/UX skills (2026-07-22)
+
+- Use kbeauty-match-design + frontend-design + ui-ux-pro-max together; K-Beauty identity wins.
+- Reject spa/ecommerce/SaaS defaults from Pro Max search.
+- See design-system/MASTER.md and .cursor/rules/kbeauty-ui-design.mdc.
+- No main merge / Production from UI skill track.

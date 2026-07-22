@@ -34,7 +34,8 @@
 ## 3. Search-to-Verified + Autonomous Catalog
 
 제품 DB를 브랜드별로 무작정·무검증 대량 구축하지 않는다.  
-**자율 파이프라인이 후보를 모으되**, 판매·성분·논문·안전 검증 후 관리자(needs_review) → `published`만 핵심 추천.
+대량 데이터는 백엔드 후보 풀이며, 추천은 **recommendation scenario Top 10 → 개인 Top 3–5**로 한다.  
+**자율 ingestion이 후보를 모으되**, 판매·성분·논문·안전 검증 후 관리자(needs_review) → `published`/`recommendation_ready`만 핵심 추천.
 
 1. 검색 노출만으로 재고·판매 가능을 단정하지 않는다.
 2. 판매 상태 확인 전·`published` 이전 제품은 핵심 추천에 넣지 않는다.
@@ -58,6 +59,7 @@
 20. 릴리스 전에는 환경 presence·보안·정적/HTTP smoke를 점검하고, health 응답·로그·문서에 비밀값·프로젝트 식별자·사용자 데이터를 기록하지 않는다.
 21. 배포는 별도 승인 작업이며 Vercel을 권장한다. canonical은 `https://kbeautymatch.com` apex를 선호하고 `www`는 redirect로 정리한다.
 22. 공개 UI는 `--site-header-height`로 sticky 헤더 offset을 공유하고, Hero/본문이 헤더에 가리지 않게 한다. 가짜 후기·통계·그래프·미구현 CTA 금지.
+23. UI 스킬: kbeauty-match-design + frontend-design + ui-ux-pro-max 함께. 정체성/안전 우선. spa/ecommerce/SaaS 기본값 거부. Top 3–5 · Organic/제휴 분리. 추천/안전/케어 로직 보존. Preview 까지; main/Production 승인 필수. 기준: `design-system/MASTER.md`, `.cursor/rules/kbeauty-ui-design.mdc`.
 
 상세: `docs/20-data-source-verification.md`, `docs/11-product-retailer-offer.md`, `docs/69-autonomous-catalog-pipeline.md`, `docs/82-pipeline-database-persistence.md`, `docs/123-user-care-lifecycle.md`, `docs/133-care-database-persistence.md`, `docs/138-user-authentication.md`, `docs/144-end-to-end-user-journey.md`, `docs/155-ui-responsive-final-review.md`
 

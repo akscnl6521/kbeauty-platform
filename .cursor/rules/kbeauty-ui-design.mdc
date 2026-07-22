@@ -1,0 +1,52 @@
+---
+description: K-Beauty Match UI/UX — frontend-design, ui-ux-pro-max, kbeauty-match-design 통합. 충돌 시 kbeauty-match-design 우선.
+globs:
+  - src/app/**/*.{tsx,ts,css}
+  - src/components/**/*.{tsx,ts,css}
+  - design-system/**/*
+alwaysApply: false
+---
+
+# K-Beauty Match — UI/UX Design Rule
+
+## 스킬 사용
+
+UI/UX, page, component, responsive, copy, visual redesign 작업에서는 아래를 **함께** 사용한다.
+
+1. .cursor/skills/kbeauty-match-design/SKILL.md (권한·정체성)
+2. .cursor/skills/frontend-design/SKILL.md (Anthropic)
+3. .cursor/skills/ui-ux-pro-max/SKILL.md (UI UX Pro Max)
+4. design-system/MASTER.md 및 design-system/pages/
+
+## 충돌 시 우선순위
+
+1. K-Beauty Match product identity / safety / kbeauty-match-design
+2. 기존 디자인 토큰·사용자 여정 (src/app/globals.css, design-system/)
+3. Anthropic frontend-design
+4. UI UX Pro Max
+5. 일반 프레임워크 관례
+
+외부 스킬이 beauty shop / spa / ecommerce / marketplace / price-comparison / generic SaaS dashboard를 제안하면 **채택하지 않는다**.
+
+## 구현 전
+
+- 페이지의 단일 목적, 여정 단계, primary action을 먼저 기록한다.
+- frontend-design 계획 + UI UX Pro Max design-system 검색을 수행한 뒤, K-Beauty Match 기준으로 필터한다.
+- 실제 코드 변경 전에 색·타이포·레이아웃·시그니처·empty/error 상태를 정리한다.
+
+## 보존
+
+- 기존 추천·안전(symptomSafety, expert_first, urgent_check)·케어 로직을 손상시키지 않는다.
+- 내부 후보 Top 10 / 사용자 화면 Top 3–5 / Organic vs 제휴 분리를 유지한다.
+- 가짜 제품·리뷰·점수·통계로 empty를 채우지 않는다.
+
+## 금지 스타일
+
+- 쇼핑몰·스파·가격비교·카탈로그 그리드 우선
+- purple AI gradient / dark OLED SaaS 기본값 무비판 채택
+- Buy now / 할인 힫지 / 가짜 긴급성
+
+## 배포 경계
+
+- Preview까지만 자동 진행한다.
+- main 병합, Production 배포, Production DB·환경변수 변경은 **명시 승인** 전 금지.

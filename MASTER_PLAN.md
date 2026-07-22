@@ -42,15 +42,19 @@ K-Beauty Match는 사용자의 피부 상태·고민·성분 선호를 바탕으
 
 ## 3. Search-to-Verified + Autonomous Catalog Pipeline
 
-K-Beauty Match는 **검증 정확도**를 유지하면서, 사람이 모든 URL을 수동 등록하지 않도록  
-**자율 카탈로그 파이프라인**으로 후보를 대량 구축한다.
+K-Beauty Match는 **검증 정확도**를 유지하면서, 쇼핑몰·가격비교가 아니라  
+**피부 분석 → 추천 상황(Scenario)별 후보 Top 10 → 개인 Top 3~5 → 루틴·경과 관리** 플랫폼이다.
 
-- **자율 카탈로그 파이프라인**: draft → offer → 제품 자동 검증/활성화 (`docs/90`~`109`)
-- Cursor는 개발만 · 운영은 worker · 사람은 needs_review만 · 자동 publish 금지 · Top5는 verified catalog + offer 필수
+대량 SKU는 백엔드 **ingestion 풀**일 뿐 사용자에게 진열하지 않는다.  
+핵심은 **추천 상황별 품질·최신 후보군**이다 (`docs/catalog/RECOMMENDATION_SCENARIOS.md`).
+
+- **시나리오 후보 풀**: 핵심 상황당 후보 10 → 개인별 Top 3~5
+- **하위 ingestion**: 공식몰·판매처 crawl / `product_discovery_candidates` → 풀 공급 (대량 진열 금지)
+- Cursor는 개발만 · 운영은 worker · 사람은 needs_review만 · 자동 publish 금지 · 핵심 추천은 `recommendation_ready` + verified offer
 - 정상 데이터: 자동 저장 (후보·관계·점수·큐)
 - 낮은 신뢰도/충돌: `needs_review`만 사람 검토
-- **자동 `published` 금지** · 가짜 offer/가격/성분 금지 · Top5 패딩/제품 강등 금지
-- 상세: `docs/69-autonomous-catalog-pipeline.md` ~ `docs/122-operations-alert-rollback.sql`
+- **자동 `published` 금지** · 가짜 offer/가격/성분 금지 · Top3~5 패딩/제품 강등 금지 · 제휴비 Organic 순위 금지
+- 레거시 파이프라인 문서: `docs/69-autonomous-catalog-pipeline.md` ~ `docs/122-operations-alert-rollback.sql`
 
 ### 3.5 Continuous Care (사용자 지속 관리)
 
@@ -61,6 +65,18 @@ K-Beauty Match는 **검증 정확도**를 유지하면서, 사람이 모든 URL�
 - 현재 UX: 로그인=Supabase · `/my` 인증 필수 · 공개 SiteHeader · 여정 상태 머신 · migration 적용됨
 - UI 최종: header/Hero offset · 반응형·a11y · `check:responsive` (docs/155~158)
 - 문서: `docs/123`~`docs/148` · rollback `docs/132` (수동)
+
+### 3.6 UI/UX Design Skills (2026-07-22)
+
+- 모든 UI 작업은 `.cursor/skills/kbeauty-match-design`, `frontend-design`, `ui-ux-pro-max`를 함께 사용한다.
+- 외부 스킬은 참고이며 K-Beauty Match 정체성이 항상 우선한다. beauty/spa/ecommerce/SaaS 분류를 그대로 쓰지 않는다.
+- 플랫폼은 피부 분석·추천·루틴·경과관리 중심이며 제품은 지원 수단이다.
+- 내부 후보 Top 10, 사용자 화면 Top 3–5. 제휴·광고는 Organic과 시각 분리.
+- 모바일·한국어·접근성·장문/전성분 표시 필수 검증.
+- UI 변경은 추천·안전·케어 로직을 손상시키지 않는다.
+- Preview까지만 자동. main/Production은 승인 전 금지.
+- 기준: `design-system/MASTER.md`, `.cursor/rules/kbeauty-ui-design.mdc`, `.cursor/skills/INSTALL_MANIFEST.md`
+
 
 ### 3.0 기존 Search-to-Verified (유지)
 

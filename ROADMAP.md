@@ -105,7 +105,9 @@
 - [x] 재방문 대시보드 보강 (WQ-C)
 - [x] 알림 채널별 동의 분리 UI / 스케줄링 연결 (WQ-D · enqueue only · 실발송 없음)
 - [x] Care worker admin / dry-run delivery (WQ-E · dry-run tick · retry/cancel · 실발송 없음)
-- [x] Catalog remaining sprint (WQ-F · official crawl · quality gate · Staging candidates · exception queue)
+- [x] WQ-F Phase 0/1: scenario Top10 model + KR core scenarios (30) + gap analysis (no fake pool fill)
+- [x] 프로젝트 UI 스킬 설치 (frontend-design, ui-ux-pro-max) + kbeauty-match-design + design-system 초안 (페이지 재디자인 미실시)
+- [ ] WQ-F Phase 2+: scenario/pool schema + multi-source fill + runtime Top3–5 from pools
 
 ### 단계 6 — 증상 기반 피부과 실제 데이터
 

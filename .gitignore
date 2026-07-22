@@ -78,3 +78,7 @@ supabase/.temp/
 /data/catalog/labels/obf-*/
 /data/catalog/labels/obf-run-log.txt
 /data/catalog/labels/_tmp-*.sql
+
+# Python bytecode
+**/__pycache__/
+*.py[cod]
