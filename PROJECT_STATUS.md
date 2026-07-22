@@ -18,7 +18,8 @@
 - 위험 신호와 전문가 상담 우선 분기
 - 제품 추천 안전 필터와 Top 5 게이트
 - **추천 자격(recommendation_ready)과 구매 가능(commerce) 분리** (Phase 2.5~2.6.2)
-- **Phase 3.0 안내형 얼굴 촬영 MVP + AI 분석 대기 UX** (카메라 우선·3각도·로컬 품질·진행 화면 · Storage/migration 없음)
+- **Phase 3.0 안내형 얼굴 촬영 MVP + AI 분석 대기 UX**
+- **Phase 3.1 얼굴 랜드마크 표준 정렬 + 자동 촬영 + 다국어 음성 카운트다운** (신원 인식 아님 · Storage/migration 없음)
 - 현재 제품·루틴 관리
 - Day 3·7·15·30 체크인과 지속 관리
 - 체크인 이메일 dry-run / Resend adapter 코드 준비 (실발송 없음)
@@ -34,31 +35,35 @@
 - 자동 게시 금지 · Production 쓰기 금지
 - Organic과 광고·제휴 점수 분리
 - anon `product_offers` write 권한 0
-- Phase 3.0 사진은 브라우저 임시 object URL만 · Storage 영구 저장 없음
+- Phase 3.x 사진은 브라우저 임시 object URL만 · Storage 영구 저장 없음 · 랜드마크 좌표 미저장
 
 ## 현재 진행 단계
 
-Master Plan v4.2 **Phase 3.0 안내형 촬영 MVP** 코드·selftest·build 완료. Preview 배포·수동 검수 대기.
+Master Plan v4.2 **Phase 3.1** 코드·selftest 완료. Preview 배포·실기기 검수 대기.
 
-- Phase 2.6.2 종료
-- `NEXT_PUBLIC_GUIDED_CAMERA_CAPTURE` 기본 ON (`0`이면 기존 단일 업로드)
+- Phase 2.6.2 종료 · Phase 3.0 / 3.0.1 / 3.0.2 완료
+- Flags: `NEXT_PUBLIC_GUIDED_CAMERA_CAPTURE`, `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE`, `NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN` (기본 ON)
 - main 미병합 · Production 미배포 · care-photos/migration 미적용
 
-## Phase 3.0 — 안내형 촬영 MVP (2026-07-22 · 코드 완료)
+## Phase 3.1 — 랜드마크 자동 촬영 (2026-07-22)
 
-- 입력: 카메라 우선 / 갤러리 / 문진만 fallback
-- 필수 3장: 정면 · 왼쪽 45° · 오른쪽 45°
-- 로컬 품질: 해상도·밝기·선명도·파일·형식 · pose=`pose_check_unavailable`
-- 분석 대기: 단계형 진행 + soft 0–90% · 완료 후 100% · timeout/retry
-- **3.0.2**: 일반 사용자 갤러리 업로드 금지 · 카메라/문진만 · Master Plan §22 반영
-- **3.0.1 BLOCKER fix**: 권한 허용 후 스트림이 effect cleanup에 끊기던 문제 수정
+- `@mediapipe/tasks-vision` FaceLandmarker (Apache-2.0) · same-origin WASM/model
+- 템플릿: front / left45 / right45 (normalized) · 1초 안정 → 3·2·1 → 자동 촬영
+- 음성: ko/en/ja/zh-CN/es · SpeechSynthesis · OFF·미지원 시 화면만
+- Fallback: 수동 가이드 또는 문진 · **갤러리 없음**
+- 문서: `docs/analyze/PHASE31_FACE_LANDMARK_AUTO_CAPTURE.md`
+- 테스트: `npm run test:guided-landmark`
+
+## Phase 3.0 — 안내형 촬영 MVP (요약)
+
+- 카메라/문진만 · 3각도 · 로컬 품질 · 분석 대기 UX
+- 3.0.1 stream 유지 수정 · 3.0.2 갤러리 금지
 - 문서: `docs/analyze/PHASE30_GUIDED_CAMERA_CAPTURE.md`
-- 테스트: `npm run test:guided-capture`
 
 ## 다음 작업
 
-1. Phase 3.0 Preview 수동 검수 (모바일 Safari/Chrome · 권한 거부 · 갤러리 · 문진)
-2. (이후) 위/아래 각도 · 자동 촬영 · landmark
+1. Phase 3.1 Preview · Android Chrome / iPhone Safari 육안 검수
+2. (이후) 위/아래 각도 · QR 이어촬영
 3. (승인 대기) 사진 비교 Staging migration · `care-photos`
 4. (승인 대기) WQ-G — 이번 우선 아님
 

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useLocale } from "@/hooks/useLocale";
 import {
   detectCameraSupport,
 } from "@/lib/analyze/guidedCapture/cameraSupport";
@@ -20,7 +21,43 @@ import {
 } from "@/lib/analyze/guidedCapture/cameraStart";
 import { guidanceForAngle } from "@/lib/analyze/guidedCapture/captureSession";
 import { captureVideoFrameToShot } from "@/lib/analyze/guidedCapture/processImageClient";
-import type { CaptureAngle, CapturedShot } from "@/lib/analyze/guidedCapture/types";
+import type {
+  CaptureAngle,
+  CapturedShot,
+  CapturedShotLandmarkMeta,
+} from "@/lib/analyze/guidedCapture/types";
+import {
+  alignmentStatusMessageKo,
+  evaluateAlignment,
+} from "@/lib/analyze/guidedCapture/landmark/alignmentEngine";
+import {
+  createAutoCaptureState,
+  resetAutoCaptureForNewAngle,
+  tickAutoCapture,
+  visualStateFromPhase,
+} from "@/lib/analyze/guidedCapture/landmark/autoCaptureMachine";
+import { FaceLandmarkerSession } from "@/lib/analyze/guidedCapture/landmark/faceLandmarkerClient";
+import {
+  isCaptureVoiceCountdownEnabled,
+  isFaceLandmarkAutoCaptureEnabled,
+  LANDMARK_INFER_MAX_FPS,
+  LANDMARK_SLOW_MS,
+} from "@/lib/analyze/guidedCapture/landmark/isEnabled";
+import { sampleLiveVideoQuality } from "@/lib/analyze/guidedCapture/landmark/liveFrameQuality";
+import { createCaptureSpeechController } from "@/lib/analyze/guidedCapture/landmark/speechController";
+import { templateForAngle } from "@/lib/analyze/guidedCapture/landmark/templates";
+import type {
+  AlignmentMode,
+  AutoCaptureMachineState,
+} from "@/lib/analyze/guidedCapture/landmark/types";
+import {
+  alignmentStatusMessage,
+  capturedUtterance,
+  countdownUtterance,
+  holdStillUtterance,
+  resolveCaptureVoiceLocale,
+} from "@/lib/analyze/guidedCapture/landmark/voiceMessages";
+import { FaceGuideOverlay } from "./FaceGuideOverlay";
 
 export type CameraCapturePanelProps = {
   angle: CaptureAngle;
@@ -35,9 +72,32 @@ export type CameraCapturePanelProps = {
   /** Bump to force a fresh camera start (retry). */
   restartToken?: number;
   disabled?: boolean;
+  localeTag?: string;
 };
 
 type PanelStatus = "starting" | "live" | "error";
+
+function angleLabelKo(angle: CaptureAngle): string {
+  if (angle === "left45") return "왼쪽 45°";
+  if (angle === "right45") return "오른쪽 45°";
+  return "정면";
+}
+
+function stepLabelFor(angle: CaptureAngle): string {
+  if (angle === "front") return "1 / 3";
+  if (angle === "left45") return "2 / 3";
+  return "3 / 3";
+}
+
+function guidanceBodyForAngle(angle: CaptureAngle): string {
+  if (angle === "left45") {
+    return "얼굴을 화면의 왼쪽 방향으로 천천히 돌려 주세요.";
+  }
+  if (angle === "right45") {
+    return "얼굴을 화면의 오른쪽 방향으로 천천히 돌려 주세요.";
+  }
+  return "얼굴을 정면으로 맞추고 가이드 안에 들어와 주세요.";
+}
 
 export function CameraCapturePanel({
   angle,
@@ -51,7 +111,11 @@ export function CameraCapturePanel({
   onCancel,
   restartToken = 0,
   disabled,
+  localeTag,
 }: CameraCapturePanelProps) {
+  const { locale: appLocale } = useLocale();
+  const voiceLocale = resolveCaptureVoiceLocale(localeTag ?? appLocale);
+
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const startGenRef = useRef(0);
@@ -61,6 +125,30 @@ export function CameraCapturePanel({
   const onPermissionDeniedRef = useRef(onPermissionDenied);
   const onUnavailableRef = useRef(onUnavailable);
   const onStartFailedRef = useRef(onStartFailed);
+  const onCapturedRef = useRef(onCaptured);
+  const landmarkerRef = useRef<FaceLandmarkerSession | null>(null);
+  const speechRef = useRef<ReturnType<typeof createCaptureSpeechController> | null>(
+    null
+  );
+  const machineRef = useRef<AutoCaptureMachineState>(createAutoCaptureState());
+  const capturingLockRef = useRef(false);
+  const lastInferAtRef = useRef(0);
+  const slowCountRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+  const doCaptureRef = useRef<
+    (
+      autoCaptured: boolean,
+      metaOverride?: {
+        score: number | null;
+        yaw: number | null;
+        pitch: number | null;
+        roll: number | null;
+      }
+    ) => Promise<void>
+  >(async () => undefined);
+
+  const landmarkFlag = isFaceLandmarkAutoCaptureEnabled();
+  const voiceFlag = isCaptureVoiceCountdownEnabled();
 
   const [status, setStatus] = useState<PanelStatus>("starting");
   const [hint, setHint] = useState("얼굴을 가이드 안에 맞춰 주세요.");
@@ -68,6 +156,23 @@ export function CameraCapturePanel({
   const [failureKind, setFailureKind] = useState<CameraStartFailureKind | null>(
     null
   );
+  const [alignmentMode, setAlignmentMode] = useState<AlignmentMode>(
+    landmarkFlag ? "landmark_auto" : "manual_guidance"
+  );
+  const [machinePhase, setMachinePhase] = useState(
+    () => createAutoCaptureState().phase
+  );
+  const [countdownDigit, setCountdownDigit] = useState<3 | 2 | 1 | null>(null);
+  const [voiceOn, setVoiceOn] = useState(voiceFlag);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [lastMeta, setLastMeta] = useState<{
+    score: number | null;
+    yaw: number | null;
+    pitch: number | null;
+    roll: number | null;
+  }>({ score: null, yaw: null, pitch: null, roll: null });
+
+  const template = useMemo(() => templateForAngle(angle), [angle]);
   const guidance = guidanceForAngle(angle);
 
   useEffect(() => {
@@ -75,8 +180,44 @@ export function CameraCapturePanel({
     onPermissionDeniedRef.current = onPermissionDenied;
     onUnavailableRef.current = onUnavailable;
     onStartFailedRef.current = onStartFailed;
-  }, [onLive, onPermissionDenied, onUnavailable, onStartFailed]);
+    onCapturedRef.current = onCaptured;
+  }, [onLive, onPermissionDenied, onUnavailable, onStartFailed, onCaptured]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const onChange = () => setReducedMotion(mq.matches);
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+
+  // Speech controller lifecycle
+  useEffect(() => {
+    speechRef.current = createCaptureSpeechController({
+      localeTag: voiceLocale,
+      enabled: voiceOn && voiceFlag,
+    });
+    return () => {
+      speechRef.current?.dispose();
+      speechRef.current = null;
+    };
+  }, [voiceLocale, voiceFlag]);
+
+  useEffect(() => {
+    speechRef.current?.setEnabled(voiceOn && voiceFlag);
+  }, [voiceOn, voiceFlag]);
+
+  // Reset auto-capture machine when angle changes
+  useEffect(() => {
+    machineRef.current = resetAutoCaptureForNewAngle(machineRef.current);
+    capturingLockRef.current = false;
+    setCountdownDigit(null);
+    setMachinePhase("adjusting");
+    setHint(guidanceBodyForAngle(angle));
+  }, [angle]);
+
+  // Camera start
   useEffect(() => {
     const gen = ++startGenRef.current;
     let cancelled = false;
@@ -100,6 +241,9 @@ export function CameraCapturePanel({
         facingMode,
         videoElementPresent: !!videoRef.current,
       });
+
+      // Unlock speech API inside user gesture chain when possible.
+      speechRef.current?.prepareFromUserGesture();
 
       if (!support.supported) {
         inFlightRef.current = false;
@@ -184,6 +328,8 @@ export function CameraCapturePanel({
               event: "stream_track_ended",
               trackReadyStates: [track.readyState],
             });
+            speechRef.current?.cancel();
+            machineRef.current = createAutoCaptureState();
           });
         }
 
@@ -216,13 +362,6 @@ export function CameraCapturePanel({
           onStartFailedRef.current(kind);
           return;
         }
-
-        logCameraDiagnostic({
-          event: "video_element_ready",
-          state: "requesting_permission",
-          videoElementPresent: true,
-          ...streamDiagnostics(stream),
-        });
 
         const attach = await attachStreamAndPlay({
           video,
@@ -267,26 +406,13 @@ export function CameraCapturePanel({
           return;
         }
 
-        logCameraDiagnostic({
-          event: "stream_attached",
-          state: "capturing",
-          videoElementPresent: true,
-          ...streamDiagnostics(stream),
-        });
-        logCameraDiagnostic({
-          event: "video_play_started",
-          state: "capturing",
-          videoElementPresent: true,
-          streamActive: stream.active,
-        });
-
         if (startupTimer) {
           clearTimeout(startupTimer);
           startupTimer = null;
         }
         liveReachedRef.current = true;
         setStatus("live");
-        setHint(guidance.bodyKo);
+        setHint(guidanceBodyForAngle(angle));
         inFlightRef.current = false;
         logCameraDiagnostic({
           event: "camera_state_changed",
@@ -331,7 +457,6 @@ export function CameraCapturePanel({
     return () => {
       cancelled = true;
       if (startupTimer) clearTimeout(startupTimer);
-      // Stop only this effect's stream (StrictMode-safe identity).
       if (localStream) {
         stopStreamIfOwned(localStream, localStream);
         if (streamRef.current === localStream) {
@@ -340,11 +465,10 @@ export function CameraCapturePanel({
       }
       inFlightRef.current = false;
     };
-    // Parent callbacks via refs. Angle changes keep the live stream.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [facingMode, restartToken]);
 
-  // Final unmount — always stop owned stream.
+  // Final unmount
   useEffect(() => {
     return () => {
       const owned = streamRef.current;
@@ -352,32 +476,283 @@ export function CameraCapturePanel({
         stopStreamIfOwned(owned, owned);
         streamRef.current = null;
       }
+      landmarkerRef.current?.close();
+      landmarkerRef.current = null;
+      speechRef.current?.cancel();
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
-  // Update hint when angle changes without restarting camera.
+  // Page hide → stop inference + speech
   useEffect(() => {
-    if (status === "live") setHint(guidance.bodyKo);
-  }, [guidance.bodyKo, status]);
+    const onVis = () => {
+      if (document.visibilityState === "hidden") {
+        speechRef.current?.cancel();
+        if (rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+        }
+      }
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
 
-  async function handleShutter() {
-    if (busy || disabled || !videoRef.current || status !== "live") return;
+  // Landmark model load + inference loop
+  useEffect(() => {
+    if (status !== "live") return;
+    if (!landmarkFlag || alignmentMode !== "landmark_auto") return;
+
+    let cancelled = false;
+    const session = new FaceLandmarkerSession();
+    landmarkerRef.current = session;
+    setHint(
+      alignmentStatusMessage(
+        voiceLocale,
+        "loading_model",
+        alignmentStatusMessageKo("loading_model")
+      )
+    );
+
+    void (async () => {
+      const loaded = await session.load();
+      if (cancelled || session.disposed) return;
+      if (!loaded.ok) {
+        logCameraDiagnostic({
+          event: "camera_state_changed",
+          detail: "landmark_fallback_manual",
+        });
+        setAlignmentMode("manual_guidance");
+        setHint(
+          alignmentStatusMessage(
+            voiceLocale,
+            "detector_unavailable",
+            alignmentStatusMessageKo("detector_unavailable")
+          )
+        );
+        return;
+      }
+
+      const minInterval = 1000 / LANDMARK_INFER_MAX_FPS;
+
+      const loop = (nowMs: number) => {
+        if (cancelled || session.disposed) return;
+        if (document.visibilityState === "hidden") {
+          rafRef.current = requestAnimationFrame(loop);
+          return;
+        }
+        const video = videoRef.current;
+        if (!video || status !== "live") {
+          rafRef.current = requestAnimationFrame(loop);
+          return;
+        }
+
+        if (nowMs - lastInferAtRef.current >= minInterval) {
+          lastInferAtRef.current = nowMs;
+          const snap = session.detect(video, {
+            mirrorX: facingMode === "user",
+            nowMs,
+          });
+          if (snap && snap.inferenceDurationMs > LANDMARK_SLOW_MS) {
+            slowCountRef.current += 1;
+            if (slowCountRef.current >= 8) {
+              logCameraDiagnostic({
+                event: "camera_state_changed",
+                detail: "landmark_fallback_slow",
+              });
+              setAlignmentMode("manual_guidance");
+              setHint(
+                alignmentStatusMessage(
+                  voiceLocale,
+                  "inference_slow",
+                  alignmentStatusMessageKo("inference_slow")
+                )
+              );
+              speechRef.current?.cancel();
+              return;
+            }
+          } else if (snap) {
+            slowCountRef.current = Math.max(0, slowCountRef.current - 1);
+          }
+
+          const quality = sampleLiveVideoQuality(video);
+          const evalResult = evaluateAlignment({
+            snapshot: snap,
+            template,
+            quality: {
+              brightnessMean: quality.brightnessMean,
+              sharpnessScore: quality.sharpnessScore,
+            },
+            inferenceSlowMs: LANDMARK_SLOW_MS * 3,
+          });
+
+          setLastMeta({
+            score: evalResult.score,
+            yaw: snap?.yaw ?? null,
+            pitch: snap?.pitch ?? null,
+            roll: snap?.roll ?? null,
+          });
+
+          const tick = tickAutoCapture(machineRef.current, {
+            nowMs,
+            alignmentStatus: evalResult.status,
+            stableHoldMs: template.stableHoldMs,
+          });
+          machineRef.current = tick.state;
+          setMachinePhase(tick.state.phase);
+          setCountdownDigit(tick.state.countdownDigit);
+
+          const msg = alignmentStatusMessage(
+            voiceLocale,
+            tick.state.alignmentStatus,
+            alignmentStatusMessageKo(tick.state.alignmentStatus)
+          );
+          setHint(msg);
+
+          if (tick.shouldCancelSpeech) {
+            speechRef.current?.cancel();
+          }
+          if (tick.speakHoldStill) {
+            speechRef.current?.speak(holdStillUtterance(voiceLocale));
+          }
+          if (tick.speakDigit) {
+            speechRef.current?.speak(
+              countdownUtterance(voiceLocale, tick.speakDigit)
+            );
+          }
+
+          if (tick.shouldCapture && !capturingLockRef.current) {
+            capturingLockRef.current = true;
+            void doCaptureRef.current(true, {
+              score: evalResult.score,
+              yaw: snap?.yaw ?? null,
+              pitch: snap?.pitch ?? null,
+              roll: snap?.roll ?? null,
+            });
+            return;
+          }
+        }
+
+        rafRef.current = requestAnimationFrame(loop);
+      };
+
+      rafRef.current = requestAnimationFrame(loop);
+    })();
+
+    return () => {
+      cancelled = true;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+      session.close();
+      if (landmarkerRef.current === session) landmarkerRef.current = null;
+      speechRef.current?.cancel();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, landmarkFlag, alignmentMode, angle, facingMode, template, voiceLocale]);
+
+  // Cancel speech when leaving countdown due to misalignment is handled in tick;
+  // extra: when alignment leaves aligned during countdown cancel speech
+  useEffect(() => {
+    if (machinePhase === "adjusting") {
+      // keep quiet after cancel
+    }
+  }, [machinePhase]);
+
+  async function doCapture(
+    autoCaptured: boolean,
+    metaOverride?: {
+      score: number | null;
+      yaw: number | null;
+      pitch: number | null;
+      roll: number | null;
+    }
+  ) {
+    if (busy || disabled || !videoRef.current || status !== "live") {
+      capturingLockRef.current = false;
+      return;
+    }
     setBusy(true);
-    setHint("잠시 움직이지 마세요.");
+    setHint(
+      alignmentStatusMessage(
+        voiceLocale,
+        "aligned",
+        "잠시 움직이지 마세요."
+      )
+    );
+    speechRef.current?.cancel();
+    const pose = metaOverride ?? lastMeta;
     try {
+      const meta: CapturedShotLandmarkMeta = {
+        templateId: template.id,
+        templateVersion: "v1",
+        alignmentMode,
+        alignmentScore: pose.score,
+        yaw: pose.yaw,
+        pitch: pose.pitch,
+        roll: pose.roll,
+        voiceLocale,
+        autoCaptured,
+      };
       const shot = await captureVideoFrameToShot({
         video: videoRef.current,
         angle,
         facingMode,
+        poseCheckStatus:
+          alignmentMode === "landmark_auto" && autoCaptured
+            ? "landmark_aligned"
+            : "manual_guidance",
+        landmarkMeta: meta,
       });
-      onCaptured(shot);
+      if (shot.qualityStatus === "fail") {
+        machineRef.current = {
+          ...createAutoCaptureState(),
+          phase: "quality_failed",
+          capturedForAngle: false,
+        };
+        capturingLockRef.current = false;
+        setMachinePhase("quality_failed");
+        setHint("사진 품질이 부족합니다. 다시 맞춰 주세요.");
+        setBusy(false);
+        onCapturedRef.current(shot);
+        return;
+      }
+      speechRef.current?.speak(capturedUtterance(voiceLocale));
+      setMachinePhase("captured");
+      onCapturedRef.current(shot);
     } catch (e) {
+      capturingLockRef.current = false;
+      machineRef.current = createAutoCaptureState();
+      setMachinePhase("adjusting");
       const msg = e instanceof Error ? e.message : "촬영에 실패했습니다.";
       setHint(msg);
     } finally {
       setBusy(false);
     }
   }
+
+  doCaptureRef.current = doCapture;
+
+  async function handleShutter() {
+    if (alignmentMode === "landmark_auto" && machinePhase === "countdown") {
+      return;
+    }
+    speechRef.current?.prepareFromUserGesture();
+    await doCapture(false);
+  }
+
+  const visualState =
+    status === "error"
+      ? "error"
+      : status === "starting"
+        ? "neutral"
+        : visualStateFromPhase(machinePhase);
+
+  const displayMessage =
+    status === "starting"
+      ? "카메라를 준비하는 중…"
+      : status === "error"
+        ? hint
+        : hint;
 
   return (
     <div className="space-y-3">
@@ -392,23 +767,25 @@ export function CameraCapturePanel({
           }`}
           aria-label="카메라 미리보기"
         />
-        <div
-          className="pointer-events-none absolute inset-0 flex items-center justify-center"
-          aria-hidden
-        >
-          <div className="h-[62%] w-[72%] max-w-[320px] rounded-[50%] border-2 border-white/80 shadow-[0_0_0_9999px_rgba(0,0,0,0.35)]" />
-        </div>
-        <p
-          className="absolute bottom-3 left-3 right-3 rounded-2xl bg-black/55 px-3 py-2 text-center text-xs text-white"
-          role="status"
-          aria-live="polite"
-        >
-          {status === "starting"
-            ? "카메라를 준비하는 중…"
-            : status === "error"
-              ? hint
-              : hint}
-        </p>
+        {status === "live" || status === "starting" ? (
+          <FaceGuideOverlay
+            template={template}
+            visualState={visualState}
+            countdownDigit={status === "live" ? countdownDigit : null}
+            message={displayMessage}
+            angleLabel={angleLabelKo(angle)}
+            stepLabel={stepLabelFor(angle)}
+            reducedMotion={reducedMotion}
+          />
+        ) : (
+          <p
+            className="absolute bottom-3 left-3 right-3 rounded-2xl bg-black/55 px-3 py-2 text-center text-xs text-white"
+            role="status"
+            aria-live="polite"
+          >
+            {hint}
+          </p>
+        )}
       </div>
 
       {status === "error" && failureKind ? (
@@ -426,6 +803,13 @@ export function CameraCapturePanel({
         </div>
       ) : null}
 
+      {alignmentMode === "manual_guidance" && status === "live" ? (
+        <p className="text-xs text-amber-800" role="status">
+          자동 정렬을 사용할 수 없어 수동 가이드로 촬영합니다. 눈·코·입·턱
+          가이드에 맞춘 뒤 촬영을 눌러 주세요.
+        </p>
+      ) : null}
+
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
@@ -436,6 +820,21 @@ export function CameraCapturePanel({
         >
           카메라 전환
         </button>
+        {voiceFlag ? (
+          <button
+            type="button"
+            aria-pressed={voiceOn}
+            onClick={() => {
+              const next = !voiceOn;
+              setVoiceOn(next);
+              if (!next) speechRef.current?.cancel();
+              else speechRef.current?.prepareFromUserGesture();
+            }}
+            className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
+          >
+            음성 안내 {voiceOn ? "켜짐" : "꺼짐"}
+          </button>
+        ) : null}
         <button
           type="button"
           onClick={onCancel}
@@ -446,15 +845,27 @@ export function CameraCapturePanel({
         <button
           type="button"
           onClick={() => void handleShutter()}
-          disabled={busy || disabled || status !== "live"}
+          disabled={
+            busy ||
+            disabled ||
+            status !== "live" ||
+            (alignmentMode === "landmark_auto" && machinePhase === "countdown")
+          }
           className="ml-auto rounded-full bg-[#C2185B] px-5 py-2 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:bg-stone-300"
         >
-          {busy ? "저장 중…" : "촬영"}
+          {busy
+            ? "저장 중…"
+            : alignmentMode === "landmark_auto"
+              ? "수동 촬영"
+              : "촬영"}
         </button>
       </div>
       <p className="text-xs text-stone-500">
-        자동 촬영은 아직 꺼져 있습니다. 가이드에 맞춘 뒤 촬영 버튼을 눌러 주세요.
+        {alignmentMode === "landmark_auto"
+          ? "가이드에 맞으면 음성 카운트다운 후 자동 촬영됩니다. 신원 인식이 아니며 얼굴 위치 맞춤에만 사용합니다."
+          : "가이드에 맞춘 뒤 촬영 버튼을 눌러 주세요."}
       </p>
+      <p className="sr-only">{guidance.bodyKo}</p>
     </div>
   );
 }

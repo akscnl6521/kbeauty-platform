@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLocale } from "@/hooks/useLocale";
 import {
   PhotoConsentPanel,
   photoConsentBlockedMessage,
@@ -118,6 +119,7 @@ export function GuidedCaptureFlow({
   onSwitchToManual,
   onAnalyzeSuccess,
 }: GuidedCaptureFlowProps) {
+  const { locale } = useLocale();
   const [session, setSession] = useState<CaptureSession>(() =>
     createEmptyCaptureSession()
   );
@@ -468,6 +470,7 @@ export function GuidedCaptureFlow({
           angle={currentAngle}
           facingMode={session.activeFacingMode}
           restartToken={cameraRestartToken}
+          localeTag={locale}
           onFacingModeChange={(mode) =>
             setSession((s) => ({ ...s, activeFacingMode: mode }))
           }

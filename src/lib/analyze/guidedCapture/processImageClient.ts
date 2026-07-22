@@ -96,6 +96,8 @@ export async function captureVideoFrameToShot(input: {
   video: HTMLVideoElement;
   angle: CaptureAngle;
   facingMode: "user" | "environment";
+  poseCheckStatus?: import("./types").PoseCheckStatus;
+  landmarkMeta?: import("./types").CapturedShotLandmarkMeta;
 }): Promise<CapturedShot> {
   const video = input.video;
   const width = video.videoWidth || 0;
@@ -125,9 +127,24 @@ export async function captureVideoFrameToShot(input: {
     );
   });
 
-  return processImageBlobToShot({
+  const shot = await processImageBlobToShot({
     blob,
     angle: input.angle,
     inputSource: "camera",
   });
+
+  const poseCheckStatus = input.poseCheckStatus ?? shot.poseCheckStatus;
+  const qualityReasons =
+    poseCheckStatus === "landmark_aligned"
+      ? shot.qualityReasons.filter((r) => r !== "pose_check_unavailable")
+      : shot.qualityReasons;
+  const blocking = qualityReasons.filter((r) => r !== "pose_check_unavailable");
+
+  return {
+    ...shot,
+    poseCheckStatus,
+    landmarkMeta: input.landmarkMeta,
+    qualityReasons,
+    qualityStatus: blocking.length === 0 ? "pass" : "fail",
+  };
 }

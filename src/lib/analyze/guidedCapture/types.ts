@@ -31,7 +31,26 @@ export type CaptureFlowState =
 export type QualityStatus = "pass" | "fail" | "pending";
 
 /** Honest pose status — never invent detection results. */
-export type PoseCheckStatus = "pose_check_unavailable" | "manual_guidance";
+export type PoseCheckStatus =
+  | "pose_check_unavailable"
+  | "manual_guidance"
+  | "landmark_aligned";
+
+/** Local-only capture metadata (Phase 3.1). Not persisted to Storage/DB. */
+export type CapturedShotLandmarkMeta = {
+  templateId:
+    | "front_template_v1"
+    | "left_45_template_v1"
+    | "right_45_template_v1";
+  templateVersion: "v1";
+  alignmentMode: "landmark_auto" | "manual_guidance";
+  alignmentScore: number | null;
+  yaw: number | null;
+  pitch: number | null;
+  roll: number | null;
+  voiceLocale: string;
+  autoCaptured: boolean;
+};
 
 export type QualityReasonCode =
   | "unsupported_format"
@@ -63,6 +82,8 @@ export type CapturedShot = {
   /** Base64 without data: prefix — for /api/analyze */
   imageBase64: string;
   usesObjectUrl: boolean;
+  /** Optional landmark auto-capture meta — memory only. */
+  landmarkMeta?: CapturedShotLandmarkMeta;
 };
 
 export type CaptureSession = {

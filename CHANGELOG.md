@@ -6,6 +6,16 @@
 
 ## 2026-07-22
 
+### Phase 3.1 — Face landmark auto-capture + multilingual voice countdown
+
+- `@mediapipe/tasks-vision` FaceLandmarker (Apache-2.0) · same-origin WASM (`/mediapipe/wasm`) + model (`/models/face_landmarker.task` ~3.7MB)
+- Templates: `front_template_v1` / `left_45_template_v1` / `right_45_template_v1` (normalized) · 1s hold → 3·2·1 → auto-capture once/angle
+- Voice: ko/en/ja/zh-CN/es via SpeechSynthesis · ON/OFF session toggle · failure never blocks capture
+- Fallback: manual guide or questionnaire · **no gallery** · CSP `wasm-unsafe-eval` + `camera=(self)`
+- Flags: `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE`, `NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN` (default ON)
+- Privacy: no embeddings / no landmark coords in logs / no Storage/DB this step
+- Docs: `docs/analyze/PHASE31_FACE_LANDMARK_AUTO_CAPTURE.md` · test: `npm run test:guided-landmark`
+
 ### Phase 3.0.2 — Forbid gallery upload on general user analyze path
 
 - User-facing inputs: camera + questionnaire_only only
