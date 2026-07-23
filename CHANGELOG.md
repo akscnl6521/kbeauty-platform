@@ -6,6 +6,15 @@
 
 ## 2026-07-23
 
+### T03 — Product automation · category expansion
+
+- Ingestion 계약 18단계 · 공식출처 evidence · 정규화 · variants · images · INCI · offers · usage media 메타
+- dedupe · field verification · eligibility · review · refresh/resume · Staging/admin 링크(쓰기 없음 · autoPromote 금지)
+- 마스카라·립·샴푸/두피 카테고리 추출 + 안전 추천(급성 눈·두피 신호 시 중단) · fixture dry-run
+- Docs: `docs/catalog-product-automation.md` · 모듈 `src/lib/catalog/productAutomation/`
+- Tests: `test:product-automation` · `test:full-beauty` · `test:master-execution` · 변경 ESLint · tsc — **통과**
+- 실공식 live verify·verified 구매 SKU·Staging/Production 쓰기·main·commit/push 미실행 · next_task `T04` (공식 병원 실출처 · external_only)
+
 ### T02 — 3/7/15/30 follow-up lifecycle
 
 - Opt-in · 스케줄 · due · 체크인 progress/adherence/irritation 결정 · 루틴 조정 · red-flag 에스컬레이션 · pause/resume
@@ -14,7 +23,7 @@
 - `/my/settings` SMS·푸시 동의(실발송 미연결 고지) · `/admin/care/follow-up` + API
 - Docs: `docs/follow-up-lifecycle.md`
 - Tests: `test:follow-up-lifecycle` · 관련 checkin/reminder · 변경 ESLint · tsc — **통과**
-- 실 email/SMS/push·Production·main·commit/push 미실행 · next_task `T03` (공식 병원 실출처 · external_only)
+- 실 email/SMS/push·Production·main·commit/push 미실행 · next_task `T03` product automation (완료)
 
 ### T01 — Core journey · durable BeautyProfile
 

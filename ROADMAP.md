@@ -21,6 +21,7 @@
 - [x] 공통 제품/규제/추천 적격/상업 메타데이터 계약
 - [x] 증상별 피부과·두피·알레르기·치과·응급 라우팅 (symptomSafety 실연결)
 - [x] 마스카라·립·샴푸 기존 category-specific 랭커와 새 taxonomy 회귀 검증
+- [x] T03 제품 자동화 ingestion 계약·카테고리 확장 fixture dry-run·안전 추천 (`test:product-automation`)
 - [x] Master execution queue 문서화 (`docs/autopilot/MASTER_EXECUTION_QUEUE.md` · 계약 `docs/autopilot/EXECUTION_CONTRACT.md`)
 
 ### 플랫폼 핵심 사용자 여정
@@ -43,6 +44,8 @@
 - [x] 제품 예외 검수 큐
 - [x] 자동 게시·Production 쓰기 차단
 - [x] 매일 09:20 KST 갱신 아티팩트 생성
+- [x] **T03** ingestion 계약·카테고리 추출(마스카라/립/샴푸)·fixture dry-run·refresh/resume·admin 링크 (`test:product-automation`)
+- [ ] 실공식 출처 live verify · verified 구매 SKU 풀 (external_only)
 
 ### 피부과 후보 자동화
 
@@ -94,7 +97,7 @@
 
 ## 다음 작업
 
-Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T03)
+Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T04)
 
 1. 공식 병원 실출처 승인 수집 → 관리자 검수 → publishable (fixture 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)

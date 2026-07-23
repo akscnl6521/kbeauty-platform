@@ -116,11 +116,14 @@ const keyPaths = [
   "src/app/my/guidance",
   "src/app/admin/clinics",
   "src/lib/catalog/commonProduct.ts",
+  "src/lib/catalog/productAutomation/index.ts",
   "scripts/master-execution-selftest.ts",
   "scripts/beauty-profile-selftest.ts",
+  "scripts/product-automation-selftest.ts",
   "scripts/clinic-stage6-selftest.ts",
   "supabase/migrations/DRAFT_DO_NOT_APPLY_beauty_profiles.sql",
   "docs/prelaunch/WQ-G_PRELAUNCH_GATE.md",
+  "docs/catalog-product-automation.md",
   "KBEAUTY_MASTER_EXECUTION_PROMPT.md",
 ];
 for (const p of keyPaths) mustExist(p);
@@ -133,6 +136,10 @@ assert.ok(
 assert.ok(
   pkg.includes('"test:beauty-profile"'),
   "package.json must define test:beauty-profile",
+);
+assert.ok(
+  pkg.includes('"test:product-automation"'),
+  "package.json must define test:product-automation",
 );
 
 const queueNext = queue.match(/## next_task[\s\S]*?\|\s*ID\s*\|\s*`?(T0\d+)`?/);

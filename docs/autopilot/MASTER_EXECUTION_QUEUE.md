@@ -14,7 +14,7 @@
 
 | 필드 | 값 |
 |------|-----|
-| ID | `T03` |
+| ID | `T04` |
 | 제목 | 공식 병원 후보 실출처 승인 후 dry-run → 관리자 검수 → publishable (fixture 게시 금지) |
 | 분류 | `external_only` (출처 승인) + 승인 후 `remaining` 코드 연결 |
 | 에이전트 단독 | 불가 — 공식 출처·사람 검수 필요 |
@@ -31,12 +31,19 @@
 
 | 필드 | 값 |
 |------|-----|
+| ID | `T03` |
+| 제목 | Product automation · category expansion (ingestion 계약·공식출처 evidence·정규화·variants·images·INCI·offers·usage media·dedupe·eligibility·review·refresh/resume·admin 링크 · 마스카라/립/샴푸 안전 추천 dry-run) |
+| 분류 | `verified_complete` (코드·fixture selftest) · 실공식 출처·verified 구매 SKU는 `partial`/`external_only` |
+| 검증 | `npm run test:product-automation` · `test:full-beauty` · `test:master-execution` · 변경 ESLint · `tsc` |
+
+### 직전 completed
+
+| 필드 | 값 |
+|------|-----|
 | ID | `T02` |
 | 제목 | 3/7/15/30 follow-up lifecycle (opt-in·due·결정·루틴조정·red-flag·resume/fallback·채널 dry-run·admin) |
 | 분류 | `verified_complete` (코드·selftest) · 실 email/SMS/push는 `partial`/`external_only` |
 | 검증 | `npm run test:follow-up-lifecycle` · `test:checkin-policy` · `test:checkin-scheduling` · `test:reminder-delivery` · 변경 ESLint · `tsc` |
-
-### 직전 completed
 
 | 필드 | 값 |
 |------|-----|
@@ -61,6 +68,7 @@
 | VC-08 | 3/7/15/30 체크인·루틴 조정 UI/정책 | checkinPolicy · `/my/check-ins` · `test:checkin-scheduling` |
 | VC-21 | Follow-up lifecycle (opt-in→due→결정→조정→red-flag→resume/fallback·채널 dry-run·admin) | `followUpLifecycle*` · `test:follow-up-lifecycle` · 실발송 제외 |
 | VC-09 | 수집·정규화·중복·갱신 파이프라인 코드 | catalog scripts · refresh/exception queues |
+| VC-22 | Product automation ingestion 계약·카테고리 추출·fixture dry-run·안전 추천·admin 링크 | `src/lib/catalog/productAutomation` · `test:product-automation` · `docs/catalog-product-automation.md` |
 | VC-10 | 국가·언어·판매처 구조 | locale/offer 기존 유지 |
 | VC-11 | Phase 3.0 수동 3각도 촬영 · 갤러리 금지 | guided-capture · WQG-P0-001 카피 |
 | VC-12 | WQG-P1-002 카메라/landmark 동적 import | `test:guided-capture` · `test:guided-landmark` |
@@ -79,12 +87,12 @@
 
 | ID | 항목 | 완료 부분 | 미완 |
 |----|------|-----------|------|
-| PA-01 | 마스카라·립·샴푸 추천 | 속성 랭커·패널·회귀 | 실구매 verified SKU 풀 부족 · 속성 예시 수준 |
+| PA-01 | 마스카라·립·샴푸 추천 | 속성 랭커·패널·**T03 안전 추천 플로우·자동화 후보 연결** | 실구매 verified SKU 풀 부족 · fixture≠구매 가능 |
 | PA-02 | 전문가/병원 안내 | 라우팅·UI·fixture 게이트 | 공식 병원 publishable 0 · 실리드 전달 없음 |
 | PA-03 | 체크인 알림 | 스케줄·큐·email/sms/push 인터페이스·dry-run/Resend 어댑터·상태 레코드 | 실발송·DNS·Production 키·실 SMS/푸시 인프라 없음 |
 | PA-04 | 사진 비교 운영 | 동의·삭제 코드 | Staging `care-photos` migration 미적용 · Storage 미연결 |
 | PA-05 | 전체 lint/품질 | 변경 파일 lint·관련 selftest | 저장소 전체 ESLint 기존 실패(다수) 잔존 |
-| PA-06 | 카탈로그 자동화 운영 | 계획·아티팩트·가드 | 운영 worker는 사람/스케줄러 영역 · Cursor 세션에서 미실행 |
+| PA-06 | 카탈로그 자동화 운영 | 계획·아티팩트·가드·**T03 ingestion dry-run** | 운영 worker는 사람/스케줄러 영역 · 실공식 live verify 미연결 |
 | PA-07 | BeautyProfile 서버 동기화 | API·DRAFT·로컬 fallback | Staging `beauty_profiles` 미적용 · 계정 간 실동기화 미검증 |
 
 ---
@@ -96,13 +104,14 @@
 | EX-01 | Preview 관리자/사용자 육안 (P0-003 / P1-003) | 사람 |
 | EX-02 | 실기기 Android/iPhone (P1-005) · Phase 3.1 재개 조건 | 사람 |
 | EX-03 | P1-006 개인정보 전송 범위 정책·법무 | 사람 |
-| EX-04 | 공식 병원 실출처 승인·검수·publishable | fixture 게시 금지 |
+| EX-04 | 공식 병원 실출처 승인·검수·publishable | fixture 게시 금지 · **next_task T04** |
 | EX-05 | WQG-P0-002 Production `AI_PROVIDER` | `RELEASE_GATE_PENDING` · 지금 미실행 · 키 미기록 |
 | EX-06 | Production 배포 · main 병합 · Production DB/env | 명시 승인 전 금지 |
 | EX-07 | 사진 비교 Staging migration · `care-photos` 버킷 | 승인 대기 |
 | EX-08 | 상담 리드 실전달 채널 | 승인 후 |
 | EX-09 | 공식 offer/전성분 미확보 제품 자동 완성 | 차단 정책 유지 |
 | EX-10 | BeautyProfile Staging migration (`beauty_profiles`) 적용 | DRAFT만 존재 · 승인 전 미적용 |
+| EX-11 | 제품 자동화 live 공식 출처·verified 구매 SKU 검수 | T03 코드 완료 · 실데이터는 사람/승인 |
 
 ---
 

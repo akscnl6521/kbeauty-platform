@@ -83,6 +83,7 @@
     "check:responsive": "node scripts/check-responsive-layout.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",
     "test:full-beauty": "npx --yes tsx scripts/full-beauty-selftest.ts",
+    "test:product-automation": "npx --yes tsx scripts/product-automation-selftest.ts",
     "test:master-execution": "npx --yes tsx scripts/master-execution-selftest.ts",
     "test:beauty-profile": "npx --yes tsx scripts/beauty-profile-selftest.ts",
     "test:autopilot-queue": "npx --yes tsx scripts/autopilot-queue-selftest.ts",

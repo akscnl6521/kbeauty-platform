@@ -2,6 +2,17 @@
 
 최종 갱신: 2026-07-23
 
+## 2026-07-23 T03 · Product automation · category expansion
+
+- Ingestion 계약 18단계 · 공식출처 evidence · 정규화 · variants · images · INCI · offers · usage media 메타
+- dedupe · field verification · eligibility · review status · refresh/resume checkpoint · Staging/admin 링크(쓰기 없음)
+- 마스카라·립·샴푸/두피 카테고리 추출기 + 안전 추천 플로우(급성 눈/두피 신호 시 추천 중단)
+- Fixtures/dry-run만 · `recommendation_ready=0` (live official 미검증) · `autoPromote=false`
+- Docs: `docs/catalog-product-automation.md`
+- Tests: `test:product-automation` · `test:full-beauty` · `test:master-execution` · 변경 ESLint · tsc — **통과**
+- 실공식 출처·verified 구매 SKU·Staging/Production 쓰기·main·commit/push 미실행
+- next_task: `T04` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-23 T02 · 3/7/15/30 follow-up lifecycle
 
 - Opt-in → 3/7/15/30 스케줄 → due → 체크인 → progress/adherence/irritation 결정 → 루틴 조정 → red-flag 에스컬레이션 → pause/resume
@@ -10,7 +21,7 @@
 - 설정 UI SMS/푸시 동의 (실발송 미연결 고지) · 관리자 `/admin/care/follow-up` + API
 - Tests: `test:follow-up-lifecycle` · `test:checkin-policy` · `test:checkin-scheduling` · `test:reminder-delivery` · 변경 ESLint · tsc — **통과**
 - 실 email/SMS/push 발송·Production·main·commit/push 미실행
-- next_task: `T03` 공식 병원 실출처 (`external_only`)
+- next_task: `T03` product automation (완료됨 → 위 T03 항목)
 
 ## 2026-07-23 T01 Core journey · durable BeautyProfile
 
@@ -21,7 +32,7 @@
 - DRAFT migration: `supabase/migrations/DRAFT_DO_NOT_APPLY_beauty_profiles.sql` (**미적용**)
 - `/my/profile` 로컬+서버 병합 UI · Tests: `test:beauty-profile` · `test:master-execution` · `test:journey` · 변경 ESLint · tsc
 - Staging/Production DB 미적용 · main 미병합 · commit/push 미실행
-- next_task: `T02` follow-up lifecycle (완료됨 → 아래 T02 항목)
+- next_task: `T02` follow-up lifecycle (완료됨)
 
 ## 2026-07-23 T00 Master audit — Autopilot 계약·실행 큐
 
@@ -31,7 +42,6 @@
 - 분류: verified_complete / partial / external_only / remaining / deferred
 - ROADMAP 사진 비교 체크박스 모순 수리 (코드 완료 vs Staging/Storage 대기 분리)
 - Self-test: `npm run test:autopilot-queue`
-- next_task: 공식 병원 실출처 승인·publishable (external_only) · Preview/실기기 육안 병행
 - main 미병합 · Production 미배포 · DB/Storage/환경변수 미변경 · commit/push 미실행
 
 ## 2026-07-23 Stage 6 기반 + Preview 원격 검수 JSON
@@ -77,7 +87,7 @@
 - Day 3·7·15·30 체크인과 지속 관리
 - **3/7/15/30 follow-up lifecycle** (opt-in·due·결정·루틴조정·red-flag·resume/fallback·채널 dry-run · 실발송 미연결)
 - 장기 BeautyProfile 저장·조회·편집 (`/my/profile`) · 체크인 반영 · 서버 API 경계(DRAFT 미적용 시 로컬 fallback)
-- 마스카라·립·샴푸 속성 추천 구조 (실구매 verified SKU 부족 시 속성 예시만)
+- 마스카라·립·샴푸 속성 추천 + **T03 자동화 파이프라인·안전 추천 dry-run** (실구매 verified SKU 부족 시 속성/픽스처 예시만)
 - 체크인 이메일 dry-run / Resend adapter 코드 준비 (실발송 없음)
 - Preview Care admin · 체크인 이메일 테스트 UI 육안 통과
 - 체크인 이메일 큐 Schema A Staging 적용·검증 완료 (Production 미적용)
@@ -86,6 +96,7 @@
 - 재방문 대시보드 · 체크인 스케줄 · Care worker dry-run (WQ-C/D/E)
 - 관리자 제품·성분·검증·카탈로그·사용 가이드·disclosure
 - **Stage 6 기반**: 병원 후보 어댑터·검증 게이트·안내 UI·상담 리드 dry-run·관리자 검수 (실병원 게시 데이터 없음)
+- **T03 제품 자동화**: ingestion 계약·카테고리 확장 fixture dry-run · admin review 링크 (Staging 쓰기 없음)
 
 ## 자동화 안전 상태
 
@@ -94,6 +105,7 @@
 - anon `product_offers` write 권한 0
 - Phase 3.x 사진은 브라우저 임시 object URL만 · Storage 영구 저장 없음 · 랜드마크 좌표 미저장
 - 병원 fixture는 `fixtureOnly` · 사용자 publishable 목록 비움
+- 제품 자동화 fixture는 `liveVerified=false` · `recommendation_ready` 미부여
 
 ## 현재 진행 단계
 
@@ -121,7 +133,7 @@
 
 ## 다음 작업
 
-Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T03)
+Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T04)
 
 1. 공식 병원 후보 실출처 승인 후 dry-run→검수→publishable 전환 (가짜 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수)
@@ -131,6 +143,7 @@ Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T03)
 6. (승인 대기) 사진 비교 Staging migration · `care-photos`
 7. (승인 대기) BeautyProfile Staging migration · `beauty_profiles`
 8. (승인 후) 권장 커밋 분할·feature push
+9. (외부) 제품 자동화 live 공식 출처·verified 구매 SKU 검수
 
 ## 승인 경계
 
