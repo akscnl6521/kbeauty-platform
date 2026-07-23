@@ -6,9 +6,21 @@
 
 ## 현재 단계
 
-**단계 5 리텐션 + Phase 3.0 수동 촬영(기본)** · Phase 3.1 deferred · WQ-G · **WQG-P0-001/P1-002 완료** · WQG-P0-002=`RELEASE_GATE_PENDING`
+**단계 6 피부과 기반(코드) + 단계 5 리텐션 + Phase 3.0 수동 촬영** · Phase 3.1 deferred · WQ-G · WQG-P0-002=`RELEASE_GATE_PENDING` · 공식 병원 실데이터는 미연결
 
 ## 완료
+
+### 최상위 실행 명세 기반 확장 (2026-07-23)
+
+- [x] 장기 BeautyProfile 계약과 기존 Care 로컬 저장 흐름 연결
+- [x] 사용자 확인값/추론값 우선순위 및 구형 V1 스냅샷 fallback
+- [x] BeautyProfile 조회·편집 UI (`/my/profile`)
+- [x] 도메인 문진 → BeautyProfile 누적
+- [x] 전체 beauty taxonomy의 기기·구강·규제·전문가용 분리
+- [x] 공통 제품/규제/추천 적격/상업 메타데이터 계약
+- [x] 증상별 피부과·두피·알레르기·치과·응급 라우팅 (symptomSafety 실연결)
+- [x] 마스카라·립·샴푸 기존 category-specific 랭커와 새 taxonomy 회귀 검증
+- [x] Master execution queue 문서화 (`docs/MASTER_EXECUTION_QUEUE.md`)
 
 ### 플랫폼 핵심 사용자 여정
 
@@ -57,7 +69,7 @@
 - [x] 빈 상태·오류 상태·모바일 대응
 - [x] 자체 테스트와 CI·빌드 검증
 - [ ] 실제 Preview 로그인 화면 육안 검수
-- [ ] Preview 원격 검수 JSON 전달 경로 연결
+- [x] Preview 원격 검수 JSON 전달 경로 연결 (공개 artifact 라우트 + VERCEL_URL 자동 · 대시보드 URL 설정은 선택)
 
 ## 지금 진행할 작업
 
@@ -77,15 +89,16 @@
 - [x] 단계 4 본기능 코드·자동 테스트·Staging build 검증 완료
 - [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함)
 - [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수
-- [ ] Preview 원격 검수 JSON 경로 연결
+- [x] Preview 원격 검수 JSON 경로 연결 (코드·fixture·자동 Preview 경로)
 
 ## 다음 작업
 
-1. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
-2. P1-006 개인정보 전송 범위 정책·법무 최종 검수
-3. **WQG-P0-002** `RELEASE_GATE_PENDING` — Production 배포 직전 `AI_PROVIDER` 확인 (지금 미실행 · 키 미기록)
-4. Phase 3.1 자동 정렬은 **보류** 유지
-5. (승인 대기) 사진 비교 Staging migration · `care-photos`
+1. 공식 병원 실출처 승인 수집 → 관리자 검수 → publishable (fixture 게시 금지)
+2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
+3. P1-006 개인정보 전송 범위 정책·법무 최종 검수
+4. **WQG-P0-002** `RELEASE_GATE_PENDING` — Production 배포 직전 `AI_PROVIDER` 확인 (지금 미실행 · 키 미기록)
+5. Phase 3.1 자동 정렬은 **보류** 유지
+6. (승인 대기) 사진 비교 Staging migration · `care-photos`
 
 ### 단계 5 — 리텐션 보강
 
@@ -127,12 +140,14 @@
 
 ### 단계 6 — 증상 기반 피부과 실제 데이터
 
-- [ ] 공식 병원 후보 수집
-- [ ] 증상 태그별 근거 검수
-- [ ] 의료진·진료시간·주소·예약 URL 검증
-- [ ] 거리·언어·예산 필터
-- [ ] 제휴 병원 명확한 표시
-- [ ] 상담 리드 최소정보 동의 흐름
+- [x] 공식 병원 후보 수집 어댑터·fixture·dry-run/live_blocked (실출처 미연결)
+- [x] 증상 태그·필드 검증·관리자 검수 게이트 (실데이터 검수 대기)
+- [x] 진료시간·주소·예약 URL·언어 필드 검증 구조
+- [x] 거리·언어·예산 필터
+- [x] 제휴 병원 Organic 분리 표시 (`/my/guidance` · `/admin/clinics`)
+- [x] 상담 리드 최소정보 동의 흐름 (dry-run only · DB 미저장)
+- [ ] 공식 병원 실데이터 수집·사람 최종 검수 후 publishable 전환
+- [ ] 상담 리드 실전달 채널 (승인 후)
 
 ### 단계 7 — 수익화
 

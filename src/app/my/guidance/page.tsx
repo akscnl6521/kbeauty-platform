@@ -14,6 +14,7 @@ import {
   ANALYZE_INPUT_SNAPSHOT_KEY,
   type AnalyzeInputSnapshot,
 } from "@/lib/ai/analyzeInputSnapshot";
+import { ClinicReferralPanel } from "@/components/clinic/ClinicReferralPanel";
 
 type RankedItem = {
   id?: string;
@@ -208,9 +209,16 @@ export default function CareGuidancePage() {
             <p className="mt-2 text-sm leading-relaxed text-blue-950">
               {guidance.clinicMessage}
             </p>
+            {guidance.professionalRoutes.length > 0 || guidance.clinicMode !== "none" ? (
+              <ClinicReferralPanel
+                routes={guidance.professionalRoutes}
+                clinicMode={guidance.clinicMode}
+              />
+            ) : null}
             {guidance.clinicMode !== "none" ? (
               <p className="mt-3 text-xs text-blue-800">
                 실제 병원 목록은 공식 정보·전문 증상·거리·운영 상태 검증이 끝난 후보만 노출합니다.
+                제휴 병원은 Organic 안내와 분리 표시합니다.
               </p>
             ) : null}
           </section>

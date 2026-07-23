@@ -1,4 +1,8 @@
 import type { Recommendation } from "@/lib/recommend";
+import {
+  routeProfessionalGuidance,
+  type SymptomArea,
+} from "@/lib/care/professionalRouting";
 import type { RednessObservation } from "./rednessObservation";
 import type { AnalyzeSkinRequest, ConcernObservation, RedFlag } from "./types";
 
@@ -120,6 +124,55 @@ function observations(input: AnalyzeSkinRequest): ConcernObservation[] {
   return fallback ? [fallback] : [];
 }
 
+function mapConcernToSymptomArea(concern: string): SymptomArea | null {
+  const c = concern.toLowerCase();
+  if (/여드름|acne|트러블|breakout/.test(c)) return "acne";
+  if (/붉은|홍조|redness|혈관|flush/.test(c)) return "redness_vascular";
+  if (/민감|sensitive|자극/.test(c)) return "sensitivity";
+  if (/색소|기미|잡티|pigment|melasma|dark.?spot/.test(c)) return "pigmentation";
+  if (/흉터|scar/.test(c)) return "scarring";
+  if (/알레르기|allergy|알러지/.test(c)) return "allergy";
+  if (/탈모|두피|hair.?loss|scalp|비듬/.test(c)) return "hair_loss_scalp_inflammation";
+  if (/손톱|nail/.test(c)) return "nail_change";
+  if (/치아|구강|oral|smile|whitening/.test(c)) return "oral_smile";
+  return null;
+}
+
+function buildProfessionalRoutes(
+  rows: ConcernObservation[],
+  redFlags: RedFlag[],
+  hasSevereWorsening: boolean,
+  hasSeverePersistent: boolean
+) {
+  const areas = unique(
+    rows
+      .map((row) => mapConcernToSymptomArea(row.concern))
+      .filter((area): area is SymptomArea => area != null)
+  );
+  if (areas.length === 0 && redFlags.length > 0) {
+    areas.push(
+      redFlags.includes("systemic_allergy") || redFlags.includes("breathing_difficulty")
+        ? "allergy"
+        : "sudden_change"
+    );
+  }
+  if (areas.length === 0 && (hasSevereWorsening || hasSeverePersistent)) {
+    areas.push("prolonged_non_improvement");
+  }
+
+  return routeProfessionalGuidance({
+    areas,
+    pain: redFlags.includes("pain"),
+    bleeding: redFlags.includes("bleeding"),
+    discharge: redFlags.includes("oozing"),
+    severeInflammation: hasSevereWorsening || hasSeverePersistent,
+    spreadingRash: redFlags.includes("spreading_rash"),
+    breathingDifficulty: redFlags.includes("breathing_difficulty"),
+    suspectedInfection: redFlags.includes("suspected_infection"),
+    suddenWorsening: hasSevereWorsening || redFlags.includes("rapid_swelling"),
+  });
+}
+
 /**
  * 사용자 자가 보고 위험 신호를 추천 결과에 반영한다.
  * 진단을 수행하지 않으며, 위험 신호가 있으면 상업적 제품 노출보다
@@ -151,6 +204,16 @@ export function applySymptomSafetyToRecommendation(
   const flagReasons = redFlags.map(
     (flag) => `${RED_FLAG_LABELS[flag]} 증상이 사용자 입력에 포함됨`
   );
+  const professionalRoutes = buildProfessionalRoutes(
+    rows,
+    redFlags,
+    hasSevereWorsening,
+    hasSeverePersistent
+  );
+  const routeReasons = professionalRoutes.map(
+    (route) =>
+      `${route.professionalType} · ${route.urgency} · ${route.reason}`
+  );
 
   if (hasUrgentFlag) {
     return {
@@ -158,8 +221,10 @@ export function applySymptomSafetyToRecommendation(
       managementLevel: "urgent_check",
       recommendedIngredients: [],
       manageableWithCosmetics: [],
+      professionalRoutes,
       expertReferralReasons: appendUnique(recommendation.expertReferralReasons, [
         ...flagReasons,
+        ...routeReasons,
         "화장품 추천보다 신속한 의료기관 확인이 우선입니다.",
       ]),
       precautions: appendUnique(recommendation.precautions, [
@@ -176,8 +241,10 @@ export function applySymptomSafetyToRecommendation(
     managementLevel: "expert_first",
     recommendedIngredients: [],
     manageableWithCosmetics: [],
+    professionalRoutes,
     expertReferralReasons: appendUnique(recommendation.expertReferralReasons, [
       ...flagReasons,
+      ...routeReasons,
       ...(hasSevereWorsening
         ? ["심한 증상이 악화되고 있어 전문가 상담을 우선하는 것이 안전합니다."]
         : []),

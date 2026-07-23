@@ -4,6 +4,7 @@ import Link from "next/link";
 
 const LINKS = [
   { href: "/my", label: "오늘" },
+  { href: "/my/profile", label: "프로필" },
   { href: "/my/routine", label: "루틴" },
   { href: "/my/check-ins", label: "체크인" },
   { href: "/my/progress", label: "변화" },

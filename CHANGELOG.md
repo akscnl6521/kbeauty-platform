@@ -6,6 +6,38 @@
 
 ## 2026-07-23
 
+### Stage 6 기반 — 병원 후보·안내 UI·상담 리드 dry-run + Preview 원격 검수 JSON
+
+- 병원 후보 수집 어댑터(fixture/dry_run/live_blocked), 필드 검증·게시 게이트, 언어·예산 필터
+- `/my/guidance`에 Organic/제휴 분리 병원 카드 + 상담 리드 최소동의 dry-run API 연결
+- 관리자 `/admin/clinics` 읽기 전용 검수 · fixture 게시 불가
+- Preview 원격 검수 JSON: `/api/public/unified-review-manifest` · `VERCEL_URL` 자동 · 로컬 fixture
+- Docs: `docs/clinic-stage6-referral.md`
+- Tests: `test:clinic-stage6` · `test:clinic-referral` · `test:unified-review-remote`
+- 공식 병원 실데이터·실리드 전달·Preview 육안·Production 미실행 · commit/push 없음
+
+### Master execution — 프로필 UI·전문가 라우팅 실연결·큐 완료
+
+- `/my/profile`에서 장기 BeautyProfile 조회·확인값 편집 (확인값 > 추론값)
+- 마스카라·립·베이스·헤어 도메인 문진 완료 시 BeautyProfile 누적
+- `applySymptomSafetyToRecommendation`이 `routeProfessionalGuidance`를 호출해 `professionalRoutes`를 추천·`/my/guidance`에 표시
+- 급성 신호 시 `productRecommendationAllowed=false`로 제품 추천 중단 명시
+- `docs/MASTER_EXECUTION_QUEUE.md` 실행 큐 Q01–Q15·Q19 완료 · Q16–Q18 외부/승인 차단
+- 빈 Supabase public env에서도 legacy client가 빌드 수집 단계에서 즉시 throw하지 않도록 placeholder 가드
+- Tests: master-execution · symptom-safety · care-guidance · full-beauty · journey · commercial-separation · checkin-scheduling · 변경 ESLint · production build(Staging public env) — **통과**
+- Preview/실기기/공식 병원·offer 실데이터/Production 미검증 · commit/push/main/Production 미실행
+
+### Master execution — 장기 프로필·전체 taxonomy·안전 게이트
+
+- 장기 `BeautyProfile`을 추가하고 기존 분석 세션 저장 시 국가/피부/민감도/고민/성분/톤을 교차 세션으로 누적
+- 사용자 확인값과 추론값을 명시적으로 분리하고 확인값 우선 병합
+- 공통 제품 모델에 규제 분류, 추천 적격, category attributes, variant/source/duplicate/reformulation, refresh와 상업 메타데이터 분리
+- taxonomy에 beauty devices, oral/smile beauty, regulated wellness, professional products 추가
+- 증상 기반 피부과·두피/탈모·알레르기·치과·응급 분기와 급성 신호 제품추천 중단 정책 추가
+- Node 24/CJS에서 실행되지 않던 catalog autopilot self-test의 top-level await를 async entry로 수정
+- `test:master-execution` 추가; 기존 full-beauty, journey, symptom safety, commercial separation, refresh, usage media, check-in 일정 회귀 통과
+- DB migration·외부 API·Production·main 변경 없음
+
 ### WQG-P1-002 — 카메라·landmark 동적 로딩
 
 - `GuidedCaptureFlow`의 `CameraCapturePanel` 런타임 정적 import를 `next/dynamic` 클라이언트 청크로 분리

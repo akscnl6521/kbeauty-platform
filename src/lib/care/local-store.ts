@@ -35,6 +35,13 @@ import {
   defaultCareUserSettings,
   normalizeCareUserSettings,
 } from "@/lib/care/settingsDefaults";
+import {
+  applyConfirmedProfilePatch,
+  applyProfileObservation,
+  createEmptyBeautyProfile,
+  observationFromDomainQuiz,
+  type ConfirmedProfilePatch,
+} from "@/lib/profile";
 
 export const CARE_STORAGE_KEY = "kbeautyCareStoreV1";
 
@@ -58,6 +65,7 @@ export function emptyCareStore(timezone = "Asia/Seoul"): CareStoreSnapshot {
     feedback: [],
     settings: defaultSettings(timezone),
     routineAdjustmentHistory: [],
+    beautyProfile: createEmptyBeautyProfile(),
     updatedAt: new Date().toISOString(),
   };
 }
@@ -74,6 +82,7 @@ export function loadCareStore(): CareStoreSnapshot {
       checkIns: refreshCheckInStatuses(dedupeCheckInsByDay(parsed.checkIns ?? [])),
       settings: normalizeCareUserSettings(parsed.settings, parsed.settings?.timezone || "Asia/Seoul"),
       routineAdjustmentHistory: parsed.routineAdjustmentHistory ?? [],
+      beautyProfile: parsed.beautyProfile ?? createEmptyBeautyProfile(parsed.updatedAt),
     };
   } catch {
     return emptyCareStore();
@@ -198,6 +207,31 @@ export function saveAnalysisSessionFromLocalRecommendation(input: {
       store.notifications,
       dueNotes,
       checkIns
+    ),
+    beautyProfile: applyProfileObservation(
+      store.beautyProfile ?? createEmptyBeautyProfile(session.createdAt),
+      {
+        source: "user_confirmed",
+        recordedAt: session.createdAt,
+        country: session.country,
+        timezone: session.timezone,
+        ageBand: session.ageBand,
+        budgetBand: session.budgetBand,
+        skinType: session.skinType,
+        sensitivity: session.sensitivity,
+        concerns: session.concerns,
+        undertone: session.undertone,
+        toneDepth: session.toneDepth,
+        allergies: session.allergyIngredients,
+        avoidedIngredients: session.avoidedIngredients,
+        recommendedIngredients: Array.isArray(input.recommendation.recommendedIngredients)
+          ? input.recommendation.recommendedIngredients.filter(
+              (value): value is string => typeof value === "string"
+            )
+          : [],
+        redFlags: session.dermatologyHints,
+        goals: session.concerns,
+      }
     ),
   };
   saveCareStore(next);
@@ -410,6 +444,44 @@ export function undoLastCheckinRoutineAdjustment(
     ),
     checkIns: record.beforeCheckIns ?? store.checkIns,
     routineAdjustmentHistory: nextHistory,
+  };
+  saveCareStore(next);
+  return next;
+}
+
+/** Persist user-confirmed BeautyProfile edits (local care store). */
+export function updateBeautyProfileConfirmed(
+  patch: ConfirmedProfilePatch
+): CareStoreSnapshot {
+  const store = loadCareStore();
+  const next: CareStoreSnapshot = {
+    ...store,
+    beautyProfile: applyConfirmedProfilePatch(
+      store.beautyProfile ?? createEmptyBeautyProfile(),
+      patch
+    ),
+  };
+  saveCareStore(next);
+  return next;
+}
+
+/** Merge domain quiz answers into the long-term BeautyProfile. */
+export function applyDomainQuizToBeautyProfile(input: {
+  domain: string;
+  answers: Record<string, string>;
+  completedAt?: string;
+}): CareStoreSnapshot {
+  const store = loadCareStore();
+  const next: CareStoreSnapshot = {
+    ...store,
+    beautyProfile: applyProfileObservation(
+      store.beautyProfile ?? createEmptyBeautyProfile(input.completedAt),
+      observationFromDomainQuiz({
+        domain: input.domain,
+        answers: input.answers,
+        recordedAt: input.completedAt,
+      })
+    ),
   };
   saveCareStore(next);
   return next;

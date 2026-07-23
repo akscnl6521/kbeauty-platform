@@ -22,6 +22,10 @@ export const BEAUTY_DOMAINS = [
   "nail_care",
   "fragrance",
   "beauty_tools",
+  "beauty_devices",
+  "oral_smile_beauty",
+  "regulated_wellness",
+  "professional_products",
   "other",
 ] as const;
 
@@ -247,7 +251,51 @@ export const BEAUTY_TOOLS_CATEGORIES = [
   "eyelash_curler",
   "hair_brush",
   "scalp_brush",
-  "beauty_device",
+  "beauty_storage",
+  "tool_cleaner",
+] as const;
+
+export const BEAUTY_DEVICE_CATEGORIES = [
+  "led_mask",
+  "galvanic_device",
+  "rf_device",
+  "ultrasound_device",
+  "microcurrent_device",
+  "cleansing_device",
+  "pore_suction_device",
+  "skin_meter",
+  "hair_dryer",
+  "hair_iron",
+  "hair_styler",
+  "scalp_massager",
+  "electric_shaver",
+  "epilator",
+  "nail_drill",
+  "heated_lash_curler",
+  "device_consumable",
+] as const;
+
+export const ORAL_SMILE_BEAUTY_CATEGORIES = [
+  "whitening_toothpaste",
+  "breath_care",
+  "whitening_strip",
+  "stain_care",
+] as const;
+
+/** Never eligible for an ordinary cosmetics recommendation without a separate gate. */
+export const REGULATED_WELLNESS_CATEGORIES = [
+  "inner_beauty",
+  "beauty_supplement",
+  "beauty_food",
+  "color_contact_lens",
+  "medical_device_candidate",
+] as const;
+
+export const PROFESSIONAL_PRODUCT_CATEGORIES = [
+  "salon_chemical",
+  "esthetic_professional_product",
+  "professional_peel",
+  "professional_hair_chemical",
 ] as const;
 
 export const DOMAIN_CATEGORIES: Record<BeautyDomain, readonly string[]> = {
@@ -269,6 +317,10 @@ export const DOMAIN_CATEGORIES: Record<BeautyDomain, readonly string[]> = {
   nail_care: NAIL_CARE_CATEGORIES,
   fragrance: FRAGRANCE_CATEGORIES,
   beauty_tools: BEAUTY_TOOLS_CATEGORIES,
+  beauty_devices: BEAUTY_DEVICE_CATEGORIES,
+  oral_smile_beauty: ORAL_SMILE_BEAUTY_CATEGORIES,
+  regulated_wellness: REGULATED_WELLNESS_CATEGORIES,
+  professional_products: PROFESSIONAL_PRODUCT_CATEGORIES,
   other: [],
 };
 

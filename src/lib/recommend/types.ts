@@ -104,6 +104,16 @@ export interface Recommendation {
   precautions?: string[];
   notRecommendedReasons?: string[];
   expertReferralReasons?: string[];
+  /**
+   * Symptom-based professional routing (non-diagnostic).
+   * Separate from affiliate/sponsored clinic placements.
+   */
+  professionalRoutes?: Array<{
+    professionalType: string;
+    urgency: string;
+    reason: string;
+    productRecommendationAllowed: boolean;
+  }>;
   summaryKo?: string;
   summaryEn?: string;
   summaryJa?: string;

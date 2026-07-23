@@ -1,0 +1,8 @@
+{
+  "generatedAt": "2026-07-23T00:00:00.000Z",
+  "mode": "fixture",
+  "publishAllowed": false,
+  "databaseTouched": false,
+  "productionTouched": false,
+  "note": "Fixture-only clinic seeds. Never auto-publish. See src/lib/clinic/clinicCollection.ts."
+}

@@ -265,5 +265,7 @@ export type CareStoreSnapshot = {
   settings: CareUserSettings;
   /** Optional local history for check-in routine adjustments / undo. */
   routineAdjustmentHistory?: CareRoutineAdjustmentRecord[];
+  /** Durable cross-session profile; optional for backward-compatible V1 snapshots. */
+  beautyProfile?: import("@/lib/profile").BeautyProfile;
   updatedAt: string;
 };

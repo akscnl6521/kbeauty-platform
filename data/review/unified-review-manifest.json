@@ -1,0 +1,35 @@
+{
+  "generatedAt": "2026-07-23T00:00:00.000Z",
+  "mode": "artifact_only",
+  "publishAllowed": false,
+  "databaseTouched": false,
+  "productionTouched": false,
+  "sourcePresence": {
+    "catalogRefresh": true,
+    "catalogException": false,
+    "clinicPlan": true
+  },
+  "items": [
+    {
+      "id": "fixture-clinic-review-1",
+      "source": "clinic_review",
+      "priority": "high",
+      "title": "[FIXTURE] 병원 후보 필드 검수 필요",
+      "payload": {
+        "clinicId": "fixture-incomplete-directory",
+        "reasonCodes": ["address_missing", "operating_hours_missing", "evidence_missing"],
+        "publishAllowed": false
+      }
+    },
+    {
+      "id": "fixture-catalog-refresh-1",
+      "source": "catalog_refresh",
+      "priority": "medium",
+      "title": "[FIXTURE] 카탈로그 갱신 예시 항목",
+      "payload": {
+        "productId": "fixture-product",
+        "publishAllowed": false
+      }
+    }
+  ]
+}
