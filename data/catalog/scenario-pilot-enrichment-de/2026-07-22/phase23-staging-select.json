@@ -1,0 +1,59 @@
+﻿{
+  "ref": "jfnj***gfd",
+  "products": [
+    {
+      "id": 25,
+      "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+      "brand": "Beauty of Joseon",
+      "name": "Green Plum Refreshing Toner AHA + BHA",
+      "name_ko": "泥?ℓ??AHA BHA ?좊꼫",
+      "active": true,
+      "verified_at": "2026-07-22T09:59:51.9+00:00",
+      "key_ingredients": [
+        "Glycerin",
+        "Glycolic Acid",
+        "Salicylic Acid"
+      ]
+    },
+    {
+      "id": 26,
+      "slug": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "brand": "haruharu wonder",
+      "name": "Black Rice Hyaluronic Toner",
+      "name_ko": "釉붾옓?쇱씠???덉븣猷⑤줈???좊꼫",
+      "active": true,
+      "verified_at": "2026-07-22T09:59:54.819+00:00",
+      "key_ingredients": [
+        "Glycerin",
+        "Hyaluronic Acid",
+        "Beta-glucan"
+      ]
+    }
+  ],
+  "offers": [
+    {
+      "id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+      "product_id": 25,
+      "retailer_name": "議곗꽑誘몃? 怨듭떇紐?,
+      "retailer_country": "KR",
+      "ships_to_countries": [
+        "KR"
+      ],
+      "purchase_url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/",
+      "price": 18000,
+      "currency": "KRW",
+      "stock_status": "out_of_stock",
+      "verification_status": "unverified",
+      "is_official": true,
+      "verified_at": null,
+      "last_checked_at": "2026-07-22T10:03:29.472+00:00",
+      "active": true,
+      "rating": null,
+      "review_count": null,
+      "source": "[phase22-missing-slug-2026-07-22] 怨듭떇紐?SOLD OUT ?뺤씤",
+      "last_review_sync_at": null,
+      "created_at": "2026-07-22T10:03:32.886488+00:00",
+      "updated_at": "2026-07-22T10:03:32.886488+00:00"
+    }
+  ]
+}

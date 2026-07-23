@@ -1,0 +1,497 @@
+{
+  "ok": true,
+  "phase": "2.2-dry-run-current-SELECT_ONLY",
+  "branch_expected": "feature/recommendation-usage-guide-display-20260720",
+  "projectRef": "jfnj***gfd",
+  "productionWrite": 0,
+  "mode": "SELECT_ONLY_NO_WRITE",
+  "masterPlan": "MASTER_PLAN.md v4.2",
+  "scope": "exactly 6 A/B/C missing-slug targets",
+  "summary": {
+    "product_insert": 0,
+    "product_update_enrich": 6,
+    "product_skip_ok": 1,
+    "media_insert": 0,
+    "media_skip_ok": 6,
+    "offer_insert": 0,
+    "offer_hold_or_oos": 5,
+    "offer_ok": 1,
+    "ingredient_link": 6,
+    "ingredient_ok": 6
+  },
+  "totals": {
+    "targets": 6,
+    "existing_rows": 6,
+    "missing_rows": 0,
+    "core_kr_offer_ready": 1,
+    "recommendation_ready_candidate": 1
+  },
+  "conflicts": [],
+  "blockers": [
+    {
+      "slug": "round-lab-dokdo-cream",
+      "readiness_expected": "offer_missing_or_oos",
+      "offer_action": "keep_oos_or_hold_no_fake_instock"
+    },
+    {
+      "slug": "torriden-dive-in-serum",
+      "readiness_expected": "offer_missing",
+      "offer_action": "hold_until_kr_instock_url"
+    },
+    {
+      "slug": "skin1004-madagascar-centella-ampoule",
+      "readiness_expected": "offer_missing",
+      "offer_action": "hold_until_kr_instock_url"
+    },
+    {
+      "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+      "readiness_expected": "offer_missing_or_oos",
+      "offer_action": "keep_oos_or_hold_no_fake_instock"
+    },
+    {
+      "slug": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "readiness_expected": "offer_missing",
+      "offer_action": "hold_until_kr_instock_url"
+    }
+  ],
+  "plans": [
+    {
+      "slug": "aestura-atobarrier365-cream",
+      "scenarios": [
+        "A",
+        "B"
+      ],
+      "exists": true,
+      "existingId": 21,
+      "current": {
+        "brand": "AESTURA",
+        "name": "Atobarrier 365 Cream",
+        "name_ko": "아토베리어365 크림",
+        "category": "cream",
+        "active": true,
+        "verified_at": "2026-07-22T09:59:38.119+00:00",
+        "key_count": 7,
+        "full_count": 45,
+        "ingredient_links": 45,
+        "media_count": 1,
+        "verified_primary_media": true,
+        "offers": [
+          {
+            "id": "e222667d-61d7-4530-a200-449ec922b8de",
+            "seller": "아모레몰",
+            "country": "KR",
+            "price": 52800,
+            "currency": "KRW",
+            "stock": "in_stock",
+            "verification": "verified",
+            "official": true,
+            "active": true,
+            "checked_at": "2026-07-22T09:59:38.119+00:00",
+            "core_eligible": true
+          }
+        ],
+        "core_kr_offer_count": 1
+      },
+      "planned": {
+        "product_action": "update_enrich_only_if_gap",
+        "media_action": "skip_media_ok",
+        "offer_action": "skip_core_offer_ok",
+        "ingredient_action": "skip_keys_and_links_ok",
+        "canonical_brand": "AESTURA",
+        "normalized_name": "Atobarrier 365 Cream",
+        "name_ko": "아토베리어365 크림",
+        "category": "cream",
+        "volume_variant": "80ml",
+        "kr_identity": "KR · 아토베리어365 크림 · 80ml",
+        "active": true,
+        "verification_status_note": "products.verified_at already set on existing rows; do not auto-publish beyond current stage",
+        "key_ingredients_planned": [
+          "GLYCERIN",
+          "SQUALANE",
+          "CHOLESTEROL",
+          "ALLANTOIN",
+          "NIACINAMIDE",
+          "CERAMIDE NP",
+          "TOCOPHEROL"
+        ],
+        "caution": [],
+        "source_urls": {
+          "official": "https://int.aestura.com/products/atobarrier365-cream",
+          "image_source": "https://int.aestura.com/products/atobarrier365-cream",
+          "ingredient_evidence": "https://int.aestura.com/products/atobarrier365-cream"
+        },
+        "source_evidence": {
+          "ingredientStatus_artifact": "verified",
+          "evidence_channel": "official_brand",
+          "evidence_status": "source_verified_candidate",
+          "image_trust": "A",
+          "note": "해외 공식 INCI는 KR 근거 보강 전 reference/source_verified_candidate 취급. 단일 일반 판매자만으로 recommendation_ready 금지."
+        },
+        "representative_image": "https://cdn.shopify.com/s/files/1/0723/3775/2306/files/1_Atobarrier365-Cream_thumbnail_Product-80ml__1200x1200_961c8e7e-0afb-48bd-bea7-d47f285ab4d4.png?v=1734030421"
+      },
+      "missing_fields": [],
+      "duplicate_candidates": [],
+      "readiness_expected": "recommendation_ready_candidate",
+      "rollback": "기존 id=21는 DELETE 금지. 이번 write에서 추가한 offer/media만 active=false 또는 validation 유지."
+    },
+    {
+      "slug": "round-lab-dokdo-cream",
+      "scenarios": [
+        "A",
+        "B"
+      ],
+      "exists": true,
+      "existingId": 22,
+      "current": {
+        "brand": "ROUND LAB",
+        "name": "Dokdo Cream",
+        "name_ko": "1025 독도 크림",
+        "category": "cream",
+        "active": true,
+        "verified_at": "2026-07-22T09:59:43.639+00:00",
+        "key_count": 7,
+        "full_count": 44,
+        "ingredient_links": 44,
+        "media_count": 1,
+        "verified_primary_media": true,
+        "offers": [
+          {
+            "id": "2fcb8bde-d3f6-482f-8eca-f0908378bff3",
+            "seller": "ROUND LAB 공식몰",
+            "country": "KR",
+            "price": 25600,
+            "currency": "KRW",
+            "stock": "out_of_stock",
+            "verification": "unverified",
+            "official": true,
+            "active": true,
+            "checked_at": "2026-07-22T10:03:29.472+00:00",
+            "core_eligible": false
+          }
+        ],
+        "core_kr_offer_count": 0
+      },
+      "planned": {
+        "product_action": "update_enrich_only_if_gap",
+        "media_action": "skip_media_ok",
+        "offer_action": "keep_oos_or_hold_no_fake_instock",
+        "ingredient_action": "skip_keys_and_links_ok",
+        "canonical_brand": "ROUND LAB",
+        "normalized_name": "Dokdo Cream",
+        "name_ko": "1025 독도 크림",
+        "category": "cream",
+        "volume_variant": "80ml",
+        "kr_identity": "KR · 1025 독도 크림 · 80ml",
+        "active": true,
+        "verification_status_note": "products.verified_at already set on existing rows; do not auto-publish beyond current stage",
+        "key_ingredients_planned": [
+          "Glycerin",
+          "Hyaluronic Acid",
+          "Ceramide AP",
+          "Allantoin",
+          "Panthenol",
+          "Beta-Glucan",
+          "Cholesterol"
+        ],
+        "caution": [],
+        "source_urls": {
+          "official": "https://roundlab.com/products/1025-dokdo-cream",
+          "image_source": "https://roundlab.com/products/1025-dokdo-cream",
+          "ingredient_evidence": "https://roundlab.com/products/1025-dokdo-cream"
+        },
+        "source_evidence": {
+          "ingredientStatus_artifact": "verified",
+          "evidence_channel": "official_brand",
+          "evidence_status": "source_verified_candidate",
+          "image_trust": "A",
+          "note": "해외 공식 INCI는 KR 근거 보강 전 reference/source_verified_candidate 취급. 단일 일반 판매자만으로 recommendation_ready 금지."
+        },
+        "representative_image": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/1025-dokdo-cream-round-lab-1_66b8271b-613f-4510-82e8-b15abb0f1e37.jpg?v=1772849283"
+      },
+      "missing_fields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicate_candidates": [],
+      "readiness_expected": "offer_missing_or_oos",
+      "rollback": "기존 id=22는 DELETE 금지. 이번 write에서 추가한 offer/media만 active=false 또는 validation 유지."
+    },
+    {
+      "slug": "torriden-dive-in-serum",
+      "scenarios": [
+        "A",
+        "B"
+      ],
+      "exists": true,
+      "existingId": 23,
+      "current": {
+        "brand": "Torriden",
+        "name": "Dive-In Low Molecular Hyaluronic Acid Serum",
+        "name_ko": "다이브인 저분자 히알루론산 세럼",
+        "category": "serum",
+        "active": true,
+        "verified_at": "2026-07-22T09:59:47.528+00:00",
+        "key_count": 8,
+        "full_count": 35,
+        "ingredient_links": 35,
+        "media_count": 1,
+        "verified_primary_media": true,
+        "offers": [],
+        "core_kr_offer_count": 0
+      },
+      "planned": {
+        "product_action": "update_enrich_only_if_gap",
+        "media_action": "skip_media_ok",
+        "offer_action": "hold_until_kr_instock_url",
+        "ingredient_action": "skip_keys_and_links_ok",
+        "canonical_brand": "Torriden",
+        "normalized_name": "Dive-In Low Molecular Hyaluronic Acid Serum",
+        "name_ko": "다이브인 저분자 히알루론산 세럼",
+        "category": "serum",
+        "volume_variant": "50ml",
+        "kr_identity": "KR · 다이브인 저분자 히알루론산 세럼 · 50ml",
+        "active": true,
+        "verification_status_note": "products.verified_at already set on existing rows; do not auto-publish beyond current stage",
+        "key_ingredients_planned": [
+          "Glycerin",
+          "Panthenol",
+          "Sodium Hyaluronate",
+          "Allantoin",
+          "Madecassoside",
+          "Ceramide NP",
+          "Beta-Glucan",
+          "Cholesterol"
+        ],
+        "caution": [],
+        "source_urls": {
+          "official": "https://torriden.us/products/dive-in-serum",
+          "image_source": "https://torriden.us/products/dive-in-serum",
+          "ingredient_evidence": "https://torriden.us/products/dive-in-serum"
+        },
+        "source_evidence": {
+          "ingredientStatus_artifact": "verified",
+          "evidence_channel": "official_brand",
+          "evidence_status": "source_verified_candidate",
+          "image_trust": "A",
+          "note": "해외 공식 INCI는 KR 근거 보강 전 reference/source_verified_candidate 취급. 단일 일반 판매자만으로 recommendation_ready 금지."
+        },
+        "representative_image": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/DIVEINSerum1_631ac0e3-a77b-422a-a806-bf34477cac19.jpg?v=1753346213"
+      },
+      "missing_fields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicate_candidates": [],
+      "readiness_expected": "offer_missing",
+      "rollback": "기존 id=23는 DELETE 금지. 이번 write에서 추가한 offer/media만 active=false 또는 validation 유지."
+    },
+    {
+      "slug": "skin1004-madagascar-centella-ampoule",
+      "scenarios": [
+        "B"
+      ],
+      "exists": true,
+      "existingId": 24,
+      "current": {
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Ampoule",
+        "name_ko": "마다가스카르 센텔라 앰플",
+        "category": "ampoule",
+        "active": true,
+        "verified_at": "2026-07-22T09:59:51.062+00:00",
+        "key_count": 2,
+        "full_count": 7,
+        "ingredient_links": 7,
+        "media_count": 1,
+        "verified_primary_media": true,
+        "offers": [],
+        "core_kr_offer_count": 0
+      },
+      "planned": {
+        "product_action": "update_enrich_only_if_gap",
+        "media_action": "skip_media_ok",
+        "offer_action": "hold_until_kr_instock_url",
+        "ingredient_action": "skip_keys_and_links_ok",
+        "canonical_brand": "SKIN1004",
+        "normalized_name": "Madagascar Centella Ampoule",
+        "name_ko": "마다가스카르 센텔라 앰플",
+        "category": "ampoule",
+        "volume_variant": "100ml",
+        "kr_identity": "KR · 마다가스카르 센텔라 앰플 · 100ml",
+        "active": true,
+        "verification_status_note": "products.verified_at already set on existing rows; do not auto-publish beyond current stage",
+        "key_ingredients_planned": [
+          "Glycerin",
+          "Centella Asiatica Extract"
+        ],
+        "caution": [],
+        "source_urls": {
+          "official": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "image_source": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "ingredient_evidence": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule"
+        },
+        "source_evidence": {
+          "ingredientStatus_artifact": "verified",
+          "evidence_channel": "official_brand",
+          "evidence_status": "source_verified_candidate",
+          "image_trust": "A",
+          "note": "해외 공식 INCI는 KR 근거 보강 전 reference/source_verified_candidate 취급. 단일 일반 판매자만으로 recommendation_ready 금지."
+        },
+        "representative_image": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-ampoule-serum-centella-ampoule-1246455500.png?v=1782787571"
+      },
+      "missing_fields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicate_candidates": [],
+      "readiness_expected": "offer_missing",
+      "rollback": "기존 id=24는 DELETE 금지. 이번 write에서 추가한 offer/media만 active=false 또는 validation 유지."
+    },
+    {
+      "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+      "scenarios": [
+        "C"
+      ],
+      "exists": true,
+      "existingId": 25,
+      "current": {
+        "brand": "Beauty of Joseon",
+        "name": "Green Plum Refreshing Toner AHA + BHA",
+        "name_ko": "청매실 AHA BHA 토너",
+        "category": "toner",
+        "active": true,
+        "verified_at": "2026-07-22T09:59:51.9+00:00",
+        "key_count": 3,
+        "full_count": 27,
+        "ingredient_links": 27,
+        "media_count": 1,
+        "verified_primary_media": true,
+        "offers": [
+          {
+            "id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+            "seller": "조선미녀 공식몰",
+            "country": "KR",
+            "price": 18000,
+            "currency": "KRW",
+            "stock": "out_of_stock",
+            "verification": "unverified",
+            "official": true,
+            "active": true,
+            "checked_at": "2026-07-22T10:03:29.472+00:00",
+            "core_eligible": false
+          }
+        ],
+        "core_kr_offer_count": 0
+      },
+      "planned": {
+        "product_action": "update_enrich_only_if_gap",
+        "media_action": "skip_media_ok",
+        "offer_action": "keep_oos_or_hold_no_fake_instock",
+        "ingredient_action": "skip_keys_and_links_ok",
+        "canonical_brand": "Beauty of Joseon",
+        "normalized_name": "Green Plum Refreshing Toner AHA + BHA",
+        "name_ko": "청매실 AHA BHA 토너",
+        "category": "toner",
+        "volume_variant": "150ml",
+        "kr_identity": "KR · 청매실 AHA BHA 토너 · 150ml",
+        "active": true,
+        "verification_status_note": "products.verified_at already set on existing rows; do not auto-publish beyond current stage",
+        "key_ingredients_planned": [
+          "Glycerin",
+          "Glycolic Acid",
+          "Salicylic Acid"
+        ],
+        "caution": [
+          "AHA",
+          "BHA",
+          "glycolic acid",
+          "salicylic acid"
+        ],
+        "source_urls": {
+          "official": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "image_source": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "ingredient_evidence": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha"
+        },
+        "source_evidence": {
+          "ingredientStatus_artifact": "verified",
+          "evidence_channel": "official_brand",
+          "evidence_status": "source_verified_candidate",
+          "image_trust": "A",
+          "note": "해외 공식 INCI는 KR 근거 보강 전 reference/source_verified_candidate 취급. 단일 일반 판매자만으로 recommendation_ready 금지."
+        },
+        "representative_image": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/green-plum-refreshing-toner-aha-bha-1-front.webp?v=1770279162"
+      },
+      "missing_fields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicate_candidates": [],
+      "readiness_expected": "offer_missing_or_oos",
+      "rollback": "기존 id=25는 DELETE 금지. 이번 write에서 추가한 offer/media만 active=false 또는 validation 유지."
+    },
+    {
+      "slug": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "scenarios": [
+        "C"
+      ],
+      "exists": true,
+      "existingId": 26,
+      "current": {
+        "brand": "haruharu wonder",
+        "name": "Black Rice Hyaluronic Toner",
+        "name_ko": "블랙라이스 히알루로닉 토너",
+        "category": "toner",
+        "active": true,
+        "verified_at": "2026-07-22T09:59:54.819+00:00",
+        "key_count": 3,
+        "full_count": 28,
+        "ingredient_links": 28,
+        "media_count": 1,
+        "verified_primary_media": true,
+        "offers": [],
+        "core_kr_offer_count": 0
+      },
+      "planned": {
+        "product_action": "update_enrich_only_if_gap",
+        "media_action": "skip_media_ok",
+        "offer_action": "hold_until_kr_instock_url",
+        "ingredient_action": "skip_keys_and_links_ok",
+        "canonical_brand": "haruharu wonder",
+        "normalized_name": "Black Rice Hyaluronic Toner",
+        "name_ko": "블랙라이스 히알루로닉 토너",
+        "category": "toner",
+        "volume_variant": "150ml",
+        "kr_identity": "KR · 블랙라이스 히알루로닉 토너 · 150ml",
+        "active": true,
+        "verification_status_note": "products.verified_at already set on existing rows; do not auto-publish beyond current stage",
+        "key_ingredients_planned": [
+          "Glycerin",
+          "Hyaluronic Acid",
+          "Beta-glucan"
+        ],
+        "caution": [],
+        "source_urls": {
+          "official": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "image_source": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "ingredient_evidence": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner"
+        },
+        "source_evidence": {
+          "ingredientStatus_artifact": "verified",
+          "evidence_channel": "official_brand",
+          "evidence_status": "source_verified_candidate",
+          "image_trust": "A",
+          "note": "해외 공식 INCI는 KR 근거 보강 전 reference/source_verified_candidate 취급. 단일 일반 판매자만으로 recommendation_ready 금지."
+        },
+        "representative_image": "https://cdn.shopify.com/s/files/1/0707/0190/8217/files/150ml_11e70ee9-f850-4fe7-8e7e-a960590e938d.jpg?v=1751443548"
+      },
+      "missing_fields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicate_candidates": [],
+      "readiness_expected": "offer_missing",
+      "rollback": "기존 id=26는 DELETE 금지. 이번 write에서 추가한 offer/media만 active=false 또는 validation 유지."
+    }
+  ],
+  "rollback_global": [
+    "DELETE/TRUNCATE/schema 변경 금지",
+    "신규 id만 active=false + verified_at=null",
+    "기존 COSRX 등 비대상 제품 변경 금지",
+    "Production ref 절대 미적용"
+  ]
+}
