@@ -2,6 +2,17 @@
 
 최종 갱신: 2026-07-24
 
+## 2026-07-24 P2-T04 · Real data onboarding readiness
+
+- 계약: `src/lib/onboarding/realDataOnboarding/*` (출처 매니페스트·필드 provenance·공식 우선순위·stale/refresh·검수 체크리스트·import 템플릿·dry-run 검증·거절 사유 · KR 제품·병원/전문가)
+- Selftest: `scripts/real-data-onboarding-selftest.ts` · 명령 `npm run test:real-data-onboarding`
+- 비공개 fixture · dry-run 공식 예시만 스테이징 검수 적격 · 마켓 단독/유료 API/CAPTCHA/발명 가격 거절 · `writeAttempted=false` · `publicVisible=false`
+- Docs: `docs/prelaunch/P2-T04_REAL_DATA_ONBOARDING.md`
+- Tests: `test:real-data-onboarding` · `test:autopilot-queue` · 변경 ESLint · `tsc` — **통과**
+- 실공식 KR 제품·실병원 publishable·Staging/Production 쓰기는 **미검증** (`external_only`)
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-24 P2-T03 · Admin review end-to-end verification
 
 - 계약: `src/lib/admin/adminReviewE2E.ts` (제품·병원/전문가 레인 · candidate→evidence→duplicate→needs_review→admin_reviewed→publishable · 공개성 · Organic 독립)
@@ -171,6 +182,8 @@
 - **T06 최종 통합·릴리스 증거**: 여정 연결 계약 · empty/loading a11y · supabase build placeholder · 로컬 자동검증·production build 통과 · Preview/실기기는 external_only
 - **P2-T01 Preview/라우트 자동 검증**: 계약·HTTP/브라우저 러너·스크린샷·JSON · 육안 승인 미주장
 - **P2-T02 Staging 읽기 전용 릴리스 게이트**: 환경 식별·헬스·계약·auth·Storage·게시·migration · Dashboard 미확인 분리
+- **P2-T03 Admin review E2E**: 제품·병원 레인 · fixture 비공개 · Organic 독립 · dry-run
+- **P2-T04 실데이터 온보딩 준비**: 출처 매니페스트·provenance·공식 우선·stale·체크리스트·템플릿·dry-run·거절 사유 · 비공개 fixture
 
 ## 자동화 안전 상태
 

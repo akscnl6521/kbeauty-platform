@@ -28,6 +28,7 @@
 - [x] **P2-T01** Preview/local 라우트 자동 검증 (`test:preview-routes` · `check:preview-routes` · viewport 320/390/768/1440 · 스크린샷 증거 · 육안 승인 미주장)
 - [x] **P2-T02** Staging 읽기 전용 릴리스 게이트 (`test:staging-release-gate` · `check:staging-release-gate` · Dashboard 미확인 분리 · Production 쓰기 없음)
 - [x] **P2-T03** Admin review E2E 검증 (`test:admin-review-e2e` · 제품·병원 레인 · fixture 비공개 · Organic 독립 · dry-run)
+- [x] **P2-T04** 실데이터 온보딩 준비 (`test:real-data-onboarding` · 매니페스트·provenance·공식 우선·stale·체크리스트·템플릿·dry-run·거절 사유 · 비공개 fixture)
 - [x] Master execution queue 문서화 (`docs/autopilot/MASTER_EXECUTION_QUEUE.md` · 계약 `docs/autopilot/EXECUTION_CONTRACT.md`)
 
 ### 플랫폼 핵심 사용자 여정
@@ -102,6 +103,7 @@
 - [x] **P2-T01** 공개·analyze/results/routine·profile/guidance·admin review 라우트 자동 검증 + viewport 스크린샷 파이프라인 (육안 승인 아님)
 - [x] **P2-T02** Staging 읽기 전용 릴리스 게이트 (환경·헬스·계약·auth·Storage·게시·migration · dashboard_only_unknown 정직 분리)
 - [x] **P2-T03** Admin review E2E (후보·근거·중복·needs_review/admin_reviewed/publishable · fixture 비공개 · Organic 독립)
+- [x] **P2-T04** 실데이터 온보딩 준비 (출처 매니페스트·provenance·공식 우선·stale/refresh·검수 체크리스트·import 템플릿·dry-run·거절 사유 · 비공개 fixture · Production 쓰기 없음)
 - [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함)
 - [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수
 - [x] Preview 원격 검수 JSON 경로 연결 (코드·fixture·자동 Preview 경로)
@@ -193,6 +195,8 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 - [x] **T06** 코드 수준 여정 통합·릴리스 증거 문서·로컬 자동검증·production build (Preview/실기기·법무 제외)
 - [x] **P2-T01** Preview/local 라우트·viewport 자동 검증 인프라 (사람 육안은 별도)
 - [x] **P2-T02** Staging 읽기 전용 릴리스 게이트 인프라 (Dashboard 실확인·Production 직전 게이트는 별도)
+- [x] **P2-T03** Admin review E2E 하네스 (사람 Preview 관리자 육안은 별도)
+- [x] **P2-T04** 실데이터 온보딩 준비 계약·dry-run (실공식 데이터·Staging 쓰기는 별도)
 - [ ] 실제 제품·판매처·피부과 데이터 사람 최종 검수
 - [ ] 전체 사용자 여정 Preview 검증
 - [ ] 모바일·접근성·성능 재검증 (실기기)

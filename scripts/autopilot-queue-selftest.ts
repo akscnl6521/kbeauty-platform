@@ -133,9 +133,11 @@ const keyPaths = [
   "docs/prelaunch/P2-T01_PREVIEW_ROUTE_VALIDATION.md",
   "docs/prelaunch/P2-T02_STAGING_RELEASE_GATE.md",
   "docs/prelaunch/P2-T03_ADMIN_REVIEW_E2E.md",
+  "docs/prelaunch/P2-T04_REAL_DATA_ONBOARDING.md",
   "src/lib/release/finalIntegrationEvidence.ts",
   "src/lib/release/stagingReleaseGate.ts",
   "src/lib/admin/adminReviewE2E.ts",
+  "src/lib/onboarding/realDataOnboarding/index.ts",
   "src/lib/validation/previewRouteValidation.ts",
   "KBEAUTY_MASTER_EXECUTION_PROMPT.md",
 ];
@@ -173,6 +175,10 @@ assert.ok(
 assert.ok(
   pkg.includes('"test:admin-review-e2e"'),
   "package.json must define test:admin-review-e2e",
+);
+assert.ok(
+  pkg.includes('"test:real-data-onboarding"'),
+  "package.json must define test:real-data-onboarding",
 );
 assert.ok(
   pkg.includes('"test:organic-commerce"'),

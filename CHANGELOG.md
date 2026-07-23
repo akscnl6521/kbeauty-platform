@@ -6,6 +6,14 @@
 
 ## 2026-07-24
 
+### P2-T04 — Real data onboarding readiness
+
+- 계약: `realDataOnboarding` — 출처 매니페스트·필드 provenance·공식 우선순위·stale/refresh·검수 체크리스트·import 템플릿·dry-run·거절 사유 (KR 제품·병원/전문가)
+- Selftest: `test:real-data-onboarding` · 비공개 fixture · dry-run 공식만 스테이징 검수 적격 · 마켓/유료API/CAPTCHA/발명 거절 · `writeAttempted=false`
+- Docs: `docs/prelaunch/P2-T04_REAL_DATA_ONBOARDING.md`
+- 실공식 KR 제품·실병원 publishable·Staging/Production 쓰기는 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
 ### P2-T03 — Admin review end-to-end verification
 
 - 계약: `adminReviewE2E` — 제품·병원/전문가 레인 · candidate→evidence→duplicate→needs_review→admin_reviewed→publishable · 공개성 · Organic 독립
