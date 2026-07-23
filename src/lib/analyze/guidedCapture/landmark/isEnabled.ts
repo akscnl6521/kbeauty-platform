@@ -1,27 +1,35 @@
 /**
  * Feature flags for Phase 3.1 landmark auto-capture + voice.
  * Not security boundaries.
+ *
+ * Default: landmark auto-capture OFF (manual 3-angle guide).
+ * Set NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE=1 to re-enable deferred auto path.
  */
 
 export function isFaceLandmarkAutoCaptureEnabled(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env
 ): boolean {
-  const raw = (env.NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE ?? "1")
+  const raw = (env.NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE ?? "0")
     .trim()
     .toLowerCase();
-  return raw !== "0" && raw !== "false" && raw !== "off";
+  return raw === "1" || raw === "true" || raw === "on";
 }
 
+/**
+ * Voice countdown only when landmark auto-capture is explicitly ON.
+ * Manual capture path never uses speech countdown by default.
+ */
 export function isCaptureVoiceCountdownEnabled(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env
 ): boolean {
+  if (!isFaceLandmarkAutoCaptureEnabled(env)) return false;
   const raw = (env.NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN ?? "1")
     .trim()
     .toLowerCase();
   return raw !== "0" && raw !== "false" && raw !== "off";
 }
 
-/** Local debug panel auto-open — never default ON for Preview users. */
+/** Local debug panel auto-open — only ?landmarkDebug=1 or explicit env. */
 export function isLandmarkCaptureDebugEnabled(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env
 ): boolean {
@@ -35,7 +43,6 @@ export function isLandmarkCaptureDebugEnabled(
       // ignore
     }
   }
-  // Development: offer toggle, but do not auto-open overlay on the face.
   return false;
 }
 

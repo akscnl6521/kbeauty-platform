@@ -73,7 +73,7 @@ import {
 import { FaceGuideOverlay } from "./FaceGuideOverlay";
 import { LandmarkDebugPanel } from "./LandmarkDebugPanel";
 
-/** Debug panel: URL ?landmarkDebug=1 only for auto-open. Never default ON for Preview users. */
+/** Debug panel: URL ?landmarkDebug=1 only for auto-open. */
 function shouldAutoOpenLandmarkDebug(): boolean {
   if (typeof window === "undefined") return false;
   if (process.env.NEXT_PUBLIC_LANDMARK_CAPTURE_DEBUG === "1") return true;
@@ -85,18 +85,17 @@ function shouldAutoOpenLandmarkDebug(): boolean {
   }
 }
 
-/** Show the debug toggle on Preview/dev (panel itself stays collapsed unless auto-open). */
+/**
+ * Debug toggle only when auto landmark is ON, or developer forces ?landmarkDebug=1.
+ * Default manual path never shows landmark diagnostics to users.
+ */
 function shouldOfferLandmarkDebugToggle(): boolean {
+  if (shouldAutoOpenLandmarkDebug()) return true;
+  if (!isFaceLandmarkAutoCaptureEnabled()) return false;
   if (typeof window === "undefined") return false;
   if (process.env.NODE_ENV === "development") return true;
   if (process.env.NEXT_PUBLIC_VERCEL_ENV === "preview") return true;
-  if (process.env.NEXT_PUBLIC_LANDMARK_CAPTURE_DEBUG === "1") return true;
-  try {
-    return new URLSearchParams(window.location.search).get("landmarkDebug") ===
-      "1";
-  } catch {
-    return false;
-  }
+  return false;
 }
 
 export type CameraCapturePanelProps = {
@@ -197,7 +196,7 @@ export function CameraCapturePanel({
   const voiceFlag = isCaptureVoiceCountdownEnabled();
 
   const [status, setStatus] = useState<PanelStatus>("starting");
-  const [hint, setHint] = useState("얼굴을 가이드 안에 맞춰 주세요.");
+  const [hint, setHint] = useState(() => guidanceBodyForAngle(angle));
   const [busy, setBusy] = useState(false);
   const [failureKind, setFailureKind] = useState<CameraStartFailureKind | null>(
     null
@@ -1076,6 +1075,7 @@ export function CameraCapturePanel({
             reducedMotion={reducedMotion}
             liveBounds={liveBounds}
             simplified={
+              !landmarkFlag ||
               preferManualShutter ||
               alignmentMode === "manual_guidance" ||
               failReason === "invalid_landmark_data"
@@ -1109,15 +1109,16 @@ export function CameraCapturePanel({
         </div>
       ) : null}
 
-      {(preferManualShutter || alignmentMode === "manual_guidance") &&
-      status === "live" ? (
+      {(landmarkFlag &&
+        (preferManualShutter || alignmentMode === "manual_guidance") &&
+        status === "live") ? (
         <p className="text-xs text-amber-900" role="status">
           자동 얼굴 정렬을 사용할 수 없어요. 가이드에 얼굴을 맞춘 뒤 촬영 버튼을
           눌러 주세요.
         </p>
       ) : null}
 
-      {debugToggleOffered ? (
+      {landmarkFlag && debugToggleOffered ? (
         <LandmarkDebugPanel
           open={debugOpen}
           onToggle={() => {
@@ -1207,9 +1208,9 @@ export function CameraCapturePanel({
         </button>
       </div>
       <p className="text-xs text-stone-500">
-        {preferManualShutter || alignmentMode === "manual_guidance"
-          ? "가이드에 맞춘 뒤 촬영 버튼을 눌러 주세요."
-          : "가이드에 맞으면 음성 카운트다운 후 자동 촬영됩니다. 필요하면 촬영 버튼으로도 찍을 수 있어요."}
+        {landmarkFlag && alignmentMode === "landmark_auto" && !preferManualShutter
+          ? "가이드에 맞으면 음성 카운트다운 후 자동 촬영됩니다. 필요하면 촬영 버튼으로도 찍을 수 있어요."
+          : "가이드에 얼굴을 맞춘 뒤 촬영 버튼을 눌러 주세요."}
       </p>
       <p className="sr-only">{guidance.bodyKo}</p>
     </div>

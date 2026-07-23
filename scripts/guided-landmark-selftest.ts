@@ -28,6 +28,8 @@ import {
 import {
   FACE_LANDMARKER_MODEL_PATH,
   FACE_LANDMARKER_WASM_PATH,
+  isCaptureVoiceCountdownEnabled,
+  isFaceLandmarkAutoCaptureEnabled,
 } from "../src/lib/analyze/guidedCapture/landmark/isEnabled";
 import {
   buildFaceBoundsFromLandmarks,
@@ -91,6 +93,42 @@ function makeMesh(
 }
 
 function run() {
+  // Feature flag defaults: landmark auto OFF; voice only with landmark ON
+  ok(
+    !isFaceLandmarkAutoCaptureEnabled({}),
+    "unset env → landmark auto OFF"
+  );
+  ok(
+    !isFaceLandmarkAutoCaptureEnabled({
+      NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE: "0",
+    }),
+    "flag=0 → OFF"
+  );
+  ok(
+    isFaceLandmarkAutoCaptureEnabled({
+      NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE: "1",
+    }),
+    "flag=1 → ON"
+  );
+  ok(
+    !isCaptureVoiceCountdownEnabled({}),
+    "voice OFF when landmark unset"
+  );
+  ok(
+    !isCaptureVoiceCountdownEnabled({
+      NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE: "0",
+      NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN: "1",
+    }),
+    "voice OFF when landmark OFF even if voice=1"
+  );
+  ok(
+    isCaptureVoiceCountdownEnabled({
+      NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE: "1",
+      NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN: "1",
+    }),
+    "voice ON only with landmark=1"
+  );
+
   const front = templateForAngle("front");
   ok(front.faceCenter.xMin <= 0.36 + 1e-9, "center X allow ±0.14");
   ok(front.faceHeight.max >= 0.82, "face height max 0.82");
@@ -413,8 +451,8 @@ function run() {
   ok(panel.includes("LandmarkDebugPanel"), "debug below camera");
   ok(panel.includes("shouldAutoOpenLandmarkDebug"), "debug not always on");
   ok(!/showDiagnostics=\{true\}/.test(panel), "no forced overlay diagnostics");
-  ok(panel.includes("preferManualShutter") || panel.includes("preferManual"), "manual prefer");
-  ok(panel.includes("onQuestionnaire") || panel.includes("문진"), "questionnaire fallback");
+  ok(panel.includes("landmarkFlag && debugToggleOffered") || panel.includes("landmarkFlag &&"), "debug gated by landmark flag");
+  ok(panel.includes('landmarkFlag ? "landmark_auto" : "manual_guidance"'), "manual default mode");
 
   const poseSrc = readFileSync(
     path.join(root, "src/lib/analyze/guidedCapture/landmark/poseMath.ts"),

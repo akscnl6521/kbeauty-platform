@@ -68,6 +68,10 @@ import {
   isUserFacingInputSource,
   USER_FACING_INPUT_SOURCES,
 } from "../src/lib/analyze/guidedCapture/inputPolicy";
+import {
+  isCaptureVoiceCountdownEnabled,
+  isFaceLandmarkAutoCaptureEnabled,
+} from "../src/lib/analyze/guidedCapture/landmark/isEnabled";
 import type { CapturedShot } from "../src/lib/analyze/guidedCapture/types";
 
 function ok(cond: unknown, msg: string) {
@@ -385,6 +389,27 @@ ok(
 );
 
 ok(!isGalleryAllowedForGeneralUsers(), "gallery forbidden for general users");
+
+// Phase 3.1 deferred: default manual capture (landmark flag OFF)
+ok(!isFaceLandmarkAutoCaptureEnabled({}), "landmark default OFF");
+ok(
+  !isFaceLandmarkAutoCaptureEnabled({
+    NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE: "0",
+  }),
+  "landmark flag=0 → manual"
+);
+ok(
+  isFaceLandmarkAutoCaptureEnabled({
+    NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE: "1",
+  }),
+  "landmark flag=1 → auto entry"
+);
+ok(
+  !isCaptureVoiceCountdownEnabled({
+    NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN: "1",
+  }),
+  "voice requires landmark flag"
+);
 ok(isUserFacingInputSource("camera"), "camera user-facing");
 ok(isUserFacingInputSource("questionnaire_only"), "questionnaire user-facing");
 ok(!isUserFacingInputSource("gallery"), "gallery not user-facing");

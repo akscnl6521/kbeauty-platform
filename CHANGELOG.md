@@ -6,6 +6,14 @@
 
 ## 2026-07-23
 
+### Phase 3.1 deferred — default manual 3-angle capture
+
+- Status: implemented · automated tests passed · Android real-device blocker unresolved · **deferred** (not marked complete)
+- `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE` default **OFF** (explicit `1` only); voice countdown only when landmark auto is ON
+- Default UX: Phase 3.0 manual guide + shutter (front → left45 → right45); no gallery; no landmark debug for normal users
+- Auto landmark code/tests retained behind flag for later stabilization (Android Chrome + iPhone Safari)
+- Next: WQ-G Prelaunch gate (prioritize P0–P3; no blind feature adds)
+
 ### Phase 3.1.4 — Fix raw_bounds parse, keep loop, separate manual shutter
 
 - Robust MediaPipe landmark list parsing (array / nested / TypedArray / pixel→norm) with valid/invalid counts

@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-22
+최종 갱신: 2026-07-23
 
 ## 현재 기준
 
@@ -18,8 +18,7 @@
 - 위험 신호와 전문가 상담 우선 분기
 - 제품 추천 안전 필터와 Top 5 게이트
 - **추천 자격(recommendation_ready)과 구매 가능(commerce) 분리** (Phase 2.5~2.6.2)
-- **Phase 3.0 안내형 얼굴 촬영 MVP + AI 분석 대기 UX**
-- **Phase 3.1 얼굴 랜드마크 표준 정렬 + 자동 촬영 + 다국어 음성 카운트다운** (신원 인식 아님 · Storage/migration 없음)
+- **Phase 3.0 안내형 얼굴 촬영 MVP + AI 분석 대기 UX** (기본 UX)
 - 현재 제품·루틴 관리
 - Day 3·7·15·30 체크인과 지속 관리
 - 체크인 이메일 dry-run / Resend adapter 코드 준비 (실발송 없음)
@@ -39,32 +38,39 @@
 
 ## 현재 진행 단계
 
-Master Plan v4.2 **Phase 3.1.4** raw_bounds·loop·수동 촬영·debug UI 수정 완료. Android 실기기 재검수 대기.
+**기본 촬영 UX = Phase 3.0 수동 표준 3각도** (가이드 + 촬영 버튼).
 
-- **실기기 미확인**
-- main 미병합 · Production 미배포
+**Phase 3.1 자동 랜드마크 정렬·자동 촬영 = 보류 (deferred)**  
+완료로 표시하지 않음.
 
-## Phase 3.1 — 랜드마크 자동 촬영 (2026-07-23)
+| Phase 3.1 | 상태 |
+|-----------|------|
+| implemented | 코드·WASM/model·selftest 보존 |
+| automated tests | passed |
+| Android real-device blocker | **unresolved** |
+| product default | `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE` **기본 OFF** |
+| voice countdown | 자동 landmark ON일 때만 |
 
-- **3.1.4**: robust landmark parse · restart≤2 · loop 유지 · 수동 촬영 분리 · debug 기본 OFF(카메라 아래)
-- **3.1.3**: 좌표 폭주 차단 · matrix=pose only · inference finally
-- **3.1.2**: false no_face · 진단 패널
-- **3.1.1**: cover transform · soft features
-- 테스트: `npm run test:guided-landmark`
+남은 문제: Android MediaPipe parsing/runtime 편차 · 자동 정렬/카운트다운/촬영 실기기 미확인.
 
+재개 조건: Android Chrome + iPhone Safari 실기기 통과 후 flag=1 검토.
 
-## Phase 3.0 — 안내형 촬영 MVP (요약)
+## Phase 3.0 — 안내형 촬영 (현재 기본)
 
-- 카메라/문진만 · 3각도 · 로컬 품질 · 분석 대기 UX
-- 3.0.1 stream 유지 수정 · 3.0.2 갤러리 금지
+- 카메라/문진만 · 정면→좌45→우45 · 로컬 품질 · 분석 대기 UX
+- 3.0.1 stream 유지 · 3.0.2 갤러리 금지
 - 문서: `docs/analyze/PHASE30_GUIDED_CAMERA_CAPTURE.md`
+
+## Phase 3.1 — 보류 요약
+
+- 문서: `docs/analyze/PHASE31_FACE_LANDMARK_AUTO_CAPTURE.md`
+- flag=1로만 진입 · 기본 사용자 경로에 자동 오류/디버그 미노출
 
 ## 다음 작업
 
-1. Phase 3.1 Preview · Android Chrome / iPhone Safari 육안 검수
-2. (이후) 위/아래 각도 · QR 이어촬영
+1. **WQ-G Prelaunch gate** — 출시 BLOCKER/P0~P3 정리 (코드 무작정 추가 금지)
+2. (이후) Phase 3.1 실기기 안정화 재개 여부 결정
 3. (승인 대기) 사진 비교 Staging migration · `care-photos`
-4. (승인 대기) WQ-G — 이번 우선 아님
 
 ## 승인 경계
 
