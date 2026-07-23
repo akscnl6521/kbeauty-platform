@@ -6,6 +6,15 @@
 
 ## 2026-07-23
 
+### T00 — Master audit · Autopilot 실행 계약/큐
+
+- `docs/autopilot/EXECUTION_CONTRACT.md` · `docs/autopilot/MASTER_EXECUTION_QUEUE.md` 신설
+- 검증 완료/부분/외부전용/잔여/보류 분류 · `next_task` 명시
+- 레거시 `docs/MASTER_EXECUTION_QUEUE.md`를 canonical 포인터로 정리
+- ROADMAP 사진 비교 `[x]`/`[ ]` 모순 수리 (코드 vs Staging `care-photos`)
+- Self-test: `npm run test:autopilot-queue` · `scripts/autopilot-queue-selftest.ts`
+- Production/main/DB 미변경 · commit/push 없음
+
 ### Stage 6 기반 — 병원 후보·안내 UI·상담 리드 dry-run + Preview 원격 검수 JSON
 
 - 병원 후보 수집 어댑터(fixture/dry_run/live_blocked), 필드 검증·게시 게이트, 언어·예산 필터

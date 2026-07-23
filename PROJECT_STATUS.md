@@ -2,6 +2,17 @@
 
 최종 갱신: 2026-07-23
 
+## 2026-07-23 T00 Master audit — Autopilot 계약·실행 큐
+
+- `KBEAUTY_MASTER_EXECUTION_PROMPT.md` 1회 정독 · 상태/로드맵/changelog/최근 커밋·핵심 경로 대조
+- 신설: `docs/autopilot/EXECUTION_CONTRACT.md` · `docs/autopilot/MASTER_EXECUTION_QUEUE.md`
+- 레거시 `docs/MASTER_EXECUTION_QUEUE.md` → autopilot canonical 포인터
+- 분류: verified_complete / partial / external_only / remaining / deferred
+- ROADMAP 사진 비교 체크박스 모순 수리 (코드 완료 vs Staging/Storage 대기 분리)
+- Self-test: `npm run test:autopilot-queue`
+- next_task: 공식 병원 실출처 승인·publishable (external_only) · Preview/실기기 육안 병행
+- main 미병합 · Production 미배포 · DB/Storage/환경변수 미변경 · commit/push 미실행
+
 ## 2026-07-23 Stage 6 기반 + Preview 원격 검수 JSON
 
 - 증상 기반 병원 후보 수집 어댑터·필드 검증·게시 게이트·언어/예산 필터 구현
@@ -14,7 +25,7 @@
 
 ## 2026-07-23 Master Execution 번들 (연속 구현)
 
-- `docs/MASTER_EXECUTION_QUEUE.md`에 전체 요구사항 실행 큐를 기록하고 Q01–Q15·Q19를 완료 처리했다.
+- `docs/MASTER_EXECUTION_QUEUE.md`(현 canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md`)에 전체 요구사항 실행 큐를 기록하고 Q01–Q15·Q19–Q21을 완료 처리했다.
 - BeautyProfile 조회·편집 UI `/my/profile` 추가. 확인값 우선 저장, 동의·비진단 문구 포함.
 - 도메인 문진(마스카라·립·베이스·헤어) 완료 시 Care local BeautyProfile에 누적.
 - `symptomSafety` ↔ `professionalRouting` 연결: 급성/전문가 분기 시 `professionalRoutes`를 추천·가이드에 전달하고 제품 추천 중단을 명시.
@@ -67,7 +78,7 @@
 **Stage 6 코드 기반 완료** — 공식 병원 실데이터·사람 검수·외부 차단 항목 잔여.
 
 - WQ-G 문서: `docs/prelaunch/WQ-G_PRELAUNCH_GATE.md`
-- 실행 큐: `docs/MASTER_EXECUTION_QUEUE.md`
+- 실행 큐: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (계약: `docs/autopilot/EXECUTION_CONTRACT.md`)
 - Stage 6 문서: `docs/clinic-stage6-referral.md`
 - **출시 가능으로 보지 않음**
   - **WQG-P0-002** = `RELEASE_GATE_PENDING`
@@ -87,6 +98,8 @@
 - flag=1로만 진입 · 기본 사용자 경로에 자동 오류/디버그 미노출
 
 ## 다음 작업
+
+Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T01)
 
 1. 공식 병원 후보 실출처 승인 후 dry-run→검수→publishable 전환 (가짜 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수)

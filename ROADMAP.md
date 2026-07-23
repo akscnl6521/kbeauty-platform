@@ -20,7 +20,7 @@
 - [x] 공통 제품/규제/추천 적격/상업 메타데이터 계약
 - [x] 증상별 피부과·두피·알레르기·치과·응급 라우팅 (symptomSafety 실연결)
 - [x] 마스카라·립·샴푸 기존 category-specific 랭커와 새 taxonomy 회귀 검증
-- [x] Master execution queue 문서화 (`docs/MASTER_EXECUTION_QUEUE.md`)
+- [x] Master execution queue 문서화 (`docs/autopilot/MASTER_EXECUTION_QUEUE.md` · 계약 `docs/autopilot/EXECUTION_CONTRACT.md`)
 
 ### 플랫폼 핵심 사용자 여정
 
@@ -93,6 +93,8 @@
 
 ## 다음 작업
 
+Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T01)
+
 1. 공식 병원 실출처 승인 수집 → 관리자 검수 → publishable (fixture 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
 3. P1-006 개인정보 전송 범위 정책·법무 최종 검수
@@ -115,9 +117,9 @@
 - [x] Preview `/admin/care` 육안 확인 (migration/permission 경고 없음 · counts only — no PII · 집계 카드 정상)
 - [x] 체크인 이메일 큐 DRAFT Staging 검토 (적용 보류 · 테이블 미생성)
 - [x] 체크인 이메일 큐 Schema A 코드·게이트 (dated migration · persistence · SKIP LOCKED claim · dry-run worker · Preview 분리 유지)
-- [x] 사진 비교 동의·저장·삭제 (WQ-B · policy/API/UI/selftest · DRAFT migration 미적용 · Storage 미연결)
+- [x] 사진 비교 동의·저장·삭제 **코드** (WQ-B · policy/API/UI/selftest)
+- [ ] 사진 비교 Staging migration · `care-photos` Storage 연결 (승인 대기 · external_only)
 - [x] Staging에 `20260722010000_create_checkin_email_queue.sql` Dashboard 적용 · `verify:checkin-email-queue-staging` **통과** (2026-07-22 · FK/status/payload negative · claim RPC · 실발송 없음 · Production 미적용)
-- [ ] 사진 비교 동의·삭제 흐름
 - [x] 재방문 대시보드 보강 (WQ-C)
 - [x] 알림 채널별 동의 분리 UI / 스케줄링 연결 (WQ-D · enqueue only · 실발송 없음)
 - [x] Care worker admin / dry-run delivery (WQ-E · dry-run tick · retry/cancel · 실발송 없음)
