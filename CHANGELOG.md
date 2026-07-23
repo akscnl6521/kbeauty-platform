@@ -6,6 +6,15 @@
 
 ## 2026-07-24
 
+### P2-T05 — Final Preview evidence and human approval package
+
+- 계약: `phase2FinalEvidencePackage` — 6버킷(자동 테스트·스크린샷 육안·Android/iPhone·외부 출처·Dashboard·main/Production) · 1회성 사람 검증 절차 · 정직 플래그
+- Selftest/러너: `test:phase2-final-evidence` · `check:phase2-final-evidence` · 아티팩트 `artifacts/phase2-final-evidence/`
+- Docs: `docs/prelaunch/P2-T05_FINAL_PREVIEW_EVIDENCE_PACKAGE.md`
+- Phase 2 필수 회귀 8건 통과(P2-T01~T04·T06·autopilot·security·build) · 육안/실기기/Dashboard/Production 위장 없음
+- Preview·실기기·공식 출처·WQG-P0-002는 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
 ### P2-T04 — Real data onboarding readiness
 
 - 계약: `realDataOnboarding` — 출처 매니페스트·필드 provenance·공식 우선순위·stale/refresh·검수 체크리스트·import 템플릿·dry-run·거절 사유 (KR 제품·병원/전문가)

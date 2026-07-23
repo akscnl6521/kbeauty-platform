@@ -1,6 +1,6 @@
 # Autopilot Execution Contract — K-Beauty Match
 
-최종 갱신: 2026-07-23
+최종 갱신: 2026-07-24
 근거 명세: `KBEAUTY_MASTER_EXECUTION_PROMPT.md` (**읽기 전용 · 수정 금지**)
 작업 브랜치: `feature/recommendation-usage-guide-display-20260720`
 큐 문서: `docs/autopilot/MASTER_EXECUTION_QUEUE.md`

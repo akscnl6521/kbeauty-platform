@@ -88,6 +88,7 @@ supabase/.temp/
 
 # P2-T02 Staging read-only release gate artifacts
 /artifacts/staging-release-gate/
+/artifacts/phase2-final-evidence/
 
 # Generated recommendation analysis (local / CI artifacts)
 /data/generated/recommendation/

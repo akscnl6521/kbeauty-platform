@@ -2,6 +2,18 @@
 
 최종 갱신: 2026-07-24
 
+## 2026-07-24 P2-T05 · Final Preview evidence and human approval package
+
+- 계약: `src/lib/release/phase2FinalEvidencePackage.ts` (6버킷 · 자동명령 · 1회성 사람 검증 · 정직 플래그)
+- Selftest/러너: `test:phase2-final-evidence` · `check:phase2-final-evidence` → `artifacts/phase2-final-evidence/`
+- 버킷: 자동 테스트/라우트 · 스크린샷 육안 대기 · Android/iPhone · 외부 출처 · Dashboard 전용 · main/Production 게이트
+- Docs: `docs/prelaunch/P2-T05_FINAL_PREVIEW_EVIDENCE_PACKAGE.md`
+- 위장 금지: `visualApprovalClaimed=false` · `deviceApprovalClaimed=false` · `releaseReadyClaimed=false` · main/Production 미실행
+- Tests: `test:phase2-final-evidence` · `check:phase2-final-evidence` (필수 8건 통과: preview-routes·staging-release-gate·admin-review-e2e·real-data-onboarding·final-integration·autopilot-queue·release-security·build) · 변경 ESLint · `tsc` — **통과**
+- Preview 육안·실기기·Dashboard·공식 병원·WQG-P0-002 — **미검증** (`external_only`/`dashboard_only_unknown`)
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-24 P2-T04 · Real data onboarding readiness
 
 - 계약: `src/lib/onboarding/realDataOnboarding/*` (출처 매니페스트·필드 provenance·공식 우선순위·stale/refresh·검수 체크리스트·import 템플릿·dry-run 검증·거절 사유 · KR 제품·병원/전문가)
@@ -184,6 +196,7 @@
 - **P2-T02 Staging 읽기 전용 릴리스 게이트**: 환경 식별·헬스·계약·auth·Storage·게시·migration · Dashboard 미확인 분리
 - **P2-T03 Admin review E2E**: 제품·병원 레인 · fixture 비공개 · Organic 독립 · dry-run
 - **P2-T04 실데이터 온보딩 준비**: 출처 매니페스트·provenance·공식 우선·stale·체크리스트·템플릿·dry-run·거절 사유 · 비공개 fixture
+- **P2-T05 Final Preview 증거 패키지**: Phase 2 자동 회귀 · 6버킷 분리 · 1회성 사람 검증 절차 · 육안/실기기/Dashboard/Production 위장 없음
 
 ## 자동화 안전 상태
 
@@ -225,7 +238,7 @@
 Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T07)
 
 1. 공식 병원 후보 실출처 승인 후 dry-run→검수→publishable 전환 (가짜 게시 금지)
-2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수) — P2-T01 라우트·P2-T02 Staging 게이트는 보조 증거만
+2. P0-003 / P1-003·005 Preview·실기기 육안 — **P2-T05 1회성 절차** 문서화됨 (대시보드 아님 · 사람 검수)
 3. P1-006 개인정보 전송 범위 문구의 정책·법무 최종 검수
 4. **WQG-P0-002** — `RELEASE_GATE_PENDING` (Production 배포 직전 최종 확인 · 지금 미실행)
 5. Phase 3.1 자동 정렬은 **보류** 유지

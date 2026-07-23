@@ -87,6 +87,8 @@
     "check:staging-release-gate": "npx --yes tsx scripts/run-staging-release-gate.ts",
     "test:admin-review-e2e": "npx --yes tsx scripts/admin-review-e2e-selftest.ts",
     "test:real-data-onboarding": "npx --yes tsx scripts/real-data-onboarding-selftest.ts",
+    "test:phase2-final-evidence": "npx --yes tsx scripts/phase2-final-evidence-selftest.ts",
+    "check:phase2-final-evidence": "npx --yes tsx scripts/run-phase2-final-evidence.ts",
     "check:release-security": "node scripts/security-release-check.mjs",
     "check:responsive": "node scripts/check-responsive-layout.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",

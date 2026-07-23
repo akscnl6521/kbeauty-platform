@@ -29,6 +29,7 @@
 - [x] **P2-T02** Staging 읽기 전용 릴리스 게이트 (`test:staging-release-gate` · `check:staging-release-gate` · Dashboard 미확인 분리 · Production 쓰기 없음)
 - [x] **P2-T03** Admin review E2E 검증 (`test:admin-review-e2e` · 제품·병원 레인 · fixture 비공개 · Organic 독립 · dry-run)
 - [x] **P2-T04** 실데이터 온보딩 준비 (`test:real-data-onboarding` · 매니페스트·provenance·공식 우선·stale·체크리스트·템플릿·dry-run·거절 사유 · 비공개 fixture)
+- [x] **P2-T05** Final Preview 증거·사람 승인 패키지 (`test:phase2-final-evidence` · `check:phase2-final-evidence` · 6버킷 분리 · 1회성 검수 절차 · 위장 승인 금지)
 - [x] Master execution queue 문서화 (`docs/autopilot/MASTER_EXECUTION_QUEUE.md` · 계약 `docs/autopilot/EXECUTION_CONTRACT.md`)
 
 ### 플랫폼 핵심 사용자 여정
@@ -104,8 +105,9 @@
 - [x] **P2-T02** Staging 읽기 전용 릴리스 게이트 (환경·헬스·계약·auth·Storage·게시·migration · dashboard_only_unknown 정직 분리)
 - [x] **P2-T03** Admin review E2E (후보·근거·중복·needs_review/admin_reviewed/publishable · fixture 비공개 · Organic 독립)
 - [x] **P2-T04** 실데이터 온보딩 준비 (출처 매니페스트·provenance·공식 우선·stale/refresh·검수 체크리스트·import 템플릿·dry-run·거절 사유 · 비공개 fixture · Production 쓰기 없음)
-- [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함)
-- [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수
+- [x] **P2-T05** Final Preview 증거 패키지 (Phase 2 자동 회귀 · 스크린샷/실기기/외부출처/Dashboard/main·Production 버킷 분리 · 1회성 사람 검증 문서 · 위장 승인 금지)
+- [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함) — P2-T05 절차 문서화 · 사람 미실행
+- [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수 — P2-T05 절차 문서화 · 사람 미실행
 - [x] Preview 원격 검수 JSON 경로 연결 (코드·fixture·자동 Preview 경로)
 
 ## 다음 작업
@@ -197,6 +199,7 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 - [x] **P2-T02** Staging 읽기 전용 릴리스 게이트 인프라 (Dashboard 실확인·Production 직전 게이트는 별도)
 - [x] **P2-T03** Admin review E2E 하네스 (사람 Preview 관리자 육안은 별도)
 - [x] **P2-T04** 실데이터 온보딩 준비 계약·dry-run (실공식 데이터·Staging 쓰기는 별도)
+- [x] **P2-T05** Final Preview 증거·사람 승인 패키지 (자동 회귀·버킷 분리·1회성 절차 · 사람 검수는 별도)
 - [ ] 실제 제품·판매처·피부과 데이터 사람 최종 검수
 - [ ] 전체 사용자 여정 Preview 검증
 - [ ] 모바일·접근성·성능 재검증 (실기기)

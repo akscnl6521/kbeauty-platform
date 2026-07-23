@@ -134,7 +134,9 @@ const keyPaths = [
   "docs/prelaunch/P2-T02_STAGING_RELEASE_GATE.md",
   "docs/prelaunch/P2-T03_ADMIN_REVIEW_E2E.md",
   "docs/prelaunch/P2-T04_REAL_DATA_ONBOARDING.md",
+  "docs/prelaunch/P2-T05_FINAL_PREVIEW_EVIDENCE_PACKAGE.md",
   "src/lib/release/finalIntegrationEvidence.ts",
+  "src/lib/release/phase2FinalEvidencePackage.ts",
   "src/lib/release/stagingReleaseGate.ts",
   "src/lib/admin/adminReviewE2E.ts",
   "src/lib/onboarding/realDataOnboarding/index.ts",
@@ -179,6 +181,14 @@ assert.ok(
 assert.ok(
   pkg.includes('"test:real-data-onboarding"'),
   "package.json must define test:real-data-onboarding",
+);
+assert.ok(
+  pkg.includes('"test:phase2-final-evidence"'),
+  "package.json must define test:phase2-final-evidence",
+);
+assert.ok(
+  pkg.includes('"check:phase2-final-evidence"'),
+  "package.json must define check:phase2-final-evidence",
 );
 assert.ok(
   pkg.includes('"test:organic-commerce"'),
