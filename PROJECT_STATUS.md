@@ -38,15 +38,17 @@
 
 ## 현재 진행 단계
 
-**WQG-P0-001 완료** — 사진 AI 오인·동의·카피 정합 (vision 미도입 · 문구만).
+**WQG-P1-002 완료** — 카메라·landmark 클라이언트 청크 분리 (기본 수동 촬영 유지).
 
 - 공용 카피: `ANALYSIS_SCOPE_COPY_KO` (`src/lib/analyze/guidedCapture/inputPolicy.ts`)
 - 동의·촬영·진행·결과·홈 문구: 픽셀 외부 AI 미전송 · 문진 기반 안내 · 3장=품질/각도
+- `GuidedCaptureFlow`은 사용자가 카메라 경로를 선택할 때만 `CameraCapturePanel`과 MediaPipe landmark 의존성을 동적 로드
+- SSR 비활성화 · 접근 가능한 카메라 준비 상태 제공 · 문진 선택 시 카메라 청크 미실행
 - WQ-G 문서: `docs/prelaunch/WQ-G_PRELAUNCH_GATE.md`
 - Preview: 배포 후 육안 확인 권장 (이전 `…89ry68u2h…`)
 - **출시 가능으로 보지 않음**
   - **WQG-P0-002** = `RELEASE_GATE_PENDING` (Production `AI_PROVIDER`는 **배포 직전** 최종 확인 · feature 중 중복 확인 생략 · 키 값 문서/로그 금지)
-  - 잔여: P0-003 Preview 육안 · P1 코드/검수
+  - 잔여: P0-003 · P1-003/005/006 Preview·실기기·정책 검수
 - 기본 촬영 UX = Phase 3.0 수동 3각도 · Phase 3.1 = **deferred**
 - main 미병합 · Production 미배포 · DB 미변경
 
@@ -63,8 +65,8 @@
 
 ## 다음 작업
 
-1. **WQG-P1-002** — landmark/`CameraCapturePanel` **dynamic import** (flag OFF 기본 경로 번들·모바일 부하)
-2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수)
+1. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수)
+2. P1-006 개인정보 전송 범위 문구의 정책·법무 최종 검수
 3. **WQG-P0-002** — `RELEASE_GATE_PENDING` (Production 배포 직전 최종 확인 · 지금 미실행)
 4. Phase 3.1 자동 정렬은 **보류** 유지
 5. (승인 대기) 사진 비교 Staging migration · `care-photos`

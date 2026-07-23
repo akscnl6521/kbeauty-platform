@@ -314,7 +314,7 @@
 | WQG-P0-002 | AI/배포 | Production `AI_PROVIDER` mock/미설정 위험 | **`RELEASE_GATE_PENDING`** · 코드상 production mock 차단 | 배포 직전 미확인 시 mock/실패 | **배포 게이트** | **P0** (지금 미실행) | Production 배포 **승인 전 최종 체크리스트**에서만 확인 · feature 중 중복 확인 생략 · **키 값 문서/로그 금지** | `analyzeSkin.ts`, launch-blockers | 대시보드 (배포 직전) | **예** |
 | WQG-P0-003 | 분석 입력 | 3장 촬영 vs API 1장 · 비전 없음 | P0-001 카피와 동시 반영 · Preview 육안 잔여 | 「다각도 분석」오인 | 표현 | **P0** (카피 반영·육안 잔여) | Preview에서 과장 표현 재검수 | analyze copy | Preview | 문구만이면 Preview |
 | WQG-P1-001 | 카피 | 「사진을 업로드한 뒤…」잔존 | **P0-001과 함께 제거 완료** | — | — | **P1 done** | — | `analyze/page.tsx` | grep | 아니오 |
-| WQG-P1-002 | 성능 | landmark 패널 정적 import | WASM OFF여도 JS 포함 가능 | 모바일 번들 | 출시 전 | **P1** · **다음 코드** | `dynamic()`로 CameraCapturePanel/landmark 분리 | `GuidedCaptureFlow.tsx`, `CameraCapturePanel.tsx` | bundle 분석 | 아니오 |
+| WQG-P1-002 | 성능 | landmark 패널 정적 import | **완료 (2026-07-23)** · 카메라 선택 시 동적 로드 | 기본 경로 부하 분리 | — | **P1 done** | `next/dynamic` · `ssr: false` · 접근성 loading fallback | `GuidedCaptureFlow.tsx`, selftest | test/build·청크 검색 | 아니오 |
 | WQG-P1-003 | 추천 | D/E insufficient · A/B/C Preview 육안 | 코드 OK · 육안 필요 | 빈 결과 이해 | 출시 전 | **P1** | Preview A/B/C CTA·빈상태 검수 · D/E 메시지 확인 | results, phase2 | Preview 시나리오 | 아니오 |
 | WQG-P1-004 | 리텐션 | 이메일/푸시 실운영 범위 불명확 | dry-run·게이트 | 기대 불일치 | 출시 전 | **P1** | 출시 범위에 「사이트 내 체크인」만 포함할지 명시 | retention docs | 제품 결정 | 이메일 live는 **예** |
 | WQG-P1-005 | a11y/모바일 | Android·iPhone·320px 육안 미완 | 정적 check만 | 사용성 | 출시 전 | **P1** | 실기기 수동 체크리스트 | guided capture | 실기기 H | 아니오 |
@@ -339,7 +339,7 @@
 ### B. P1 출시 전 필수
 
 1. ~~업로드 잔존 문구 제거~~ → P0-001과 함께 완료  
-2. **landmark 번들 분리 (WQG-P1-002 · 다음 코드 작업)**  
+2. ~~landmark 번들 분리~~ → **WQG-P1-002 완료**
 3. A/B/C Preview 육안 · D/E 빈상태  
 4. 리텐션 출시 범위 문서화  
 5. 실기기 촬영 수동 UX  
@@ -410,8 +410,8 @@
 ## 21. 구현 순서 제안 (다음 작업)
 
 1. ~~P0 카피·동의·결과 배지 정합~~ → **WQG-P0-001 완료**  
-2. **WQG-P1-002** CameraCapturePanel/landmark `dynamic()` — Preview — Production 승인 불필요  
-3. P0-003 / P1 Preview·실기기 육안 — 사람  
+2. ~~**WQG-P1-002** CameraCapturePanel/landmark `dynamic()`~~ → **완료**
+3. P0-003 / P1-003·005 Preview·실기기 육안 — 사람
 4. **WQG-P0-002** `RELEASE_GATE_PENDING` — Production 배포 **직전**만  
 5. 출시 범위 freeze · main/Production은 P0+P1 최소선 후  
 6. P2: landmark 재개 · D/E · Storage 비교 — 별도 승인  
@@ -441,7 +441,7 @@
 | P2 | 4 |
 | P3 | 2 |
 
-**다음 작업 1순위(코드):** WQG-P1-002 — CameraCapturePanel/landmark dynamic import.  
+**다음 작업 1순위:** P0-003 / P1-003·005 Preview·실기기 육안 검수.
 **WQG-P0-002:** `RELEASE_GATE_PENDING` (Production 배포 직전 · 지금 미실행).
 
 **Production / main / DB:** 본 WQ-G 작업에서 **미변경**.

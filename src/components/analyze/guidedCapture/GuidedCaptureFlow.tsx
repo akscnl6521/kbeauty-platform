@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "@/hooks/useLocale";
 import {
@@ -61,9 +62,26 @@ import type {
   CapturedShot,
 } from "@/lib/analyze/guidedCapture/types";
 import { CaptureAngleStepper } from "./CaptureAngleStepper";
-import { CameraCapturePanel } from "./CameraCapturePanel";
+import type { CameraCapturePanelProps } from "./CameraCapturePanel";
 import { CaptureReviewCard } from "./CaptureReviewCard";
 import { AnalysisProgressOverlay } from "./AnalysisProgressOverlay";
+
+const CameraCapturePanel = dynamic<CameraCapturePanelProps>(
+  () =>
+    import("./CameraCapturePanel").then((module) => module.CameraCapturePanel),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="rounded-2xl border border-stone-200 bg-stone-50 p-4 text-sm text-stone-600"
+        role="status"
+        aria-live="polite"
+      >
+        카메라를 준비하고 있어요…
+      </div>
+    ),
+  }
+);
 
 export type GuidedCaptureAnalyzePayload = {
   imageBase64: string;

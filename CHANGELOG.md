@@ -6,6 +6,16 @@
 
 ## 2026-07-23
 
+### WQG-P1-002 — 카메라·landmark 동적 로딩
+
+- `GuidedCaptureFlow`의 `CameraCapturePanel` 런타임 정적 import를 `next/dynamic` 클라이언트 청크로 분리
+- 카메라 선택 전 문진 기본 경로에서 MediaPipe landmark 구현을 실행하지 않으며, `ssr: false`로 브라우저 API 경계를 명확히 함
+- 카메라 청크 로딩 중 `role="status"`·`aria-live="polite"` 준비 상태 제공
+- 회귀 테스트에 동적 import, eager runtime import 부재, SSR-safe 접근성 fallback 검증 추가
+- Tests: `test:guided-capture` · `test:guided-landmark` · TypeScript · 변경 파일 ESLint · production build — **통과**
+- 전체 저장소 ESLint는 기존 범위 574건(64 errors, 510 warnings)으로 실패; 이번 변경 파일 lint는 통과
+- Production/main/DB/Storage/환경변수 미변경 · Preview/실기기 육안 미실행
+
 ### WQG-P0-001 — 사진 AI 오인·동의·카피 정합
 
 - 동의·진행·결과 문구를 실제 동작에 맞춤: **사진 픽셀 외부 AI 미전송**, 안내는 **문진·입력 기반**, 3장 촬영은 **품질·각도 표준화**
@@ -14,7 +24,7 @@
 - vision AI 미도입 · Storage/DB/Production/main 미변경
 - Tests: `npm run test:guided-capture` · `npm run test:photo-comparison` · `npm run test:symptom-safety` — **통과**
 - **WQG-P0-002** → `RELEASE_GATE_PENDING` (Production 배포 직전 확인 · feature 중 미실행 · 키 미기록)
-- 다음 코드: **WQG-P1-002** (`CameraCapturePanel` dynamic import)
+- 다음: P0-003 / P1-003·005 Preview·실기기 육안 검수
 
 ### WQ-G — Prelaunch gate (docs only)
 

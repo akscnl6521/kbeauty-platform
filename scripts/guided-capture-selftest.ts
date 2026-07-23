@@ -454,6 +454,23 @@ ok(
   /ANALYSIS_SCOPE_COPY_KO/.test(flowSrc),
   "guided flow uses honest analysis scope copy"
 );
+ok(
+  /dynamic<CameraCapturePanelProps>/.test(flowSrc) &&
+    /import\("\.\/CameraCapturePanel"\)/.test(flowSrc),
+  "camera and landmark implementation loads as a client chunk"
+);
+ok(
+  !/import\s*\{\s*CameraCapturePanel\s*\}\s*from\s*["']\.\/CameraCapturePanel["']/.test(
+    flowSrc
+  ),
+  "no eager CameraCapturePanel runtime import"
+);
+ok(
+  /ssr:\s*false/.test(flowSrc) &&
+    /카메라를 준비하고 있어요/.test(flowSrc) &&
+    /aria-live="polite"/.test(flowSrc),
+  "lazy camera has an SSR-safe accessible loading fallback"
+);
 
 const pageSrc = readFileSync(
   path.join(process.cwd(), "src/app/analyze/page.tsx"),
