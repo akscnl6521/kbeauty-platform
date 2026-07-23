@@ -63,6 +63,7 @@ import {
 } from "../src/lib/analyze/guidedCapture/cameraStart";
 import { isCameraDiagnosticsEnabled } from "../src/lib/analyze/guidedCapture/cameraDiagnostics";
 import {
+  ANALYSIS_SCOPE_COPY_KO,
   CAMERA_ONLY_POLICY_COPY_KO,
   isGalleryAllowedForGeneralUsers,
   isUserFacingInputSource,
@@ -421,6 +422,14 @@ ok(
   CAMERA_ONLY_POLICY_COPY_KO.noGallery.includes("갤러리"),
   "policy copy mentions no gallery"
 );
+ok(
+  ANALYSIS_SCOPE_COPY_KO.noExternalVision.includes("외부 AI"),
+  "scope copy denies external AI pixels"
+);
+ok(
+  ANALYSIS_SCOPE_COPY_KO.consentAnalysisLabel.includes("문진"),
+  "consent labels questionnaire-based guide"
+);
 
 const flowSrc = readFileSync(
   path.join(
@@ -441,6 +450,10 @@ ok(
   "questionnaire test id"
 );
 ok(!/openGalleryFallback/.test(flowSrc), "no gallery fallback helper");
+ok(
+  /ANALYSIS_SCOPE_COPY_KO/.test(flowSrc),
+  "guided flow uses honest analysis scope copy"
+);
 
 const pageSrc = readFileSync(
   path.join(process.cwd(), "src/app/analyze/page.tsx"),
@@ -448,6 +461,14 @@ const pageSrc = readFileSync(
 );
 ok(!/id=\"file-input\"/.test(pageSrc), "no file-input on analyze page");
 ok(!/사진을 업로드하세요/.test(pageSrc), "no upload CTA copy on analyze page");
+ok(
+  !/사진을 업로드한 뒤/.test(pageSrc),
+  "no stale upload-then-analyze copy on analyze page"
+);
+ok(
+  /사진 픽셀은 외부 AI로 보내지 않습니다/.test(pageSrc),
+  "analyze page discloses no external vision pixels"
+);
 
 async function runAsyncCameraStartTests() {
   let el: { tag: string } | null = null;

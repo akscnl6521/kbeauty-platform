@@ -310,11 +310,11 @@
 
 | ID | 영역 | 문제 | 현재 상태 | 사용자 영향 | 출시 영향 | 우선순위 | 권장 조치 | 관련 파일 | 검증 방법 | Production 승인 |
 |----|------|------|-----------|-------------|-----------|----------|-----------|-----------|-----------|------------------|
-| WQG-P0-001 | AI/동의 | 사진 AI 분석처럼 보이지만 픽셀 미전달 | photo 모드 텍스트 only | 오인·동의 불일치 | **차단** | **P0** | 동의·카피·배지를 「현재 단계: 문진·입력 기반 안내 / 사진 픽셀 AI 미사용」으로 정합 또는 실제 vision 연동 | `prompt.ts`, `PhotoConsentPanel.tsx`, `GuidedCaptureFlow.tsx`, `results/page.tsx` | Preview 동의→분석→결과 문구 | 카피 배포는 Preview 가능 · vision 연동은 별도 승인 |
-| WQG-P0-002 | AI/배포 | Production `AI_PROVIDER` mock/미설정 위험 | 코드상 차단 · 값 미확인 | 서비스 실패/mock 노출 | **차단** | **P0** | Production env 사람 확인 · `check-production-launch-blockers` | `analyzeSkin.ts`, launch-blockers script | 대시보드/승인 후 스크립트 | **예** |
-| WQG-P0-003 | 분석 입력 | 3장 촬영 vs API 1장 · 비전 없음 | primary front only | 「다각도 분석」오인 | **차단**(표현) | **P0** | UX 문구를 촬영 목적(표준화·품질)과 분석 입력 범위로 분리 | `captureSession.ts`, analyze copy | 코드 리뷰 + Preview | 문구만이면 Preview |
-| WQG-P1-001 | 카피 | 「사진을 업로드한 뒤…」잔존 | 갤러리 금지와 충돌 | 혼란 | 출시 전 | **P1** | 문구 삭제/카메라·문진 안내로 교체 | `analyze/page.tsx` | grep + Preview | 아니오 |
-| WQG-P1-002 | 성능 | landmark 패널 정적 import | WASM OFF여도 JS 포함 가능 | 모바일 번들 | 출시 전 | **P1** | `dynamic()`로 CameraCapturePanel/landmark 분리 | `GuidedCaptureFlow.tsx`, `CameraCapturePanel.tsx` | bundle 분석 | 아니오 |
+| WQG-P0-001 | AI/동의 | 사진 AI 분석처럼 보이지만 픽셀 미전달 | **정합 완료 (2026-07-23)** · 동의·카피·배지 | 오인 해소 | ~~차단~~ → 잔여 육안 | **P0 done** | 완료: `ANALYSIS_SCOPE_COPY_KO` · vision 미도입 | `inputPolicy.ts`, consent/flow/results | Preview 동의→가이드→결과 | 카피 Preview · vision은 별도 |
+| WQG-P0-002 | AI/배포 | Production `AI_PROVIDER` mock/미설정 위험 | **`RELEASE_GATE_PENDING`** · 코드상 production mock 차단 | 배포 직전 미확인 시 mock/실패 | **배포 게이트** | **P0** (지금 미실행) | Production 배포 **승인 전 최종 체크리스트**에서만 확인 · feature 중 중복 확인 생략 · **키 값 문서/로그 금지** | `analyzeSkin.ts`, launch-blockers | 대시보드 (배포 직전) | **예** |
+| WQG-P0-003 | 분석 입력 | 3장 촬영 vs API 1장 · 비전 없음 | P0-001 카피와 동시 반영 · Preview 육안 잔여 | 「다각도 분석」오인 | 표현 | **P0** (카피 반영·육안 잔여) | Preview에서 과장 표현 재검수 | analyze copy | Preview | 문구만이면 Preview |
+| WQG-P1-001 | 카피 | 「사진을 업로드한 뒤…」잔존 | **P0-001과 함께 제거 완료** | — | — | **P1 done** | — | `analyze/page.tsx` | grep | 아니오 |
+| WQG-P1-002 | 성능 | landmark 패널 정적 import | WASM OFF여도 JS 포함 가능 | 모바일 번들 | 출시 전 | **P1** · **다음 코드** | `dynamic()`로 CameraCapturePanel/landmark 분리 | `GuidedCaptureFlow.tsx`, `CameraCapturePanel.tsx` | bundle 분석 | 아니오 |
 | WQG-P1-003 | 추천 | D/E insufficient · A/B/C Preview 육안 | 코드 OK · 육안 필요 | 빈 결과 이해 | 출시 전 | **P1** | Preview A/B/C CTA·빈상태 검수 · D/E 메시지 확인 | results, phase2 | Preview 시나리오 | 아니오 |
 | WQG-P1-004 | 리텐션 | 이메일/푸시 실운영 범위 불명확 | dry-run·게이트 | 기대 불일치 | 출시 전 | **P1** | 출시 범위에 「사이트 내 체크인」만 포함할지 명시 | retention docs | 제품 결정 | 이메일 live는 **예** |
 | WQG-P1-005 | a11y/모바일 | Android·iPhone·320px 육안 미완 | 정적 check만 | 사용성 | 출시 전 | **P1** | 실기기 수동 체크리스트 | guided capture | 실기기 H | 아니오 |
@@ -332,18 +332,18 @@
 
 ### A. P0 출시 차단
 
-1. WQG-P0-001 사진 AI 분석 오인·동의 불일치  
-2. WQG-P0-002 Production AI_PROVIDER 확인  
-3. WQG-P0-003 3장/비전 없는 분석에 대한 과장 표현 금지·카피 정합  
+1. ~~WQG-P0-001 사진 AI 분석 오인·동의 불일치~~ → **완료 (2026-07-23 카피 정합)**  
+2. **WQG-P0-002** Production AI_PROVIDER — **`RELEASE_GATE_PENDING`** (배포 직전 · 지금 미실행 · 키 미기록)  
+3. WQG-P0-003 3장/비전 과장 표현 — P0-001과 동시 반영 · **Preview 육안 잔여**  
 
 ### B. P1 출시 전 필수
 
-1. 업로드 잔존 문구 제거  
-2. landmark 번들 분리(또는 허용 근거)  
+1. ~~업로드 잔존 문구 제거~~ → P0-001과 함께 완료  
+2. **landmark 번들 분리 (WQG-P1-002 · 다음 코드 작업)**  
 3. A/B/C Preview 육안 · D/E 빈상태  
 4. 리텐션 출시 범위 문서화  
 5. 실기기 촬영 수동 UX  
-6. 개인정보 전송 범위 문구  
+6. 개인정보 전송 범위 문구 (P0-001에서 일부 반영 · 잔여 검수)  
 
 ### C. P2 출시 후
 
@@ -409,13 +409,12 @@
 
 ## 21. 구현 순서 제안 (다음 작업)
 
-1. **P0 카피·동의·결과 배지 정합** (앱 문구만 · vision 미도입) — Preview — Production 승인 불필요  
-2. **P0 Production `AI_PROVIDER` 확인** — 대시보드 — **승인 필요**  
-3. **P1 업로드 잔존 문구 제거** + landmark dynamic import — Preview  
-4. **P1 Preview A/B/C·수동 촬영 실기기 체크리스트** — 사람  
-5. **출시 범위 freeze** (체크인 이메일 live / 사진 비교 / landmark 자동 = 제외)  
-6. main 병합·Production은 **P0+P1 최소선 통과 후**  
-7. P2: landmark 재개 · D/E · Storage 비교 — 별도 승인  
+1. ~~P0 카피·동의·결과 배지 정합~~ → **WQG-P0-001 완료**  
+2. **WQG-P1-002** CameraCapturePanel/landmark `dynamic()` — Preview — Production 승인 불필요  
+3. P0-003 / P1 Preview·실기기 육안 — 사람  
+4. **WQG-P0-002** `RELEASE_GATE_PENDING` — Production 배포 **직전**만  
+5. 출시 범위 freeze · main/Production은 P0+P1 최소선 후  
+6. P2: landmark 재개 · D/E · Storage 비교 — 별도 승인  
 
 원칙: 새 대규모 기능 금지 · 가짜 제품 금지 · landmark deferred 유지 · Storage는 P0 아니면 후순위.
 
@@ -442,6 +441,7 @@
 | P2 | 4 |
 | P3 | 2 |
 
-**다음 작업 1순위:** WQG-P0-001 — 사진 AI 분석 오인 해소(동의·카피·배지 정합).  
+**다음 작업 1순위(코드):** WQG-P1-002 — CameraCapturePanel/landmark dynamic import.  
+**WQG-P0-002:** `RELEASE_GATE_PENDING` (Production 배포 직전 · 지금 미실행).
 
 **Production / main / DB:** 본 WQ-G 작업에서 **미변경**.

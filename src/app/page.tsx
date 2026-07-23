@@ -125,7 +125,8 @@ export default function Home() {
             </p>
           </div>
           <p className="text-sm leading-6 text-gray-600">
-            사진과 입력 정보는 분석·저장에 필요한 범위에서만 다루며,{" "}
+            촬영 사진은 품질·각도 확인용으로 다루며, 피부 안내는 문진·입력 정보를
+            기준으로 합니다. 사진 픽셀은 현재 외부 AI로 보내지 않습니다.{" "}
             <Link href="/privacy" className="underline">
               개인정보처리방침
             </Link>

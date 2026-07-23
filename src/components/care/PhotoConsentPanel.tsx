@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ANALYSIS_SCOPE_COPY_KO } from "@/lib/analyze/guidedCapture/inputPolicy";
 import {
   defaultPhotoConsentChoices,
   medicalDisclaimerKo,
@@ -70,9 +71,9 @@ export function PhotoConsentPanel({
             }
           />
           <span>
-            <span className="font-medium">분석만 (저장하지 않음)</span>
+            <span className="font-medium">안내만 (저장하지 않음)</span>
             <span className="mt-0.5 block text-xs text-gray-500">
-              분석이 끝나면 사진은 즉시 삭제됩니다.
+              {ANALYSIS_SCOPE_COPY_KO.analysisOnlyDetail}
             </span>
           </span>
         </label>
@@ -112,7 +113,7 @@ export function PhotoConsentPanel({
           onChange={(e) => patch({ analysisConsent: e.target.checked })}
         />
         <span className="text-xs text-gray-700">
-          AI 피부 분석에 내 사진을 사용하는 것에 동의합니다.
+          {ANALYSIS_SCOPE_COPY_KO.consentAnalysisLabel}
         </span>
       </label>
 
@@ -141,7 +142,7 @@ export function PhotoConsentPanel({
 export function photoConsentBlockedMessage(choices: PhotoConsentChoices): string | null {
   const validation = validatePhotoConsentChoices(choices);
   if (!choices.analysisConsent) {
-    return "사진 분석을 위해 AI 분석 동의가 필요합니다.";
+    return ANALYSIS_SCOPE_COPY_KO.consentBlocked;
   }
   if (choices.saveForComparison && !validation.ok) {
     return "비교용 저장을 선택했다면 보관 안내 확인이 필요합니다.";
@@ -150,5 +151,5 @@ export function photoConsentBlockedMessage(choices: PhotoConsentChoices): string
 }
 
 export function photoAnalysisOnlyAckMessage(): string {
-  return "분석만 모드: 분석 완료 후 이 기기의 사진 데이터는 즉시 삭제됩니다.";
+  return ANALYSIS_SCOPE_COPY_KO.analysisOnlyAck;
 }

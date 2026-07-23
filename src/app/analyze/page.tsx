@@ -15,6 +15,7 @@ import {
 } from "@/components/care/PhotoConsentPanel";
 import { GuidedCaptureFlow } from "@/components/analyze/guidedCapture/GuidedCaptureFlow";
 import { isGuidedCameraCaptureEnabled } from "@/lib/analyze/guidedCapture/isEnabled";
+import { ANALYSIS_SCOPE_COPY_KO } from "@/lib/analyze/guidedCapture/inputPolicy";
 import {
   defaultPhotoConsentChoices,
   shouldAutoPurgeAfterAnalysis,
@@ -1166,10 +1167,10 @@ export default function AnalyzePage() {
           name="description"
           content={
             locale === "ko"
-              ? "사진 또는 기본 정보로 피부 타입·고민·관심 성분을 정리하는 K-뷰티 분석 가이드입니다."
+              ? "카메라 촬영(품질 확인)과 문진·입력으로 피부 타입·고민·관심 성분을 정리하는 K-뷰티 가이드입니다. 사진 픽셀은 외부 AI로 보내지 않습니다."
               : locale === "ja"
-                ? "写真または基本情報から肌タイプ・悩み・成分を整理するK-Beauty分析ガイドです。"
-                : "AI-powered K-beauty skin information guide."
+                ? "撮影（品質確認）と問診・入力から肌タイプ・悩み・成分を整理するK-Beautyガイドです。"
+                : "Questionnaire-based K-beauty skin guide. Photo pixels are not sent to external AI at this stage."
           }
         />
       </Head>
@@ -1184,10 +1185,12 @@ export default function AnalyzePage() {
                 : "AI SKIN GUIDE"}
           </p>
           <h1 className="mt-3 font-['Playfair_Display',serif] text-3xl font-bold tracking-tight md:text-4xl">
-            AI로 피부 정보를 더 빠르게 확인해보세요
+            문진·입력으로 피부 가이드를 확인해보세요
           </h1>
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-gray-600">
-            사진 또는 기본 정보를 바탕으로 피부 타입, 주요 고민, 관심 성분을 정리해드립니다. 이 기능은 의료적 진단이 아닌, K-Beauty 정보 탐색을 돕기 위한 분석 가이드입니다.
+            카메라 촬영(품질·각도 확인)과 문진·입력 정보를 바탕으로 피부 타입,
+            주요 고민, 관심 성분을 정리합니다. 현재 단계에서 사진 픽셀은 외부
+            AI로 보내지 않으며, 의료 진단이 아닌 K-Beauty 정보 안내입니다.
           </p>
           {/* Phase 3C: development 전용 Mock 추천 테스트 버튼 */}
           {showMockButton ? (
@@ -1229,7 +1232,7 @@ export default function AnalyzePage() {
                 : "border border-pink-200 bg-white text-gray-700 hover:bg-pink-50"
             }`}
           >
-            사진으로 분석하기
+            카메라로 촬영하기
           </button>
           <button
             type="button"
@@ -1319,16 +1322,11 @@ export default function AnalyzePage() {
               ) : (
               <div className="space-y-4">
                 <p className="text-sm font-semibold text-gray-900">
-                  사진 분석
+                  카메라 촬영
                 </p>
                 <div className="rounded-2xl border border-[#E8DFD8] bg-[#FAF7F4] p-3 text-xs leading-5 text-stone-700">
-                  <p>
-                    현재 피부 상태를 정확히 보기 위해 지금 촬영한 사진만
-                    사용합니다.
-                  </p>
-                  <p>
-                    기존 사진이나 갤러리 사진은 분석에 사용하지 않습니다.
-                  </p>
+                  <p>{ANALYSIS_SCOPE_COPY_KO.capturePurpose}</p>
+                  <p>{ANALYSIS_SCOPE_COPY_KO.noExternalVision}</p>
                   <p>
                     안내형 카메라가 꺼져 있을 때는 사진 없이 문진으로 진행해
                     주세요.
@@ -1497,11 +1495,11 @@ export default function AnalyzePage() {
                         : "bg-[#C2185B] hover:bg-[#a3154f]"
                     }`}
                   >
-                    {loading ? "분석 중..." : "AI 분석 시작"}
+                    {loading ? "안내 준비 중..." : "피부 가이드 시작"}
                   </button>
                   <p className="mt-3 text-xs text-gray-500">
                     입력한 알레르기·회피 성분과 현재 사용 제품은 추천·루틴 점검의 참고 정보입니다. 의료 진단이 아닙니다.
-                    AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
+                    AI 피부 가이드는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
                   </p>
                 </div>
               </div>
@@ -1515,7 +1513,7 @@ export default function AnalyzePage() {
             {showConfirmedAnalysis && result ? (
               <div className="space-y-4">
                 <h3 className="font-['Playfair_Display',serif] text-lg font-semibold text-[#C2185B]">
-                  AI 분석 결과
+                  AI 피부 가이드 결과
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-2xl border border-pink-100 bg-pink-50/40 p-4">
@@ -1602,7 +1600,7 @@ export default function AnalyzePage() {
                 </div>
 
                 <p className="text-xs text-gray-500">
-                  AI 분석 결과는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
+                  AI 피부 가이드는 참고용 정보이며, 실제 피부 상태와 다를 수 있습니다.
                 </p>
               </div>
             ) : mode === "manual" ? (
@@ -1612,7 +1610,7 @@ export default function AnalyzePage() {
                     현재 선택 기준 미리보기
                   </h3>
                   <p className="mt-1 text-xs text-gray-500">
-                    AI 분석 전 참고용 정보입니다.
+                    가이드 실행 전 참고용 정보입니다.
                   </p>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -1735,18 +1733,19 @@ export default function AnalyzePage() {
                     aria-disabled="true"
                     className="inline-flex cursor-not-allowed items-center justify-center rounded-full bg-gray-300 px-5 py-2 text-xs font-semibold text-white"
                   >
-                    AI 분석 후 제품 정보 보기
+                    가이드 후 제품 정보 보기
                   </button>
                   <p className="text-xs text-gray-500">
-                    분석을 실행하면 현재 선택 기준 제품 정보를 확인할 수
+                    피부 가이드를 실행하면 현재 선택 기준 제품 정보를 확인할 수
                     있습니다.
                   </p>
                 </div>
               </div>
             ) : (
               <p className="text-sm text-gray-500">
-                사진을 업로드한 뒤 AI 분석을 실행하면 결과가 표시됩니다. 선택값
-                기반 참고 미리보기는 「직접 입력」모드에서 볼 수 있습니다.
+                카메라로 촬영하거나 문진을 입력한 뒤 피부 가이드를 실행하면
+                결과가 표시됩니다. 선택값 기반 참고 미리보기는 「직접 입력」
+                모드에서 볼 수 있습니다.
               </p>
             )}
           </div>

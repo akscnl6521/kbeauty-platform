@@ -4,6 +4,7 @@ import {
   delayMessageKo,
   type AnalysisProgressSnapshot,
 } from "@/lib/analyze/guidedCapture/analysisProgress";
+import { ANALYSIS_SCOPE_COPY_KO } from "@/lib/analyze/guidedCapture/inputPolicy";
 import {
   ANALYSIS_PIPELINE_PHASES,
   type AnalysisProgressPhase,
@@ -12,8 +13,8 @@ import {
 const PHASE_LABEL: Record<AnalysisProgressPhase, string> = {
   preparing: "준비",
   checking_photo_quality: "사진 품질",
-  uploading: "전달",
-  analyzing: "피부 비교",
+  uploading: "요청 전송",
+  analyzing: "안내 준비",
   matching_scenario: "상황 매칭",
   checking_ingredients: "성분 확인",
   ranking_products: "제품 비교",
@@ -59,10 +60,13 @@ export function AnalysisProgressOverlay({
           id="analysis-progress-title"
           className="font-['Playfair_Display',serif] text-xl text-stone-900"
         >
-          AI 분석 진행
+          {ANALYSIS_SCOPE_COPY_KO.progressTitle}
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-stone-600" aria-live="polite">
           {progress.messageKo}
+        </p>
+        <p className="mt-1 text-[11px] leading-5 text-stone-500">
+          {ANALYSIS_SCOPE_COPY_KO.noExternalVision}
         </p>
         {delayMsg ? (
           <p className="mt-2 text-xs text-stone-500" role="status">

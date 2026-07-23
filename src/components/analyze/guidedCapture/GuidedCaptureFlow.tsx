@@ -50,7 +50,10 @@ import {
   qualityReasonMessageKo,
 } from "@/lib/analyze/guidedCapture/qualityCheck";
 import { revokeAllShotUrls } from "@/lib/analyze/guidedCapture/sessionCleanup";
-import { CAMERA_ONLY_POLICY_COPY_KO } from "@/lib/analyze/guidedCapture/inputPolicy";
+import {
+  ANALYSIS_SCOPE_COPY_KO,
+  CAMERA_ONLY_POLICY_COPY_KO,
+} from "@/lib/analyze/guidedCapture/inputPolicy";
 import type {
   CaptureAngle,
   CaptureFlowState,
@@ -420,12 +423,11 @@ export function GuidedCaptureFlow({
         <p>{CAMERA_ONLY_POLICY_COPY_KO.currentSkinOnly}</p>
         <p>{CAMERA_ONLY_POLICY_COPY_KO.noGallery}</p>
         <p>{CAMERA_ONLY_POLICY_COPY_KO.questionnaireFallback}</p>
-        <p className="mt-2">사진은 피부 분석 목적으로만 사용됩니다.</p>
-        <p>비교 저장에 동의하지 않으면 원본은 보관하지 않습니다.</p>
-        <p>얼굴 신원 확인에는 사용하지 않습니다.</p>
+        <p className="mt-2">{ANALYSIS_SCOPE_COPY_KO.capturePurpose}</p>
+        <p>{ANALYSIS_SCOPE_COPY_KO.noExternalVision}</p>
+        <p>{ANALYSIS_SCOPE_COPY_KO.noIdentity}</p>
         <p className="mt-1 text-stone-500">
-          이번 단계에서는 서버에 사진을 영구 저장하지 않으며, 분석 후 이 기기의
-          임시 미리보기는 정리됩니다.
+          {ANALYSIS_SCOPE_COPY_KO.noPermanentStoreDefault}
         </p>
       </div>
 
@@ -537,7 +539,7 @@ export function GuidedCaptureFlow({
       {session.state === "ready_for_analysis" ? (
         <div className="space-y-3 rounded-2xl border border-emerald-100 bg-emerald-50/40 p-4">
           <p className="text-sm font-semibold text-emerald-900">
-            3장 촬영을 마쳤습니다. AI 분석을 시작할 수 있어요.
+            {ANALYSIS_SCOPE_COPY_KO.readyAfterThreeShots}
           </p>
           <div className="grid grid-cols-3 gap-2">
             {(["front", "left45", "right45"] as CaptureAngle[]).map((a) => {
@@ -561,7 +563,9 @@ export function GuidedCaptureFlow({
               disabled={analyzing}
               className="rounded-full bg-[#C2185B] px-5 py-2 text-xs font-semibold text-white disabled:bg-stone-300"
             >
-              {analyzing ? "분석 중…" : "AI 분석 시작"}
+              {analyzing
+                ? ANALYSIS_SCOPE_COPY_KO.startGuideCtaBusy
+                : ANALYSIS_SCOPE_COPY_KO.startGuideCta}
             </button>
             <button
               type="button"

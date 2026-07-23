@@ -6,6 +6,16 @@
 
 ## 2026-07-23
 
+### WQG-P0-001 — 사진 AI 오인·동의·카피 정합
+
+- 동의·진행·결과 문구를 실제 동작에 맞춤: **사진 픽셀 외부 AI 미전송**, 안내는 **문진·입력 기반**, 3장 촬영은 **품질·각도 표준화**
+- `ANALYSIS_SCOPE_COPY_KO` 공용 카피 · PhotoConsentPanel / GuidedCaptureFlow / progress overlay / analyze·results·home
+- 갤러리 잔존 「사진을 업로드한 뒤…」문구 제거(동 경로) · **WQG-P1-001도 함께 해소**
+- vision AI 미도입 · Storage/DB/Production/main 미변경
+- Tests: `npm run test:guided-capture` · `npm run test:photo-comparison` · `npm run test:symptom-safety` — **통과**
+- **WQG-P0-002** → `RELEASE_GATE_PENDING` (Production 배포 직전 확인 · feature 중 미실행 · 키 미기록)
+- 다음 코드: **WQG-P1-002** (`CameraCapturePanel` dynamic import)
+
 ### WQ-G — Prelaunch gate (docs only)
 
 - Created `docs/prelaunch/WQ-G_PRELAUNCH_GATE.md` (audit · no app/DB/Production changes)

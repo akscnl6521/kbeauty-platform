@@ -29,9 +29,9 @@ export function messageForPhase(phase: AnalysisProgressPhase): string {
     case "checking_photo_quality":
       return "촬영한 사진의 품질을 확인하고 있어요.";
     case "uploading":
-      return "사진을 안전하게 전달하고 있어요.";
+      return "문진·입력 정보를 서버로 보내고 있어요.";
     case "analyzing":
-      return "얼굴 영역을 구분하고 문진 답변과 함께 비교하고 있어요.";
+      return "문진 답변을 바탕으로 안내를 준비하고 있어요.";
     case "matching_scenario":
       return "피부 고민에 맞는 상황을 확인하고 있어요.";
     case "checking_ingredients":

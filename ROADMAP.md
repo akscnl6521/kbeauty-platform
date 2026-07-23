@@ -6,7 +6,7 @@
 
 ## 현재 단계
 
-**단계 5 리텐션 + Phase 3.0 수동 촬영(기본)** · Phase 3.1 deferred · **WQ-G 문서 완료** · 다음: **P0 카피·동의 정합**
+**단계 5 리텐션 + Phase 3.0 수동 촬영(기본)** · Phase 3.1 deferred · WQ-G · **WQG-P0-001 완료** · WQG-P0-002=`RELEASE_GATE_PENDING` · 다음 코드: **WQG-P1-002** dynamic import
 
 ## 완료
 
@@ -81,9 +81,9 @@
 
 ## 다음 작업
 
-1. **WQG-P0-001** — 사진 AI 분석 오인·동의·배지 정합 (앱 문구 · vision 미도입)
-2. Production `AI_PROVIDER` 확인 (승인 경계 · 대시보드)
-3. P1 — 업로드 잔존 문구 · Preview A/B/C·수동 촬영 실기기
+1. **WQG-P1-002** — `CameraCapturePanel`/landmark **dynamic import** (모바일 번들 · flag OFF)
+2. P0-003 / P1 Preview·실기기 육안 (사람)
+3. **WQG-P0-002** `RELEASE_GATE_PENDING` — Production 배포 직전 `AI_PROVIDER` 확인 (지금 미실행 · 키 미기록)
 4. Phase 3.1 자동 정렬은 **보류** 유지
 5. (승인 대기) 사진 비교 Staging migration · `care-photos`
 
@@ -119,7 +119,9 @@
 - [~] Phase 3.1 — 얼굴 랜드마크 자동 정렬·자동 촬영 (**implemented · tests passed · Android blocker unresolved · deferred**) · 기본 flag OFF · 코드 보존
 - [x] 프로젝트 UI 스킬 설치 (frontend-design, ui-ux-pro-max) + kbeauty-match-design + design-system 초안 (페이지 재디자인 미실시)
 - [x] **WQ-G Prelaunch gate** 문서 (`docs/prelaunch/WQ-G_PRELAUNCH_GATE.md` · 조사만 · P0×3 / P1×6)
-- [ ] **WQG-P0-001** 사진 AI 분석 오인·동의 정합
+- [x] **WQG-P0-001** 사진 AI 분석 오인·동의 정합 (문진 기반 · 픽셀 외부 AI 미전송 · vision 미도입)
+- [~] **WQG-P0-002** Production `AI_PROVIDER` — **`RELEASE_GATE_PENDING`** (배포 직전 · 지금 미실행)
+- [ ] **WQG-P1-002** CameraCapturePanel/landmark dynamic import (다음 코드 작업)
 - [ ] Phase 3.1 실기기 안정화 재개 (Android Chrome · iPhone Safari 통과 후)
 - [ ] WQ-F Phase 2+ 잔여: schema/runtime 확장 (D/E 보강 없이 · 별도 승인)
 

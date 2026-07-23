@@ -1,25 +1,29 @@
-# NEXT_TASK — Production 배포 승인 대기
+# NEXT_TASK — WQG-P1-002 landmark dynamic import
 
-최종 갱신: 2026-07-16
+최종 갱신: 2026-07-23
 
 ## 완료 (반복 금지)
 
-- Preview `/results` 이미지 코드·Snail 96 복구·Staging 공개 9건 이미지 **9/9 OK**
-- A안 Production 신규 **5건** (id 188~192, `verified_at` NULL)
-- 로컬 출시 준비 검사 통과
-- **main 병합** — 사용자 「승인」(2026-07-16) · backup → main
+- WQ-G Prelaunch gate 문서
+- **WQG-P0-001** 사진 AI 오인·동의·카피 정합 (vision 미도입)
+- 로컬 테스트: `test:guided-capture` · `test:photo-comparison` · `test:symptom-safety` 통과
 
-## 남은 작업 (단일)
+## WQG-P0-002 상태
 
-채팅에 **「Production 배포 진행」**을 보내 주세요.
+| 항목 | 값 |
+|------|-----|
+| 상태 | **`RELEASE_GATE_PENDING`** |
+| 이유 | Production `AI_PROVIDER` 확인은 **Production 배포 직전**에 수행. feature 개발 중 중복 확인 생략 |
+| 키 값 | 문서·로그·채팅에 **기록 금지** |
+| 재확인 | Production 배포 **승인 전 최종 체크리스트**에서 다시 확인 |
+| 지금 | **미실행** |
+
+## 남은 작업 (단일 · 코드)
 
 | 보낼 말 | 실행 내용 |
 |---------|-----------|
-| **Production 배포 진행** | Vercel Production 배포 |
+| **계속하자** | **WQG-P1-002** — `GuidedCaptureFlow`에서 `CameraCapturePanel`(landmark 정적 import 포함)을 `dynamic()` 분리해 flag OFF 기본 경로 번들·모바일 부하 감소 |
 
-## 배포 전 사용자 확인 (대시보드 · 에이전트 대체 불가)
+## 금지
 
-1. Vercel Production: `AI_PROVIDER`가 mock이 **아닌지**
-2. Supabase Auth: Site URL / Redirect URLs에 Production 도메인
-
-잔여 27 heroes 공식 INCI는 **BLOCKED**.
+- Production env 변경·배포 · main 병합 · DB/Storage/migration · 자동 landmark 재수정

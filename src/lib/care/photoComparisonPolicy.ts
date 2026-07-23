@@ -236,13 +236,13 @@ export function shouldAutoPurgeAfterAnalysis(mode: PhotoConsentMode): boolean {
 }
 
 export const medicalDisclaimerKo =
-  "AI 분석 결과는 참고용 정보이며 의료 진단이 아닙니다. 통증·진물·급격한 악화가 있으면 전문의 상담을 우선하세요.";
+  "AI 피부 가이드는 참고용 정보이며 의료 진단이 아닙니다. 통증·진물·급격한 악화가 있으면 전문의 상담을 우선하세요.";
 
 export const medicalDisclaimerEn =
-  "AI analysis is informational only and not a medical diagnosis. Seek professional care for pain, discharge, or rapid worsening.";
+  "AI skin guidance is informational only and not a medical diagnosis. Seek professional care for pain, discharge, or rapid worsening.";
 
 export const retentionNoticeKo =
-  "비교용 저장을 선택하면 최대 90일간 보관되며, 설정에서 언제든 삭제할 수 있습니다. 분석만 선택하면 분석 후 즉시 삭제됩니다.";
+  "비교용 저장을 선택하면 최대 90일간 보관되며, 설정에서 언제든 삭제할 수 있습니다. 분석만 선택하면 안내 후 이 기기의 임시 사진은 삭제됩니다. 현재 단계에서 사진 픽셀은 외부 AI로 보내지 않습니다.";
 
 export const retentionNoticeEn =
-  "If you choose to save for comparison, photos are kept up to 90 days and can be deleted anytime in settings. Analysis-only photos are purged after analysis.";
+  "If you choose to save for comparison, photos are kept up to 90 days and can be deleted anytime in settings. Analysis-only temporary photos are cleared after guidance. At this stage photo pixels are not sent to external AI.";

@@ -493,14 +493,18 @@ function ResultsPageInner() {
         : "Search products...";
   const subtitle =
     locale === "ko"
-      ? "이 결과는 피부톤, 피부 고민, 언더톤, 가격대와 AI 분석 정보를 기준으로 정리되었습니다."
+      ? "이 결과는 피부톤, 피부 고민, 언더톤, 가격대와 문진·입력 기반 AI 가이드를 기준으로 정리되었습니다."
       : locale === "ja"
-        ? "肌トーン・肌悩み・アンダートーン・価格帯とAIガイド情報を基準に整理した結果です。"
-        : "Results organized by skin tone, concerns, undertone, price tier, and AI guide insights.";
+        ? "肌トーン・肌悩み・アンダートーン・価格帯と問診・入力ベースのAIガイド情報を基準に整理した結果です。"
+        : "Results organized by skin tone, concerns, undertone, price tier, and questionnaire-based AI guide insights.";
 
   const aiApplied = searchParams.get("ai") === "1";
   const aiBadgeText =
-    locale === "ko" ? "AI 분석 반영됨" : locale === "ja" ? "AIガイド適用" : "AI Guide Applied";
+    locale === "ko"
+      ? "AI 가이드 반영됨"
+      : locale === "ja"
+        ? "AIガイド適用"
+        : "AI Guide Applied";
 
   const hasSavedRecommendation =
     (savedRecommendation != null &&
@@ -1034,9 +1038,9 @@ function ResultsPageInner() {
                           <div>
                             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#C2185B]">
                               {locale === "ko"
-                                ? "AI 피부 분석"
+                                ? "AI 피부 가이드"
                                 : locale === "ja"
-                                  ? "AI肌分析"
+                                  ? "AIスキンガイド"
                                   : "AI Skin Guide"}
                             </p>
                             <h2 className="mt-2 font-['Playfair_Display',serif] text-2xl font-semibold text-gray-900 sm:text-3xl">
@@ -1722,7 +1726,7 @@ function ResultsPageInner() {
                 <Link href="/analyze" className="mt-5 inline-block">
                   <span className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#a3154f]">
                     {locale === "ko"
-                      ? "AI 분석으로 이동"
+                      ? "피부 가이드로 이동"
                       : locale === "ja"
                         ? "AI分析へ"
                         : "Go to AI Analyze"}
