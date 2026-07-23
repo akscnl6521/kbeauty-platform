@@ -130,7 +130,9 @@ const keyPaths = [
   "docs/catalog-product-automation.md",
   "docs/organic-commerce-professional-routing.md",
   "docs/prelaunch/T06_FINAL_INTEGRATION_RELEASE_EVIDENCE.md",
+  "docs/prelaunch/P2-T01_PREVIEW_ROUTE_VALIDATION.md",
   "src/lib/release/finalIntegrationEvidence.ts",
+  "src/lib/validation/previewRouteValidation.ts",
   "KBEAUTY_MASTER_EXECUTION_PROMPT.md",
 ];
 for (const p of keyPaths) mustExist(p);
@@ -147,6 +149,14 @@ assert.ok(
 assert.ok(
   pkg.includes('"test:product-automation"'),
   "package.json must define test:product-automation",
+);
+assert.ok(
+  pkg.includes('"test:preview-routes"'),
+  "package.json must define test:preview-routes",
+);
+assert.ok(
+  pkg.includes('"check:preview-routes"'),
+  "package.json must define check:preview-routes",
 );
 assert.ok(
   pkg.includes('"test:organic-commerce"'),

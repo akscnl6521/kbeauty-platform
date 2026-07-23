@@ -1,6 +1,20 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-23
+최종 갱신: 2026-07-24
+
+## 2026-07-24 P2-T01 · Automated Preview and route validation
+
+- 계약: `src/lib/validation/previewRouteValidation.ts` (공개·analyze/results/routine·profile/guidance·admin review·auth API · viewport 320/390/768/1440 · loading/empty/error 마커)
+- 러너: `scripts/run-preview-route-validation.ts` · selftest `scripts/preview-route-validation-selftest.ts`
+- 명령: `npm run test:preview-routes` · `npm run check:preview-routes` (`--mode=http|browser` + `BASE_URL`/`PREVIEW_BASE_URL`/`--base-url`)
+- 로컬 검증: static inventory 통과 · HTTP 통과 · browser 스크린샷 **40장**(10 routes × 4 viewports) · `visualApprovalClaimed=false`
+- 아티팩트: `artifacts/preview-route-validation/` (gitignore) · 육안 승인 위장 없음
+- 스모크 재사용: `test:smoke` 라우트 인벤토리 확장 · Preview SSO 우회 금지 · Playwright chromium
+- Docs: `docs/prelaunch/P2-T01_PREVIEW_ROUTE_VALIDATION.md` · Preview 체크리스트 갱신
+- Tests: `test:preview-routes` · `check:preview-routes` · `test:smoke` · `test:autopilot-queue` · 변경 ESLint · `tsc` — **통과**
+- 사람 Preview/실기기 육안·SSO 로그인은 **미검증** (`external_only`)
+- Staging/Production DB·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 (`external_only`)
 
 ## 2026-07-23 T06 · Final integration + release evidence
 
@@ -132,6 +146,7 @@
 - **T04 Organic commerce**: 제휴 링크 구조·Organic 분리 랭킹·광고 슬롯·이벤트·UI 라벨·`/admin/commerce` · 전문가 라우팅 번들 (실제휴·실병원 게시 제외)
 - **T05 사용 가이드 현지화·운영**: 패치 테스트·영상 fallback · 국가/언어 offer(미발명) · admin ops dry-run (`/admin/catalog/ops`)
 - **T06 최종 통합·릴리스 증거**: 여정 연결 계약 · empty/loading a11y · supabase build placeholder · 로컬 자동검증·production build 통과 · Preview/실기기는 external_only
+- **P2-T01 Preview/라우트 자동 검증**: 계약·HTTP/브라우저 러너·스크린샷·JSON · 육안 승인 미주장
 
 ## 자동화 안전 상태
 
@@ -173,7 +188,7 @@
 Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T07)
 
 1. 공식 병원 후보 실출처 승인 후 dry-run→검수→publishable 전환 (가짜 게시 금지)
-2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수)
+2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수) — 자동 라우트 검증(P2-T01)은 보조 증거만
 3. P1-006 개인정보 전송 범위 문구의 정책·법무 최종 검수
 4. **WQG-P0-002** — `RELEASE_GATE_PENDING` (Production 배포 직전 최종 확인 · 지금 미실행)
 5. Phase 3.1 자동 정렬은 **보류** 유지

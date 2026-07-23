@@ -81,6 +81,8 @@
     "check:production": "node scripts/check-production-readiness.mjs",
     "check:deployment-env": "node scripts/check-deployment-env.mjs",
     "test:smoke": "node scripts/smoke-test.mjs",
+    "test:preview-routes": "npx --yes tsx scripts/preview-route-validation-selftest.ts",
+    "check:preview-routes": "npx --yes tsx scripts/run-preview-route-validation.ts",
     "check:release-security": "node scripts/security-release-check.mjs",
     "check:responsive": "node scripts/check-responsive-layout.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",
@@ -163,6 +165,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "playwright": "^1.51.1",
     "tailwindcss": "^4",
     "tsx": "^4.23.1",
     "typescript": "^5"

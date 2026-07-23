@@ -83,6 +83,9 @@ supabase/.temp/
 **/__pycache__/
 *.py[cod]
 
+# P2-T01 Preview/local route validation artifacts (screenshots + JSON)
+/artifacts/preview-route-validation/
+
 # Generated recommendation analysis (local / CI artifacts)
 /data/generated/recommendation/
 

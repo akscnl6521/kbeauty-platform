@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-07-24
+
+### P2-T01 — Automated Preview and route validation
+
+- 계약: `previewRouteValidation` — 공개·analyze/results/routine·`/my` profile/guidance·admin review·auth API · viewport 320/390/768/1440 · loading/empty/error 마커
+- 러너: `check:preview-routes` (static/http/browser) · 스크린샷+JSON 아티팩트 · `visualApprovalClaimed=false`
+- 로컬 검증: static·HTTP·browser 스크린샷 40장(10×4 viewports) · `visualApprovalClaimed=false`
+- Selftest: `test:preview-routes` · smoke 인프라 재사용 · Preview SSO 우회 금지 · Production 호스트 거부
+- Docs: `docs/prelaunch/P2-T01_PREVIEW_ROUTE_VALIDATION.md` · Preview 체크리스트 갱신
+- 사람 Preview/실기기 육안은 `external_only` · Staging/Production·main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-23
 
 ### T06 — Final integration · release evidence

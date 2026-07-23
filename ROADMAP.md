@@ -1,6 +1,6 @@
 # ROADMAP.md — K-Beauty Match
 
-최종 갱신: 2026-07-23
+최종 갱신: 2026-07-24
 
 현재 실제 진행 상태는 이 문서를 우선한다. 최상위 방향은 Master Plan **v4.2**를 따른다.
 
@@ -25,6 +25,7 @@
 - [x] T04 Organic/Affiliate/Sponsored 분리 · 전문가 라우팅 번들 (`test:organic-commerce`)
 - [x] T05 사용 가이드 현지화·패치/영상 fallback · 국가/언어 offer · admin ops dry-run (`test:usage-media-admin-ops`)
 - [x] T06 최종 통합·릴리스 증거 (`test:final-integration` · landmark OFF · build placeholder · Preview/device external_only)
+- [x] **P2-T01** Preview/local 라우트 자동 검증 (`test:preview-routes` · `check:preview-routes` · viewport 320/390/768/1440 · 스크린샷 증거 · 육안 승인 미주장)
 - [x] Master execution queue 문서화 (`docs/autopilot/MASTER_EXECUTION_QUEUE.md` · 계약 `docs/autopilot/EXECUTION_CONTRACT.md`)
 
 ### 플랫폼 핵심 사용자 여정
@@ -96,6 +97,7 @@
 - [x] 단계 4 본기능 코드·자동 테스트·Staging build 검증 완료
 - [x] **T05** 도포량·순서·빈도·주의·패치 테스트·도포 영상 메타 + fallback · 국가/언어 offer(미발명) · admin 후보/중복/근거/전환/만료큐/재시도/감사 dry-run
 - [x] **T06** 최종 통합·릴리스 증거 (여정 연결 계약 · empty/loading a11y · landmark OFF · 로컬 자동검증·security·production build) · Preview/실기기 육안은 미검증
+- [x] **P2-T01** 공개·analyze/results/routine·profile/guidance·admin review 라우트 자동 검증 + viewport 스크린샷 파이프라인 (육안 승인 아님)
 - [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함)
 - [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수
 - [x] Preview 원격 검수 JSON 경로 연결 (코드·fixture·자동 Preview 경로)
@@ -185,6 +187,7 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 ### 단계 9 — 통합 검증과 출시
 
 - [x] **T06** 코드 수준 여정 통합·릴리스 증거 문서·로컬 자동검증·production build (Preview/실기기·법무 제외)
+- [x] **P2-T01** Preview/local 라우트·viewport 자동 검증 인프라 (사람 육안은 별도)
 - [ ] 실제 제품·판매처·피부과 데이터 사람 최종 검수
 - [ ] 전체 사용자 여정 Preview 검증
 - [ ] 모바일·접근성·성능 재검증 (실기기)
