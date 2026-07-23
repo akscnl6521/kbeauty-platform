@@ -110,12 +110,16 @@ assert.ok(
 
 const keyPaths = [
   "src/lib/profile/beautyProfile.ts",
+  "src/lib/profile/beautyProfileServer.ts",
+  "src/app/api/care/beauty-profile/route.ts",
   "src/app/my/profile",
   "src/app/my/guidance",
   "src/app/admin/clinics",
   "src/lib/catalog/commonProduct.ts",
   "scripts/master-execution-selftest.ts",
+  "scripts/beauty-profile-selftest.ts",
   "scripts/clinic-stage6-selftest.ts",
+  "supabase/migrations/DRAFT_DO_NOT_APPLY_beauty_profiles.sql",
   "docs/prelaunch/WQ-G_PRELAUNCH_GATE.md",
   "KBEAUTY_MASTER_EXECUTION_PROMPT.md",
 ];
@@ -125,6 +129,17 @@ const pkg = read("package.json");
 assert.ok(
   pkg.includes('"test:autopilot-queue"'),
   "package.json must define test:autopilot-queue",
+);
+assert.ok(
+  pkg.includes('"test:beauty-profile"'),
+  "package.json must define test:beauty-profile",
+);
+
+const queueNext = queue.match(/## next_task[\s\S]*?\|\s*ID\s*\|\s*`?(T0\d+)`?/);
+assert.ok(queueNext, "next_task ID parseable");
+assert.ok(
+  queue.includes("VC-20") || queue.includes("beauty-profile"),
+  "queue should reflect BeautyProfile durable work",
 );
 
 console.log("autopilot-queue selftest: OK");

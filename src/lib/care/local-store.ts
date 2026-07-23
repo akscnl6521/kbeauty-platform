@@ -39,7 +39,9 @@ import {
   applyConfirmedProfilePatch,
   applyProfileObservation,
   createEmptyBeautyProfile,
+  observationFromCheckIn,
   observationFromDomainQuiz,
+  parseBeautyProfile,
   type ConfirmedProfilePatch,
 } from "@/lib/profile";
 
@@ -82,7 +84,10 @@ export function loadCareStore(): CareStoreSnapshot {
       checkIns: refreshCheckInStatuses(dedupeCheckInsByDay(parsed.checkIns ?? [])),
       settings: normalizeCareUserSettings(parsed.settings, parsed.settings?.timezone || "Asia/Seoul"),
       routineAdjustmentHistory: parsed.routineAdjustmentHistory ?? [],
-      beautyProfile: parsed.beautyProfile ?? createEmptyBeautyProfile(parsed.updatedAt),
+      beautyProfile: parseBeautyProfile(
+        parsed.beautyProfile ?? null,
+        parsed.updatedAt
+      ),
     };
   } catch {
     return emptyCareStore();
@@ -209,7 +214,10 @@ export function saveAnalysisSessionFromLocalRecommendation(input: {
       checkIns
     ),
     beautyProfile: applyProfileObservation(
-      store.beautyProfile ?? createEmptyBeautyProfile(session.createdAt),
+      parseBeautyProfile(
+        store.beautyProfile ?? null,
+        session.createdAt
+      ),
       {
         source: "user_confirmed",
         recordedAt: session.createdAt,
@@ -320,6 +328,16 @@ export function completeCheckIn(
       store.notifications,
       referralNote,
       checkIns
+    ),
+    beautyProfile: applyProfileObservation(
+      parseBeautyProfile(
+        store.beautyProfile ?? null,
+        updated.completedAt ?? undefined
+      ),
+      observationFromCheckIn({
+        answers: updated.answers ?? answers,
+        recordedAt: updated.completedAt ?? undefined,
+      })
     ),
   };
   saveCareStore(next);
@@ -457,7 +475,7 @@ export function updateBeautyProfileConfirmed(
   const next: CareStoreSnapshot = {
     ...store,
     beautyProfile: applyConfirmedProfilePatch(
-      store.beautyProfile ?? createEmptyBeautyProfile(),
+      parseBeautyProfile(store.beautyProfile ?? null),
       patch
     ),
   };
@@ -475,7 +493,10 @@ export function applyDomainQuizToBeautyProfile(input: {
   const next: CareStoreSnapshot = {
     ...store,
     beautyProfile: applyProfileObservation(
-      store.beautyProfile ?? createEmptyBeautyProfile(input.completedAt),
+      parseBeautyProfile(
+        store.beautyProfile ?? null,
+        input.completedAt
+      ),
       observationFromDomainQuiz({
         domain: input.domain,
         answers: input.answers,

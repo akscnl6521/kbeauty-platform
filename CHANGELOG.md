@@ -6,6 +6,17 @@
 
 ## 2026-07-23
 
+### T01 — Core journey · durable BeautyProfile
+
+- `parseBeautyProfile` / `mergeBeautyProfiles` / `sanitizeConfirmedProfilePatch` / `observationFromCheckIn`
+- 체크인 완료 시 BeautyProfile에 자극·악화·중단·급성 신호 추론 누적
+- 빈 목록이 확인값으로 고정되어 이후 추론 갱신을 막던 `mergeLists` 버그 수정
+- 서버 경계 `GET/PUT /api/care/beauty-profile` (auth · 검증 · `migrationPending` 로컬 fallback)
+- DRAFT: `supabase/migrations/DRAFT_DO_NOT_APPLY_beauty_profiles.sql` (미적용 · RLS · DELETE 금지)
+- `/my/profile` 로컬↔서버 병합 UX
+- Tests: `test:beauty-profile` · `test:master-execution` · `test:journey` · 변경 ESLint · tsc — **통과**
+- Staging/Production DB·main·commit/push 미실행 · next_task `T02` (공식 병원 실출처 · external_only)
+
 ### T00 — Master audit · Autopilot 실행 계약/큐
 
 - `docs/autopilot/EXECUTION_CONTRACT.md` · `docs/autopilot/MASTER_EXECUTION_QUEUE.md` 신설

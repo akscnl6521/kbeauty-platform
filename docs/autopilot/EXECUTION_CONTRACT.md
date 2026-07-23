@@ -71,7 +71,7 @@ Windows outer runner가 Git을 담당할 때는 **commit/push를 에이전트가
 |---|------|------|
 | 1 | 스킨케어 여정 코드 연결 | `verified_complete` |
 | 2 | red flag → 전문가 우선·추천 중단 | `verified_complete` |
-| 3 | 장기 BeautyProfile | `verified_complete` (UI 포함) |
+| 3 | 장기 BeautyProfile | `verified_complete` (UI·체크인 반영·서버 경계·DRAFT · Staging 미적용) |
 | 4 | 확장 taxonomy | `verified_complete` |
 | 5 | 마스카라/립/샴푸 속성 로직 | `partial` (실구매 verified SKU 부족) |
 | 6 | 규제·기기·도구 분리 | `verified_complete` (구조) |

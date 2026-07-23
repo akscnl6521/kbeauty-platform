@@ -2,6 +2,17 @@
 
 최종 갱신: 2026-07-23
 
+## 2026-07-23 T01 Core journey · durable BeautyProfile
+
+- 안전 파싱(`parseBeautyProfile`) · 프로필 병합 · 확인값 패치 sanitize
+- 체크인 완료 시 추론 관찰값(자극·악화·중단·급성 신호)을 BeautyProfile에 누적
+- 빈 목록이 `user_confirmed`로 고정되어 이후 추론 갱신을 막던 merge 버그 수정
+- 서버 경계: `GET/PUT /api/care/beauty-profile` (로그인·검증·migrationPending 로컬 fallback)
+- DRAFT migration: `supabase/migrations/DRAFT_DO_NOT_APPLY_beauty_profiles.sql` (**미적용**)
+- `/my/profile` 로컬+서버 병합 UI · Tests: `test:beauty-profile` · `test:master-execution` · `test:journey` · 변경 ESLint · tsc
+- Staging/Production DB 미적용 · main 미병합 · commit/push 미실행
+- next_task: `T02` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-23 T00 Master audit — Autopilot 계약·실행 큐
 
 - `KBEAUTY_MASTER_EXECUTION_PROMPT.md` 1회 정독 · 상태/로드맵/changelog/최근 커밋·핵심 경로 대조
@@ -54,7 +65,7 @@
 - **Phase 3.0 안내형 얼굴 촬영 MVP + AI 분석 대기 UX** (기본 UX)
 - 현재 제품·루틴 관리
 - Day 3·7·15·30 체크인과 지속 관리
-- 장기 BeautyProfile 저장·조회·편집 (`/my/profile`)
+- 장기 BeautyProfile 저장·조회·편집 (`/my/profile`) · 체크인 반영 · 서버 API 경계(DRAFT 미적용 시 로컬 fallback)
 - 마스카라·립·샴푸 속성 추천 구조 (실구매 verified SKU 부족 시 속성 예시만)
 - 체크인 이메일 dry-run / Resend adapter 코드 준비 (실발송 없음)
 - Preview Care admin · 체크인 이메일 테스트 UI 육안 통과
@@ -99,7 +110,7 @@
 
 ## 다음 작업
 
-Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T01)
+Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T02)
 
 1. 공식 병원 후보 실출처 승인 후 dry-run→검수→publishable 전환 (가짜 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수)
@@ -107,7 +118,8 @@ Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T01)
 4. **WQG-P0-002** — `RELEASE_GATE_PENDING` (Production 배포 직전 최종 확인 · 지금 미실행)
 5. Phase 3.1 자동 정렬은 **보류** 유지
 6. (승인 대기) 사진 비교 Staging migration · `care-photos`
-7. (승인 후) 권장 커밋 분할·feature push
+7. (승인 대기) BeautyProfile Staging migration · `beauty_profiles`
+8. (승인 후) 권장 커밋 분할·feature push
 
 ## 승인 경계
 

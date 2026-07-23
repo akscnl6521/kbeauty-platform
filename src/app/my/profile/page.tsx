@@ -1,12 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   loadCareStore,
+  saveCareStore,
   updateBeautyProfileConfirmed,
 } from "@/lib/care/local-store";
-import { createEmptyBeautyProfile, type BeautyProfile } from "@/lib/profile";
+import {
+  createEmptyBeautyProfile,
+  mergeBeautyProfiles,
+  parseBeautyProfile,
+  type BeautyProfile,
+} from "@/lib/profile";
 import { MyCareNav } from "../MyCareNav";
 
 function sourceLabel(source?: string): string {
@@ -45,7 +51,7 @@ function Field({
 
 function readInitialProfile(): BeautyProfile {
   if (typeof window === "undefined") return createEmptyBeautyProfile();
-  return loadCareStore().beautyProfile ?? createEmptyBeautyProfile();
+  return parseBeautyProfile(loadCareStore().beautyProfile ?? null);
 }
 
 function formFromProfile(p: BeautyProfile) {
@@ -65,11 +71,42 @@ function formFromProfile(p: BeautyProfile) {
   };
 }
 
-/** Long-term BeautyProfile view/edit — local care store, not a medical record. */
+function applyForm(p: BeautyProfile, set: {
+  setSkinType: (v: string) => void;
+  setSensitivity: (v: string) => void;
+  setCountry: (v: string) => void;
+  setLanguage: (v: string) => void;
+  setUndertone: (v: string) => void;
+  setScalpType: (v: string) => void;
+  setAllergies: (v: string) => void;
+  setConcerns: (v: string) => void;
+  setAvoided: (v: string) => void;
+  setRecommended: (v: string) => void;
+  setPreferredBrands: (v: string) => void;
+  setExcludedBrands: (v: string) => void;
+}) {
+  const f = formFromProfile(p);
+  set.setSkinType(f.skinType);
+  set.setSensitivity(f.sensitivity);
+  set.setCountry(f.country);
+  set.setLanguage(f.language);
+  set.setUndertone(f.undertone);
+  set.setScalpType(f.scalpType);
+  set.setAllergies(f.allergies);
+  set.setConcerns(f.concerns);
+  set.setAvoided(f.avoided);
+  set.setRecommended(f.recommended);
+  set.setPreferredBrands(f.preferredBrands);
+  set.setExcludedBrands(f.excludedBrands);
+}
+
+/** Long-term BeautyProfile view/edit — local care store + optional server sync. */
 export default function MyBeautyProfilePage() {
   const [profile, setProfile] = useState<BeautyProfile>(readInitialProfile);
   const initial = formFromProfile(profile);
   const [msg, setMsg] = useState<string | null>(null);
+  const [syncNote, setSyncNote] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
   const [skinType, setSkinType] = useState(initial.skinType);
   const [sensitivity, setSensitivity] = useState(initial.sensitivity);
   const [country, setCountry] = useState(initial.country);
@@ -83,8 +120,75 @@ export default function MyBeautyProfilePage() {
   const [preferredBrands, setPreferredBrands] = useState(initial.preferredBrands);
   const [excludedBrands, setExcludedBrands] = useState(initial.excludedBrands);
 
-  function save() {
-    const next = updateBeautyProfileConfirmed({
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/care/beauty-profile", {
+          credentials: "include",
+        });
+        if (!res.ok) {
+          if (res.status === 401) {
+            if (!cancelled) {
+              setSyncNote("로그인 전 · 이 기기 로컬 프로필을 사용합니다.");
+            }
+            return;
+          }
+          return;
+        }
+        const json = (await res.json()) as {
+          ok?: boolean;
+          data?: {
+            profile?: BeautyProfile | null;
+            migrationPending?: boolean;
+            storage?: string;
+          };
+        };
+        if (!json.ok || !json.data || cancelled) return;
+        const local = parseBeautyProfile(loadCareStore().beautyProfile ?? null);
+        if (json.data.migrationPending || !json.data.profile) {
+          setSyncNote(
+            "서버 프로필 저장은 아직 준비 중입니다. 지금은 이 기기 로컬에 안전하게 보관합니다."
+          );
+          return;
+        }
+        const merged = mergeBeautyProfiles(
+          local,
+          parseBeautyProfile(json.data.profile)
+        );
+        const store = loadCareStore();
+        saveCareStore({ ...store, beautyProfile: merged });
+        setProfile(merged);
+        applyForm(merged, {
+          setSkinType,
+          setSensitivity,
+          setCountry,
+          setLanguage,
+          setUndertone,
+          setScalpType,
+          setAllergies,
+          setConcerns,
+          setAvoided,
+          setRecommended,
+          setPreferredBrands,
+          setExcludedBrands,
+        });
+        setSyncNote("계정 프로필과 이 기기 기록을 병합했습니다.");
+      } catch {
+        if (!cancelled) {
+          setSyncNote("서버 동기화를 건너뛰고 로컬 프로필을 사용합니다.");
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  async function save() {
+    setSaving(true);
+    setMsg(null);
+    const patch = {
       country,
       language,
       skinType: skinType || null,
@@ -97,10 +201,50 @@ export default function MyBeautyProfilePage() {
       recommendedIngredients: csv(recommended),
       preferredBrands: csv(preferredBrands),
       excludedBrands: csv(excludedBrands),
-    });
-    const p = next.beautyProfile ?? createEmptyBeautyProfile();
+    };
+    const next = updateBeautyProfileConfirmed(patch);
+    let p = next.beautyProfile ?? createEmptyBeautyProfile();
+
+    try {
+      const res = await fetch("/api/care/beauty-profile", {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ patch, localProfile: p }),
+      });
+      if (res.status === 401) {
+        setMsg(
+          "장기 뷰티 프로필을 이 기기에 저장했습니다. 확인값이 추론값보다 우선합니다."
+        );
+      } else if (res.ok) {
+        const json = (await res.json()) as {
+          ok?: boolean;
+          data?: {
+            profile?: BeautyProfile;
+            migrationPending?: boolean;
+          };
+        };
+        if (json.ok && json.data?.profile) {
+          p = parseBeautyProfile(json.data.profile);
+          const store = loadCareStore();
+          saveCareStore({ ...store, beautyProfile: p });
+          setMsg(
+            json.data.migrationPending
+              ? "확인값을 저장했습니다. 서버 테이블은 아직 미적용이라 로컬에 보관합니다."
+              : "확인값을 저장했고 계정 프로필에도 반영했습니다."
+          );
+        } else {
+          setMsg("확인값을 이 기기에 저장했습니다.");
+        }
+      } else {
+        setMsg("확인값을 이 기기에 저장했습니다. 서버 동기화는 나중에 다시 시도하세요.");
+      }
+    } catch {
+      setMsg("확인값을 이 기기에 저장했습니다. 네트워크 오류로 서버 동기화는 건너뛰었습니다.");
+    }
+
     setProfile(p);
-    setMsg("장기 뷰티 프로필을 저장했습니다. 확인값이 추론값보다 우선합니다.");
+    setSaving(false);
   }
 
   return (
@@ -119,6 +263,11 @@ export default function MyBeautyProfilePage() {
         <p className="mt-1 text-xs text-gray-500">
           마지막 갱신: {new Date(profile.updatedAt).toLocaleString("ko-KR")}
         </p>
+        {syncNote ? (
+          <p className="mt-2 text-xs text-gray-500" role="status">
+            {syncNote}
+          </p>
+        ) : null}
       </header>
 
       {msg ? (
@@ -145,6 +294,16 @@ export default function MyBeautyProfilePage() {
           label="회피 성분"
           value={profile.skin.avoidedIngredients.value.join(", ")}
           source={profile.skin.avoidedIngredients.source}
+        />
+        <Field
+          label="위험 신호(사용자 보고)"
+          value={profile.skin.redFlags.value.join(", ")}
+          source={profile.skin.redFlags.source}
+        />
+        <Field
+          label="유발 요인"
+          value={profile.skin.triggers.value.join(", ")}
+          source={profile.skin.triggers.source}
         />
       </section>
 
@@ -205,10 +364,11 @@ export default function MyBeautyProfilePage() {
         <div className="flex flex-wrap gap-3 pt-2">
           <button
             type="button"
-            onClick={save}
-            className="rounded-xl bg-[#8B4513] px-4 py-2 text-sm font-semibold text-white"
+            onClick={() => void save()}
+            disabled={saving}
+            className="rounded-xl bg-[#8B4513] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
           >
-            확인값 저장
+            {saving ? "저장 중…" : "확인값 저장"}
           </button>
           <Link href="/my" className="rounded-xl border border-[#E8DFD8] bg-white px-4 py-2 text-sm font-medium">
             오늘로 돌아가기

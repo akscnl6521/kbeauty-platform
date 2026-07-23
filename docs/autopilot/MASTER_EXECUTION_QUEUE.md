@@ -14,16 +14,27 @@
 
 | 필드 | 값 |
 |------|-----|
-| ID | `T01` |
+| ID | `T02` |
 | 제목 | 공식 병원 후보 실출처 승인 후 dry-run → 관리자 검수 → publishable (fixture 게시 금지) |
 | 분류 | `external_only` (출처 승인) + 승인 후 `remaining` 코드 연결 |
 | 에이전트 단독 | 불가 — 공식 출처·사람 검수 필요 |
-| 대안(코드 가능) | 출처 승인 전: Stage 7 제휴 링크 **데이터 구조만** (`remaining`) 또는 Preview 육안 체크리스트 문서 보강만 |
+| 대안(코드 가능) | 출처 승인 전: Stage 7 제휴 링크 **데이터 구조만** (`remaining` · RE-01) 또는 Preview 육안 체크리스트 문서 보강만 |
 
 사람 검수가 가능하면 우선순위:
 1. P0-003 / P1-003 Preview 육안 (`external_only`)
 2. P1-005 실기기 (`external_only`)
 3. P1-006 정책·법무 (`external_only`)
+
+---
+
+## completed_task (이번 번들)
+
+| 필드 | 값 |
+|------|-----|
+| ID | `T01` |
+| 제목 | Core journey + durable BeautyProfile (파싱·병합·체크인 반영·서버 경계·DRAFT migration·UI) |
+| 분류 | `verified_complete` (코드·selftest) · Staging/Production 적용은 `external_only` |
+| 검증 | `npm run test:beauty-profile` · `test:master-execution` · `test:journey` · 변경 ESLint · `tsc` |
 
 ---
 
@@ -50,6 +61,7 @@
 | VC-17 | 체크인 이메일 큐 Schema A Staging 적용(코드·검증) | Staging verify 통과 · **실발송 없음** |
 | VC-18 | 사진 비교 **정책/API/UI/selftest** (WQ-B) | `test:photo-comparison` · migration/Storage는 별도 |
 | VC-19 | Master execution Q01–Q15·Q19–Q21 | 레거시 큐와 동일 사실 · 본 문서가 canonical |
+| VC-20 | BeautyProfile 안전 파싱·병합·체크인 반영·서버 API·DRAFT migration | `test:beauty-profile` · `/api/care/beauty-profile` · `DRAFT_DO_NOT_APPLY_beauty_profiles.sql` |
 
 ---
 
@@ -63,6 +75,7 @@
 | PA-04 | 사진 비교 운영 | 동의·삭제 코드 | Staging `care-photos` migration 미적용 · Storage 미연결 |
 | PA-05 | 전체 lint/품질 | 변경 파일 lint·관련 selftest | 저장소 전체 ESLint 기존 실패(다수) 잔존 |
 | PA-06 | 카탈로그 자동화 운영 | 계획·아티팩트·가드 | 운영 worker는 사람/스케줄러 영역 · Cursor 세션에서 미실행 |
+| PA-07 | BeautyProfile 서버 동기화 | API·DRAFT·로컬 fallback | Staging `beauty_profiles` 미적용 · 계정 간 실동기화 미검증 |
 
 ---
 
@@ -79,6 +92,7 @@
 | EX-07 | 사진 비교 Staging migration · `care-photos` 버킷 | 승인 대기 |
 | EX-08 | 상담 리드 실전달 채널 | 승인 후 |
 | EX-09 | 공식 offer/전성분 미확보 제품 자동 완성 | 차단 정책 유지 |
+| EX-10 | BeautyProfile Staging migration (`beauty_profiles`) 적용 | DRAFT만 존재 · 승인 전 미적용 |
 
 ---
 

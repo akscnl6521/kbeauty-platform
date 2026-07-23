@@ -16,6 +16,7 @@
 - [x] 사용자 확인값/추론값 우선순위 및 구형 V1 스냅샷 fallback
 - [x] BeautyProfile 조회·편집 UI (`/my/profile`)
 - [x] 도메인 문진 → BeautyProfile 누적
+- [x] 체크인 → BeautyProfile 추론 누적 · 안전 파싱/병합 · 서버 API 경계 · DRAFT migration (Staging 미적용)
 - [x] 전체 beauty taxonomy의 기기·구강·규제·전문가용 분리
 - [x] 공통 제품/규제/추천 적격/상업 메타데이터 계약
 - [x] 증상별 피부과·두피·알레르기·치과·응급 라우팅 (symptomSafety 실연결)
@@ -93,7 +94,7 @@
 
 ## 다음 작업
 
-Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T01)
+Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T02)
 
 1. 공식 병원 실출처 승인 수집 → 관리자 검수 → publishable (fixture 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
@@ -101,6 +102,7 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 4. **WQG-P0-002** `RELEASE_GATE_PENDING` — Production 배포 직전 `AI_PROVIDER` 확인 (지금 미실행 · 키 미기록)
 5. Phase 3.1 자동 정렬은 **보류** 유지
 6. (승인 대기) 사진 비교 Staging migration · `care-photos`
+7. (승인 대기) BeautyProfile Staging migration · `beauty_profiles`
 
 ### 단계 5 — 리텐션 보강
 
