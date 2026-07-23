@@ -6,6 +6,17 @@
 
 ## 2026-07-23
 
+### T04 — Organic commerce · professional routing
+
+- Organic/Affiliate/Sponsored: 제휴 링크 데이터 구조 · Organic 전용 랭킹 · 광고 슬롯 안전 영역 · 스폰서 카드 · in-memory 지속화
+- API: `/api/commerce/presentation` · `/api/commerce/events` · `/api/admin/commerce` · `/api/care/professional-guidance`
+- UI 라벨: `CommerceLaneBadge` · `SponsoredCard` · 추천 카드 Organic 배지 · 병원 패널 레인 배지 · `/admin/commerce`
+- 애널리틱스: click/lead/conversion/revenue · 건강·증상 타기팅 거부 (`health_targeting_forbidden`)
+- 전문가 번들: 증상 라우팅 · 일반 vs 제휴 병원 분리 · fixture 게시 차단 · guidance 연결
+- Docs: `docs/organic-commerce-professional-routing.md`
+- Tests: `test:organic-commerce` · `test:commercial-separation` · `test:clinic-stage6` · `test:symptom-safety` · `test:care-guidance` · 변경 ESLint · tsc — **통과**
+- 공식 병원 실출처·실제휴 게시·Production·main·commit/push 미실행 · next_task `T05` (공식 병원 실출처 · external_only)
+
 ### T03 — Product automation · category expansion
 
 - Ingestion 계약 18단계 · 공식출처 evidence · 정규화 · variants · images · INCI · offers · usage media 메타

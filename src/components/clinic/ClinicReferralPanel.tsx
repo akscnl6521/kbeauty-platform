@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import type { ClinicReferralPresentation } from "@/lib/clinic/clinicReferralService";
+import { CommerceLaneBadge } from "@/components/commerce/CommerceLaneBadge";
 
 type LeadState =
   | { status: "idle" }
@@ -35,9 +36,19 @@ function ClinicCardList({
         ? "border-dashed border-gray-300 bg-gray-50"
         : "border-blue-100 bg-white";
 
+  const lane =
+    tone === "partner"
+      ? ("partner_clinic" as const)
+      : tone === "demo"
+        ? ("demo_fixture" as const)
+        : ("organic" as const);
+
   return (
     <div className="mt-4">
-      <h3 className="text-sm font-semibold text-blue-950">{title}</h3>
+      <div className="flex flex-wrap items-center gap-2">
+        <h3 className="text-sm font-semibold text-blue-950">{title}</h3>
+        <CommerceLaneBadge lane={lane} />
+      </div>
       <ul className="mt-2 space-y-2">
         {items.map((clinic) => (
           <li key={clinic.id} className={`rounded-lg border px-3 py-2 ${border}`}>

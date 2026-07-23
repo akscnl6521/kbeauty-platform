@@ -22,6 +22,7 @@
 - [x] 증상별 피부과·두피·알레르기·치과·응급 라우팅 (symptomSafety 실연결)
 - [x] 마스카라·립·샴푸 기존 category-specific 랭커와 새 taxonomy 회귀 검증
 - [x] T03 제품 자동화 ingestion 계약·카테고리 확장 fixture dry-run·안전 추천 (`test:product-automation`)
+- [x] T04 Organic/Affiliate/Sponsored 분리 · 전문가 라우팅 번들 (`test:organic-commerce`)
 - [x] Master execution queue 문서화 (`docs/autopilot/MASTER_EXECUTION_QUEUE.md` · 계약 `docs/autopilot/EXECUTION_CONTRACT.md`)
 
 ### 플랫폼 핵심 사용자 여정
@@ -97,7 +98,7 @@
 
 ## 다음 작업
 
-Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T04)
+Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T05)
 
 1. 공식 병원 실출처 승인 수집 → 관리자 검수 → publishable (fixture 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
@@ -106,6 +107,7 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 5. Phase 3.1 자동 정렬은 **보류** 유지
 6. (승인 대기) 사진 비교 Staging migration · `care-photos`
 7. (승인 대기) BeautyProfile Staging migration · `beauty_profiles`
+8. (외부) 실제 제휴 URL·수익 채널 연결
 
 ### 단계 5 — 리텐션 보강
 
@@ -159,12 +161,13 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 
 ### 단계 7 — 수익화
 
-- [ ] 화장품 제휴 링크 데이터 구조
-- [ ] 제휴 피부과와 Organic 추천 분리 검증
-- [ ] 광고 슬롯 안전 영역 정책
-- [ ] 스폰서 카드 분리
-- [ ] 클릭·리드·전환·수익 이벤트
-- [ ] 개인정보·건강정보 광고 타기팅 금지 테스트
+- [x] 화장품 제휴 링크 데이터 구조 (`affiliateLink` · in-memory store)
+- [x] 제휴 피부과와 Organic 추천 분리 검증 (코드·selftest · 실데이터는 별도)
+- [x] 광고 슬롯 안전 영역 정책
+- [x] 스폰서 카드 분리 (`SponsoredCard` · Organic 레인 금지)
+- [x] 클릭·리드·전환·수익 이벤트 (in-memory · Production 미연결)
+- [x] 개인정보·건강정보 광고 타기팅 금지 테스트
+- [ ] 실제 제휴 URL·수익 채널 연결 (external_only)
 
 ### 단계 8 — 자동 갱신·운영 자동화
 

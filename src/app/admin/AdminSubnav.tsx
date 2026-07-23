@@ -4,6 +4,7 @@ const LINKS: Array<{ href: string; label: string; key: string }> = [
   { href: "/admin", label: "대시보드", key: "dashboard" },
   { href: "/admin/review", label: "통합 검수", key: "review" },
   { href: "/admin/clinics", label: "병원 검수", key: "clinics" },
+  { href: "/admin/commerce", label: "상업 분리", key: "commerce" },
   { href: "/admin/products", label: "제품 관리", key: "products" },
   { href: "/admin/products/import", label: "제품 일괄등록", key: "product-import" },
   { href: "/admin/catalog", label: "Catalog", key: "catalog" },

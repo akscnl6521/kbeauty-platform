@@ -40,6 +40,7 @@ import {
   type ShippingCountry,
 } from "@/lib/recommend/selectPurchaseLink";
 import ProductUsageGuide from "@/components/usage/ProductUsageGuide";
+import { CommerceLaneBadge } from "@/components/commerce/CommerceLaneBadge";
 
 export type RecommendedProductCardProps = {
   /** 1부터 시작하는 순위 */
@@ -410,6 +411,7 @@ export function RecommendedProductCard({
 
       {commerceSeparation ? (
         <div className="mt-1 space-y-1 border-t border-pink-50 pt-3">
+          {locale === "ko" ? <CommerceLaneBadge lane="organic" /> : null}
           <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
             {locale === "ko"
               ? "추천 적합 · 구매 상태"

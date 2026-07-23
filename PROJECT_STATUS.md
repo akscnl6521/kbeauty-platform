@@ -2,6 +2,16 @@
 
 최종 갱신: 2026-07-23
 
+## 2026-07-23 T04 · Organic commerce + professional routing
+
+- Organic/Affiliate/Sponsored: 제휴 링크 구조 · Organic 전용 랭킹 · 광고 슬롯 · in-memory 지속화 · API · UI 라벨 · 애널리틱스 · `/admin/commerce`
+- 유료 관계 필드가 Organic score/순위를 바꾸지 않음 · 건강·증상 프로필 광고 타기팅 거부
+- 증상 기반 전문가 번들: 라우팅 · 일반 vs 제휴 병원 분리 · fixture 게시 차단 · guidance 연결 · `/api/care/professional-guidance`
+- Docs: `docs/organic-commerce-professional-routing.md`
+- Tests: `test:organic-commerce` · `test:commercial-separation` · `test:clinic-stage6` · `test:symptom-safety` · `test:care-guidance` · 변경 ESLint · tsc — **통과**
+- 공식 병원 실출처·실제휴 URL 게시·Production 쓰기·main·commit/push 미실행
+- next_task: `T05` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-23 T03 · Product automation · category expansion
 
 - Ingestion 계약 18단계 · 공식출처 evidence · 정규화 · variants · images · INCI · offers · usage media 메타
@@ -11,7 +21,7 @@
 - Docs: `docs/catalog-product-automation.md`
 - Tests: `test:product-automation` · `test:full-beauty` · `test:master-execution` · 변경 ESLint · tsc — **통과**
 - 실공식 출처·verified 구매 SKU·Staging/Production 쓰기·main·commit/push 미실행
-- next_task: `T04` 공식 병원 실출처 (`external_only`)
+- next_task: `T04` Organic commerce + professional routing (완료됨 → 위 T04 항목)
 
 ## 2026-07-23 T02 · 3/7/15/30 follow-up lifecycle
 
@@ -97,15 +107,18 @@
 - 관리자 제품·성분·검증·카탈로그·사용 가이드·disclosure
 - **Stage 6 기반**: 병원 후보 어댑터·검증 게이트·안내 UI·상담 리드 dry-run·관리자 검수 (실병원 게시 데이터 없음)
 - **T03 제품 자동화**: ingestion 계약·카테고리 확장 fixture dry-run · admin review 링크 (Staging 쓰기 없음)
+- **T04 Organic commerce**: 제휴 링크 구조·Organic 분리 랭킹·광고 슬롯·이벤트·UI 라벨·`/admin/commerce` · 전문가 라우팅 번들 (실제휴·실병원 게시 제외)
 
 ## 자동화 안전 상태
 
 - 자동 게시 금지 · Production 쓰기 금지
 - Organic과 광고·제휴 점수 분리
+- 광고 슬롯·스폰서 카드는 Organic 레인 밖 · 건강정보 타기팅 금지
 - anon `product_offers` write 권한 0
 - Phase 3.x 사진은 브라우저 임시 object URL만 · Storage 영구 저장 없음 · 랜드마크 좌표 미저장
 - 병원 fixture는 `fixtureOnly` · 사용자 publishable 목록 비움
 - 제품 자동화 fixture는 `liveVerified=false` · `recommendation_ready` 미부여
+- 제휴 링크·상업 이벤트는 in-memory · Production DB 미기록
 
 ## 현재 진행 단계
 
@@ -133,7 +146,7 @@
 
 ## 다음 작업
 
-Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T04)
+Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T05)
 
 1. 공식 병원 후보 실출처 승인 후 dry-run→검수→publishable 전환 (가짜 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수)
@@ -144,6 +157,7 @@ Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T04)
 7. (승인 대기) BeautyProfile Staging migration · `beauty_profiles`
 8. (승인 후) 권장 커밋 분할·feature push
 9. (외부) 제품 자동화 live 공식 출처·verified 구매 SKU 검수
+10. (외부) 실제 제휴 URL·수익 채널 연결
 
 ## 승인 경계
 
