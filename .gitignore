@@ -86,6 +86,9 @@ supabase/.temp/
 # P2-T01 Preview/local route validation artifacts (screenshots + JSON)
 /artifacts/preview-route-validation/
 
+# P2-T02 Staging read-only release gate artifacts
+/artifacts/staging-release-gate/
+
 # Generated recommendation analysis (local / CI artifacts)
 /data/generated/recommendation/
 

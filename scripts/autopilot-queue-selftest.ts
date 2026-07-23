@@ -131,7 +131,9 @@ const keyPaths = [
   "docs/organic-commerce-professional-routing.md",
   "docs/prelaunch/T06_FINAL_INTEGRATION_RELEASE_EVIDENCE.md",
   "docs/prelaunch/P2-T01_PREVIEW_ROUTE_VALIDATION.md",
+  "docs/prelaunch/P2-T02_STAGING_RELEASE_GATE.md",
   "src/lib/release/finalIntegrationEvidence.ts",
+  "src/lib/release/stagingReleaseGate.ts",
   "src/lib/validation/previewRouteValidation.ts",
   "KBEAUTY_MASTER_EXECUTION_PROMPT.md",
 ];
@@ -157,6 +159,14 @@ assert.ok(
 assert.ok(
   pkg.includes('"check:preview-routes"'),
   "package.json must define check:preview-routes",
+);
+assert.ok(
+  pkg.includes('"test:staging-release-gate"'),
+  "package.json must define test:staging-release-gate",
+);
+assert.ok(
+  pkg.includes('"check:staging-release-gate"'),
+  "package.json must define check:staging-release-gate",
 );
 assert.ok(
   pkg.includes('"test:organic-commerce"'),

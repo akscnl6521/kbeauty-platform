@@ -2,6 +2,18 @@
 
 최종 갱신: 2026-07-24
 
+## 2026-07-24 P2-T02 · Staging read-only release gates
+
+- 계약: `src/lib/release/stagingReleaseGate.ts` (환경 식별·헬스·테이블/계약·auth callback·Storage·게시 상태·migration · factKind 분리)
+- 러너: `scripts/run-staging-release-gate.ts` · selftest `scripts/staging-release-gate-selftest.ts`
+- 명령: `npm run test:staging-release-gate` · `npm run check:staging-release-gate` (`--mode=static|readonly`)
+- 기본 static 읽기 전용 · Production 식별 시 중단 · `writeAttempted=false` · 비밀/전체 ref 미출력
+- Dashboard 전용(Redirect URL·care-photos 실버킷·migration 적용 이력·published 집계)은 `dashboard_only_unknown` — 위장 없음
+- Docs: `docs/prelaunch/P2-T02_STAGING_RELEASE_GATE.md`
+- Tests: `test:staging-release-gate` · `check:staging-release-gate` · `test:autopilot-queue` · 변경 ESLint · `tsc` — **통과**
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-24 P2-T01 · Automated Preview and route validation
 
 - 계약: `src/lib/validation/previewRouteValidation.ts` (공개·analyze/results/routine·profile/guidance·admin review·auth API · viewport 320/390/768/1440 · loading/empty/error 마커)
@@ -147,6 +159,7 @@
 - **T05 사용 가이드 현지화·운영**: 패치 테스트·영상 fallback · 국가/언어 offer(미발명) · admin ops dry-run (`/admin/catalog/ops`)
 - **T06 최종 통합·릴리스 증거**: 여정 연결 계약 · empty/loading a11y · supabase build placeholder · 로컬 자동검증·production build 통과 · Preview/실기기는 external_only
 - **P2-T01 Preview/라우트 자동 검증**: 계약·HTTP/브라우저 러너·스크린샷·JSON · 육안 승인 미주장
+- **P2-T02 Staging 읽기 전용 릴리스 게이트**: 환경 식별·헬스·계약·auth·Storage·게시·migration · Dashboard 미확인 분리
 
 ## 자동화 안전 상태
 
@@ -188,7 +201,7 @@
 Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T07)
 
 1. 공식 병원 후보 실출처 승인 후 dry-run→검수→publishable 전환 (가짜 게시 금지)
-2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수) — 자동 라우트 검증(P2-T01)은 보조 증거만
+2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수) — P2-T01 라우트·P2-T02 Staging 게이트는 보조 증거만
 3. P1-006 개인정보 전송 범위 문구의 정책·법무 최종 검수
 4. **WQG-P0-002** — `RELEASE_GATE_PENDING` (Production 배포 직전 최종 확인 · 지금 미실행)
 5. Phase 3.1 자동 정렬은 **보류** 유지

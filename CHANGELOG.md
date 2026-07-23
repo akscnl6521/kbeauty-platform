@@ -6,6 +6,15 @@
 
 ## 2026-07-24
 
+### P2-T02 — Staging read-only release gates
+
+- 계약: `stagingReleaseGate` — 환경 식별·헬스·테이블/계약·auth callback 입력·Storage 기대·게시 상태·migration · `verified` vs `dashboard_only_unknown`
+- 러너: `check:staging-release-gate` (static 기본 · readonly SELECT/health 선택) · Production 차단 · 쓰기 없음
+- Selftest: `test:staging-release-gate` · 아티팩트 `artifacts/staging-release-gate/`
+- Docs: `docs/prelaunch/P2-T02_STAGING_RELEASE_GATE.md`
+- Dashboard Redirect URL·care-photos 실버킷·적용 이력은 미검증 · Staging/Production 쓰기·main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
 ### P2-T01 — Automated Preview and route validation
 
 - 계약: `previewRouteValidation` — 공개·analyze/results/routine·`/my` profile/guidance·admin review·auth API · viewport 320/390/768/1440 · loading/empty/error 마커
