@@ -4,6 +4,17 @@
 
 ---
 
+## 2026-07-23
+
+### Phase 3.1.4 — Fix raw_bounds parse, keep loop, separate manual shutter
+
+- Robust MediaPipe landmark list parsing (array / nested / TypedArray / pixel→norm) with valid/invalid counts
+- Cap detector hardRestart at 2; keep rAF loop alive; resume auto when bounds recover
+- Manual shutter works without landmarks (video frame → canvas → preview)
+- Debug panel default OFF, below camera (not over face); `?landmarkDebug=1` to auto-open
+- User copy without technical `raw_bounds` / INVALID jargon
+- Tests: `npm run test:guided-landmark` · build OK · **Android 실기기 미확인**
+
 ## 2026-07-22
 
 ### Phase 3.1.3 — Block exploded landmark coords + keep inference loop alive
