@@ -38,22 +38,14 @@
 
 ## 현재 진행 단계
 
-**기본 촬영 UX = Phase 3.0 수동 표준 3각도** (가이드 + 촬영 버튼).
+**WQ-G Prelaunch gate 문서 완료** (조사·문서만 · 앱 코드 미변경).
 
-**Phase 3.1 자동 랜드마크 정렬·자동 촬영 = 보류 (deferred)**  
-완료로 표시하지 않음.
-
-| Phase 3.1 | 상태 |
-|-----------|------|
-| implemented | 코드·WASM/model·selftest 보존 |
-| automated tests | passed |
-| Android real-device blocker | **unresolved** |
-| product default | `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE` **기본 OFF** |
-| voice countdown | 자동 landmark ON일 때만 |
-
-남은 문제: Android MediaPipe parsing/runtime 편차 · 자동 정렬/카운트다운/촬영 실기기 미확인.
-
-재개 조건: Android Chrome + iPhone Safari 실기기 통과 후 flag=1 검토.
+- 문서: `docs/prelaunch/WQ-G_PRELAUNCH_GATE.md`
+- 기준 커밋: 코드 `8b3f147` · 문서 `885fa19`
+- Preview: `https://kbeauty-platform-89ry68u2h-akscnl6521s-projects.vercel.app`
+- **출시 가능으로 보지 않음** — P0: 사진 AI 분석 오인·동의 불일치 · Production AI_PROVIDER 확인 · 3장/비전 범위 카피
+- 기본 촬영 UX = Phase 3.0 수동 3각도 · Phase 3.1 자동 정렬 = **deferred**
+- main 미병합 · Production 미배포 · DB 미변경
 
 ## Phase 3.0 — 안내형 촬영 (현재 기본)
 
@@ -68,9 +60,11 @@
 
 ## 다음 작업
 
-1. **WQ-G Prelaunch gate** — 출시 BLOCKER/P0~P3 정리 (코드 무작정 추가 금지)
-2. (이후) Phase 3.1 실기기 안정화 재개 여부 결정
-3. (승인 대기) 사진 비교 Staging migration · `care-photos`
+1. **WQG-P0-001** — 사진 AI 분석 오인 해소 (동의·카피·결과 배지 정합 · vision 미도입)
+2. Production `AI_PROVIDER` 사람 확인 (승인 경계)
+3. P1: 업로드 잔존 문구 · Preview A/B/C·수동 촬영 육안
+4. (승인 대기) 사진 비교 Staging migration · `care-photos`
+
 
 ## 승인 경계
 

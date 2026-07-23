@@ -6,7 +6,7 @@
 
 ## 현재 단계
 
-**단계 5 리텐션 + Phase 3.0 수동 표준 촬영(기본)** · Phase 3.1 자동 정렬은 **보류** · 다음은 **WQ-G Prelaunch gate**
+**단계 5 리텐션 + Phase 3.0 수동 촬영(기본)** · Phase 3.1 deferred · **WQ-G 문서 완료** · 다음: **P0 카피·동의 정합**
 
 ## 완료
 
@@ -81,9 +81,11 @@
 
 ## 다음 작업
 
-1. **WQ-G Prelaunch gate** — 완료/미완료·출시 BLOCKER·P0~P3 정리 (코드 무작정 추가 금지)
-2. Phase 3.1 자동 정렬은 **보류** (실기기 안정화 후 재개 · 기본 flag OFF)
-3. (승인 대기) 사진 비교 Staging migration · `care-photos` bucket
+1. **WQG-P0-001** — 사진 AI 분석 오인·동의·배지 정합 (앱 문구 · vision 미도입)
+2. Production `AI_PROVIDER` 확인 (승인 경계 · 대시보드)
+3. P1 — 업로드 잔존 문구 · Preview A/B/C·수동 촬영 실기기
+4. Phase 3.1 자동 정렬은 **보류** 유지
+5. (승인 대기) 사진 비교 Staging migration · `care-photos`
 
 ### 단계 5 — 리텐션 보강
 
@@ -116,8 +118,9 @@
 - [x] Phase 3.0.2 — 일반 사용자 갤러리 업로드 금지 (카메라/문진만)
 - [~] Phase 3.1 — 얼굴 랜드마크 자동 정렬·자동 촬영 (**implemented · tests passed · Android blocker unresolved · deferred**) · 기본 flag OFF · 코드 보존
 - [x] 프로젝트 UI 스킬 설치 (frontend-design, ui-ux-pro-max) + kbeauty-match-design + design-system 초안 (페이지 재디자인 미실시)
+- [x] **WQ-G Prelaunch gate** 문서 (`docs/prelaunch/WQ-G_PRELAUNCH_GATE.md` · 조사만 · P0×3 / P1×6)
+- [ ] **WQG-P0-001** 사진 AI 분석 오인·동의 정합
 - [ ] Phase 3.1 실기기 안정화 재개 (Android Chrome · iPhone Safari 통과 후)
-- [ ] **WQ-G Prelaunch gate** (P0~P3 분류 · 출시 BLOCKER 정리)
 - [ ] WQ-F Phase 2+ 잔여: schema/runtime 확장 (D/E 보강 없이 · 별도 승인)
 
 ### 단계 6 — 증상 기반 피부과 실제 데이터

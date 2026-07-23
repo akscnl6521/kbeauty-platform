@@ -6,6 +6,13 @@
 
 ## 2026-07-23
 
+### WQ-G — Prelaunch gate (docs only)
+
+- Created `docs/prelaunch/WQ-G_PRELAUNCH_GATE.md` (audit · no app/DB/Production changes)
+- Verdict: **not launch-ready** — P0: photo-AI consent mismatch (pixels not sent to providers), Production `AI_PROVIDER` must be verified, copy must not claim multi-angle vision analysis
+- Pilot A/B/C runtime OK · D/E insufficient honest · Phase 3.1 landmark remains deferred · default manual capture
+- Next: WQG-P0-001 copy/consent alignment
+
 ### Phase 3.1 deferred — default manual 3-angle capture
 
 - Status: implemented · automated tests passed · Android real-device blocker unresolved · **deferred** (not marked complete)
