@@ -40,8 +40,8 @@
 
 **WQ-G Prelaunch gate 문서 완료** (조사·문서만 · 앱 코드 미변경).
 
-- 문서: `docs/prelaunch/WQ-G_PRELAUNCH_GATE.md`
-- 기준 커밋: 코드 `8b3f147` · 문서 `885fa19`
+- 문서: `docs/prelaunch/WQ-G_PRELAUNCH_GATE.md` (게이트 문서 커밋 `94114ff`)
+- 점검 기준 커밋: 코드 `8b3f147` · 직전 문서 `885fa19`
 - Preview: `https://kbeauty-platform-89ry68u2h-akscnl6521s-projects.vercel.app`
 - **출시 가능으로 보지 않음** — P0: 사진 AI 분석 오인·동의 불일치 · Production AI_PROVIDER 확인 · 3장/비전 범위 카피
 - 기본 촬영 UX = Phase 3.0 수동 3각도 · Phase 3.1 자동 정렬 = **deferred**
