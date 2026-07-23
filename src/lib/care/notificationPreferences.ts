@@ -16,6 +16,8 @@ export type CareNotificationPrefsPayload = {
   notificationsEnabled?: boolean;
   emailOptIn?: boolean;
   careEmailChannelConsent?: boolean;
+  careSmsChannelConsent?: boolean;
+  carePushChannelConsent?: boolean;
   locale?: "ko" | "en" | "ja";
   timezone?: string;
   quietHoursStart?: number;
@@ -43,6 +45,8 @@ export function toCareNotificationPrefsPayload(
     notificationsEnabled: settings.notificationsEnabled,
     emailOptIn: settings.emailOptIn,
     careEmailChannelConsent: settings.careEmailChannelConsent === true,
+    careSmsChannelConsent: settings.careSmsChannelConsent === true,
+    carePushChannelConsent: settings.carePushChannelConsent === true,
     locale: settings.locale ?? "ko",
     timezone: settings.timezone,
     quietHoursStart: settings.quietHoursStart,

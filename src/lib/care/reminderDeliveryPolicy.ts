@@ -5,7 +5,7 @@ import type {
   CareUserSettings,
 } from "./types";
 
-export type ReminderChannel = "in_app" | "email";
+export type ReminderChannel = "in_app" | "email" | "sms" | "push";
 
 export type ReminderDeliveryDecision = {
   deliver: boolean;
@@ -73,6 +73,14 @@ export function decideReminderDelivery(input: {
     if (!emailAllowed) {
       return { deliver: false, channel: input.channel, reason: "email_opt_out", deliverAt: null, priority, fingerprint };
     }
+  }
+
+  if (input.channel === "sms" && input.settings.careSmsChannelConsent !== true) {
+    return { deliver: false, channel: input.channel, reason: "sms_opt_out", deliverAt: null, priority, fingerprint };
+  }
+
+  if (input.channel === "push" && input.settings.carePushChannelConsent !== true) {
+    return { deliver: false, channel: input.channel, reason: "push_opt_out", deliverAt: null, priority, fingerprint };
   }
 
   const dueAt = new Date(input.checkIn.dueAt);

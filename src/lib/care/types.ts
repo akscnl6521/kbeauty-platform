@@ -246,6 +246,10 @@ export type CareUserSettings = {
   emailOptIn: boolean;
   /** Care check-in transactional email channel; default false. */
   careEmailChannelConsent?: boolean;
+  /** Care check-in SMS channel; default false. Real SMS not connected. */
+  careSmsChannelConsent?: boolean;
+  /** Care check-in push channel; default false. Real push not connected. */
+  carePushChannelConsent?: boolean;
   /** Notification / email copy locale; default ko. */
   locale?: "ko" | "en" | "ja";
   quietHoursStart: number;

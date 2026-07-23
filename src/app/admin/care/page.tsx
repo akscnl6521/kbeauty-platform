@@ -134,6 +134,11 @@ export default async function AdminCarePage() {
           </Link>
         </li>
         <li>
+          <Link href="/admin/care/follow-up" className="text-[#8B6914] underline">
+            3·7·15·30 팔로업 라이프사이클 (dry-run · 실발송 미주장)
+          </Link>
+        </li>
+        <li>
           <Link href="/admin/care/alerts" className="text-[#8B6914] underline">
             위험 신호 집계
           </Link>

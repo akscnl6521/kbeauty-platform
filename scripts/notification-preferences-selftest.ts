@@ -14,6 +14,8 @@ function check(cond: boolean, msg: string) {
 
 const empty = parseCareNotificationPrefsFromMetadata({});
 check(empty.careEmailChannelConsent === false, "default care email off");
+check(empty.careSmsChannelConsent === false, "default care sms off");
+check(empty.carePushChannelConsent === false, "default care push off");
 check(empty.notificationsEnabled === true, "default in-app on");
 check(empty.emailOptIn === false, "default marketing off");
 
@@ -22,6 +24,8 @@ const merged = mergeCareNotificationPrefsMetadata(
   {
     ...empty,
     careEmailChannelConsent: true,
+    careSmsChannelConsent: true,
+    carePushChannelConsent: true,
     locale: "en",
     timezone: "America/New_York",
   }
@@ -31,6 +35,11 @@ check(
   (merged[CARE_NOTIFICATION_PREFS_META_KEY] as { careEmailChannelConsent: boolean })
     .careEmailChannelConsent === true,
   "stores care consent"
+);
+check(
+  (merged[CARE_NOTIFICATION_PREFS_META_KEY] as { careSmsChannelConsent: boolean })
+    .careSmsChannelConsent === true,
+  "stores sms consent"
 );
 
 const round = parseCareNotificationPrefsFromMetadata(merged);

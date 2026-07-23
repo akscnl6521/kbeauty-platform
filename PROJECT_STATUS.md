@@ -2,6 +2,16 @@
 
 최종 갱신: 2026-07-23
 
+## 2026-07-23 T02 · 3/7/15/30 follow-up lifecycle
+
+- Opt-in → 3/7/15/30 스케줄 → due → 체크인 → progress/adherence/irritation 결정 → 루틴 조정 → red-flag 에스컬레이션 → pause/resume
+- 채널 배송 인터페이스: in_app / email / sms / push · dry-run·disabled·live_blocked 어댑터 · 상태 레코드 (`realDeliveryClaimed=false`)
+- Persistence: 로컬 직렬화·재개 · 손상/누락 시 empty fallback
+- 설정 UI SMS/푸시 동의 (실발송 미연결 고지) · 관리자 `/admin/care/follow-up` + API
+- Tests: `test:follow-up-lifecycle` · `test:checkin-policy` · `test:checkin-scheduling` · `test:reminder-delivery` · 변경 ESLint · tsc — **통과**
+- 실 email/SMS/push 발송·Production·main·commit/push 미실행
+- next_task: `T03` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-23 T01 Core journey · durable BeautyProfile
 
 - 안전 파싱(`parseBeautyProfile`) · 프로필 병합 · 확인값 패치 sanitize
@@ -11,7 +21,7 @@
 - DRAFT migration: `supabase/migrations/DRAFT_DO_NOT_APPLY_beauty_profiles.sql` (**미적용**)
 - `/my/profile` 로컬+서버 병합 UI · Tests: `test:beauty-profile` · `test:master-execution` · `test:journey` · 변경 ESLint · tsc
 - Staging/Production DB 미적용 · main 미병합 · commit/push 미실행
-- next_task: `T02` 공식 병원 실출처 (`external_only`)
+- next_task: `T02` follow-up lifecycle (완료됨 → 아래 T02 항목)
 
 ## 2026-07-23 T00 Master audit — Autopilot 계약·실행 큐
 
@@ -65,6 +75,7 @@
 - **Phase 3.0 안내형 얼굴 촬영 MVP + AI 분석 대기 UX** (기본 UX)
 - 현재 제품·루틴 관리
 - Day 3·7·15·30 체크인과 지속 관리
+- **3/7/15/30 follow-up lifecycle** (opt-in·due·결정·루틴조정·red-flag·resume/fallback·채널 dry-run · 실발송 미연결)
 - 장기 BeautyProfile 저장·조회·편집 (`/my/profile`) · 체크인 반영 · 서버 API 경계(DRAFT 미적용 시 로컬 fallback)
 - 마스카라·립·샴푸 속성 추천 구조 (실구매 verified SKU 부족 시 속성 예시만)
 - 체크인 이메일 dry-run / Resend adapter 코드 준비 (실발송 없음)
@@ -110,7 +121,7 @@
 
 ## 다음 작업
 
-Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T02)
+Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T03)
 
 1. 공식 병원 후보 실출처 승인 후 dry-run→검수→publishable 전환 (가짜 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수)

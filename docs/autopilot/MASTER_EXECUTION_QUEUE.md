@@ -14,7 +14,7 @@
 
 | 필드 | 값 |
 |------|-----|
-| ID | `T02` |
+| ID | `T03` |
 | 제목 | 공식 병원 후보 실출처 승인 후 dry-run → 관리자 검수 → publishable (fixture 게시 금지) |
 | 분류 | `external_only` (출처 승인) + 승인 후 `remaining` 코드 연결 |
 | 에이전트 단독 | 불가 — 공식 출처·사람 검수 필요 |
@@ -28,6 +28,15 @@
 ---
 
 ## completed_task (이번 번들)
+
+| 필드 | 값 |
+|------|-----|
+| ID | `T02` |
+| 제목 | 3/7/15/30 follow-up lifecycle (opt-in·due·결정·루틴조정·red-flag·resume/fallback·채널 dry-run·admin) |
+| 분류 | `verified_complete` (코드·selftest) · 실 email/SMS/push는 `partial`/`external_only` |
+| 검증 | `npm run test:follow-up-lifecycle` · `test:checkin-policy` · `test:checkin-scheduling` · `test:reminder-delivery` · 변경 ESLint · `tsc` |
+
+### 직전 completed
 
 | 필드 | 값 |
 |------|-----|
@@ -50,6 +59,7 @@
 | VC-06 | 공통 제품·적격·상업 메타 분리 | `commonProduct.ts` · commercial separation |
 | VC-07 | Organic / Affiliate / Sponsored 분리 | `test:commercial-separation` |
 | VC-08 | 3/7/15/30 체크인·루틴 조정 UI/정책 | checkinPolicy · `/my/check-ins` · `test:checkin-scheduling` |
+| VC-21 | Follow-up lifecycle (opt-in→due→결정→조정→red-flag→resume/fallback·채널 dry-run·admin) | `followUpLifecycle*` · `test:follow-up-lifecycle` · 실발송 제외 |
 | VC-09 | 수집·정규화·중복·갱신 파이프라인 코드 | catalog scripts · refresh/exception queues |
 | VC-10 | 국가·언어·판매처 구조 | locale/offer 기존 유지 |
 | VC-11 | Phase 3.0 수동 3각도 촬영 · 갤러리 금지 | guided-capture · WQG-P0-001 카피 |
@@ -71,7 +81,7 @@
 |----|------|-----------|------|
 | PA-01 | 마스카라·립·샴푸 추천 | 속성 랭커·패널·회귀 | 실구매 verified SKU 풀 부족 · 속성 예시 수준 |
 | PA-02 | 전문가/병원 안내 | 라우팅·UI·fixture 게이트 | 공식 병원 publishable 0 · 실리드 전달 없음 |
-| PA-03 | 체크인 알림 | 스케줄·큐·dry-run/Resend 어댑터 | 실발송·DNS·Production 키 없음 |
+| PA-03 | 체크인 알림 | 스케줄·큐·email/sms/push 인터페이스·dry-run/Resend 어댑터·상태 레코드 | 실발송·DNS·Production 키·실 SMS/푸시 인프라 없음 |
 | PA-04 | 사진 비교 운영 | 동의·삭제 코드 | Staging `care-photos` migration 미적용 · Storage 미연결 |
 | PA-05 | 전체 lint/품질 | 변경 파일 lint·관련 selftest | 저장소 전체 ESLint 기존 실패(다수) 잔존 |
 | PA-06 | 카탈로그 자동화 운영 | 계획·아티팩트·가드 | 운영 worker는 사람/스케줄러 영역 · Cursor 세션에서 미실행 |

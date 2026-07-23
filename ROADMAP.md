@@ -94,7 +94,7 @@
 
 ## 다음 작업
 
-Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T02)
+Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T03)
 
 1. 공식 병원 실출처 승인 수집 → 관리자 검수 → publishable (fixture 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
@@ -110,6 +110,7 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 - [x] 위험 신호 상담 우선 · 48시간 1회 재알림 정책 (발송 미연결)
 - [x] `/my/check-ins` · `/my/check-ins/[id]` 화면 연결
 - [x] 체크인 응답 기반 루틴 조정 제안 UI (승인 전 불변 · 일시 중지 · 되돌리기)
+- [x] **T02 follow-up lifecycle** — opt-in·스케줄·due·progress/adherence/irritation·루틴조정·red-flag·resume/fallback · in_app/email/sms/push 인터페이스·dry-run·상태레코드·관리자 가시성 (`test:follow-up-lifecycle` · 실발송 미주장)
 - [x] 체크인 이메일 큐 정책 (발송 미연결 · DRAFT migration)
 - [x] 체크인 이메일 dry-run provider (disabled/dry_run/live_blocked · 실제 발송·SDK·API 키 없음 · admin UI 후순위)
 - [x] 체크인 이메일 Resend live adapter 코드 준비 (게이트·allowlist·kill switch · mock self-test · 실제 발송·API 키·DNS 변경 없음 · main 미병합)

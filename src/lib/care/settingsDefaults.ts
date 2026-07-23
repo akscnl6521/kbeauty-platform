@@ -9,6 +9,8 @@ export function defaultCareUserSettings(timezone: string): CareUserSettings {
     notificationsEnabled: true,
     emailOptIn: false,
     careEmailChannelConsent: false,
+    careSmsChannelConsent: false,
+    carePushChannelConsent: false,
     locale: "ko",
     quietHoursStart: 22,
     quietHoursEnd: 8,
@@ -29,6 +31,10 @@ export function normalizeCareUserSettings(
     emailOptIn: partial?.emailOptIn ?? base.emailOptIn,
     careEmailChannelConsent:
       partial?.careEmailChannelConsent ?? base.careEmailChannelConsent,
+    careSmsChannelConsent:
+      partial?.careSmsChannelConsent ?? base.careSmsChannelConsent,
+    carePushChannelConsent:
+      partial?.carePushChannelConsent ?? base.carePushChannelConsent,
     locale:
       locale === "en" || locale === "ja" || locale === "ko" ? locale : base.locale,
     quietHoursStart: partial?.quietHoursStart ?? base.quietHoursStart,

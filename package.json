@@ -29,6 +29,7 @@
     "test:reminder-delivery": "npx --yes tsx scripts/reminder-delivery-policy-selftest.ts",
     "test:check-in-questions": "npx --yes tsx scripts/check-in-question-policy-selftest.ts",
     "test:checkin-policy": "npx --yes tsx scripts/checkin-policy-selftest.ts",
+    "test:follow-up-lifecycle": "npx --yes tsx scripts/follow-up-lifecycle-selftest.ts",
     "test:routine-adjustment": "npx --yes tsx scripts/routine-adjustment-policy-selftest.ts",
     "test:checkin-email-queue": "npx --yes tsx scripts/checkin-email-queue-policy-selftest.ts",
     "test:checkin-email-queue-migration": "npx --yes tsx scripts/checkin-email-queue-migration-selftest.ts",

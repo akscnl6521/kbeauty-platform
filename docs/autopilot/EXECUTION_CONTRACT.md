@@ -79,7 +79,7 @@ Windows outer runner가 Git을 담당할 때는 **commit/push를 에이전트가
 | 8 | 수집·정규화·중복·갱신 파이프라인 | `verified_complete` (코드) / 실운영은 별도 |
 | 9 | Organic/Affiliate/Sponsored | `verified_complete` |
 | 10 | 증상 기반 전문 안내 | `partial` (라우팅 verified · 실병원 미게시) |
-| 11 | 3/7/15/30 체크인 | `verified_complete` (실푸시/실메일 제외) |
+| 11 | 3/7/15/30 체크인 | `verified_complete` (lifecycle·채널 dry-run 포함 · 실푸시/실메일/실SMS 제외) |
 | 12 | 국가·언어·통화·판매처 | `verified_complete` (구조) |
 | 13 | 관련 테스트·빌드 | `partial` (관련 번들 통과 · 전체 ESLint 기존 실패 잔존) |
 | 14 | 외부 미연결 정직 보고 | 본 계약·큐로 유지 |

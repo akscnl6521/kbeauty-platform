@@ -235,13 +235,33 @@ export default function MyCareSettingsPage() {
         <label className="mt-2 flex items-center gap-2">
           <input
             type="checkbox"
+            checked={store.settings.careSmsChannelConsent === true}
+            onChange={(e) =>
+              patch({ careSmsChannelConsent: e.target.checked })
+            }
+          />
+          케어 체크인 SMS (실발송 미연결 · dry-run만)
+        </label>
+        <label className="mt-2 flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={store.settings.carePushChannelConsent === true}
+            onChange={(e) =>
+              patch({ carePushChannelConsent: e.target.checked })
+            }
+          />
+          케어 체크인 푸시 (실발송 미연결 · dry-run만)
+        </label>
+        <label className="mt-2 flex items-center gap-2">
+          <input
+            type="checkbox"
             checked={store.settings.emailOptIn}
             onChange={(e) => patch({ emailOptIn: e.target.checked })}
           />
           마케팅 이메일
         </label>
         <p className="mt-2 text-xs text-gray-500">
-          케어 체크인 이메일을 끄면 큐에 새 발송 후보를 넣지 않습니다. 마케팅 수신 거부만으로는 케어 체크인 메일이 자동으로 켜지거나 꺼지지 않습니다.
+          케어 체크인 채널은 채널별로 따로 동의합니다. SMS·푸시는 인터페이스와 dry-run만 준비되어 있으며 실제 문자/푸시 발송은 하지 않습니다. 마케팅 수신 거부만으로는 케어 체크인 알림이 자동으로 켜지거나 꺼지지 않습니다.
         </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <label className="block">

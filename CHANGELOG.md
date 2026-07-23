@@ -6,6 +6,16 @@
 
 ## 2026-07-23
 
+### T02 — 3/7/15/30 follow-up lifecycle
+
+- Opt-in · 스케줄 · due · 체크인 progress/adherence/irritation 결정 · 루틴 조정 · red-flag 에스컬레이션 · pause/resume
+- 채널 배송 인터페이스 in_app/email/sms/push · dry-run / disabled / live_blocked · 상태 레코드 (`realDeliveryClaimed=false`)
+- Persistence 재개 + 손상/누락 empty fallback
+- `/my/settings` SMS·푸시 동의(실발송 미연결 고지) · `/admin/care/follow-up` + API
+- Docs: `docs/follow-up-lifecycle.md`
+- Tests: `test:follow-up-lifecycle` · 관련 checkin/reminder · 변경 ESLint · tsc — **통과**
+- 실 email/SMS/push·Production·main·commit/push 미실행 · next_task `T03` (공식 병원 실출처 · external_only)
+
 ### T01 — Core journey · durable BeautyProfile
 
 - `parseBeautyProfile` / `mergeBeautyProfiles` / `sanitizeConfirmedProfilePatch` / `observationFromCheckIn`
@@ -15,7 +25,7 @@
 - DRAFT: `supabase/migrations/DRAFT_DO_NOT_APPLY_beauty_profiles.sql` (미적용 · RLS · DELETE 금지)
 - `/my/profile` 로컬↔서버 병합 UX
 - Tests: `test:beauty-profile` · `test:master-execution` · `test:journey` · 변경 ESLint · tsc — **통과**
-- Staging/Production DB·main·commit/push 미실행 · next_task `T02` (공식 병원 실출처 · external_only)
+- Staging/Production DB·main·commit/push 미실행 · next_task `T02` follow-up lifecycle
 
 ### T00 — Master audit · Autopilot 실행 계약/큐
 
