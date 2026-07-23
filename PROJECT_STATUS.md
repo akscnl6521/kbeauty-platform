@@ -2,6 +2,17 @@
 
 최종 갱신: 2026-07-24
 
+## 2026-07-24 P2-T03 · Admin review end-to-end verification
+
+- 계약: `src/lib/admin/adminReviewE2E.ts` (제품·병원/전문가 레인 · candidate→evidence→duplicate→needs_review→admin_reviewed→publishable · 공개성 · Organic 독립)
+- Selftest: `scripts/admin-review-e2e-selftest.ts` · 명령 `npm run test:admin-review-e2e`
+- fixture·미승인 비공개 · dry-run 공식 병원만 publishable 평가 · 유료 관계가 Organic 순위 불변 · `writeAttempted=false`
+- Docs: `docs/prelaunch/P2-T03_ADMIN_REVIEW_E2E.md`
+- Tests: `test:admin-review-e2e` · `test:usage-media-admin-ops` · `test:clinic-stage6` · `test:commercial-separation` · `test:organic-commerce` · 변경 ESLint · `tsc` — **통과**
+- Preview 관리자 로그인 육안·공식 병원 실출처는 **미검증** (`external_only`)
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-24 P2-T02 · Staging read-only release gates
 
 - 계약: `src/lib/release/stagingReleaseGate.ts` (환경 식별·헬스·테이블/계약·auth callback·Storage·게시 상태·migration · factKind 분리)

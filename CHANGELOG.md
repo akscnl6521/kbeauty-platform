@@ -6,6 +6,15 @@
 
 ## 2026-07-24
 
+### P2-T03 — Admin review end-to-end verification
+
+- 계약: `adminReviewE2E` — 제품·병원/전문가 레인 · candidate→evidence→duplicate→needs_review→admin_reviewed→publishable · 공개성 · Organic 독립
+- Selftest: `test:admin-review-e2e` · fixture·미승인 비공개 · dry-run 공식만 publishable · `writeAttempted=false`
+- Docs: `docs/prelaunch/P2-T03_ADMIN_REVIEW_E2E.md`
+- 회귀: usage-media-admin-ops · clinic-stage6 · commercial-separation · organic-commerce · 변경 ESLint · tsc — **통과**
+- Preview 관리자 육안·공식 병원 실출처는 `external_only` · Staging/Production 쓰기·main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
 ### P2-T02 — Staging read-only release gates
 
 - 계약: `stagingReleaseGate` — 환경 식별·헬스·테이블/계약·auth callback 입력·Storage 기대·게시 상태·migration · `verified` vs `dashboard_only_unknown`
