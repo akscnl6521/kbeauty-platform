@@ -2,6 +2,17 @@
 
 최종 갱신: 2026-07-23
 
+## 2026-07-23 T06 · Final integration + release evidence
+
+- 여정 연결 증거 계약: `src/lib/release/finalIntegrationEvidence.ts` · 문서 `docs/prelaunch/T06_FINAL_INTEGRATION_RELEASE_EVIDENCE.md`
+- empty/loading/error a11y: `ProductUsageGuide` · `PhotoAssetsSettingsPanel` (`role="status"` / `aria-busy`)
+- 빌드 안전: `supabase/browser`·`server` empty public env placeholder (legacy와 동일 · 실키 없이 throw 방지)
+- landmark 자동촬영 **기본 OFF** · 수동 3각도 유지 · Phase 3.1 deferred
+- Tests: `test:final-integration` · `test:journey` · `test:master-execution` · `test:guided-capture` · `test:guided-landmark` · `test:photo-comparison` · `test:symptom-safety` · `test:commercial-separation` · `test:content-disclosure` · `test:autopilot-queue` · `check:release-security` · 변경 ESLint · `tsc` · `npm run build`(env 없음) — **통과**
+- Preview 육안·실기기·P1-006 법무·공식 병원·WQG-P0-002 — **미검증** (`external_only`) · 위장 없음
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-23 T05 · Usage media localization + admin operations
 
 - 사용 가이드 메타: 도포량·순서·빈도·주의·패치 테스트·도포 영상 + 정직한 fallback 상태
@@ -11,7 +22,7 @@
 - Docs: `docs/usage-media-localization-admin-ops.md`
 - Tests: `test:usage-media-admin-ops` · `test:usage-media` · 변경 ESLint · tsc — **통과**
 - Staging/Production DB 쓰기·실 offer 재고·main·commit/push 미실행
-- next_task: `T06` 공식 병원 실출처 (`external_only`)
+- next_task: `T06` Final integration (완료됨 → 위 T06 항목)
 
 ## 2026-07-23 T04 · Organic commerce + professional routing
 
@@ -120,6 +131,7 @@
 - **T03 제품 자동화**: ingestion 계약·카테고리 확장 fixture dry-run · admin review 링크 (Staging 쓰기 없음)
 - **T04 Organic commerce**: 제휴 링크 구조·Organic 분리 랭킹·광고 슬롯·이벤트·UI 라벨·`/admin/commerce` · 전문가 라우팅 번들 (실제휴·실병원 게시 제외)
 - **T05 사용 가이드 현지화·운영**: 패치 테스트·영상 fallback · 국가/언어 offer(미발명) · admin ops dry-run (`/admin/catalog/ops`)
+- **T06 최종 통합·릴리스 증거**: 여정 연결 계약 · empty/loading a11y · supabase build placeholder · 로컬 자동검증·production build 통과 · Preview/실기기는 external_only
 
 ## 자동화 안전 상태
 
@@ -158,7 +170,7 @@
 
 ## 다음 작업
 
-Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T06)
+Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T07)
 
 1. 공식 병원 후보 실출처 승인 후 dry-run→검수→publishable 전환 (가짜 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수)

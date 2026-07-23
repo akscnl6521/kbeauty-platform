@@ -122,16 +122,23 @@ export function PhotoAssetsSettingsPanel() {
       </p>
 
       {migrationPending ? (
-        <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+        <p
+          className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900"
+          role="status"
+        >
           사진 비교 DB migration이 아직 적용되지 않았습니다. 기능 코드는 준비되었으며 Staging 승인 후
           연결됩니다.
         </p>
       ) : null}
 
       {loading ? (
-        <p className="mt-3 text-xs text-gray-500">불러오는 중…</p>
+        <p className="mt-3 text-xs text-gray-500" role="status" aria-busy="true">
+          불러오는 중…
+        </p>
       ) : assets.length === 0 ? (
-        <p className="mt-3 text-xs text-gray-500">저장된 사진 기록이 없습니다.</p>
+        <p className="mt-3 text-xs text-gray-500" role="status">
+          저장된 사진 기록이 없습니다.
+        </p>
       ) : (
         <ul className="mt-3 space-y-2">
           {assets.map((asset) => (

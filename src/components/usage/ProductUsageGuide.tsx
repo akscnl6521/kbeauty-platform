@@ -354,6 +354,7 @@ export default function ProductUsageGuide({
     if (emptyMode === "hidden") return null;
     return (
       <p
+        role="status"
         className={
           className ??
           "mt-3 border-t border-pink-100 pt-3 text-xs text-gray-500"
@@ -386,7 +387,9 @@ export default function ProductUsageGuide({
     >
       <p className="font-semibold text-gray-900">{copy.title}</p>
       {fallbackNotice ? (
-        <p className="mt-1 text-[11px] text-gray-500">{fallbackNotice}</p>
+        <p className="mt-1 text-[11px] text-gray-500" role="status">
+          {fallbackNotice}
+        </p>
       ) : null}
       <dl className="mt-2 space-y-1.5">
         <div>

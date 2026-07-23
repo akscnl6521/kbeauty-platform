@@ -14,7 +14,7 @@
 
 | 필드 | 값 |
 |------|-----|
-| ID | `T06` |
+| ID | `T07` |
 | 제목 | 공식 병원 후보 실출처 승인 후 dry-run → 관리자 검수 → publishable (fixture 게시 금지) |
 | 분류 | `external_only` (출처 승인) + 승인 후 `remaining` 코드 연결 |
 | 에이전트 단독 | 불가 — 공식 출처·사람 검수 필요 |
@@ -31,12 +31,19 @@
 
 | 필드 | 값 |
 |------|-----|
+| ID | `T06` |
+| 제목 | Final integration + release evidence (여정 연결 계약 · empty/loading/error a11y · landmark OFF · supabase build placeholder · 로컬 자동검증·security·production build · Preview/device 증거는 external_only로 정직 기록) |
+| 분류 | `verified_complete` (코드·selftest·build) · Preview/실기기/법무/공식 병원/WQG-P0-002는 `external_only` |
+| 검증 | `npm run test:final-integration` · `test:journey` · `test:master-execution` · `test:guided-capture` · `test:guided-landmark` · `test:photo-comparison` · `test:symptom-safety` · `test:commercial-separation` · `test:content-disclosure` · `test:autopilot-queue` · `check:release-security` · 변경 ESLint · `tsc` · `npm run build` |
+
+### 직전 completed
+
+| 필드 | 값 |
+|------|-----|
 | ID | `T05` |
 | 제목 | Usage media localization + admin operations (도포량·순서·빈도·주의·패치 테스트·도포 영상 메타·fallback · 국가/언어 offer 미발명 · 후보 검수·중복 병합·근거·상태 전환·만료 큐·재시도·감사 · local/Staging dry-run) |
 | 분류 | `verified_complete` (코드·selftest) · 실 offer 재고·Staging/Production DB 쓰기·Preview 육안은 `partial`/`external_only` |
 | 검증 | `npm run test:usage-media-admin-ops` · `test:usage-media` · 변경 ESLint · `tsc` |
-
-### 직전 completed
 
 | 필드 | 값 |
 |------|-----|
@@ -90,6 +97,7 @@
 | VC-12 | WQG-P1-002 카메라/landmark 동적 import | `test:guided-capture` · `test:guided-landmark` |
 | VC-13 | 사용 가이드·루틴·부위 화면 연결 | `test:usage-media` 계열 |
 | VC-25 | T05 사용 가이드 현지화·패치/영상 fallback · 국가/언어 offer(미발명) · admin ops dry-run | `usageGuidanceComplete` · `localizedOffers` · `adminOps` · `test:usage-media-admin-ops` |
+| VC-26 | T06 최종 통합·릴리스 증거 · empty/loading a11y · build placeholder · landmark OFF | `finalIntegrationEvidence` · `test:final-integration` · `docs/prelaunch/T06_FINAL_INTEGRATION_RELEASE_EVIDENCE.md` |
 | VC-14 | Stage 6 **코드 기반** 병원 어댑터·게이트·안내·리드 dry-run·admin | `test:clinic-stage6` · `/my/guidance` · `/admin/clinics` |
 | VC-15 | Preview 원격 검수 JSON 경로 | `test:unified-review-remote` |
 | VC-16 | 추천↔commerce 분리 Phase 2.5–2.6.2 | recommendation commerce selftests |
@@ -112,6 +120,7 @@
 | PA-06 | 카탈로그 자동화 운영 | 계획·아티팩트·가드·**T03 ingestion dry-run** | 운영 worker는 사람/스케줄러 영역 · 실공식 live verify 미연결 |
 | PA-07 | BeautyProfile 서버 동기화 | API·DRAFT·로컬 fallback | Staging `beauty_profiles` 미적용 · 계정 간 실동기화 미검증 |
 | PA-08 | 상업/제휴 운영 | T04 코드·이벤트·admin | 실제휴 URL·수익 채널·Production 미연결 |
+| PA-09 | 출시 통합 | T06 코드·로컬 자동검증·build | Preview/실기기/법무 사람 검수 잔여 |
 
 ---
 
@@ -122,7 +131,7 @@
 | EX-01 | Preview 관리자/사용자 육안 (P0-003 / P1-003) | 사람 |
 | EX-02 | 실기기 Android/iPhone (P1-005) · Phase 3.1 재개 조건 | 사람 |
 | EX-03 | P1-006 개인정보 전송 범위 정책·법무 | 사람 |
-| EX-04 | 공식 병원 실출처 승인·검수·publishable | fixture 게시 금지 · **next_task T06** |
+| EX-04 | 공식 병원 실출처 승인·검수·publishable | fixture 게시 금지 · **next_task T07** |
 | EX-05 | WQG-P0-002 Production `AI_PROVIDER` | `RELEASE_GATE_PENDING` · 지금 미실행 · 키 미기록 |
 | EX-06 | Production 배포 · main 병합 · Production DB/env | 명시 승인 전 금지 |
 | EX-07 | 사진 비교 Staging migration · `care-photos` 버킷 | 승인 대기 |
@@ -146,7 +155,7 @@
 | RE-06 | 피부과 정보 재검증 주기 운영화 | 단계 8 |
 | RE-07 | 제휴·광고 계약 상태 갱신 · rollback | 단계 8 |
 | RE-08 | WQ-F Phase 2+ schema/runtime (별도 승인) | 시나리오 |
-| RE-09 | 출시 전 통합 사람 검수·보안 하드닝 | 단계 9 |
+| RE-09 | ~~출시 전 코드 통합 자동검증~~ | **T06로 코드·build 완료** · 사람 Preview/실기기는 EX-01/02 |
 
 ---
 
@@ -183,6 +192,7 @@
 
 ```bash
 npm run test:autopilot-queue
+npm run test:final-integration
 ```
 
-검증: 계약/큐 존재 · 필수 헤더 · `next_task` · 분류 섹션 · 레거시 포인터 · 핵심 경로 존재 · 금지 문구(Production 미배포 등) 유지.
+검증: 계약/큐 존재 · 필수 헤더 · `next_task` · 분류 섹션 · 레거시 포인터 · 핵심 경로 존재 · 금지 문구(Production 미배포 등) 유지 · T06 증거 문서.

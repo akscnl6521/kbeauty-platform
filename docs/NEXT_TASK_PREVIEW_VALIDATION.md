@@ -10,6 +10,7 @@
 - 로컬 테스트: `test:guided-capture` · `test:photo-comparison` · `test:symptom-safety` 통과
 - **Stage 6 코드 기반** (병원 어댑터·검증·안내 UI·리드 dry-run·`/admin/clinics`) · 실병원 게시 없음
 - **Preview 원격 검수 JSON 경로** (공개 artifact + VERCEL_URL 자동 · fixture)
+- **T06** 최종 통합·릴리스 증거 (코드·selftest·build) · Preview/실기기 위장 없음
 
 ## WQG-P0-002 상태
 
@@ -28,7 +29,7 @@
 | **Preview 검수** | P0-003 / P1-003: A/B/C 추천·CTA·빈 상태와 3장 촬영 문구 육안 확인 |
 | **실기기 검수** | P1-005: Android Chrome·iPhone Safari·320px 수동 촬영 UX 확인 |
 | **정책 검수** | P1-006: 앱 서버 일시 전송·영구 저장 없음 문구의 정책·법무 확인 |
-| **병원 실데이터** | 공식 출처 승인 후 후보 검수 → publishable (fixture 게시 금지) |
+| **병원 실데이터** | 공식 출처 승인 후 후보 검수 → publishable (fixture 게시 금지) · Autopilot `T07` |
 
 ## 금지
 

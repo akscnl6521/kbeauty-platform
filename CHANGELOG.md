@@ -6,6 +6,16 @@
 
 ## 2026-07-23
 
+### T06 — Final integration · release evidence
+
+- 여정 연결 증거: `finalIntegrationEvidence` · `docs/prelaunch/T06_FINAL_INTEGRATION_RELEASE_EVIDENCE.md`
+- empty/loading/error a11y: `ProductUsageGuide` · `PhotoAssetsSettingsPanel`
+- supabase browser/server: empty public env build placeholder (prerender throw 제거)
+- landmark 자동촬영 기본 OFF · 수동 3각도 유지 · Phase 3.1 deferred
+- Tests: `test:final-integration` · journey · master-execution · guided-capture/landmark · photo-comparison · symptom-safety · commercial-separation · content-disclosure · autopilot-queue · `check:release-security` · 변경 ESLint · tsc · `npm run build` — **통과**
+- Preview/실기기/법무/공식 병원/WQG-P0-002 — **미검증** (`external_only`) · Staging/Production DB·main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
 ### T05 — Usage media localization · admin operations
 
 - 사용 가이드 메타: 도포량·순서·빈도·주의·패치 테스트·도포 영상 + fallback 상태 (`usageGuidanceComplete`)
@@ -14,7 +24,7 @@
 - UI/API: `ProductUsageGuide` · `/admin/catalog/ops` · `/api/admin/catalog-ops`
 - Docs: `docs/usage-media-localization-admin-ops.md`
 - Tests: `test:usage-media-admin-ops` · `test:usage-media` · 변경 ESLint · tsc — **통과**
-- Staging/Production DB 쓰기·main·commit/push 미실행 · next_task `T06` (공식 병원 실출처 · external_only)
+- Staging/Production DB 쓰기·main·commit/push 미실행 · next_task `T06` Final integration (완료)
 
 ### T04 — Organic commerce · professional routing
 

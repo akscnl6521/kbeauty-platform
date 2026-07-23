@@ -24,6 +24,7 @@
 - [x] T03 제품 자동화 ingestion 계약·카테고리 확장 fixture dry-run·안전 추천 (`test:product-automation`)
 - [x] T04 Organic/Affiliate/Sponsored 분리 · 전문가 라우팅 번들 (`test:organic-commerce`)
 - [x] T05 사용 가이드 현지화·패치/영상 fallback · 국가/언어 offer · admin ops dry-run (`test:usage-media-admin-ops`)
+- [x] T06 최종 통합·릴리스 증거 (`test:final-integration` · landmark OFF · build placeholder · Preview/device external_only)
 - [x] Master execution queue 문서화 (`docs/autopilot/MASTER_EXECUTION_QUEUE.md` · 계약 `docs/autopilot/EXECUTION_CONTRACT.md`)
 
 ### 플랫폼 핵심 사용자 여정
@@ -94,13 +95,14 @@
 - [x] AI 생성·광고·협찬 표시 정책 보강 (공용 disclosure)
 - [x] 단계 4 본기능 코드·자동 테스트·Staging build 검증 완료
 - [x] **T05** 도포량·순서·빈도·주의·패치 테스트·도포 영상 메타 + fallback · 국가/언어 offer(미발명) · admin 후보/중복/근거/전환/만료큐/재시도/감사 dry-run
+- [x] **T06** 최종 통합·릴리스 증거 (여정 연결 계약 · empty/loading a11y · landmark OFF · 로컬 자동검증·security·production build) · Preview/실기기 육안은 미검증
 - [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함)
 - [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수
 - [x] Preview 원격 검수 JSON 경로 연결 (코드·fixture·자동 Preview 경로)
 
 ## 다음 작업
 
-Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T06)
+Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T07)
 
 1. 공식 병원 실출처 승인 수집 → 관리자 검수 → publishable (fixture 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
@@ -182,11 +184,12 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 
 ### 단계 9 — 통합 검증과 출시
 
+- [x] **T06** 코드 수준 여정 통합·릴리스 증거 문서·로컬 자동검증·production build (Preview/실기기·법무 제외)
 - [ ] 실제 제품·판매처·피부과 데이터 사람 최종 검수
 - [ ] 전체 사용자 여정 Preview 검증
-- [ ] 모바일·접근성·성능 재검증
-- [ ] 개인정보·의료·광고 문구 검수
-- [ ] 보안 하드닝
+- [ ] 모바일·접근성·성능 재검증 (실기기)
+- [ ] 개인정보·의료·광고 문구 검수 (법무)
+- [ ] 보안 하드닝 (운영)
 - [ ] Production 환경 확인
 - [ ] Production 배포 승인 후 공개
 
