@@ -169,6 +169,13 @@ export type AlignmentDiagnostics = {
   lockState: boolean;
   detectorRestartCount: number;
   poseReliable: boolean | null;
+  faceLandmarksPresent: boolean;
+  landmarkArrayLength: number;
+  firstPointKeys: string;
+  validPointCount: number;
+  invalidPointCount: number;
+  sample0: string;
+  parseNote: string;
 };
 
 export type AutoCaptureMachineState = {

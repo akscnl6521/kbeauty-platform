@@ -39,26 +39,19 @@
 
 ## 현재 진행 단계
 
-Master Plan v4.2 **Phase 3.1.3** 좌표 폭주·추론 루프 수정 완료. Android 실기기 재검수 대기.
+Master Plan v4.2 **Phase 3.1.4** raw_bounds·loop·수동 촬영·debug UI 수정 완료. Android 실기기 재검수 대기.
 
-- Phase 2.6.2 종료 · Phase 3.0 / 3.0.1 / 3.0.2 / 3.1 / 3.1.1 / 3.1.2 완료
-- Flags: `NEXT_PUBLIC_GUIDED_CAMERA_CAPTURE`, `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE`, `NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN` (기본 ON)
-- Preview: `https://kbeauty-platform-o9qbtzsps-akscnl6521s-projects.vercel.app`
-- commit: `08459cd` (3.1.3 coordinate explosion + inference loop)
-- **실기기 미확인** — 진단 패널 `rawC`/`dispC`/`w`/`h`/`age`/`loop` 사용자 확인 필요
-- main 미병합 · Production 미배포 · care-photos/migration 미적용
+- **실기기 미확인**
+- main 미병합 · Production 미배포
 
-## Phase 3.1 — 랜드마크 자동 촬영 (2026-07-22)
+## Phase 3.1 — 랜드마크 자동 촬영 (2026-07-23)
 
-- `@mediapipe/tasks-vision` FaceLandmarker (Apache-2.0) · same-origin WASM/model
-- **3.1.3**: 비정상 좌표 차단 · bounds=landmark min/max · matrix=pose only · inference finally/lock · stale 2s restart · 단계별 진단
-- **3.1.2**: Android false `no_face` loop 수정 · Preview 진단 패널 상시 · stale/transform 분리
-- **3.1.1 BLOCKER fix**: cover 좌표 통일 · soft feature · 안경 허용 · 가이드 타원 완화
-- 템플릿: front / left45 / right45 · 1초 안정 → 3·2·1 → 자동 촬영
-- 음성: ko/en/ja/zh-CN/es · SpeechSynthesis · OFF·미지원 시 화면만
-- Fallback: 수동 가이드 또는 문진 · **갤러리 없음**
-- 문서: `docs/analyze/PHASE31_FACE_LANDMARK_AUTO_CAPTURE.md`
+- **3.1.4**: robust landmark parse · restart≤2 · loop 유지 · 수동 촬영 분리 · debug 기본 OFF(카메라 아래)
+- **3.1.3**: 좌표 폭주 차단 · matrix=pose only · inference finally
+- **3.1.2**: false no_face · 진단 패널
+- **3.1.1**: cover transform · soft features
 - 테스트: `npm run test:guided-landmark`
+
 
 ## Phase 3.0 — 안내형 촬영 MVP (요약)
 

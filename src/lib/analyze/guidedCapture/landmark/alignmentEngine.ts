@@ -67,6 +67,13 @@ function emptyExtraDiag() {
     lockState: false,
     detectorRestartCount: 0,
     poseReliable: null as boolean | null,
+    faceLandmarksPresent: false,
+    landmarkArrayLength: 0,
+    firstPointKeys: "-",
+    validPointCount: 0,
+    invalidPointCount: 0,
+    sample0: "-",
+    parseNote: "-",
   };
 }
 
@@ -514,17 +521,14 @@ export function alignmentStatusMessageKo(status: AlignmentStatus): string {
     case "aligned":
       return "거의 맞았어요. 그대로 유지해 주세요.";
     case "detector_unavailable":
-      return "자동 정렬을 사용할 수 없어 수동 가이드로 촬영합니다.";
     case "inference_slow":
-      return "기기 성능이 낮아 수동 가이드로 전환합니다.";
+    case "invalid_landmark_data":
+    case "error":
+      return "자동 얼굴 정렬을 사용할 수 없어요. 가이드에 얼굴을 맞춘 뒤 촬영 버튼을 눌러 주세요.";
     case "stale_landmark":
       return "얼굴 위치를 다시 확인하고 있어요.";
     case "transform_error":
       return "카메라 정렬 정보를 다시 계산하고 있어요.";
-    case "invalid_landmark_data":
-      return "얼굴 인식 데이터가 불안정해요. 잠시 후 다시 맞춰 주세요.";
-    case "error":
-      return "얼굴 가이드에 문제가 있어요. 수동 촬영으로 진행해 주세요.";
   }
 }
 
@@ -561,7 +565,7 @@ export function primaryGuidanceMessage(
     return "조금 더 가까이 와 주세요.";
   }
   if (primaryFailReason === "invalid_landmark_data") {
-    return "얼굴 인식 데이터가 불안정해요. 잠시 후 다시 맞춰 주세요.";
+    return "자동 얼굴 정렬을 사용할 수 없어요. 가이드에 얼굴을 맞춘 뒤 촬영 버튼을 눌러 주세요.";
   }
   if (
     angle === "front" &&

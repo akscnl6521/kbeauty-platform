@@ -40,6 +40,13 @@ import {
   copyMatrix4Data,
   eulerFromColumnMajor4x4,
 } from "../src/lib/analyze/guidedCapture/landmark/poseMath";
+import {
+  buildFaceBoundsFromFaceLandmarks,
+  coerceLandmarkList,
+  extractLandmarkXY,
+  extractLandmarkXYMaybePixels,
+} from "../src/lib/analyze/guidedCapture/landmark/landmarkParse";
+import { MAX_DETECTOR_HARD_RESTARTS } from "../src/lib/analyze/guidedCapture/landmark/faceLandmarkerClient";
 import { templateForAngle } from "../src/lib/analyze/guidedCapture/landmark/templates";
 import type { LandmarkSnapshot } from "../src/lib/analyze/guidedCapture/landmark/types";
 
@@ -87,6 +94,45 @@ function run() {
   const front = templateForAngle("front");
   ok(front.faceCenter.xMin <= 0.36 + 1e-9, "center X allow ±0.14");
   ok(front.faceHeight.max >= 0.82, "face height max 0.82");
+
+  // --- robust MediaPipe-shaped parsing ---
+  const meshFace = makeMesh([
+    { x: 0.2, y: 0.15 },
+    { x: 0.8, y: 0.15 },
+    { x: 0.2, y: 0.85 },
+    { x: 0.8, y: 0.85 },
+  ]);
+  const fromFaces = buildFaceBoundsFromFaceLandmarks([meshFace], {
+    videoWidth: 1280,
+    videoHeight: 1280,
+  });
+  ok(fromFaces.ok, "faceLandmarks[][] bounds");
+  ok(fromFaces.inspect.validPointCount >= 8, "valid point count");
+  ok(fromFaces.inspect.firstPointKeys.includes("x"), "first point keys");
+
+  // Nested .landmarks shape
+  const nested = buildFaceBoundsFromFaceLandmarks([
+    { landmarks: meshFace },
+  ]);
+  ok(nested.ok, "nested landmarks shape");
+
+  // Pixel-space conversion (not clamp)
+  const px = extractLandmarkXYMaybePixels({ x: 640, y: 640 }, 1280, 1280);
+  ok(px != null && Math.abs(px.x - 0.5) < 0.01, "pixel→norm");
+  ok(extractLandmarkXY({ x: 1e15, y: 0.5 }) === null, "1e15 rejected");
+  ok(coerceLandmarkList(meshFace).length === meshFace.length, "coerce array");
+
+  // Interleaved typed array
+  const interleaved = new Float32Array(24);
+  for (let i = 0; i < 8; i++) {
+    interleaved[i * 3] = 0.2 + (i % 2) * 0.5;
+    interleaved[i * 3 + 1] = 0.2 + Math.floor(i / 2) * 0.15;
+    interleaved[i * 3 + 2] = 0;
+  }
+  const fromTyped = buildFaceBoundsFromFaceLandmarks([interleaved]);
+  ok(fromTyped.ok, `typed array landmarks (${fromTyped.ok ? "ok" : fromTyped.reason})`);
+
+  ok(MAX_DETECTOR_HARD_RESTARTS === 2, "max 2 restarts");
 
   // --- raw landmark range ---
   ok(isValidRawCoord(0.5), "raw 0.5 ok");
@@ -218,9 +264,15 @@ function run() {
   );
   ok(
     primaryGuidanceMessage("invalid_landmark_data", [], "front", "invalid_landmark_data").includes(
-      "불안정"
+      "촬영 버튼"
     ),
-    "invalid message"
+    "invalid message asks for shutter"
+  );
+  ok(
+    !primaryGuidanceMessage("invalid_landmark_data", [], "front", "invalid_landmark_data").includes(
+      "raw_bounds"
+    ),
+    "no technical raw_bounds in user copy"
   );
 
   // Stale landmark 700ms
@@ -342,7 +394,7 @@ function run() {
   ok(client.includes("softReset"), "softReset");
   ok(client.includes("hardRestart"), "hardRestart");
   ok(client.includes("copyMatrix4Data"), "matrix copy");
-  ok(client.includes("buildFaceBoundsFromLandmarks"), "landmark bounds");
+  ok(client.includes("buildFaceBoundsFromFaceLandmarks"), "landmark bounds");
   ok(!client.includes("facialTransformationMatrixes") || client.includes("pose"), "matrix for pose");
 
   const panel = readFileSync(
@@ -352,12 +404,17 @@ function run() {
     ),
     "utf8"
   );
-  ok(panel.includes("showDiagnostics"), "diag always path");
   ok(panel.includes("landmarkAgeMs"), "age passed");
   ok(panel.includes("scheduleNext"), "raf schedule helper");
   ok(panel.includes("finally"), "loop finally");
   ok(panel.includes("LANDMARK_RESTART_MS"), "2s restart");
-  ok(panel.includes("never cache invalid") || panel.includes("lastSnapRef.current = null"), "invalid not cached");
+  ok(panel.includes("MAX_DETECTOR_HARD_RESTARTS"), "restart cap");
+  ok(panel.includes("analyze-manual-shutter"), "manual shutter");
+  ok(panel.includes("LandmarkDebugPanel"), "debug below camera");
+  ok(panel.includes("shouldAutoOpenLandmarkDebug"), "debug not always on");
+  ok(!/showDiagnostics=\{true\}/.test(panel), "no forced overlay diagnostics");
+  ok(panel.includes("preferManualShutter") || panel.includes("preferManual"), "manual prefer");
+  ok(panel.includes("onQuestionnaire") || panel.includes("문진"), "questionnaire fallback");
 
   const poseSrc = readFileSync(
     path.join(root, "src/lib/analyze/guidedCapture/landmark/poseMath.ts"),

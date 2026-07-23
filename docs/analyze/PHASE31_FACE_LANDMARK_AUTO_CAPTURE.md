@@ -1,41 +1,37 @@
 # Phase 3.1 — Face landmark auto-capture
 
-최종 갱신: 2026-07-22 (3.1.3 coordinate explosion + inference loop)
+최종 갱신: 2026-07-23 (3.1.4 raw_bounds + manual shutter + debug OFF)
 
-## BLOCKER 원인 (3.1.3)
+## BLOCKER (3.1.4)
 
-실기기 진단: `dispC`/`w`/`h`가 1e16~1e17, `age≈17s`, `fail=stale_landmark`, pitch/roll 비현실.
+실기기: `fail=invalid_landmark_data` · `invalid=raw_bounds` · `loop=0` · `restart=11`  
+→ 자동 정렬 불가 + 디버그 패널이 얼굴을 가림 + 수동 촬영도 어려움.
 
-핵심:
+### 원인
 
-1. **비정상 landmark/bounds가 alignment·캐시·UI까지 도달** (finite/범위 미검증)
-2. **transformation matrix를 위치/bounds에 섞을 위험** · pose와 위치 분리 미흡
-3. **추론 루프가 throw/early-return 후 rAF 미재개** → age 폭증 → stale
-4. 비정상 결과를 “최근 정상”으로 재사용해 판정 오염
+1. **raw_bounds**: MediaPipe landmark 리스트 형태(array / nested / TypedArray / pixel-space) 파싱이 부족해 유효점이 0으로 계산됨
+2. **loop=0 / restart=11**: invalid 지속 시 hardRestart 무한 반복 → 실패 시 모드 전환으로 rAF 루프 종료
+3. **수동 촬영 차단**: landmark 실패·품질·countdown 상태와 수동 셔터가 결합됨
+4. **디버그 UI**: Preview에서 진단 패널이 카메라 위를 덮음
 
-## 수정 (3.1.3)
+### 수정
 
-- `landmarkSanity`: finite + 범위 검사 · invalid → `invalid_landmark_data` · **clamp/위장 금지**
-- bounds = 검증된 landmark x/y min/max만 · matrix translation 미사용
-- pose = matrix **복사본**에서만 Euler · 배열 mutate 금지 · 비정상 pose는 `detector_unreliable` + landmark front 대체
-- display 변환: video px → cover scale → crop → client norm → mirror **1회** · width/height는 두 모서리 변환 차
-- 추론: `finally`에서 lock 해제 · rAF 항상 재스케줄 · timestamp `performance.now()` 단조 증가
-- stale: 재사용 ≤250ms · >700ms stale · >2s detector restart → 실패 시 manual_guidance
-- 진단: rawC / preMirrorC / dispC / invalidStage / infer / loop / lock / restart · 비정상은 `INVALID`
-
-## 이전 (3.1.2)
-
-- currentTime gate 제거 → minInterval + monotonic timestamp
-- false `no_face` / 잘못된 “중앙에 맞춰” 문구 분리
+- `landmarkParse.ts`: 런타임 구조 검사 · valid/invalid count · pixel→norm 변환(클램프 위장 금지)
+- hardRestart **최대 2회** · 이후 수동 우선이지만 **loop 유지** · landmark 정상 복귀 시 자동 재개
+- 수동 촬영: video ready만 필요 · landmark 불필요 · 품질 경고로 차단하지 않음
+- 디버그: 기본 OFF · 카메라 **아래** 접이식 · `?landmarkDebug=1`만 자동 펼침
+- 사용자 문구: 기술 용어 없이 “촬영 버튼을 눌러 주세요”
+- 수동 fallback 가이드 단순화(외곽·눈·코·입)
 
 ## 실기기
 
-Cursor는 Android를 직접 확인할 수 없음 → **실기기 미확인**.  
-Preview 진단에서 `fail=` / `rawC=` / `dispC=` / `w`/`h`(0~1) / `age<300` / `loop=1` 확인.
+Cursor는 Android를 직접 확인할 수 없음 → **실기기 미확인**.
+
+확인:
+- 자동: rawBounds 정상 · loop=1 · 거의 맞았어요 → 3·2·1 → 자동 촬영
+- 수동: 자동 실패 시에도 **촬영** 버튼으로 미리보기까지
 
 ## Preview / commit
 
-- Preview: `https://kbeauty-platform-o9qbtzsps-akscnl6521s-projects.vercel.app`
-- commit: `08459cd`
-- 진단: `rawC` / `preMirrorC` / `dispC` / `w` / `h` / `age` / `loop` / `invalid=`
-- **실기기 자동 촬영: Cursor 미확인 — 사용자 Android 재검수 필요**
+- (배포 후 갱신)
+- 테스트: `npm run test:guided-landmark` · build OK

@@ -21,13 +21,18 @@ import {
   type VideoDisplayMetrics,
 } from "./displaySpace";
 import {
-  buildFaceBoundsFromLandmarks,
   formatDiagNum,
-  readLandmarkXY,
   sanitizePoseDeg,
   validateDisplayBounds,
   validateDisplayPoint,
 } from "./landmarkSanity";
+import {
+  buildFaceBoundsFromFaceLandmarks,
+  coerceLandmarkList,
+  extractLandmarkXY,
+  extractLandmarkXYMaybePixels,
+  type LandmarkListInspect,
+} from "./landmarkParse";
 import { copyMatrix4Data, eulerFromColumnMajor4x4, LM, midpoint } from "./poseMath";
 import type { LandmarkSnapshot, NormPoint } from "./types";
 import { logCameraDiagnostic } from "../cameraDiagnostics";
@@ -42,6 +47,14 @@ export type CoordinateTrace = {
   preMirrorC: string;
   displayC: string;
   invalidStage: string | null;
+  faceLandmarksPresent: boolean;
+  faceCount: number;
+  landmarkArrayLength: number;
+  firstPointKeys: string;
+  validPointCount: number;
+  invalidPointCount: number;
+  sample0: string;
+  parseNote: string;
 };
 
 export type DetectOutcome =
@@ -75,15 +88,54 @@ export type DetectOutcome =
       reason: string;
     };
 
-function emptyTrace(stage: string | null = null): CoordinateTrace {
+function emptyInspect(): LandmarkListInspect {
+  return {
+    faceLandmarksPresent: false,
+    faceCount: 0,
+    landmarkArrayLength: 0,
+    firstPointKeys: "-",
+    validPointCount: 0,
+    invalidPointCount: 0,
+    sample0: "-",
+    parseNote: "-",
+  };
+}
+
+function emptyTrace(
+  stage: string | null = null,
+  inspect: LandmarkListInspect = emptyInspect()
+): CoordinateTrace {
   return {
     rawC: "-",
     rawBounds: "-",
     preMirrorC: "-",
     displayC: "-",
     invalidStage: stage,
+    faceLandmarksPresent: inspect.faceLandmarksPresent,
+    faceCount: inspect.faceCount,
+    landmarkArrayLength: inspect.landmarkArrayLength,
+    firstPointKeys: inspect.firstPointKeys,
+    validPointCount: inspect.validPointCount,
+    invalidPointCount: inspect.invalidPointCount,
+    sample0: inspect.sample0,
+    parseNote: inspect.parseNote,
   };
 }
+
+function readPoint(
+  list: unknown[],
+  index: number,
+  videoWidth: number,
+  videoHeight: number
+): NormPoint | null {
+  const raw = list[index];
+  return (
+    extractLandmarkXY(raw) ??
+    extractLandmarkXYMaybePixels(raw, videoWidth, videoHeight)
+  );
+}
+
+export const MAX_DETECTOR_HARD_RESTARTS = 2;
 
 export class FaceLandmarkerSession {
   private landmarker: FaceLandmarker | null = null;
@@ -93,6 +145,7 @@ export class FaceLandmarkerSession {
   private inferenceCount = 0;
   private lastInferenceAt: number | null = null;
   private lastInferenceError: string | null = null;
+  private generation = 0;
   disposed = false;
   lastMetrics: VideoDisplayMetrics | null = null;
   lastCover: CoverTransform | null = null;
@@ -101,6 +154,10 @@ export class FaceLandmarkerSession {
 
   get lockState() {
     return this.inferInFlight;
+  }
+
+  get instanceGeneration() {
+    return this.generation;
   }
 
   get stats() {
@@ -131,6 +188,7 @@ export class FaceLandmarkerSession {
       });
       this.lastMediaPipeTs = 0;
       this.inferInFlight = false;
+      this.generation += 1;
       const loadMs = Math.round(performance.now() - t0);
       logCameraDiagnostic({
         event: "camera_state_changed",
@@ -155,6 +213,7 @@ export class FaceLandmarkerSession {
         });
         this.lastMediaPipeTs = 0;
         this.inferInFlight = false;
+        this.generation += 1;
         const cpuMs = Math.round(performance.now() - t0);
         logCameraDiagnostic({
           event: "camera_state_changed",
@@ -182,25 +241,30 @@ export class FaceLandmarkerSession {
     }
   }
 
-  /** Soft reset between frames — clears lock/timestamp without tearing down WASM. */
   softReset() {
     this.inferInFlight = false;
     this.lastMediaPipeTs = 0;
     this.lastInferenceError = null;
   }
 
+  /** Hard restart — capped by caller (MAX_DETECTOR_HARD_RESTARTS). */
   async hardRestart(): Promise<boolean> {
+    if (this.restartCount >= MAX_DETECTOR_HARD_RESTARTS) {
+      return false;
+    }
     this.restartCount += 1;
+    const closed = this.landmarker;
+    this.landmarker = null;
+    this.inferInFlight = false;
     try {
-      this.landmarker?.close();
+      closed?.close();
     } catch {
       // ignore
     }
-    this.landmarker = null;
-    this.disposed = false;
+    if (this.disposed) return false;
     this.softReset();
     const loaded = await this.load();
-    return loaded.ok;
+    return loaded.ok && !this.disposed && this.landmarker != null;
   }
 
   detect(
@@ -248,9 +312,16 @@ export class FaceLandmarkerSession {
       this.lastInferenceAt = opts.nowMs;
       this.lastInferenceError = null;
 
-      const faces = result.faceLandmarks ?? [];
-      if (faces.length === 0) {
-        const trace = emptyTrace();
+      const facesRaw = result.faceLandmarks;
+      const boundsBuild = buildFaceBoundsFromFaceLandmarks(facesRaw, {
+        faceIndex: 0,
+        videoWidth: metrics.videoWidth,
+        videoHeight: metrics.videoHeight,
+      });
+      const inspect = boundsBuild.inspect;
+
+      if (!inspect.faceLandmarksPresent || inspect.faceCount === 0) {
+        const trace = emptyTrace(null, inspect);
         this.lastTrace = trace;
         return {
           status: "ok",
@@ -279,26 +350,8 @@ export class FaceLandmarkerSession {
         };
       }
 
-      const lm = faces[0]!;
-      // Stage A — raw landmarks (copied primitives only)
-      const rawLeft = midpoint(
-        readLandmarkXY(lm, LM.leftEyeOuter),
-        readLandmarkXY(lm, LM.leftEyeInner)
-      );
-      const rawRight = midpoint(
-        readLandmarkXY(lm, LM.rightEyeOuter),
-        readLandmarkXY(lm, LM.rightEyeInner)
-      );
-      const rawNose = readLandmarkXY(lm, LM.noseTip);
-      const rawMouth = midpoint(
-        readLandmarkXY(lm, LM.mouthUpper),
-        readLandmarkXY(lm, LM.mouthLower)
-      );
-      const rawChin = readLandmarkXY(lm, LM.chin);
-
-      const boundsBuild = buildFaceBoundsFromLandmarks(lm);
       if (!boundsBuild.ok) {
-        const trace = emptyTrace("raw_bounds");
+        const trace = emptyTrace("raw_bounds", inspect);
         this.lastTrace = trace;
         return {
           status: "invalid_landmark_data",
@@ -309,14 +362,44 @@ export class FaceLandmarkerSession {
           trace,
         };
       }
+
       const videoBounds = boundsBuild.bounds;
       const rawCenter = boundsCenter(videoBounds);
+      const list = coerceLandmarkList(
+        Array.isArray(facesRaw) ? facesRaw[0] : null
+      );
+      const vw = metrics.videoWidth;
+      const vh = metrics.videoHeight;
+
+      const rawLeft = midpoint(
+        readPoint(list, LM.leftEyeOuter, vw, vh),
+        readPoint(list, LM.leftEyeInner, vw, vh)
+      );
+      const rawRight = midpoint(
+        readPoint(list, LM.rightEyeOuter, vw, vh),
+        readPoint(list, LM.rightEyeInner, vw, vh)
+      );
+      const rawNose = readPoint(list, LM.noseTip, vw, vh);
+      const rawMouth = midpoint(
+        readPoint(list, LM.mouthUpper, vw, vh),
+        readPoint(list, LM.mouthLower, vw, vh)
+      );
+      const rawChin = readPoint(list, LM.chin, vw, vh);
+
       const trace: CoordinateTrace = {
         rawC: `${formatDiagNum(rawCenter.x)},${formatDiagNum(rawCenter.y)}`,
         rawBounds: `${formatDiagNum(videoBounds.xMin)}-${formatDiagNum(videoBounds.xMax)},${formatDiagNum(videoBounds.yMin)}-${formatDiagNum(videoBounds.yMax)}`,
         preMirrorC: "-",
         displayC: "-",
         invalidStage: null,
+        faceLandmarksPresent: inspect.faceLandmarksPresent,
+        faceCount: inspect.faceCount,
+        landmarkArrayLength: inspect.landmarkArrayLength,
+        firstPointKeys: inspect.firstPointKeys,
+        validPointCount: inspect.validPointCount,
+        invalidPointCount: inspect.invalidPointCount,
+        sample0: inspect.sample0,
+        parseNote: inspect.parseNote,
       };
 
       // Pose from matrix copy only — never mix into bounds.
@@ -345,7 +428,6 @@ export class FaceLandmarkerSession {
         }
       }
 
-      // Stage C — display before mirror (mirrorApplyCount temporarily 0)
       const coverNoMirror: CoverTransform = {
         ...cover,
         mirrored: false,
@@ -371,8 +453,11 @@ export class FaceLandmarkerSession {
       const preC = boundsCenter(preMirrorBounds);
       trace.preMirrorC = `${formatDiagNum(preC.x)},${formatDiagNum(preC.y)}`;
 
-      // Stage D — display with single mirror
-      const displayBounds = videoBoundsToDisplayBounds(videoBounds, metrics, cover);
+      const displayBounds = videoBoundsToDisplayBounds(
+        videoBounds,
+        metrics,
+        cover
+      );
       if (!displayBounds || !validateDisplayBounds(displayBounds)) {
         trace.invalidStage = "display_bounds";
         this.lastTrace = trace;
@@ -419,7 +504,7 @@ export class FaceLandmarkerSession {
         trace,
         poseReliable,
         snapshot: {
-          faceCount: faces.length,
+          faceCount: inspect.faceCount,
           leftEyeCenter,
           rightEyeCenter,
           noseTip: map(rawNose),

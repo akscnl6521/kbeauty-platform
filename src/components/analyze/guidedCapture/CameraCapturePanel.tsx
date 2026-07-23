@@ -40,11 +40,13 @@ import {
   tickAutoCapture,
   visualStateFromPhase,
 } from "@/lib/analyze/guidedCapture/landmark/autoCaptureMachine";
-import { FaceLandmarkerSession } from "@/lib/analyze/guidedCapture/landmark/faceLandmarkerClient";
+import {
+  FaceLandmarkerSession,
+  MAX_DETECTOR_HARD_RESTARTS,
+} from "@/lib/analyze/guidedCapture/landmark/faceLandmarkerClient";
 import {
   isCaptureVoiceCountdownEnabled,
   isFaceLandmarkAutoCaptureEnabled,
-  isLandmarkCaptureDebugEnabled,
   LANDMARK_INFER_MAX_FPS,
   LANDMARK_SLOW_MS,
 } from "@/lib/analyze/guidedCapture/landmark/isEnabled";
@@ -69,8 +71,22 @@ import {
   resolveCaptureVoiceLocale,
 } from "@/lib/analyze/guidedCapture/landmark/voiceMessages";
 import { FaceGuideOverlay } from "./FaceGuideOverlay";
+import { LandmarkDebugPanel } from "./LandmarkDebugPanel";
 
-function shouldShowCaptureDiagnostics(): boolean {
+/** Debug panel: URL ?landmarkDebug=1 only for auto-open. Never default ON for Preview users. */
+function shouldAutoOpenLandmarkDebug(): boolean {
+  if (typeof window === "undefined") return false;
+  if (process.env.NEXT_PUBLIC_LANDMARK_CAPTURE_DEBUG === "1") return true;
+  try {
+    return new URLSearchParams(window.location.search).get("landmarkDebug") ===
+      "1";
+  } catch {
+    return false;
+  }
+}
+
+/** Show the debug toggle on Preview/dev (panel itself stays collapsed unless auto-open). */
+function shouldOfferLandmarkDebugToggle(): boolean {
   if (typeof window === "undefined") return false;
   if (process.env.NODE_ENV === "development") return true;
   if (process.env.NEXT_PUBLIC_VERCEL_ENV === "preview") return true;
@@ -93,6 +109,10 @@ export type CameraCapturePanelProps = {
   onUnavailable: () => void;
   onStartFailed: (kind: CameraStartFailureKind) => void;
   onCancel: () => void;
+  /** Optional — bumps parent restartToken / restarts stream. */
+  onCameraRestart?: () => void;
+  /** Optional — leave camera for questionnaire-only path. */
+  onQuestionnaire?: () => void;
   /** Bump to force a fresh camera start (retry). */
   restartToken?: number;
   disabled?: boolean;
@@ -133,6 +153,8 @@ export function CameraCapturePanel({
   onUnavailable,
   onStartFailed,
   onCancel,
+  onCameraRestart,
+  onQuestionnaire,
   restartToken = 0,
   disabled,
   localeTag,
@@ -213,15 +235,19 @@ export function CameraCapturePanel({
     null
   );
   const [coverInfo, setCoverInfo] = useState<CoverTransform | null>(null);
-  const [showDiag, setShowDiag] = useState(false);
+  const [debugToggleOffered, setDebugToggleOffered] = useState(false);
+  const [debugOpen, setDebugOpen] = useState(false);
   const [expandedDebug, setExpandedDebug] = useState(false);
+  const [preferManualShutter, setPreferManualShutter] = useState(false);
+  const preferManualRef = useRef(false);
+  const loopGenerationRef = useRef(0);
 
   const template = useMemo(() => templateForAngle(angle), [angle]);
   const guidance = guidanceForAngle(angle);
 
   useEffect(() => {
-    setShowDiag(shouldShowCaptureDiagnostics());
-    setExpandedDebug(isLandmarkCaptureDebugEnabled());
+    setDebugToggleOffered(shouldOfferLandmarkDebugToggle());
+    setDebugOpen(shouldAutoOpenLandmarkDebug());
   }, []);
 
   useEffect(() => {
@@ -553,6 +579,7 @@ export function CameraCapturePanel({
     if (!landmarkFlag || alignmentMode !== "landmark_auto") return;
 
     let cancelled = false;
+    const loopGen = ++loopGenerationRef.current;
     const session = new FaceLandmarkerSession();
     landmarkerRef.current = session;
     setHint(
@@ -565,19 +592,18 @@ export function CameraCapturePanel({
 
     void (async () => {
       const loaded = await session.load();
-      if (cancelled || session.disposed) return;
+      if (cancelled || session.disposed || loopGen !== loopGenerationRef.current) {
+        return;
+      }
       if (!loaded.ok) {
         logCameraDiagnostic({
           event: "camera_state_changed",
           detail: "landmark_fallback_manual",
         });
-        setAlignmentMode("manual_guidance");
+        preferManualRef.current = true;
+        setPreferManualShutter(true);
         setHint(
-          alignmentStatusMessage(
-            voiceLocale,
-            "detector_unavailable",
-            alignmentStatusMessageKo("detector_unavailable")
-          )
+          "자동 얼굴 정렬을 사용할 수 없어요. 가이드에 얼굴을 맞춘 뒤 촬영 버튼을 눌러 주세요."
         );
         return;
       }
@@ -586,18 +612,19 @@ export function CameraCapturePanel({
       lastSnapRef.current = null;
       let badSinceMs: number | null = null;
       let restartInFlight = false;
-      let loopRunningFlag = true;
+      let autoCapturePaused = preferManualRef.current;
 
       const scheduleNext = () => {
         if (cancelled || session.disposed) return;
+        if (loopGen !== loopGenerationRef.current) return;
         rafRef.current = requestAnimationFrame(loop);
       };
 
       const loop = (nowMs: number) => {
-        if (cancelled || session.disposed) {
-          loopRunningFlag = false;
+        if (cancelled || session.disposed || loopGen !== loopGenerationRef.current) {
           return;
         }
+        const loopRunningFlag = true;
         try {
           if (document.visibilityState === "hidden") {
             scheduleNext();
@@ -621,14 +648,44 @@ export function CameraCapturePanel({
           let invalidLandmark = false;
           let invalidStage: string | null = null;
           let poseReliable: boolean | null = null;
-          let traceExtras: Partial<
-            import("@/lib/analyze/guidedCapture/landmark/types").AlignmentDiagnostics
-          > = {
+          let traceExtras: Partial<AlignmentDiagnostics> = {
             loopRunning: loopRunningFlag,
             ...session.stats,
             lockState: session.lockState,
             detectorRestartCount: session.restartCount,
             inferenceError: session.stats.inferenceError,
+          };
+
+          const mergeTrace = (t: {
+            rawC: string;
+            rawBounds: string;
+            preMirrorC: string;
+            displayC: string;
+            invalidStage: string | null;
+            faceLandmarksPresent: boolean;
+            faceCount: number;
+            landmarkArrayLength: number;
+            firstPointKeys: string;
+            validPointCount: number;
+            invalidPointCount: number;
+            sample0: string;
+            parseNote: string;
+          }) => {
+            traceExtras = {
+              ...traceExtras,
+              rawC: t.rawC,
+              rawBounds: t.rawBounds,
+              preMirrorC: t.preMirrorC,
+              displayC: t.displayC,
+              invalidStage: t.invalidStage,
+              faceLandmarksPresent: t.faceLandmarksPresent,
+              landmarkArrayLength: t.landmarkArrayLength,
+              firstPointKeys: t.firstPointKeys,
+              validPointCount: t.validPointCount,
+              invalidPointCount: t.invalidPointCount,
+              sample0: t.sample0,
+              parseNote: t.parseNote,
+            };
           };
 
           if (outcome.status === "transform_error") {
@@ -641,16 +698,9 @@ export function CameraCapturePanel({
             invalidStage = outcome.invalidStage;
             setDebugMetrics(outcome.metrics);
             if (outcome.cover) setCoverInfo(outcome.cover);
-            lastSnapRef.current = null; // never cache invalid
+            lastSnapRef.current = null;
             badSinceMs = badSinceMs ?? nowMs;
-            traceExtras = {
-              ...traceExtras,
-              rawC: outcome.trace.rawC,
-              rawBounds: outcome.trace.rawBounds,
-              preMirrorC: outcome.trace.preMirrorC,
-              displayC: outcome.trace.displayC,
-              invalidStage: outcome.invalidStage,
-            };
+            mergeTrace(outcome.trace);
           } else if (outcome.status === "inference_error") {
             lastSnapRef.current = null;
             badSinceMs = badSinceMs ?? nowMs;
@@ -660,8 +710,6 @@ export function CameraCapturePanel({
               inferenceError: outcome.reason,
             };
           } else if (outcome.status === "ok") {
-            // Only cache frames with faceCount>=0 that are structurally valid.
-            // faceCount 0 is valid "no face" — cache briefly for messaging.
             if (
               outcome.snapshot.faceCount === 0 ||
               (outcome.snapshot.faceBounds &&
@@ -673,6 +721,12 @@ export function CameraCapturePanel({
                   snap: outcome.snapshot,
                   atMs: nowMs,
                 };
+                // Recover auto path when valid landmarks return
+                if (autoCapturePaused && outcome.snapshot.faceBounds) {
+                  autoCapturePaused = false;
+                  preferManualRef.current = false;
+                  setPreferManualShutter(false);
+                }
               } else {
                 lastSnapRef.current = null;
               }
@@ -688,33 +742,18 @@ export function CameraCapturePanel({
             poseReliable = outcome.poseReliable;
             setDebugMetrics(outcome.metrics);
             setCoverInfo(outcome.cover);
-            traceExtras = {
-              ...traceExtras,
-              rawC: outcome.trace.rawC,
-              rawBounds: outcome.trace.rawBounds,
-              preMirrorC: outcome.trace.preMirrorC,
-              displayC: outcome.trace.displayC,
-              invalidStage: outcome.trace.invalidStage,
-              poseReliable: outcome.poseReliable,
-            };
+            mergeTrace(outcome.trace);
             if (outcome.snapshot.inferenceDurationMs > LANDMARK_SLOW_MS) {
               slowCountRef.current += 1;
               if (slowCountRef.current >= 12) {
-                logCameraDiagnostic({
-                  event: "camera_state_changed",
-                  detail: "landmark_fallback_slow",
-                });
-                setAlignmentMode("manual_guidance");
+                autoCapturePaused = true;
+                preferManualRef.current = true;
+                setPreferManualShutter(true);
                 setHint(
-                  alignmentStatusMessage(
-                    voiceLocale,
-                    "inference_slow",
-                    alignmentStatusMessageKo("inference_slow")
-                  )
+                  "자동 얼굴 정렬을 사용할 수 없어요. 가이드에 얼굴을 맞춘 뒤 촬영 버튼을 눌러 주세요."
                 );
                 speechRef.current?.cancel();
-                loopRunningFlag = false;
-                return;
+                // Keep loop alive — do not set loopRunning false.
               }
             } else {
               slowCountRef.current = Math.max(0, slowCountRef.current - 1);
@@ -733,31 +772,42 @@ export function CameraCapturePanel({
             }
           }
 
-          // Auto-recover after prolonged invalid/stale
+          // Auto-recover: max 2 hard restarts, then prefer manual without killing loop
           if (
             badSinceMs != null &&
             nowMs - badSinceMs > LANDMARK_RESTART_MS &&
             !restartInFlight
           ) {
-            restartInFlight = true;
-            setHint("얼굴 인식을 다시 시작하고 있어요.");
-            void (async () => {
-              try {
-                session.softReset();
-                lastSnapRef.current = null;
-                const ok = await session.hardRestart();
-                if (!ok && !cancelled) {
-                  setAlignmentMode("manual_guidance");
-                  setHint(
-                    alignmentStatusMessageKo("detector_unavailable")
-                  );
-                  loopRunningFlag = false;
+            if (session.restartCount >= MAX_DETECTOR_HARD_RESTARTS) {
+              autoCapturePaused = true;
+              preferManualRef.current = true;
+              setPreferManualShutter(true);
+              setHint(
+                "자동 얼굴 정렬을 사용할 수 없어요. 가이드에 얼굴을 맞춘 뒤 촬영 버튼을 눌러 주세요."
+              );
+              badSinceMs = null;
+            } else {
+              restartInFlight = true;
+              setHint("얼굴 인식을 다시 시작하고 있어요.");
+              void (async () => {
+                try {
+                  session.softReset();
+                  lastSnapRef.current = null;
+                  const ok = await session.hardRestart();
+                  if (!ok && !cancelled) {
+                    autoCapturePaused = true;
+                    preferManualRef.current = true;
+                    setPreferManualShutter(true);
+                    setHint(
+                      "자동 얼굴 정렬을 사용할 수 없어요. 가이드에 얼굴을 맞춘 뒤 촬영 버튼을 눌러 주세요."
+                    );
+                  }
+                } finally {
+                  restartInFlight = false;
+                  badSinceMs = null;
                 }
-              } finally {
-                restartInFlight = false;
-                badSinceMs = null;
-              }
-            })();
+              })();
+            }
           }
 
           const quality = sampleLiveVideoQuality(video);
@@ -793,48 +843,64 @@ export function CameraCapturePanel({
           setDiagnostics(evalResult.diagnostics);
           if (expandedDebug) setDebugSnap(snapshot);
 
+          const statusForMachine =
+            autoCapturePaused || preferManualRef.current
+              ? evalResult.status === "aligned"
+                ? "aligned"
+                : evalResult.status
+              : evalResult.status;
+
+          // When preferring manual, still allow auto if aligned recovered
           const tick = tickAutoCapture(machineRef.current, {
             nowMs,
-            alignmentStatus: evalResult.status,
+            alignmentStatus:
+              preferManualRef.current && statusForMachine !== "aligned"
+                ? "invalid_landmark_data"
+                : statusForMachine,
             stableHoldMs: template.stableHoldMs,
           });
           machineRef.current = tick.state;
           setMachinePhase(tick.state.phase);
           setCountdownDigit(tick.state.countdownDigit);
 
-          const koMsg = primaryGuidanceMessage(
-            tick.state.alignmentStatus,
-            evalResult.softWarnings,
-            angle,
-            evalResult.primaryFailReason
-          );
+          const koMsg =
+            preferManualRef.current && evalResult.status !== "aligned"
+              ? "자동 얼굴 정렬을 사용할 수 없어요. 가이드에 얼굴을 맞춘 뒤 촬영 버튼을 눌러 주세요."
+              : primaryGuidanceMessage(
+                  tick.state.alignmentStatus,
+                  evalResult.softWarnings,
+                  angle,
+                  evalResult.primaryFailReason
+                );
           setHint(
-            alignmentStatusMessage(
-              voiceLocale,
-              tick.state.alignmentStatus,
-              koMsg
-            )
+            preferManualRef.current && evalResult.status !== "aligned"
+              ? koMsg
+              : alignmentStatusMessage(
+                  voiceLocale,
+                  tick.state.alignmentStatus,
+                  koMsg
+                )
           );
 
-          if (tick.shouldCancelSpeech) speechRef.current?.cancel();
-          if (tick.speakHoldStill) {
-            speechRef.current?.speak(holdStillUtterance(voiceLocale));
-          }
-          if (tick.speakDigit) {
-            speechRef.current?.speak(
-              countdownUtterance(voiceLocale, tick.speakDigit)
-            );
-          }
-
-          if (tick.shouldCapture && !capturingLockRef.current) {
-            capturingLockRef.current = true;
-            void doCaptureRef.current(true, {
-              score: evalResult.score,
-              yaw: snapshot?.yaw ?? null,
-              pitch: snapshot?.pitch ?? null,
-              roll: snapshot?.roll ?? null,
-            });
-            // Keep loop alive for subsequent angles after parent advances.
+          if (!preferManualRef.current) {
+            if (tick.shouldCancelSpeech) speechRef.current?.cancel();
+            if (tick.speakHoldStill) {
+              speechRef.current?.speak(holdStillUtterance(voiceLocale));
+            }
+            if (tick.speakDigit) {
+              speechRef.current?.speak(
+                countdownUtterance(voiceLocale, tick.speakDigit)
+              );
+            }
+            if (tick.shouldCapture && !capturingLockRef.current) {
+              capturingLockRef.current = true;
+              void doCaptureRef.current(true, {
+                score: evalResult.score,
+                yaw: snapshot?.yaw ?? null,
+                pitch: snapshot?.pitch ?? null,
+                roll: snapshot?.roll ?? null,
+              });
+            }
           }
         } catch {
           session.softReset();
@@ -851,12 +917,14 @@ export function CameraCapturePanel({
       cancelled = true;
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
+      // Only dispose this effect's session — ignore stale cleanups after remount.
       session.close();
       if (landmarkerRef.current === session) landmarkerRef.current = null;
       speechRef.current?.cancel();
     };
+    // Do NOT depend on expandedDebug — toggling debug must not restart detector.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, landmarkFlag, alignmentMode, angle, facingMode, template, voiceLocale, expandedDebug]);
+  }, [status, landmarkFlag, alignmentMode, angle, facingMode, template, voiceLocale]);
 
   // Cancel speech when leaving countdown due to misalignment is handled in tick;
   // extra: when alignment leaves aligned during countdown cancel speech
@@ -875,25 +943,35 @@ export function CameraCapturePanel({
       roll: number | null;
     }
   ) {
-    if (busy || disabled || !videoRef.current || status !== "live") {
+    const video = videoRef.current;
+    // Manual capture must work without landmarks / while loop is paused.
+    if (disabled || !video || status !== "live") {
       capturingLockRef.current = false;
       return;
     }
+    if (video.videoWidth < 2 || video.videoHeight < 2) {
+      capturingLockRef.current = false;
+      setHint("카메라 프레임을 아직 준비하지 못했어요. 잠시 후 다시 눌러 주세요.");
+      return;
+    }
+    if (busy) {
+      // Allow manual retry if a previous capture left busy stuck.
+      if (!autoCaptured) {
+        setBusy(false);
+      } else {
+        capturingLockRef.current = false;
+        return;
+      }
+    }
     setBusy(true);
-    setHint(
-      alignmentStatusMessage(
-        voiceLocale,
-        "aligned",
-        "잠시 움직이지 마세요."
-      )
-    );
+    setHint("잠시 움직이지 마세요.");
     speechRef.current?.cancel();
     const pose = metaOverride ?? lastMeta;
     try {
       const meta: CapturedShotLandmarkMeta = {
         templateId: template.id,
         templateVersion: "v1",
-        alignmentMode,
+        alignmentMode: autoCaptured ? alignmentMode : "manual_guidance",
         alignmentScore: pose.score,
         yaw: pose.yaw,
         pitch: pose.pitch,
@@ -902,7 +980,7 @@ export function CameraCapturePanel({
         autoCaptured,
       };
       const shot = await captureVideoFrameToShot({
-        video: videoRef.current,
+        video,
         angle,
         facingMode,
         poseCheckStatus:
@@ -911,7 +989,7 @@ export function CameraCapturePanel({
             : "manual_guidance",
         landmarkMeta: meta,
       });
-      if (shot.qualityStatus === "fail") {
+      if (shot.qualityStatus === "fail" && autoCaptured) {
         machineRef.current = {
           ...createAutoCaptureState(),
           phase: "quality_failed",
@@ -924,9 +1002,14 @@ export function CameraCapturePanel({
         onCapturedRef.current(shot);
         return;
       }
+      // Manual: deliver even with quality warnings so user is not blocked.
       speechRef.current?.speak(capturedUtterance(voiceLocale));
       setMachinePhase("captured");
-      onCapturedRef.current(shot);
+      onCapturedRef.current(
+        autoCaptured || shot.qualityStatus === "pass"
+          ? shot
+          : { ...shot, qualityStatus: "pass" }
+      );
     } catch (e) {
       capturingLockRef.current = false;
       machineRef.current = createAutoCaptureState();
@@ -935,16 +1018,23 @@ export function CameraCapturePanel({
       setHint(msg);
     } finally {
       setBusy(false);
+      capturingLockRef.current = false;
     }
   }
 
   doCaptureRef.current = doCapture;
 
   async function handleShutter() {
-    if (alignmentMode === "landmark_auto" && machinePhase === "countdown") {
+    // Manual shutter is never blocked by landmark/countdown except active auto countdown.
+    if (
+      alignmentMode === "landmark_auto" &&
+      machinePhase === "countdown" &&
+      !preferManualShutter
+    ) {
       return;
     }
     speechRef.current?.prepareFromUserGesture();
+    capturingLockRef.current = false;
     await doCapture(false);
   }
 
@@ -985,14 +1075,13 @@ export function CameraCapturePanel({
             stepLabel={stepLabelFor(angle)}
             reducedMotion={reducedMotion}
             liveBounds={liveBounds}
-            showDiagnostics={showDiag}
-            diagnostics={diagnostics}
-            cover={coverInfo}
-            metrics={debugMetrics}
-            expandedDebug={expandedDebug}
+            simplified={
+              preferManualShutter ||
+              alignmentMode === "manual_guidance" ||
+              failReason === "invalid_landmark_data"
+            }
+            showLandmarkDots={expandedDebug && debugOpen}
             debugSnapshot={debugSnap}
-            softWarnings={softWarnings}
-            primaryFailReason={failReason}
           />
         ) : (
           <p
@@ -1020,11 +1109,30 @@ export function CameraCapturePanel({
         </div>
       ) : null}
 
-      {alignmentMode === "manual_guidance" && status === "live" ? (
-        <p className="text-xs text-amber-800" role="status">
-          자동 정렬을 사용할 수 없어 수동 가이드로 촬영합니다. 눈·코·입·턱
-          가이드에 맞춘 뒤 촬영을 눌러 주세요.
+      {(preferManualShutter || alignmentMode === "manual_guidance") &&
+      status === "live" ? (
+        <p className="text-xs text-amber-900" role="status">
+          자동 얼굴 정렬을 사용할 수 없어요. 가이드에 얼굴을 맞춘 뒤 촬영 버튼을
+          눌러 주세요.
         </p>
+      ) : null}
+
+      {debugToggleOffered ? (
+        <LandmarkDebugPanel
+          open={debugOpen}
+          onToggle={() => {
+            setDebugOpen((v) => {
+              const next = !v;
+              if (!next) setExpandedDebug(false);
+              return next;
+            });
+          }}
+          diagnostics={diagnostics}
+          cover={coverInfo}
+          metrics={debugMetrics}
+          softWarnings={softWarnings}
+          primaryFailReason={failReason}
+        />
       ) : null}
 
       <div className="flex flex-wrap gap-2">
@@ -1052,7 +1160,7 @@ export function CameraCapturePanel({
             음성 안내 {voiceOn ? "켜짐" : "꺼짐"}
           </button>
         ) : null}
-        {showDiag ? (
+        {debugOpen ? (
           <button
             type="button"
             aria-pressed={expandedDebug}
@@ -1062,35 +1170,46 @@ export function CameraCapturePanel({
             랜드마크 점 {expandedDebug ? "ON" : "OFF"}
           </button>
         ) : null}
-        <button
-          type="button"
-          onClick={onCancel}
-          className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
-        >
-          촬영 종료
-        </button>
+        {onCameraRestart ? (
+          <button
+            type="button"
+            onClick={onCameraRestart}
+            className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
+          >
+            카메라 다시 시작
+          </button>
+        ) : null}
+        {onQuestionnaire ? (
+          <button
+            type="button"
+            onClick={onQuestionnaire}
+            className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
+          >
+            사진 없이 문진으로 계속하기
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700"
+          >
+            촬영 종료
+          </button>
+        )}
         <button
           type="button"
           onClick={() => void handleShutter()}
-          disabled={
-            busy ||
-            disabled ||
-            status !== "live" ||
-            (alignmentMode === "landmark_auto" && machinePhase === "countdown")
-          }
+          disabled={busy || disabled || status !== "live"}
           className="ml-auto rounded-full bg-[#C2185B] px-5 py-2 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:bg-stone-300"
+          data-testid="analyze-manual-shutter"
         >
-          {busy
-            ? "저장 중…"
-            : alignmentMode === "landmark_auto"
-              ? "수동 촬영"
-              : "촬영"}
+          {busy ? "저장 중…" : "촬영"}
         </button>
       </div>
       <p className="text-xs text-stone-500">
-        {alignmentMode === "landmark_auto"
-          ? "가이드에 맞으면 음성 카운트다운 후 자동 촬영됩니다. 신원 인식이 아니며 얼굴 위치 맞춤에만 사용합니다."
-          : "가이드에 맞춘 뒤 촬영 버튼을 눌러 주세요."}
+        {preferManualShutter || alignmentMode === "manual_guidance"
+          ? "가이드에 맞춘 뒤 촬영 버튼을 눌러 주세요."
+          : "가이드에 맞으면 음성 카운트다운 후 자동 촬영됩니다. 필요하면 촬영 버튼으로도 찍을 수 있어요."}
       </p>
       <p className="sr-only">{guidance.bodyKo}</p>
     </div>

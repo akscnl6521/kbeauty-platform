@@ -486,6 +486,8 @@ export function GuidedCaptureFlow({
             }
             resetToChooser(cancelSession(session));
           }}
+          onCameraRestart={retryCamera}
+          onQuestionnaire={onSwitchToManual}
         />
       ) : null}
 

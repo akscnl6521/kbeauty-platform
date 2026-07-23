@@ -21,7 +21,7 @@ export function isCaptureVoiceCountdownEnabled(
   return raw !== "0" && raw !== "false" && raw !== "off";
 }
 
-/** Preview/dev local debug overlay — never logs coordinates to server. */
+/** Local debug panel auto-open — never default ON for Preview users. */
 export function isLandmarkCaptureDebugEnabled(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env
 ): boolean {
@@ -35,7 +35,8 @@ export function isLandmarkCaptureDebugEnabled(
       // ignore
     }
   }
-  return env.NODE_ENV === "development";
+  // Development: offer toggle, but do not auto-open overlay on the face.
+  return false;
 }
 
 export const FACE_LANDMARKER_WASM_PATH = "/mediapipe/wasm";

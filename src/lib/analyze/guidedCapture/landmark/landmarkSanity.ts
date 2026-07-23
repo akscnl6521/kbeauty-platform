@@ -1,8 +1,3 @@
-/**
- * Finite / range guards for landmark pipeline.
- * Never clamp invalid values into a fake-normal range — reject them.
- */
-
 import type { NormPoint } from "./types";
 import type { NormBounds } from "./displaySpace";
 
@@ -44,7 +39,6 @@ export function readLandmarkXY(
   const x = Number((p as { x?: unknown }).x);
   const y = Number((p as { y?: unknown }).y);
   if (!isValidRawCoord(x) || !isValidRawCoord(y)) return null;
-  // Copy primitives — never retain MediaPipe object references.
   return { x, y };
 }
 
@@ -52,10 +46,7 @@ export type BoundsBuildResult =
   | { ok: true; bounds: NormBounds; usedCount: number }
   | { ok: false; reason: string };
 
-/**
- * Face bounds from validated landmark x/y only.
- * Does not use z, matrix, or invalid points.
- */
+/** Simple list bounds — tests / callers with plain {x,y}[]. */
 export function buildFaceBoundsFromLandmarks(
   landmarks: ArrayLike<{ x?: unknown; y?: unknown } | number>
 ): BoundsBuildResult {
@@ -75,7 +66,7 @@ export function buildFaceBoundsFromLandmarks(
     yMax = Math.max(yMax, pt.y);
   }
   if (used < 8 || !Number.isFinite(xMin) || !Number.isFinite(xMax)) {
-    return { ok: false, reason: "too_few_valid_landmarks" };
+    return { ok: false, reason: "raw_bounds_invalid" };
   }
   const width = xMax - xMin;
   const height = yMax - yMin;
