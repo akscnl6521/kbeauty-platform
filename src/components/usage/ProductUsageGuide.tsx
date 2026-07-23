@@ -13,6 +13,13 @@ import {
   type ContentRelationship,
 } from "@/lib/media/contentDisclosurePolicy";
 import ContentDisclosure from "@/components/disclosure/ContentDisclosure";
+import {
+  presentUsageGuidance,
+  USAGE_GUIDANCE_FALLBACK_COPY,
+  type PatchTestGuidance,
+  type UsageGuidanceComplete,
+} from "@/lib/media/usageGuidanceComplete";
+import type { UsageInstruction } from "@/lib/media/productUsageMediaPolicy";
 
 export type ProductUsageGuideLocale = "en" | "ja" | "ko";
 
@@ -25,6 +32,8 @@ export type StoredUsageGuide = {
   methodSteps: string[];
   cautionText: string[];
   verifiedAt: string;
+  /** Optional patch-test metadata — never invented when absent. */
+  patchTest?: PatchTestGuidance | null;
   media?: {
     mediaType: "video" | "image" | "animation";
     sourceUrl: string;
@@ -50,6 +59,9 @@ const COPY = {
     weekly: "주 1회 이상",
     as_needed: "필요할 때",
     verified: "마지막 확인",
+    patchTest: USAGE_GUIDANCE_FALLBACK_COPY.ko.patchTest,
+    patchTestWait: USAGE_GUIDANCE_FALLBACK_COPY.ko.patchTestWait,
+    hours: USAGE_GUIDANCE_FALLBACK_COPY.ko.hours,
   },
   ja: {
     title: "確認済み使用ガイド",
@@ -65,6 +77,9 @@ const COPY = {
     weekly: "週1回以上",
     as_needed: "必要な時",
     verified: "最終確認",
+    patchTest: USAGE_GUIDANCE_FALLBACK_COPY.ja.patchTest,
+    patchTestWait: USAGE_GUIDANCE_FALLBACK_COPY.ja.patchTestWait,
+    hours: USAGE_GUIDANCE_FALLBACK_COPY.ja.hours,
   },
   en: {
     title: "Verified usage guide",
@@ -80,6 +95,9 @@ const COPY = {
     weekly: "Weekly",
     as_needed: "As needed",
     verified: "Last verified",
+    patchTest: USAGE_GUIDANCE_FALLBACK_COPY.en.patchTest,
+    patchTestWait: USAGE_GUIDANCE_FALLBACK_COPY.en.patchTestWait,
+    hours: USAGE_GUIDANCE_FALLBACK_COPY.en.hours,
   },
 } satisfies Record<ProductUsageGuideLocale, Record<string, string>>;
 
@@ -179,7 +197,74 @@ export function parseVerifiedUsageGuide(
     methodSteps,
     cautionText: asStringArray(row.cautionText),
     verifiedAt: row.verifiedAt,
+    patchTest: parsePatchTest(row.patchTest),
     media,
+  };
+}
+
+function parsePatchTest(value: unknown): PatchTestGuidance | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const row = value as Record<string, unknown>;
+  const steps = asStringArray(row.steps);
+  const waitHours =
+    typeof row.waitHours === "number" && Number.isFinite(row.waitHours)
+      ? row.waitHours
+      : null;
+  const sourceUrl =
+    typeof row.sourceUrl === "string" && isHttpsUrl(row.sourceUrl)
+      ? row.sourceUrl
+      : null;
+  const verifiedAt =
+    typeof row.verifiedAt === "string" &&
+    !Number.isNaN(new Date(row.verifiedAt).getTime())
+      ? row.verifiedAt
+      : null;
+  return {
+    recommended: row.recommended === true,
+    waitHours,
+    steps,
+    sourceUrl,
+    verifiedAt,
+  };
+}
+
+function toGuidanceComplete(
+  guide: StoredUsageGuide,
+  locale: ProductUsageGuideLocale,
+): UsageGuidanceComplete {
+  const instruction: UsageInstruction = {
+    productId: guide.productId,
+    amountLabel: guide.amountLabel,
+    orderIndex: guide.orderIndex,
+    frequency: guide.frequency,
+    applicationArea: guide.applicationArea,
+    methodSteps: guide.methodSteps,
+    cautionText: guide.cautionText,
+    sourceType: "internal_review",
+    sourceUrl: null,
+    verifiedAt: guide.verifiedAt,
+  };
+  return {
+    ...instruction,
+    locale,
+    countryCode: null,
+    cautions: [...guide.cautionText],
+    patchTest: guide.patchTest ?? null,
+    applicationVideo: guide.media
+      ? {
+          mediaId: null,
+          sourceUrl: guide.media.sourceUrl,
+          locale,
+          publishable: true,
+          reasonCodes: [],
+        }
+      : {
+          mediaId: null,
+          sourceUrl: null,
+          locale,
+          publishable: false,
+          reasonCodes: ["application_video_missing"],
+        },
   };
 }
 
@@ -250,6 +335,16 @@ export default function ProductUsageGuide({
   }, [productId, areasKey]);
 
   const copy = COPY[locale];
+  const presentation = guide
+    ? presentUsageGuidance(toGuidanceComplete(guide, locale), {
+        preferredLocale: locale,
+        fallbackLocale: "en",
+      })
+    : null;
+  const fallbackNotice =
+    presentation && presentation.messageKey !== "ok"
+      ? USAGE_GUIDANCE_FALLBACK_COPY[locale][presentation.messageKey]
+      : "";
 
   if (!loaded) {
     return null;
@@ -273,6 +368,12 @@ export default function ProductUsageGuide({
   const verified = new Intl.DateTimeFormat(
     locale === "ko" ? "ko-KR" : locale === "ja" ? "ja-JP" : "en-US"
   ).format(new Date(guide.verifiedAt));
+  const patch = guide.patchTest;
+  const showPatch =
+    presentation?.patchTestEligible &&
+    patch &&
+    patch.recommended &&
+    patch.steps.length > 0;
 
   return (
     <div
@@ -281,8 +382,12 @@ export default function ProductUsageGuide({
         "mt-3 border-t border-pink-100 pt-3 text-xs text-gray-700"
       }
       data-usage-guide-product-id={productId}
+      data-usage-fallback={presentation?.fallbackState ?? "empty"}
     >
       <p className="font-semibold text-gray-900">{copy.title}</p>
+      {fallbackNotice ? (
+        <p className="mt-1 text-[11px] text-gray-500">{fallbackNotice}</p>
+      ) : null}
       <dl className="mt-2 space-y-1.5">
         <div>
           <dt className="inline font-semibold">{copy.amount}: </dt>
@@ -313,6 +418,21 @@ export default function ProductUsageGuide({
               <li key={item}>{item}</li>
             ))}
           </ul>
+        </div>
+      ) : null}
+      {showPatch && patch ? (
+        <div className="mt-2 rounded-lg bg-rose-50 px-3 py-2 text-rose-950">
+          <p className="font-semibold">{copy.patchTest}</p>
+          {typeof patch.waitHours === "number" ? (
+            <p className="mt-1">
+              {copy.patchTestWait}: {patch.waitHours} {copy.hours}
+            </p>
+          ) : null}
+          <ol className="mt-1 list-decimal space-y-1 pl-4">
+            {patch.steps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
         </div>
       ) : null}
       {guide.media ? (

@@ -37,16 +37,27 @@ async function main() {
 
   assert.match(shared, /skinProductUsageGuides/);
   assert.match(shared, /protocol === "https:"/);
-  assert.match(shared, /검증된 사용 가이드가 아직 없습니다/);
+  assert.match(shared, /USAGE_GUIDANCE_FALLBACK_COPY/);
   assert.match(shared, /amountLabel/);
   assert.match(shared, /applicationArea/);
   assert.match(shared, /methodSteps/);
   assert.match(shared, /verifiedAt/);
   assert.match(shared, /disclosureText/);
   assert.match(shared, /parseVerifiedUsageGuide/);
+  assert.match(shared, /patchTest/);
+  assert.match(shared, /presentUsageGuidance/);
   assert.doesNotMatch(shared, /dangerouslySetInnerHTML/);
   assert.doesNotMatch(shared, /http:\/\//);
   assert.doesNotMatch(shared, /autoPlay|autoplay/);
+
+  const fallbackCopy = await readFile(
+    "src/lib/media/usageGuidanceComplete.ts",
+    "utf8"
+  );
+  assert.match(fallbackCopy, /검증된 사용 가이드가 아직 없습니다/);
+  assert.match(fallbackCopy, /guide_unavailable/);
+  assert.match(fallbackCopy, /patch_test/);
+  assert.match(fallbackCopy, /application_video/);
 
   // Parsing rejects HTTP media and mismatched productId (unit-style via source)
   assert.match(shared, /isHttpsUrl/);

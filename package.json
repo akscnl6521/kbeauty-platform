@@ -74,6 +74,7 @@
     "clinic:staging-plan": "npx --yes tsx scripts/build-clinic-staging-sync-plan.ts",
     "test:commercial-separation": "npx --yes tsx scripts/commercial-separation-policy-selftest.ts",
     "test:organic-commerce": "npx --yes tsx scripts/organic-commerce-professional-routing-selftest.ts",
+    "test:usage-media-admin-ops": "npx --yes tsx scripts/usage-media-localization-admin-ops-selftest.ts",
     "check:staging-quality": "node scripts/staging-verify-recommend-quality.mjs",
     "check:preview-quality": "node scripts/preview-concern-quality-smoke.mjs",
     "check:preview-substitute": "node scripts/staging-preview-substitute-quality.mjs",

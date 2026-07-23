@@ -2,6 +2,17 @@
 
 최종 갱신: 2026-07-23
 
+## 2026-07-23 T05 · Usage media localization + admin operations
+
+- 사용 가이드 메타: 도포량·순서·빈도·주의·패치 테스트·도포 영상 + 정직한 fallback 상태
+- 국가·언어별 offer 표시: 재고·가격·판매처 **미발명** · 미확인 지역 빈 상태 · 미검증 URL CTA 제외
+- 관리자 운영: 후보 검수 · 중복 병합 · 근거 검토 · 상태 전환 · 만료 갱신 큐 · 재시도 · 감사 기록 · local/Staging dry-run (in-memory)
+- UI: `ProductUsageGuide` 패치 테스트·fallback 고지 · Admin `/admin/catalog/ops` · API `/api/admin/catalog-ops`
+- Docs: `docs/usage-media-localization-admin-ops.md`
+- Tests: `test:usage-media-admin-ops` · `test:usage-media` · 변경 ESLint · tsc — **통과**
+- Staging/Production DB 쓰기·실 offer 재고·main·commit/push 미실행
+- next_task: `T06` 공식 병원 실출처 (`external_only`)
+
 ## 2026-07-23 T04 · Organic commerce + professional routing
 
 - Organic/Affiliate/Sponsored: 제휴 링크 구조 · Organic 전용 랭킹 · 광고 슬롯 · in-memory 지속화 · API · UI 라벨 · 애널리틱스 · `/admin/commerce`
@@ -10,7 +21,7 @@
 - Docs: `docs/organic-commerce-professional-routing.md`
 - Tests: `test:organic-commerce` · `test:commercial-separation` · `test:clinic-stage6` · `test:symptom-safety` · `test:care-guidance` · 변경 ESLint · tsc — **통과**
 - 공식 병원 실출처·실제휴 URL 게시·Production 쓰기·main·commit/push 미실행
-- next_task: `T05` 공식 병원 실출처 (`external_only`)
+- next_task: `T05` Usage media localization (완료됨 → 위 T05 항목)
 
 ## 2026-07-23 T03 · Product automation · category expansion
 
@@ -108,6 +119,7 @@
 - **Stage 6 기반**: 병원 후보 어댑터·검증 게이트·안내 UI·상담 리드 dry-run·관리자 검수 (실병원 게시 데이터 없음)
 - **T03 제품 자동화**: ingestion 계약·카테고리 확장 fixture dry-run · admin review 링크 (Staging 쓰기 없음)
 - **T04 Organic commerce**: 제휴 링크 구조·Organic 분리 랭킹·광고 슬롯·이벤트·UI 라벨·`/admin/commerce` · 전문가 라우팅 번들 (실제휴·실병원 게시 제외)
+- **T05 사용 가이드 현지화·운영**: 패치 테스트·영상 fallback · 국가/언어 offer(미발명) · admin ops dry-run (`/admin/catalog/ops`)
 
 ## 자동화 안전 상태
 
@@ -146,7 +158,7 @@
 
 ## 다음 작업
 
-Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T05)
+Canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` T06)
 
 1. 공식 병원 후보 실출처 승인 후 dry-run→검수→publishable 전환 (가짜 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (대시보드 아님 · 사람 검수)

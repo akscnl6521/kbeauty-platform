@@ -80,7 +80,7 @@ Windows outer runner가 Git을 담당할 때는 **commit/push를 에이전트가
 | 9 | Organic/Affiliate/Sponsored | `verified_complete` (T04 랭킹·API·지속화·UI·analytics·admin) · 실제휴 채널은 external |
 | 10 | 증상 기반 전문 안내 | `partial` (라우팅·번들 verified · 실병원 미게시) |
 | 11 | 3/7/15/30 체크인 | `verified_complete` (lifecycle·채널 dry-run 포함 · 실푸시/실메일/실SMS 제외) |
-| 12 | 국가·언어·통화·판매처 | `verified_complete` (구조) |
+| 12 | 국가·언어·통화·판매처 | `verified_complete` (구조·T05 지역 offer 표시) |
 | 13 | 관련 테스트·빌드 | `partial` (관련 번들 통과 · 전체 ESLint 기존 실패 잔존) |
 | 14 | 외부 미연결 정직 보고 | 본 계약·큐로 유지 |
 | 15 | main/Production 미터치 | 유지 중 |

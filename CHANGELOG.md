@@ -6,6 +6,16 @@
 
 ## 2026-07-23
 
+### T05 — Usage media localization · admin operations
+
+- 사용 가이드 메타: 도포량·순서·빈도·주의·패치 테스트·도포 영상 + fallback 상태 (`usageGuidanceComplete`)
+- 국가·언어별 offer: 재고/가격/판매처 미발명 · 미확인 지역 빈 상태 · 미검증 URL CTA 제외 (`localizedOffers`)
+- Admin ops: 후보 검수·중복 병합·근거 검토·상태 전환·만료 갱신 큐·재시도·감사 · local/Staging dry-run (in-memory)
+- UI/API: `ProductUsageGuide` · `/admin/catalog/ops` · `/api/admin/catalog-ops`
+- Docs: `docs/usage-media-localization-admin-ops.md`
+- Tests: `test:usage-media-admin-ops` · `test:usage-media` · 변경 ESLint · tsc — **통과**
+- Staging/Production DB 쓰기·main·commit/push 미실행 · next_task `T06` (공식 병원 실출처 · external_only)
+
 ### T04 — Organic commerce · professional routing
 
 - Organic/Affiliate/Sponsored: 제휴 링크 데이터 구조 · Organic 전용 랭킹 · 광고 슬롯 안전 영역 · 스폰서 카드 · in-memory 지속화
@@ -15,7 +25,7 @@
 - 전문가 번들: 증상 라우팅 · 일반 vs 제휴 병원 분리 · fixture 게시 차단 · guidance 연결
 - Docs: `docs/organic-commerce-professional-routing.md`
 - Tests: `test:organic-commerce` · `test:commercial-separation` · `test:clinic-stage6` · `test:symptom-safety` · `test:care-guidance` · 변경 ESLint · tsc — **통과**
-- 공식 병원 실출처·실제휴 게시·Production·main·commit/push 미실행 · next_task `T05` (공식 병원 실출처 · external_only)
+- 공식 병원 실출처·실제휴 게시·Production·main·commit/push 미실행 · next_task `T05` (Usage media localization · 완료)
 
 ### T03 — Product automation · category expansion
 

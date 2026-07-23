@@ -14,11 +14,11 @@
 
 | 필드 | 값 |
 |------|-----|
-| ID | `T05` |
+| ID | `T06` |
 | 제목 | 공식 병원 후보 실출처 승인 후 dry-run → 관리자 검수 → publishable (fixture 게시 금지) |
 | 분류 | `external_only` (출처 승인) + 승인 후 `remaining` 코드 연결 |
 | 에이전트 단독 | 불가 — 공식 출처·사람 검수 필요 |
-| 대안(코드 가능) | Preview 육안 체크리스트 문서 보강 · Stage 8 refresh 인터페이스(실운영 스케줄러 제외) |
+| 대안(코드 가능) | Preview 육안 체크리스트 문서 보강 · 피부과 재검증 주기 인터페이스(실운영 스케줄러 제외) |
 
 사람 검수가 가능하면 우선순위:
 1. P0-003 / P1-003 Preview 육안 (`external_only`)
@@ -31,12 +31,19 @@
 
 | 필드 | 값 |
 |------|-----|
+| ID | `T05` |
+| 제목 | Usage media localization + admin operations (도포량·순서·빈도·주의·패치 테스트·도포 영상 메타·fallback · 국가/언어 offer 미발명 · 후보 검수·중복 병합·근거·상태 전환·만료 큐·재시도·감사 · local/Staging dry-run) |
+| 분류 | `verified_complete` (코드·selftest) · 실 offer 재고·Staging/Production DB 쓰기·Preview 육안은 `partial`/`external_only` |
+| 검증 | `npm run test:usage-media-admin-ops` · `test:usage-media` · 변경 ESLint · `tsc` |
+
+### 직전 completed
+
+| 필드 | 값 |
+|------|-----|
 | ID | `T04` |
 | 제목 | Organic commerce + professional routing (제휴 링크·Organic 랭킹·광고 슬롯·스폰서 카드·이벤트·UI 라벨·admin · 증상 전문가 번들·일반/제휴 병원 분리·fixture 차단) |
 | 분류 | `verified_complete` (코드·selftest) · 실제휴 URL·실병원 publishable·수익 채널은 `partial`/`external_only` |
 | 검증 | `npm run test:organic-commerce` · `test:commercial-separation` · `test:clinic-stage6` · `test:symptom-safety` · `test:care-guidance` · 변경 ESLint · `tsc` |
-
-### 직전 completed
 
 | 필드 | 값 |
 |------|-----|
@@ -82,6 +89,7 @@
 | VC-11 | Phase 3.0 수동 3각도 촬영 · 갤러리 금지 | guided-capture · WQG-P0-001 카피 |
 | VC-12 | WQG-P1-002 카메라/landmark 동적 import | `test:guided-capture` · `test:guided-landmark` |
 | VC-13 | 사용 가이드·루틴·부위 화면 연결 | `test:usage-media` 계열 |
+| VC-25 | T05 사용 가이드 현지화·패치/영상 fallback · 국가/언어 offer(미발명) · admin ops dry-run | `usageGuidanceComplete` · `localizedOffers` · `adminOps` · `test:usage-media-admin-ops` |
 | VC-14 | Stage 6 **코드 기반** 병원 어댑터·게이트·안내·리드 dry-run·admin | `test:clinic-stage6` · `/my/guidance` · `/admin/clinics` |
 | VC-15 | Preview 원격 검수 JSON 경로 | `test:unified-review-remote` |
 | VC-16 | 추천↔commerce 분리 Phase 2.5–2.6.2 | recommendation commerce selftests |
@@ -114,7 +122,7 @@
 | EX-01 | Preview 관리자/사용자 육안 (P0-003 / P1-003) | 사람 |
 | EX-02 | 실기기 Android/iPhone (P1-005) · Phase 3.1 재개 조건 | 사람 |
 | EX-03 | P1-006 개인정보 전송 범위 정책·법무 | 사람 |
-| EX-04 | 공식 병원 실출처 승인·검수·publishable | fixture 게시 금지 · **next_task T05** |
+| EX-04 | 공식 병원 실출처 승인·검수·publishable | fixture 게시 금지 · **next_task T06** |
 | EX-05 | WQG-P0-002 Production `AI_PROVIDER` | `RELEASE_GATE_PENDING` · 지금 미실행 · 키 미기록 |
 | EX-06 | Production 배포 · main 병합 · Production DB/env | 명시 승인 전 금지 |
 | EX-07 | 사진 비교 Staging migration · `care-photos` 버킷 | 승인 대기 |
@@ -134,7 +142,7 @@
 | RE-02 | ~~제휴 피부과 ↔ Organic 분리 코드~~ | **T04/Stage6 코드 완료** · 실데이터는 EX-04 |
 | RE-03 | ~~광고 슬롯 · 스폰서 카드 · 전환 이벤트~~ | **T04로 코드 완료** |
 | RE-04 | ~~건강정보 광고 타기팅 금지 테스트~~ | **T04로 코드 완료** |
-| RE-05 | 영상 URL·권리 만료 자동 갱신 | 단계 8 |
+| RE-05 | ~~영상 URL·권리 만료 자동 갱신 인터페이스~~ | **T05 dry-run 완료** · 실운영 스케줄러는 잔여 |
 | RE-06 | 피부과 정보 재검증 주기 운영화 | 단계 8 |
 | RE-07 | 제휴·광고 계약 상태 갱신 · rollback | 단계 8 |
 | RE-08 | WQ-F Phase 2+ schema/runtime (별도 승인) | 시나리오 |

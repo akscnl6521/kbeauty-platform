@@ -8,6 +8,7 @@ const LINKS: Array<{ href: string; label: string; key: string }> = [
   { href: "/admin/products", label: "제품 관리", key: "products" },
   { href: "/admin/products/import", label: "제품 일괄등록", key: "product-import" },
   { href: "/admin/catalog", label: "Catalog", key: "catalog" },
+  { href: "/admin/catalog/ops", label: "사용·운영", key: "catalog-ops" },
   { href: "/admin/offers", label: "Offers", key: "offers" },
   { href: "/admin/discovery", label: "Discovery", key: "discovery" },
   { href: "/admin/ingredients", label: "Ingredients", key: "ingredients" },
