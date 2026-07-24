@@ -51,7 +51,7 @@ const guide = selectProductUsageGuide(
 
 assert.equal(guide.media?.id, "video-1");
 assert.equal(guide.instruction?.amountLabel, "완두콩 1개 크기");
-assert.match(guide.disclosureText ?? "", /유료 광고/);
+assert.match(guide.disclosureText ?? "", /협찬/);
 
 const empty = selectProductUsageGuide(
   "product-2",
