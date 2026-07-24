@@ -6,6 +6,15 @@
 
 ## 2026-07-24
 
+### T07-02 — Seoul dermatology candidate ingestion (HIRA)
+
+- 계약: `seoulDermatologyIngestion` — 최소 공개 필드 · 서울/피부과 공식 필드 필터 · 필드 provenance · pagination checkpoint · deterministic dedupe · stale/refresh(90/180일) · dry-run audit
+- T07-01 publicData 클라이언트 재사용 · serviceKey 미임베드 · 게시/Production 쓰기 없음
+- Selftest/러너: `test:seoul-dermatology-ingestion` · `check:seoul-dermatology-ingestion` · 아티팩트 `artifacts/seoul-dermatology-ingestion/`
+- Docs: `docs/prelaunch/T07-02_SEOUL_DERMATOLOGY_INGESTION.md`
+- fixture dry-run 통과 · 실 live 수집·publishable은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 검수·publishable (`external_only`)
+
 ### P2-T05 — Final Preview evidence and human approval package
 
 - 계약: `phase2FinalEvidencePackage` — 6버킷(자동 테스트·스크린샷 육안·Android/iPhone·외부 출처·Dashboard·main/Production) · 1회성 사람 검증 절차 · 정직 플래그

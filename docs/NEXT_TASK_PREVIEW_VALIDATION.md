@@ -44,7 +44,7 @@
 | **Preview 검수** | P0-003 / P1-003: A/B/C 추천·CTA·빈 상태와 3장 촬영 문구 육안 확인 (P2-T05 §1) |
 | **실기기 검수** | P1-005: Android Chrome·iPhone Safari·320px 수동 촬영 UX 확인 (P2-T05 §3–4) |
 | **정책 검수** | P1-006: 앱 서버 일시 전송·영구 저장 없음 문구의 정책·법무 확인 (P2-T05 §8) |
-| **병원 실데이터** | 공식 출처 승인 후 후보 검수 → publishable (fixture 게시 금지) · Autopilot `T07` |
+| **병원 실데이터** | T07-02 HIRA 서울 피부과 수집 파이프라인(코드) 완료 · live 검수→publishable은 Autopilot `T07` (`external_only` · fixture 게시 금지) |
 
 ## 금지
 

@@ -31,6 +31,7 @@
 - [x] **P2-T04** 실데이터 온보딩 준비 (`test:real-data-onboarding` · 매니페스트·provenance·공식 우선·stale·체크리스트·템플릿·dry-run·거절 사유 · 비공개 fixture)
 - [x] **P2-T05** Final Preview 증거·사람 승인 패키지 (`test:phase2-final-evidence` · `check:phase2-final-evidence` · 6버킷 분리 · 1회성 검수 절차 · 위장 승인 금지)
 - [x] Master execution queue 문서화 (`docs/autopilot/MASTER_EXECUTION_QUEUE.md` · 계약 `docs/autopilot/EXECUTION_CONTRACT.md`)
+- [x] **T07-02** 서울 피부과 후보 HIRA 수집 파이프라인 (재개·dedupe·provenance·stale · fixture dry-run · 게시 금지)
 
 ### 플랫폼 핵심 사용자 여정
 
@@ -62,6 +63,8 @@
 - [x] 제휴 여부와 Organic 적합도 분리
 - [x] 피부과 Staging 계획과 검수 큐
 - [x] 매주 월·목 09:40 KST 검수 아티팩트 생성
+- [x] **T07-02** HIRA 서울 피부과 후보 ingestion (공식 필드 필터·checkpoint·dedupe·audit · `test:seoul-dermatology-ingestion`)
+- [ ] 실 HIRA live 수집 → 관리자 검수 → publishable (external_only · fixture 게시 금지)
 
 ### 통합 운영 안전
 
@@ -114,7 +117,7 @@
 
 Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T07)
 
-1. 공식 병원 실출처 승인 수집 → 관리자 검수 → publishable (fixture 게시 금지)
+1. 공식 병원 실출처 live 수집·승인 → 관리자 검수 → publishable (T07-02 파이프라인 코드 완료 · fixture 게시 금지)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
 3. P1-006 개인정보 전송 범위 정책·법무 최종 검수
 4. **WQG-P0-002** `RELEASE_GATE_PENDING` — Production 배포 직전 `AI_PROVIDER` 확인 (지금 미실행 · 키 미기록)
@@ -165,12 +168,13 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 ### 단계 6 — 증상 기반 피부과 실제 데이터
 
 - [x] 공식 병원 후보 수집 어댑터·fixture·dry-run/live_blocked (실출처 미연결)
+- [x] **T07-02** HIRA 서울 피부과 후보 재개 가능 수집 (공식 필드·provenance·dedupe·stale · 게시 금지)
 - [x] 증상 태그·필드 검증·관리자 검수 게이트 (실데이터 검수 대기)
 - [x] 진료시간·주소·예약 URL·언어 필드 검증 구조
 - [x] 거리·언어·예산 필터
 - [x] 제휴 병원 Organic 분리 표시 (`/my/guidance` · `/admin/clinics`)
 - [x] 상담 리드 최소정보 동의 흐름 (dry-run only · DB 미저장)
-- [ ] 공식 병원 실데이터 수집·사람 최종 검수 후 publishable 전환
+- [ ] 공식 병원 실데이터 live 수집·사람 최종 검수 후 publishable 전환
 - [ ] 상담 리드 실전달 채널 (승인 후)
 
 ### 단계 7 — 수익화

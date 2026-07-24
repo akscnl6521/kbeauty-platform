@@ -2,6 +2,19 @@
 
 최종 갱신: 2026-07-24
 
+## 2026-07-24 T07-02 · Seoul dermatology candidate ingestion
+
+- 계약: `src/lib/publicData/seoulDermatologyIngestion/*` (HIRA 공식 필드 · 서울/피부과 필터 · provenance · pagination checkpoint · deterministic dedupe · stale/refresh · dry-run audit)
+- T07-01 `PublicDataApiClient` 재사용 · API 키 URL/아티팩트 미포함
+- Selftest/러너: `test:seoul-dermatology-ingestion` · `check:seoul-dermatology-ingestion` → `artifacts/seoul-dermatology-ingestion/`
+- 필터: `sidoCd=110000` · `dgsbjtCd=14`/`dgsbjtCdNm=피부과` · 상호명 키워드 단독 거절
+- `publishAllowed=false` · `databaseTouched=false` · `writeAttempted=false` · Production 미터치
+- Docs: `docs/prelaunch/T07-02_SEOUL_DERMATOLOGY_INGESTION.md`
+- Tests: `test:seoul-dermatology-ingestion` · `check:seoul-dermatology-ingestion` · `test:autopilot-queue` · 변경 ESLint · `tsc` — **통과**
+- 실 HIRA live 수집·관리자 검수·publishable 전환은 **미검증** (`external_only` · T07 잔여)
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 검수·publishable (`external_only`)
+
 ## 2026-07-24 P2-T05 · Final Preview evidence and human approval package
 
 - 계약: `src/lib/release/phase2FinalEvidencePackage.ts` (6버킷 · 자동명령 · 1회성 사람 검증 · 정직 플래그)

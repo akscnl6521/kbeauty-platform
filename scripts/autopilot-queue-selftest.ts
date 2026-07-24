@@ -135,12 +135,14 @@ const keyPaths = [
   "docs/prelaunch/P2-T03_ADMIN_REVIEW_E2E.md",
   "docs/prelaunch/P2-T04_REAL_DATA_ONBOARDING.md",
   "docs/prelaunch/P2-T05_FINAL_PREVIEW_EVIDENCE_PACKAGE.md",
+  "docs/prelaunch/T07-02_SEOUL_DERMATOLOGY_INGESTION.md",
   "src/lib/release/finalIntegrationEvidence.ts",
   "src/lib/release/phase2FinalEvidencePackage.ts",
   "src/lib/release/stagingReleaseGate.ts",
   "src/lib/admin/adminReviewE2E.ts",
   "src/lib/onboarding/realDataOnboarding/index.ts",
   "src/lib/validation/previewRouteValidation.ts",
+  "src/lib/publicData/seoulDermatologyIngestion/index.ts",
   "KBEAUTY_MASTER_EXECUTION_PROMPT.md",
 ];
 for (const p of keyPaths) mustExist(p);
@@ -189,6 +191,14 @@ assert.ok(
 assert.ok(
   pkg.includes('"check:phase2-final-evidence"'),
   "package.json must define check:phase2-final-evidence",
+);
+assert.ok(
+  pkg.includes('"test:seoul-dermatology-ingestion"'),
+  "package.json must define test:seoul-dermatology-ingestion",
+);
+assert.ok(
+  pkg.includes('"check:seoul-dermatology-ingestion"'),
+  "package.json must define check:seoul-dermatology-ingestion",
 );
 assert.ok(
   pkg.includes('"test:organic-commerce"'),
