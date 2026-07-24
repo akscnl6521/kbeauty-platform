@@ -126,3 +126,6 @@ supabase/.temp/
 /data/catalog/scenario-pilot-enrichment/**/_inci-*.json
 /data/catalog/scenario-pilot-enrichment/**/_shopify-*.json
 
+# Personal Claude Code overrides (not shared)
+/.claude/settings.local.json
+
