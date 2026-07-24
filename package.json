@@ -95,6 +95,8 @@
     "check:institution-detail-enrichment": "npx --yes tsx scripts/run-institution-detail-enrichment.ts",
     "test:symptom-evidence-review": "npx --yes tsx scripts/symptom-evidence-review-selftest.ts",
     "check:symptom-evidence-review": "npx --yes tsx scripts/run-symptom-evidence-review.ts",
+    "test:admin-dry-run-publishable-gate": "npx --yes tsx scripts/admin-dry-run-publishable-gate-selftest.ts",
+    "check:admin-dry-run-publishable-gate": "npx --yes tsx scripts/run-admin-dry-run-publishable-gate.ts",
     "check:release-security": "node scripts/security-release-check.mjs",
     "check:responsive": "node scripts/check-responsive-layout.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",

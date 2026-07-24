@@ -138,8 +138,10 @@ const keyPaths = [
   "docs/prelaunch/T07-02_SEOUL_DERMATOLOGY_INGESTION.md",
   "docs/prelaunch/T07-03_INSTITUTION_DETAIL_ENRICHMENT.md",
   "docs/prelaunch/T07-04_SYMPTOM_EVIDENCE_REVIEW.md",
+  "docs/prelaunch/T07-05_ADMIN_DRY_RUN_PUBLISHABLE_GATE.md",
   "src/lib/publicData/institutionDetailEnrichment/index.ts",
   "src/lib/publicData/symptomEvidenceReview/index.ts",
+  "src/lib/publicData/adminDryRunPublishableGate/index.ts",
   "src/lib/release/finalIntegrationEvidence.ts",
   "src/lib/release/phase2FinalEvidencePackage.ts",
   "src/lib/release/stagingReleaseGate.ts",
@@ -219,6 +221,14 @@ assert.ok(
 assert.ok(
   pkg.includes('"check:symptom-evidence-review"'),
   "package.json must define check:symptom-evidence-review",
+);
+assert.ok(
+  pkg.includes('"test:admin-dry-run-publishable-gate"'),
+  "package.json must define test:admin-dry-run-publishable-gate",
+);
+assert.ok(
+  pkg.includes('"check:admin-dry-run-publishable-gate"'),
+  "package.json must define check:admin-dry-run-publishable-gate",
 );
 assert.ok(
   pkg.includes('"test:organic-commerce"'),

@@ -15,19 +15,30 @@
 | 필드 | 값 |
 |------|-----|
 | ID | `T07` |
-| 제목 | 공식 병원 실출처 live 수집 → 관리자 검수 → publishable (fixture 게시 금지) |
-| 분류 | `external_only` (live 키·사람 검수) · T07-02 수집·T07-03 기관상세·T07-04 증상 근거 검수 코드는 완료 |
-| 에이전트 단독 | 불가 — 실 API 키·사람 검수·publish 승인 필요 |
-| 대안(코드 가능) | **T07-02·T07-03·T07-04·P2-T01~P2-T05 완료** · 피부과 재검증 주기 인터페이스(실운영 스케줄러 제외) |
+| 제목 | 공식 병원 실출처 live 수집 → 사람 검수 → Staging import → publishable (fixture 게시 금지) |
+| 분류 | `external_only` (live 키·사람 검수·Staging import 승인) · T07-02~T07-05 코드는 완료 |
+| 에이전트 단독 | 불가 — 실 API 키·사람 검수·Staging import 승인 필요 |
+| 대안(코드 가능) | **T07-02~T07-05·P2-T01~P2-T05 완료** · 피부과 재검증 주기 인터페이스(실운영 스케줄러 제외) |
 
 사람 검수가 가능하면 우선순위:
-1. P0-003 / P1-003 Preview 육안 (`external_only`) — P2-T05 1회성 절차 문서화됨
-2. P1-005 실기기 (`external_only`) — P2-T05 Android/iPhone 체크리스트
-3. P1-006 정책·법무 (`external_only`)
+1. `HUMAN-T07-OFFICIAL-SITE-EVIDENCE` 공식 사이트 증상 근거 검수
+2. `HUMAN-T07-STAGING-IMPORT-APPROVAL` Staging import 1회 승인
+3. P0-003 / P1-003 Preview 육안 (`external_only`) — P2-T05 1회성 절차 문서화됨
+4. P1-005 실기기 (`external_only`) — P2-T05 Android/iPhone 체크리스트
+5. P1-006 정책·법무 (`external_only`)
 
 ---
 
 ## completed_task (이번 번들)
+
+| 필드 | 값 |
+|------|-----|
+| ID | `T07-05` |
+| 제목 | Admin dry-run and publishable gate (T07-02→T07-03→T07-04 오케스트레이션 · fixture/실패/스테일/충돌/근거부족 비공개 · 공식근거+관리자승인만 구조적 publishable · Organic·clinical fit 유료필드 독립 · JSON/CSV 감사 · 1회성 사람 작업 · 게시/Production 쓰기 금지) |
+| 분류 | `verified_complete` (계약·fixture selftest·dry-run 러너·문서) · 실 live·Staging import·publishable은 `external_only` |
+| 검증 | `npm run test:admin-dry-run-publishable-gate` · `npm run check:admin-dry-run-publishable-gate` · `test:autopilot-queue` · 변경 ESLint · `tsc` |
+
+### 직전 completed
 
 | 필드 | 값 |
 |------|-----|
@@ -36,7 +47,7 @@
 | 분류 | `verified_complete` (계약·fixture selftest·dry-run 러너·문서) · 실 공식 페이지 검수·publishable은 `external_only` |
 | 검증 | `npm run test:symptom-evidence-review` · `npm run check:symptom-evidence-review` · `test:autopilot-queue` · 변경 ESLint · `tsc` |
 
-### 직전 completed
+### 그 이전 completed
 
 | 필드 | 값 |
 |------|-----|
@@ -178,6 +189,7 @@
 | VC-32 | T07-02 서울 피부과 HIRA 후보 수집 · checkpoint·dedupe·provenance·stale · 게시 금지 | `seoulDermatologyIngestion` · `test:seoul-dermatology-ingestion` · `check:seoul-dermatology-ingestion` · `docs/prelaunch/T07-02_SEOUL_DERMATOLOGY_INGESTION.md` |
 | VC-33 | T07-03 기관상세 보강 · 전문의 수·evidence strength·충돌·재시도·수동검수 · 증상 전문 주장 분리 · 게시 금지 | `institutionDetailEnrichment` · `test:institution-detail-enrichment` · `check:institution-detail-enrichment` · `docs/prelaunch/T07-03_INSTITUTION_DETAIL_ENRICHMENT.md` |
 | VC-34 | T07-04 공식 사이트 증상 근거 검수 · 여드름/주사·홍조/아토피/색소 · Organic↔유료 큐 · 미검증 비게시 | `symptomEvidenceReview` · `test:symptom-evidence-review` · `check:symptom-evidence-review` · `docs/prelaunch/T07-04_SYMPTOM_EVIDENCE_REVIEW.md` |
+| VC-35 | T07-05 Admin dry-run · publishable 게이트 · T07-02~04 오케스트레이션 · 비공개 강제 · Organic/clinical fit 독립 · JSON/CSV 감사 | `adminDryRunPublishableGate` · `test:admin-dry-run-publishable-gate` · `check:admin-dry-run-publishable-gate` · `docs/prelaunch/T07-05_ADMIN_DRY_RUN_PUBLISHABLE_GATE.md` |
 | VC-14 | Stage 6 **코드 기반** 병원 어댑터·게이트·안내·리드 dry-run·admin | `test:clinic-stage6` · `/my/guidance` · `/admin/clinics` |
 | VC-15 | Preview 원격 검수 JSON 경로 | `test:unified-review-remote` |
 | VC-16 | 추천↔commerce 분리 Phase 2.5–2.6.2 | recommendation commerce selftests |
@@ -193,7 +205,7 @@
 | ID | 항목 | 완료 부분 | 미완 |
 |----|------|-----------|------|
 | PA-01 | 마스카라·립·샴푸 추천 | 속성 랭커·패널·**T03 안전 추천 플로우·자동화 후보 연결** | 실구매 verified SKU 풀 부족 · fixture≠구매 가능 |
-| PA-02 | 전문가/병원 안내 | 라우팅·UI·fixture 게이트·**T04 번들**·**T07-02 HIRA 수집**·**T07-03 기관상세 보강**·**T07-04 증상 근거 검수** | 공식 병원 publishable 0 · 실리드 전달 없음 · live 검수 대기 |
+| PA-02 | 전문가/병원 안내 | 라우팅·UI·fixture 게이트·**T04 번들**·**T07-02 HIRA 수집**·**T07-03 기관상세 보강**·**T07-04 증상 근거 검수**·**T07-05 publishable 게이트** | 공식 병원 publishable 0 · 실리드 전달 없음 · live 검수·Staging import 대기 |
 | PA-03 | 체크인 알림 | 스케줄·큐·email/sms/push 인터페이스·dry-run/Resend 어댑터·상태 레코드 | 실발송·DNS·Production 키·실 SMS/푸시 인프라 없음 |
 | PA-04 | 사진 비교 운영 | 동의·삭제 코드 | Staging `care-photos` migration 미적용 · Storage 미연결 |
 | PA-05 | 전체 lint/품질 | 변경 파일 lint·관련 selftest | 저장소 전체 ESLint 기존 실패(다수) 잔존 |
@@ -211,7 +223,7 @@
 | EX-01 | Preview 관리자/사용자 육안 (P0-003 / P1-003) | 사람 |
 | EX-02 | 실기기 Android/iPhone (P1-005) · Phase 3.1 재개 조건 | 사람 |
 | EX-03 | P1-006 개인정보 전송 범위 정책·법무 | 사람 |
-| EX-04 | 공식 병원 실출처 live 수집·검수·publishable | fixture 게시 금지 · **T07-02·T07-03·T07-04 파이프라인 코드 완료** · **next_task T07** |
+| EX-04 | 공식 병원 실출처 live 수집·검수·Staging import·publishable | fixture 게시 금지 · **T07-02~T07-05 파이프라인 코드 완료** · **next_task T07** · 1회성 사람 작업 문서화 |
 | EX-05 | WQG-P0-002 Production `AI_PROVIDER` | `RELEASE_GATE_PENDING` · 지금 미실행 · 키 미기록 |
 | EX-06 | Production 배포 · main 병합 · Production DB/env | 명시 승인 전 금지 |
 | EX-07 | 사진 비교 Staging migration · `care-photos` 버킷 | 승인 대기 |
@@ -281,6 +293,7 @@ npm run test:phase2-final-evidence
 npm run test:seoul-dermatology-ingestion
 npm run test:institution-detail-enrichment
 npm run test:symptom-evidence-review
+npm run test:admin-dry-run-publishable-gate
 ```
 
-검증: 계약/큐 존재 · 필수 헤더 · `next_task` · 분류 섹션 · 레거시 포인터 · 핵심 경로 존재 · 금지 문구(Production 미배포 등) 유지 · T06 증거 문서 · P2-T01 라우트 검증 · P2-T02 Staging 릴리스 게이트 · P2-T03 Admin review E2E · P2-T04 실데이터 온보딩 · P2-T05 Final Preview 증거 패키지 · T07-02 서울 피부과 HIRA 수집 · T07-03 기관상세 보강 · T07-04 증상 근거 검수.
+검증: 계약/큐 존재 · 필수 헤더 · `next_task` · 분류 섹션 · 레거시 포인터 · 핵심 경로 존재 · 금지 문구(Production 미배포 등) 유지 · T06 증거 문서 · P2-T01 라우트 검증 · P2-T02 Staging 릴리스 게이트 · P2-T03 Admin review E2E · P2-T04 실데이터 온보딩 · P2-T05 Final Preview 증거 패키지 · T07-02 서울 피부과 HIRA 수집 · T07-03 기관상세 보강 · T07-04 증상 근거 검수 · T07-05 Admin dry-run·publishable 게이트.

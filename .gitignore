@@ -92,6 +92,7 @@ supabase/.temp/
 /artifacts/seoul-dermatology-ingestion/
 /artifacts/institution-detail-enrichment/
 /artifacts/symptom-evidence-review/
+/artifacts/admin-dry-run-publishable-gate/
 
 # Generated recommendation analysis (local / CI artifacts)
 /data/generated/recommendation/

@@ -6,6 +6,14 @@
 
 ## 2026-07-24
 
+### T07-05 — Admin dry run and publishable gate
+
+- 계약: `adminDryRunPublishableGate` — T07-02→T07-03→T07-04 오케스트레이션 · fixture/실패/스테일/충돌/근거부족 비공개 · 공식근거+관리자승인만 구조적 publishable · Organic·clinical fit 유료필드 독립 · JSON/CSV 상태·사유 집계 · 1회성 사람 작업(공식사이트 검수·Staging import)
+- Selftest/러너: `test:admin-dry-run-publishable-gate` · `check:admin-dry-run-publishable-gate` · 아티팩트 `artifacts/admin-dry-run-publishable-gate/`
+- Docs: `docs/prelaunch/T07-05_ADMIN_DRY_RUN_PUBLISHABLE_GATE.md`
+- fixture dry-run 통과 · 실 live·Staging import·publishable 전환은 `external_only` · main·commit/push 미실행
+- next_task `T07` 실 live 수집·사람 검수·Staging import (`external_only`)
+
 ### T07-04 — Official-site symptom evidence review bundle
 
 - 계약: `symptomEvidenceReview` — 여드름·주사/홍조·아토피피부염·색소 · 매니페스트 전용 접수 · URL/제목/발췌/확인일/검수상태/만료일/거절사유 · Organic↔affiliate/sponsored 큐 분리 · 미검증 비게시 · 로그인/CAPTCHA/크롤 금지

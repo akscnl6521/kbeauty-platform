@@ -34,6 +34,7 @@
 - [x] **T07-02** 서울 피부과 후보 HIRA 수집 파이프라인 (재개·dedupe·provenance·stale · fixture dry-run · 게시 금지)
 - [x] **T07-03** 기관상세 보강·전문의 증거 (공식 진료과목·전문의 수 · evidence/conflict/retry/manual-review · 증상 주장 분리 · fixture dry-run · 게시 금지)
 - [x] **T07-04** 공식 사이트 증상 근거 검수 번들 (여드름·주사/홍조·아토피·색소 · 매니페스트 · Organic/유료 큐 분리 · 미검증 비게시 · fixture dry-run)
+- [x] **T07-05** Admin dry-run · publishable 게이트 (T07-02~04 오케스트레이션 · 비공개 강제 · 공식근거+승인 · Organic/clinical fit 독립 · JSON/CSV 감사)
 
 ### 플랫폼 핵심 사용자 여정
 
@@ -68,6 +69,7 @@
 - [x] **T07-02** HIRA 서울 피부과 후보 ingestion (공식 필드 필터·checkpoint·dedupe·audit · `test:seoul-dermatology-ingestion`)
 - [x] **T07-03** 기관상세 보강·전문의 증거 (evidence strength·충돌·재시도·수동검수·증상 주장 분리 · `test:institution-detail-enrichment`)
 - [x] **T07-04** 공식 사이트 증상 근거 검수 번들 (매니페스트·Organic/유료 큐·미검증 비게시 · `test:symptom-evidence-review`)
+- [x] **T07-05** Admin dry-run · publishable 게이트 (전체 dry-run · 비공개 강제 · JSON/CSV 감사 · `test:admin-dry-run-publishable-gate`)
 - [ ] 실 HIRA live 수집 → 관리자 검수 → publishable (external_only · fixture 게시 금지)
 
 ### 통합 운영 안전
@@ -119,9 +121,9 @@
 
 ## 다음 작업
 
-Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T07)
+Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T07 live/사람)
 
-1. 공식 병원 실출처 live 수집·승인 → 관리자 검수 → publishable (T07-02 수집·T07-03 기관상세·T07-04 증상 근거 검수 코드 완료 · fixture 게시 금지)
+1. 공식 병원 실출처 live 수집·승인 → 관리자 검수 → Staging import → publishable (T07-02~T07-05 코드 완료 · fixture 게시 금지 · 1회성 사람 작업 잔여)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
 3. P1-006 개인정보 전송 범위 정책·법무 최종 검수
 4. **WQG-P0-002** `RELEASE_GATE_PENDING` — Production 배포 직전 `AI_PROVIDER` 확인 (지금 미실행 · 키 미기록)

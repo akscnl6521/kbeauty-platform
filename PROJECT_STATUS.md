@@ -2,6 +2,17 @@
 
 최종 갱신: 2026-07-24
 
+## 2026-07-24 T07-05 · Admin dry run and publishable gate
+
+- 계약: `src/lib/publicData/adminDryRunPublishableGate/*` (T07-02→T07-03→T07-04 오케스트레이션 · fixture/실패/스테일/충돌/근거부족 비공개 · 공식근거+관리자승인만 구조적 publishable · Organic·clinical fit 유료필드 독립 · JSON/CSV 감사 · 1회성 사람 작업)
+- Selftest/러너: `test:admin-dry-run-publishable-gate` · `check:admin-dry-run-publishable-gate` → `artifacts/admin-dry-run-publishable-gate/`
+- `publishAllowed=false` · `publicVisible=0` · `databaseTouched=false` · `writeAttempted=false` · `secretsPresent=false` · Production 미터치
+- Docs: `docs/prelaunch/T07-05_ADMIN_DRY_RUN_PUBLISHABLE_GATE.md`
+- Tests: `test:admin-dry-run-publishable-gate` · `check:admin-dry-run-publishable-gate` · `test:autopilot-queue` · 변경 ESLint · `tsc` — **통과**
+- 실 공식 사이트 근거 검수·Staging import 승인·publishable 전환은 **미검증** (`external_only` · 1회성 사람 작업 문서화)
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 실 live 수집·사람 검수·Staging import (`external_only`)
+
 ## 2026-07-24 T07-04 · Official-site symptom evidence review bundle
 
 - 계약: `src/lib/publicData/symptomEvidenceReview/*` (여드름·주사/홍조·아토피·색소 · 매니페스트 전용 · URL/제목/발췌/확인일/검수상태/만료일/거절사유 · Organic↔유료 큐 분리 · 미검증 비게시 · CAPTCHA/로그인/크롤 금지)
