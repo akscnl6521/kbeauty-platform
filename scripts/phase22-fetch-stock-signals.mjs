@@ -1,5 +1,3 @@
-import fs from "node:fs";
-
 const urls = [
   ["aestura", "https://www.aestura.com/web/product/view.do?prdSeq=1021"],
   ["roundlab", "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%AC%EB%A6%BC-80ml/24/"],

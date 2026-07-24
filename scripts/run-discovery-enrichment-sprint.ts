@@ -14,7 +14,6 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { KR_BRAND_SEED_REGISTRY } from "@/lib/catalog/bulkKr/brandRegistry";
 import {
-  classifyProvenance,
   enrichOfficialUrl,
   stagingStatusFor,
   type BrandCheckpoint,

@@ -9,7 +9,6 @@ import { useCountry } from "@/hooks/useCountry";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
 import { ConcernObservationPanel } from "@/components/analyze/ConcernObservationPanel";
 import {
-  PhotoConsentPanel,
   photoAnalysisOnlyAckMessage,
   photoConsentBlockedMessage,
 } from "@/components/care/PhotoConsentPanel";
@@ -60,8 +59,6 @@ import {
   displayBrandName,
   getCanonicalBrandName,
 } from "@/lib/brand/displayBrandName";
-
-type Locale = "en" | "ja" | "ko";
 
 type InputMode = "photo" | "manual";
 type ToneKo = "밝은" | "중간" | "어두운";
@@ -702,11 +699,12 @@ export default function AnalyzePage() {
   const { countryCode } = useCountry();
   const router = useRouter();
   const [mode, setMode] = useState<InputMode>("photo");
-  const [photoConsentChoices, setPhotoConsentChoices] =
-    useState<PhotoConsentChoices>(defaultPhotoConsentChoices());
-  const [photoConsentAck, setPhotoConsentAck] = useState<string | null>(null);
+  const [, setPhotoConsentChoices] = useState<PhotoConsentChoices>(
+    defaultPhotoConsentChoices()
+  );
+  const [, setPhotoConsentAck] = useState<string | null>(null);
 
-  const [imageBase64, setImageBase64] = useState<string | null>(null);
+  const [, setImageBase64] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
@@ -828,6 +826,7 @@ export default function AnalyzePage() {
       currentInputSnapshot,
       loadAnalyzeInputSnapshot()
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- selectionHydrated isn't read in the body, but it must stay as a dep to force recompute once client-side hydration reads the real localStorage snapshot
   }, [result, currentInputSnapshot, selectionHydrated]);
 
   const ingredientPrefs = useMemo(

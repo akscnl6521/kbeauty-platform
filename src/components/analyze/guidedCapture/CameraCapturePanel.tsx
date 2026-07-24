@@ -177,7 +177,6 @@ export function CameraCapturePanel({
   );
   const machineRef = useRef<AutoCaptureMachineState>(createAutoCaptureState());
   const capturingLockRef = useRef(false);
-  const lastInferAtRef = useRef(0);
   const slowCountRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const doCaptureRef = useRef<
@@ -201,7 +200,7 @@ export function CameraCapturePanel({
   const [failureKind, setFailureKind] = useState<CameraStartFailureKind | null>(
     null
   );
-  const [alignmentMode, setAlignmentMode] = useState<AlignmentMode>(
+  const [alignmentMode] = useState<AlignmentMode>(
     landmarkFlag ? "landmark_auto" : "manual_guidance"
   );
   const [machinePhase, setMachinePhase] = useState(
@@ -276,6 +275,10 @@ export function CameraCapturePanel({
       speechRef.current?.dispose();
       speechRef.current = null;
     };
+    // voiceOn intentionally excluded: only sets the controller's initial
+    // enabled state; live toggles are propagated via setEnabled() in the
+    // effect below, without tearing down and recreating the controller.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [voiceLocale, voiceFlag]);
 
   useEffect(() => {

@@ -522,7 +522,7 @@ export function listAlertRules(): ReadonlyArray<{
 export function evaluateAlertRules(
   metrics: OperationsMetrics,
   cfg: MonitoringConfig,
-  nowIso: string = new Date().toISOString()
+  _nowIso: string = new Date().toISOString()
 ): RuleEvaluation[] {
   if (!cfg.enabled) return [];
   return RULES.map((rule) => {

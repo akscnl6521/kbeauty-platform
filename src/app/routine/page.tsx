@@ -24,8 +24,6 @@ type ProductRow = {
   price_usd: number | null;
 };
 
-type CountryCode = "US" | "JP" | "KR" | "OTHER";
-
 const ROUTINE_ORDER: string[] = [
   "Cleanser",
   "Toner",

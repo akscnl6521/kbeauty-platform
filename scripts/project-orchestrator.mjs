@@ -27,16 +27,6 @@ function gitHead() {
   return (r.stdout || "").trim();
 }
 
-function demoteOtherActive(exceptId) {
-  const tasks = loadWorkQueue(root);
-  for (const t of tasks) {
-    if (t.status === "active" && t.id !== exceptId) {
-      setTaskStatus(root, t.id, "queued");
-      console.log("Demoted previous active:", t.id);
-    }
-  }
-}
-
 function cmdStatus() {
   printProjectStateSummary(root);
   return 0;

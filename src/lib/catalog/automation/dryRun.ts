@@ -8,7 +8,6 @@ import {
   buildFixtureDocument,
 } from "./jsonLdParser";
 import {
-  DEFAULT_AUTOMATION_CONFIG,
   type CatalogSourceRecord,
   type AutomationRuntimeConfig,
   type ParsedCatalogOffer,

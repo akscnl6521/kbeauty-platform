@@ -3,7 +3,7 @@
  * Loads Staging-only credentials via Supabase CLI (never prints keys),
  * then runs createAdminProduct E2E. Aborts on Production ref.
  */
-import { spawnSync, execFileSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { readFileSync, unlinkSync, writeFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";

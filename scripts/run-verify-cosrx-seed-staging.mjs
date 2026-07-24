@@ -4,7 +4,7 @@
  * Loads service_role via CLI --reveal; never prints secrets.
  */
 import { spawnSync } from "node:child_process";
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { createRequire } from "node:module";
@@ -12,7 +12,6 @@ import { createRequire } from "node:module";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PROD = "rhfrmvkjsummaylpzmns";
 const EXPECTED = "jfnjufmldiqlgvgyugfd";
-const OUT = path.join(root, "data/catalog-import/2026-07-cosrx-seed");
 
 function mask(ref) {
   if (!ref) return "missing";

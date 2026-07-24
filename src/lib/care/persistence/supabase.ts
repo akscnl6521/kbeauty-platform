@@ -3,10 +3,6 @@ import "server-only";
 import { randomUUID } from "crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { detectRoutineConflicts } from "@/lib/care/conflicts";
-import {
-  buildCheckInDueNotification,
-  checkInDueFingerprint,
-} from "@/lib/care/notifications";
 import { computeProgressDeltas, summarizeProgress } from "@/lib/care/progress";
 import { evaluateDermatologyReferral } from "@/lib/care/referral";
 import {

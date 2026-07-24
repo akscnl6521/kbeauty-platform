@@ -3,7 +3,7 @@
  * Apply ingredient_aliases SELECT grant on Staging, re-verify, run HTTP-path E2E.
  * No Production applies. Does not print project refs or secrets.
  */
-import { spawnSync, execFileSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import {
   readFileSync,
   writeFileSync,

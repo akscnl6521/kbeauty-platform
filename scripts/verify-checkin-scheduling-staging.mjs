@@ -91,7 +91,7 @@ const requiredCols = [
   "updated_at",
 ];
 
-const { data, error } = await admin
+const { error } = await admin
   .from("checkin_email_queue")
   .select(requiredCols.join(","))
   .limit(1);

@@ -2,12 +2,7 @@
  * Re-enrich non-rejected Staging heroes with labeled HTML INCI + URL overrides.
  * Staging linked only. npm run catalog:inci
  */
-import {
-  mkdirSync,
-  writeFileSync,
-  readFileSync,
-  existsSync,
-} from "node:fs";
+import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import {
@@ -59,7 +54,6 @@ function q(label: string, sql: string) {
 }
 
 function brandIdFromExternal(ext: string): string {
-  const m = ext.match(/^([a-z0-9-]+?)-/);
   // Prefer first segments until known brand — reuse simple split
   const parts = ext.split("-");
   if (parts[0] === "beauty" && parts[1] === "of") return "beauty-of-joseon";
