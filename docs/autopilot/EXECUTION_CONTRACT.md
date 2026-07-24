@@ -9,7 +9,7 @@
 
 Autopilot/에이전트가 저장소에서 **검증된 사실만** 기준으로 다음 단일 작업 번들을 수행하도록 계약한다.
 문서와 코드가 다르면 **코드가 진실**이다. 이미 완료·보존된 작업은 삭제·리셋·재구현하지 않는다.
-T07-05(Admin dry-run · publishable 게이트)까지 코드 완료 · 실 live·Staging import·publishable은 `external_only`.
+T07-05(Admin dry-run · publishable 게이트) · P3-T01(공식 한국 제품 출처 온보딩)까지 코드 완료 · 실 live·Staging import·publishable은 `external_only`.
 
 ## 2. 절대 금지
 

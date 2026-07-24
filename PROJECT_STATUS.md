@@ -2,6 +2,18 @@
 
 최종 갱신: 2026-07-24
 
+## 2026-07-24 P3-T01 · Official Korean product source onboarding
+
+- 계약: `src/lib/onboarding/officialKoreanProductSource/*` (브랜드 공식·공식 KR몰·공식 INCI · 이미지·variants·가격·재고·국가가용·사용가이드 · 필드 provenance · 재개 매니페스트 · deterministic dedupe · stale/refresh · review reasons · dry-run audit)
+- Selftest/러너: `test:official-kr-product-source` · `check:official-kr-product-source` → `artifacts/official-kr-product-source/`
+- 금지 강제: CAPTCHA/로그인/유료API/약관위험 자동화 · 미확인 필드 미발명 · fixture·미검증 비공개
+- `publishAllowed=false` · `publicVisible=false` · `databaseTouched=false` · `writeAttempted=false` · `paidApiUsed=false` · Production 미터치
+- Docs: `docs/prelaunch/P3-T01_OFFICIAL_KR_PRODUCT_SOURCE.md`
+- Tests: `test:official-kr-product-source` · `check:official-kr-product-source` · `test:autopilot-queue` · 변경 ESLint · `tsc` — **통과**
+- 실 공식 사이트 live 수집·사람 검수·Staging import·publishable은 **미검증** (`external_only`)
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 live/사람 검수 (`external_only`) · 제품 live는 EX-11
+
 ## 2026-07-24 T07-05 · Admin dry run and publishable gate
 
 - 계약: `src/lib/publicData/adminDryRunPublishableGate/*` (T07-02→T07-03→T07-04 오케스트레이션 · fixture/실패/스테일/충돌/근거부족 비공개 · 공식근거+관리자승인만 구조적 publishable · Organic·clinical fit 유료필드 독립 · JSON/CSV 감사 · 1회성 사람 작업)
@@ -244,6 +256,7 @@
 - **P2-T03 Admin review E2E**: 제품·병원 레인 · fixture 비공개 · Organic 독립 · dry-run
 - **P2-T04 실데이터 온보딩 준비**: 출처 매니페스트·provenance·공식 우선·stale·체크리스트·템플릿·dry-run·거절 사유 · 비공개 fixture
 - **P2-T05 Final Preview 증거 패키지**: Phase 2 자동 회귀 · 6버킷 분리 · 1회성 사람 검증 절차 · 육안/실기기/Dashboard/Production 위장 없음
+- **P3-T01 공식 한국 제품 출처 온보딩**: 브랜드/공식몰/INCI · 이미지·variants·가격·재고·국가·사용가이드 · provenance · 재개·dedupe·stale · fixture dry-run · 비공개
 
 ## 자동화 안전 상태
 

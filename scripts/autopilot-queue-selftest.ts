@@ -139,6 +139,7 @@ const keyPaths = [
   "docs/prelaunch/T07-03_INSTITUTION_DETAIL_ENRICHMENT.md",
   "docs/prelaunch/T07-04_SYMPTOM_EVIDENCE_REVIEW.md",
   "docs/prelaunch/T07-05_ADMIN_DRY_RUN_PUBLISHABLE_GATE.md",
+  "docs/prelaunch/P3-T01_OFFICIAL_KR_PRODUCT_SOURCE.md",
   "src/lib/publicData/institutionDetailEnrichment/index.ts",
   "src/lib/publicData/symptomEvidenceReview/index.ts",
   "src/lib/publicData/adminDryRunPublishableGate/index.ts",
@@ -147,6 +148,7 @@ const keyPaths = [
   "src/lib/release/stagingReleaseGate.ts",
   "src/lib/admin/adminReviewE2E.ts",
   "src/lib/onboarding/realDataOnboarding/index.ts",
+  "src/lib/onboarding/officialKoreanProductSource/index.ts",
   "src/lib/validation/previewRouteValidation.ts",
   "src/lib/publicData/seoulDermatologyIngestion/index.ts",
   "KBEAUTY_MASTER_EXECUTION_PROMPT.md",
@@ -229,6 +231,14 @@ assert.ok(
 assert.ok(
   pkg.includes('"check:admin-dry-run-publishable-gate"'),
   "package.json must define check:admin-dry-run-publishable-gate",
+);
+assert.ok(
+  pkg.includes('"test:official-kr-product-source"'),
+  "package.json must define test:official-kr-product-source",
+);
+assert.ok(
+  pkg.includes('"check:official-kr-product-source"'),
+  "package.json must define check:official-kr-product-source",
 );
 assert.ok(
   pkg.includes('"test:organic-commerce"'),

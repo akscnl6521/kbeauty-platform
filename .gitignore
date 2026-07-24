@@ -93,6 +93,7 @@ supabase/.temp/
 /artifacts/institution-detail-enrichment/
 /artifacts/symptom-evidence-review/
 /artifacts/admin-dry-run-publishable-gate/
+/artifacts/official-kr-product-source/
 
 # Generated recommendation analysis (local / CI artifacts)
 /data/generated/recommendation/

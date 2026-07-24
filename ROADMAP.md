@@ -31,6 +31,7 @@
 - [x] **P2-T04** 실데이터 온보딩 준비 (`test:real-data-onboarding` · 매니페스트·provenance·공식 우선·stale·체크리스트·템플릿·dry-run·거절 사유 · 비공개 fixture)
 - [x] **P2-T05** Final Preview 증거·사람 승인 패키지 (`test:phase2-final-evidence` · `check:phase2-final-evidence` · 6버킷 분리 · 1회성 검수 절차 · 위장 승인 금지)
 - [x] Master execution queue 문서화 (`docs/autopilot/MASTER_EXECUTION_QUEUE.md` · 계약 `docs/autopilot/EXECUTION_CONTRACT.md`)
+- [x] **P3-T01** 공식 한국 제품 출처 온보딩 (`test:official-kr-product-source` · 재개·dedupe·provenance·stale · fixture dry-run · 게시 금지)
 - [x] **T07-02** 서울 피부과 후보 HIRA 수집 파이프라인 (재개·dedupe·provenance·stale · fixture dry-run · 게시 금지)
 - [x] **T07-03** 기관상세 보강·전문의 증거 (공식 진료과목·전문의 수 · evidence/conflict/retry/manual-review · 증상 주장 분리 · fixture dry-run · 게시 금지)
 - [x] **T07-04** 공식 사이트 증상 근거 검수 번들 (여드름·주사/홍조·아토피·색소 · 매니페스트 · Organic/유료 큐 분리 · 미검증 비게시 · fixture dry-run)
@@ -57,6 +58,7 @@
 - [x] 자동 게시·Production 쓰기 차단
 - [x] 매일 09:20 KST 갱신 아티팩트 생성
 - [x] **T03** ingestion 계약·카테고리 추출(마스카라/립/샴푸)·fixture dry-run·refresh/resume·admin 링크 (`test:product-automation`)
+- [x] **P3-T01** 공식 한국 제품 출처 온보딩 (브랜드/공식몰/INCI · 이미지·variants·가격·재고·국가·사용가이드 · provenance · 재개·dedupe·stale · fixture dry-run · `test:official-kr-product-source`)
 - [ ] 실공식 출처 live verify · verified 구매 SKU 풀 (external_only)
 
 ### 피부과 후보 자동화
@@ -115,6 +117,7 @@
 - [x] **P2-T03** Admin review E2E (후보·근거·중복·needs_review/admin_reviewed/publishable · fixture 비공개 · Organic 독립)
 - [x] **P2-T04** 실데이터 온보딩 준비 (출처 매니페스트·provenance·공식 우선·stale/refresh·검수 체크리스트·import 템플릿·dry-run·거절 사유 · 비공개 fixture · Production 쓰기 없음)
 - [x] **P2-T05** Final Preview 증거 패키지 (Phase 2 자동 회귀 · 스크린샷/실기기/외부출처/Dashboard/main·Production 버킷 분리 · 1회성 사람 검증 문서 · 위장 승인 금지)
+- [x] **P3-T01** 공식 한국 제품 출처 온보딩 파이프라인 (공식 우선 · 미확인 미발명 · fixture 비공개 · dry-run · Production 쓰기 없음)
 - [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함) — P2-T05 절차 문서화 · 사람 미실행
 - [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수 — P2-T05 절차 문서화 · 사람 미실행
 - [x] Preview 원격 검수 JSON 경로 연결 (코드·fixture·자동 Preview 경로)

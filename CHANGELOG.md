@@ -6,6 +6,15 @@
 
 ## 2026-07-24
 
+### P3-T01 — Official Korean product source onboarding
+
+- 계약: `officialKoreanProductSource` — 브랜드 공식·공식 KR몰·공식 INCI · 이미지·variants·가격·재고·국가가용·사용가이드 · 필드 provenance · 재개 매니페스트 · deterministic dedupe · stale/refresh(30/90/180) · review reasons · dry-run audit
+- 금지 강제: CAPTCHA/로그인/유료API/약관위험 · 미확인 필드 미발명 · fixture·미검증 비공개 · Production 쓰기 없음
+- Selftest/러너: `test:official-kr-product-source` · `check:official-kr-product-source` · 아티팩트 `artifacts/official-kr-product-source/`
+- Docs: `docs/prelaunch/P3-T01_OFFICIAL_KR_PRODUCT_SOURCE.md`
+- fixture dry-run 통과 · 실 live·Staging import·publishable은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 live/사람 (`external_only`)
+
 ### T07-05 — Admin dry run and publishable gate
 
 - 계약: `adminDryRunPublishableGate` — T07-02→T07-03→T07-04 오케스트레이션 · fixture/실패/스테일/충돌/근거부족 비공개 · 공식근거+관리자승인만 구조적 publishable · Organic·clinical fit 유료필드 독립 · JSON/CSV 상태·사유 집계 · 1회성 사람 작업(공식사이트 검수·Staging import)
