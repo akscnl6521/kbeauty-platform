@@ -6,6 +6,15 @@
 
 ## 2026-07-24
 
+### P3-T04 — Affiliate and sponsored revenue readiness
+
+- 계약: `revenueReadiness` — affiliate offer ingestion · sponsored placement · clear disclosure · click/conversion events · country-specific purchase links · expiry · admin approval · analytics privacy · Organic·전문 라우팅 독립
+- 금지 강제: 실 상업 계약 미활성화 · 수수료율·실 URL 미발명 · 건강/증상 광고 타기팅 금지 · Organic zone 스폰서 금지
+- Selftest/러너: `test:revenue-readiness` · `check:revenue-readiness` · 아티팩트 `artifacts/revenue-readiness/`
+- Docs: `docs/prelaunch/P3-T04_REVENUE_READINESS.md`
+- fixture dry-run 통과 · 실제휴·수익 채널은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 live/사람 (`external_only`)
+
 ### P3-T03 — Automated refresh and exception operations
 
 - 계약: `automatedRefresh` — 제품·병원 통합 due queue · stale(30/90·90/180) · retry/backoff · resume checkpoint · source-change diff · exception 우선순위 · audit · admin review manifest

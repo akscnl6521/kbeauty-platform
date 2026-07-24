@@ -105,6 +105,8 @@
     "check:automated-refresh-ops": "npx --yes tsx scripts/run-automated-refresh-ops.ts",
     "refresh:product-daily": "npx --yes tsx scripts/run-product-refresh-daily.ts",
     "refresh:clinic-twice-weekly": "npx --yes tsx scripts/run-clinic-refresh-twice-weekly.ts",
+    "test:revenue-readiness": "npx --yes tsx scripts/revenue-readiness-selftest.ts",
+    "check:revenue-readiness": "npx --yes tsx scripts/run-revenue-readiness.ts",
     "check:release-security": "node scripts/security-release-check.mjs",
     "check:responsive": "node scripts/check-responsive-layout.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",

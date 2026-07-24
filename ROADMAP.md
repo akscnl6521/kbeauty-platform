@@ -34,6 +34,7 @@
 - [x] **P3-T01** 공식 한국 제품 출처 온보딩 (`test:official-kr-product-source` · 재개·dedupe·provenance·stale · fixture dry-run · 게시 금지)
 - [x] **P3-T02** 검증 제품 풀·카테고리 확장 (`test:verified-product-pool` · 5카테고리 · Top 5 4기둥 게이트 · fixture dry-run · 게시 금지)
 - [x] **P3-T03** 통합 갱신·예외 운영 (`test:automated-refresh-ops` · due/stale/retry/checkpoint/diff/admin · 일일 제품·주2회 병원 스케줄러 준비 · 자동 게시·파괴적 갱신 금지)
+- [x] **P3-T04** 제휴·스폰서 수익 준비 아키텍처 (`test:revenue-readiness` · offer/placement/disclosure/events/country/expiry/admin/privacy · 실계약 미활성화 · fixture dry-run)
 - [x] **T07-02** 서울 피부과 후보 HIRA 수집 파이프라인 (재개·dedupe·provenance·stale · fixture dry-run · 게시 금지)
 - [x] **T07-03** 기관상세 보강·전문의 증거 (공식 진료과목·전문의 수 · evidence/conflict/retry/manual-review · 증상 주장 분리 · fixture dry-run · 게시 금지)
 - [x] **T07-04** 공식 사이트 증상 근거 검수 번들 (여드름·주사/홍조·아토피·색소 · 매니페스트 · Organic/유료 큐 분리 · 미검증 비게시 · fixture dry-run)
@@ -125,6 +126,7 @@
 - [x] **P3-T01** 공식 한국 제품 출처 온보딩 파이프라인 (공식 우선 · 미확인 미발명 · fixture 비공개 · dry-run · Production 쓰기 없음)
 - [x] **P3-T02** 검증 제품 풀·카테고리 확장 (5카테고리 · Top 5 게이트 · fixture dry-run · Production 쓰기 없음)
 - [x] **P3-T03** 통합 갱신·예외 운영 (due/stale/retry/checkpoint/diff/admin · 스케줄러 준비 · 자동 게시·파괴적 갱신 금지 · Production 스케줄 미생성)
+- [x] **P3-T04** 제휴·스폰서 수익 준비 아키텍처 (offer/placement/disclosure/events/country/expiry/admin/privacy · 실계약 미활성화 · `test:revenue-readiness`)
 - [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함) — P2-T05 절차 문서화 · 사람 미실행
 - [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수 — P2-T05 절차 문서화 · 사람 미실행
 - [x] Preview 원격 검수 JSON 경로 연결 (코드·fixture·자동 Preview 경로)
@@ -140,7 +142,7 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 5. Phase 3.1 자동 정렬은 **보류** 유지
 6. (승인 대기) 사진 비교 Staging migration · `care-photos`
 7. (승인 대기) BeautyProfile Staging migration · `beauty_profiles`
-8. (외부) 실제 제휴 URL·수익 채널 연결
+8. (외부) 실제 제휴 URL·수익 채널 연결 (P3-T04 코드 완료 · EX-12)
 9. (외부) 제품 live 공식 출처·verified SKU · P3-T03 실운영 스케줄 등록 (EX-11)
 
 ### 단계 5 — 리텐션 보강
@@ -202,14 +204,16 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 - [x] 스폰서 카드 분리 (`SponsoredCard` · Organic 레인 금지)
 - [x] 클릭·리드·전환·수익 이벤트 (in-memory · Production 미연결)
 - [x] 개인정보·건강정보 광고 타기팅 금지 테스트
-- [ ] 실제 제휴 URL·수익 채널 연결 (external_only)
+- [x] **P3-T04** 수익 준비 아키텍처 (offer ingestion·sponsored contract·disclosure·country links·expiry·admin·privacy · fixture dry-run · 실계약 미활성화)
+- [ ] 실제 제휴 URL·수익 채널 연결 (external_only · EX-12)
 
 ### 단계 8 — 자동 갱신·운영 자동화
 
 - [x] **T05** 영상/가이드·offer 후보 운영 인터페이스 (상태 전환·만료 큐·재시도·감사 · dry-run · 실운영 스케줄러 제외)
+- [x] **P3-T03** 제품·병원 통합 갱신·예외 운영 인터페이스 (아티팩트·스케줄러 준비 · 실운영 제외)
 - [ ] 영상 URL·권리 만료 실운영 갱신
-- [ ] 피부과 정보 재검증 주기
-- [ ] 제휴·광고 계약 상태 갱신
+- [ ] 피부과 정보 재검증 주기 (실운영 스케줄러)
+- [ ] 제휴·광고 계약 상태 갱신 · rollback (RE-07)
 - [ ] 실패 재시도·중복 알림 억제 (실운영 채널)
 - [ ] 변경 이력과 rollback (Production 연결)
 

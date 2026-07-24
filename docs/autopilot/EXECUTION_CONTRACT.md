@@ -9,7 +9,7 @@
 
 Autopilot/에이전트가 저장소에서 **검증된 사실만** 기준으로 다음 단일 작업 번들을 수행하도록 계약한다.
 문서와 코드가 다르면 **코드가 진실**이다. 이미 완료·보존된 작업은 삭제·리셋·재구현하지 않는다.
-T07-05(Admin dry-run · publishable 게이트) · P3-T01(공식 한국 제품 출처 온보딩) · P3-T02(검증 제품 풀·카테고리 확장)까지 코드 완료 · 실 live·Staging import·publishable은 `external_only`.
+T07-05(Admin dry-run · publishable 게이트) · P3-T01(공식 한국 제품 출처 온보딩) · P3-T02(검증 제품 풀·카테고리 확장) · P3-T03(통합 갱신·예외 운영) · P3-T04(제휴·스폰서 수익 준비)까지 코드 완료 · 실 live·Staging import·publishable·실 제휴 채널은 `external_only`.
 
 ## 2. 절대 금지
 
@@ -78,7 +78,7 @@ Windows outer runner가 Git을 담당할 때는 **commit/push를 에이전트가
 | 6 | 규제·기기·도구 분리 | `verified_complete` (구조) |
 | 7 | 공통 모델 ↔ category attrs | `verified_complete` |
 | 8 | 수집·정규화·중복·갱신 파이프라인 | `verified_complete` (코드·T03 ingestion·**P3-T03 통합 갱신/예외** dry-run) / live 공식·실운영은 별도 |
-| 9 | Organic/Affiliate/Sponsored | `verified_complete` (T04 랭킹·API·지속화·UI·analytics·admin) · 실제휴 채널은 external |
+| 9 | Organic/Affiliate/Sponsored | `verified_complete` (T04 랭킹·API·지속화·UI·analytics·admin · **P3-T04 수익 준비 아키텍처**) · 실제휴 채널은 external |
 | 10 | 증상 기반 전문 안내 | `partial` (라우팅·번들 verified · 실병원 미게시) |
 | 11 | 3/7/15/30 체크인 | `verified_complete` (lifecycle·채널 dry-run 포함 · 실푸시/실메일/실SMS 제외) |
 | 12 | 국가·언어·통화·판매처 | `verified_complete` (구조·T05 지역 offer 표시) |

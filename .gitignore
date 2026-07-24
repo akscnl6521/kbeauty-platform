@@ -96,6 +96,7 @@ supabase/.temp/
 /artifacts/official-kr-product-source/
 /artifacts/verified-product-pool/
 /artifacts/automated-refresh-ops/
+/artifacts/revenue-readiness/
 
 # Generated recommendation analysis (local / CI artifacts)
 /data/generated/recommendation/

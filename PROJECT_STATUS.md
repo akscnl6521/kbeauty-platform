@@ -2,6 +2,17 @@
 
 최종 갱신: 2026-07-24
 
+## 2026-07-24 P3-T04 · Affiliate and sponsored revenue readiness
+
+- 계약: `src/lib/commercial/revenueReadiness/*` (affiliate offer ingestion · sponsored placement · disclosure · click/conversion events · country purchase links · expiry · admin approval · analytics privacy · Organic/전문 라우팅 독립)
+- Selftest/러너: `test:revenue-readiness` · `check:revenue-readiness` → `artifacts/revenue-readiness/`
+- 게이트: `commercialAgreementsActivated=false` · `publishAllowed=false` · `publicVisible=false` · `inventedCommissionRates=false` · `inventedLiveUrls=false` · `databaseTouched=false` · `writeAttempted=false` · `paidApiUsed=false`
+- Docs: `docs/prelaunch/P3-T04_REVENUE_READINESS.md`
+- Tests: `test:revenue-readiness` · `check:revenue-readiness` · `test:autopilot-queue` · 변경 ESLint · `tsc` — **통과**
+- 실제휴 URL·수수료율·수익 채널 활성화는 **미검증** (`external_only` · EX-12)
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 live/사람 검수 (`external_only`)
+
 ## 2026-07-24 P3-T03 · Automated refresh and exception operations
 
 - 계약: `src/lib/ops/automatedRefresh/*` (제품·병원 통합 due queue · stale · retry/backoff · resume checkpoint · source-change diff · exception 우선순위 · audit · admin review manifest · 스케줄러 준비 명령)

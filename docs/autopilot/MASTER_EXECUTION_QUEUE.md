@@ -18,7 +18,7 @@
 | 제목 | 공식 병원 실출처 live 수집 → 사람 검수 → Staging import → publishable (fixture 게시 금지) |
 | 분류 | `external_only` (live 키·사람 검수·Staging import 승인) · T07-02~T07-05 코드는 완료 |
 | 에이전트 단독 | 불가 — 실 API 키·사람 검수·Staging import 승인 필요 |
-| 대안(코드 가능) | **P3-T01~P3-T03·T07-02~T07-05·P2-T01~P2-T05 완료** · 제품 live는 EX-11 |
+| 대안(코드 가능) | **P3-T01~P3-T04·T07-02~T07-05·P2-T01~P2-T05 완료** · 제품 live는 EX-11 |
 
 사람 검수가 가능하면 우선순위:
 1. `HUMAN-T07-OFFICIAL-SITE-EVIDENCE` 공식 사이트 증상 근거 검수
@@ -30,6 +30,15 @@
 ---
 
 ## completed_task (이번 번들)
+
+| 필드 | 값 |
+|------|-----|
+| ID | `P3-T04` |
+| 제목 | Affiliate and sponsored revenue readiness (affiliate offer ingestion · sponsored placement contracts · clear disclosure · click/conversion events · country purchase links · expiry · admin approval · analytics privacy · Organic/전문 라우팅 독립 · 실 상업 계약 미활성화 · 수수료율·실 URL 미발명 · fixture dry-run) |
+| 분류 | `verified_complete` (계약·fixture selftest·dry-run 러너·문서) · 실제휴 URL·수익 채널은 `external_only` |
+| 검증 | `npm run test:revenue-readiness` · `npm run check:revenue-readiness` · `test:autopilot-queue` · 변경 ESLint · `tsc` |
+
+### 직전 completed
 
 | 필드 | 값 |
 |------|-----|
@@ -220,6 +229,7 @@
 | VC-36 | P3-T01 공식 한국 제품 출처 온보딩 · 공식 우선 · provenance · 재개·dedupe·stale · fixture 비공개 | `officialKoreanProductSource` · `test:official-kr-product-source` · `check:official-kr-product-source` · `docs/prelaunch/P3-T01_OFFICIAL_KR_PRODUCT_SOURCE.md` |
 | VC-37 | P3-T02 검증 제품 풀·카테고리 확장 · Top 5 4기둥 게이트 · 거절 사유 · 기계 판독 audit | `verifiedProductPool` · `test:verified-product-pool` · `check:verified-product-pool` · `docs/prelaunch/P3-T02_VERIFIED_PRODUCT_POOL.md` |
 | VC-38 | P3-T03 통합 갱신·예외 운영 · due/stale/retry/checkpoint/diff/admin manifest · 스케줄러 준비 명령 · 자동 게시·파괴적 갱신 금지 | `automatedRefresh` · `test:automated-refresh-ops` · `check:automated-refresh-ops` · `refresh:product-daily` · `refresh:clinic-twice-weekly` · `docs/prelaunch/P3-T03_AUTOMATED_REFRESH_OPS.md` |
+| VC-39 | P3-T04 제휴·스폰서 수익 준비 · offer/placement/disclosure/events/country/expiry/admin/privacy · Organic·전문 라우팅 독립 · 실계약 미활성화 | `revenueReadiness` · `test:revenue-readiness` · `check:revenue-readiness` · `docs/prelaunch/P3-T04_REVENUE_READINESS.md` |
 | VC-14 | Stage 6 **코드 기반** 병원 어댑터·게이트·안내·리드 dry-run·admin | `test:clinic-stage6` · `/my/guidance` · `/admin/clinics` |
 | VC-15 | Preview 원격 검수 JSON 경로 | `test:unified-review-remote` |
 | VC-16 | 추천↔commerce 분리 Phase 2.5–2.6.2 | recommendation commerce selftests |
@@ -241,7 +251,7 @@
 | PA-05 | 전체 lint/품질 | 변경 파일 lint·관련 selftest | 저장소 전체 ESLint 기존 실패(다수) 잔존 |
 | PA-06 | 카탈로그 자동화 운영 | 계획·아티팩트·가드·**T03 ingestion dry-run**·**P3-T01 공식 출처 온보딩 dry-run**·**P3-T02 검증 풀 dry-run**·**P3-T03 통합 갱신·예외 dry-run** | 운영 worker는 사람/스케줄러 영역 · 실공식 live verify 미연결 |
 | PA-07 | BeautyProfile 서버 동기화 | API·DRAFT·로컬 fallback | Staging `beauty_profiles` 미적용 · 계정 간 실동기화 미검증 |
-| PA-08 | 상업/제휴 운영 | T04 코드·이벤트·admin | 실제휴 URL·수익 채널·Production 미연결 |
+| PA-08 | 상업/제휴 운영 | T04 코드·이벤트·admin · **P3-T04 수익 준비 아키텍처 dry-run** | 실제휴 URL·수익 채널·Production 미연결 |
 | PA-09 | 출시 통합 | T06 코드·로컬 자동검증·build · **P2-T01~P2-T05** 자동 증거 패키지 | Preview/실기기/법무·Dashboard Redirect/Storage·실공식 데이터 사람 검수 잔여 |
 
 ---
@@ -261,7 +271,7 @@
 | EX-09 | 공식 offer/전성분 미확보 제품 자동 완성 | 차단 정책 유지 |
 | EX-10 | BeautyProfile Staging migration (`beauty_profiles`) 적용 | DRAFT만 존재 · 승인 전 미적용 |
 | EX-11 | 제품 자동화 live 공식 출처·verified 구매 SKU 검수 | T03·**P3-T01**·**P3-T02**·**P3-T03** 코드 완료 · 실데이터는 사람/승인 |
-| EX-12 | 실제 제휴 URL·수익 채널 연결 | T04 코드 완료 · 실계약/키 미연결 |
+| EX-12 | 실제 제휴 URL·수익 채널 연결 | T04·**P3-T04** 코드 완료 · 실계약/키 미연결 |
 
 ---
 
@@ -269,13 +279,13 @@
 
 | ID | 항목 | 단계 |
 |----|------|------|
-| RE-01 | ~~화장품 제휴 링크 데이터 구조~~ | **T04로 코드 완료** → EX-12 실연결 |
+| RE-01 | ~~화장품 제휴 링크 데이터 구조~~ | **T04·P3-T04로 코드 완료** → EX-12 실연결 |
 | RE-02 | ~~제휴 피부과 ↔ Organic 분리 코드~~ | **T04/Stage6 코드 완료** · 실데이터는 EX-04 |
 | RE-03 | ~~광고 슬롯 · 스폰서 카드 · 전환 이벤트~~ | **T04로 코드 완료** |
 | RE-04 | ~~건강정보 광고 타기팅 금지 테스트~~ | **T04로 코드 완료** |
 | RE-05 | ~~영상 URL·권리 만료 자동 갱신 인터페이스~~ | **T05 dry-run 완료** · 실운영 스케줄러는 잔여 |
 | RE-06 | ~~피부과 정보 재검증 주기 운영화~~ | **P3-T03 통합 갱신·예외 인터페이스 완료** · 실운영 스케줄러/live는 EX-04 |
-| RE-07 | 제휴·광고 계약 상태 갱신 · rollback | 단계 8 |
+| RE-07 | ~~제휴·광고 계약 상태 갱신 · rollback~~ | **P3-T04 준비 아키텍처 완료** · 실계약 활성화·rollback은 EX-12/단계8 잔여 |
 | RE-08 | WQ-F Phase 2+ schema/runtime (별도 승인) | 시나리오 |
 | RE-09 | ~~출시 전 코드 통합 자동검증~~ | **T06로 코드·build 완료** · 사람 Preview/실기기는 EX-01/02 |
 
@@ -327,6 +337,7 @@ npm run test:admin-dry-run-publishable-gate
 npm run test:official-kr-product-source
 npm run test:verified-product-pool
 npm run test:automated-refresh-ops
+npm run test:revenue-readiness
 ```
 
-검증: 계약/큐 존재 · 필수 헤더 · `next_task` · 분류 섹션 · 레거시 포인터 · 핵심 경로 존재 · 금지 문구(Production 미배포 등) 유지 · T06 증거 문서 · P2-T01 라우트 검증 · P2-T02 Staging 릴리스 게이트 · P2-T03 Admin review E2E · P2-T04 실데이터 온보딩 · P2-T05 Final Preview 증거 패키지 · T07-02 서울 피부과 HIRA 수집 · T07-03 기관상세 보강 · T07-04 증상 근거 검수 · T07-05 Admin dry-run·publishable 게이트 · P3-T01 공식 한국 제품 출처 온보딩 · P3-T02 검증 제품 풀·카테고리 확장 · P3-T03 통합 갱신·예외 운영.
+검증: 계약/큐 존재 · 필수 헤더 · `next_task` · 분류 섹션 · 레거시 포인터 · 핵심 경로 존재 · 금지 문구(Production 미배포 등) 유지 · T06 증거 문서 · P2-T01 라우트 검증 · P2-T02 Staging 릴리스 게이트 · P2-T03 Admin review E2E · P2-T04 실데이터 온보딩 · P2-T05 Final Preview 증거 패키지 · T07-02 서울 피부과 HIRA 수집 · T07-03 기관상세 보강 · T07-04 증상 근거 검수 · T07-05 Admin dry-run·publishable 게이트 · P3-T01 공식 한국 제품 출처 온보딩 · P3-T02 검증 제품 풀·카테고리 확장 · P3-T03 통합 갱신·예외 운영 · P3-T04 제휴·스폰서 수익 준비.
