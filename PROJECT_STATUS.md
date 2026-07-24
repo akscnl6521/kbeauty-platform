@@ -2,6 +2,17 @@
 
 최종 갱신: 2026-07-24
 
+## 2026-07-24 P3-T03 · Automated refresh and exception operations
+
+- 계약: `src/lib/ops/automatedRefresh/*` (제품·병원 통합 due queue · stale · retry/backoff · resume checkpoint · source-change diff · exception 우선순위 · audit · admin review manifest · 스케줄러 준비 명령)
+- Selftest/러너: `test:automated-refresh-ops` · `check:automated-refresh-ops` · `refresh:product-daily` · `refresh:clinic-twice-weekly` → `artifacts/automated-refresh-ops/`
+- 게이트: `publishAllowed=false` · `autoPublishAttempted=false` · `destructiveUpdateAllowed=false` · `databaseTouched=false` · `writeAttempted=false` · `externalScheduleCreated=false` · `paidApiUsed=false`
+- Docs: `docs/prelaunch/P3-T03_AUTOMATED_REFRESH_OPS.md`
+- Tests: `test:automated-refresh-ops` · `check:automated-refresh-ops` · `refresh:product-daily` · `refresh:clinic-twice-weekly` · `test:autopilot-queue` · 변경 ESLint · `tsc` — **통과**
+- 실 live 소스 갱신·운영자 스케줄 등록·DB 반영은 **미검증** (`external_only`)
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 live/사람 검수 (`external_only`)
+
 ## 2026-07-24 P3-T02 · Verified product pool and category expansion
 
 - 계약: `src/lib/catalog/verifiedProductPool/*` (skincare·makeup·hair/scalp·body·lip/eye · 카테고리 정규화 · 안전 적격 · 중복 병합 · 추천 준비 · 거절 사유 · 공개 Top 5 4기둥 게이트 · 기계 판독 audit)

@@ -6,6 +6,16 @@
 
 ## 2026-07-24
 
+### P3-T03 — Automated refresh and exception operations
+
+- 계약: `automatedRefresh` — 제품·병원 통합 due queue · stale(30/90·90/180) · retry/backoff · resume checkpoint · source-change diff · exception 우선순위 · audit · admin review manifest
+- 스케줄러 준비: `refresh:product-daily`(매일 09:20 KST 힌트) · `refresh:clinic-twice-weekly`(월·목 09:40 KST 힌트) · 유료 인프라·Production 스케줄 미생성
+- 금지 강제: 자동 게시·파괴적 DB 갱신 · `publishAllowed=false` · `destructiveUpdateAllowed=false`
+- Selftest/러너: `test:automated-refresh-ops` · `check:automated-refresh-ops` · 아티팩트 `artifacts/automated-refresh-ops/`
+- Docs: `docs/prelaunch/P3-T03_AUTOMATED_REFRESH_OPS.md`
+- fixture dry-run 통과 · 실 live 운영·DB 반영은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 live/사람 (`external_only`)
+
 ### P3-T02 — Verified product pool and category expansion
 
 - 계약: `verifiedProductPool` — skincare·makeup·hair/scalp·body·lip/eye · 카테고리 정규화 · 안전 적격 · 중복 병합 · 추천 준비 · 거절 사유 · 공개 Top 5(출처·전성분·이미지권리·구매offer) 게이트 · 기계 판독 audit
