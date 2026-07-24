@@ -219,7 +219,7 @@ export function runPilotDeEnrichment(
     extraCandidatesByScenario[add.scenarioId].push(toPilotCandidate(add));
   }
 
-  let priorDeReady: Record<string, number> = {};
+  const priorDeReady: Record<string, number> = {};
   let priorTotalReady = 0;
   if (opts.baselineEnrichmentDir) {
     const baselineReport = readJson<{

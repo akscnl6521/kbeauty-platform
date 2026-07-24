@@ -27,7 +27,7 @@ export function createCaptureSpeechController(input: {
   enabled: boolean;
 }): CaptureSpeechController {
   let enabled = input.enabled;
-  let locale = resolveCaptureVoiceLocale(input.localeTag);
+  const locale = resolveCaptureVoiceLocale(input.localeTag);
   let ready = false;
   let disposed = false;
 

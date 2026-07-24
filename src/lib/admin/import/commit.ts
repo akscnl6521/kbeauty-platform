@@ -110,7 +110,7 @@ function parseCommitItem(raw: ImportCommitItemInput): {
     };
   }
 
-  let sourceType =
+  const sourceType =
     typeof raw.sourceType === "string" && raw.sourceType.trim()
       ? raw.sourceType.trim()
       : "search_result";

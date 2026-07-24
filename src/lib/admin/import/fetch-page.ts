@@ -78,7 +78,7 @@ export async function fetchPublicHtmlPage(
 ): Promise<FetchPageResult> {
   const timeoutMs = options?.timeoutMs ?? PER_URL_TIMEOUT_MS;
 
-  let current = await assertSafePublicHttpsUrl(rawUrl);
+  const current = await assertSafePublicHttpsUrl(rawUrl);
   if (!current.ok) {
     return { ok: false, code: current.code, message: current.message };
   }

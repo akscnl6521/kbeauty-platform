@@ -441,7 +441,7 @@ const s2 = getRetrySchedule(2, nowDue);
 ok(s2.action === "retry" && s2.delayMs === 2 * 60 * 60_000, "retry 2h");
 ok(getRetrySchedule(3, nowDue).action === "dead_letter", "dead letter after 3");
 
-let sending: CheckinEmailQueueItem = {
+const sending: CheckinEmailQueueItem = {
   ...item,
   status: "sending",
   attemptCount: 0,

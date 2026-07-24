@@ -66,7 +66,7 @@ export function parseOfferPrice(input: {
     .filter(Boolean)
     .join(" ");
 
-  let currency =
+  const currency =
     detectCurrency(input.currencyHint ?? "") ||
     detectCurrency(blob) ||
     null;

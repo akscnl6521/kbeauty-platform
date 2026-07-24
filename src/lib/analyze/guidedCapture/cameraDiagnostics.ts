@@ -48,7 +48,6 @@ export function logCameraDiagnostic(
 ): void {
   if (!isCameraDiagnosticsEnabled(env)) return;
   try {
-    // eslint-disable-next-line no-console
     console.info("[guided-camera]", {
       event: payload.event,
       state: payload.state,

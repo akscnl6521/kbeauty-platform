@@ -36,6 +36,7 @@ export default function MyProgressPage() {
     void hydrateCareDashboard().then((h) =>
       setDeltas(h.dashboard.progressSummary)
     );
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-time hydrate from localStorage-backed care store; not available during server render
     setFeedbackSummary(summarizeProductFeedback(loadCareStore().feedback ?? []));
   }, []);
 

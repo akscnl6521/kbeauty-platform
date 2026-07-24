@@ -85,16 +85,22 @@ function SafeHttpsLink({
   if (!href || !href.trim()) {
     return <span className="text-xs text-gray-400">URL 없음</span>;
   }
+  let isHttps = false;
+  let malformed = false;
   try {
-    if (new URL(href).protocol !== "https:") {
-      return (
-        <span className="break-all text-xs text-gray-400" title={href}>
-          HTTPS 아님 · 클릭 불가
-        </span>
-      );
-    }
+    isHttps = new URL(href).protocol === "https:";
   } catch {
+    malformed = true;
+  }
+  if (malformed) {
     return <span className="text-xs text-gray-400">URL 형식 오류</span>;
+  }
+  if (!isHttps) {
+    return (
+      <span className="break-all text-xs text-gray-400" title={href}>
+        HTTPS 아님 · 클릭 불가
+      </span>
+    );
   }
   return (
     <a

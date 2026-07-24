@@ -71,8 +71,8 @@ export function checkLocalPhotoQuality(
     reasons.push("resolution_too_low");
   }
 
-  let brightnessScore = input.brightnessMean;
-  let sharpnessScore = input.sharpnessScore;
+  const brightnessScore = input.brightnessMean;
+  const sharpnessScore = input.sharpnessScore;
 
   if (typeof brightnessScore === "number") {
     if (brightnessScore < QUALITY_LIMITS.darkThreshold) {

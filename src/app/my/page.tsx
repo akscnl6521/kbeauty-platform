@@ -124,6 +124,7 @@ export default function MyCareHomePage() {
   const [quickNote, setQuickNote] = useState<string | null>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-time hydrate from localStorage; server render must start false, browser value applied post-mount
     setHasLocalAnalysis(
       Boolean(window.localStorage.getItem(RECOMMENDATION_STORAGE_KEY))
     );

@@ -399,7 +399,7 @@ function run() {
   );
 
   // Countdown + auto capture
-  let st = createAutoCaptureState();
+  const st = createAutoCaptureState();
   let r = tickAutoCapture(st, {
     nowMs: 0,
     alignmentStatus: "aligned",

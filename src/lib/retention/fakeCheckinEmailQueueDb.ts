@@ -25,15 +25,14 @@ export class FakeCheckinEmailQueueDb implements CheckinEmailQueueDb {
     if (table !== "checkin_email_queue") {
       throw new Error(`unknown_table:${table}`);
     }
-    const self = this;
     return {
-      select(_columns?: string) {
+      select: (_columns?: string) => {
         return {
-          eq(column: string, value: string) {
+          eq: (column: string, value: string) => {
             return {
-              async maybeSingle() {
+              maybeSingle: async () => {
                 if (column === "idempotency_key") {
-                  for (const row of self.rows.values()) {
+                  for (const row of this.rows.values()) {
                     if (row.idempotency_key === value) {
                       return { data: clone(row), error: null };
                     }
@@ -41,7 +40,7 @@ export class FakeCheckinEmailQueueDb implements CheckinEmailQueueDb {
                   return { data: null, error: null };
                 }
                 if (column === "id") {
-                  const row = self.rows.get(value) ?? null;
+                  const row = this.rows.get(value) ?? null;
                   return { data: row ? clone(row) : null, error: null };
                 }
                 return { data: null, error: { message: "unsupported_eq" } };
@@ -50,12 +49,12 @@ export class FakeCheckinEmailQueueDb implements CheckinEmailQueueDb {
           },
         };
       },
-      insert(values: Record<string, unknown>) {
+      insert: (values: Record<string, unknown>) => {
         return {
-          select(_columns?: string) {
+          select: (_columns?: string) => {
             return {
-              async single() {
-                for (const row of self.rows.values()) {
+              single: async () => {
+                for (const row of this.rows.values()) {
                   if (row.idempotency_key === values.idempotency_key) {
                     return {
                       data: null as unknown as CheckinEmailQueueRow,
@@ -66,7 +65,7 @@ export class FakeCheckinEmailQueueDb implements CheckinEmailQueueDb {
                 const id =
                   typeof values.id === "string"
                     ? values.id
-                    : `fake-${self.rows.size + 1}`;
+                    : `fake-${this.rows.size + 1}`;
                 const now = new Date().toISOString();
                 const row: CheckinEmailQueueRow = {
                   id,
@@ -95,27 +94,27 @@ export class FakeCheckinEmailQueueDb implements CheckinEmailQueueDb {
                   sent_at: (values.sent_at as string | null) ?? null,
                   failed_at: (values.failed_at as string | null) ?? null,
                 };
-                self.rows.set(id, row);
+                this.rows.set(id, row);
                 return { data: clone(row), error: null };
               },
             };
           },
         };
       },
-      update(values: Record<string, unknown>) {
+      update: (values: Record<string, unknown>) => {
         return {
-          eq(column: string, value: string) {
+          eq: (column: string, value: string) => {
             return {
-              select(_columns?: string) {
+              select: (_columns?: string) => {
                 return {
-                  async maybeSingle() {
+                  maybeSingle: async () => {
                     if (column !== "id") {
                       return {
                         data: null,
                         error: { message: "unsupported_update_eq" },
                       };
                     }
-                    const existing = self.rows.get(value);
+                    const existing = this.rows.get(value);
                     if (!existing) {
                       return { data: null, error: { message: "not_found" } };
                     }
@@ -123,7 +122,7 @@ export class FakeCheckinEmailQueueDb implements CheckinEmailQueueDb {
                       ...existing,
                       ...values,
                     } as CheckinEmailQueueRow;
-                    self.rows.set(value, next);
+                    this.rows.set(value, next);
                     return { data: clone(next), error: null };
                   },
                 };

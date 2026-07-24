@@ -13,6 +13,7 @@ export default function Home() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-time hydrate from localStorage; server render must start false
     setHasPrevious(
       Boolean(
         localStorage.getItem(ANALYSIS_RESULT_STORAGE_KEY) ||

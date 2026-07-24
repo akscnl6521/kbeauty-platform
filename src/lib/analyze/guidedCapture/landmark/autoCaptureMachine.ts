@@ -131,7 +131,7 @@ export function tickAutoCapture(
 
   const afterHold = held - input.stableHoldMs;
   if (afterHold < COUNTDOWN_STEP_MS) {
-    const digit: 3 = 3;
+    const digit = 3 as const;
     const changed = prev.countdownDigit !== digit || prev.phase !== "countdown";
     return {
       state: {
@@ -148,7 +148,7 @@ export function tickAutoCapture(
     };
   }
   if (afterHold < COUNTDOWN_STEP_MS * 2) {
-    const digit: 2 = 2;
+    const digit = 2 as const;
     const changed = prev.countdownDigit !== digit;
     return {
       state: {
@@ -165,7 +165,7 @@ export function tickAutoCapture(
     };
   }
   if (afterHold < COUNTDOWN_STEP_MS * 3) {
-    const digit: 1 = 1;
+    const digit = 1 as const;
     const changed = prev.countdownDigit !== digit;
     return {
       state: {

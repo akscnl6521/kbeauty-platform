@@ -237,7 +237,7 @@ ORDER BY brand_canonical, external_product_id;
 
   // Phase B: brand-by-brand fetch for non-placeholders
   const brandOrder = KR_BRAND_SEED_REGISTRY.map((b) => b.brandId);
-  let resumeIdx = Math.max(
+  const resumeIdx = Math.max(
     0,
     brandOrder.indexOf(checkpoint.resumeBrandId ?? brandOrder[0]!)
   );

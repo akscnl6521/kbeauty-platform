@@ -189,6 +189,7 @@ export function ProductBulkImportClient() {
           번에 최대 50개까지 가능합니다.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- file download from an API route, not a page transition; next/link's client-side routing would break the download */}
           <a
             href="/api/admin/products/bulk/template"
             className="rounded bg-[#8B6914] px-4 py-2 text-sm font-medium text-white"

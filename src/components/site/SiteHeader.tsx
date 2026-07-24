@@ -36,10 +36,7 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    if (!loggedIn) {
-      setAdmin(false);
-      return;
-    }
+    if (!loggedIn) return;
     void fetch("/api/admin/auth-check", { credentials: "include" })
       .then((response) => setAdmin(response.ok))
       .catch(() => setAdmin(false));
@@ -99,7 +96,7 @@ export function SiteHeader() {
           </Link>
         );
       })}
-      {admin ? (
+      {loggedIn && admin ? (
         <Link
           href="/admin"
           onClick={() => setOpen(false)}

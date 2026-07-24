@@ -252,7 +252,7 @@ export function extractFromShopifyListProduct(
   const html = String(product.body_html || "");
   const labeled = extractLabeledIngredientsRaw(html);
   let ingredients: string[] = [];
-  let ingredientsRaw: string | null = labeled?.raw || null;
+  const ingredientsRaw: string | null = labeled?.raw || null;
   if (ingredientsRaw) {
     try {
       ingredients = parseOfficialIngredientsRaw({
