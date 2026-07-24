@@ -99,6 +99,8 @@
     "check:admin-dry-run-publishable-gate": "npx --yes tsx scripts/run-admin-dry-run-publishable-gate.ts",
     "test:official-kr-product-source": "npx --yes tsx scripts/official-kr-product-source-selftest.ts",
     "check:official-kr-product-source": "npx --yes tsx scripts/run-official-kr-product-source.ts",
+    "test:verified-product-pool": "npx --yes tsx scripts/verified-product-pool-selftest.ts",
+    "check:verified-product-pool": "npx --yes tsx scripts/run-verified-product-pool.ts",
     "check:release-security": "node scripts/security-release-check.mjs",
     "check:responsive": "node scripts/check-responsive-layout.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",

@@ -6,6 +6,15 @@
 
 ## 2026-07-24
 
+### P3-T02 — Verified product pool and category expansion
+
+- 계약: `verifiedProductPool` — skincare·makeup·hair/scalp·body·lip/eye · 카테고리 정규화 · 안전 적격 · 중복 병합 · 추천 준비 · 거절 사유 · 공개 Top 5(출처·전성분·이미지권리·구매offer) 게이트 · 기계 판독 audit
+- 승인된 공식 매니페스트·비공개 dry-run만 · fixture/dry-run 공개 Top 5 빈 배열 · Production 쓰기 없음
+- Selftest/러너: `test:verified-product-pool` · `check:verified-product-pool` · 아티팩트 `artifacts/verified-product-pool/`
+- Docs: `docs/prelaunch/P3-T02_VERIFIED_PRODUCT_POOL.md`
+- fixture dry-run 통과 · 실 live verified SKU·공개 게시는 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 live/사람 (`external_only`)
+
 ### P3-T01 — Official Korean product source onboarding
 
 - 계약: `officialKoreanProductSource` — 브랜드 공식·공식 KR몰·공식 INCI · 이미지·variants·가격·재고·국가가용·사용가이드 · 필드 provenance · 재개 매니페스트 · deterministic dedupe · stale/refresh(30/90/180) · review reasons · dry-run audit
