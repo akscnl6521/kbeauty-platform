@@ -6,6 +6,15 @@
 
 ## 2026-07-24
 
+### T07-03 — Institution detail enrichment + specialist evidence
+
+- 계약: `institutionDetailEnrichment` — 공식 기관상세 진료과목·전문의 수 · evidence strength · lastVerified · conflicting-source · retryable failure · manual-review · 피부과 근거↔증상 전문 주장 분리 · bounded concurrency · cache/checkpoint · dry-run
+- 상호명만으로 피부과 추론 금지 · 미확인 null · 게시/Production 쓰기 없음
+- Selftest/러너: `test:institution-detail-enrichment` · `check:institution-detail-enrichment` · 아티팩트 `artifacts/institution-detail-enrichment/`
+- Docs: `docs/prelaunch/T07-03_INSTITUTION_DETAIL_ENRICHMENT.md`
+- fixture dry-run 통과 · 실 live 보강·publishable은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 검수·publishable (`external_only`)
+
 ### T07-02 — Seoul dermatology candidate ingestion (HIRA)
 
 - 계약: `seoulDermatologyIngestion` — 최소 공개 필드 · 서울/피부과 공식 필드 필터 · 필드 provenance · pagination checkpoint · deterministic dedupe · stale/refresh(90/180일) · dry-run audit

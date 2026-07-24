@@ -136,6 +136,8 @@ const keyPaths = [
   "docs/prelaunch/P2-T04_REAL_DATA_ONBOARDING.md",
   "docs/prelaunch/P2-T05_FINAL_PREVIEW_EVIDENCE_PACKAGE.md",
   "docs/prelaunch/T07-02_SEOUL_DERMATOLOGY_INGESTION.md",
+  "docs/prelaunch/T07-03_INSTITUTION_DETAIL_ENRICHMENT.md",
+  "src/lib/publicData/institutionDetailEnrichment/index.ts",
   "src/lib/release/finalIntegrationEvidence.ts",
   "src/lib/release/phase2FinalEvidencePackage.ts",
   "src/lib/release/stagingReleaseGate.ts",
@@ -199,6 +201,14 @@ assert.ok(
 assert.ok(
   pkg.includes('"check:seoul-dermatology-ingestion"'),
   "package.json must define check:seoul-dermatology-ingestion",
+);
+assert.ok(
+  pkg.includes('"test:institution-detail-enrichment"'),
+  "package.json must define test:institution-detail-enrichment",
+);
+assert.ok(
+  pkg.includes('"check:institution-detail-enrichment"'),
+  "package.json must define check:institution-detail-enrichment",
 );
 assert.ok(
   pkg.includes('"test:organic-commerce"'),

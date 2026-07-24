@@ -91,6 +91,8 @@
     "check:phase2-final-evidence": "npx --yes tsx scripts/run-phase2-final-evidence.ts",
     "test:seoul-dermatology-ingestion": "npx --yes tsx scripts/seoul-dermatology-ingestion-selftest.ts",
     "check:seoul-dermatology-ingestion": "npx --yes tsx scripts/run-seoul-dermatology-ingestion.ts",
+    "test:institution-detail-enrichment": "npx --yes tsx scripts/institution-detail-enrichment-selftest.ts",
+    "check:institution-detail-enrichment": "npx --yes tsx scripts/run-institution-detail-enrichment.ts",
     "check:release-security": "node scripts/security-release-check.mjs",
     "check:responsive": "node scripts/check-responsive-layout.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",

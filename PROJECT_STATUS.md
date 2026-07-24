@@ -2,6 +2,18 @@
 
 최종 갱신: 2026-07-24
 
+## 2026-07-24 T07-03 · Institution detail enrichment + specialist evidence
+
+- 계약: `src/lib/publicData/institutionDetailEnrichment/*` (공식 기관상세 진료과목·전문의 수 · evidence strength · lastVerified · conflicting-source · retryable failure · manual-review · 피부과 근거↔증상 전문 주장 분리 · bounded concurrency · cache/checkpoint · dry-run audit)
+- T07-01 `PublicDataApiClient` 재사용 · 상호명만으로 피부과 추론 금지 · 미확인 값 null
+- Selftest/러너: `test:institution-detail-enrichment` · `check:institution-detail-enrichment` → `artifacts/institution-detail-enrichment/`
+- `publishAllowed=false` · `databaseTouched=false` · `writeAttempted=false` · Production 미터치
+- Docs: `docs/prelaunch/T07-03_INSTITUTION_DETAIL_ENRICHMENT.md`
+- Tests: `test:institution-detail-enrichment` · `check:institution-detail-enrichment` · `test:autopilot-queue` · 변경 ESLint · `tsc` — **통과**
+- 실 HIRA live 보강·관리자 검수·publishable 전환은 **미검증** (`external_only` · T07 잔여)
+- Staging/Production DB 쓰기·main·commit/push 미실행
+- next_task: `T07` 공식 병원 실출처 검수·publishable (`external_only`)
+
 ## 2026-07-24 T07-02 · Seoul dermatology candidate ingestion
 
 - 계약: `src/lib/publicData/seoulDermatologyIngestion/*` (HIRA 공식 필드 · 서울/피부과 필터 · provenance · pagination checkpoint · deterministic dedupe · stale/refresh · dry-run audit)
