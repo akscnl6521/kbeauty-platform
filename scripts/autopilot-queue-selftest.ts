@@ -143,6 +143,7 @@ const keyPaths = [
   "docs/prelaunch/P3-T02_VERIFIED_PRODUCT_POOL.md",
   "docs/prelaunch/P3-T03_AUTOMATED_REFRESH_OPS.md",
   "docs/prelaunch/P3-T04_REVENUE_READINESS.md",
+  "docs/prelaunch/P3-T05_STAGING_IMPORT_PACKAGE.md",
   "src/lib/publicData/institutionDetailEnrichment/index.ts",
   "src/lib/publicData/symptomEvidenceReview/index.ts",
   "src/lib/publicData/adminDryRunPublishableGate/index.ts",
@@ -155,6 +156,7 @@ const keyPaths = [
   "src/lib/catalog/verifiedProductPool/index.ts",
   "src/lib/ops/automatedRefresh/index.ts",
   "src/lib/commercial/revenueReadiness/index.ts",
+  "src/lib/onboarding/stagingImportPackage/index.ts",
   "src/lib/validation/previewRouteValidation.ts",
   "src/lib/publicData/seoulDermatologyIngestion/index.ts",
   "KBEAUTY_MASTER_EXECUTION_PROMPT.md",
@@ -269,6 +271,14 @@ assert.ok(
 assert.ok(
   pkg.includes('"check:revenue-readiness"'),
   "package.json must define check:revenue-readiness",
+);
+assert.ok(
+  pkg.includes('"test:staging-import-package"'),
+  "package.json must define test:staging-import-package",
+);
+assert.ok(
+  pkg.includes('"check:staging-import-package"'),
+  "package.json must define check:staging-import-package",
 );
 assert.ok(
   pkg.includes('"refresh:product-daily"'),

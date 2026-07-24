@@ -35,6 +35,7 @@
 - [x] **P3-T02** 검증 제품 풀·카테고리 확장 (`test:verified-product-pool` · 5카테고리 · Top 5 4기둥 게이트 · fixture dry-run · 게시 금지)
 - [x] **P3-T03** 통합 갱신·예외 운영 (`test:automated-refresh-ops` · due/stale/retry/checkpoint/diff/admin · 일일 제품·주2회 병원 스케줄러 준비 · 자동 게시·파괴적 갱신 금지)
 - [x] **P3-T04** 제휴·스폰서 수익 준비 아키텍처 (`test:revenue-readiness` · offer/placement/disclosure/events/country/expiry/admin/privacy · 실계약 미활성화 · fixture dry-run)
+- [x] **P3-T05** 통합 Staging import 패키지 (`test:staging-import-package` · 제품/병원·provenance·review·duplicates·rejection·refresh·commercial·publishable gates · 사람 검수 패키지 · import 미실행)
 - [x] **T07-02** 서울 피부과 후보 HIRA 수집 파이프라인 (재개·dedupe·provenance·stale · fixture dry-run · 게시 금지)
 - [x] **T07-03** 기관상세 보강·전문의 증거 (공식 진료과목·전문의 수 · evidence/conflict/retry/manual-review · 증상 주장 분리 · fixture dry-run · 게시 금지)
 - [x] **T07-04** 공식 사이트 증상 근거 검수 번들 (여드름·주사/홍조·아토피·색소 · 매니페스트 · Organic/유료 큐 분리 · 미검증 비게시 · fixture dry-run)
@@ -65,6 +66,7 @@
 - [x] **P3-T02** 검증 제품 풀·카테고리 확장 (skincare·makeup·hair/scalp·body·lip/eye · 정규화·안전·dedupe·추천준비·거절사유 · Top 5 4기둥 게이트 · `test:verified-product-pool`)
 - [x] **P3-T03** 통합 갱신·예외 운영 (due/stale/retry/checkpoint/diff/admin · `test:automated-refresh-ops` · `refresh:product-daily` · `refresh:clinic-twice-weekly`)
 - [ ] 실공식 출처 live verify · verified 구매 SKU 풀 (external_only)
+- [x] **P3-T05** 통합 Staging import 검수 패키지 (`test:staging-import-package` · 사람 승인 전 import 미실행)
 
 ### 피부과 후보 자동화
 
@@ -78,6 +80,7 @@
 - [x] **T07-04** 공식 사이트 증상 근거 검수 번들 (매니페스트·Organic/유료 큐·미검증 비게시 · `test:symptom-evidence-review`)
 - [x] **T07-05** Admin dry-run · publishable 게이트 (전체 dry-run · 비공개 강제 · JSON/CSV 감사 · `test:admin-dry-run-publishable-gate`)
 - [x] **P3-T03** 피부과·제품 통합 재검증 주기 인터페이스 (아티팩트·스케줄러 준비 · 실운영 스케줄러 제외 · `test:automated-refresh-ops`)
+- [x] **P3-T05** 제품·병원 통합 Staging import 검수 패키지 (사람 승인 전 import 미실행 · `test:staging-import-package`)
 - [ ] 실 HIRA live 수집 → 관리자 검수 → publishable (external_only · fixture 게시 금지)
 
 ### 통합 운영 안전
@@ -127,6 +130,7 @@
 - [x] **P3-T02** 검증 제품 풀·카테고리 확장 (5카테고리 · Top 5 게이트 · fixture dry-run · Production 쓰기 없음)
 - [x] **P3-T03** 통합 갱신·예외 운영 (due/stale/retry/checkpoint/diff/admin · 스케줄러 준비 · 자동 게시·파괴적 갱신 금지 · Production 스케줄 미생성)
 - [x] **P3-T04** 제휴·스폰서 수익 준비 아키텍처 (offer/placement/disclosure/events/country/expiry/admin/privacy · 실계약 미활성화 · `test:revenue-readiness`)
+- [x] **P3-T05** 통합 Staging import 패키지 (제품/병원 번들 · 사람 검수 패키지 · import 미실행 · `test:staging-import-package` · `check:staging-import-package`)
 - [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함) — P2-T05 절차 문서화 · 사람 미실행
 - [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수 — P2-T05 절차 문서화 · 사람 미실행
 - [x] Preview 원격 검수 JSON 경로 연결 (코드·fixture·자동 Preview 경로)
@@ -135,7 +139,7 @@
 
 Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T07 live/사람)
 
-1. 공식 병원 실출처 live 수집·승인 → 관리자 검수 → Staging import → publishable (T07-02~T07-05 코드 완료 · fixture 게시 금지 · 1회성 사람 작업 잔여)
+1. 공식 병원 실출처 live 수집·승인 → 관리자 검수 → Staging import → publishable (T07-02~T07-05·P3-T05 코드 완료 · fixture 게시 금지 · 1회성 사람 작업 잔여)
 2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
 3. P1-006 개인정보 전송 범위 정책·법무 최종 검수
 4. **WQG-P0-002** `RELEASE_GATE_PENDING` — Production 배포 직전 `AI_PROVIDER` 확인 (지금 미실행 · 키 미기록)
@@ -225,6 +229,7 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 - [x] **P2-T03** Admin review E2E 하네스 (사람 Preview 관리자 육안은 별도)
 - [x] **P2-T04** 실데이터 온보딩 준비 계약·dry-run (실공식 데이터·Staging 쓰기는 별도)
 - [x] **P2-T05** Final Preview 증거·사람 승인 패키지 (자동 회귀·버킷 분리·1회성 절차 · 사람 검수는 별도)
+- [x] **P3-T05** 통합 Staging import 사람 검수 패키지 (import 미실행 · 실 승인·실행은 별도)
 - [ ] 실제 제품·판매처·피부과 데이터 사람 최종 검수
 - [ ] 전체 사용자 여정 Preview 검증
 - [ ] 모바일·접근성·성능 재검증 (실기기)

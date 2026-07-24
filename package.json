@@ -107,6 +107,8 @@
     "refresh:clinic-twice-weekly": "npx --yes tsx scripts/run-clinic-refresh-twice-weekly.ts",
     "test:revenue-readiness": "npx --yes tsx scripts/revenue-readiness-selftest.ts",
     "check:revenue-readiness": "npx --yes tsx scripts/run-revenue-readiness.ts",
+    "test:staging-import-package": "npx --yes tsx scripts/staging-import-package-selftest.ts",
+    "check:staging-import-package": "npx --yes tsx scripts/run-staging-import-package.ts",
     "check:release-security": "node scripts/security-release-check.mjs",
     "check:responsive": "node scripts/check-responsive-layout.mjs",
     "pipeline:worker": "node scripts/run-pipeline-worker.mjs",

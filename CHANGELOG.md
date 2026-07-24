@@ -6,6 +6,15 @@
 
 ## 2026-07-24
 
+### P3-T05 — Integrated Staging import package
+
+- 계약: `stagingImportPackage` — 제품·병원 후보 · provenance · review states · duplicates · rejection reasons · refresh status · commercial separation · publishable gates · 통합 사람 검수 패키지
+- 금지 강제: Staging import 미실행 · fixture 비공개 · Production/main 미터치 · 유료 레인으로 Staging 적격 부여 금지
+- Selftest/러너: `test:staging-import-package` · `check:staging-import-package` (focused+integration 12건 · release-security · build) · 아티팩트 `artifacts/staging-import-package/`
+- Docs: `docs/prelaunch/P3-T05_STAGING_IMPORT_PACKAGE.md`
+- fixture/dry-run 통과 · 실 Staging import 승인·실행은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 live/사람 · Staging import 승인 (`external_only`)
+
 ### P3-T04 — Affiliate and sponsored revenue readiness
 
 - 계약: `revenueReadiness` — affiliate offer ingestion · sponsored placement · clear disclosure · click/conversion events · country-specific purchase links · expiry · admin approval · analytics privacy · Organic·전문 라우팅 독립

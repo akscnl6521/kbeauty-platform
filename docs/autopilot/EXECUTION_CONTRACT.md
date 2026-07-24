@@ -9,7 +9,7 @@
 
 Autopilot/에이전트가 저장소에서 **검증된 사실만** 기준으로 다음 단일 작업 번들을 수행하도록 계약한다.
 문서와 코드가 다르면 **코드가 진실**이다. 이미 완료·보존된 작업은 삭제·리셋·재구현하지 않는다.
-T07-05(Admin dry-run · publishable 게이트) · P3-T01(공식 한국 제품 출처 온보딩) · P3-T02(검증 제품 풀·카테고리 확장) · P3-T03(통합 갱신·예외 운영) · P3-T04(제휴·스폰서 수익 준비)까지 코드 완료 · 실 live·Staging import·publishable·실 제휴 채널은 `external_only`.
+T07-05(Admin dry-run · publishable 게이트) · P3-T01(공식 한국 제품 출처 온보딩) · P3-T02(검증 제품 풀·카테고리 확장) · P3-T03(통합 갱신·예외 운영) · P3-T04(제휴·스폰서 수익 준비) · P3-T05(통합 Staging import 패키지)까지 코드 완료 · 실 live·Staging import 실행·publishable·실 제휴 채널은 `external_only`.
 
 ## 2. 절대 금지
 

@@ -97,6 +97,7 @@ supabase/.temp/
 /artifacts/verified-product-pool/
 /artifacts/automated-refresh-ops/
 /artifacts/revenue-readiness/
+/artifacts/staging-import-package/
 
 # Generated recommendation analysis (local / CI artifacts)
 /data/generated/recommendation/
