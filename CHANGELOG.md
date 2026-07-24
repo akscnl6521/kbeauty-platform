@@ -6,6 +6,14 @@
 
 ## 2026-07-24
 
+### T07-04 — Official-site symptom evidence review bundle
+
+- 계약: `symptomEvidenceReview` — 여드름·주사/홍조·아토피피부염·색소 · 매니페스트 전용 접수 · URL/제목/발췌/확인일/검수상태/만료일/거절사유 · Organic↔affiliate/sponsored 큐 분리 · 미검증 비게시 · 로그인/CAPTCHA/크롤 금지
+- Selftest/러너: `test:symptom-evidence-review` · `check:symptom-evidence-review` · 아티팩트 `artifacts/symptom-evidence-review/`
+- Docs: `docs/prelaunch/T07-04_SYMPTOM_EVIDENCE_REVIEW.md`
+- fixture dry-run 통과 · 실 공식 페이지 검수·publishable은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 검수·publishable (`external_only`)
+
 ### T07-03 — Institution detail enrichment + specialist evidence
 
 - 계약: `institutionDetailEnrichment` — 공식 기관상세 진료과목·전문의 수 · evidence strength · lastVerified · conflicting-source · retryable failure · manual-review · 피부과 근거↔증상 전문 주장 분리 · bounded concurrency · cache/checkpoint · dry-run

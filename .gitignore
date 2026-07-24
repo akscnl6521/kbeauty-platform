@@ -91,6 +91,7 @@ supabase/.temp/
 /artifacts/phase2-final-evidence/
 /artifacts/seoul-dermatology-ingestion/
 /artifacts/institution-detail-enrichment/
+/artifacts/symptom-evidence-review/
 
 # Generated recommendation analysis (local / CI artifacts)
 /data/generated/recommendation/
