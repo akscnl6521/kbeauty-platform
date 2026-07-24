@@ -1,6 +1,6 @@
 # Master Execution Queue (Autopilot)
 
-최종 갱신: 2026-07-24
+최종 갱신: 2026-07-25
 계약: `docs/autopilot/EXECUTION_CONTRACT.md`
 근거: `KBEAUTY_MASTER_EXECUTION_PROMPT.md` (수정 금지)
 브랜치: `feature/recommendation-usage-guide-display-20260720`
@@ -240,6 +240,7 @@
 | VC-38 | P3-T03 통합 갱신·예외 운영 · due/stale/retry/checkpoint/diff/admin manifest · 스케줄러 준비 명령 · 자동 게시·파괴적 갱신 금지 | `automatedRefresh` · `test:automated-refresh-ops` · `check:automated-refresh-ops` · `refresh:product-daily` · `refresh:clinic-twice-weekly` · `docs/prelaunch/P3-T03_AUTOMATED_REFRESH_OPS.md` |
 | VC-39 | P3-T04 제휴·스폰서 수익 준비 · offer/placement/disclosure/events/country/expiry/admin/privacy · Organic·전문 라우팅 독립 · 실계약 미활성화 | `revenueReadiness` · `test:revenue-readiness` · `check:revenue-readiness` · `docs/prelaunch/P3-T04_REVENUE_READINESS.md` |
 | VC-40 | P3-T05 통합 Staging import 패키지 · 제품/병원·provenance·review·duplicates·rejection·refresh·commercial·publishable gates · 사람 검수 패키지 · import 미실행 | `stagingImportPackage` · `test:staging-import-package` · `check:staging-import-package` · `docs/prelaunch/P3-T05_STAGING_IMPORT_PACKAGE.md` |
+| VC-41 | WQ-F Phase 2+ 시나리오 커버리지 시각화 · 기존 오프라인 gap 분석 재사용 · 실데이터 미발명·DB 쓰기 없음 · 관리자 읽기 전용 | `summarizeScenarioCoverage` · `scenarioCoverageReport.ts` · `/admin/catalog/scenario-coverage` · `test:scenario-coverage` · `docs/catalog/RECOMMENDATION_SCENARIO_PHASE2_SCHEMA.md` |
 | VC-14 | Stage 6 **코드 기반** 병원 어댑터·게이트·안내·리드 dry-run·admin | `test:clinic-stage6` · `/my/guidance` · `/admin/clinics` |
 | VC-15 | Preview 원격 검수 JSON 경로 | `test:unified-review-remote` |
 | VC-16 | 추천↔commerce 분리 Phase 2.5–2.6.2 | recommendation commerce selftests |
@@ -349,6 +350,7 @@ npm run test:verified-product-pool
 npm run test:automated-refresh-ops
 npm run test:revenue-readiness
 npm run test:staging-import-package
+npm run test:scenario-coverage
 ```
 
 검증: 계약/큐 존재 · 필수 헤더 · `next_task` · 분류 섹션 · 레거시 포인터 · 핵심 경로 존재 · 금지 문구(Production 미배포 등) 유지 · T06 증거 문서 · P2-T01 라우트 검증 · P2-T02 Staging 릴리스 게이트 · P2-T03 Admin review E2E · P2-T04 실데이터 온보딩 · P2-T05 Final Preview 증거 패키지 · T07-02 서울 피부과 HIRA 수집 · T07-03 기관상세 보강 · T07-04 증상 근거 검수 · T07-05 Admin dry-run·publishable 게이트 · P3-T01 공식 한국 제품 출처 온보딩 · P3-T02 검증 제품 풀·카테고리 확장 · P3-T03 통합 갱신·예외 운영 · P3-T04 제휴·스폰서 수익 준비 · P3-T05 통합 Staging import 패키지.

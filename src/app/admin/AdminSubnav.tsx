@@ -9,6 +9,11 @@ const LINKS: Array<{ href: string; label: string; key: string }> = [
   { href: "/admin/products/import", label: "제품 일괄등록", key: "product-import" },
   { href: "/admin/catalog", label: "Catalog", key: "catalog" },
   { href: "/admin/catalog/ops", label: "사용·운영", key: "catalog-ops" },
+  {
+    href: "/admin/catalog/scenario-coverage",
+    label: "시나리오 커버리지",
+    key: "scenario-coverage",
+  },
   { href: "/admin/offers", label: "Offers", key: "offers" },
   { href: "/admin/discovery", label: "Discovery", key: "discovery" },
   { href: "/admin/ingredients", label: "Ingredients", key: "ingredients" },

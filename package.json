@@ -159,6 +159,7 @@
     "catalog:wq-f-remaining": "npx --yes tsx scripts/run-wq-f-catalog-remaining.ts",
     "test:catalog-quality-status": "npx --yes tsx scripts/catalog-quality-status-selftest.ts",
     "test:recommendation-scenarios": "npx --yes tsx scripts/recommendation-scenario-selftest.ts",
+    "test:scenario-coverage": "npx --yes tsx scripts/scenario-coverage-selftest.ts",
     "test:recommendation-pilot": "npx --yes tsx scripts/recommendation-pilot-selftest.ts",
     "test:recommendation-pilot-enrichment": "npx --yes tsx scripts/recommendation-pilot-enrichment-selftest.ts",
     "test:recommendation-pilot-de-enrichment": "npx --yes tsx scripts/recommendation-pilot-de-enrichment-selftest.ts",

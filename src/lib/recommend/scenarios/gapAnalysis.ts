@@ -190,3 +190,72 @@ export function analyzeScenarioCatalogGaps(
     evidenceGaps: [...new Set(entry.evidenceGaps)],
   }));
 }
+
+export type ScenarioAreaCoverage = {
+  priorityArea: RecommendationScenario["priorityArea"];
+  scenarioCount: number;
+  readyScenarioCount: number;
+  totalMatchedProducts: number;
+  readinessRatePercent: number;
+};
+
+export type ScenarioCoverageSummary = {
+  scenarioCount: number;
+  readyScenarioCount: number;
+  readinessRatePercent: number;
+  byArea: ScenarioAreaCoverage[];
+};
+
+/**
+ * Aggregates raw gap rows into an honest coverage summary — no fabrication,
+ * no auto-fill. A scenario counts as "ready" only when a real matched product
+ * reached recommendationReadyCount > 0 (see estimateProductReadiness).
+ */
+export function summarizeScenarioCoverage(
+  gaps: readonly ScenarioCatalogGap[]
+): ScenarioCoverageSummary {
+  const byAreaMap = new Map<
+    RecommendationScenario["priorityArea"],
+    { scenarioCount: number; readyScenarioCount: number; totalMatchedProducts: number }
+  >();
+
+  for (const gap of gaps) {
+    const entry = byAreaMap.get(gap.priorityArea) ?? {
+      scenarioCount: 0,
+      readyScenarioCount: 0,
+      totalMatchedProducts: 0,
+    };
+    entry.scenarioCount += 1;
+    if (gap.recommendationReadyCount > 0) entry.readyScenarioCount += 1;
+    entry.totalMatchedProducts += gap.matchedProductIds.length;
+    byAreaMap.set(gap.priorityArea, entry);
+  }
+
+  const byArea: ScenarioAreaCoverage[] = [...byAreaMap.entries()].map(
+    ([priorityArea, v]) => ({
+      priorityArea,
+      scenarioCount: v.scenarioCount,
+      readyScenarioCount: v.readyScenarioCount,
+      totalMatchedProducts: v.totalMatchedProducts,
+      readinessRatePercent:
+        v.scenarioCount === 0
+          ? 0
+          : Math.round((v.readyScenarioCount / v.scenarioCount) * 1000) / 10,
+    })
+  );
+
+  const scenarioCount = gaps.length;
+  const readyScenarioCount = gaps.filter(
+    (g) => g.recommendationReadyCount > 0
+  ).length;
+
+  return {
+    scenarioCount,
+    readyScenarioCount,
+    readinessRatePercent:
+      scenarioCount === 0
+        ? 0
+        : Math.round((readyScenarioCount / scenarioCount) * 1000) / 10,
+    byArea,
+  };
+}

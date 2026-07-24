@@ -1,6 +1,6 @@
 # ROADMAP.md — K-Beauty Match
 
-최종 갱신: 2026-07-24
+최종 갱신: 2026-07-25
 
 현재 실제 진행 상태는 이 문서를 우선한다. 최상위 방향은 Master Plan **v4.2**를 따른다.
 
@@ -181,12 +181,13 @@ Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T
 - [x] Phase 3.0.2 — 일반 사용자 갤러리 업로드 금지 (카메라/문진만)
 - [~] Phase 3.1 — 얼굴 랜드마크 자동 정렬·자동 촬영 (**implemented · tests passed · Android blocker unresolved · deferred**) · 기본 flag OFF · 코드 보존
 - [x] 프로젝트 UI 스킬 설치 (frontend-design, ui-ux-pro-max) + kbeauty-match-design + design-system 초안 (페이지 재디자인 미실시)
+- [x] **WQ-F Phase 2+ 커버리지 시각화** (`summarizeScenarioCoverage` · `/admin/catalog/scenario-coverage` 읽기 전용 · 기존 오프라인 gap 분석 재사용 · 실데이터 미발명·DB 쓰기 없음 · `test:scenario-coverage`) — 스키마 실적용·live ingestion·pool 채움은 여전히 external_only
 - [x] **WQ-G Prelaunch gate** 문서 (`docs/prelaunch/WQ-G_PRELAUNCH_GATE.md` · 조사만 · P0×3 / P1×6)
 - [x] **WQG-P0-001** 사진 AI 분석 오인·동의 정합 (문진 기반 · 픽셀 외부 AI 미전송 · vision 미도입)
 - [~] **WQG-P0-002** Production `AI_PROVIDER` — **`RELEASE_GATE_PENDING`** (배포 직전 · 지금 미실행)
 - [x] **WQG-P1-002** CameraCapturePanel/landmark dynamic import (카메라 선택 시 로드 · SSR-safe 접근성 fallback · 회귀 테스트)
 - [ ] Phase 3.1 실기기 안정화 재개 (Android Chrome · iPhone Safari 통과 후)
-- [ ] WQ-F Phase 2+ 잔여: schema/runtime 확장 (D/E 보강 없이 · 별도 승인)
+- [ ] WQ-F Phase 2+ 잔여: `recommendation_scenarios` 등 Phase 2 스키마 실제 Staging 적용 · live multi-source ingestion · 실 pool 채움 (커버리지 시각화는 완료 · 나머지는 external_only)
 
 ### 단계 6 — 증상 기반 피부과 실제 데이터
 
