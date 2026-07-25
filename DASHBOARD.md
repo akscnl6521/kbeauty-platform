@@ -248,6 +248,17 @@ MASTER_PLAN.md 섹션 2~21(+26, 41 일부) 전체를 다시 훑어서, 지금까
 GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;
 ```
 
+## 13. 추가 지시 처리 (2026-07-25 · 사람이 migration 2건 + GRANT 적용 완료 후)
+
+- **`.env.local` 중복 키 발견·긴급 수정**: `NEXT_PUBLIC_SUPABASE_URL`/`ANON_KEY`/`SERVICE_ROLE_KEY`가 파일에 **두 번** 들어있었음 — 1~5줄은 Staging(`jfnj***gfd`), 6~9줄은 **Production**(`rhfr***mns`, 아마 과거에 `vercel env pull`을 scope 지정 없이 실행해서 덧붙여진 것으로 추정). 세션 스크립트(`_loadDotEnvLocal.ts`)는 "이미 있으면 skip"이라 첫 번째(Staging) 값을 썼지만, **Next.js(`next dev`) 자체는 마지막 값(Production)을 우선**해서 읽는다는 걸 방금 새로 띄운 로컬 dev 서버로 확인 — 즉 로컬 `npm run dev`가 실제로는 Production Supabase를 보고 있었음. 발견 즉시 dev 서버 정지 → 중복 줄 제거(Staging만 남김) → 재시작 후 재확인. **실제 피해 확인**: 문제 있던 서버로 보낸 요청은 홈페이지 GET 2건 · `/routine/purchase` GET 1건(둘 다 정적/클라이언트 렌더, DB 쓰기 없음) · `/api/track/click` POST 8건(전부 테이블 없음 에러로 실패, 쓰기 없음) — **Production에 실제 쓰기는 없었음**. `.env.local`은 gitignore 대상이라 git에는 애초에 안 올라감(로컬 파일 문제만).
+- **1단계 — HIRA 병원 후보 1,917건 실제 적재**: `dermatology_institution_candidates` 테이블·GRANT 확인 후 `scripts/load-dermatology-institution-candidates-staging.ts` 실행 → **1,917건 전부 upsert 완료**(verified 1,868 · discovered 49). `/my/clinics`가 이제 실데이터로 노출.
+- **2단계 — 클릭 추적 실기록 확인**: `.env.local` 수정 후 `/api/track/click`에 실제 POST → `commercial_click_events`에 실제 row 적재 확인(`{"ok":true,"data":{"eventId":"..."}}`, 테스트용 2건 남아있음, 무해).
+- **3단계 — `pipeline_batches` GRANT 확인 + 정식 워커 재시도**: `pipeline_batches` INSERT는 이제 됨(사람이 적용한 GRANT 확인). 하지만 `node scripts/run-pipeline-worker.mjs` 재실행 시 **새로운 차단 발견**: `pipeline_jobs` 테이블에도 동일하게 `service_role` 권한이 없음(`permission denied for table pipeline_jobs`). 이 테이블까지 GRANT돼야 정식 워커(`runPipelineWorkerFromConfig`)가 끝까지 돎. 필요한 SQL(Staging `jfnj***gfd`에서):
+  ```sql
+  GRANT SELECT, INSERT, UPDATE ON public.pipeline_jobs TO service_role;
+  ```
+- **4단계 — ingredients 사전 확충**: 백그라운드 작업 진행 중, 결과는 다음 세션 갱신에서 확인.
+
 ## 5. 다음 작업
 
 **이번 세션(오토파일럿)은 여기서 코드로 더 진행 불가 — 아래 4가지가 전부 "Dashboard 접근 권한"이나 "사람의 우선순위 결정"이 필요한 지점이라 막힘. 코드/에이전트 작업은 준비 완료 상태.**
