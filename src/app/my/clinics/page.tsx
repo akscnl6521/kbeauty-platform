@@ -103,8 +103,13 @@ export default function MyClinicsPage() {
       {sponsored.length > 0 ? (
         <section className="mt-6 space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-            제휴(Sponsored) — Organic과 분리 표시
+            제휴 병원
           </h2>
+          <p className="text-xs text-gray-500">
+            제휴 병원 · 상담 연결 시 병원이 운영사에 수수료를 지급할 수
+            있습니다. 적합도 순위에는 영향을 주지 않으며, 일반 추천과 항상
+            분리해서 표시합니다.
+          </p>
           {sponsored.map((clinic) => (
             <div
               key={clinic.name}

@@ -14,7 +14,7 @@ const MOCK_REPORT = {
     "저녁: 클렌저 → 진정 토너 → 세럼 → 보습 크림",
   ],
   allergyIngredients: ["향료(Fragrance)"],
-  redFlags: ["최근 2주 내 급격한 악화 없음"],
+  redFlags: ["사용자 응답 기준 최근 2주 내 급격한 악화 보고 없음"],
   photosAttached: 0,
 };
 
