@@ -17,6 +17,9 @@
 | 2026-07-25 | docs | 6단계 지리 목록 범위 확정 + 신규 브랜드 5개 시도 기록 | d1c78b5, 73b9c85 |
 | 2026-07-25 | db-data | 실 오퍼 25건 verified + GRANT 요청(products/pipeline_batches UPDATE) | 70a4fca |
 | 2026-07-25 | db-data | draft product 7건 실활성화(20→27) + 정식 워커 end-to-end 성공 | 971b86e |
+| 2026-07-26T00:38:04Z | code | **배포 전 백업** — main 병합 직전 git 태그 2건 생성+push: `pre-deploy-backup-main-20260726-003804`(origin/main HEAD), `pre-deploy-backup-branch-20260726-003804`(배포 대상 브랜치 HEAD) | 태그, 커밋 아님 |
+| 2026-07-26T00:38:28Z | db-snapshot | 배포 전 Staging 최종 스냅샷 — products=72(active 27), candidates=1345, ingredients=1996, offers=94, verification_queue=163, dermatology=1917, click_events=2 | data/backups/staging-snapshots/snapshot-2026-07-25T15-38-28-517Z.json |
+| 2026-07-26 | db-backup | **Production DB 백업은 Supabase Dashboard/PITR 영역 — 이 세션 툴로 직접 접근 불가**(Production DB를 직접 건드리지 않기로 한 지시와 일치). 사람이 Supabase Dashboard → Database → Backups에서 배포 직전 수동 스냅샷/PITR 활성화 여부 확인 필요. 아래 최종 보고에 명시. | 확인 필요 |
 
 ## 규칙
 - 코드/문서/SQL/스크립트 변경: 작업 단위마다 git commit + push
