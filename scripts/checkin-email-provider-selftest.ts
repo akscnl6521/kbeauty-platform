@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 import { createDisabledEmailProvider } from "../src/lib/email/provider/disabledProvider";
+
+loadDotEnvLocal();
 import {
   createDryRunEmailProvider,
   DryRunIdempotencyRegistry,

@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 import { logPreviewTestEmailSend } from "../src/lib/admin/checkinEmailTestAuditLog";
+
+loadDotEnvLocal();
 import { maskFromAddressForDisplay } from "../src/lib/admin/maskEmailFromAddress";
 import {
   buildPreviewTestIdempotencyKey,

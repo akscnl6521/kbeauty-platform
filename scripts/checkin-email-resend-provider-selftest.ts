@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 import {
   isProductionEmailEnvironment,
   resolveEmailRuntimeEnvironment,
 } from "../src/lib/email/provider/emailEnvironment";
+
+loadDotEnvLocal();
 import { validateEmailFromAddress } from "../src/lib/email/provider/emailFromAddress";
 import {
   evaluateEmailLiveProviderGate,
