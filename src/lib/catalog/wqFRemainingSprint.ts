@@ -9,7 +9,10 @@ import {
   type CatalogExceptionInput,
   type CatalogExceptionQueueItem,
 } from "@/lib/catalog/automation/exceptionQueue";
-import type { KrBrandSeedEntry } from "@/lib/catalog/bulkKr/brandRegistry";
+import {
+  KR_BRAND_SEED_REGISTRY,
+  type KrBrandSeedEntry,
+} from "@/lib/catalog/bulkKr/brandRegistry";
 import {
   discoverOfficialProductUrls,
   extractOfficialProductFromUrl,
@@ -315,7 +318,12 @@ export async function runWqfCatalogRemainingSprint(
   let brands: KrBrandSeedEntry[] = selectPopularKrBrands(maxBrands);
   if (options.brandIds?.length) {
     const want = new Set(options.brandIds);
-    brands = selectPopularKrBrands(20).filter((b) => want.has(b.brandId)).slice(0, maxBrands);
+    // Search the full registry, not just the top-N popular slice, so an
+    // explicitly requested brandId is never silently dropped.
+    brands = KR_BRAND_SEED_REGISTRY.filter((b) => want.has(b.brandId)).slice(
+      0,
+      maxBrands
+    );
   }
 
   const brandResults: WqfBrandResult[] = [];

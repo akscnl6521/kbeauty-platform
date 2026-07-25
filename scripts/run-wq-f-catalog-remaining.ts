@@ -39,6 +39,16 @@ function envInt(name: string, fallback: number): number {
   return Number.isFinite(n) && n > 0 ? Math.floor(n) : fallback;
 }
 
+function envBrandIds(name: string): string[] | undefined {
+  const raw = (process.env[name] ?? "").trim();
+  if (!raw) return undefined;
+  const ids = raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return ids.length ? ids : undefined;
+}
+
 function assertStagingLinked(): string {
   const refPath = path.join(root, "supabase", ".temp", "project-ref");
   if (!existsSync(refPath)) throw new Error("missing supabase/.temp/project-ref");
@@ -309,16 +319,22 @@ async function main() {
   const commit = envFlag("WQF_COMMIT_STAGING", false);
   const maxBrands = envInt("WQF_MAX_BRANDS", 5);
   const maxProductsPerBrand = envInt("WQF_MAX_PRODUCTS_PER_BRAND", 10);
+  const brandIds = envBrandIds("WQF_BRAND_IDS");
 
   mkdirSync(outDir, { recursive: true });
 
-  console.log(`[wq-f] linked=${linked} dryRun=${!commit} brands=${maxBrands} perBrand=${maxProductsPerBrand}`);
+  console.log(
+    `[wq-f] linked=${linked} dryRun=${!commit} brands=${maxBrands} perBrand=${maxProductsPerBrand}${
+      brandIds ? ` brandIds=${brandIds.join(",")}` : ""
+    }`
+  );
 
   const existingUrls = loadExistingUrls();
   const sprint = await runWqfCatalogRemainingSprint({
     maxBrands,
     maxProductsPerBrand,
     existingUrls,
+    brandIds,
   });
 
   const dryRunReport = {
