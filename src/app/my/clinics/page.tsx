@@ -4,6 +4,8 @@ import Link from "next/link";
 import { MyCareNav } from "../MyCareNav";
 import { SampleDataBadge } from "@/components/scaffold/SampleDataBadge";
 import { SafetyFilterStub } from "@/components/scaffold/SafetyFilterStub";
+import { CommercialBadge } from "@/components/scaffold/CommercialBadge";
+import { trackScaffoldClick } from "@/lib/scaffold/clickTrackingStub";
 
 type MockClinic = {
   name: string;
@@ -12,6 +14,7 @@ type MockClinic = {
   distanceKm: number;
   languages: string[];
   sponsored: boolean;
+  lastVerifiedAt: string;
 };
 
 const MOCK_CLINICS: MockClinic[] = [
@@ -22,6 +25,7 @@ const MOCK_CLINICS: MockClinic[] = [
     distanceKm: 1.2,
     languages: ["한국어", "영어"],
     sponsored: false,
+    lastVerifiedAt: "2026-07-20",
   },
   {
     name: "샘플 한빛피부과",
@@ -30,6 +34,7 @@ const MOCK_CLINICS: MockClinic[] = [
     distanceKm: 2.4,
     languages: ["한국어"],
     sponsored: false,
+    lastVerifiedAt: "2026-07-18",
   },
   {
     name: "샘플 더마클리닉",
@@ -38,6 +43,7 @@ const MOCK_CLINICS: MockClinic[] = [
     distanceKm: 3.1,
     languages: ["한국어", "일본어"],
     sponsored: true,
+    lastVerifiedAt: "2026-07-15",
   },
   {
     name: "샘플 청담스킨의원",
@@ -46,6 +52,7 @@ const MOCK_CLINICS: MockClinic[] = [
     distanceKm: 1.8,
     languages: ["한국어", "영어"],
     sponsored: false,
+    lastVerifiedAt: "2026-07-21",
   },
 ];
 
@@ -86,6 +93,9 @@ export default function MyClinicsPage() {
             <p className="mt-1 text-xs text-blue-800">
               진료 언어: {clinic.languages.join(", ")}
             </p>
+            <p className="mt-1 text-xs text-blue-700">
+              정보 확인일: {clinic.lastVerifiedAt}
+            </p>
           </div>
         ))}
       </section>
@@ -102,15 +112,16 @@ export default function MyClinicsPage() {
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-semibold text-violet-950">{clinic.name}</h3>
-                <span className="rounded-full bg-violet-200 px-2 py-0.5 text-[10px] font-semibold text-violet-900">
-                  제휴
-                </span>
+                <CommercialBadge kind="affiliate" show={clinic.sponsored} />
               </div>
               <p className="mt-1 text-sm text-violet-900">
                 {clinic.specialty} · {clinic.district} · {clinic.distanceKm}km
               </p>
               <p className="mt-1 text-xs text-violet-800">
                 진료 언어: {clinic.languages.join(", ")}
+              </p>
+              <p className="mt-1 text-xs text-violet-700">
+                정보 확인일: {clinic.lastVerifiedAt}
               </p>
             </div>
           ))}
@@ -126,6 +137,13 @@ export default function MyClinicsPage() {
         </Link>
         <Link
           href="/my/consultation-report"
+          onClick={() =>
+            trackScaffoldClick({
+              screen: "/my/clinics",
+              itemId: "consultation-report-cta",
+              kind: "clinic_referral",
+            })
+          }
           className="inline-flex rounded-lg bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
         >
           상담 리포트 준비 →

@@ -15,6 +15,8 @@ type Form = {
   sensitivity: string;
   concerns: string;
   consent: boolean;
+  notificationConsent: boolean;
+  consultationInfoConsent: boolean;
 };
 
 const titles = [
@@ -49,6 +51,8 @@ function emptyForm(): Form {
     sensitivity: "",
     concerns: "",
     consent: false,
+    notificationConsent: false,
+    consultationInfoConsent: false,
   };
 }
 
@@ -267,6 +271,37 @@ export default function OnboardingPage() {
             <Link href="/privacy" className="underline">
               개인정보처리방침
             </Link>
+          </span>
+        </label>
+        <label className="flex gap-3">
+          <input
+            type="checkbox"
+            checked={form.notificationConsent}
+            onChange={(e) => patch("notificationConsent", e.target.checked)}
+            className="mt-1"
+          />
+          <span>
+            체크인·루틴 알림을 받는 데 동의합니다.{" "}
+            <span className="text-xs text-gray-500">
+              (자리만 — 실제 알림 발송 미연결)
+            </span>
+          </span>
+        </label>
+        <label className="flex gap-3">
+          <input
+            type="checkbox"
+            checked={form.consultationInfoConsent}
+            onChange={(e) =>
+              patch("consultationInfoConsent", e.target.checked)
+            }
+            className="mt-1"
+          />
+          <span>
+            피부과 상담 시 내 케어 정보(고민·루틴 요약)를 전달하는 데
+            동의합니다.{" "}
+            <span className="text-xs text-gray-500">
+              (자리만 — 실제 전달 채널 미연결)
+            </span>
           </span>
         </label>
       </div>

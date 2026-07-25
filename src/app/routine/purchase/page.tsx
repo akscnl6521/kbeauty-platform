@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { SampleDataBadge } from "@/components/scaffold/SampleDataBadge";
+import { CommercialBadge } from "@/components/scaffold/CommercialBadge";
+import { UsageVideoModal } from "@/components/scaffold/UsageVideoModal";
+import { trackScaffoldClick } from "@/lib/scaffold/clickTrackingStub";
 
 type MockOffer = {
   productName: string;
@@ -9,6 +12,9 @@ type MockOffer = {
   retailer: string;
   price: string;
   url: string;
+  lastCheckedAt: string;
+  /** Structure-only — no real ad/affiliate contract active, always off for now. */
+  isSponsored: boolean;
 };
 
 const MOCK_OFFERS: MockOffer[] = [
@@ -18,6 +24,8 @@ const MOCK_OFFERS: MockOffer[] = [
     retailer: "공식몰 (예시)",
     price: "₩18,000",
     url: "#",
+    lastCheckedAt: "2026-07-24",
+    isSponsored: false,
   },
   {
     productName: "판테놀 수분 크림",
@@ -25,6 +33,8 @@ const MOCK_OFFERS: MockOffer[] = [
     retailer: "올리브영 (예시)",
     price: "₩22,000",
     url: "#",
+    lastCheckedAt: "2026-07-23",
+    isSponsored: false,
   },
   {
     productName: "무기자차 선크림 SPF50+",
@@ -32,6 +42,8 @@ const MOCK_OFFERS: MockOffer[] = [
     retailer: "공식몰 (예시)",
     price: "₩15,000",
     url: "#",
+    lastCheckedAt: "2026-07-22",
+    isSponsored: false,
   },
 ];
 
@@ -52,21 +64,37 @@ export default function RoutinePurchasePage() {
             key={offer.productName}
             className="rounded-2xl border border-[#E8DFD8] bg-white p-4"
           >
-            <p className="text-xs font-semibold uppercase tracking-wide text-[#C2185B]">
-              {offer.brand}
-            </p>
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-semibold uppercase tracking-wide text-[#C2185B]">
+                {offer.brand}
+              </p>
+              <CommercialBadge kind="affiliate" show={offer.isSponsored} />
+            </div>
             <h2 className="mt-1 font-semibold">{offer.productName}</h2>
-            <div className="mt-3 flex items-center justify-between">
+            <p className="mt-1 text-xs text-gray-500">
+              마지막 확인일: {offer.lastCheckedAt}
+            </p>
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
               <p className="text-sm text-gray-700">
                 {offer.retailer} · {offer.price}
               </p>
-              <a
-                href={offer.url}
-                className="rounded-lg bg-[#C2185B] px-3 py-1.5 text-xs font-semibold text-white"
-                onClick={(e) => e.preventDefault()}
-              >
-                구매처 보기 (샘플)
-              </a>
+              <div className="flex items-center gap-2">
+                <UsageVideoModal productName={offer.productName} />
+                <a
+                  href={offer.url}
+                  className="rounded-lg bg-[#C2185B] px-3 py-1.5 text-xs font-semibold text-white"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    trackScaffoldClick({
+                      screen: "/routine/purchase",
+                      itemId: offer.productName,
+                      kind: "purchase_link",
+                    });
+                  }}
+                >
+                  구매처 보기 (샘플)
+                </a>
+              </div>
             </div>
           </div>
         ))}
