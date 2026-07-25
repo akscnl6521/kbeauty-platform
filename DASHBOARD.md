@@ -286,6 +286,18 @@ GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;
 - **활성화 결과: 여전히 0/40** — 하지만 원인이 바뀜. 사전 문제는 실제로 해결됐고(제품당 매칭 수 크게 증가), 지금 남은 차단 사유는 33/40건이 `verified_offer_missing`(실 검증된 판매 오퍼 없음) + 전부 `quality_grade_C`(등급 A/B 필요, `product-verify-gate.ts`는 안 건드림). 즉 **다음 진짜 병목은 ingredients 사전이 아니라 오퍼(가격/재고) 검증** — 이건 §12에서 이미 확인된 것과 같은 종류의 실 데이터 공백(재크롤 시 오퍼까지 검증된 건 68개 중 3개뿐이었음).
 - 회귀: `tsc`·`eslint`(변경 파일)·`extract-labeled-ingredients-selftest`·`selftest-full-ingredients` 전부 통과.
 
+## 16. 오퍼 재수집 시도 — 새 권한 차단 발견 (2026-07-25 · 사용자 지시대로 대기)
+
+40개 draft product에 실제 공식 브랜드몰에서 가격·재고를 재수집(`scripts/collect-offers-for-draft-products.ts`, 기존 `discoverAndPersistOffers`/`extractOffersFromHtml`/`verifyAndActivateProduct` 그대로 재사용, robots.txt 확인 포함) 시도.
+
+- **원인 정확히 특정 완료** (디버그 로그로 단계별 추적 후 코드 원복 — `git diff` 확인, 실제 코드 변경 없음): Sulwhasoo 제품(id 45)에서 실제 JSON-LD로 가격 52,000원까지 정상 추출됐지만, 기존에 이미 존재하던 offer 행(unverified)을 최신 정보로 갱신하려는 UPDATE가 `permission denied for table product_offers`로 실패. **`product_offers` 테이블에 `service_role` UPDATE 권한이 없음**(INSERT는 확인됨, DELETE는 기존 관례대로 여전히 없음) — 이번 세션에서 반복된 "최소 권한" 패턴과 동일.
+- 이 UPDATE 실패가 **조용히 삼켜지는(silent swallow) 기존 코드의 작은 버그**도 발견: `discoverAndPersistOffers`가 UPDATE 에러를 `result.reasons`에 기록하지 않고 그냥 다음으로 넘어감 — 원인 파악이 어려웠던 이유. 이번 세션에서는 로직을 고치지 않음(사용자 지시가 "우회 금지, GRANT 요청 후 대기"였으므로 코드 수정 없이 원인만 특정).
+- **필요한 조치(사람)**: Staging(`jfnj***gfd`) SQL Editor에서 아래 실행. 파일: `supabase/migrations/20260725160000_grant_service_role_update_product_offers.sql`
+  ```sql
+  GRANT UPDATE ON TABLE public.product_offers TO service_role;
+  ```
+- **지시대로 이 작업만 대기, 세션 전체는 멈추지 않고 §13(병원 랭킹 데이터 갭)으로 이동.**
+
 ## 5. 다음 작업
 
 **이번 세션(오토파일럿)은 여기서 코드로 더 진행 불가 — 아래 4가지가 전부 "Dashboard 접근 권한"이나 "사람의 우선순위 결정"이 필요한 지점이라 막힘. 코드/에이전트 작업은 준비 완료 상태.**
