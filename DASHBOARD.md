@@ -46,15 +46,24 @@
 
 ## 4. 사람 판단 필요
 
-- **Staging Supabase Auth Admin API 키 형식 비호환** — `SUPABASE_SERVICE_ROLE_KEY`가 신형 `sb_secret_...` 포맷이라 GoTrue Admin API(`auth.admin.createUser`/`listUsers`)가 전부 `unrecognized JWT kid` 오류로 거부됨 (일반 테이블 조회 PostgREST 호출은 정상 동작). 이 때문에 로그인 게이트 화면(`/my/check-ins`, `/my/clinics`, `/my/consultation-report`) 3곳을 테스트 계정으로 자동 로그인해 렌더링 검증하는 작업이 **아직 실행되지 못했음** (화면 자체의 결함이 아니라 테스트 계정 생성이 막힌 것). 해결 경로 중 하나 필요:
-  1. Supabase Dashboard에서 레거시 JWT 포맷 `service_role` 키 재발급, 또는
-  2. Staging Auth에서 이메일 자동 확인(auto-confirm) 활성화, 또는
-  3. 실제 로그인 가능한 테스트 계정(이메일/비밀번호) 제공.
+- **Staging Auth 이메일 자동 확인(auto-confirm) 활성화는 CLI/API로 불가 — Dashboard 클릭 또는 access token 필요.** 직접 시도해서 확인한 사실:
+  - `supabase/config.toml`에 `enable_confirmations = false`가 있지만, 이건 **로컬 개발용 설정**(`supabase start`)일 뿐 원격 Staging 프로젝트의 실제 GoTrue 설정과 무관 — push된 적 없음.
+  - Supabase CLI가 이 프로젝트에 **로그인되어 있지 않음** (`supabase projects list` → `LegacyPlatformAuthRequiredError: Access token not provided`). `supabase login`은 사람의 실제 Supabase 계정 인증(브라우저 OAuth)이 필요해서 제가 대신 할 수 없음.
+  - `SUPABASE_SERVICE_ROLE_KEY`(신형 `sb_secret_...` 포맷)로는 GoTrue Admin API(`auth.admin.createUser`/`listUsers`) 자체가 `unrecognized JWT kid` 오류로 거부됨 — 일반 PostgREST 테이블 조회는 정상 동작하지만 Auth 설정 변경/사용자 생성 전부 막힘.
+  - **관리자 로그인도 동일 메커니즘**(`supabase.auth.getUser()` 기반)이라 admin 테스트 계정도 같은 이유로 자동 생성 불가.
+  - 해결 경로 (사람 필요, 셋 중 하나):
+    1. Supabase Dashboard → Staging 프로젝트(`jfnjufmldiqlgvgyugfd`, Production `rhfrmvkjsummaylpzmns` 아님 확인 후) → Authentication → Providers → Email → "Confirm email" 끄기 (2분), 또는
+    2. `SUPABASE_ACCESS_TOKEN`(Management API personal access token) 제공, 또는
+    3. 실제 로그인 가능한 테스트 계정(고객용 1개 + 필요시 관리자용 1개) 이메일/비밀번호 제공.
   - 참고: `tsc`/`eslint`/`npm run build`/`test:journey`/`test:smoke`는 전부 통과했고, 로그인 불필요 구간(온보딩·구매처·저장)은 브라우저로 직접 확인함.
+
+## 4-1. 확인 완료 (더 이상 사람 판단 불필요)
+
+- **검수 대기 234건용 관리자 화면은 이미 있음** — `/admin/discovery` (목록·검색·workflow status/국가/출처/연결/담당 필터·정렬·페이지네이션) + `/admin/discovery/[id]` (상세) + `DiscoveryWritePanel`(PATCH로 duplicate/sale/ingredients/evidence/safety/publish 검토 큐 생성, role 기반 `canPublish` 등 실제 쓰기 액션 포함). 코드 읽기로 확인함 — 실제 브라우저 클릭 검증은 위와 같은 이유로 로그인이 막혀 아직 못 함. **새 화면을 만들 필요는 없음.**
 
 ## 5. 다음 작업
 
-HIRA 서울 피부과 실 수집 이어서 진행 (현재 932/4,968건 · 로컬 파일만 · API 쿼터 고려해 페이지 단위로 확장). WQ-F 잔여 브랜드는 전부 빠른 수정 범위를 넘어서 (Akamai 차단·JS 렌더링 필요·구조 상이) 별도 작업으로 보류.
+HIRA 서울 피부과 실 수집 이어서 진행 (현재 932/4,968건 · 로컬 파일만 · API 쿼터 고려해 페이지 단위로 확장). 로그인 게이트 검증과 WQ-F 잔여 브랜드는 위 사람 판단 항목 해결 전까지 보류.
 
 ---
 
