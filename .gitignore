@@ -98,6 +98,7 @@ supabase/.temp/
 /artifacts/automated-refresh-ops/
 /artifacts/revenue-readiness/
 /artifacts/scaffold-journey-e2e/
+/artifacts/discovery-review-classification/
 /artifacts/staging-import-package/
 
 # Generated recommendation analysis (local / CI artifacts)
