@@ -77,13 +77,31 @@
   - 남은 부작용: throwaway 고객 테스트 계정들의 auth.users row가 Staging에 누적됨(Admin API로 삭제 불가 — 무해한 테스트 데이터, Production 아님). 고정 admin 계정(`e2e-admin-reviewer@...`)은 앞으로 재사용 가능.
 - **검수 대기 234건용 관리자 화면은 이미 있고 실제로 작동함** — `/admin/discovery` (목록·검색·workflow status/국가/출처/연결/담당 필터·정렬·페이지네이션) + `/admin/discovery/[id]` (상세) + `DiscoveryWritePanel`(PATCH로 duplicate/sale/ingredients/evidence/safety/publish 검토 큐 생성, role 기반 `canPublish` 등 실제 쓰기 액션 포함). **새 화면을 만들 필요는 없음.**
 
+## 6. 마스터플랜 전수 점검 (2026-07-25 · 조사만, 코드 변경 없음)
+
+MASTER_PLAN.md 섹션 2~21(+26, 41 일부) 전체를 다시 훑어서, 지금까지 스캐폴드한 11개 화면·6개 하위 기능 외에 마스터플랜에 언급된 항목들의 실제 존재 여부만 확인. 품질 평가·구현 방법 제안 없음.
+
+| 마스터플랜 항목 | 섹션 번호 | 현재 상태 | 비고 |
+|---|---|---|---|
+| 화장품 관리 가능/불가능 범위 설명 화면 | 14 | 완료 | `src/app/results/page.tsx`에 "화장품으로 관리 가능한 범위"·"화장품의 한계" 블록 존재 |
+| 알레르기·회피 성분 입력 화면(온보딩과 별개) | 15.1 | 완료 | `src/app/my/profile/page.tsx`에 알레르기·회피 성분 전용 텍스트 입력 필드 존재 |
+| 현재 제품 중복·충돌·과도한 단계 점검 로직 | 16 | 완료 | `src/lib/care/conflicts.ts`, `src/lib/care/routine-suggestions.ts` 존재 · `/my/routine`에 표시 |
+| 추천하지 않는 제품과 이유 표시(제품 단위) | 15.4 | 부분 | `/results`에 일반 텍스트 불릿만 · `filterCandidatesBySafety.ts`는 건수만 반환, 어떤 제품이 왜 제외됐는지는 UI 미노출 |
+| 루틴 유지/조정/중단 화면 | 20 | 완료 | `/my/check-ins/[id]`의 `RoutineAdjustmentPanel`(onKeepCurrent/onApply/onUndo) — 단, 체크인 화면 안에 있고 독립 상시 화면은 아님 |
+| 재방문 개인 대시보드 | 19 | 완료 | `src/app/my/page.tsx` 존재 |
+| 관리자 수익 대시보드 | 41 | 부분 | `/admin/commerce`에 클릭/리드/전환 카운트만 · 정산·고지 로그·금액 집계 없음 |
+| AI 피부 코치 | 21 | 없음 | coach 관련 화면·코드 전체 미발견 (패치 기록, 소진 예상, 계절 조정, 재구매 비교 전부 부재) |
+| 전신 부위별 분석 화면(손·팔·다리·겨드랑이·등 등) | 11 | 없음 | quiz는 `base`(얼굴)/`hair`/`lip`/`mascara`만 존재, 전신 부위 화면 없음 |
+| 점진적 프로필 완성도 표시 | 19 | 없음 | `completionPercent` 등 관련 코드 미발견 |
+| 제품 소진 예상 표시 | 19 | 없음 | 소진일·잔여량 관련 필드 없음 |
+| 관리자 번역 관리 화면 | 26 | 없음 | 번역은 `src/locales/{ko,en,ja}.json` 정적 파일뿐, 검수 상태·이력 admin 화면 없음 |
+| 스킨케어·메이크업 추천 분리 | 13 | 완료 | `quiz/base`(스킨케어) vs `quiz/lip`·`quiz/mascara`(메이크업) 분리 |
+| 제품 버전 관리 | 17 | 완료 | `src/lib/catalog/variants/variantModel.ts` 존재 |
+| 판매처 신뢰 등급 | 18 | 완료 | `src/lib/pipeline/offers/offer-source-class.ts` 존재 |
+
 ## 5. 다음 작업
 
-화면 연결(11개) + 하위 기능 스캐폴드(6개) 모두 완료. 다음 후보 두 가지 중 하나:
-1. HIRA 수집 이어서 진행 (현재 1,917/4,967건 · `--resume-checkpoint`로 재사용 가능 · API 쿼터 보수적 관리)
-2. 스캐폴드로 안 채운 나머지 마스터플랜 섹션이 더 있는지 재점검 (이번엔 사용자가 지정한 4곳만 처리함 — 전수 조사는 아직 안 함)
-
-검수(discovery review) 작업은 사용자 지시로 보류 — 다음에 별도로 다룸.
+전수 점검 완료, 이번엔 코드 변경 없음. 위 표에서 "없음"/"부분" 항목 중 사람이 우선순위를 정해서 다음 지시할 것.
 
 ---
 
