@@ -81,7 +81,7 @@
 - [x] **T07-05** Admin dry-run · publishable 게이트 (전체 dry-run · 비공개 강제 · JSON/CSV 감사 · `test:admin-dry-run-publishable-gate`)
 - [x] **P3-T03** 피부과·제품 통합 재검증 주기 인터페이스 (아티팩트·스케줄러 준비 · 실운영 스케줄러 제외 · `test:automated-refresh-ops`)
 - [x] **P3-T05** 제품·병원 통합 Staging import 검수 패키지 (사람 승인 전 import 미실행 · `test:staging-import-package`)
-- [ ] 실 HIRA live 수집 → 관리자 검수 → publishable (external_only · fixture 게시 금지)
+- [~] 실 HIRA live 수집 → 관리자 검수 → publishable — **2026-07-25 실 라이브 수집 1회 실행** (`DATA_GO_KR_SERVICE_KEY` 실키 확인 · 서울 sidoCd=110000 + 피부과 dgsbjtCd=14 · 10페이지·1,000건 조회 · 실제 서울 피부과 932건 확보 · 로컬 `artifacts/seoul-dermatology-ingestion/`에만 기록 · DB/Staging/Production 미접촉 · 게시 미실행). 전체 모수 약 4,968건 중 일부만 수집 — 공공데이터 API 사용량 보수적으로 이번엔 여기서 중단. 나머지 페이지 수집·관리자 검수→publishable 전환은 여전히 `external_only`
 
 ### 통합 운영 안전
 
