@@ -298,14 +298,26 @@ GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;
   ```
 - **지시대로 이 작업만 대기, 세션 전체는 멈추지 않고 §13(병원 랭킹 데이터 갭)으로 이동.**
 
-## 5. 다음 작업
+## 17. 6단계 범위 확정 — 지리 기반 목록으로 결정 (2026-07-25 · 사람 결정)
 
-**이번 세션(오토파일럿)은 여기서 코드로 더 진행 불가 — 아래 4가지가 전부 "Dashboard 접근 권한"이나 "사람의 우선순위 결정"이 필요한 지점이라 막힘. 코드/에이전트 작업은 준비 완료 상태.**
+§13에서 발견된 실데이터 공백(HIRA 공개 데이터에는 evidence/증상태그/운영시간/언어 정보가 없음)에 대해 사람에게 3가지 선택지를 제시한 결과: **"지리 기반 목록으로 범위 축소"**를 선택.
 
-1. **차단 최우선 (공통)**: 섹션 10(`commercial_click_events`)·섹션 11(`dermatology_institution_candidates`) 두 migration 모두 같은 이유(IPv6 전용 direct DB host + access token 없음)로 CLI 적용 불가 — Supabase Dashboard SQL Editor에서 Staging(`jfnj***gfd`)에 사람이 직접 적용 필요. 적용 후 섹션 11은 `npx tsx scripts/load-dermatology-institution-candidates-staging.ts` 한 번 더 실행해서 1,917건 적재.
-2. **섹션 12 관련**: `ingredients` 사전 테이블을 실제로 보강하지 않으면 이번에 만든 draft product 40건(및 향후 재시도분)은 계속 활성화 게이트에서 막힘 — 사전 보강이 선행 과제. 그리고 위 `GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;`를 Dashboard에서 실행하면 정식 스케줄러 워커 경로가 열림.
-3. **로드맵 8단계(실제 갱신 스케줄러)**: 필요한 코드·PowerShell 설치 스크립트(`scripts/install-pipeline-task.ps1`, `scripts/run-pipeline.ps1`, `docs/83-windows-task-scheduler-operation.md`)는 이미 과거 세션에서 전부 준비돼 있음 — 이번 세션에서 `scripts/check-pipeline-task.ps1`로 확인한 결과 **아직 미설치**(`MISSING: KBeautyMatch-Pipeline`). `install-pipeline-task.ps1` 파일 자체에 "OPTIONAL one-time register. Agents must not auto-run."라고 명시돼 있어 이번 세션에서 실행하지 않음 — 설치하려면 사람이 직접 `.\scripts\install-pipeline-task.ps1` 실행 필요(6시간마다 Windows Task Scheduler로 워커 실행, 위 §1의 `pipeline_batches` GRANT가 먼저 적용돼야 실제로 데이터를 만들기 시작함).
-4. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 중 사람이 우선순위를 정해서 다음 지시할 것. 그 외 알려진 이슈 없음.
+- **결론**: §11에서 이미 구현·커밋된 `/my/clinics` 실데이터 조회(`dermatology_institution_candidates`에서 `workflow_status IN ('verified','published')` 조회, `sggu_name` 정렬, 병원명·주소·전화·표시과목 노출)가 **이번 세션의 6단계 완료 기준**으로 확정됨. 추가 코드 변경 불필요 — 이미 실데이터로 작동 중.
+- `src/lib/clinic/clinicReferralService.ts`의 증상 기반 적합도 랭킹 시스템(evidence/symptomTags 요구)은 **의도적으로 이번 세션 범위 밖** — 실데이터가 없어서가 아니라 사람이 명시적으로 다음 세션 이후 과제로 미룸. 코드는 그대로 두고 fixture 미리보기 용도로 유지.
+- 6단계는 이 결정으로 **완료 처리**(로드맵 "작동하는 수준" 기준 충족: 실 병원 후보 1,917건 등록 + 지리 기반 실데이터 노출).
+
+## 5. 다음 작업 (2026-07-25 최종 갱신)
+
+**해결된 것들** (더 이상 차단 아님): `commercial_click_events`/`dermatology_institution_candidates` migration 2건 적용 완료, HIRA 1,917건 적재 완료, 클릭 추적 실기록 확인 완료, `pipeline_batches` GRANT 적용 완료, ingredients 사전 중복 정리 + 재매칭 완료, 6단계 범위는 지리 기반 목록으로 확정·완료.
+
+**남은 차단(전부 사람의 Dashboard 실행 1줄 필요, 코드는 준비 완료)**:
+
+1. `GRANT UPDATE ON TABLE public.product_offers TO service_role;` (§16) — 적용되면 draft product 40건의 실 오퍼 재수집·활성화를 이어서 진행.
+2. `GRANT SELECT, INSERT, UPDATE ON public.pipeline_jobs TO service_role;` (§13 이전 섹션) — 적용되면 정식 스케줄러 워커(`node scripts/run-pipeline-worker.mjs`) 경로가 완전히 열림(8단계).
+3. **8단계 실 스케줄러 설치**: 코드는 전부 준비됨(`scripts/install-pipeline-task.ps1`), 파일 자체가 "에이전트 자동 실행 금지"를 명시해 이번 세션에서 실행 안 함 — 위 pipeline_jobs GRANT 적용 후 사람이 직접 `.\scripts\install-pipeline-task.ps1` 실행.
+4. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) — 9단계 이후 우선순위 결정 대기.
+
+**다음 세션이 이어갈 지점**: 위 GRANT 2건이 적용됐다면 바로 draft product 40건 오퍼 재수집(`node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/collect-offers-for-draft-products.ts`)부터 재개.
 
 ---
 
