@@ -306,6 +306,13 @@ GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;
 - `src/lib/clinic/clinicReferralService.ts`의 증상 기반 적합도 랭킹 시스템(evidence/symptomTags 요구)은 **의도적으로 이번 세션 범위 밖** — 실데이터가 없어서가 아니라 사람이 명시적으로 다음 세션 이후 과제로 미룸. 코드는 그대로 두고 fixture 미리보기 용도로 유지.
 - 6단계는 이 결정으로 **완료 처리**(로드맵 "작동하는 수준" 기준 충족: 실 병원 후보 1,917건 등록 + 지리 기반 실데이터 노출).
 
+## 18. 신규 브랜드 5개 추가 크롤 시도 (2026-07-25 · 결과: 사실상 실패)
+
+GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of-joseon, isntree, torriden, axis-y, purito) dry-run 크롤(`WQF_BRAND_IDS`, Staging 미기록 dry-run만).
+
+- **결과**: 42개 시도 중 **staging_ready 0건**(0%), 리뷰/차단 42건(100%). 원인 40/95건이 `CAPTCHA`(주로 axis-y — Shopify 계열 봇 차단), 나머지는 `PRODUCT_NAME_MISSING`/`HTTP_404`/`weak_product_title`(구조가 다른 소규모 쇼핑몰 시스템, 이 파이프라인이 못 읽음).
+- **판단**: 이전 세션에서 확보한 8개 브랜드(espoir·미쟝센·아도르·설화수·라네즈·넘버즈인·SKIN1004·ROUND LAB)는 상대적으로 예외적으로 잘 풀린 케이스였고, 나머지 대부분의 K-뷰티 DTC 브랜드는 봇 차단이 걸려있어 "빠르게 다음 브랜드로 확장"이 더 이상 쉬운 win이 아님. 우회 시도 없음(정책 유지). 이 방향은 여기서 중단 — 추가 브랜드 개별 시도는 수익 대비 시간 소모가 큼.
+
 ## 5. 다음 작업 (2026-07-25 최종 갱신)
 
 **해결된 것들** (더 이상 차단 아님): `commercial_click_events`/`dermatology_institution_candidates` migration 2건 적용 완료, HIRA 1,917건 적재 완료, 클릭 추적 실기록 확인 완료, `pipeline_batches` GRANT 적용 완료, ingredients 사전 중복 정리 + 재매칭 완료, 6단계 범위는 지리 기반 목록으로 확정·완료.
