@@ -12,6 +12,11 @@
 | 2026-07-25 | code | 백업 로그 체계 + snapshot 스크립트 commit+push | fda97cf |
 | 2026-07-25 | db-data | HIRA 병원 후보 1,917건 dermatology_institution_candidates 적재 | 커밋 없음(데이터만, 스크립트는 기존 8d0a5f8) |
 | 2026-07-25 | code | .env.local 중복 Supabase 블록 수정 기록 + 검증 결과 문서화 | 3e9a4ab |
+| 2026-07-25 | db-data | ingredients 중복 309건 정리 + 40건 재매칭(product_ingredients 882→1996) | b21b7cd |
+| 2026-07-25 | code | 오퍼 재수집 스크립트 + GRANT 요청(product_offers UPDATE) | 3ccd075 |
+| 2026-07-25 | docs | 6단계 지리 목록 범위 확정 + 신규 브랜드 5개 시도 기록 | d1c78b5, 73b9c85 |
+| 2026-07-25 | db-data | 실 오퍼 25건 verified + GRANT 요청(products/pipeline_batches UPDATE) | 70a4fca |
+| 2026-07-25 | db-data | draft product 7건 실활성화(20→27) + 정식 워커 end-to-end 성공 | 971b86e |
 
 ## 규칙
 - 코드/문서/SQL/스크립트 변경: 작업 단위마다 git commit + push
