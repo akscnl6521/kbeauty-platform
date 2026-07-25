@@ -150,9 +150,35 @@ MASTER_PLAN.md 섹션 2~21(+26, 41 일부) 전체를 다시 훑어서, 지금까
 - **이메일 테스트 3건 전부 통과, 108/108** — `.env.local`에 `SITE_URL`만 추가하는 걸로는 안 됐음: `checkin-email-*-selftest.ts`는 `npx tsx`로 바로 실행되는 스크립트라 Next.js처럼 `.env.local`을 자동으로 안 읽음. `scripts/_loadDotEnvLocal.ts`(신규, 의존성 추가 없이 기존 코드 스타일 그대로)를 만들어 3개 selftest 맨 위에서 호출하도록 수정 — 그 다음에야 통과. `SITE_URL` 값 자체는 비밀 아님(Staging 브랜치 alias URL), `.env.local`은 gitignore 대상이라 커밋 안 됨.
 - **프로필 완성도 표시 완료** — `/my` 대시보드에 진행바 추가. 위 표(섹션 6, 1-2) 참고.
 
+## 10. 클릭/전환 추적 실 파이프라인 배선 (2026-07-25 · 로드맵 7단계 "수익화 구조")
+
+기존에 잘 설계돼 있던 순수 함수 계층(`src/lib/commercial/revenueReadiness/clickConversionEvents.ts` — `validateClickConversionEvent`/`scrubEventForAnalytics`, 건강/증상 타기팅 금지 경계)을 실제 영속 계층에 배선.
+
+**신규 테이블 + migration**
+- `supabase/migrations/20260725130000_create_commercial_click_events.sql`
+- 테이블: `public.commercial_click_events` (append-only, `event_id` UNIQUE로 재시도 dedup)
+  - 컬럼: `event_id, kind, lane, entity_type, entity_id, offer_or_placement_id, country_code, revenue_amount, currency, session_ref, screen, created_at` — `ANALYTICS_ALLOWED_EVENT_FIELDS`와 1:1 대응 + 최소 추가(익명 `session_ref`, `screen`). 건강/증상/뷰티프로필 필드는 컬럼 자체가 없음(저장 자체가 불가능한 구조).
+  - RLS: `ENABLE ROW LEVEL SECURITY` + anon/authenticated 전체 REVOKE. `service_role`에 `SELECT, INSERT`만 GRANT — `UPDATE`/`DELETE` 없음(append-only, checkin_email_queue보다 더 엄격).
+
+**실제 배선**
+- `src/app/api/track/click/route.ts` (신규) — 클라이언트 POST를 받아 `validateClickConversionEvent` → `scrubEventForAnalytics` 통과 후 `createSupabaseAdminClient()`로 `commercial_click_events`에 INSERT. 거부 사유(건강 타기팅 등)는 400으로 반환, 중복 `event_id`(23505)는 `deduped:true`로 성공 처리.
+- `src/lib/scaffold/clickTrackingStub.ts` — `trackScaffoldClick`의 본문을 실제 `fetch("/api/track/click", { keepalive: true })` fire-and-forget 호출로 교체. `console.log`는 개발 확인용으로 유지. 세션 참조는 `sessionStorage`에 저장하는 익명 `crypto.randomUUID()`(실 유저 id/이메일 아님).
+- 호출부 변경 없음(시그니처 동일) — `src/app/routine/purchase/page.tsx`, `src/app/my/clinics/page.tsx` 두 곳이 그대로 실 이벤트를 생성.
+
+**검증 시도 및 차단 사유 (그대로 기록)**
+- `npx tsc --noEmit` 전체 통과, 에러 0.
+- REST 연결은 정상 확인: `NEXT_PUBLIC_SUPABASE_URL`(Staging `jfnj***gfd`)로 `supabase-js` SELECT/INSERT 요청 시 `PGRST205`(테이블 없음)만 반환 — 즉 인증·네트워크·연결 자체는 문제없고, **migration이 실제로 Staging DB에 적용되지 않은 상태**만 확인됨.
+- **migration 적용 자체가 이번 세션 환경에서 차단됨**: `npx supabase db push --dry-run`, `npx supabase db query --linked` 둘 다 `LegacyDbConfigIpv6Error`(`IPv6 is not supported on your current network`) — direct DB host(`db.jfnjufmldiqlgvgyugfd.supabase.co`)가 IPv6 전용이라 이 네트워크에서 연결 불가. CLI 제안대로 `supabase link --project-ref jfnjufmldiqlgvgyugfd`(IPv4 pooler 설정)를 시도하면 `LegacyPlatformAuthRequiredError`(`SUPABASE_ACCESS_TOKEN` 필요) — 이 저장소/환경 어디에도(`.env.local`, `.env.staging`, OS 환경변수, `~/.supabase/`) Personal Access Token이나 DB 비밀번호가 없어 IPv4 경로 설정도 불가능.
+- **정확한 해결 방법**: 다음 중 하나가 있는 세션/환경에서 재실행하면 즉시 풀림.
+  1. `SUPABASE_ACCESS_TOKEN` 환경변수 설정 후 `supabase link --project-ref jfnjufmldiqlgvgyugfd` → `npx supabase db push`
+  2. 또는 IPv6 라우팅이 되는 네트워크에서 그대로 `npx supabase db push`
+  3. 적용 후 재검증: `commercial_click_events`에 대해 `select`/`insert` 재시도 — 이번 세션에서 이미 확인했듯 `PGRST205`가 사라지면 성공.
+- 코드(테이블 스키마, RLS, API route, 클릭 배선)는 전부 준비 완료 — **DB에 실제로 테이블만 아직 없는 상태**이며, 위 명령 1~2개만 실행하면 그대로 실제 row가 쌓임(로직 변경 불필요).
+
 ## 5. 다음 작업
 
-남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 중 사람이 우선순위를 정해서 다음 지시할 것. 그 외 알려진 이슈 없음.
+1. **차단 최우선**: 위 섹션 10의 migration 적용(`SUPABASE_ACCESS_TOKEN` 확보 또는 IPv6 네트워크)만 하면 클릭 추적이 실제로 살아남 — 사람이 로컬(IPv6 되는 네트워크) 또는 access token 있는 환경에서 `npx supabase db push` 한 번 실행 필요.
+2. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 중 사람이 우선순위를 정해서 다음 지시할 것. 그 외 알려진 이슈 없음.
 
 ---
 
