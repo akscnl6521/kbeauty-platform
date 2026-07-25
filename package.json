@@ -158,6 +158,7 @@
     "verify:checkin-scheduling-staging": "node scripts/verify-checkin-scheduling-staging.mjs",
     "catalog:wq-f-remaining": "npx --yes tsx scripts/run-wq-f-catalog-remaining.ts",
     "test:wq-f-brand-lookup": "npx --yes tsx scripts/wq-f-brand-lookup-selftest.ts",
+    "test:scaffold-journey-e2e": "npx --yes tsx scripts/scaffold-journey-e2e.ts",
     "test:catalog-quality-status": "npx --yes tsx scripts/catalog-quality-status-selftest.ts",
     "test:recommendation-scenarios": "npx --yes tsx scripts/recommendation-scenario-selftest.ts",
     "test:scenario-coverage": "npx --yes tsx scripts/scenario-coverage-selftest.ts",
