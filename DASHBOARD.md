@@ -258,6 +258,7 @@ GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;
   GRANT SELECT, INSERT, UPDATE ON public.pipeline_jobs TO service_role;
   ```
 - **4단계 — ingredients 사전 확충**: 백그라운드 작업 진행 중, 결과는 다음 세션 갱신에서 확인.
+- **6단계 "증상→적합도 계산" 확인 — 진짜 구조적 격차 발견**: `src/lib/clinic/clinicReferralService.ts`/`referralRankingPolicy.ts`/`clinicVerification.ts`에 증상 태그 기반 적합도 랭킹·Organic/제휴 분리·긴급 케이스 억제까지 이미 잘 설계된 시스템이 있음. 하지만 `isClinicPublishable()`가 요구하는 필드(`symptomTags.length > 0`, `evidence.length > 0`, `operatingHours`, `languages`, `officialSiteUrl` https)는 **HIRA 공개 API가 애초에 제공하지 않는 정보**(HIRA는 이름·주소·전화·위경도·표시과목만 줌). 즉 지금 로딩한 1,917건은 지리적 목록(§11, `/my/clinics` 실데이터)으로는 진짜지만, 이 랭킹 시스템이 요구하는 "증상 태그·근거·운영시간·언어" 데이터가 없어서 여전히 fixture만 통과함. **이건 코드로 우회할 수 없는 실제 데이터 공백** — 각 병원 공식 사이트를 개별로 다시 조사하거나(대량 작업), 사람이 태그를 직접 입력하거나, 이 단계의 완료 기준을 "지리 기반 목록"으로 낮추는 것 중 하나를 사람이 결정해야 함. 근거·증상 태그를 지어내는 방식으로 우회하지 않음(의료기관 정보라 특히 신중).
 
 ## 5. 다음 작업
 
