@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-25T13:08:39.519Z",
+  "generatedAt": "2026-07-25T12:55:35.140Z",
   "stagingRef": "jfnjufmldiqlgvgyugfd",
   "note": "row counts / aggregates only — no PII, no user rows",
   "tableRowCounts": {
@@ -9,7 +9,7 @@
     "product_offers": 88,
     "verification_queue": 84,
     "dermatology_institution_candidates": 1917,
-    "commercial_click_events": 2
+    "commercial_click_events": 0
   },
   "productsActiveCount": 20
 }

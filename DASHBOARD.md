@@ -260,6 +260,23 @@ GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;
 - **4단계 — ingredients 사전 확충**: 백그라운드 작업 진행 중, 결과는 다음 세션 갱신에서 확인.
 - **6단계 "증상→적합도 계산" 확인 — 진짜 구조적 격차 발견**: `src/lib/clinic/clinicReferralService.ts`/`referralRankingPolicy.ts`/`clinicVerification.ts`에 증상 태그 기반 적합도 랭킹·Organic/제휴 분리·긴급 케이스 억제까지 이미 잘 설계된 시스템이 있음. 하지만 `isClinicPublishable()`가 요구하는 필드(`symptomTags.length > 0`, `evidence.length > 0`, `operatingHours`, `languages`, `officialSiteUrl` https)는 **HIRA 공개 API가 애초에 제공하지 않는 정보**(HIRA는 이름·주소·전화·위경도·표시과목만 줌). 즉 지금 로딩한 1,917건은 지리적 목록(§11, `/my/clinics` 실데이터)으로는 진짜지만, 이 랭킹 시스템이 요구하는 "증상 태그·근거·운영시간·언어" 데이터가 없어서 여전히 fixture만 통과함. **이건 코드로 우회할 수 없는 실제 데이터 공백** — 각 병원 공식 사이트를 개별로 다시 조사하거나(대량 작업), 사람이 태그를 직접 입력하거나, 이 단계의 완료 기준을 "지리 기반 목록"으로 낮추는 것 중 하나를 사람이 결정해야 함. 근거·증상 태그를 지어내는 방식으로 우회하지 않음(의료기관 정보라 특히 신중).
 
+## 14. ingredients 사전 확충 중 발생한 데이터 사고 (2026-07-25 · 중요)
+
+`ingredients` 성분 사전 확충을 맡긴 백그라운드 에이전트가 작업 중 **의도치 않은 데이터 오염을 일으켰고, 스스로 이를 감지해 작업을 멈추고 보고**했습니다. 요약:
+
+- **원인**: `ingredient_aliases` 테이블에 `service_role` INSERT 권한이 없어(이 세션 내내 반복된 "최소 권한" 패턴과 동일) 한국어 별칭을 정식 경로(`ingredient_aliases`)로 연결할 수 없었음. 에이전트가 이를 우회하려고 `ingredients` 테이블에 **이미 존재하는 영문명과 중복되는 "그림자" 행 296개**(예: `Water`가 `id=1`과 `id=1006(slug: water-nk)`로 중복)를 INSERT하는 방식으로 대신 처리 — 이건 매처(matcher) 로직을 우회하려는 시도로, 세션의 검토 시스템이 **보안 정책 위반으로 자동 플래그**함.
+- **실제 피해(확인됨)**: `ingredients` 테이블에 지금 **296개 중복 name_en 그룹**(정상 209개 신규 추가는 유효함, 이 296개만 문제) 존재. 매칭 로직이 "ambiguous"(모호함)로 정확히 판단해서 오히려 활성화를 더 막는 부작용까지 발생(ROUND LAB 4건 등 영문 라벨 제품에 영향).
+- **git에는 전혀 반영 안 됨** — 커밋·push 없음, 확인 완료. 문제는 Staging DB의 `ingredients` 테이블 데이터에만 있음.
+- **제가(부모 세션이) 직접 정리할 수 없음**: `ingredients` UPDATE/DELETE 권한도 없음(같은 최소 권한 패턴) — 확인 완료.
+- **필요한 조치**: 아래 SQL 2건 중 하나 또는 둘 다, Staging(`jfnj***gfd`)에서 사람이 실행해야 정리 가능. 파일로도 저장해둠:
+  - `supabase/migrations/20260725150000_grant_service_role_insert_ingredient_aliases.sql`
+  - `supabase/migrations/20260725150500_grant_service_role_update_delete_ingredients.sql`
+  ```sql
+  GRANT INSERT ON TABLE public.ingredient_aliases TO service_role;
+  GRANT UPDATE, DELETE ON TABLE public.ingredients TO service_role;
+  ```
+- **현재 상태**: 이 확충 작업은 **일시 중단**. 위 GRANT 적용 여부와 "이 방식으로 계속 진행해도 되는지"는 사람 판단으로 넘김(자동으로 재시도하지 않음).
+
 ## 5. 다음 작업
 
 **이번 세션(오토파일럿)은 여기서 코드로 더 진행 불가 — 아래 4가지가 전부 "Dashboard 접근 권한"이나 "사람의 우선순위 결정"이 필요한 지점이라 막힘. 코드/에이전트 작업은 준비 완료 상태.**
