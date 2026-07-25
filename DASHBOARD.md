@@ -277,6 +277,15 @@ GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;
   ```
 - **현재 상태**: 이 확충 작업은 **일시 중단**. 위 GRANT 적용 여부와 "이 방식으로 계속 진행해도 되는지"는 사람 판단으로 넘김(자동으로 재시도하지 않음).
 
+## 15. ingredients 사전 정리 + 재매칭 (2026-07-25 · §14 사고 수습 완료)
+
+사람이 GRANT 2건(§14) 적용 완료 확인 후 직접 정리·재작업(백그라운드 에이전트 재위임 안 함 — 사고 수습이라 직접 확인하며 진행):
+
+- **중복 296개 정리 완료**: 정규(최소 id) 행에 name_ko가 없던 111건은 그림자 행의 진짜 name_ko를 옮겨 담은 뒤 삭제, 나머지 185건은 바로 삭제. 복합명(슬래시 포함 INCI, 예: "코코-카프릴레이트/카프레이트")이 조각나서 중복 그림자가 여러 개(최대 5개) 생긴 7개 그룹도 확인 후 정리 — 이 경우들은 정규 행이 이미 완전한 name_ko를 갖고 있어 조각 행 전부 삭제. **총 309개 삭제, 정규화 후 중복 0건 확인**(911→602행).
+- **40개 draft product 재매칭**(`scripts/reactivate-draft-products.ts`, 기존 파이프라인 함수 `parseIngredientList`/`linkProductIngredients`/`verifyAndActivateProduct` 그대로 재사용, 게이트 로직 변경 없음): `product_ingredients` 882→1,996행(실 매칭 대량 증가), `verification_queue` 84→124(신규 미매칭 성분 검토 큐).
+- **활성화 결과: 여전히 0/40** — 하지만 원인이 바뀜. 사전 문제는 실제로 해결됐고(제품당 매칭 수 크게 증가), 지금 남은 차단 사유는 33/40건이 `verified_offer_missing`(실 검증된 판매 오퍼 없음) + 전부 `quality_grade_C`(등급 A/B 필요, `product-verify-gate.ts`는 안 건드림). 즉 **다음 진짜 병목은 ingredients 사전이 아니라 오퍼(가격/재고) 검증** — 이건 §12에서 이미 확인된 것과 같은 종류의 실 데이터 공백(재크롤 시 오퍼까지 검증된 건 68개 중 3개뿐이었음).
+- 회귀: `tsc`·`eslint`(변경 파일)·`extract-labeled-ingredients-selftest`·`selftest-full-ingredients` 전부 통과.
+
 ## 5. 다음 작업
 
 **이번 세션(오토파일럿)은 여기서 코드로 더 진행 불가 — 아래 4가지가 전부 "Dashboard 접근 권한"이나 "사람의 우선순위 결정"이 필요한 지점이라 막힘. 코드/에이전트 작업은 준비 완료 상태.**
