@@ -159,6 +159,7 @@
     "catalog:wq-f-remaining": "npx --yes tsx scripts/run-wq-f-catalog-remaining.ts",
     "test:wq-f-brand-lookup": "npx --yes tsx scripts/wq-f-brand-lookup-selftest.ts",
     "report:discovery-review-classification": "npx --yes tsx scripts/discovery-review-classification.ts",
+    "backup:staging-snapshot": "npx --yes tsx scripts/snapshot-staging-summary.ts",
     "test:scaffold-journey-e2e": "npx --yes tsx scripts/scaffold-journey-e2e.ts",
     "test:catalog-quality-status": "npx --yes tsx scripts/catalog-quality-status-selftest.ts",
     "test:recommendation-scenarios": "npx --yes tsx scripts/recommendation-scenario-selftest.ts",
