@@ -348,18 +348,27 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
 - 이제 이 명령 하나로 브랜드 재크롤·후보 등록·품질 재평가·안전 복구·체크인 갱신까지 자동으로 도는 게 실제로 확인됨 — **8단계 로드맵 기준("가격·재고·링크 유효성 스케줄 갱신 + 변경 감지 + 재시도 로직") 실질 충족**.
 - **남은 건 딱 하나, 사람의 몫**: `.\scripts\install-pipeline-task.ps1` — Windows Task Scheduler에 6시간마다 자동 실행 등록. 파일 자체가 "에이전트 자동 실행 금지"를 명시하고 있어 이번에도 실행 안 함(권한 문제 아니라 저장소의 명시적 정책). 실행하면 그 이후로는 사람 개입 없이 주기적으로 이 세션에서 확인한 전체 파이프라인이 자동으로 돎.
 
-## 5. 다음 작업 (2026-07-25 최종 갱신)
+## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신)
 
-**해결된 것들** (더 이상 차단 아님): `commercial_click_events`/`dermatology_institution_candidates` migration 2건 적용 완료, HIRA 1,917건 적재 완료, 클릭 추적 실기록 확인 완료, `pipeline_batches` GRANT 적용 완료, ingredients 사전 중복 정리 + 재매칭 완료, 6단계 범위는 지리 기반 목록으로 확정·완료.
+| 단계 | 상태 |
+|---|---|
+| 1. 안정화 | 완료 (기존) |
+| 2. 핵심 사용자 여정 | 완료 (기존 + 오늘 스캐폴드) |
+| 3. 제품 데이터 자동화 | **작동 중** — 활성 제품 20→**27**, 실 워커가 브랜드 재크롤·후보 등록을 자동 반복(§21). 대부분의 K-뷰티 브랜드가 봇 차단 상태라 신규 브랜드 확장은 느림(§18) |
+| 4. 사용 영상·루틴 | 완료 (스캐폴드, §1-1) |
+| 5. 리텐션(체크인) | 체크인 로직 자체는 기존 완성. **실제 이메일 발송만 차단** — `RESEND_API_KEY`가 `.env.local`에 정말로 없음(이번 세션 3회 확인). 이 키가 생기기 전까진 실발송 테스트 불가 |
+| 6. 증상 기반 피부과 | **완료로 확정**(§17) — 사람 결정으로 지리 기반 목록 범위. 실 병원 1,917건 등록·노출 확인 |
+| 7. 수익화 | **완료** — 클릭/전환 실기록 확인(§10, §16) |
+| 8. 자동 갱신·운영 자동화 | **완료** — 정식 워커 end-to-end 성공(§21). 6시간 주기 자동 실행만 사람이 `.\scripts\install-pipeline-task.ps1` 실행하면 됨(파일 자체가 에이전트 자동 실행 금지 명시) |
+| 9. 통합 검증·출시 | 코드 회귀(tsc/eslint/build)는 매 커밋마다 통과 확인 중. **main 병합·Production 배포는 세션 시작부터 합의된 대로 사람 확인 필요 시점에만 진행** |
 
-**남은 차단(전부 사람의 Dashboard 실행 1줄 필요, 코드는 준비 완료)**:
+**남은 사람 몫**:
+1. (선택) `.\scripts\install-pipeline-task.ps1` — 실 스케줄러 자동화를 원하면 실행.
+2. `RESEND_API_KEY` 실제 발급·등록 — 없으면 5단계 실발송은 계속 스킵.
+3. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 우선순위 결정.
+4. main 병합·Production 배포 — 준비되면 명시적으로 지시.
 
-1. `GRANT UPDATE ON TABLE public.product_offers TO service_role;` (§16) — 적용되면 draft product 40건의 실 오퍼 재수집·활성화를 이어서 진행.
-2. `GRANT SELECT, INSERT, UPDATE ON public.pipeline_jobs TO service_role;` (§13 이전 섹션) — 적용되면 정식 스케줄러 워커(`node scripts/run-pipeline-worker.mjs`) 경로가 완전히 열림(8단계).
-3. **8단계 실 스케줄러 설치**: 코드는 전부 준비됨(`scripts/install-pipeline-task.ps1`), 파일 자체가 "에이전트 자동 실행 금지"를 명시해 이번 세션에서 실행 안 함 — 위 pipeline_jobs GRANT 적용 후 사람이 직접 `.\scripts\install-pipeline-task.ps1` 실행.
-4. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) — 9단계 이후 우선순위 결정 대기.
-
-**다음 세션이 이어갈 지점**: 위 GRANT 2건이 적용됐다면 바로 draft product 40건 오퍼 재수집(`node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/collect-offers-for-draft-products.ts`)부터 재개.
+**다음 세션이 이어갈 지점**: 활성 제품 33건(40건 중 미활성)은 실 verified offer가 없어서 계속 막혀있음 — 재크롤·오퍼 재시도를 계속하거나, 다른 브랜드로 확장하거나 사람이 우선순위를 정하면 그대로 진행 가능.
 
 ---
 
