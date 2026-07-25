@@ -1,22 +1,23 @@
 /**
  * Scaffold-mode automated verification for the login-gated screens a human
  * could not click through manually: /my/check-ins, /my/clinics,
- * /my/consultation-report (customer login) and /admin/discovery (admin
- * login, same Supabase Auth session + an admin_users row).
+ * /my/consultation-report (fresh throwaway customer account) and
+ * /admin/discovery (fixed, human-bootstrapped admin account).
  *
- * Creates a throwaway Staging test user via the regular signUp flow (works
- * now that Staging Auth email auto-confirm is enabled — the Admin API
- * (auth.admin.createUser/listUsers/deleteUser) remains broken for this
- * project's newer-format service_role key, so this script deliberately
- * avoids it). Grants a "reviewer" admin_users row for the admin check,
- * then deletes that row afterward. The underlying auth.users row is left
- * in Staging (Admin API can't delete it either) — harmless disposable
- * test data, not Production.
+ * Customer checks use a fresh Staging test user via the regular signUp flow
+ * (works now that Staging Auth email auto-confirm is enabled). The admin
+ * check uses a FIXED account whose admin_users(reviewer) row was bootstrapped
+ * by a human directly in the Supabase Dashboard SQL editor (see
+ * docs/47-admin-auth-migration-review.md §8) — service_role cannot INSERT
+ * into admin_users itself (permission denied by design), and the Admin API
+ * (auth.admin.createUser/listUsers/deleteUser) is broken for this project's
+ * newer-format service_role key, so neither path can be automated here.
  *
  * Requires a Next.js dev server already running at BASE_URL (default
- * http://localhost:3000).
+ * http://localhost:3000) and FIXED_ADMIN_EMAIL / FIXED_ADMIN_PASSWORD env
+ * vars for the already-bootstrapped admin account.
  *
- * Usage: npx tsx scripts/scaffold-journey-e2e.ts
+ * Usage: FIXED_ADMIN_EMAIL=... FIXED_ADMIN_PASSWORD=... npx tsx scripts/scaffold-journey-e2e.ts
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -116,20 +117,26 @@ async function main() {
   const env = { ...loadEnvFile(".env.staging"), ...loadEnvFile(".env.local") };
   const url = env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !anonKey || !serviceKey) throw new Error("missing_supabase_credentials");
+  if (!url || !anonKey) throw new Error("missing_supabase_credentials");
   const ref = url.match(/https:\/\/([a-z0-9]+)\.supabase\.co/i)?.[1] || "";
   if (ref === PROD_REF) throw new Error("ABORT_PRODUCTION");
   if (ref !== STAGING_REF) throw new Error(`ABORT_NOT_STAGING:${ref}`);
 
+  const fixedAdminEmail = process.env.FIXED_ADMIN_EMAIL;
+  const fixedAdminPassword = process.env.FIXED_ADMIN_PASSWORD;
+  if (!fixedAdminEmail || !fixedAdminPassword) {
+    throw new Error(
+      "missing_fixed_admin_credentials: set FIXED_ADMIN_EMAIL / FIXED_ADMIN_PASSWORD for the already-bootstrapped admin_users(reviewer) account"
+    );
+  }
+
   const anon = createClient(url, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
-  const admin = createClient(url, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
 
   const stamp = Date.now();
   const testEmail = `scaffold-e2e-${stamp}@kbeauty-match-test.com`;
   const testPassword = `Scaffold-e2e-${stamp}!`;
 
-  console.log(`[scaffold-e2e] signing up test user ${testEmail}`);
+  console.log(`[scaffold-e2e] signing up throwaway customer test user ${testEmail}`);
   const signUp = await anon.auth.signUp({ email: testEmail, password: testPassword });
   if (signUp.error || !signUp.data.user) {
     throw new Error(`signup_failed: ${signUp.error?.message}`);
@@ -138,19 +145,6 @@ async function main() {
     throw new Error(
       "signup_no_session: email confirmation still required — auto-confirm may not be enabled yet"
     );
-  }
-  const userId = signUp.data.user.id;
-
-  console.log(`[scaffold-e2e] granting admin_users(reviewer) for ${userId}`);
-  const grant = await admin.from("admin_users").insert({
-    user_id: userId,
-    role: "reviewer",
-    active: true,
-    notes: "scaffold e2e test account — safe to delete",
-  });
-  const adminGrantOk = !grant.error;
-  if (grant.error) {
-    console.warn("[scaffold-e2e] admin_users insert failed:", grant.error.message);
   }
 
   const outDir = path.join(ROOT, "artifacts", "scaffold-journey-e2e");
@@ -227,29 +221,23 @@ async function main() {
     customerLoginOk = customerResult.loginOk;
     customerLoginError = customerResult.loginError;
 
-    if (adminGrantOk) {
-      const adminResult = await loginAndCheck(
-        chromium,
-        outDir,
-        runStamp,
-        "/admin/login",
-        testEmail,
-        testPassword,
-        adminChecks
-      );
-      adminLoginOk = adminResult.loginOk;
-      adminLoginError = adminResult.loginError;
-    } else {
-      adminLoginError = "admin_users grant failed — admin login not attempted";
-    }
+    const adminResult = await loginAndCheck(
+      chromium,
+      outDir,
+      runStamp,
+      "/admin/login",
+      fixedAdminEmail,
+      fixedAdminPassword,
+      adminChecks
+    );
+    adminLoginOk = adminResult.loginOk;
+    adminLoginError = adminResult.loginError;
   } catch (err) {
     customerLoginError = customerLoginError ?? (err instanceof Error ? err.message : String(err));
   }
 
-  console.log(`[scaffold-e2e] revoking admin_users grant for ${userId}`);
-  await admin.from("admin_users").delete().eq("user_id", userId);
   console.log(
-    `[scaffold-e2e] NOTE: auth.users row for ${testEmail} is left in Staging — ` +
+    `[scaffold-e2e] NOTE: throwaway customer auth.users row (${testEmail}) is left in Staging — ` +
       "Admin API (deleteUser) is unavailable with this project's service_role key format."
   );
 
@@ -261,11 +249,11 @@ async function main() {
     baseUrl: BASE_URL,
     stagingRef: ref,
     productionTouched: false,
-    testUserEmail: testEmail,
-    testUserDeleted: false,
-    testUserDeletionNote:
+    testCustomerEmail: testEmail,
+    testCustomerDeleted: false,
+    testCustomerDeletionNote:
       "Admin API unavailable for this key format — auth.users row left in Staging (disposable test data, not Production).",
-    adminGrantOk,
+    fixedAdminAccountUsed: true,
     customerLoginOk,
     customerLoginError,
     adminLoginOk,

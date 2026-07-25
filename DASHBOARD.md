@@ -46,21 +46,21 @@
 
 ## 4. 사람 판단 필요
 
-- **`/admin/discovery` e2e 검증은 admin_users 부트스트랩이 없어서 아직 미완료.** `admin_users` 테이블은 `service_role`로도 INSERT가 `permission denied`로 막혀 있음 — 이건 버그가 아니라 의도된 보안 설계임(`docs/47-admin-auth-migration-review.md` §8: "첫 admin bootstrap은 Dashboard SQL만 · 실행 금지"). 즉 관리자 권한 부여는 코드/자동화가 아니라 사람이 Supabase Dashboard SQL 편집기에서 직접 실행해야 함(문서에 정확한 템플릿 있음). 이건 우회하지 않았음.
-  - 필요 시: Staging Dashboard SQL 편집기에서 `docs/47-admin-auth-migration-review.md` §8 템플릿으로 테스트 계정 1개를 `reviewer` role로 등록해주시면 `/admin/discovery` e2e도 마저 확인 가능.
+없음. (로그인 게이트 e2e 검증 관련 항목은 전부 해결·확인 완료 — 아래 4-1 참고)
 
 ## 4-1. 확인 완료 (더 이상 사람 판단 불필요)
 
-- **Staging Auth 이메일 자동 확인 — 사용자가 활성화 완료.** 테스트 계정 생성(`signUp`)이 즉시 세션을 반환하는 것 확인.
-- **로그인 게이트 화면 3/4 e2e 통과** — 실제 테스트 계정으로 로그인 → Playwright로 방문 → 콘텐츠 렌더링 확인 완료:
-  - `/my/check-ins`: "체크인" 렌더링 확인 (빈 상태 정상 표시)
-  - `/my/clinics`: "피부과 추천" + 샘플 데이터 배지 + 안전 필터 자리 3항목 전부 렌더링 확인
-  - `/my/consultation-report`: "상담 리포트" + 샘플 데이터 배지 + 고민/루틴 요약 렌더링 확인
-  - `/admin/discovery`: admin_users 부트스트랩 없어서 미확인 (위 항목 참고)
-  - 부가로 발견·수정: 로컬 dev 서버가 `.env.local`에 `NEXT_PUBLIC_SUPABASE_URL`/`ANON_KEY`가 없어서 브라우저 클라이언트가 placeholder `example.supabase.co`로 요청하던 문제 — `.env.staging`의 두 공개 값을 `.env.local`에 추가해 해결(anon key라 비밀 아님, `.env*`는 gitignore 대상이라 커밋 안 됨).
+- **로그인 게이트 화면 4/4 e2e 전부 통과** (customer + admin 양쪽). 사용자가 Staging Auth 이메일 자동 확인을 활성화하고, `docs/47-admin-auth-migration-review.md` §8 템플릿으로 고정 테스트 계정(`e2e-admin-reviewer@kbeauty-match-test.com`)을 `reviewer` role로 직접 bootstrap한 뒤, 실제 로그인 + Playwright 방문으로 최종 확인:
+  - `/my/check-ins` (throwaway 고객 계정): "체크인" 렌더링, 빈 상태 정상 표시
+  - `/my/clinics` (throwaway 고객 계정): "피부과 추천" + 샘플 데이터 배지 + 안전 필터 자리 3항목 전부 렌더링
+  - `/my/consultation-report` (throwaway 고객 계정): "상담 리포트" + 샘플 데이터 배지 + 고민/루틴 요약 렌더링
+  - `/admin/discovery` (고정 admin 계정): "제품 발견 후보" · "읽기 전용" · 실 후보 수 "총 1,319개" · workflow status 필터 전부 렌더링 확인
+  - 과정에서 로컬 dev 서버 설정 문제 2건 발견·수정(둘 다 `.env.local`, gitignore 대상, 커밋 안 됨):
+    1. `NEXT_PUBLIC_SUPABASE_URL`/`ANON_KEY` 누락 → 브라우저 클라이언트가 placeholder `example.supabase.co`로 요청 → 로그인 자체가 항상 실패.
+    2. `SUPABASE_SERVICE_ROLE_KEY` 누락 → 서버 사이드 admin 세션 확인(`getAdminSession`)이 "서버 설정 미완료"로 실패 → `/admin/discovery`가 항상 차단 화면 표시.
   - 리포트: `artifacts/scaffold-journey-e2e/report-latest.json` (로컬, gitignore 대상)
-  - 남은 부작용: 테스트 계정 auth.users row가 Staging에 남아있음(Admin API로 삭제 불가 — 무해한 테스트 데이터, Production 아님).
-- **검수 대기 234건용 관리자 화면은 이미 있음** — `/admin/discovery` (목록·검색·workflow status/국가/출처/연결/담당 필터·정렬·페이지네이션) + `/admin/discovery/[id]` (상세) + `DiscoveryWritePanel`(PATCH로 duplicate/sale/ingredients/evidence/safety/publish 검토 큐 생성, role 기반 `canPublish` 등 실제 쓰기 액션 포함). **새 화면을 만들 필요는 없음.**
+  - 남은 부작용: throwaway 고객 테스트 계정들의 auth.users row가 Staging에 누적됨(Admin API로 삭제 불가 — 무해한 테스트 데이터, Production 아님). 고정 admin 계정(`e2e-admin-reviewer@...`)은 앞으로 재사용 가능.
+- **검수 대기 234건용 관리자 화면은 이미 있고 실제로 작동함** — `/admin/discovery` (목록·검색·workflow status/국가/출처/연결/담당 필터·정렬·페이지네이션) + `/admin/discovery/[id]` (상세) + `DiscoveryWritePanel`(PATCH로 duplicate/sale/ingredients/evidence/safety/publish 검토 큐 생성, role 기반 `canPublish` 등 실제 쓰기 액션 포함). **새 화면을 만들 필요는 없음.**
 
 ## 5. 다음 작업
 
