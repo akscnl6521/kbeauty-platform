@@ -6,12 +6,24 @@ import {
 } from "./normalizeIngredient";
 import type { RankableProduct, Recommendation } from "./types";
 
+export type SafetyExclusionReason = "allergy_or_avoided" | "incomplete_info";
+
+export type SafetyExcludedProduct<T extends RankableProduct> = {
+  product: T;
+  reason: SafetyExclusionReason;
+};
+
 export type SafetyFilterResult<T extends RankableProduct> = {
   safe: T[];
   /** 알레르기·회피 매칭으로 제외 */
   excludedCount: number;
   /** 성분 데이터 없음/불완전으로 핵심 추천에서 제외 */
   incompleteCount: number;
+  /**
+   * 제외된 제품과 사유 (표시용). 필터 결정 로직은 바꾸지 않음 — 이미
+   * 계산되던 결과를 그대로 노출만 함.
+   */
+  excludedProducts: SafetyExcludedProduct<T>[];
 };
 
 function collectProductIngredientLabels(product: RankableProduct): string[] {
@@ -56,6 +68,7 @@ export function filterCandidatesBySafety<T extends RankableProduct>(
 ): SafetyFilterResult<T> {
   const banned = forbiddenCanonicals(recommendation);
   const safe: T[] = [];
+  const excludedProducts: SafetyExcludedProduct<T>[] = [];
   let excludedCount = 0;
   let incompleteCount = 0;
 
@@ -63,6 +76,7 @@ export function filterCandidatesBySafety<T extends RankableProduct>(
     const labels = collectProductIngredientLabels(product);
     if (labels.length === 0) {
       incompleteCount += 1;
+      excludedProducts.push({ product, reason: "incomplete_info" });
       continue;
     }
 
@@ -77,6 +91,7 @@ export function filterCandidatesBySafety<T extends RankableProduct>(
       }
       if (hit) {
         excludedCount += 1;
+        excludedProducts.push({ product, reason: "allergy_or_avoided" });
         continue;
       }
     }
@@ -84,5 +99,5 @@ export function filterCandidatesBySafety<T extends RankableProduct>(
     safe.push(product);
   }
 
-  return { safe, excludedCount, incompleteCount };
+  return { safe, excludedCount, incompleteCount, excludedProducts };
 }

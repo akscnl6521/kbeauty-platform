@@ -63,6 +63,12 @@ export default function Home() {
           >
             헤어 문진
           </Link>
+          <Link
+            href="/quiz/body"
+            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
+          >
+            전신 부위 문진
+          </Link>
           {loggedIn ? (
             <Link
               href="/my"

@@ -164,15 +164,18 @@ export async function persistTopRankedProducts(
       pool = filterOutStimulatingActives(pool);
     }
 
-    const { safe, excludedCount, incompleteCount } = filterCandidatesBySafety(
-      pool,
-      withEvidence
-    );
+    const { safe, excludedCount, incompleteCount, excludedProducts } =
+      filterCandidatesBySafety(pool, withEvidence);
 
     const withStats: Recommendation = {
       ...withEvidence,
       safetyExcludedCount: excludedCount,
       safetyIncompleteCount: incompleteCount,
+      safetyExcludedItems: excludedProducts.slice(0, 20).map(({ product, reason }) => ({
+        productId: product.id,
+        productName: product.name || product.brand || product.id,
+        reason,
+      })),
     };
 
     const ranked = rankProducts(withStats, safe);

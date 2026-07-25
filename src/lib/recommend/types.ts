@@ -75,6 +75,12 @@ export interface Recommendation {
   safetyExcludedCount?: number;
   /** 성분 정보 부족으로 핵심 추천에서 제외된 후보 수 (선택) */
   safetyIncompleteCount?: number;
+  /** 안전 필터로 제외된 개별 제품과 사유 (표시용, 선택) */
+  safetyExcludedItems?: Array<{
+    productId: string;
+    productName: string;
+    reason: "allergy_or_avoided" | "incomplete_info";
+  }>;
 
   /** 사용자가 등록한 현재 사용 제품 (선택) */
   currentProducts?: CurrentProductInput[];

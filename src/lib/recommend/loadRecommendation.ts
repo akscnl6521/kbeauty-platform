@@ -208,6 +208,38 @@ export function loadRecommendationFromStorage(): Recommendation | null {
             Number.isFinite(parsed.safety_incomplete_count)
           ? parsed.safety_incomplete_count
           : undefined;
+    const safetyExcludedItemsRaw =
+      parsed.safetyExcludedItems ?? parsed.safety_excluded_items;
+    const safetyExcludedItems: NonNullable<
+      Recommendation["safetyExcludedItems"]
+    > = Array.isArray(safetyExcludedItemsRaw)
+      ? safetyExcludedItemsRaw.flatMap((row) => {
+          if (!isRecord(row)) return [];
+          const productId =
+            typeof row.productId === "string"
+              ? row.productId
+              : typeof row.product_id === "string"
+                ? row.product_id
+                : "";
+          const productName =
+            typeof row.productName === "string"
+              ? row.productName
+              : typeof row.product_name === "string"
+                ? row.product_name
+                : "";
+          const reasonRaw =
+            typeof row.reason === "string" ? row.reason : "";
+          if (
+            !productId ||
+            !productName ||
+            (reasonRaw !== "allergy_or_avoided" &&
+              reasonRaw !== "incomplete_info")
+          ) {
+            return [];
+          }
+          return [{ productId, productName, reason: reasonRaw }];
+        })
+      : [];
 
     const base: Recommendation = {
       skinConcerns,
@@ -220,6 +252,7 @@ export function loadRecommendationFromStorage(): Recommendation | null {
       ...(safetyIncompleteCount !== undefined
         ? { safetyIncompleteCount }
         : {}),
+      ...(safetyExcludedItems.length ? { safetyExcludedItems } : {}),
     };
 
     const currentProducts = normalizeCurrentProducts(

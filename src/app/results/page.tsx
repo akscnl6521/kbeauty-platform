@@ -1488,6 +1488,26 @@ function ResultsPageInner() {
                             </GuideBlock>
                           ) : null}
 
+                          {(savedRecommendation.safetyExcludedItems?.length ?? 0) > 0 ? (
+                            <GuideBlock title="추천 후보에서 제외된 제품">
+                              <ul className="space-y-1.5">
+                                {savedRecommendation.safetyExcludedItems!.map((item) => (
+                                  <li
+                                    key={item.productId}
+                                    className="flex flex-wrap items-center justify-between gap-2 text-sm"
+                                  >
+                                    <span>{item.productName}</span>
+                                    <span className="rounded-full border border-gray-200 px-2 py-0.5 text-xs text-gray-600">
+                                      {item.reason === "allergy_or_avoided"
+                                        ? "알레르기·회피 성분 포함"
+                                        : "성분 정보 부족"}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </GuideBlock>
+                          ) : null}
+
                           {/* 한계·(일반만) 전문가 상담 — risk 상담 이유는 상단 배너에 표시 */}
                           {(limitationsDisplay.length > 0 ||
                             (!risk && expertReasonsDisplay.length > 0)) && (
