@@ -9,6 +9,8 @@ const DRAFT_KEY = "kbeautyOnboardingDraftV1";
 type Form = {
   country: string;
   timezone: string;
+  language: string;
+  currency: string;
   skinType: string;
   sensitivity: string;
   concerns: string;
@@ -16,7 +18,7 @@ type Form = {
 };
 
 const titles = [
-  "국가와 시간대",
+  "국가·언어·통화",
   "피부 타입",
   "민감도",
   "고민",
@@ -24,11 +26,25 @@ const titles = [
   "케어 기록 동의",
 ];
 
+const LANGUAGE_OPTIONS = [
+  { value: "ko", label: "한국어" },
+  { value: "en", label: "English" },
+  { value: "ja", label: "日本語" },
+];
+
+const CURRENCY_OPTIONS = [
+  { value: "KRW", label: "KRW (원)" },
+  { value: "USD", label: "USD ($)" },
+  { value: "JPY", label: "JPY (¥)" },
+];
+
 function emptyForm(): Form {
   return {
     country: "KR",
     timezone:
       Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Seoul",
+    language: "ko",
+    currency: "KRW",
     skinType: "",
     sensitivity: "",
     concerns: "",
@@ -105,7 +121,7 @@ export default function OnboardingPage() {
       }
       if (!res.ok) throw new Error("save_failed");
       localStorage.removeItem(DRAFT_KEY);
-      router.push("/my?onboarded=1");
+      router.push("/quiz");
     } catch {
       setError("저장하지 못했습니다. 잠시 후 다시 시도해 주세요.");
     } finally {
@@ -158,6 +174,34 @@ export default function OnboardingPage() {
             onChange={(e) => patch("timezone", e.target.value)}
           />
         </label>
+        <label className="block text-sm">
+          언어
+          <select
+            className="mt-1 w-full rounded-lg border border-[#E8DFD8] px-3 py-2.5"
+            value={form.language}
+            onChange={(e) => patch("language", e.target.value)}
+          >
+            {LANGUAGE_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="block text-sm">
+          통화
+          <select
+            className="mt-1 w-full rounded-lg border border-[#E8DFD8] px-3 py-2.5"
+            value={form.currency}
+            onChange={(e) => patch("currency", e.target.value)}
+          >
+            {CURRENCY_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
     );
   } else if (step === 1) {
@@ -191,9 +235,9 @@ export default function OnboardingPage() {
     content = (
       <dl className="mt-5 space-y-3 rounded-xl bg-[#FAF7F5] p-4 text-sm">
         <div>
-          <dt className="text-gray-500">국가·시간대</dt>
+          <dt className="text-gray-500">국가·언어·통화</dt>
           <dd className="font-medium">
-            {form.country} · {form.timezone}
+            {form.country} · {form.language} · {form.currency}
           </dd>
         </div>
         <div>

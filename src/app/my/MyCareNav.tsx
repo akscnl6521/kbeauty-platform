@@ -11,6 +11,8 @@ const LINKS = [
   { href: "/my/analyses", label: "분석" },
   { href: "/my/recommendations", label: "추천" },
   { href: "/my/guidance", label: "사용·상담 가이드" },
+  { href: "/my/clinics", label: "피부과" },
+  { href: "/my/consultation-report", label: "상담 리포트" },
   { href: "/my/settings", label: "설정" },
 ];
 

@@ -119,6 +119,14 @@ export default function MyCheckInsPage() {
           </Link>
         </p>
       ) : null}
+      <div className="mt-8">
+        <Link
+          href="/my/clinics"
+          className="inline-flex rounded-lg bg-[#C2185B] px-4 py-2 text-sm font-semibold text-white"
+        >
+          피부과 추천 보기 →
+        </Link>
+      </div>
     </main>
   );
 }
