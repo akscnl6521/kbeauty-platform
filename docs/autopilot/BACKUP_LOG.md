@@ -10,6 +10,8 @@
 | 2026-07-25T (세션 시작) | code | 오토파일럿 시작 — 3개 백그라운드 에이전트 기동 (제품 승격 / 병원 후보 등록 / 클릭추적) | 아래 각 에이전트 완료 시 커밋 해시 기록 예정 |
 | 2026-07-25T12:09:49Z | db-snapshot | Staging 요약 스냅샷 (row count만, PII 없음) — products=27(active 20), candidates=1319, ingredients=754, offers=28 | data/backups/staging-snapshots/snapshot-2026-07-25T12-09-49-215Z.json |
 | 2026-07-25 | code | 백업 로그 체계 + snapshot 스크립트 commit+push | fda97cf |
+| 2026-07-25 | db-data | HIRA 병원 후보 1,917건 dermatology_institution_candidates 적재 | 커밋 없음(데이터만, 스크립트는 기존 8d0a5f8) |
+| 2026-07-25 | code | .env.local 중복 Supabase 블록 수정 기록 + 검증 결과 문서화 | 3e9a4ab |
 
 ## 규칙
 - 코드/문서/SQL/스크립트 변경: 작업 단위마다 git commit + push
