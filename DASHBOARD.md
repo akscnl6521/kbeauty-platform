@@ -363,6 +363,15 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
 - 결론: **분류 버그 자체는 고쳤고 실제로 통과 확인**(21건 정정, 코드 fix 검증됨). "7개 전부 Top-3 노출"은 데이터 정직성상 불가능(3개는 진짜 KR 오퍼가 없고, 나머지는 관련성 점수가 낮음) — 억지로 끌어올리지 않음.
 - 회귀: `tsc`·`eslint` 통과.
 
+## 23. 체크인 이메일 실발송 end-to-end 검증 완료 (2026-07-25 · 5단계 완료)
+
+사람이 새로 발급받은 `RESEND_API_KEY` + 라이브 전송 환경변수 6개(`EMAIL_DELIVERY_MODE=live`, `EMAIL_PROVIDER=resend`, `EMAIL_LIVE_KILL_SWITCH=true`, `EMAIL_FROM_ADDRESS`, `EMAIL_STAGING_RECIPIENT_ALLOWLIST`(본인 이메일), `APP_ENV=staging`)를 `.env.local`에 추가.
+
+- **실발송 4건 전부 성공**(`scripts/checkin-email-live-send-verify.ts`, 신규): 3/7/15/30일 마일스톤 각각 `processCheckinEmailLive` 실제 호출 → Resend에 진짜 API 요청 → 4건 전부 `live_completed` + 실 provider message id 발급 확인(예: `d98e0e74-...`). 수신자는 사용자 본인 이메일만(allowlist), Production 환경 아님(`isProductionEmailEnvironment` 가드 통과 확인).
+- **응답 → 유지/조정/중단 분기 로직 검증**: 기존 selftest 3종 전부 재확인 — `routine-adjustment-policy-selftest`(14건) · `follow-up-lifecycle-selftest`(36건) · `checkin-policy-selftest`(16건), 총 66건 전부 통과. 실제 분기 결정 로직(유지/조정/중단)이 정책대로 동작함을 확인.
+- 우회·발명 없음: 실제 Resend API 호출, 실제 게이트 통과 확인(kill switch, production 차단, allowlist 전부 정상 작동 확인 후 발송).
+- 5단계("3/7/15/30일 체크인이 실제 발송·응답·분기까지 작동") **완료**.
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신)
 
 | 단계 | 상태 |
@@ -371,7 +380,7 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
 | 2. 핵심 사용자 여정 | 완료 (기존 + 오늘 스캐폴드) |
 | 3. 제품 데이터 자동화 | **작동 중** — 활성 제품 20→**27**, 실 워커가 브랜드 재크롤·후보 등록을 자동 반복(§21). 대부분의 K-뷰티 브랜드가 봇 차단 상태라 신규 브랜드 확장은 느림(§18) |
 | 4. 사용 영상·루틴 | 완료 (스캐폴드, §1-1) |
-| 5. 리텐션(체크인) | 체크인 로직 자체는 기존 완성. **실제 이메일 발송만 차단** — `RESEND_API_KEY`가 `.env.local`에 정말로 없음(이번 세션 3회 확인). 이 키가 생기기 전까진 실발송 테스트 불가 |
+| 5. 리텐션(체크인) | **완료** — 실 `RESEND_API_KEY` 확보 후 3/7/15/30일 실발송 4건 전부 성공 확인(§23), 응답·분기 로직 66개 체크 통과 |
 | 6. 증상 기반 피부과 | **완료로 확정**(§17) — 사람 결정으로 지리 기반 목록 범위. 실 병원 1,917건 등록·노출 확인 |
 | 7. 수익화 | **완료** — 클릭/전환 실기록 확인(§10, §16) |
 | 8. 자동 갱신·운영 자동화 | **완료** — 정식 워커 end-to-end 성공(§21). 6시간 주기 자동 실행만 사람이 `.\scripts\install-pipeline-task.ps1` 실행하면 됨(파일 자체가 에이전트 자동 실행 금지 명시) |
