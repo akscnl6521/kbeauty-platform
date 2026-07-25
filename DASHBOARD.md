@@ -175,9 +175,28 @@ MASTER_PLAN.md 섹션 2~21(+26, 41 일부) 전체를 다시 훑어서, 지금까
   3. 적용 후 재검증: `commercial_click_events`에 대해 `select`/`insert` 재시도 — 이번 세션에서 이미 확인했듯 `PGRST205`가 사라지면 성공.
 - 코드(테이블 스키마, RLS, API route, 클릭 배선)는 전부 준비 완료 — **DB에 실제로 테이블만 아직 없는 상태**이며, 위 명령 1~2개만 실행하면 그대로 실제 row가 쌓임(로직 변경 불필요).
 
+## 11. 피부과 실데이터 테이블 신설 (2026-07-25 · T07-02 후속)
+
+로컬에 이미 모아둔 서울 피부과 HIRA 실후보(1,917건, `artifacts/seoul-dermatology-ingestion/`)를 저장할 Supabase 테이블이 지금까지 아예 없었음(`/my/clinics`는 100% 목업). `product_discovery_candidates` 게이팅 패턴을 그대로 따라 신규 테이블 설계·`/my/clinics` 연결까지 진행.
+
+| 항목 | 내용 |
+|---|---|
+| 신규 테이블 | `public.dermatology_institution_candidates` |
+| 마이그레이션 파일 | `supabase/migrations/20260725100000_create_dermatology_institution_candidates.sql` |
+| 구조 | `product_discovery_candidates`와 동일 패턴 — `workflow_status`(discovered/verified/published/rejected), RLS ON, anon/authenticated는 `verified`+`published`만 SELECT, service_role은 SELECT/INSERT/UPDATE만(DELETE 없음 — 기존 관례 그대로) |
+| Staging 프로젝트 확인 | `.\scripts\verify-catalog-staging-env.ps1` → `project_ref_masked=jfnj***gfd`, `production_ref_masked=rhfr***mns`, `refs_differ=True` 확인(Production 아님) |
+| **마이그레이션 적용 — 차단됨 (섹션 10과 동일 사유)** | `npx supabase db push --dry-run` → `IPv6 is not supported on your current network: dial tcp: lookup db.jfnjufmldiqlgvgyugfd.supabase.co: no such host`. `.env.local`에 `SUPABASE_ACCESS_TOKEN`/DB 비밀번호 없어 IPv4 우회 불가(섹션 10에서 이미 상세 확인된 것과 동일한 환경 제약). `supabase-js` REST 경로는 정상(서비스 연결 자체는 문제없음 — `product_discovery_candidates` 조회 성공, 신규 테이블은 `PGRST205`로 "테이블 없음"만 확인). |
+| **필요한 조치(사람)** | Supabase Dashboard → 프로젝트가 `jfnj***gfd`(Staging)인지 반드시 확인 → SQL Editor에 `supabase/migrations/20260725100000_create_dermatology_institution_candidates.sql` 전체 붙여넣기 → Run. Production(`rhfr***mns`)에는 절대 적용 금지. (섹션 10의 `commercial_click_events` migration과 한 번에 같이 적용해도 무방 — 서로 다른 테이블, 의존관계 없음.) |
+| 실 적재 스크립트 | `scripts/load-dermatology-institution-candidates-staging.ts` (신규, `loadDotEnvLocal()` 사용) — `--dry-run` 검증 완료: `candidates-2026-07-25T00-51-28-251Z.json` + `candidates-2026-07-25T03-30-10-482Z.json` + `candidates-2026-07-25T03-31-42-497Z.json`(`checkpoint-latest.json`과 같은 runId만, 7/24 fixture·구 live_blocked 배치는 다른 runId라 제외) 병합 → `institutionId` 기준 dedupe → `status==='candidate_ready'`만 적재 → **1,917건 고유**(verified 1,868 · discovered 49 — phone 누락 49건만 discovered로 남김). 테이블이 아직 없어 **실제 upsert는 미실행** — Dashboard 적용 후 `npx tsx scripts/load-dermatology-institution-candidates-staging.ts` 그대로 실행하면 적재됨. |
+| `workflow_status='published'` | 이번 세션에서 **0건** — product 쪽과 동일하게 사람 검수 전용, 자동 설정 안 함. |
+| `/my/clinics` 실데이터 연결 | 완료 — `일반(비제휴)` 섹션이 `dermatology_institution_candidates`에서 `workflow_status IN ('verified','published')`인 행을 실시간 조회(최대 20건), 1건 이상이면 실데이터로 교체(SampleDataBadge 숨김), 0건이면 기존 목업으로 자동 fallback. 제휴(sponsored) 섹션은 지시대로 손대지 않음(계속 100% 목업). |
+| `/my/clinics` 실데이터 표시 수 (before/after) | **이전: 0 실 / 4 목업**(전부 목업) → **이후(마이그레이션 적용 전): 여전히 0 실 / 4 목업**(자동 fallback 정상 동작) → Dashboard 적용 + 적재 스크립트 실행 후에는 verified 1,868건 중 상위 20건(`sggu_name` 정렬)이 실데이터로 노출 예정. |
+| 회귀 확인 | `npx tsc --noEmit` 통과(에러 0) · `npx eslint src/app/my/clinics/page.tsx scripts/load-dermatology-institution-candidates-staging.ts` 통과(0) · `npm run build` 통과 · `npx tsx scripts/seoul-dermatology-ingestion-selftest.ts` 통과 · preview에서 `/my/clinics` 접근 시 기존 로그인 게이트대로 리다이렉트만 확인(서버 에러 없음) |
+| 삭제한 임시 파일 | `scripts/__tmp_dermatology_probe.ts`(연결 확인용 1회성 probe, 커밋 안 함) |
+
 ## 5. 다음 작업
 
-1. **차단 최우선**: 위 섹션 10의 migration 적용(`SUPABASE_ACCESS_TOKEN` 확보 또는 IPv6 네트워크)만 하면 클릭 추적이 실제로 살아남 — 사람이 로컬(IPv6 되는 네트워크) 또는 access token 있는 환경에서 `npx supabase db push` 한 번 실행 필요.
+1. **차단 최우선 (공통)**: 섹션 10(`commercial_click_events`)·섹션 11(`dermatology_institution_candidates`) 두 migration 모두 같은 이유(IPv6 전용 direct DB host + access token 없음)로 CLI 적용 불가 — Supabase Dashboard SQL Editor에서 Staging(`jfnj***gfd`)에 사람이 직접 적용 필요. 적용 후 섹션 11은 `npx tsx scripts/load-dermatology-institution-candidates-staging.ts` 한 번 더 실행해서 1,917건 적재.
 2. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 중 사람이 우선순위를 정해서 다음 지시할 것. 그 외 알려진 이슈 없음.
 
 ---

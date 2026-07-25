@@ -1,11 +1,33 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { MyCareNav } from "../MyCareNav";
 import { SampleDataBadge } from "@/components/scaffold/SampleDataBadge";
 import { SafetyFilterStub } from "@/components/scaffold/SafetyFilterStub";
 import { CommercialBadge } from "@/components/scaffold/CommercialBadge";
 import { trackScaffoldClick } from "@/lib/scaffold/clickTrackingStub";
+import { supabase } from "@/lib/supabase";
+
+/**
+ * Real institution row shape, read-only, from
+ * public.dermatology_institution_candidates (workflow_status IN
+ * ('verified','published') only — enforced both by the RLS policy and by
+ * this query's explicit filter as defense in depth).
+ * This table currently holds real HIRA (data.go.kr) Seoul dermatology
+ * clinic directory data — see docs/catalog and DASHBOARD.md 2026-07-25.
+ */
+type RealInstitutionRow = {
+  name: string;
+  address: string | null;
+  sggu_name: string | null;
+  department_name: string | null;
+  phone: string | null;
+  workflow_status: string;
+  updated_at: string;
+};
+
+const MIN_REAL_RESULTS = 1;
 
 type MockClinic = {
   name: string;
@@ -57,18 +79,42 @@ const MOCK_CLINICS: MockClinic[] = [
 ];
 
 export default function MyClinicsPage() {
-  const organic = MOCK_CLINICS.filter((c) => !c.sponsored);
+  // Sponsored/affiliate section is explicitly out of scope this session —
+  // stays 100% scaffold mock data per prior session decision.
   const sponsored = MOCK_CLINICS.filter((c) => c.sponsored);
+
+  const [realInstitutions, setRealInstitutions] = useState<RealInstitutionRow[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from("dermatology_institution_candidates")
+      .select("name, address, sggu_name, department_name, phone, workflow_status, updated_at")
+      .in("workflow_status", ["verified", "published"])
+      .order("sggu_name", { ascending: true })
+      .limit(20)
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (!error && data) setRealInstitutions(data as RealInstitutionRow[]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const useRealData = realInstitutions.length >= MIN_REAL_RESULTS;
+  const mockOrganic = MOCK_CLINICS.filter((c) => !c.sponsored);
 
   return (
     <main className="mx-auto min-h-screen max-w-3xl bg-[#FAF7F5] px-4 py-10 text-gray-900">
       <div className="flex items-center justify-between gap-3">
         <h1 className="text-3xl font-bold tracking-tight">피부과 추천</h1>
-        <SampleDataBadge />
+        {useRealData ? null : <SampleDataBadge />}
       </div>
       <p className="mt-2 text-sm text-gray-600">
-        아래 병원 목록은 실제 검증된 공식 데이터가 아닌 스캐폴드용 더미입니다.
-        실제 서비스에서는 공식 출처·전문의 증거 검증을 통과한 병원만 노출합니다.
+        {useRealData
+          ? "일반(비제휴) 추천은 건강보험심사평가원(HIRA) 공개 데이터 기준 서울 피부과 병의원 정보입니다. 제휴 병원 섹션은 별도 스캐폴드용 더미입니다."
+          : "아래 병원 목록은 실제 검증된 공식 데이터가 아닌 스캐폴드용 더미입니다. 실제 서비스에서는 공식 출처·전문의 증거 검증을 통과한 병원만 노출합니다."}
       </p>
 
       <MyCareNav current="/my/clinics" />
@@ -79,25 +125,46 @@ export default function MyClinicsPage() {
 
       <section className="mt-6 space-y-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-          일반(Organic) 추천
+          일반(비제휴) 추천
         </h2>
-        {organic.map((clinic) => (
-          <div
-            key={clinic.name}
-            className="rounded-2xl border border-blue-200 bg-blue-50 p-4"
-          >
-            <h3 className="font-semibold text-blue-950">{clinic.name}</h3>
-            <p className="mt-1 text-sm text-blue-900">
-              {clinic.specialty} · {clinic.district} · {clinic.distanceKm}km
-            </p>
-            <p className="mt-1 text-xs text-blue-800">
-              진료 언어: {clinic.languages.join(", ")}
-            </p>
-            <p className="mt-1 text-xs text-blue-700">
-              정보 확인일: {clinic.lastVerifiedAt}
-            </p>
-          </div>
-        ))}
+        {useRealData
+          ? realInstitutions.map((clinic) => (
+              <div
+                key={clinic.name + (clinic.address ?? "")}
+                className="rounded-2xl border border-blue-200 bg-blue-50 p-4"
+              >
+                <h3 className="font-semibold text-blue-950">{clinic.name}</h3>
+                <p className="mt-1 text-sm text-blue-900">
+                  {clinic.department_name ?? "피부과"} · {clinic.sggu_name ?? "서울"}
+                </p>
+                {clinic.address ? (
+                  <p className="mt-1 text-xs text-blue-800">{clinic.address}</p>
+                ) : null}
+                {clinic.phone ? (
+                  <p className="mt-1 text-xs text-blue-800">전화: {clinic.phone}</p>
+                ) : null}
+                <p className="mt-1 text-xs text-blue-700">
+                  정보 확인일: {clinic.updated_at.slice(0, 10)}
+                </p>
+              </div>
+            ))
+          : mockOrganic.map((clinic) => (
+              <div
+                key={clinic.name}
+                className="rounded-2xl border border-blue-200 bg-blue-50 p-4"
+              >
+                <h3 className="font-semibold text-blue-950">{clinic.name}</h3>
+                <p className="mt-1 text-sm text-blue-900">
+                  {clinic.specialty} · {clinic.district} · {clinic.distanceKm}km
+                </p>
+                <p className="mt-1 text-xs text-blue-800">
+                  진료 언어: {clinic.languages.join(", ")}
+                </p>
+                <p className="mt-1 text-xs text-blue-700">
+                  정보 확인일: {clinic.lastVerifiedAt}
+                </p>
+              </div>
+            ))}
       </section>
 
       {sponsored.length > 0 ? (
