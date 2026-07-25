@@ -122,12 +122,32 @@ export default function MyCareHomePage() {
   const [hasLocalAnalysis, setHasLocalAnalysis] = useState(false);
   const [quickChoice, setQuickChoice] = useState<QuickSkinCheckChoice | null>(null);
   const [quickNote, setQuickNote] = useState<string | null>(null);
+  const [hasBodyQuiz, setHasBodyQuiz] = useState(false);
+  const [notificationConsent, setNotificationConsent] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-time hydrate from localStorage; server render must start false, browser value applied post-mount
     setHasLocalAnalysis(
       Boolean(window.localStorage.getItem(RECOMMENDATION_STORAGE_KEY))
     );
+    try {
+      const bodyQuiz = JSON.parse(
+        window.localStorage.getItem("kb_quiz_body") || "null"
+      );
+      setHasBodyQuiz(
+        Boolean(bodyQuiz?.areas && Array.isArray(bodyQuiz.areas) && bodyQuiz.areas.length > 0)
+      );
+    } catch {
+      setHasBodyQuiz(false);
+    }
+    try {
+      const onboardingDraft = JSON.parse(
+        window.localStorage.getItem("kbeautyOnboardingDraftV1") || "null"
+      );
+      setNotificationConsent(Boolean(onboardingDraft?.notificationConsent));
+    } catch {
+      setNotificationConsent(false);
+    }
     void Promise.all([hydrateCareDashboard(), loadPhotoConsent()]).then(
       ([nextHydrated, consent]) => {
         setHydrated(nextHydrated);
@@ -262,6 +282,51 @@ export default function MyCareHomePage() {
     [authenticated, dashboard, hydrated?.source, photoConsent]
   );
 
+  const latestSession = dashboard?.sessions?.[0];
+  const profileCompleteness = useMemo(() => {
+    const items = [
+      {
+        key: "analysis",
+        label: "기본 문진·분석",
+        done: (dashboard?.sessions?.length ?? 0) > 0,
+        href: "/onboarding",
+      },
+      {
+        key: "allergy",
+        label: "알레르기·회피 성분 입력",
+        done:
+          (latestSession?.allergyIngredients?.length ?? 0) > 0 ||
+          (latestSession?.avoidedIngredients?.length ?? 0) > 0,
+        href: "/my/profile",
+      },
+      {
+        key: "body",
+        label: "전신 부위 문진",
+        done: hasBodyQuiz,
+        href: "/quiz/body",
+      },
+      {
+        key: "current_products",
+        label: "현재 사용 제품 등록",
+        done: (latestSession?.currentProducts?.length ?? 0) > 0,
+        href: "/my/profile",
+      },
+      {
+        key: "notification_consent",
+        label: "알림 동의",
+        done: notificationConsent,
+        href: "/onboarding",
+      },
+    ];
+    const doneCount = items.filter((i) => i.done).length;
+    return {
+      percent: Math.round((doneCount / items.length) * 100),
+      doneCount,
+      total: items.length,
+      missing: items.filter((i) => !i.done),
+    };
+  }, [dashboard?.sessions, latestSession, hasBodyQuiz, notificationConsent]);
+
   const sourceLabel =
     hydrated?.source === "server" ? "서버 동기화" : "이 기기(local)";
   const unread = dashboard?.unreadNotifications ?? 0;
@@ -296,6 +361,44 @@ export default function MyCareHomePage() {
           {savedMsg}
         </p>
       ) : null}
+
+      <section className="mt-4 rounded-2xl border border-[#E8DFD8] bg-white px-4 py-4">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-sm font-semibold text-gray-700">프로필 완성도</h2>
+          <span className="text-sm font-semibold tabular-nums text-[#C2185B]">
+            {profileCompleteness.percent}%
+          </span>
+        </div>
+        <div
+          className="mt-2 h-2 overflow-hidden rounded-full bg-pink-100"
+          role="progressbar"
+          aria-valuenow={profileCompleteness.percent}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        >
+          <div
+            className="h-2 rounded-full bg-[#C2185B] transition-all"
+            style={{ width: `${profileCompleteness.percent}%` }}
+          />
+        </div>
+        <p className="mt-2 text-xs text-gray-500">
+          {profileCompleteness.doneCount}/{profileCompleteness.total}개 항목
+          입력됨. 참고용 정보이며, 채우지 않아도 이용에는 문제없습니다.
+        </p>
+        {profileCompleteness.missing.length > 0 ? (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {profileCompleteness.missing.slice(0, 3).map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                className="touch-target rounded-full border border-[#E8DFD8] px-3 py-1.5 text-xs font-medium text-[#8B6914] underline"
+              >
+                {item.label} 채우기
+              </Link>
+            ))}
+          </div>
+        ) : null}
+      </section>
 
       {section(
         "next_action",
