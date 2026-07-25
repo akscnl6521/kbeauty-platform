@@ -194,10 +194,56 @@ MASTER_PLAN.md 섹션 2~21(+26, 41 일부) 전체를 다시 훑어서, 지금까
 | 회귀 확인 | `npx tsc --noEmit` 통과(에러 0) · `npx eslint src/app/my/clinics/page.tsx scripts/load-dermatology-institution-candidates-staging.ts` 통과(0) · `npm run build` 통과 · `npx tsx scripts/seoul-dermatology-ingestion-selftest.ts` 통과 · preview에서 `/my/clinics` 접근 시 기존 로그인 게이트대로 리다이렉트만 확인(서버 에러 없음) |
 | 삭제한 임시 파일 | `scripts/__tmp_dermatology_probe.ts`(연결 확인용 1회성 probe, 커밋 안 함) |
 
+## 12. Discovery 검수 대기 68건 재크롤·검증 시도 (2026-07-25 · 결과: 활성 0건)
+
+`artifacts/discovery-review-classification/report-latest.json`(읽기 전용 분류, 이전 세션)의 `auto_approve_candidate` 68건(8개 브랜드) 각각을 **실제 브랜드 공식 페이지에서 재크롤**(`src/lib/catalog/officialCrawl.ts`, 캡차/봇차단 우회 시도 없음)한 뒤, 기존 파이프라인 함수만 재사용해 draft product 생성 → 성분/오퍼 연결 → 활성화 시도까지 1건씩 실행. 과거 boolean 플래그만 남아있고 실제 성분/이미지/가격 원문은 사라졌었기 때문에, 이번엔 전부 새로 받아온 원문만 사용(발명 없음).
+
+**사용한 기존 코드(신규 로직 없음)**: `materializeDraftProduct` → `linkProductIngredients` → `discoverAndPersistOffers` → `verifyAndActivateProduct`, 전부 `src/lib/pipeline/catalog-enrich.ts`의 `enrichCatalogAfterCandidate`로 한 번에 호출. `config/pipeline-operation.json`/`HARD_FALSE_KEYS` 등 정책 파일은 손대지 않음.
+
+**결과 (68건 기준)**
+
+| 결과 | 건수 | 비고 |
+|---|---|---|
+| Draft product 생성 (`products.active=false`) | 40 | 전부 `product_discovery_candidates.linked_product_id` 연결 완료 |
+| **활성화(`active=true`) 성공** | **0** | 아래 원인 참고 |
+| Draft 자체 미생성 — `category_uncertain` | 24 | 카테고리 분류기(`classifyProductCategory`)가 일부 한국어 전용 표기(쿠션/샴푸/트윈케이크 등)를 못 알아봄 — 사전 데이터/코드 이슈, 재크롤 문제 아님 |
+| 재크롤 자체 실패 — 봇 챌린지/레이트리밋 | 4 (ROUND LAB) | `CAPTCHA:challenge_no_bypass` 3건 + `HTTP_ERROR:http_429` 1건 — 정책대로 우회 시도 없음 |
+| 재크롤 결과가 과거 분류와 달라 discrepancy 처리 | 0 | 68건 전부 성분/이미지/가격 원문이 정상적으로 다시 확인됨 |
+
+**브랜드별**
+
+| 브랜드 | 총 | draft 생성 | category_uncertain | 재크롤 실패 |
+|---|---|---|---|---|
+| espoir | 10 | 8 | 2 | 0 |
+| mise en scène | 10 | 2 | 8 | 0 |
+| Lador | 10 | 7 | 3 | 0 |
+| Sulwhasoo | 10 | 7 | 3 | 0 |
+| LANEIGE | 9 | 2 | 7 | 0 |
+| numbuzin | 10 | 10 | 0 | 0 |
+| SKIN1004 | 1 | 0 | 1 | 0 |
+| ROUND LAB | 8 | 4 | 0 | 4 |
+
+**활성화 0건의 실제 원인** — `verifyAndActivateProduct`의 품질 게이트(`product-verify-gate.ts`)는 `unmatchedIngredientCount === 0`을 요구하는데, Staging `ingredients` 사전 테이블이 너무 빈약해서 제품당 실 INCI 성분의 대부분이 매칭되지 않음(제품당 매칭 0~3개 vs 미매칭 26~71개). 오퍼는 3건에서 실제로 verified 상태까지 도달(Sulwhasoo 퍼펙팅 파운데이션 10건, 윤조에센스 퍼펙팅 2건, LANEIGE 글레이즈 크레이즈 8건)했지만 그 경우도 `ingredient_unmatched` 블로커 하나 때문에 최종 활성화는 막힘. 이 게이트 자체는 건드리지 않음(정책대로) — 사전 데이터 보강이 선행돼야 실제 활성화가 가능한 구조.
+
+**Discovery candidate 검수 상태 갱신** (40건, 직접 UPDATE — `product_discovery_candidates`는 이번 세션에서 이미 확인된 대로 관리자 권한 게이트 없이 쓰기 가능):
+- `duplicate_check_status`/`evidence_check_status` → `pass` (실제로 새 product 연결 + 이번 세션 재크롤 근거 있음)
+- `sale_check_status` → `pass`는 오퍼가 실제 verified된 3건만
+- `ingredient_check_status`/`safety_check_status` → 대부분 `pending` 유지(실제로 통과하지 않았으므로 임의로 올리지 않음)
+- `workflow_status` → **`verified`로 올라간 건 0건**(활성화가 안 됐으므로). 지시대로 `published`는 아예 시도하지 않음.
+
+**부수 인프라 버그 수정**: CLI에서 `server-only` 가드 모듈을 로드하는 `scripts/register-server-only.mjs`/`scripts/hooks/resolve-server-only.mjs`가 `@/...` alias import만 처리하고 있어서, 상대경로(`./foo`) import를 쓰는 모듈(`src/lib/catalog/automation/jsonLdParser.ts` 등)을 이번에 처음 CLI에서 직접 재사용하려다 `Cannot find module` 오류로 드러남. 두 파일에 확장자 없는 상대경로 fallback 해석(.ts/.tsx/.js/.mjs/index.*)을 추가해서 해결 — 기존 스크립트들은 전부 `@/...` alias만 써서 지금까지 안 걸렸던 사각지대. 회귀 확인: `node scripts/test-pipeline-core.mjs`(51 checks) + `pipeline-diagnostic-selftest.ts`(13개 스위트) 전부 통과.
+
+**새로 발견한 별도 블로커**: `pipeline_batches` 테이블에 `service_role` INSERT 권한이 없음(`permission denied for table pipeline_batches`) — `scripts/run-pipeline-worker.mjs`/`runPipelineWorkerFromConfig`가 배치 기록을 못 남겨서 정식 스케줄러 워커 경로 자체가 현재 끝까지 못 돔. 이번 작업은 그 경로를 안 쓰고 `product_discovery_candidates`/`products`/`product_ingredients`/`product_offers`에 직접 붙여서 우회했지만, 정식 워커를 쓰려면 사람이 Supabase Dashboard SQL Editor에서 아래를 Staging(`jfnj***gfd`)에 실행해야 함:
+
+```sql
+GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;
+```
+
 ## 5. 다음 작업
 
 1. **차단 최우선 (공통)**: 섹션 10(`commercial_click_events`)·섹션 11(`dermatology_institution_candidates`) 두 migration 모두 같은 이유(IPv6 전용 direct DB host + access token 없음)로 CLI 적용 불가 — Supabase Dashboard SQL Editor에서 Staging(`jfnj***gfd`)에 사람이 직접 적용 필요. 적용 후 섹션 11은 `npx tsx scripts/load-dermatology-institution-candidates-staging.ts` 한 번 더 실행해서 1,917건 적재.
-2. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 중 사람이 우선순위를 정해서 다음 지시할 것. 그 외 알려진 이슈 없음.
+2. **섹션 12 관련**: `ingredients` 사전 테이블을 실제로 보강하지 않으면 이번에 만든 draft product 40건(및 향후 재시도분)은 계속 활성화 게이트에서 막힘 — 사전 보강이 선행 과제. 그리고 위 `GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;`를 Dashboard에서 실행하면 정식 스케줄러 워커 경로가 열림.
+3. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 중 사람이 우선순위를 정해서 다음 지시할 것. 그 외 알려진 이슈 없음.
 
 ---
 

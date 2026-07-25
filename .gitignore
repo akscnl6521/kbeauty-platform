@@ -100,6 +100,7 @@ supabase/.temp/
 /artifacts/scaffold-journey-e2e/
 /artifacts/discovery-review-classification/
 /artifacts/staging-import-package/
+/artifacts/manual-verify-auto-approve-68/
 
 # Generated recommendation analysis (local / CI artifacts)
 /data/generated/recommendation/
