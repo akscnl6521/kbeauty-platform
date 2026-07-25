@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-07-25
+
+- 스캐폴드: 11단계 사용자 여정 화면 클릭 연결 완료 (`/onboarding` 언어·통화, `/routine/purchase`, `/routine/save`, `/my/clinics`, `/my/consultation-report`, `/quiz/body` 신규) — 완료 기준 12가지 미적용, 샘플 데이터 명시 표기.
+- 스캐폴드 하위 기능 6개: 사용 영상 placeholder(`UsageVideoModal`), 광고/제휴 뱃지(`CommercialBadge`, 기본 off), 클릭 추적 stub(`trackScaffoldClick`), 마지막 확인일 표시, 알림·상담정보 전달 동의 체크박스.
+- 마스터플랜 전수 점검(섹션 2~21·26·41) 및 갭 2건 처리: 전신 부위 문진(`/quiz/body`), `/results` 제품별 "추천하지 않는 제품" 사유 노출(`filterCandidatesBySafety` 확장, `loadRecommendation.ts` 필드 allowlist 누락 수정 포함). 나머지 5건은 로드맵 후반 보류.
+- 통합 검증 1차: 모바일 375px 이상 없음 확인, 의료 단정 표현 1건 완화, 광고/제휴 disclosure 문구 명확화(`title` tooltip + 병원 카드 섹션 헤더).
+- 버그 수정: WQ-F `looksLikeProductUrl`이 한국형 `.do?i_sProductcd=` URL 패턴을 인식 못 해 espoir 브랜드가 0건이던 문제 — 수정 후 실 제품 10건 Staging 등록.
+- 데이터: HIRA 서울 피부과 실 라이브 수집 1,917/4,967건(로컬 아티팩트만, 미게시). Staging `product_discovery_candidates` 총 1,319건.
+- 로그인 게이트 e2e 신설(`test:scaffold-journey-e2e`): 고객·관리자 계정 실 로그인 기반 4개 화면 렌더링 검증, `.env.local` 누락 값(공개 Supabase URL/anon key, service role key) 2건 발견·수정.
+- 최종 회귀: 전체 `tsc`/`eslint`/`build` 통과, 기존 test suite 107건 중 104 통과 — 3건(`checkin-email-provider`/`resend`/`test-api`) 실패는 로컬 환경에 `SITE_URL` 미설정 때문으로 확인(오늘 변경과 무관, pre-existing).
+- 상세 내역: `DASHBOARD.md`.
+
 ## 2026-07-24
 
 ### P3-T05 — Integrated Staging import package

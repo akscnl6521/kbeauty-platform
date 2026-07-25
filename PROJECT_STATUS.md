@@ -1,6 +1,19 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-24
+최종 갱신: 2026-07-25
+
+## 2026-07-25 스캐폴드 모드 — 전체 사용자 여정 클릭 연결 + 통합 검증 1차
+
+- 목적: 완료 기준 12가지(EXECUTION_CONTRACT.md §7)를 일부러 미적용하고, 접속→국가/언어/통화→문진→사진분석→추천→루틴→구매처→저장→체크인→피부과→상담리포트 11단계를 샘플 데이터로 전부 클릭 연결.
+- 화면: 신규 6개(`/routine/purchase`, `/routine/save`, `/my/clinics`, `/my/consultation-report`, `/quiz/body` + `/onboarding` 언어·통화 보강), 기존 5개 재사용.
+- 하위 기능 6개: 사용 영상 placeholder, 광고/제휴 뱃지(기본 off, 명시적 disclosure), 클릭 추적 stub, 마지막 확인일 표시, 알림·상담정보 전달 동의 체크박스.
+- 마스터플랜 전수 점검(섹션 2~21, 26, 41) 후 갭 2건 실제 처리: `/quiz/body`(전신 부위 문진), `/results` 제품별 "추천하지 않는 제품" 노출(`filterCandidatesBySafety` 확장). 나머지 5건(AI 코치·프로필 완성도·제품 소진 예상·관리자 번역 관리·수익 정산)은 로드맵 후반으로 보류.
+- 통합 검증 1차: 모바일 375px 6화면 이상 없음, 의료 단정 표현 1건 수정, 광고/제휴 고지 문구 명확화.
+- 실데이터: WQ-F espoir 브랜드 커넥터 버그 수정(한국형 `.do` URL 패턴 미인식) → 실 제품 10건 Staging 등록. HIRA 서울 피부과 실 수집 1,917/4,967건(로컬만, 미게시).
+- 로그인 게이트 e2e: `/my/check-ins`·`/my/clinics`·`/my/consultation-report`·`/admin/discovery` 4/4 실 로그인 기반 렌더링 확인 통과 (`test:scaffold-journey-e2e`).
+- 최종 회귀: 전체 `tsc`·`eslint`·`build` 통과. 기존 test suite 107건 중 104 통과, 3건(`checkin-email-provider`/`resend`/`test-api`) 실패는 로컬 `.env.local`에 `SITE_URL` 미설정 때문(오늘 변경과 무관, pre-existing 환경 갭 — 코드 수정 안 함).
+- 상세: `DASHBOARD.md` 참고. Staging/Production DB 쓰기 없음(제품·병원 후보 upsert만, 게시 아님) · main 병합·Production 배포 없음.
+- next_task: 사람이 우선순위 지정 대기 (마스터플랜 보류 5건 또는 discovery 검수 등)
 
 ## 2026-07-24 P3-T05 · Integrated Staging import package
 
