@@ -1,6 +1,16 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-25
+최종 갱신: 2026-07-25 (오토파일럿 — 로드맵 3/6/7단계 실데이터 배선)
+
+## 2026-07-25 오토파일럿 — 로드맵 3/6/7단계 실데이터 파이프라인 배선
+
+- 목적: "가로로 넓게" 스캐폴드가 끝난 뒤, 로드맵 9단계 중 미완료 구간을 낮은 단계부터 실제로 채우는 세션. main 병합·Production 배포·실 이메일 발송 3가지만 제외하고 Staging DB 쓰기/커밋/push 전부 진행.
+- **3단계(제품)**: discovery 검수 대기 234건 중 `auto_approve_candidate` 68건(8브랜드)을 실제 재크롤 → draft product 40건 생성(성분/오퍼 실데이터 연결) 성공. **활성화(`active=true`)는 0건** — Staging `ingredients` 사전이 너무 빈약해 실 INCI 매칭률이 낮아 품질 게이트 통과 못함(게이트 자체는 손대지 않음). 사전 보강이 다음 선행 과제로 확인됨.
+- **6단계(피부과)**: HIRA 실 후보 1,917건을 저장할 Supabase 테이블이 지금까지 아예 없었음을 확인 → `dermatology_institution_candidates` 신규 설계·migration 작성, `/my/clinics` 실데이터 조회 배선까지 완료. migration 자체는 이 세션 환경(IPv6 전용 host + access token 없음)에서 적용 불가 — Dashboard SQL Editor 사람 실행 대기.
+- **7단계(수익화)**: 기존에 설계돼 있던 클릭/전환 이벤트 검증·스크러빙 순수 함수를 실제 `commercial_click_events` 테이블 + `/api/track/click` 라우트로 배선 완료. 같은 이유로 migration 적용은 대기.
+- 공통 차단 요인: 두 신규 migration + `pipeline_batches` 테이블 GRANT, 총 3가지가 전부 "Supabase Dashboard SQL Editor 접근 권한이 있는 사람"만 실행 가능한 1회성 작업으로 확인됨(코드는 전부 준비 완료). 8단계 실 스케줄러 설치 스크립트(`install-pipeline-task.ps1`)도 기존에 준비돼 있었으나 "에이전트가 자동 실행 금지"로 명시돼 있어 설치는 사람 몫으로 남김.
+- 상세: `DASHBOARD.md` §10~§12, §4, §5 참고.
+- next_task: Dashboard SQL 2건 + GRANT 1건 적용 → `ingredients` 사전 보강 우선순위 결정 → (선택) 실 스케줄러 설치 → 8/9단계 계속
 
 ## 2026-07-25 스캐폴드 모드 — 전체 사용자 여정 클릭 연결 + 통합 검증 1차
 

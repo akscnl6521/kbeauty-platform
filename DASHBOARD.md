@@ -49,8 +49,11 @@
 | 제품 — Staging 실 활성(`products`) | **20개** |
 | 제품 — Discovery 검수 대기(`discovered`+`needs_review`) | **234건** |
 | 제품 — Discovery 누적(대부분 과거 placeholder, rejected 1,085 포함) | 1,319건 |
+| 제품 — Draft(비활성, 실성분/이미지/오퍼 연결됨) | **40건** (오늘 신규, §12) — 활성화는 ingredients 사전 보강 후 |
 | 병원 — 서울 피부과 실 후보(로컬 파일, HIRA live) | **1,917건** (20/50페이지 · 전체 모수 약 4,967건 중) |
+| 병원 — Staging DB 적재 | **0건** (테이블 신설·적재 스크립트 준비 완료, migration 적용 대기 — §11) |
 | 병원 — 실제 제휴/공개 병원 | **0개** |
+| 클릭/전환 이벤트 | 실 파이프라인 배선 완료, migration 적용 대기 — §10 |
 
 - WQ-F 브랜드 커넥터: `looksLikeProductUrl`이 `shop_prd_view.do?i_sProductcd=` 같은 한국형 `.do` URL 패턴을 못 알아봐서 espoir가 0건이었던 것을 확인·수정. 재크롤 결과 **espoir 10건 전부 staging_ready(품질 100%)**로 Staging 등록.
 - 잔여 브랜드 개별 조사 결과 (전부 "빠른 수정"으로는 안 풀림):
@@ -61,7 +64,13 @@
 
 ## 4. 사람 판단 필요
 
-없음. (로그인 게이트 e2e 검증 관련 항목은 전부 해결·확인 완료 — 아래 4-1 참고)
+이번 세션(오토파일럿) 종료 시점 기준, 코드/로직 판단이 아니라 **Dashboard/CLI 접근 권한이 있는 사람만 할 수 있는 3가지 실행 작업**이 대기 중 (전부 Staging 전용, Production 무관):
+
+1. Supabase Dashboard SQL Editor(Staging `jfnj***gfd`)에서 migration 2개 붙여넣기 실행 — §10 `commercial_click_events`, §11 `dermatology_institution_candidates`. CLI로는 이 세션 네트워크(IPv6 전용 direct host)+access token 부재로 적용 불가했음.
+2. 같은 SQL Editor에서 `GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;` 실행 — 정식 스케줄러 워커(§8 대상) 경로를 열기 위해 필요.
+3. `ingredients` 사전 테이블 보강 우선순위 결정 — §12에서 확인된 대로, 이게 없으면 새로 만든 draft product 40건이 계속 활성화 게이트에서 막힘. 보강 방법(사전 확장 소스, 매칭 로직 개선 등)은 다음 세션에서 사람이 방향을 정해야 함.
+
+(로그인 게이트 e2e 검증 관련 항목은 전부 해결·확인 완료 — 아래 4-1 참고)
 
 ## 4-1. 확인 완료 (더 이상 사람 판단 불필요)
 
@@ -241,9 +250,12 @@ GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;
 
 ## 5. 다음 작업
 
+**이번 세션(오토파일럿)은 여기서 코드로 더 진행 불가 — 아래 4가지가 전부 "Dashboard 접근 권한"이나 "사람의 우선순위 결정"이 필요한 지점이라 막힘. 코드/에이전트 작업은 준비 완료 상태.**
+
 1. **차단 최우선 (공통)**: 섹션 10(`commercial_click_events`)·섹션 11(`dermatology_institution_candidates`) 두 migration 모두 같은 이유(IPv6 전용 direct DB host + access token 없음)로 CLI 적용 불가 — Supabase Dashboard SQL Editor에서 Staging(`jfnj***gfd`)에 사람이 직접 적용 필요. 적용 후 섹션 11은 `npx tsx scripts/load-dermatology-institution-candidates-staging.ts` 한 번 더 실행해서 1,917건 적재.
 2. **섹션 12 관련**: `ingredients` 사전 테이블을 실제로 보강하지 않으면 이번에 만든 draft product 40건(및 향후 재시도분)은 계속 활성화 게이트에서 막힘 — 사전 보강이 선행 과제. 그리고 위 `GRANT SELECT, INSERT ON public.pipeline_batches TO service_role;`를 Dashboard에서 실행하면 정식 스케줄러 워커 경로가 열림.
-3. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 중 사람이 우선순위를 정해서 다음 지시할 것. 그 외 알려진 이슈 없음.
+3. **로드맵 8단계(실제 갱신 스케줄러)**: 필요한 코드·PowerShell 설치 스크립트(`scripts/install-pipeline-task.ps1`, `scripts/run-pipeline.ps1`, `docs/83-windows-task-scheduler-operation.md`)는 이미 과거 세션에서 전부 준비돼 있음 — 이번 세션에서 `scripts/check-pipeline-task.ps1`로 확인한 결과 **아직 미설치**(`MISSING: KBeautyMatch-Pipeline`). `install-pipeline-task.ps1` 파일 자체에 "OPTIONAL one-time register. Agents must not auto-run."라고 명시돼 있어 이번 세션에서 실행하지 않음 — 설치하려면 사람이 직접 `.\scripts\install-pipeline-task.ps1` 실행 필요(6시간마다 Windows Task Scheduler로 워커 실행, 위 §1의 `pipeline_batches` GRANT가 먼저 적용돼야 실제로 데이터를 만들기 시작함).
+4. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 중 사람이 우선순위를 정해서 다음 지시할 것. 그 외 알려진 이슈 없음.
 
 ---
 

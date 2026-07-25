@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-07-25 (오토파일럿)
+
+- 3단계: discovery 검수 대기 후보 68건 재크롤 → draft product 40건 생성(실 성분/이미지/오퍼 연결). 활성화 0건 — Staging `ingredients` 사전 부족으로 게이트 미통과(원인 확인, 게이트 자체는 미변경).
+- 6단계: `dermatology_institution_candidates` 신규 테이블 + migration 설계, HIRA 실 후보 1,917건 적재 스크립트 준비, `/my/clinics` 실데이터 조회 배선. migration 적용은 Dashboard 사람 실행 대기.
+- 7단계: `commercial_click_events` 신규 테이블 + migration, `/api/track/click` 실 라우트로 클릭/전환 이벤트 배선(`validateClickConversionEvent`/`scrubEventForAnalytics` 재사용). migration 적용은 동일 사유로 대기.
+- 백업 체계: `docs/autopilot/BACKUP_LOG.md` 신설, non-PII Staging row-count 스냅샷 스크립트(`scripts/snapshot-staging-summary.ts`) 추가.
+- 부수 수정: CLI `server-only` 로더가 상대경로 import를 해석 못 하던 사각지대 수정(`register-server-only.mjs`/`resolve-server-only.mjs`).
+- 확인된 차단 요인(전부 사람의 Dashboard 실행 필요): migration 2건 + `pipeline_batches` GRANT 1건. 8단계 실 스케줄러 설치 스크립트는 기존 준비되어 있으나 "에이전트 자동 실행 금지" 명시로 미실행.
+
 ## 2026-07-25
 
 - 스캐폴드: 11단계 사용자 여정 화면 클릭 연결 완료 (`/onboarding` 언어·통화, `/routine/purchase`, `/routine/save`, `/my/clinics`, `/my/consultation-report`, `/quiz/body` 신규) — 완료 기준 12가지 미적용, 샘플 데이터 명시 표기.
