@@ -32,10 +32,12 @@
 | 항목 | 수치 |
 |------|------|
 | 제품 — Staging 실 활성(`products`) | **20개** |
-| 제품 — Discovery 검수 대기(`discovered`+`needs_review`) | **224건** |
-| 제품 — Discovery 누적(대부분 과거 placeholder, rejected 1,085 포함) | 1,309건 |
+| 제품 — Discovery 검수 대기(`discovered`+`needs_review`) | **234건** |
+| 제품 — Discovery 누적(대부분 과거 placeholder, rejected 1,085 포함) | 1,319건 |
 | 병원 — 서울 피부과 실 후보(로컬 파일, HIRA live) | **932건** |
 | 병원 — 실제 제휴/공개 병원 | **0개** |
+
+- WQ-F 브랜드 커넥터: `looksLikeProductUrl`이 `shop_prd_view.do?i_sProductcd=` 같은 한국형 `.do` URL 패턴을 못 알아봐서 espoir가 0건이었던 것을 확인·수정. 재크롤 결과 **espoir 10건 전부 staging_ready(품질 100%)**로 Staging 등록. dr-jart/medicube/clio/anua/3ce는 URL 패턴이 각기 달라 이번 수정으로는 안 풀림(각각 0건 유지) — 브랜드별 추가 조사 필요. missha는 Akamai 봇 차단으로 별도 이슈(우회 시도 안 함, 정책상 회피).
 
 ## 4. 사람 판단 필요
 
@@ -47,7 +49,7 @@
 
 ## 5. 다음 작업
 
-WQ-F 미해결 브랜드(missha, clio, espoir, dr-jart, medicube, anua — Shopify 아닌 자체 플랫폼) 중 하나를 골라 전용 커넥터 추가 시도.
+WQ-F 잔여 미해결 브랜드(dr-jart, medicube, clio, anua, 3ce — 각기 다른 URL 패턴, missha는 Akamai 별도 이슈) 중 하나를 골라 사이트 구조 조사 후 커넥터 확장 계속.
 
 ---
 
