@@ -37,7 +37,12 @@
 | 병원 — 서울 피부과 실 후보(로컬 파일, HIRA live) | **932건** |
 | 병원 — 실제 제휴/공개 병원 | **0개** |
 
-- WQ-F 브랜드 커넥터: `looksLikeProductUrl`이 `shop_prd_view.do?i_sProductcd=` 같은 한국형 `.do` URL 패턴을 못 알아봐서 espoir가 0건이었던 것을 확인·수정. 재크롤 결과 **espoir 10건 전부 staging_ready(품질 100%)**로 Staging 등록. dr-jart/medicube/clio/anua/3ce는 URL 패턴이 각기 달라 이번 수정으로는 안 풀림(각각 0건 유지) — 브랜드별 추가 조사 필요. missha는 Akamai 봇 차단으로 별도 이슈(우회 시도 안 함, 정책상 회피).
+- WQ-F 브랜드 커넥터: `looksLikeProductUrl`이 `shop_prd_view.do?i_sProductcd=` 같은 한국형 `.do` URL 패턴을 못 알아봐서 espoir가 0건이었던 것을 확인·수정. 재크롤 결과 **espoir 10건 전부 staging_ready(품질 100%)**로 Staging 등록.
+- 잔여 브랜드 개별 조사 결과 (전부 "빠른 수정"으로는 안 풀림):
+  - **dr-jart, missha, 3ce**: Akamai 봇 차단(Access Denied/edgesuite.net) — 우회 시도 안 함(정책상 회피 대상).
+  - **anua**: sitemap.xml에 `/lander` 1건만 존재 — 실제 상품 목록은 JS 렌더링 뒤에 있을 가능성, 조사에 브라우저 렌더링 수준 작업 필요(다음에 더 큰 작업으로 재검토).
+  - **clio.co.kr**: 이 환경에서 DNS/연결 자체가 간헐적으로 실패 — 코드 문제 아님.
+  - **medicube**: robots.txt/sitemap.xml 자체가 404 — 별도 구조 조사 필요.
 
 ## 4. 사람 판단 필요
 
@@ -49,7 +54,7 @@
 
 ## 5. 다음 작업
 
-WQ-F 잔여 미해결 브랜드(dr-jart, medicube, clio, anua, 3ce — 각기 다른 URL 패턴, missha는 Akamai 별도 이슈) 중 하나를 골라 사이트 구조 조사 후 커넥터 확장 계속.
+HIRA 서울 피부과 실 수집 이어서 진행 (현재 932/4,968건 · 로컬 파일만 · API 쿼터 고려해 페이지 단위로 확장). WQ-F 잔여 브랜드는 전부 빠른 수정 범위를 넘어서 (Akamai 차단·JS 렌더링 필요·구조 상이) 별도 작업으로 보류.
 
 ---
 
