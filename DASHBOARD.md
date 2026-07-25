@@ -329,6 +329,25 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
   파일: `supabase/migrations/20260725170000_grant_service_role_update_products.sql`, `supabase/migrations/20260725170500_grant_service_role_update_pipeline_batches.sql`
 - 우회 시도 없음 — 지시대로 GRANT 출력 후 이 작업만 대기.
 
+## 20. 40건 draft product 활성화 완료 + 화면 실데이터 확인 (2026-07-25)
+
+사람이 GRANT 3건(`product_offers`/`products`/`pipeline_batches` UPDATE) + public 스키마 전체 권한 적용 완료 확인 후 재실행.
+
+- **활성화 결과: 7/40 성공** — Sulwhasoo 퍼펙팅 파운데이션·윤조에센스 퍼펙팅, LANEIGE 글레이즈 크레이즈, 넘버즈인 토너패드, ROUND LAB 3건(Birch 립밤·Vita 니아신아마이드 크림·Birch 선세럼). `productsActiveCount` 20→**27**.
+- **나머지 33건은 여전히 quality_grade_C/오퍼 부족** — 정직한 결과(발명·우회 없음). 실 verified offer가 있는 제품만 실제로 통과함.
+- **`/results` 실데이터 확인 완료(브라우저 실행)**: 문진 실제 입력(붉은기·색소침착) → 7건 전부 "다른 제품 둘러보기" 섹션에 실 성분 목록과 함께 노출 확인. **핵심 추천 Top-3에는 안 뜸** — 이유 확인: `offer-persist.ts`의 `retailerCountry` 판정이 TLD 기반(`.com`→US)이라 sulwhasoo.com/laneige.com/numbuzin.com/roundlab.com이 전부 "US" 판매처로 분류됨(실제로는 원화 가격의 한국 사이트). Top-3는 "한국 판매처 확인"을 요구해서 이 5개 도메인은 구조적으로 Top-3에 못 들어감 — 버그라기보다 분류 로직의 한계, 필요하면 다음 세션에서 보완 대상으로 기록.
+- **`/routine` 확인**: 즐겨찾기(하트) 기반 표시라 북마크 안 하면 정상적으로 빈 화면 — 설계대로 동작, 결함 아님.
+- **`/routine/purchase` 확인**: 화면 자체가 "⚠ 샘플 데이터" 배지가 붙은 **의도적 스캐폴드 화면**(샘플브랜드 A/B/C 하드코딩) — 이전 세션에서 이미 그렇게 설계됨(§1-1). 실데이터로 바꾸는 건 이번 지시("확인")의 범위가 아니라 별도 신규 작업.
+
+## 21. 정식 스케줄러 워커 end-to-end 성공 (2026-07-25 · 8단계 실질 완료)
+
+`node scripts/run-pipeline-worker.mjs`를 GRANT 3건(§19·20) 적용 후 재실행 — **처음으로 끝까지 완주**:
+
+- dry_run 배치(46 items: success 31 · review 7 · failed 8) → 커밋 배치(gated candidate insert, 동일 46 items 재확인) → `reevaluateProductsForActivation`(기존 20건 재평가) → `safe auto recovery`(stale job/lock 정리) → `care worker tick`(체크인 상태 갱신) 전부 에러 없이 완료.
+- **실제 신규 데이터 생성 확인**(스냅샷 전/후 비교): `products` 67→72(+5) · `product_discovery_candidates` 1,319→1,345(+26 신규 실 후보) · `product_offers` 89→94 · `verification_queue` 124→163.
+- 이제 이 명령 하나로 브랜드 재크롤·후보 등록·품질 재평가·안전 복구·체크인 갱신까지 자동으로 도는 게 실제로 확인됨 — **8단계 로드맵 기준("가격·재고·링크 유효성 스케줄 갱신 + 변경 감지 + 재시도 로직") 실질 충족**.
+- **남은 건 딱 하나, 사람의 몫**: `.\scripts\install-pipeline-task.ps1` — Windows Task Scheduler에 6시간마다 자동 실행 등록. 파일 자체가 "에이전트 자동 실행 금지"를 명시하고 있어 이번에도 실행 안 함(권한 문제 아니라 저장소의 명시적 정책). 실행하면 그 이후로는 사람 개입 없이 주기적으로 이 세션에서 확인한 전체 파이프라인이 자동으로 돎.
+
 ## 5. 다음 작업 (2026-07-25 최종 갱신)
 
 **해결된 것들** (더 이상 차단 아님): `commercial_click_events`/`dermatology_institution_candidates` migration 2건 적용 완료, HIRA 1,917건 적재 완료, 클릭 추적 실기록 확인 완료, `pipeline_batches` GRANT 적용 완료, ingredients 사전 중복 정리 + 재매칭 완료, 6단계 범위는 지리 기반 목록으로 확정·완료.
