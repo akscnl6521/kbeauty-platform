@@ -8,14 +8,17 @@
  *   npx tsx scripts/run-seoul-dermatology-ingestion.ts --mode=dry_run
  *   npx tsx scripts/run-seoul-dermatology-ingestion.ts --max-pages=2 --num-of-rows=5
  */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import {
   createFixturePageFetcher,
   createLivePageFetcher,
   runSeoulDermatologyIngestion,
 } from "../src/lib/publicData/seoulDermatologyIngestion";
-import type { SeoulDermatologyIngestionMode } from "../src/lib/publicData/seoulDermatologyIngestion";
+import type {
+  PaginationCheckpoint,
+  SeoulDermatologyIngestionMode,
+} from "../src/lib/publicData/seoulDermatologyIngestion";
 
 function argValue(name: string): string | undefined {
   const prefix = `--${name}=`;
@@ -39,6 +42,20 @@ async function main() {
   const maxPages = maxPagesRaw ? Number(maxPagesRaw) : undefined;
   const openList = argFlag("open-list");
 
+  const resumePath = argValue("resume-checkpoint");
+  let resumeCheckpoint: PaginationCheckpoint | undefined;
+  if (resumePath) {
+    if (!existsSync(resumePath)) {
+      throw new Error(`resume checkpoint not found: ${resumePath}`);
+    }
+    resumeCheckpoint = JSON.parse(
+      readFileSync(resumePath, "utf8"),
+    ) as PaginationCheckpoint;
+    if (resumeCheckpoint.status === "completed") {
+      throw new Error("resume checkpoint already completed — nothing to resume");
+    }
+  }
+
   const fetcher =
     mode === "fixture"
       ? createFixturePageFetcher()
@@ -55,6 +72,7 @@ async function main() {
     numOfRows: Number.isFinite(numOfRows) && numOfRows > 0 ? numOfRows : 10,
     maxPages,
     dgsbjtCd: openList ? null : undefined,
+    checkpoint: resumeCheckpoint,
   });
 
   const outDir = path.join(

@@ -46,24 +46,25 @@
 
 ## 4. 사람 판단 필요
 
-- **Staging Auth 이메일 자동 확인(auto-confirm) 활성화는 CLI/API로 불가 — Dashboard 클릭 또는 access token 필요.** 직접 시도해서 확인한 사실:
-  - `supabase/config.toml`에 `enable_confirmations = false`가 있지만, 이건 **로컬 개발용 설정**(`supabase start`)일 뿐 원격 Staging 프로젝트의 실제 GoTrue 설정과 무관 — push된 적 없음.
-  - Supabase CLI가 이 프로젝트에 **로그인되어 있지 않음** (`supabase projects list` → `LegacyPlatformAuthRequiredError: Access token not provided`). `supabase login`은 사람의 실제 Supabase 계정 인증(브라우저 OAuth)이 필요해서 제가 대신 할 수 없음.
-  - `SUPABASE_SERVICE_ROLE_KEY`(신형 `sb_secret_...` 포맷)로는 GoTrue Admin API(`auth.admin.createUser`/`listUsers`) 자체가 `unrecognized JWT kid` 오류로 거부됨 — 일반 PostgREST 테이블 조회는 정상 동작하지만 Auth 설정 변경/사용자 생성 전부 막힘.
-  - **관리자 로그인도 동일 메커니즘**(`supabase.auth.getUser()` 기반)이라 admin 테스트 계정도 같은 이유로 자동 생성 불가.
-  - 해결 경로 (사람 필요, 셋 중 하나):
-    1. Supabase Dashboard → Staging 프로젝트(`jfnjufmldiqlgvgyugfd`, Production `rhfrmvkjsummaylpzmns` 아님 확인 후) → Authentication → Providers → Email → "Confirm email" 끄기 (2분), 또는
-    2. `SUPABASE_ACCESS_TOKEN`(Management API personal access token) 제공, 또는
-    3. 실제 로그인 가능한 테스트 계정(고객용 1개 + 필요시 관리자용 1개) 이메일/비밀번호 제공.
-  - 참고: `tsc`/`eslint`/`npm run build`/`test:journey`/`test:smoke`는 전부 통과했고, 로그인 불필요 구간(온보딩·구매처·저장)은 브라우저로 직접 확인함.
+- **`/admin/discovery` e2e 검증은 admin_users 부트스트랩이 없어서 아직 미완료.** `admin_users` 테이블은 `service_role`로도 INSERT가 `permission denied`로 막혀 있음 — 이건 버그가 아니라 의도된 보안 설계임(`docs/47-admin-auth-migration-review.md` §8: "첫 admin bootstrap은 Dashboard SQL만 · 실행 금지"). 즉 관리자 권한 부여는 코드/자동화가 아니라 사람이 Supabase Dashboard SQL 편집기에서 직접 실행해야 함(문서에 정확한 템플릿 있음). 이건 우회하지 않았음.
+  - 필요 시: Staging Dashboard SQL 편집기에서 `docs/47-admin-auth-migration-review.md` §8 템플릿으로 테스트 계정 1개를 `reviewer` role로 등록해주시면 `/admin/discovery` e2e도 마저 확인 가능.
 
 ## 4-1. 확인 완료 (더 이상 사람 판단 불필요)
 
-- **검수 대기 234건용 관리자 화면은 이미 있음** — `/admin/discovery` (목록·검색·workflow status/국가/출처/연결/담당 필터·정렬·페이지네이션) + `/admin/discovery/[id]` (상세) + `DiscoveryWritePanel`(PATCH로 duplicate/sale/ingredients/evidence/safety/publish 검토 큐 생성, role 기반 `canPublish` 등 실제 쓰기 액션 포함). 코드 읽기로 확인함 — 실제 브라우저 클릭 검증은 위와 같은 이유로 로그인이 막혀 아직 못 함. **새 화면을 만들 필요는 없음.**
+- **Staging Auth 이메일 자동 확인 — 사용자가 활성화 완료.** 테스트 계정 생성(`signUp`)이 즉시 세션을 반환하는 것 확인.
+- **로그인 게이트 화면 3/4 e2e 통과** — 실제 테스트 계정으로 로그인 → Playwright로 방문 → 콘텐츠 렌더링 확인 완료:
+  - `/my/check-ins`: "체크인" 렌더링 확인 (빈 상태 정상 표시)
+  - `/my/clinics`: "피부과 추천" + 샘플 데이터 배지 + 안전 필터 자리 3항목 전부 렌더링 확인
+  - `/my/consultation-report`: "상담 리포트" + 샘플 데이터 배지 + 고민/루틴 요약 렌더링 확인
+  - `/admin/discovery`: admin_users 부트스트랩 없어서 미확인 (위 항목 참고)
+  - 부가로 발견·수정: 로컬 dev 서버가 `.env.local`에 `NEXT_PUBLIC_SUPABASE_URL`/`ANON_KEY`가 없어서 브라우저 클라이언트가 placeholder `example.supabase.co`로 요청하던 문제 — `.env.staging`의 두 공개 값을 `.env.local`에 추가해 해결(anon key라 비밀 아님, `.env*`는 gitignore 대상이라 커밋 안 됨).
+  - 리포트: `artifacts/scaffold-journey-e2e/report-latest.json` (로컬, gitignore 대상)
+  - 남은 부작용: 테스트 계정 auth.users row가 Staging에 남아있음(Admin API로 삭제 불가 — 무해한 테스트 데이터, Production 아님).
+- **검수 대기 234건용 관리자 화면은 이미 있음** — `/admin/discovery` (목록·검색·workflow status/국가/출처/연결/담당 필터·정렬·페이지네이션) + `/admin/discovery/[id]` (상세) + `DiscoveryWritePanel`(PATCH로 duplicate/sale/ingredients/evidence/safety/publish 검토 큐 생성, role 기반 `canPublish` 등 실제 쓰기 액션 포함). **새 화면을 만들 필요는 없음.**
 
 ## 5. 다음 작업
 
-HIRA 수집을 오늘 20페이지(1,917건)에서 일단 멈춤 — 하루 API 사용량(약 3,000콜) 보수적 관리 차원. 다음: 체크포인트에서 이어서 21페이지부터 추가 수집(`--resume-checkpoint`로 재사용 가능) 또는 로그인 게이트 항목 해결 대기.
+HIRA 수집을 오늘 20페이지(1,917건)에서 일단 멈춤 — 하루 API 사용량(약 3,000콜) 보수적 관리 차원. 다음: 체크포인트에서 이어서 21페이지부터 추가 수집(`--resume-checkpoint`로 재사용 가능).
 
 ---
 
