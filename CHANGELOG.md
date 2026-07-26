@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-07-26 관리자 로그인 루프 수정 + 정리 원칙 신설
+
+- **fix(admin)**: `/admin/login`이 `redirect()`를 `try` 안에서 호출해 `catch`가 `NEXT_REDIRECT`를 삼키는 바람에 초당 3회 무한 재요청 → 흰 화면. `redirect()`를 `try` 밖으로 이동(`dfdbcca`, PR #35). main `355624d` 병합 → Vercel `mdnkflqc9` 배포. 배포 후 초당 0.09회로 정상화, 미로그인 `/admin`은 1회 리다이렉트 후 정지. 저장소 전체에서 같은 패턴은 이 파일 하나뿐이었음.
+- **정정**: care attach "연결에 실패했습니다"는 service_role 키와 무관. 해당 경로는 `createSupabaseServerClient()`(anon + 사용자 세션)만 사용하며, care에서 service_role은 백그라운드 이메일 워커에서만 쓰인다.
+- **docs**: `PROJECT_RULE.md` §10 SQL 실행 원칙, §11 작업 정리 원칙 신설.
+- **chore(cleanup)**: 병합 완료 브랜치 원격 24개·로컬 1개 삭제(미병합 보존), 임시 env 파일 2개·scratchpad 10개 삭제, 로컬 `main` 최신화, `.env.local`에서 `PRODUCTION_SUPABASE_SERVICE_ROLE_KEY` 제거.
+- 미완: `SUPABASE_ACCESS_TOKEN` 부재로 Supabase secret key 목록 조회·옛 키 삭제 미실행.
+
 ## 2026-07-26 병원 데이터 Production 이관 완료
 
 - **이관**: Staging → Production `dermatology_institution_candidates` **1,917행**(verified 1,868 · discovered 49). 사람이 이번 작업에 한해 Production 쓰기를 승인, 병원 테이블 한정으로 실행. `products` 무영향(공개 191건 유지) 확인.

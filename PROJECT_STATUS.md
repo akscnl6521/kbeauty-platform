@@ -1,6 +1,14 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-26 (Production 출시 완료 · 병원 데이터 Production 이관 완료)
+최종 갱신: 2026-07-26 (Production 출시 · 병원 데이터 이관 · 관리자 로그인 버그 수정 완료)
+
+## 2026-07-26 관리자 로그인 무한 루프 수정 + 세션 정리
+
+- **관리자 흰 화면 해결(PR #35 병합·배포 완료)**: 원인은 secret key가 아니라 `src/app/admin/login/page.tsx`에서 `redirect()`가 `try` 안에 있어 `catch`가 `NEXT_REDIRECT` 신호를 삼킨 것. `/admin/login`이 초당 3회 무한 재요청되어 화면이 안 그려졌다. `redirect()`를 `try` 밖으로 이동. main `355624d` → Vercel `mdnkflqc9` Ready. **배포 후 실측: 초당 3회 → 0.09회, 리다이렉트 1회 후 정지.**
+- **care "연결에 실패했습니다"는 service_role과 무관함 확인(앞선 판단 정정)**: `/api/care/analyses/attach`는 `createSupabaseServerClient()`(anon + 사용자 세션)만 사용한다. care에서 service_role을 쓰는 곳은 백그라운드 이메일 워커뿐. 엔드포인트·의존 요소 모두 정상이나, **인증 상태의 실제 호출은 미검증**(Production `mailer_autoconfirm:false`로 테스트 세션 생성 불가).
+- **정리 원칙 §11 신설 + 최초 적용**: 브랜치 원격 24 + 로컬 1 삭제(미병합 4개 보존), 임시 env 2개·scratchpad 10개 삭제, 로컬 `main` 최신화, `PRODUCTION_SUPABASE_SERVICE_ROLE_KEY` 로컬 삭제.
+- **미완 2건 (차단)**: `SUPABASE_ACCESS_TOKEN`이 어디에도 없어 Supabase secret key 목록 조회·옛 키 삭제를 실행하지 못함.
+- next_task: 액세스 토큰 제공 → 옛 secret key 정리 · (선택) 고객 계정 자격증명으로 care attach 최종 검증
 
 ## 2026-07-26 병원 데이터 Production 이관 완료 (사람 승인 하 에이전트 직접 실행)
 

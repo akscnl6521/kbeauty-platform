@@ -500,6 +500,52 @@ ORDER BY grantee, privilege_type;
 
 **결정 (2026-07-26 · 사람)**: **제품 이관은 하지 않는다.** 근거 — Production 공개 카탈로그 191건으로 이미 충분하고, slug 규칙이 달라 이관 시 중복 리스크가 크다(위 표에서 21건 중 5건이 이미 다른 slug로 존재하는 것으로 확인됨). 이 항목은 종결이며, 추후 다시 검토할 경우 slug가 아니라 브랜드+제품명 dedupe가 선행 조건이다.
 
+## 27. 관리자 로그인 무한 루프 수정 + 세션 정리 (2026-07-26)
+
+### 27-1. 관리자 페이지 흰 화면 — 원인은 코드 버그 (PR #35 · 병합·배포 완료)
+
+Production secret key를 교체한 뒤 관리자 페이지가 흰 화면만 나오는 증상. **키 문제가 아니라 코드 버그였다.**
+
+| 항목 | 내용 |
+|---|---|
+| 증상 | 로그인 후 관리자 페이지 진입 시 아무것도 안 뜸(흰 화면) |
+| 로그 증거 | `/admin/login` 요청이 **17초에 100건(초당 약 3회)**, 전부 200, 일부 상태코드 0(브라우저 취소). **5xx·error 로그 0건** — 에러 없이 도는 무한 루프라 로그에 안 잡혔다 |
+| 원인 | `src/app/admin/login/page.tsx`에서 `redirect("/admin")`이 `try` 블록 안에 있고, 바로 아래 `catch`가 모든 예외를 삼켰다. Next.js App Router의 `redirect()`는 **`NEXT_REDIRECT` 예외를 던져서 동작**하므로, 그 신호가 사라지면 이동은 안 되고 클라이언트 라우터가 재요청을 반복한다 |
+| 전수 검사 | `try` 안에서 `redirect()`를 호출하는 파일은 저장소 전체에서 **이 하나뿐** |
+| 수정 | `redirect()`를 `try` 밖으로 이동(커밋 `dfdbcca`) |
+| 검증 | `tsc` 0 · `eslint .` 0 · `build` 성공 · 변경 파일 1개(+9 −4) |
+| 배포 | PR #35 → main 병합(`355624d`) → Vercel 자동 배포 `mdnkflqc9` **Ready**(1분). `/api/health` version이 `355624de…`로 일치 확인 |
+| 배포 후 실측 | `/admin/login` 요청 **85초에 3건(초당 0.09회)** — 폭주 소멸. 취소 요청 0건, 5xx 0건. 미로그인 `/admin` → `/admin/login` **1회 리다이렉트 후 정지** |
+
+**부수 효과 — 진단 가능해짐**: 이전에는 세 가지 실패가 전부 같은 흰 화면으로 뭉개졌으나, 이제 도착 화면이 원인을 알려준다. 정상 → `/admin`, service_role 무효 → `/admin/unavailable`, `admin_users` 행 없음 → `/admin/forbidden`.
+
+### 27-2. care attach "연결에 실패했습니다" — service_role과 무관함이 확인됨
+
+세션 초반 이 에러를 service_role 키 문제로 지목했으나 **오판이었다.** 코드 경로를 따라간 결과:
+
+```
+POST /api/care/analyses/attach → requireCarePersistence()
+  → createSupabaseServerClient()   ← anon 키 + 로그인 사용자 세션(RLS)
+```
+
+care 전체에서 `createSupabaseAdminClient()`(service_role)를 쓰는 곳은 **`src/lib/care/worker-tasks.ts`(백그라운드 체크인 이메일 워커) 하나뿐**이며 사용자 요청 경로가 아니다. **service_role 키를 무엇으로 바꿔도 이 경로는 영향을 받지 않는다.**
+
+현재 상태: 엔드포인트 정상(정상·비정상 payload 모두 `401 UNAUTHORIZED`, 5xx 0건), 의존 요소(anon 키·Auth·PostgREST) 전부 정상. **다만 인증된 상태의 실제 attach 호출은 미검증** — Production은 `mailer_autoconfirm:false`라 테스트 계정을 만들어도 이메일 확인 전에는 세션을 얻을 수 없다. 기존 고객 계정 자격증명이 있으면 Playwright로 끝까지 검증 가능.
+
+### 27-3. 세션 정리 실행 (§11 정리 원칙 최초 적용)
+
+| 대상 | 결과 |
+|---|---|
+| 브랜치 | `origin/main`에 100% 포함된 **원격 24개 + 로컬 1개 삭제**. 미병합 4개(`automation-mvp-completion`, `backup-sprint14-20260713`, `feature/recommendation-usage-guide-display-20260720`, 기타)는 **보존** |
+| 임시 env 파일 | `.env.local.buildtmp`, `.env.local.isolated-for-staging-16668` 삭제(둘 다 git 미추적, 옛 키만 보유) |
+| scratchpad | 일회성 스크립트 6개 + 로그 5개, 총 10개(약 197KB) 삭제. **저장소에 추가한 일회성 스크립트는 없음** |
+| 로컬 `main` | `origin/main`으로 fast-forward 최신화(stale 상태였음) |
+| `PRODUCTION_SUPABASE_SERVICE_ROLE_KEY` | `.env.local`에서 삭제 완료(20줄 → 19줄). git 전체 이력에서 `.env.local`이 **한 번도 커밋된 적 없음**을 확인 |
+
+**미완 2건** — `SUPABASE_ACCESS_TOKEN`이 `.env.local`·셸·CLI 어디에도 없어 실행 불가:
+1. Supabase Production secret key 목록 조회 및 옛 키(`sb_secret_cMkVM…`) 삭제
+2. 삭제 전 안전 확인(Vercel에 실제로 어떤 키가 들어있는지 대조)
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |
