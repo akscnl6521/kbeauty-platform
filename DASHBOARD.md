@@ -401,6 +401,83 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
 - **백업/롤백 준비**: 코드=`pre-deploy-backup-main-20260726-003804` 태그, DB=`DROP TABLE` 2줄. 이번 배포는 문제 없어 롤백 미실행.
 - **결론: 문제 없음, 롤백 불필요. 플랫폼 Production 라이브.**
 
+## 26. 병원 데이터 Production 반영 검증 — 아직 노출 안 됨 (2026-07-26)
+
+사람이 `data/production-import/2026-07-26-hospitals-to-production.part{1..4}of4.sql` 4개 파트를 Production SQL Editor에 전부 적용 완료했다고 보고. **읽기 전용으로 실검증한 결과, Production `/my/clinics`에는 아직 실 병원이 한 건도 노출되지 않는다.**
+
+### 검증 방법 (읽기 전용 · Production DB 쓰기 없음)
+
+`/my/clinics`는 클라이언트 컴포넌트라서 **방문자 브라우저의 anon 키로 Supabase를 직접 조회**한다(`src/app/my/clinics/page.tsx`). 그래서 배포된 번들이 이미 모든 방문자에게 내보내는 공개 anon 설정을 그대로 사용해 **페이지와 완전히 동일한 쿼리**를 재현했다. service_role 미사용, INSERT/UPDATE/DELETE 없음.
+
+| 대상 | 쿼리 | 결과 |
+|---|---|---|
+| **Production** (`rhfr***mns`) | `workflow_status IN ('verified','published')`, `order=sggu_name`, `limit=20` | HTTP 200 · **0건** (`content-range: */0`) |
+| **Staging** (`jfnj***gfd`) — 대조군 | 동일 쿼리, 동일 anon 권한 | HTTP 206 · **1,868건** (총 1,917 = verified 1,868 + discovered 49) |
+
+- 대조군이 정상이므로 **쿼리·페이지 코드·RLS 정책 정의 자체는 문제 없음**. 차이는 Production 쪽 데이터/정책 상태에만 있다.
+- Production 응답이 200(에러 아님)이라 **테이블은 존재하고 anon SELECT 권한도 살아있다**. 즉 "테이블 없음"이나 "권한 거부"는 아니다.
+- 페이지 동작상 `MIN_REAL_RESULTS = 1`이므로 0건 → **자동으로 목업 4건 fallback + `SampleDataBadge` 노출**. 사용자에게 잘못된 실데이터가 보이지는 않는다(안전한 실패).
+- 부수 확인: `/api/health` green(배포 커밋 `9f293da`), `/my/clinics`는 307 로그인 게이트 정상.
+
+### 남은 원인 후보 2가지 (Production 조회 권한 없이는 구분 불가)
+
+anon은 RLS 때문에 `verified`/`published` 행만 볼 수 있어서, "행이 0개"인지 "행은 있는데 anon에게 안 보이는지"를 밖에서는 구분할 수 없다.
+
+1. **4개 파트가 실제로 커밋되지 않음** — SQL Editor에서 오류로 롤백됐거나(각 파트가 `BEGIN; ... COMMIT;` 단일 트랜잭션), 다른 프로젝트에 실행됐을 가능성.
+2. **행은 들어갔지만 RLS 정책이 Production에 없음** — 테이블만 만들고 `ALTER TABLE ... ENABLE ROW LEVEL SECURITY`까지만 적용된 경우, 정책이 없으면 anon은 전부 0건으로 보인다.
+
+→ 아래 진단 SQL을 사람이 Production SQL Editor에서 실행하고 결과를 알려주면 원인이 확정된다. **읽기 전용(SELECT만) · 데이터 변경 없음**.
+
+```sql
+-- Production 진단 (읽기 전용). dermatology_institution_candidates 0건 노출 원인 확정용.
+-- 1) 행이 실제로 있는가?
+SELECT count(*) AS total FROM public.dermatology_institution_candidates;
+
+-- 2) 상태 분포 (기대: verified 1868 + discovered 49 = 1917)
+SELECT workflow_status, count(*)
+FROM public.dermatology_institution_candidates
+GROUP BY workflow_status ORDER BY workflow_status;
+
+-- 3) RLS가 켜져 있는가?
+SELECT relname, relrowsecurity
+FROM pg_class
+WHERE oid = 'public.dermatology_institution_candidates'::regclass;
+
+-- 4) anon/authenticated SELECT 정책이 존재하는가? (2번에 행이 있는데 이게 0줄이면 원인 확정)
+SELECT policyname, roles, cmd, qual
+FROM pg_policies
+WHERE schemaname = 'public'
+  AND tablename = 'dermatology_institution_candidates';
+
+-- 5) 컬럼 권한이 살아있는가?
+SELECT grantee, privilege_type
+FROM information_schema.role_table_grants
+WHERE table_schema = 'public'
+  AND table_name = 'dermatology_institution_candidates'
+ORDER BY grantee, privilege_type;
+```
+
+**결과 해석**: 1번이 0 → 4개 파트가 실제로 커밋되지 않은 것(파트 재적용 필요). 1번은 1,917인데 4번이 0줄 → RLS 정책 누락(`supabase/migrations/20260725100000_create_dermatology_institution_candidates.sql`의 정책 블록만 Production에 적용하면 해결).
+
+### 제품 카탈로그 Staging↔Production slug 대조 (읽기 전용 · INSERT 없음)
+
+같은 공개 anon 경로로 양쪽 `products`를 대조. anon 가시성 규칙은 양쪽 동일(`active IS TRUE AND verified_at IS NOT NULL`).
+
+| 항목 | 수치 |
+|---|---|
+| Staging 전체 (service_role) | 72건 |
+| Staging 공개 노출 | 27건 |
+| **Production 공개 노출** | **191건** |
+| Staging 공개 27건 중 Production에 slug 없음 | **21건** |
+| ↳ 그중 Production에 **다른 slug로 이미 존재**(브랜드+제품명 대조) | **5건** |
+| ↳ **실제로 없는 것** | **16건** |
+| Staging 전체 72건 기준 slug 미존재 | 66건 (비공개 45건 포함) |
+| Production 공개 191건 중 Staging에 없음 | 185건 |
+
+- **두 카탈로그는 사실상 별개다.** Production이 오히려 더 크고(191 vs 27), slug 명명 규칙도 다르다(Production `cosrx-snail-92-cream` ↔ Staging `cosrx-advanced-snail-92-all-in-one-cream`).
+- 그래서 **slug만으로 판단해 INSERT하면 최소 5건이 중복 등록된다**(COSRX 스네일 92 크림·비타민C 23 세럼·레티놀 크림, 라운드랩 독도 토너 등). 실제 이관을 하게 되면 slug가 아니라 브랜드+제품명 기준 dedupe가 선행돼야 한다.
+- 이번 세션에서는 **대조만 수행했고 INSERT는 하지 않았다**(지시대로).
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |
@@ -410,7 +487,7 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
 | 3. 제품 데이터 자동화 | **작동 중** — 활성 제품 20→**27**, 실 워커가 브랜드 재크롤·후보 등록을 자동 반복(§21). 대부분의 K-뷰티 브랜드가 봇 차단 상태라 신규 브랜드 확장은 느림(§18) |
 | 4. 사용 영상·루틴 | 완료 (스캐폴드, §1-1) |
 | 5. 리텐션(체크인) | **완료** — 실 `RESEND_API_KEY` 확보 후 3/7/15/30일 실발송 4건 전부 성공 확인(§23), 응답·분기 로직 66개 체크 통과 |
-| 6. 증상 기반 피부과 | **완료로 확정**(§17) — 사람 결정으로 지리 기반 목록 범위. 실 병원 1,917건 등록·노출 확인 |
+| 6. 증상 기반 피부과 | **Staging 완료 · Production 미노출**(§17, §26) — 지리 기반 목록 범위로 확정. Staging은 실 병원 1,917건 등록·anon 1,868건 노출 확인. **Production은 4개 파트 적용 보고 후에도 anon 조회 0건**이라 목업 fallback 상태 — 진단 SQL 결과 대기(§26) |
 | 7. 수익화 | **완료** — 클릭/전환 실기록 확인(§10, §16) |
 | 8. 자동 갱신·운영 자동화 | **완료** — 정식 워커 end-to-end 성공(§21). 6시간 주기 자동 실행만 사람이 `.\scripts\install-pipeline-task.ps1` 실행하면 됨(파일 자체가 에이전트 자동 실행 금지 명시) |
 | 9. 통합 검증·출시 | **✅ 출시 완료**(§25) — main 병합 + Production 배포 완료. `https://www.kbeautymatch.com` 라이브, §23 전체 흐름 검증 통과 |
@@ -420,6 +497,7 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
 2. `RESEND_API_KEY` 실제 발급·등록 — 없으면 5단계 실발송은 계속 스킵.
 3. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 우선순위 결정.
 4. main 병합·Production 배포 — 준비되면 명시적으로 지시.
+5. **(신규 · 최우선)** Production SQL Editor에서 §26의 진단 SQL 실행 → 결과 공유. 병원 4개 파트가 실제로 들어갔는지, 아니면 RLS 정책이 빠졌는지 여기서 확정된다.
 
 **다음 세션이 이어갈 지점**:
 - 활성 제품 33건(40건 중 미활성)은 실 verified offer가 없어서 계속 막혀있음 — 재크롤·오퍼 재시도를 계속하거나, 다른 브랜드로 확장 가능.

@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-07-26 병원 데이터 Production 검증 (읽기 전용)
+
+- **검증**: 병원 SQL 4개 파트 적용 보고 후 Production `/my/clinics` 실검증 → **anon 조회 0건**, 목업 fallback 유지. 동일 쿼리를 Staging에 실행하면 1,868건 정상 → 코드·쿼리·정책 정의 문제 아님. 원인은 (1) 파트 미커밋 또는 (2) Production RLS 정책 부재 둘 중 하나로 좁혀짐.
+- **추가**: `DASHBOARD.md` §26에 원인 확정용 SELECT 전용 진단 SQL(사람이 Production SQL Editor에서 실행) + 결과 해석 기준.
+- **대조**: Staging↔Production `products` slug 대조(읽기 전용) — Staging 공개 27건 중 Production 미존재 21건, 그중 5건은 다른 slug로 이미 존재 → 실제 미존재 16건. Production 공개 카탈로그 191건으로 더 크고 slug 규칙이 달라 slug 기준 이관 시 중복 발생 위험 확인.
+- Production DB 쓰기 없음 · INSERT 없음 · main 병합 없음.
+
 ## 2026-07-26 🚀 Production 출시
 
 - **9단계 로드맵 완주 → Production 배포**: `https://www.kbeautymatch.com` 라이브(커밋 `9f293da`).
