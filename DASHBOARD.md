@@ -384,7 +384,24 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
 - 모바일 375px·의료 표현·광고 고지 문구는 이전 세션(§7)에 이미 점검 완료 — 이번 세션에서 해당 UI 문구를 건드리지 않아 재점검 생략(변경 없음 확인).
 - **main 병합·Production 배포는 여기서 정지** — 세션 시작부터 합의된 대로 진행하지 않음. 사람 확인 대기.
 
-## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신)
+## 25. 🚀 Production 출시 완료 (2026-07-26)
+
+9단계 로드맵 전체 완주 → main 병합 + Production 배포 완료.
+
+- **라이브 URL**: `https://www.kbeautymatch.com` (Vercel Production, target=production, readyState=Ready)
+- **배포 커밋**: `9f293da` (main 병합 결과, `/api/health` version으로 확인)
+- **배포 중 발견·수정한 실패**: 초기 Vercel Preview 빌드가 13시간+ 연속 실패 중이었음(GitHub CI는 통과) — 원인은 `.vercelignore`가 `data/backups`를 통째로 제외해 빌드 시점 import되는 픽스처(`data/backups/2026-07-14-catalog/{products,product-offers}.json`)까지 삭제한 것. `data/backups/*` 제외 + `!data/backups/2026-07-14-catalog` 재포함으로 수정(커밋 `92192f8`). 로컬 빌드는 Windows에 파일이 있어 통과했던 사각지대. 수정 후 Preview·Production 모두 Ready.
+- **Production DB(rhfr `rhfrmvkjsummaylpzmns`)**: 사람이 마이그레이션 2개 직접 적용(`dermatology_institution_candidates`, `commercial_click_events`) — 읽기 전용으로 존재 확인 완료. GRANT-only 5개는 런타임 불필요라 미적용.
+- **이메일**: Production은 실발송 **차단 유지** — 이메일 환경변수 자체가 Production에 없고(Staging allowlist 유출 없음), 코드도 `VERCEL_ENV=production`이면 하드 차단. 실사용자 발송 없음. (실발송 원하면 도메인 인증 + 변수 설정 후 별도 롤아웃)
+- **§23 전체 흐름 Production 실검증(2026-07-26)**:
+  - `/api/health` → `ok:true, supabaseReachable:true, requiredConfigPresent:true` (Production Supabase rhfr 정상)
+  - 핵심 경로 전부 200: `/`, `/quiz`, `/quiz/base`, `/analyze`, `/results`, `/ingredients`, `/routine` (`/onboarding`은 307 로그인 게이트 = 정상)
+  - 홈·퀴즈·결과·성분 페이지 실제 렌더 확인(에러 바운더리 아님)
+  - **신규 기능 실동작**: `/api/track/click` POST → `{"ok":true}` (신규 라우트 + Production `commercial_click_events` 테이블 + service_role INSERT 전부 동작 확인, 검증용 익명 1행 기록). `/my/clinics` → 307(로그인 게이트, 신규 테이블 존재·Production은 비어있어 목업 fallback 정상)
+- **백업/롤백 준비**: 코드=`pre-deploy-backup-main-20260726-003804` 태그, DB=`DROP TABLE` 2줄. 이번 배포는 문제 없어 롤백 미실행.
+- **결론: 문제 없음, 롤백 불필요. 플랫폼 Production 라이브.**
+
+## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |
 |---|---|
@@ -396,7 +413,7 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
 | 6. 증상 기반 피부과 | **완료로 확정**(§17) — 사람 결정으로 지리 기반 목록 범위. 실 병원 1,917건 등록·노출 확인 |
 | 7. 수익화 | **완료** — 클릭/전환 실기록 확인(§10, §16) |
 | 8. 자동 갱신·운영 자동화 | **완료** — 정식 워커 end-to-end 성공(§21). 6시간 주기 자동 실행만 사람이 `.\scripts\install-pipeline-task.ps1` 실행하면 됨(파일 자체가 에이전트 자동 실행 금지 명시) |
-| 9. 통합 검증·출시 | **자동화 가능한 부분 전부 완료**(§24): tsc/eslint/build 전체 통과, test suite 107/108 통과(1건은 로컬 자격증명 환경 갭, 회귀 아님). **main 병합·Production 배포는 여기서 정지** — 사람 확인 대기 |
+| 9. 통합 검증·출시 | **✅ 출시 완료**(§25) — main 병합 + Production 배포 완료. `https://www.kbeautymatch.com` 라이브, §23 전체 흐름 검증 통과 |
 
 **남은 사람 몫**:
 1. (선택) `.\scripts\install-pipeline-task.ps1` — 실 스케줄러 자동화를 원하면 실행.

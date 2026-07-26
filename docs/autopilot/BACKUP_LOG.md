@@ -19,7 +19,9 @@
 | 2026-07-25 | db-data | draft product 7건 실활성화(20→27) + 정식 워커 end-to-end 성공 | 971b86e |
 | 2026-07-26T00:38:04Z | code | **배포 전 백업** — main 병합 직전 git 태그 2건 생성+push: `pre-deploy-backup-main-20260726-003804`(origin/main HEAD), `pre-deploy-backup-branch-20260726-003804`(배포 대상 브랜치 HEAD) | 태그, 커밋 아님 |
 | 2026-07-26T00:38:28Z | db-snapshot | 배포 전 Staging 최종 스냅샷 — products=72(active 27), candidates=1345, ingredients=1996, offers=94, verification_queue=163, dermatology=1917, click_events=2 | data/backups/staging-snapshots/snapshot-2026-07-25T15-38-28-517Z.json |
-| 2026-07-26 | db-backup | **Production DB 백업은 Supabase Dashboard/PITR 영역 — 이 세션 툴로 직접 접근 불가**(Production DB를 직접 건드리지 않기로 한 지시와 일치). 사람이 Supabase Dashboard → Database → Backups에서 배포 직전 수동 스냅샷/PITR 활성화 여부 확인 필요. 아래 최종 보고에 명시. | 확인 필요 |
+| 2026-07-26 | db-backup | Production DB(rhfr)는 무료 플랜이라 PITR/스냅샷 미제공. 적용한 마이그레이션이 빈 테이블 2개 추가(기존 데이터 무접촉)라 롤백=`DROP TABLE` 2줄로 자명 → 사용자 판단으로 조건1 충족 처리. | 사용자 승인 |
+| 2026-07-26 | fix | Vercel Preview 빌드 실패(13h+) 수정 — `.vercelignore`가 빌드 import 픽스처 삭제하던 것 | 92192f8 |
+| 2026-07-26 | **release** | **🚀 main 병합 + Production 배포 완료** — `https://www.kbeautymatch.com` 라이브, §23 전체 흐름 검증 통과, 롤백 미실행 | main 커밋 9f293da / 롤백 태그 pre-deploy-backup-main-20260726-003804 |
 
 ## 규칙
 - 코드/문서/SQL/스크립트 변경: 작업 단위마다 git commit + push

@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-07-26 🚀 Production 출시
+
+- **9단계 로드맵 완주 → Production 배포**: `https://www.kbeautymatch.com` 라이브(커밋 `9f293da`).
+- **§23 전체 흐름 Production 실검증 통과**: health green, 핵심 경로 전부 200, 홈·퀴즈·결과 실렌더, 신규 `/api/track/click` 실동작 확인.
+- **fix(vercel)**: `.vercelignore`가 빌드 시점 import되는 픽스처(`data/backups/2026-07-14-catalog/*.json`)를 제외해 Preview 빌드가 13h+ 연속 실패하던 것 수정 — `data/backups/*` 제외 + 해당 픽스처 디렉터리만 재포함(`92192f8`).
+- **Production DB**: `dermatology_institution_candidates`, `commercial_click_events` 테이블 마이그레이션 적용(사람 실행).
+- **이메일**: Production 실발송 차단 유지(환경변수 부재 + 코드 하드 차단).
+
 ## 2026-07-25 (오토파일럿)
 
 - 3단계: discovery 검수 대기 후보 68건 재크롤 → draft product 40건 생성(실 성분/이미지/오퍼 연결). 활성화 0건 — Staging `ingredients` 사전 부족으로 게이트 미통과(원인 확인, 게이트 자체는 미변경).
