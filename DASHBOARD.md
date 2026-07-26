@@ -541,6 +541,11 @@ care 전체에서 `createSupabaseAdminClient()`(service_role)를 쓰는 곳은 *
 | scratchpad | 일회성 스크립트 6개 + 로그 5개, 총 10개(약 197KB) 삭제. **저장소에 추가한 일회성 스크립트는 없음** |
 | 로컬 `main` | `origin/main`으로 fast-forward 최신화(stale 상태였음) |
 | `PRODUCTION_SUPABASE_SERVICE_ROLE_KEY` | `.env.local`에서 삭제 완료(20줄 → 19줄). git 전체 이력에서 `.env.local`이 **한 번도 커밋된 적 없음**을 확인 |
+| `.env.local` 미사용 변수 | 코드 전수 대조 후 3건 정리 — `NEXT_PUBLIC_ANTHROPIC_API_KEY`(참조 0, 구 Anthropic 클라이언트 잔재), `VERCEL_OIDC_TOKEN`(참조 0, CLI 자동생성), `RESEND_API_KEY` 중복 1줄(두 값 sha256 동일 확인 후 뒤엣것 제거). 18줄 → 13줄. 남은 12개는 전부 실사용 |
+
+**`NEXT_PUBLIC_ANTHROPIC_API_KEY` 후속 조치 필요**: `NEXT_PUBLIC_` 접두사라 빌드에 포함되면 브라우저로 나가는 값이었다. 로컬에서 지운 것과 별개로 **Anthropic Console에서 해당 키를 revoke**해야 한다. 현재 `AI_PROVIDER=openai`이므로 새 키 재발급은 불필요.
+
+**배포 키 유효성 기준선(2026-07-26)**: `POST /api/track/click` → `{"ok":true}`. Vercel Production의 `SUPABASE_SERVICE_ROLE_KEY`가 유효함을 확인(고정 `eventId` 사용 → 재호출해도 중복 처리되어 행은 1개만 생성). 옛 키 삭제 전후 비교용 기준선.
 
 **미완 2건** — `SUPABASE_ACCESS_TOKEN`이 `.env.local`·셸·CLI 어디에도 없어 실행 불가:
 1. Supabase Production secret key 목록 조회 및 옛 키(`sb_secret_cMkVM…`) 삭제
