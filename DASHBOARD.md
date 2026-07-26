@@ -547,6 +547,20 @@ care 전체에서 `createSupabaseAdminClient()`(service_role)를 쓰는 곳은 *
 
 **배포 키 유효성 기준선(2026-07-26)**: `POST /api/track/click` → `{"ok":true}`. Vercel Production의 `SUPABASE_SERVICE_ROLE_KEY`가 유효함을 확인(고정 `eventId` 사용 → 재호출해도 중복 처리되어 행은 1개만 생성). 옛 키 삭제 전후 비교용 기준선.
 
+### 27-4. service_role 키를 신형 secret key로 전환 완료 (2026-07-26)
+
+Vercel Production의 `SUPABASE_SERVICE_ROLE_KEY`를 **Legacy JWT(`eyJ…`) → 신형 `sb_secret_5lbYA…`(`production_2026_07_rotation`)** 로 교체 후 재배포(`jk2xi9lxv`, Ready, 빌드 1분. 코드 변경이 없어 커밋은 `355624d` 유지).
+
+| 검증 | 결과 |
+|---|---|
+| `POST /api/track/click` | `{"ok":true,"data":{"deduped":true}}` — **신형 키 정상 작동** |
+| 판정 근거 | `deduped`는 INSERT가 실제로 실행되어 Postgres가 `23505`(중복)를 반환했다는 뜻이다. 인증된 왕복이 성공해야만 나오는 응답이므로, 키가 무효였다면 auth 오류 → `500 EVENT_WRITE_FAILED`가 났을 것이다. 새 행은 생기지 않았다 |
+| 관리자 경로 | `/admin`·`/admin/products` → `/admin/login` **1홉 리다이렉트**, `/admin/unavailable`로 새지 않음. 루프 없음 |
+
+**참고**: 미로그인 `/admin` 검사만으로는 service_role 유효성을 알 수 없다 — 세션이 없으면 `AuthenticationRequiredError`가 키 조회보다 먼저 발생해 항상 `/admin/login`으로 가기 때문이다. 키 유효성은 위 `track/click`으로 확인한다.
+
+**남은 1건**: 옛 secret key(`sb_secret_cMkVM…`) 삭제. `SUPABASE_ACCESS_TOKEN`이 계속 확보되지 않아(`supabase login`이 저장 단계에서 중단됨: `~/.supabase/`에 토큰 파일 없음, Windows 자격 증명 관리자에도 없음) Management API 호출과 `last_used_at` 확인을 실행하지 못했다. 신형 키가 실사용 중임은 위 검증으로 확인됐으므로, 대시보드에서 옛 키를 지우는 것은 안전하다.
+
 **미완 2건** — `SUPABASE_ACCESS_TOKEN`이 `.env.local`·셸·CLI 어디에도 없어 실행 불가:
 1. Supabase Production secret key 목록 조회 및 옛 키(`sb_secret_cMkVM…`) 삭제
 2. 삭제 전 안전 확인(Vercel에 실제로 어떤 키가 들어있는지 대조)
