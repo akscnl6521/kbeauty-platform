@@ -15,16 +15,21 @@ export const metadata = {
  */
 export default async function AdminLoginPage() {
   let configurationIncomplete = false;
+  let session: Awaited<ReturnType<typeof getAdminSession>> = null;
 
   try {
-    const session = await getAdminSession();
-    if (session) {
-      redirect("/admin");
-    }
+    session = await getAdminSession();
   } catch (error) {
     if (error instanceof AdminConfigurationError) {
       configurationIncomplete = true;
     }
+  }
+
+  // redirect() signals by throwing NEXT_REDIRECT, so it must stay outside the
+  // try above — the catch would swallow that signal, the redirect would never
+  // happen, and the client router would re-request this page in a tight loop.
+  if (session) {
+    redirect("/admin");
   }
 
   const user = await getAuthenticatedUser();
