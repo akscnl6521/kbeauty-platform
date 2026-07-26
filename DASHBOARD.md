@@ -401,9 +401,11 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
 - **백업/롤백 준비**: 코드=`pre-deploy-backup-main-20260726-003804` 태그, DB=`DROP TABLE` 2줄. 이번 배포는 문제 없어 롤백 미실행.
 - **결론: 문제 없음, 롤백 불필요. 플랫폼 Production 라이브.**
 
-## 26. 병원 데이터 Production 반영 검증 — 아직 노출 안 됨 (2026-07-26)
+## 26. 병원 데이터 Production 반영 — 최초 실패 → 원인 확정 → 이관 완료 (2026-07-26)
 
-사람이 `data/production-import/2026-07-26-hospitals-to-production.part{1..4}of4.sql` 4개 파트를 Production SQL Editor에 전부 적용 완료했다고 보고. **읽기 전용으로 실검증한 결과, Production `/my/clinics`에는 아직 실 병원이 한 건도 노출되지 않는다.**
+**최종 상태: 완료.** Production `dermatology_institution_candidates` = **1,917행**(verified 1,868 · discovered 49), `/my/clinics`가 목업이 아닌 실 HIRA 데이터를 노출한다.
+
+경과: 4개 파트 SQL을 사람이 SQL Editor에 붙여넣어 적용했다고 보고 → 검증 결과 0건 → 진단으로 "행 자체가 안 들어감(RLS는 정상)" 확정 → 사람이 이번 작업에 한해 Production 쓰기를 승인 → 에이전트가 스크립트로 직접 이관.
 
 ### 검증 방법 (읽기 전용 · Production DB 쓰기 없음)
 
@@ -459,6 +461,24 @@ ORDER BY grantee, privilege_type;
 
 **결과 해석**: 1번이 0 → 4개 파트가 실제로 커밋되지 않은 것(파트 재적용 필요). 1번은 1,917인데 4번이 0줄 → RLS 정책 누락(`supabase/migrations/20260725100000_create_dermatology_institution_candidates.sql`의 정책 블록만 Production에 적용하면 해결).
 
+### 실제 진단 결과와 조치 (2026-07-26)
+
+사람이 위 진단을 실행한 결과 **행 0건 · RLS 정책 정상** → 원인은 "4개 파트가 실제로 커밋되지 않음"으로 확정. 각 파트가 `BEGIN; … COMMIT;` 단일 트랜잭션이라 중간 오류 시 통째로 롤백되는 구조였다.
+
+사람이 **이번 작업에 한해** Production DB 쓰기를 승인(병원 테이블 한정)하여 에이전트가 직접 이관했다.
+
+| 항목 | 내용 |
+|---|---|
+| 접속 정보 | `vercel env pull --environment=production`로 Production URL·anon 확보(`rhfr***mns` 확인). **service_role은 Vercel이 민감 변수로 가려서 11자 placeholder로 내려옴** → 사람이 Supabase Dashboard에서 실 secret key를 받아 `.env.local`에 `PRODUCTION_SUPABASE_SERVICE_ROLE_KEY`로 제공 |
+| 실행 방식 | 원시 `.sql` 실행은 Postgres 직접 접속(DB 비밀번호)이 필요해 불가 → **동일 데이터·동일 순서(`external_institution_id` 오름차순)·동일 500행 배치·동일 충돌 규칙**(`Prefer: resolution=ignore-duplicates` = `ON CONFLICT DO NOTHING`)으로 REST 경로 이관. INSERT만 수행, UPDATE/DELETE/DDL 없음 |
+| 배치 결과 | part 1~4 = 500 + 500 + 500 + 417 → 누적 500 → 1000 → 1500 → **1917** (파트 파일 행 수와 정확히 일치) |
+| 사후 검증(service_role) | 총 1,917 · verified 1,868 · discovered 49 · published 0 · rejected 0 — **Staging과 완전 일치** |
+| 사후 검증(공개 anon 경로) | 페이지와 동일한 쿼리 → HTTP 206 · 20건 반환 · 전체 1,868건 노출 · `would_render_real_data=true` → **`SampleDataBadge` 숨김, 실데이터 렌더 조건 충족**. 상위 결과는 강남구 피부과(주소·전화 포함) |
+| products 무영향 확인 | 이관 전후 Production 공개 제품 수 **191건 그대로**. 병원 테이블 외 접근 없음 |
+| 최초 시도 실패 | 1차 실행은 Vercel placeholder 키 때문에 HTTP 401로 part 1에서 즉시 중단 — **0행 기록, 부분 반영 없음**. (당시 "현재 0행" 표시는 카운트 함수가 401을 0으로 오독한 것이라 이후 `res.ok` 검사를 추가) |
+
+**참고 — Vercel Production service_role 키는 정상이다.** pull로 placeholder가 나온 건 Vercel이 민감 변수를 가린 것일 뿐이고, `/api/track/click`은 insert 실패 시 500·`ok:false`를 반환하는데 §25에서 `ok:true`가 확인됐으므로 런타임 키는 유효하다. **Vercel 환경변수는 수정할 필요 없다.**
+
 ### 제품 카탈로그 Staging↔Production slug 대조 (읽기 전용 · INSERT 없음)
 
 같은 공개 anon 경로로 양쪽 `products`를 대조. anon 가시성 규칙은 양쪽 동일(`active IS TRUE AND verified_at IS NOT NULL`).
@@ -489,7 +509,7 @@ ORDER BY grantee, privilege_type;
 | 3. 제품 데이터 자동화 | **작동 중** — 활성 제품 20→**27**, 실 워커가 브랜드 재크롤·후보 등록을 자동 반복(§21). 대부분의 K-뷰티 브랜드가 봇 차단 상태라 신규 브랜드 확장은 느림(§18) |
 | 4. 사용 영상·루틴 | 완료 (스캐폴드, §1-1) |
 | 5. 리텐션(체크인) | **완료** — 실 `RESEND_API_KEY` 확보 후 3/7/15/30일 실발송 4건 전부 성공 확인(§23), 응답·분기 로직 66개 체크 통과 |
-| 6. 증상 기반 피부과 | **Staging 완료 · Production 미노출**(§17, §26) — 지리 기반 목록 범위로 확정. Staging은 실 병원 1,917건 등록·anon 1,868건 노출 확인. **Production은 4개 파트 적용 보고 후에도 anon 조회 0건**이라 목업 fallback 상태 — 진단 SQL 결과 대기(§26) |
+| 6. 증상 기반 피부과 | **완료 — Staging·Production 양쪽 실데이터 노출**(§17, §26). 지리 기반 목록 범위로 확정. Staging·Production 모두 실 병원 1,917건 등록(verified 1,868), 공개 anon 경로로 1,868건 노출 확인 → `/my/clinics` 목업 fallback 해제 |
 | 7. 수익화 | **완료** — 클릭/전환 실기록 확인(§10, §16) |
 | 8. 자동 갱신·운영 자동화 | **완료** — 정식 워커 end-to-end 성공(§21). 6시간 주기 자동 실행만 사람이 `.\scripts\install-pipeline-task.ps1` 실행하면 됨(파일 자체가 에이전트 자동 실행 금지 명시) |
 | 9. 통합 검증·출시 | **✅ 출시 완료**(§25) — main 병합 + Production 배포 완료. `https://www.kbeautymatch.com` 라이브, §23 전체 흐름 검증 통과 |
@@ -499,7 +519,7 @@ ORDER BY grantee, privilege_type;
 2. `RESEND_API_KEY` 실제 발급·등록 — 없으면 5단계 실발송은 계속 스킵.
 3. 남은 4개 보류 항목(AI 피부 코치, 제품 소진 예상, 관리자 번역 관리, 수익 대시보드 정산) 우선순위 결정.
 4. main 병합·Production 배포 — 준비되면 명시적으로 지시.
-5. **(신규 · 최우선)** Production SQL Editor에서 §26의 진단 SQL 실행 → 결과 공유. 병원 4개 파트가 실제로 들어갔는지, 아니면 RLS 정책이 빠졌는지 여기서 확정된다.
+5. ~~Production 병원 데이터 적재~~ — **완료**(§26). 남은 관련 작업은 (선택) 로그인 계정으로 `/my/clinics` 화면 육안 확인, `.env.local`에 임시로 넣은 `PRODUCTION_SUPABASE_SERVICE_ROLE_KEY` 삭제.
 
 **다음 세션이 이어갈 지점**:
 - 활성 제품 33건(40건 중 미활성)은 실 verified offer가 없어서 계속 막혀있음 — 재크롤·오퍼 재시도를 계속하거나, 다른 브랜드로 확장 가능.

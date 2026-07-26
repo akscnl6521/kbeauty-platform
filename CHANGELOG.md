@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-07-26 병원 데이터 Production 이관 완료
+
+- **이관**: Staging → Production `dermatology_institution_candidates` **1,917행**(verified 1,868 · discovered 49). 사람이 이번 작업에 한해 Production 쓰기를 승인, 병원 테이블 한정으로 실행. `products` 무영향(공개 191건 유지) 확인.
+- **원인**: 앞선 4개 파트 붙여넣기가 실제로는 커밋되지 않았음(행 0건 · RLS 정상). 파트가 단일 트랜잭션이라 중간 오류 시 전체 롤백.
+- **방식**: 동일 데이터·동일 순서·동일 500행 배치·`ON CONFLICT DO NOTHING`(=`resolution=ignore-duplicates`) REST INSERT. UPDATE/DELETE/DDL 없음, 재실행 안전. 1차 시도는 Vercel이 마스킹한 service_role placeholder로 401 → 0행 기록 후 즉시 중단.
+- **검증**: 공개 anon 경로로 페이지와 동일 쿼리 실행 → 1,868건 노출, `/my/clinics` 목업 fallback 해제 조건 충족.
+
 ## 2026-07-26 병원 데이터 Production 검증 (읽기 전용)
 
 - **검증**: 병원 SQL 4개 파트 적용 보고 후 Production `/my/clinics` 실검증 → **anon 조회 0건**, 목업 fallback 유지. 동일 쿼리를 Staging에 실행하면 1,868건 정상 → 코드·쿼리·정책 정의 문제 아님. 원인은 (1) 파트 미커밋 또는 (2) Production RLS 정책 부재 둘 중 하나로 좁혀짐.

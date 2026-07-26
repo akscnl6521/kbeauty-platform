@@ -1,8 +1,18 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-26 (Production 출시 완료 · 병원 데이터 Production 노출은 미완)
+최종 갱신: 2026-07-26 (Production 출시 완료 · 병원 데이터 Production 이관 완료)
 
-## 2026-07-26 병원 데이터 Production 반영 검증 — 아직 0건 노출
+## 2026-07-26 병원 데이터 Production 이관 완료 (사람 승인 하 에이전트 직접 실행)
+
+- **결과**: Production `dermatology_institution_candidates` = **1,917행**(verified 1,868 · discovered 49) — Staging과 완전 일치. `/my/clinics`가 목업 대신 실 HIRA 데이터를 노출한다(공개 anon 경로 검증: 1,868건 노출, `SampleDataBadge` 해제 조건 충족).
+- **원인**: 앞서 붙여넣기로 적용했다고 본 4개 파트가 **실제로는 커밋되지 않았음**(진단: 행 0건 · RLS 정책 정상). 각 파트가 단일 트랜잭션이라 중간 오류 시 전체 롤백되는 구조.
+- **승인 범위**: 사람이 **이번 작업에 한해** Production DB 쓰기를 승인(병원 테이블 한정). `products`는 읽기·쓰기 모두 없음 — 이관 전후 공개 제품 수 191건 그대로 확인.
+- **실행 방식**: 원시 `.sql` 실행은 DB 직접 접속 정보가 없어 불가 → 동일 데이터·동일 순서·동일 500행 배치·동일 `ON CONFLICT DO NOTHING` 규칙으로 REST INSERT. UPDATE/DELETE/DDL 없음, 재실행 안전.
+- **1차 시도 실패**: `vercel env pull`이 민감 변수인 service_role을 placeholder로 내려줘 HTTP 401 → part 1에서 즉시 중단, **0행 기록**. 사람이 실 secret key를 `.env.local`에 제공한 뒤 재실행 성공.
+- **Vercel 환경변수는 정상이며 수정 불필요** — placeholder는 pull 시 마스킹일 뿐, Production 런타임 키는 유효함(§26 근거).
+- next_task: (선택) 로그인 계정으로 `/my/clinics` 화면 육안 확인 · `.env.local`의 임시 `PRODUCTION_SUPABASE_SERVICE_ROLE_KEY` 삭제
+
+## 2026-07-26 병원 데이터 Production 반영 검증 — 아직 0건 노출 (위 항목으로 해소)
 
 - **보고된 작업**: 사람이 `data/production-import/2026-07-26-hospitals-to-production.part{1..4}of4.sql` 4개 파트를 Production SQL Editor에 전부 적용.
 - **실검증 결과(읽기 전용)**: Production `/my/clinics`의 실제 쿼리를 방문자와 동일한 공개 anon 경로로 재현 → **0건**. 목업 4건 fallback + `SampleDataBadge` 상태 유지(안전한 실패, 가짜 실데이터 노출 없음).
