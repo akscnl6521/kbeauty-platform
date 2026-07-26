@@ -1,6 +1,18 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-25 (오토파일럿 — 로드맵 3/6/7단계 실데이터 배선)
+최종 갱신: 2026-07-26 (🚀 Production 출시 완료)
+
+## 2026-07-26 🚀 Production 출시 (9단계 로드맵 완주)
+
+- **라이브**: `https://www.kbeautymatch.com` — main 병합 + Vercel Production 배포 완료(커밋 `9f293da`, readyState=Ready).
+- **§23 전체 사용자 흐름 Production 실검증 통과**: `/api/health` green(Production Supabase rhfr 정상), 핵심 경로(`/`, `/quiz`, `/analyze`, `/results`, `/ingredients`, `/routine`) 전부 200, 홈·퀴즈·결과 실렌더 확인. 신규 `/api/track/click` POST 성공(`commercial_click_events` 테이블+INSERT 동작), `/my/clinics` 로그인 게이트 정상.
+- **Production DB**: 마이그레이션 2개(`dermatology_institution_candidates`, `commercial_click_events`) 사람이 직접 적용·존재 확인. GRANT-only 5개는 런타임 불필요라 미적용.
+- **이메일**: Production 실발송 차단 유지(환경변수 부재 + 코드 하드 차단). 실사용자 발송 없음.
+- **배포 중 수정**: Vercel Preview 13h+ 연속 실패 원인(`​.vercelignore`가 빌드 import 픽스처 삭제) 발견·수정(`92192f8`). GitHub CI는 통과했으나 Vercel만 실패했던 케이스.
+- **롤백 준비**: 코드 태그 `pre-deploy-backup-main-20260726-003804` + DB `DROP TABLE` 2줄. 문제 없어 미실행.
+- next_task: (선택) 실 스케줄러 설치, 이메일 실사용자 롤아웃(도메인 인증 후), 병원 데이터 Production 적재, 보류 4개 기능(AI 코치/소진 예상/번역 관리/정산).
+
+## 2026-07-25 오토파일럿 — 로드맵 3/6/7단계 실데이터 배선
 
 ## 2026-07-25 오토파일럿 — 로드맵 3/6/7단계 실데이터 파이프라인 배선
 
