@@ -146,6 +146,9 @@
 - 모든 쓰기 쿼리는 `supabase/migrations/`에 `날짜_설명.sql` 파일로 작성하고
   git commit → PR 리뷰 → 승인 후에만 적용한다.
 - Supabase SQL Editor는 조회(SELECT)용으로만 사용한다.
+- 승인된 migration의 실제 적용은 `supabase db push`로 한다. CLI를 쓸 수 없는 예외
+  상황에서만, 이미 commit·승인된 `supabase/migrations/` 파일에 한해 SQL Editor 실행을
+  허용하고, 적용 후 반드시 행 수를 검증한다.
 - SQL Editor의 저장된 쿼리와 History는 분기마다(3개월) 한 번씩 비운다.
 
 ### 배경 (2026-07-26)
