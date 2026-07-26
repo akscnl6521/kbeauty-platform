@@ -10,7 +10,8 @@
 - **원인 후보 2가지**(anon 권한만으로는 구분 불가): (1) 4개 파트가 실제로 커밋되지 않음(각 파트가 단일 트랜잭션), (2) 행은 있으나 Production에 RLS 정책이 없어 anon 전량 차단.
 - **대기 중**: 사람이 Production SQL Editor에서 `DASHBOARD.md` §26의 진단 SQL(SELECT 전용) 실행 → 결과 공유하면 원인 확정. Production DB는 이번 세션에서 쓰기 없음.
 - **제품 카탈로그 대조(읽기 전용, INSERT 없음)**: Staging 공개 27건 중 Production에 slug 없는 것 **21건**, 그중 5건은 다른 slug로 이미 존재 → **실제 없는 것 16건**. Production 공개 카탈로그가 오히려 더 큼(191건, 그중 185건은 Staging에 없음). 두 카탈로그는 slug 규칙이 달라 **slug 기준 INSERT는 중복을 만든다**.
-- next_task: 진단 SQL 결과 확인 → 원인별 조치(재적용 또는 RLS 정책 적용) → 재검증
+- **결정(사람)**: 제품 이관은 **하지 않는다** — Production 191건으로 충분하고 slug 규칙 차이로 인한 중복 리스크가 큼. 이 항목 종결.
+- next_task: 진단 SQL 결과 확인 → 원인별 조치(파트 재적용 또는 RLS 정책 적용) → `/my/clinics` 재검증
 
 ## 2026-07-26 🚀 Production 출시 (9단계 로드맵 완주)
 
