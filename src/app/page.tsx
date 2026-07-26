@@ -13,6 +13,7 @@ export default function Home() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-time hydrate from localStorage; server render must start false
     setHasPrevious(
       Boolean(
         localStorage.getItem(ANALYSIS_RESULT_STORAGE_KEY) ||
@@ -61,6 +62,12 @@ export default function Home() {
             className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
           >
             헤어 문진
+          </Link>
+          <Link
+            href="/quiz/body"
+            className="touch-target inline-flex items-center justify-center rounded-full border border-[#E8DFD8] bg-white px-6 py-3 text-sm font-semibold text-gray-800 sm:text-base"
+          >
+            전신 부위 문진
           </Link>
           {loggedIn ? (
             <Link
@@ -125,7 +132,8 @@ export default function Home() {
             </p>
           </div>
           <p className="text-sm leading-6 text-gray-600">
-            사진과 입력 정보는 분석·저장에 필요한 범위에서만 다루며,{" "}
+            촬영 사진은 품질·각도 확인용으로 다루며, 피부 안내는 문진·입력 정보를
+            기준으로 합니다. 사진 픽셀은 현재 외부 AI로 보내지 않습니다.{" "}
             <Link href="/privacy" className="underline">
               개인정보처리방침
             </Link>

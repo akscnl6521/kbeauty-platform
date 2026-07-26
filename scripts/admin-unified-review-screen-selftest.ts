@@ -50,6 +50,8 @@ async function main() {
     ["Production protection", "value.productionTouched !== false"],
     ["missing file handling", "ENOENT"],
     ["Preview URL variable", "UNIFIED_REVIEW_MANIFEST_URL"],
+    ["Preview auto VERCEL_URL path", "VERCEL_URL"],
+    ["Preview public artifact path", "/api/public/unified-review-manifest"],
     ["Production environment guard", 'process.env.VERCEL_ENV === "production"'],
     ["HTTPS-only delivery", 'url.protocol !== "https:"'],
     ["redirect blocking", 'redirect: "error"'],

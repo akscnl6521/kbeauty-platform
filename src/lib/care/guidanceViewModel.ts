@@ -16,6 +16,12 @@ export type CareGuidanceViewModel = {
   clinicMessage: string;
   safetySteps: string[];
   commercialDisclosure: string;
+  professionalRoutes: Array<{
+    professionalType: string;
+    urgency: string;
+    reason: string;
+    productRecommendationAllowed: boolean;
+  }>;
 };
 
 const MANAGEMENT_LABELS: Record<GuidanceManagementLevel, string> = {
@@ -44,11 +50,36 @@ function stringList(value: unknown): string[] {
   return [...new Set(value.map((item) => String(item).trim()).filter(Boolean))];
 }
 
+function parseProfessionalRoutes(
+  value: unknown
+): CareGuidanceViewModel["professionalRoutes"] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((item) => {
+      if (!item || typeof item !== "object") return null;
+      const row = item as Record<string, unknown>;
+      const professionalType = String(row.professionalType ?? "").trim();
+      const urgency = String(row.urgency ?? "").trim();
+      const reason = String(row.reason ?? "").trim();
+      if (!professionalType || !urgency || !reason) return null;
+      return {
+        professionalType,
+        urgency,
+        reason,
+        productRecommendationAllowed: row.productRecommendationAllowed !== false,
+      };
+    })
+    .filter((row): row is CareGuidanceViewModel["professionalRoutes"][number] => row != null);
+}
+
 export function buildCareGuidanceViewModel(
   recommendation: Record<string, unknown> | null | undefined
 ): CareGuidanceViewModel {
   const managementLevel = asManagementLevel(recommendation?.managementLevel);
   const concerns = stringList(recommendation?.skinConcerns);
+  const professionalRoutes = parseProfessionalRoutes(
+    recommendation?.professionalRoutes
+  );
 
   if (managementLevel === "urgent_check") {
     return {
@@ -68,6 +99,7 @@ export function buildCareGuidanceViewModel(
       ],
       commercialDisclosure:
         "긴급 단계에서는 제품 구매 링크, 제휴 상품, 스폰서 병원 노출을 제공하지 않습니다.",
+      professionalRoutes,
     };
   }
 
@@ -89,6 +121,7 @@ export function buildCareGuidanceViewModel(
       ],
       commercialDisclosure:
         "제휴 피부과와 예약 수수료는 별도로 표시하며 Organic 추천 순위에는 영향을 주지 않습니다.",
+      professionalRoutes,
     };
   }
 
@@ -113,5 +146,6 @@ export function buildCareGuidanceViewModel(
     ],
     commercialDisclosure:
       "제휴 구매 링크는 수수료가 발생할 수 있으나 Organic 제품 순위와 적합도 점수는 변경하지 않습니다.",
+    professionalRoutes,
   };
 }

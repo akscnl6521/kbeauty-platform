@@ -1,0 +1,2632 @@
+{
+  "count": 181,
+  "evidences": [
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "image",
+        "offer"
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "KR official shop listing; partial KO INCI from prior verified batch."
+      ]
+    },
+    {
+      "channel": "naver_brand_store",
+      "trust": "B",
+      "url": "https://brand.naver.com/cosrx",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://int.aestura.com/products/atobarrier365-cream",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T07:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://illiyoon.co.kr/",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://www.drjart.com/",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://www.etude.com/",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://pyunkangyul.us/",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://roundlab.com/products/1025-dokdo-cream",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T07:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "image",
+        "offer"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://beautyofjoseon.com/pages/glow-serum-cpnp-scpn-information",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://torriden.us/products/dive-in-serum",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T07:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://isntree.com/",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T08:00:00.000Z",
+      "fields": [
+        "image",
+        "offer",
+        "ingredients"
+      ],
+      "notes": [
+        "Official Full Ingredients captured from brand PDP HTML."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://skin1004.com/",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "image",
+        "offer"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://anua.us/products/heartleaf-77-soothing-toner",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T07:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T08:00:00.000Z",
+      "fields": [
+        "image",
+        "offer",
+        "ingredients"
+      ],
+      "notes": [
+        "Official Full Ingredients captured from brand PDP HTML."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://beautyofjoseon.com/pages/green-plum-refreshing-toner-aha-bha-cpnp-scpn-information",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "CPNP/SCPN INCI captured from official brand information page."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://roundlab.com/products/1025-dokdo-toner",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T07:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "image",
+        "offer"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T07:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "image",
+        "offer"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T07:00:00.000Z",
+      "fields": [
+        "image",
+        "offer"
+      ],
+      "notes": [
+        "US official UVLock SPF45 PDP wired for image/offer only.",
+        "KR vs US filter/SKU conflict unresolved — not recommendation_ready."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T07:00:00.000Z",
+      "fields": [
+        "image",
+        "offer"
+      ],
+      "notes": [
+        "US Daily Relief Sunscreen SPF40 mapped for image/offer; KR Relief Sun Rice+Probiotics formula not confirmed identical.",
+        "US/KR filter conflict — review_required until KR formula verified."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T07:00:00.000Z",
+      "fields": [
+        "image",
+        "offer"
+      ],
+      "notes": [
+        "Official image+offer captured; full INCI not present on Shopify body — left incomplete.",
+        "US handle hyalu-cica-water-fit-sun-serum-uv; KR filter confirmation pending for recommendation_ready."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T08:00:00.000Z",
+      "fields": [
+        "image",
+        "offer",
+        "ingredients"
+      ],
+      "notes": [
+        "Official Full Ingredients captured from brand PDP HTML."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T07:00:00.000Z",
+      "fields": [
+        "image",
+        "offer"
+      ],
+      "notes": [
+        "Official page is DERMA UV365 Barrier Hydro Mineral Sunscreen — mineral SKU.",
+        "Pilot hydro-chemical identity unresolved; review_required."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "image",
+        "offer"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T08:00:00.000Z",
+      "fields": [
+        "image",
+        "offer",
+        "ingredients"
+      ],
+      "notes": [
+        "Official Full Ingredients captured from brand PDP HTML."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://beautyofjoseon.com/pages/revive-eye-serum-cpnp-scpn-information",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+      "outcome": "ok",
+      "checkedAt": "2026-07-22T08:00:00.000Z",
+      "fields": [
+        "image",
+        "offer"
+      ],
+      "notes": [
+        "US official PDP title uses Rejuvenating (pilot id Renewing); image+offer only — INCI not captured; identity naming variance noted."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    },
+    {
+      "channel": "naver_shopping",
+      "trust": "C",
+      "url": "https://shopping.naver.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "coupang_official",
+      "trust": "C",
+      "url": "https://www.coupang.com/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "oliveyoung",
+      "trust": "B",
+      "url": "https://www.oliveyoung.co.kr/",
+      "outcome": "blocked_by_policy",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients",
+        "offer",
+        "image"
+      ],
+      "notes": [
+        "Live marketplace fetch not done — policy."
+      ]
+    },
+    {
+      "channel": "official_brand",
+      "trust": "A",
+      "url": "https://",
+      "outcome": "skipped",
+      "checkedAt": "2026-07-22T05:00:00.000Z",
+      "fields": [
+        "ingredients"
+      ],
+      "notes": [
+        "No invented INCI; official extraction not captured in this pack.",
+        "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+      ]
+    }
+  ]
+}

@@ -114,6 +114,7 @@ export function DomainQuizRecommendPanel() {
         /* ignore */
       }
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-time hydrate from localStorage quiz answers; not available during server render
     setQuiz(latest);
   }, []);
 

@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     const headers = [
       { key: "X-Content-Type-Options", value: "nosniff" },
       { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-      { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+      { key: "Permissions-Policy", value: "camera=(self), microphone=(), geolocation=()" },
       { key: "X-Frame-Options", value: "DENY" },
       {
         key: "Content-Security-Policy",
@@ -17,7 +17,9 @@ const nextConfig: NextConfig = {
           "img-src 'self' data: blob: https:",
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
           "font-src 'self' data: https://fonts.gstatic.com",
-          "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com",
+          // wasm-unsafe-eval: MediaPipe Face Landmarker WASM (same-origin /mediapipe/wasm)
+          "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://pagead2.googlesyndication.com",
+          "worker-src 'self' blob:",
           "connect-src 'self' https://*.supabase.co",
           "frame-src 'self' https://googleads.g.doubleclick.net https://*.supabase.co",
         ].join("; "),

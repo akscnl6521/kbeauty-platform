@@ -1,0 +1,13 @@
+-- Staging: minimum service_role SELECT for admin Care aggregates (/admin/care).
+-- getAdminCareOpsSummary probes care_check_ins and counts care_* / profiles (SELECT only).
+--
+-- Idempotent GRANT SELECT only. Does NOT grant INSERT/UPDATE/DELETE/TRUNCATE.
+-- Does NOT modify anon/authenticated privileges or RLS policies.
+-- Apply: npm run fix:utf16le-migration-grant (if needed) then supabase db push on Staging only.
+
+GRANT SELECT ON TABLE public.care_check_ins TO service_role;
+GRANT SELECT ON TABLE public.care_notifications TO service_role;
+GRANT SELECT ON TABLE public.care_audit_events TO service_role;
+GRANT SELECT ON TABLE public.care_analysis_sessions TO service_role;
+GRANT SELECT ON TABLE public.care_routines TO service_role;
+GRANT SELECT ON TABLE public.profiles TO service_role;

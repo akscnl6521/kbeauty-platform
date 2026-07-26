@@ -16,6 +16,12 @@ import {
 import { computeProgressDeltas } from "@/lib/care/progress";
 import { evaluateDermatologyReferral } from "@/lib/care/referral";
 import { buildRoutineSuggestions } from "@/lib/care/routine-suggestions";
+import {
+  applyRoutineAdjustment,
+  undoRoutineAdjustment,
+  type RoutineAdjustmentProposal,
+} from "@/lib/retention/routineAdjustmentPolicy";
+import { mergeCheckinScheduleAfterStartChange } from "@/lib/retention/checkinPolicy";
 import type {
   CareAnalysisSession,
   CareCheckIn,
@@ -25,6 +31,19 @@ import type {
   CareStoreSnapshot,
   CareUserSettings,
 } from "@/lib/care/types";
+import {
+  defaultCareUserSettings,
+  normalizeCareUserSettings,
+} from "@/lib/care/settingsDefaults";
+import {
+  applyConfirmedProfilePatch,
+  applyProfileObservation,
+  createEmptyBeautyProfile,
+  observationFromCheckIn,
+  observationFromDomainQuiz,
+  parseBeautyProfile,
+  type ConfirmedProfilePatch,
+} from "@/lib/profile";
 
 export const CARE_STORAGE_KEY = "kbeautyCareStoreV1";
 
@@ -33,13 +52,7 @@ function rid(prefix: string): string {
 }
 
 function defaultSettings(timezone: string): CareUserSettings {
-  return {
-    notificationsEnabled: true,
-    emailOptIn: false,
-    quietHoursStart: 22,
-    quietHoursEnd: 8,
-    timezone,
-  };
+  return defaultCareUserSettings(timezone);
 }
 
 export function emptyCareStore(timezone = "Asia/Seoul"): CareStoreSnapshot {
@@ -53,6 +66,8 @@ export function emptyCareStore(timezone = "Asia/Seoul"): CareStoreSnapshot {
     notifications: [],
     feedback: [],
     settings: defaultSettings(timezone),
+    routineAdjustmentHistory: [],
+    beautyProfile: createEmptyBeautyProfile(),
     updatedAt: new Date().toISOString(),
   };
 }
@@ -67,6 +82,12 @@ export function loadCareStore(): CareStoreSnapshot {
     return {
       ...parsed,
       checkIns: refreshCheckInStatuses(dedupeCheckInsByDay(parsed.checkIns ?? [])),
+      settings: normalizeCareUserSettings(parsed.settings, parsed.settings?.timezone || "Asia/Seoul"),
+      routineAdjustmentHistory: parsed.routineAdjustmentHistory ?? [],
+      beautyProfile: parseBeautyProfile(
+        parsed.beautyProfile ?? null,
+        parsed.updatedAt
+      ),
     };
   } catch {
     return emptyCareStore();
@@ -165,14 +186,17 @@ export function saveAnalysisSessionFromLocalRecommendation(input: {
     conflictNotes: conflicts,
   };
 
-  let checkIns = createCheckInSchedule({
-    analysisSessionId: session.id,
-    routineId: routine.id,
-    startAt: session.createdAt,
-    timezone,
-    idFactory: () => rid("ci"),
-  });
-  checkIns = refreshCheckInStatuses(checkIns);
+  let checkIns: CareCheckIn[] = [];
+  if (input.consentCareTracking) {
+    checkIns = createCheckInSchedule({
+      analysisSessionId: session.id,
+      routineId: routine.id,
+      startAt: session.createdAt,
+      timezone,
+      idFactory: () => rid("ci"),
+    });
+    checkIns = refreshCheckInStatuses(checkIns);
+  }
 
   const dueNotes = checkIns
     .filter((c) => c.status === "due")
@@ -188,6 +212,34 @@ export function saveAnalysisSessionFromLocalRecommendation(input: {
       store.notifications,
       dueNotes,
       checkIns
+    ),
+    beautyProfile: applyProfileObservation(
+      parseBeautyProfile(
+        store.beautyProfile ?? null,
+        session.createdAt
+      ),
+      {
+        source: "user_confirmed",
+        recordedAt: session.createdAt,
+        country: session.country,
+        timezone: session.timezone,
+        ageBand: session.ageBand,
+        budgetBand: session.budgetBand,
+        skinType: session.skinType,
+        sensitivity: session.sensitivity,
+        concerns: session.concerns,
+        undertone: session.undertone,
+        toneDepth: session.toneDepth,
+        allergies: session.allergyIngredients,
+        avoidedIngredients: session.avoidedIngredients,
+        recommendedIngredients: Array.isArray(input.recommendation.recommendedIngredients)
+          ? input.recommendation.recommendedIngredients.filter(
+              (value): value is string => typeof value === "string"
+            )
+          : [],
+        redFlags: session.dermatologyHints,
+        goals: session.concerns,
+      }
     ),
   };
   saveCareStore(next);
@@ -277,6 +329,16 @@ export function completeCheckIn(
       referralNote,
       checkIns
     ),
+    beautyProfile: applyProfileObservation(
+      parseBeautyProfile(
+        store.beautyProfile ?? null,
+        updated.completedAt ?? undefined
+      ),
+      observationFromCheckIn({
+        answers: updated.answers ?? answers,
+        recordedAt: updated.completedAt ?? undefined,
+      })
+    ),
   };
   saveCareStore(next);
   return next;
@@ -295,6 +357,152 @@ export function refreshCareDueState(): CareStoreSnapshot {
     notifications: store.settings.notificationsEnabled
       ? mergeNotifications(store.notifications, notes, checkIns)
       : store.notifications,
+  };
+  saveCareStore(next);
+  return next;
+}
+
+/**
+ * Apply a check-in routine adjustment only after explicit user confirmation.
+ * Never deletes routine items — pauses or reschedules only.
+ */
+export function applyCheckinRoutineAdjustment(input: {
+  proposal: RoutineAdjustmentProposal;
+  selectedItemIds?: string[];
+  newStartAt?: string | null;
+}): CareStoreSnapshot {
+  const store = loadCareStore();
+  const history = store.routineAdjustmentHistory ?? [];
+  const routine =
+    store.routines.find((r) =>
+      store.checkIns.some(
+        (c) => c.id === input.proposal.checkInId && c.routineId === r.id
+      )
+    ) ??
+    store.routines[0] ??
+    null;
+  if (!routine) return store;
+
+  const checkIn = store.checkIns.find((c) => c.id === input.proposal.checkInId);
+  const result = applyRoutineAdjustment({
+    routine,
+    proposal: input.proposal,
+    selectedItemIds: input.selectedItemIds,
+    newStartAt: input.newStartAt,
+    history,
+  });
+  if (!result.ok) return store;
+
+  let checkIns = store.checkIns;
+  let record = result.record;
+
+  if (
+    input.proposal.type === "restart_later" &&
+    input.newStartAt &&
+    checkIn
+  ) {
+    const beforeCheckIns = store.checkIns.map((c) => ({ ...c }));
+    checkIns = mergeCheckinScheduleAfterStartChange({
+      existing: store.checkIns,
+      analysisSessionId: checkIn.analysisSessionId,
+      routineId: checkIn.routineId,
+      newStartAt: input.newStartAt,
+      timezone: checkIn.timezone || store.settings.timezone,
+      idFactory: () => rid("ci"),
+      consent: { careCheckinConsent: true },
+    });
+    record = {
+      ...record,
+      beforeCheckIns,
+      afterCheckIns: checkIns.map((c) => ({ ...c })),
+    };
+  }
+
+  const next: CareStoreSnapshot = {
+    ...store,
+    routines: store.routines.map((r) =>
+      r.id === routine.id ? result.routine : r
+    ),
+    checkIns,
+    routineAdjustmentHistory: [record, ...history].slice(0, 30),
+  };
+  saveCareStore(next);
+  return next;
+}
+
+export function undoLastCheckinRoutineAdjustment(
+  checkInId?: string
+): CareStoreSnapshot {
+  const store = loadCareStore();
+  const history = store.routineAdjustmentHistory ?? [];
+  const record = history.find(
+    (r) =>
+      r.undoneAt == null && (checkInId == null || r.checkInId === checkInId)
+  );
+  if (!record) return store;
+
+  const current =
+    store.routines.find((r) => r.id === record.routineId) ?? null;
+  if (!current) return store;
+
+  const undone = undoRoutineAdjustment({
+    currentRoutine: current,
+    record,
+  });
+  if (!undone.ok) return store;
+
+  const nextHistory = history.map((r) =>
+    r.id === record.id ? undone.record : r
+  );
+
+  const next: CareStoreSnapshot = {
+    ...store,
+    routines: store.routines.map((r) =>
+      r.id === current.id ? undone.routine : r
+    ),
+    checkIns: record.beforeCheckIns ?? store.checkIns,
+    routineAdjustmentHistory: nextHistory,
+  };
+  saveCareStore(next);
+  return next;
+}
+
+/** Persist user-confirmed BeautyProfile edits (local care store). */
+export function updateBeautyProfileConfirmed(
+  patch: ConfirmedProfilePatch
+): CareStoreSnapshot {
+  const store = loadCareStore();
+  const next: CareStoreSnapshot = {
+    ...store,
+    beautyProfile: applyConfirmedProfilePatch(
+      parseBeautyProfile(store.beautyProfile ?? null),
+      patch
+    ),
+  };
+  saveCareStore(next);
+  return next;
+}
+
+/** Merge domain quiz answers into the long-term BeautyProfile. */
+export function applyDomainQuizToBeautyProfile(input: {
+  domain: string;
+  answers: Record<string, string>;
+  completedAt?: string;
+}): CareStoreSnapshot {
+  const store = loadCareStore();
+  const next: CareStoreSnapshot = {
+    ...store,
+    beautyProfile: applyProfileObservation(
+      parseBeautyProfile(
+        store.beautyProfile ?? null,
+        input.completedAt
+      ),
+      observationFromDomainQuiz({
+        domain: input.domain,
+        answers: input.answers,
+        recordedAt: input.completedAt,
+      })
+    ),
   };
   saveCareStore(next);
   return next;

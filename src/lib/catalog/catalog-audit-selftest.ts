@@ -15,7 +15,10 @@ import {
   productTrustStatusLabel,
   stripTrailingSizeFromProductName,
 } from "@/lib/recommend/displayProductMeta";
-import { isOfferEligibleForCoreRecommendation } from "@/lib/recommend/productOffer";
+import {
+  isOfferEligibleForCoreRecommendation,
+  isOfferEligibleForRecommendation,
+} from "@/lib/recommend/productOffer";
 import type { ProductOffer } from "@/lib/recommend/catalogTypes";
 import { displayProductTitle } from "@/lib/brand/displayBrandName";
 import { formatOfferPrice } from "@/lib/recommend/selectPurchaseLink";
@@ -231,6 +234,31 @@ export function runCatalogAuditSelftests(): { ok: true; checks: number } {
       "KR"
     ),
     "out of stock no CTA"
+  );
+  assert(
+    isOfferEligibleForRecommendation(
+      asOffer(
+        baseOffer({ id: "o6r", productId: "4", stockStatus: "out_of_stock" })
+      ),
+      "KR"
+    ),
+    "verified OOS still recommendation-eligible"
+  );
+  assert(
+    isOfferEligibleForRecommendation(
+      asOffer(
+        baseOffer({
+          id: "o6o",
+          productId: "4",
+          stockStatus: "out_of_stock",
+          verificationStatus: "unverified",
+          verifiedAt: null,
+          isOfficial: true,
+        })
+      ),
+      "KR"
+    ),
+    "official KR OOS sale-checked remains recommendation-eligible"
   );
   assert(
     !isOfferEligibleForCoreRecommendation(

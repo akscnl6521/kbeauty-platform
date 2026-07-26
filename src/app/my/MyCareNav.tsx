@@ -4,12 +4,15 @@ import Link from "next/link";
 
 const LINKS = [
   { href: "/my", label: "오늘" },
+  { href: "/my/profile", label: "프로필" },
   { href: "/my/routine", label: "루틴" },
   { href: "/my/check-ins", label: "체크인" },
   { href: "/my/progress", label: "변화" },
   { href: "/my/analyses", label: "분석" },
   { href: "/my/recommendations", label: "추천" },
   { href: "/my/guidance", label: "사용·상담 가이드" },
+  { href: "/my/clinics", label: "피부과" },
+  { href: "/my/consultation-report", label: "상담 리포트" },
   { href: "/my/settings", label: "설정" },
 ];
 

@@ -225,48 +225,15 @@ export async function fetchOffersByProductIds(
   return map;
 }
 
-/**
- * Phase 3A — 추천 엔진용 후보 제품 로더.
- *
- * 기존 `src/lib/supabase` 클라이언트를 재사용해 products 테이블을 조회한다.
- * includeOffers(기본 true) 시 product_offers 를 병합한다.
- *
- * @returns CandidateProduct[] (RankableProduct 호환)
- * @throws products 조회 Supabase 오류 시 Error
- */
-export async function fetchCandidateProducts(
-  options: FetchCandidateProductsOptions = {}
+async function hydrateCandidateProducts(
+  rows: ProductRowRaw[],
+  includeOffers: boolean
 ): Promise<CandidateProduct[]> {
-  const limit =
-    typeof options.limit === "number" && options.limit > 0
-      ? Math.floor(options.limit)
-      : 10000;
-  const includeOffers = options.includeOffers !== false;
-
-  const { data, error } = await supabase
-    .from("products")
-    .select(CANDIDATE_PRODUCT_COLUMNS)
-    // Core recommendation pool: active verified catalog only (drafts excluded)
-    .eq("active", true)
-    .not("verified_at", "is", null)
-    .limit(limit);
-
-  if (error) {
-    throw new Error(
-      `[fetchCandidateProducts] Supabase error: ${error.message}`
-    );
-  }
-
-  if (!data || !Array.isArray(data)) {
-    return [];
-  }
-
-  // Sprint 3 Phase 2B: 개발 전용 — 매핑 전 raw 성분 필드 형식 감사 (점수/UI 변경 없음)
   if (process.env.NODE_ENV === "development") {
     const { auditIngredientFormats, logIngredientFormatAudit } = await import(
       "./auditIngredientFormats"
     );
-    const auditRows = (data as ProductRowRaw[]).map((row) => ({
+    const auditRows = rows.map((row) => ({
       productId: asNullableString(row.id) ?? "(missing-id)",
       key_ingredients: row.key_ingredients,
       key_ingredients_ja: row.key_ingredients_ja,
@@ -275,7 +242,7 @@ export async function fetchCandidateProducts(
   }
 
   const products: CandidateProduct[] = [];
-  for (const row of data as ProductRowRaw[]) {
+  for (const row of rows) {
     const mapped = mapRowToCandidateProduct(row);
     if (!mapped) continue;
     if (isExcludedFromPublicCatalog(mapped)) continue;
@@ -297,9 +264,6 @@ export async function fetchCandidateProducts(
     }
   }
 
-  // Attach verified primary media. products has no image column.
-  // Staging: anon cannot SELECT catalog_product_media (RLS + no SELECT grant).
-  // Private product-images bucket needs fresh signed URLs from canonical storage:// refs.
   if (products.length > 0) {
     const ids = products.map((p) => p.id);
     const mediaByProduct = new Map<string, string>();
@@ -353,16 +317,95 @@ export async function fetchCandidateProducts(
     }
 
     for (let i = 0; i < products.length; i += 1) {
-      const url = mediaByProduct.get(products[i]!.id);
+      const url = mediaByProduct.get(products[i].id);
       if (url) {
         products[i] = {
-          ...products[i]!,
+          ...products[i],
           image_url: url,
           image_verified: true,
         };
       }
     }
   }
+
+  return products;
+}
+
+/**
+ * Phase 2 pilot — scenario pool slugs only (no full-catalog scan).
+ */
+export async function fetchCandidateProductsBySlugs(
+  slugs: string[],
+  options: FetchCandidateProductsOptions = {}
+): Promise<CandidateProduct[]> {
+  const normalized = [
+    ...new Set(
+      slugs.map((slug) => slug.trim().toLowerCase()).filter(Boolean)
+    ),
+  ];
+  if (normalized.length === 0) return [];
+
+  const includeOffers = options.includeOffers !== false;
+  const { data, error } = await supabase
+    .from("products")
+    .select(CANDIDATE_PRODUCT_COLUMNS)
+    .eq("active", true)
+    .not("verified_at", "is", null)
+    .in("slug", normalized);
+
+  if (error) {
+    throw new Error(
+      `[fetchCandidateProductsBySlugs] Supabase error: ${error.message}`
+    );
+  }
+
+  if (!data || !Array.isArray(data)) {
+    return [];
+  }
+
+  return hydrateCandidateProducts(data as ProductRowRaw[], includeOffers);
+}
+
+/**
+ * Phase 3A — 추천 엔진용 후보 제품 로더.
+ *
+ * 기존 `src/lib/supabase` 클라이언트를 재사용해 products 테이블을 조회한다.
+ * includeOffers(기본 true) 시 product_offers 를 병합한다.
+ *
+ * @returns CandidateProduct[] (RankableProduct 호환)
+ * @throws products 조회 Supabase 오류 시 Error
+ */
+export async function fetchCandidateProducts(
+  options: FetchCandidateProductsOptions = {}
+): Promise<CandidateProduct[]> {
+  const limit =
+    typeof options.limit === "number" && options.limit > 0
+      ? Math.floor(options.limit)
+      : 10000;
+  const includeOffers = options.includeOffers !== false;
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(CANDIDATE_PRODUCT_COLUMNS)
+    // Core recommendation pool: active verified catalog only (drafts excluded)
+    .eq("active", true)
+    .not("verified_at", "is", null)
+    .limit(limit);
+
+  if (error) {
+    throw new Error(
+      `[fetchCandidateProducts] Supabase error: ${error.message}`
+    );
+  }
+
+  if (!data || !Array.isArray(data)) {
+    return [];
+  }
+
+  const products = await hydrateCandidateProducts(
+    data as ProductRowRaw[],
+    includeOffers
+  );
 
   // Sprint 3 Phase 3C: 개발 전용 구매 링크 커버리지
   if (process.env.NODE_ENV === "development") {

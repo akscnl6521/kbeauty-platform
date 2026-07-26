@@ -8,6 +8,13 @@ import {
   RECOMMENDATION_STORAGE_KEY,
   RANKED_PRODUCTS_STORAGE_KEY,
 } from "@/lib/recommend/types";
+import ProductUsageGuide from "@/components/usage/ProductUsageGuide";
+import { analyzeBodyAreasToApplicationTokens } from "@/lib/media/usageGuideApplicationArea";
+import {
+  ANALYZE_INPUT_SNAPSHOT_KEY,
+  type AnalyzeInputSnapshot,
+} from "@/lib/ai/analyzeInputSnapshot";
+import { ClinicReferralPanel } from "@/components/clinic/ClinicReferralPanel";
 
 type RankedItem = {
   id?: string;
@@ -39,6 +46,9 @@ function productBrand(item: RankedItem): string | null {
 export default function CareGuidancePage() {
   const [recommendation, setRecommendation] = useState<Record<string, unknown> | null>(null);
   const [ranked, setRanked] = useState<RankedItem[]>([]);
+  const [applicationAreas, setApplicationAreas] = useState<string[] | undefined>(
+    undefined
+  );
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -55,9 +65,31 @@ export default function CareGuidancePage() {
           : null
       );
       setRanked(Array.isArray(savedRanked) ? savedRanked.slice(0, 5) : []);
+
+      const rawSnapshot = window.localStorage.getItem(ANALYZE_INPUT_SNAPSHOT_KEY);
+      const snapshot = rawSnapshot
+        ? (JSON.parse(rawSnapshot) as AnalyzeInputSnapshot)
+        : null;
+      const areaIds: string[] = [];
+      if (snapshot?.concernObservations) {
+        for (const obs of snapshot.concernObservations) {
+          if (!Array.isArray(obs.areas)) continue;
+          for (const area of obs.areas) {
+            if (typeof area === "string" && area.trim()) areaIds.push(area);
+          }
+        }
+      }
+      if (snapshot?.rednessObservation?.areas) {
+        for (const area of snapshot.rednessObservation.areas) {
+          if (typeof area === "string" && area.trim()) areaIds.push(area);
+        }
+      }
+      const tokens = analyzeBodyAreasToApplicationTokens(areaIds);
+      setApplicationAreas(tokens.length > 0 ? tokens : undefined);
     } catch {
       setRecommendation(null);
       setRanked([]);
+      setApplicationAreas(undefined);
     } finally {
       setLoaded(true);
     }
@@ -145,12 +177,24 @@ export default function CareGuidancePage() {
                     {productBrand(item) ? (
                       <p className="mt-1 text-xs text-gray-500">{productBrand(item)}</p>
                     ) : null}
-                    <p className="mt-2 text-sm text-gray-700">
-                      도포량·사용 부위·사용 빈도는 공식 브랜드 근거 또는 내부 검수가 완료된 정보만 표시합니다.
-                    </p>
-                    <p className="mt-1 text-xs text-gray-500">
-                      검수된 사용 영상이 없는 경우 영상 대신 단계별 텍스트 안내만 제공합니다.
-                    </p>
+                    {item.product?.id || item.id ? (
+                      <ProductUsageGuide
+                        productId={String(item.product?.id || item.id)}
+                        locale="ko"
+                        emptyMode={applicationAreas ? "hidden" : "message"}
+                        applicationAreas={applicationAreas}
+                        className="mt-3 border-t border-pink-100 pt-3 text-xs text-gray-700"
+                      />
+                    ) : (
+                      <>
+                        <p className="mt-2 text-sm text-gray-700">
+                          도포량·사용 부위·사용 빈도는 공식 브랜드 근거 또는 내부 검수가 완료된 정보만 표시합니다.
+                        </p>
+                        <p className="mt-1 text-xs text-gray-500">
+                          검수된 사용 영상이 없는 경우 영상 대신 단계별 텍스트 안내만 제공합니다.
+                        </p>
+                      </>
+                    )}
                   </article>
                 ))}
               </div>
@@ -165,9 +209,16 @@ export default function CareGuidancePage() {
             <p className="mt-2 text-sm leading-relaxed text-blue-950">
               {guidance.clinicMessage}
             </p>
+            {guidance.professionalRoutes.length > 0 || guidance.clinicMode !== "none" ? (
+              <ClinicReferralPanel
+                routes={guidance.professionalRoutes}
+                clinicMode={guidance.clinicMode}
+              />
+            ) : null}
             {guidance.clinicMode !== "none" ? (
               <p className="mt-3 text-xs text-blue-800">
                 실제 병원 목록은 공식 정보·전문 증상·거리·운영 상태 검증이 끝난 후보만 노출합니다.
+                제휴 병원은 Organic 안내와 분리 표시합니다.
               </p>
             ) : null}
           </section>

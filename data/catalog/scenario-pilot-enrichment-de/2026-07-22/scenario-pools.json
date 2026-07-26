@@ -1,0 +1,465 @@
+{
+  "kr-redness-sensitive-cream": {
+    "scenarioId": "kr-redness-sensitive-cream",
+    "brandCapDefault": 2,
+    "affiliateOrAdInScore": false,
+    "slots": [
+      {
+        "productId": "cosrx-advanced-snail-92-all-in-one-cream",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "popular",
+          "safety"
+        ]
+      },
+      {
+        "productId": "aestura-atobarrier365-cream",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "safety",
+          "popular"
+        ]
+      },
+      {
+        "productId": "illiyoon-ceramide-ato-concentrate-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "value",
+          "safety"
+        ]
+      },
+      {
+        "productId": "etude-soonjung-2x-barrier-intensive-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "safety",
+          "value"
+        ]
+      },
+      {
+        "productId": "round-lab-dokdo-cream",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "emerging",
+          "value"
+        ]
+      },
+      {
+        "productId": "cosrx-advanced-snail-96-mucin-power-essence",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "popular"
+        ]
+      },
+      {
+        "productId": "torriden-dive-in-serum",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "rising",
+          "value"
+        ]
+      },
+      {
+        "productId": "beauty-of-joseon-glow-serum-propolis-niacinamide",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "popular",
+          "rising"
+        ]
+      },
+      {
+        "productId": "pyunkang-yul-ato-cream-deep-moisture",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "safety",
+          "value"
+        ]
+      },
+      {
+        "productId": "drjart-cicapair-intensive-soothing-repair-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "popular"
+        ]
+      }
+    ]
+  },
+  "pilot-dryness-barrier-serum": {
+    "scenarioId": "pilot-dryness-barrier-serum",
+    "brandCapDefault": 2,
+    "affiliateOrAdInScore": false,
+    "slots": [
+      {
+        "productId": "cosrx-advanced-snail-92-all-in-one-cream",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "popular",
+          "safety"
+        ]
+      },
+      {
+        "productId": "aestura-atobarrier365-cream",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "safety",
+          "popular"
+        ]
+      },
+      {
+        "productId": "illiyoon-ceramide-ato-concentrate-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "value",
+          "safety"
+        ]
+      },
+      {
+        "productId": "etude-soonjung-2x-barrier-intensive-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "safety",
+          "value"
+        ]
+      },
+      {
+        "productId": "round-lab-dokdo-cream",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "emerging",
+          "value"
+        ]
+      },
+      {
+        "productId": "cosrx-advanced-snail-96-mucin-power-essence",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "popular"
+        ]
+      },
+      {
+        "productId": "torriden-dive-in-serum",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "rising",
+          "value"
+        ]
+      },
+      {
+        "productId": "beauty-of-joseon-glow-serum-propolis-niacinamide",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "popular",
+          "rising"
+        ]
+      },
+      {
+        "productId": "isntree-hyaluronic-acid-water-essence",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "value"
+        ]
+      },
+      {
+        "productId": "skin1004-madagascar-centella-ampoule",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "popular",
+          "rising"
+        ]
+      }
+    ]
+  },
+  "kr-acne-pores-toner": {
+    "scenarioId": "kr-acne-pores-toner",
+    "brandCapDefault": 2,
+    "affiliateOrAdInScore": false,
+    "slots": [
+      {
+        "productId": "cosrx-aha-bha-clarifying-treatment-toner",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "popular"
+        ]
+      },
+      {
+        "productId": "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "popular",
+          "value"
+        ]
+      },
+      {
+        "productId": "anua-heartleaf-77-soothing-toner",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "rising",
+          "popular"
+        ]
+      },
+      {
+        "productId": "beauty-of-joseon-green-plum-refreshing-toner",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "rising"
+        ]
+      },
+      {
+        "productId": "isntree-green-tea-fresh-toner",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "value"
+        ]
+      },
+      {
+        "productId": "round-lab-dokdo-toner",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "safety",
+          "value"
+        ]
+      },
+      {
+        "productId": "pyunkang-yul-essence-toner",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "safety"
+        ]
+      },
+      {
+        "productId": "haruharu-wonder-black-rice-hyaluronic-toner",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "rising"
+        ]
+      },
+      {
+        "productId": "celimax-dual-barrier-creamy-toner",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "emerging",
+          "safety"
+        ]
+      },
+      {
+        "productId": "numbuzin-no3-super-glowing-essence-toner",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "emerging"
+        ]
+      }
+    ]
+  },
+  "kr-uv-sunscreen-sensitive": {
+    "scenarioId": "kr-uv-sunscreen-sensitive",
+    "brandCapDefault": 2,
+    "affiliateOrAdInScore": false,
+    "slots": [
+      {
+        "productId": "round-lab-birch-juice-moisturizing-sunscreen-us",
+        "readiness": "review_required",
+        "rejectionReason": "Critical source/SKU conflict requires human review.",
+        "roleTags": [
+          "popular",
+          "safety"
+        ]
+      },
+      {
+        "productId": "beauty-of-joseon-relief-sun-rice-probiotics",
+        "readiness": "review_required",
+        "rejectionReason": "Critical source/SKU conflict requires human review.",
+        "roleTags": [
+          "popular",
+          "rising"
+        ]
+      },
+      {
+        "productId": "isntree-hyaluronic-acid-watery-sun-gel",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "popular",
+          "value"
+        ]
+      },
+      {
+        "productId": "skin1004-hyalu-cica-water-fit-sun-serum",
+        "readiness": "catalog_ready",
+        "rejectionReason": "Identity + PDP/offer/image; INCI not verified.",
+        "roleTags": [
+          "rising"
+        ]
+      },
+      {
+        "productId": "torriden-dive-in-mild-suncream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "rising",
+          "safety"
+        ]
+      },
+      {
+        "productId": "cosrx-aloe-soothing-sun-cream",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "value"
+        ]
+      },
+      {
+        "productId": "drg-green-mild-up-sun-plus",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "safety"
+        ]
+      },
+      {
+        "productId": "make-prem-uv-defense-me-blue-ray-sun-fluid",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "emerging"
+        ]
+      },
+      {
+        "productId": "celimax-oil-control-cooling-suncream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "value"
+        ]
+      },
+      {
+        "productId": "aestura-derma-uv365-barrier-hydro-mineral-sunscreen",
+        "readiness": "ingredient_candidate",
+        "rejectionReason": "INCI source_verified_candidate only — not yet recommendation_ready.",
+        "roleTags": [
+          "safety"
+        ]
+      }
+    ]
+  },
+  "kr-aging-eye-cream": {
+    "scenarioId": "kr-aging-eye-cream",
+    "brandCapDefault": 2,
+    "affiliateOrAdInScore": false,
+    "slots": [
+      {
+        "productId": "cosrx-advanced-snail-peptide-eye-cream",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "popular"
+        ]
+      },
+      {
+        "productId": "beauty-of-joseon-revive-eye-serum",
+        "readiness": "recommendation_ready",
+        "rejectionReason": null,
+        "roleTags": [
+          "popular",
+          "rising"
+        ]
+      },
+      {
+        "productId": "illiyoon-ceramide-ato-eye-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "safety",
+          "value"
+        ]
+      },
+      {
+        "productId": "pyunkang-yul-eye-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "value",
+          "safety"
+        ]
+      },
+      {
+        "productId": "drjart-ceramidin-eye-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "popular"
+        ]
+      },
+      {
+        "productId": "laneige-perfect-renew-youth-regenerator-eye-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "popular"
+        ]
+      },
+      {
+        "productId": "innisfree-green-tea-seed-eye-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "value"
+        ]
+      },
+      {
+        "productId": "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
+        "readiness": "catalog_ready",
+        "rejectionReason": "Identity + PDP/offer/image; INCI not verified.",
+        "roleTags": [
+          "emerging",
+          "popular"
+        ]
+      },
+      {
+        "productId": "torriden-dive-in-eye-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "rising"
+        ]
+      },
+      {
+        "productId": "aestura-atobarrier365-eye-cream",
+        "readiness": "trend_candidate",
+        "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+        "roleTags": [
+          "safety"
+        ]
+      }
+    ]
+  }
+}

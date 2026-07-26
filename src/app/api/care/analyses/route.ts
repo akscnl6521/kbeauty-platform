@@ -1,6 +1,5 @@
 import { careJsonFromError, careJsonOk } from "@/lib/care/api-response";
 import {
-  isCareStoreSnapshot,
   requireCarePersistence,
   type SaveAnalysisSessionInput,
 } from "@/lib/care/persistence";

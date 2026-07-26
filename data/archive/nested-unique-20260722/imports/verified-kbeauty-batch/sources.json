@@ -1,0 +1,226 @@
+{
+  "checked_at": "2026-07-18T10:00:00+09:00",
+  "policy": {
+    "allow": [
+      "brand_kr_official_mall",
+      "brand_official_global",
+      "official_product_page",
+      "official_inci_page"
+    ],
+    "forbid": [
+      "blog",
+      "sns",
+      "search_snippet",
+      "user_review",
+      "ai_generated_inci"
+    ],
+    "auto_verified": false
+  },
+  "products": [
+    {
+      "slug": "cosrx-low-ph-good-morning-gel-cleanser-150ml",
+      "brand": "COSRX",
+      "status": "READY_FOR_REVIEW",
+      "source_url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=222",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 7920,
+      "stock_status": "in_stock",
+      "stock_evidence": "판매가·옵션 표시, 품절/구매불가 문구 없음 (2026-07-18)",
+      "image_url": "http://www.cosrx.co.kr/shopimages/cosrx/019000000591.jpg?1714461419",
+      "image_filename": "cosrx-low-ph-good-morning-gel-cleanser-150ml.jpg",
+      "has_official_inci_text": true,
+      "blockers": [],
+      "seed_overlap": "cosrx-low-ph-good-morning-gel-cleanser",
+      "notes": "기존 seed slug와 유사 — KR offer·전성분 재확인 배치"
+    },
+    {
+      "slug": "cosrx-full-fit-propolis-synergy-toner-280ml",
+      "brand": "COSRX",
+      "status": "READY_FOR_REVIEW",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1176488",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 18500,
+      "stock_status": "in_stock",
+      "stock_evidence": "판매가·옵션 표시, 품절 문구 없음 (2026-07-18)",
+      "image_url": "https://www.cosrx.co.kr/shopimages/cosrx/019000000661.jpg?1703729427",
+      "image_filename": "cosrx-full-fit-propolis-synergy-toner-280ml.jpg",
+      "has_official_inci_text": true,
+      "blockers": [],
+      "seed_overlap": "cosrx-full-fit-propolis-synergy-toner",
+      "notes": ""
+    },
+    {
+      "slug": "cosrx-the-niacinamide-15-serum-20ml",
+      "brand": "COSRX",
+      "status": "READY_FOR_REVIEW",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177564",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 20800,
+      "stock_status": "in_stock",
+      "stock_evidence": "판매가·옵션 표시, 품절 문구 없음 (2026-07-18)",
+      "image_url": "https://www.cosrx.co.kr/shopimages/cosrx/019000000640.jpg?1722235788",
+      "image_filename": "cosrx-the-niacinamide-15-serum-20ml.jpg",
+      "has_official_inci_text": true,
+      "blockers": [],
+      "seed_overlap": "cosrx-the-niacinamide-15-serum",
+      "notes": ""
+    },
+    {
+      "slug": "cosrx-full-fit-propolis-light-ampoule-30ml",
+      "brand": "COSRX",
+      "status": "READY_FOR_REVIEW",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1176536",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 20000,
+      "stock_status": "in_stock",
+      "stock_evidence": "판매가·옵션 표시, 품절 문구 없음 (2026-07-18)",
+      "image_url": "https://www.cosrx.co.kr/shopimages/cosrx/019000000658.jpg?1703730437",
+      "image_filename": "cosrx-full-fit-propolis-light-ampoule-30ml.jpg",
+      "has_official_inci_text": true,
+      "blockers": [],
+      "seed_overlap": null,
+      "notes": ""
+    },
+    {
+      "slug": "cosrx-advanced-snail-92-all-in-one-cream-100g",
+      "brand": "COSRX",
+      "status": "READY_FOR_REVIEW",
+      "source_url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 23000,
+      "stock_status": "in_stock",
+      "stock_evidence": "판매가·옵션 표시, 품절 문구 없음 (2026-07-18)",
+      "image_url": "http://www.cosrx.co.kr/shopimages/cosrx/019000000650.jpg?1711329356",
+      "image_filename": "cosrx-advanced-snail-92-all-in-one-cream-100g.jpg",
+      "has_official_inci_text": true,
+      "blockers": [],
+      "seed_overlap": "cosrx-advanced-snail-92-all-in-one-cream",
+      "notes": "페이지 제목에 단지/튜브형 — import 시 variant 검수 필요"
+    },
+    {
+      "slug": "cosrx-ultra-light-invisible-sunserum-50ml",
+      "brand": "COSRX",
+      "status": "READY_FOR_REVIEW",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177686",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 13000,
+      "stock_status": "in_stock",
+      "stock_evidence": "판매가·옵션 표시, 품절 문구 없음 (2026-07-18)",
+      "image_url": "https://www.cosrx.co.kr/shopimages/cosrx/019000000670.jpg?1734659106",
+      "image_filename": "cosrx-ultra-light-invisible-sunserum-50ml.jpg",
+      "has_official_inci_text": true,
+      "blockers": [],
+      "seed_overlap": null,
+      "notes": ""
+    },
+    {
+      "slug": "cosrx-full-fit-propolis-light-cream-65g",
+      "brand": "COSRX",
+      "status": "READY_FOR_REVIEW",
+      "source_url": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1176505",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 16100,
+      "stock_status": "in_stock",
+      "stock_evidence": "판매가·옵션 표시, 품절 문구 없음 (2026-07-18)",
+      "image_url": "https://www.cosrx.co.kr/shopimages/cosrx/019000000606.jpg?1703730335",
+      "image_filename": "cosrx-full-fit-propolis-light-cream-65g.jpg",
+      "has_official_inci_text": true,
+      "blockers": [],
+      "seed_overlap": null,
+      "notes": "보습 카테고리 2번째 — 스네일과 구분 검수"
+    },
+    {
+      "slug": "round-lab-1025-dokdo-toner-200ml",
+      "brand": "ROUND LAB",
+      "status": "REVIEW_REQUIRED",
+      "source_url": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml/22/",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 13500,
+      "stock_status": "in_stock",
+      "stock_evidence": "구매하기 버튼 활성, 품절 아님 (2026-07-18)",
+      "image_url": "https://roundlab.co.kr/web/product/big/202511/1c345b7287e97f2733f49315da42eea1.jpg",
+      "image_filename": null,
+      "has_official_inci_text": false,
+      "blockers": [
+        "missing_official_inci_text"
+      ],
+      "seed_overlap": null,
+      "notes": "공식 전성분 원문 텍스트 미확보 — OCR/수동 전성분 추출 후 READY 전환"
+    },
+    {
+      "slug": "round-lab-birch-juice-moisturizing-sunscreen-50ml",
+      "brand": "ROUND LAB",
+      "status": "BLOCKED",
+      "source_url": "https://roundlab.co.kr/product/%EC%9E%90%EC%9E%91%EB%82%98%EB%AC%B4-%EC%88%98%EB%B6%84-%EC%84%A0%ED%81%AC%EB%A6%BC-50ml/138/",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 22500,
+      "stock_status": "out_of_stock",
+      "stock_evidence": "페이지에 품절 표시 (2026-07-18)",
+      "image_url": null,
+      "image_filename": null,
+      "has_official_inci_text": false,
+      "blockers": [
+        "out_of_stock",
+        "missing_official_inci_text"
+      ],
+      "seed_overlap": null,
+      "notes": "품절 + 전성분 텍스트 미확보"
+    },
+    {
+      "slug": "anua-heartleaf-77-hyaluronic-soothing-toner-250ml",
+      "brand": "Anua",
+      "status": "BLOCKED",
+      "source_url": "https://anua.kr/product/new%EB%A6%AC%EB%89%B4%EC%96%BC-%EC%96%B4%EC%84%B1%EC%B4%88-77-%ED%9E%88%EC%95%8C%EB%A3%A8%EB%A1%A0%EC%82%B0-%EC%88%98%EB%B6%84-%EC%A7%84%EC%A0%95-%ED%86%A0%EB%84%88-250ml/496/",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 20000,
+      "stock_status": "out_of_stock",
+      "stock_evidence": "SOLD OUT 표시 (2026-07-18)",
+      "image_url": null,
+      "image_filename": null,
+      "has_official_inci_text": false,
+      "blockers": [
+        "out_of_stock",
+        "missing_official_inci_text"
+      ],
+      "seed_overlap": null,
+      "notes": "품절 — in_stock 추정 금지"
+    },
+    {
+      "slug": "torriden-dive-in-low-molecular-hyaluronic-acid-cream-80ml",
+      "brand": "Torriden",
+      "status": "BLOCKED",
+      "source_url": "https://www.torriden.com/goods/goods_view.php?goodsNo=57",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 15700,
+      "stock_status": "out_of_stock",
+      "stock_evidence": "구매 불가 표시 (2026-07-18)",
+      "image_url": null,
+      "image_filename": null,
+      "has_official_inci_text": true,
+      "blockers": [
+        "purchase_unavailable"
+      ],
+      "seed_overlap": null,
+      "notes": "전성분은 페이지에 있으나 구매 불가로 offer 부적격"
+    },
+    {
+      "slug": "isntree-ultra-low-molecular-hyaluronic-acid-toner-300ml",
+      "brand": "Isntree",
+      "status": "BLOCKED",
+      "source_url": "https://isntree.com/product/%EC%B4%88%EC%A0%80%EB%B6%84%EC%9E%90-%ED%9E%88%EC%95%84%EB%A3%A8%EB%A1%A0%EC%82%B0-%ED%86%A0%EB%84%88-300ml/56/",
+      "source_type": "official_brand_kr_mall",
+      "price_krw": 16800,
+      "stock_status": "out_of_stock",
+      "stock_evidence": "상품이 품절되었습니다 (2026-07-18)",
+      "image_url": null,
+      "image_filename": null,
+      "has_official_inci_text": false,
+      "blockers": [
+        "out_of_stock",
+        "missing_official_inci_text"
+      ],
+      "seed_overlap": null,
+      "notes": "품절 + 전성분 텍스트 미확보"
+    }
+  ]
+}

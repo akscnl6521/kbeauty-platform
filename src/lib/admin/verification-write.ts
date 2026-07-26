@@ -340,7 +340,6 @@ export async function applyVerificationReview(
       );
     }
 
-    const now = new Date().toISOString();
     const { data: updated, error } = await client
       .from("verification_queue")
       .update({

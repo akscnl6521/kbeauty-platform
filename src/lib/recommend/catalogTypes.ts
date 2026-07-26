@@ -10,7 +10,10 @@ import type {
   ShippingCountry,
 } from "./selectPurchaseLink";
 
-/** 재고 상태 — out_of_stock 은 핵심 추천 제외 */
+/**
+ * 재고 상태 (commerce availability).
+ * Phase 2.5: out_of_stock / unknown 은 구매 CTA만 막고 Organic 추천 자격은 유지할 수 있다.
+ */
 export type StockStatus = "in_stock" | "out_of_stock" | "unknown";
 
 /** 제품 데이터 신뢰도 (관리자 입력) */

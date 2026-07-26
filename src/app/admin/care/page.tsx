@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireAdminUser } from "@/lib/auth/admin";
 import { AdminConfigurationError } from "@/lib/auth/errors";
 import { getAdminCareOpsSummary } from "@/lib/admin/care-ops";
+import { getCheckinEmailQueueStatusCounts } from "@/lib/admin/checkinEmailQueueStatus";
 import { fmtCount, fmtRate } from "@/lib/admin/care-display";
 import { AdminLogoutButton } from "../AdminLogoutButton";
 import { AdminSubnav } from "../AdminSubnav";
@@ -26,6 +27,18 @@ export default async function AdminCarePage() {
       );
     }
     throw e;
+  }
+  let queueStatus;
+  try {
+    queueStatus = await getCheckinEmailQueueStatusCounts();
+  } catch {
+    queueStatus = {
+      tablesReady: false,
+      readinessStatus: "query_error" as const,
+      note: "queue status unavailable",
+      counts: {},
+      total: 0,
+    };
   }
 
   return (
@@ -69,10 +82,60 @@ export default async function AdminCarePage() {
         ))}
       </section>
 
+      <section className="mt-8 rounded-lg border border-[#E8DFD8] bg-white px-4 py-4 text-sm">
+        <h2 className="font-semibold">체크인 이메일 큐</h2>
+        <p className="mt-1 text-xs text-gray-500">
+          {queueStatus?.note ?? "status counts only — no PII"}
+        </p>
+        <p className="mt-2 text-xs text-gray-600">
+          readiness: {queueStatus?.readinessStatus ?? "unknown"} · total:{" "}
+          {queueStatus?.total ?? 0}
+        </p>
+        <div className="mt-3 grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
+          {Object.entries(queueStatus?.counts ?? {}).map(([k, v]) => (
+            <div key={k} className="rounded border border-[#E8DFD8] px-2 py-2">
+              <p className="text-[11px] text-gray-500">{k}</p>
+              <p className="font-semibold tabular-nums">{v}</p>
+            </div>
+          ))}
+        </div>
+        <ul className="mt-3 space-y-1 text-sm">
+          <li>
+            <Link
+              href="/api/admin/care/checkin-email-queue-status"
+              className="text-[#8B6914] underline"
+            >
+              큐 상태 API
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/admin/care/checkin-email-worker"
+              className="text-[#8B6914] underline"
+            >
+              Worker 관리 (dry-run only · 실발송 없음)
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/admin/care/check-in-email-test"
+              className="text-[#8B6914] underline"
+            >
+              Preview 체크인 이메일 테스트 (in-memory)
+            </Link>
+          </li>
+        </ul>
+      </section>
+
       <ul className="mt-8 space-y-2 text-sm">
         <li>
           <Link href="/admin/care/check-ins" className="text-[#8B6914] underline">
             체크인 집계
+          </Link>
+        </li>
+        <li>
+          <Link href="/admin/care/follow-up" className="text-[#8B6914] underline">
+            3·7·15·30 팔로업 라이프사이클 (dry-run · 실발송 미주장)
           </Link>
         </li>
         <li>

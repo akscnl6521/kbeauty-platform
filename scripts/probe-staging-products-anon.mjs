@@ -99,7 +99,7 @@ try {
 const badRes = await fetch(`${base}?select=id,data_confidence&limit=1`, {
   headers: h,
 });
-const badBody = await badRes.text();
+await badRes.text();
 
 const draftRes = await fetch(
   `${base}?select=id&active=eq.false&limit=5`,

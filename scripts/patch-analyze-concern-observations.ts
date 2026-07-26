@@ -2,10 +2,14 @@ import fs from "node:fs";
 import path from "node:path";
 
 const target = path.resolve("src/app/analyze/page.tsx");
-const source = fs.readFileSync(target, "utf8");
+const sourceRaw = fs.readFileSync(target, "utf8");
+const newline = sourceRaw.includes("\r\n") ? "\r\n" : "\n";
+const source = sourceRaw.replace(/\r\n/g, "\n");
 
 const alreadyIntegrated =
-  source.includes('import { ConcernObservationPanel } from "@/components/analyze/ConcernObservationPanel";') &&
+  source.includes(
+    'import { ConcernObservationPanel } from "@/components/analyze/ConcernObservationPanel";'
+  ) &&
   source.includes("concernObservationPayload") &&
   source.includes("<ConcernObservationPanel");
 
@@ -16,52 +20,52 @@ if (alreadyIntegrated) {
     [
       "component import",
       'import { RednessObservationFields } from "@/components/analyze/RednessObservationFields";',
-      'import { ConcernObservationPanel } from "@/components/analyze/ConcernObservationPanel";'
+      'import { ConcernObservationPanel } from "@/components/analyze/ConcernObservationPanel";',
     ],
     [
       "payload import",
       'import {\n  parseRednessObservation,\n  type RednessObservation,\n} from "@/lib/ai/rednessObservation";',
-      'import {\n  parseRednessObservation,\n  type RednessObservation,\n} from "@/lib/ai/rednessObservation";\nimport type { ConcernObservation } from "@/lib/ai/types";\nimport type { ConcernObservationMap } from "@/lib/ai/concernObservationFormState";\nimport { buildAnalyzeConcernObservationPayload } from "@/lib/ai/analyzeConcernObservationPayload";'
+      'import {\n  parseRednessObservation,\n  type RednessObservation,\n} from "@/lib/ai/rednessObservation";\nimport type { ConcernObservation } from "@/lib/ai/types";\nimport type { ConcernObservationMap } from "@/lib/ai/concernObservationFormState";\nimport { buildAnalyzeConcernObservationPayload } from "@/lib/ai/analyzeConcernObservationPayload";',
     ],
     [
       "request body type",
-      '  rednessObservation?: RednessObservation;\n};',
-      '  rednessObservation?: RednessObservation;\n  concernObservations?: ConcernObservation[];\n};'
+      "  rednessObservation?: RednessObservation;\n};",
+      "  rednessObservation?: RednessObservation;\n  concernObservations?: ConcernObservation[];\n};",
     ],
     [
       "state",
-      '  const [rednessObservation, setRednessObservation] =\n    useState<RednessObservation>({});',
-      '  const [rednessObservation, setRednessObservation] =\n    useState<RednessObservation>({});\n  const [concernObservationMap, setConcernObservationMap] =\n    useState<ConcernObservationMap>({});'
+      "  const [rednessObservation, setRednessObservation] =\n    useState<RednessObservation>({});",
+      "  const [rednessObservation, setRednessObservation] =\n    useState<RednessObservation>({});\n  const [concernObservationMap, setConcernObservationMap] =\n    useState<ConcernObservationMap>({});",
     ],
     [
       "derived payload",
-      '  const rednessPayload = useMemo(() => {\n    if (!showRednessDetails) return undefined;\n    return parseRednessObservation(rednessObservation) ?? undefined;\n  }, [showRednessDetails, rednessObservation]);',
-      '  const rednessPayload = useMemo(() => {\n    if (!showRednessDetails) return undefined;\n    return parseRednessObservation(rednessObservation) ?? undefined;\n  }, [showRednessDetails, rednessObservation]);\n  const concernObservationPayload = useMemo(\n    () =>\n      buildAnalyzeConcernObservationPayload({\n        selectedConcerns: manualConcerns.map(concernKoToParam),\n        observations: concernObservationMap,\n      }),\n    [manualConcerns, concernObservationMap]\n  );'
+      "  const rednessPayload = useMemo(() => {\n    if (!showRednessDetails) return undefined;\n    return parseRednessObservation(rednessObservation) ?? undefined;\n  }, [showRednessDetails, rednessObservation]);",
+      "  const rednessPayload = useMemo(() => {\n    if (!showRednessDetails) return undefined;\n    return parseRednessObservation(rednessObservation) ?? undefined;\n  }, [showRednessDetails, rednessObservation]);\n  const concernObservationPayload = useMemo(\n    () =>\n      buildAnalyzeConcernObservationPayload({\n        selectedConcerns: manualConcerns.map(concernKoToParam),\n        observations: concernObservationMap,\n      }),\n    [manualConcerns, concernObservationMap]\n  );",
     ],
     [
       "current snapshot",
-      '      rednessObservation: showRednessDetails\n        ? { ...rednessObservation }\n        : null,',
-      '      rednessObservation: showRednessDetails\n        ? { ...rednessObservation }\n        : null,\n      concernObservations: concernObservationPayload.concernObservations ?? [],'
+      "      rednessObservation: showRednessDetails\n        ? { ...rednessObservation }\n        : null,",
+      "      rednessObservation: showRednessDetails\n        ? { ...rednessObservation }\n        : null,\n      concernObservations: concernObservationPayload.concernObservations ?? [],",
     ],
     [
       "snapshot dependencies",
-      '  }, [\n    mode,\n    manualTone,\n    manualUndertone,\n    manualConcerns,\n    manualSensitivity,\n    showRednessDetails,\n    rednessObservation,\n  ]);',
-      '  }, [\n    mode,\n    manualTone,\n    manualUndertone,\n    manualConcerns,\n    manualSensitivity,\n    showRednessDetails,\n    rednessObservation,\n    concernObservationPayload,\n  ]);'
+      "  }, [\n    mode,\n    manualTone,\n    manualUndertone,\n    manualConcerns,\n    manualSensitivity,\n    showRednessDetails,\n    rednessObservation,\n  ]);",
+      "  }, [\n    mode,\n    manualTone,\n    manualUndertone,\n    manualConcerns,\n    manualSensitivity,\n    showRednessDetails,\n    rednessObservation,\n    concernObservationPayload,\n  ]);",
     ],
     [
       "manual request payload",
-      '        ...(rednessPayload ? { rednessObservation: rednessPayload } : {}),\n        ...ingredientPrefs,',
-      '        ...(rednessPayload ? { rednessObservation: rednessPayload } : {}),\n        ...concernObservationPayload,\n        ...ingredientPrefs,'
+      "        ...(rednessPayload ? { rednessObservation: rednessPayload } : {}),\n        ...ingredientPrefs,",
+      "        ...(rednessPayload ? { rednessObservation: rednessPayload } : {}),\n        ...concernObservationPayload,\n        ...ingredientPrefs,",
     ],
     [
       "saved snapshot",
-      '        rednessObservation: showRednessDetails\n          ? { ...rednessObservation }\n          : null,\n      });',
-      '        rednessObservation: showRednessDetails\n          ? { ...rednessObservation }\n          : null,\n        concernObservations: concernObservationPayload.concernObservations ?? [],\n      });'
+      "        rednessObservation: showRednessDetails\n          ? { ...rednessObservation }\n          : null,\n      });",
+      "        rednessObservation: showRednessDetails\n          ? { ...rednessObservation }\n          : null,\n        concernObservations: concernObservationPayload.concernObservations ?? [],\n      });",
     ],
     [
       "detail panel",
-      '                {showRednessDetails ? (\n                  <RednessObservationFields\n                    value={rednessObservation}\n                    onChange={setRednessObservation}\n                  />\n                ) : null}',
-      '                <ConcernObservationPanel\n                  concerns={manualConcerns.map(concernKoToParam)}\n                  value={concernObservationMap}\n                  onChange={setConcernObservationMap}\n                />'
+      "                {showRednessDetails ? (\n                  <RednessObservationFields\n                    value={rednessObservation}\n                    onChange={setRednessObservation}\n                  />\n                ) : null}",
+      "                <ConcernObservationPanel\n                  concerns={manualConcerns.map(concernKoToParam)}\n                  value={concernObservationMap}\n                  onChange={setConcernObservationMap}\n                />",
     ],
   ];
 
@@ -75,6 +79,7 @@ if (alreadyIntegrated) {
   }
 
   if (next === source) throw new Error("No changes generated");
-  fs.writeFileSync(target, next, "utf8");
+  const out = newline === "\r\n" ? next.replace(/\n/g, "\r\n") : next;
+  fs.writeFileSync(target, out, "utf8");
   console.log("Analyze concern observation patch applied safely.");
 }

@@ -1,0 +1,483 @@
+{
+  "phase": "2.2-dry-run",
+  "projectRef": "jfnj***gfd",
+  "productionWrite": 0,
+  "mode": "SELECT_ONLY",
+  "summary": {
+    "total": 6,
+    "insert": 6,
+    "update": 0,
+    "mediaInsert": 6,
+    "offerInsertReady": 0,
+    "holdNoKrInStockOffer": 6
+  },
+  "plans": [
+    {
+      "slug": "aestura-atobarrier365-cream",
+      "scenarios": [
+        "A",
+        "B"
+      ],
+      "exists": false,
+      "existingId": null,
+      "action": "insert",
+      "product": {
+        "brand": "AESTURA",
+        "name": "Atobarrier 365 Cream",
+        "name_ko": "아토베리어365 크림",
+        "category": "cream",
+        "volume": "80ml",
+        "active": true,
+        "verified_at": "set_now_if_offer_ready_else_set_with_hold_note",
+        "data_confidence": "official_brand_inci_artifact_2026-07-22",
+        "full_ingredients_count": 45,
+        "key_ingredients": [
+          "GLYCERIN",
+          "SQUALANE",
+          "CHOLESTEROL",
+          "ALLANTOIN",
+          "NIACINAMIDE",
+          "CERAMIDE NP",
+          "TOCOPHEROL"
+        ],
+        "source_url": "https://int.aestura.com/products/atobarrier365-cream",
+        "ingredient_status_planned": "verified",
+        "ingredient_evidence": {
+          "raw": "WATER / AQUA / EAU, BUTYLENE GLYCOL, GLYCERIN, BUTYLENE GLYCOL DICAPRYLATE/ DICAPRATE, CETYL ETHYLHEXANOATE, SQUALANE, PENTAERYTHRITYL TETRAISOSTEARATE, DICAPRYLYL CARBONATE, BEHENYL ALCOHOL, DIMETHICONE, HYDROXYPROPYL BISPALMITAMIDE MEA, STEARIC ACID, BETAINE, MANNITOL, C14-22 ALCOHOLS, PALMITIC ACID, HYDROXYPROPYL BISLAURAMIDE MEA, ARACHIDYL ALCOHOL, CHOLESTEROL, POLYACRYLATE-13, C12-20 ALKYL GLUCOSIDE, ALLANTOIN, ARACHIDYL GLUCOSIDE, NIACINAMIDE, CERAMIDE NP, GLYCERYL CAPRYLATE, ETHYLHEXYLGLYCERIN, HYDROGENATED POLYISOBUTENE, CARBOMER, TROMETHAMINE, DIMETHICONOL, POLYGLYCERYL-10 LAURATE, HYDROGENATED LECITHIN, ETHYLHEXYL PALMITATE, ACRYLATES / AMMONIUM METHACRYLATE COPOLYMER, SORBITAN ISOSTEARATE, SILICA, PHYTOSPHINGOSINE, SPHINGOLIPIDS, ARACHIDIC ACID, TOCOPHEROL, OLEIC ACID",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://int.aestura.com/products/atobarrier365-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        },
+        "caution": []
+      },
+      "media": {
+        "action": "insert",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0723/3775/2306/files/1_Atobarrier365-Cream_thumbnail_Product-80ml__1200x1200_961c8e7e-0afb-48bd-bea7-d47f285ab4d4.png?v=1734030421",
+        "sourcePageUrl": "https://int.aestura.com/products/atobarrier365-cream",
+        "trust": "A",
+        "isOfficialSource": true
+      },
+      "offer": {
+        "action": "SKIP_or_out_of_stock_only",
+        "candidate": {
+          "retailer_name": "AESTURA 공식몰",
+          "purchase_url": "https://www.aestura.com/web/product/view.do?prdSeq=1021",
+          "price": 33000,
+          "currency": "KRW",
+          "stock_status": "unknown_needs_confirm",
+          "is_official": true,
+          "note": "공식몰 페이지에 장바구니/구매 UI 확인. 품절 문구는 미확인."
+        },
+        "recommendationGatePass": false
+      },
+      "ingredientsLink": {
+        "action": "upsert_product_ingredients_from_full_list",
+        "count": 45
+      },
+      "missingFields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicateRisk": {
+        "slugExact": false,
+        "brandNameCollisionCheck": "required_at_write"
+      },
+      "hold": true
+    },
+    {
+      "slug": "round-lab-dokdo-cream",
+      "scenarios": [
+        "A",
+        "B"
+      ],
+      "exists": false,
+      "existingId": null,
+      "action": "insert",
+      "product": {
+        "brand": "ROUND LAB",
+        "name": "Dokdo Cream",
+        "name_ko": "1025 독도 크림",
+        "category": "cream",
+        "volume": "80ml",
+        "active": true,
+        "verified_at": "set_now_if_offer_ready_else_set_with_hold_note",
+        "data_confidence": "official_brand_inci_artifact_2026-07-22",
+        "full_ingredients_count": 44,
+        "key_ingredients": [
+          "Glycerin",
+          "Hyaluronic Acid",
+          "Ceramide AP",
+          "Allantoin",
+          "Panthenol",
+          "Beta-Glucan",
+          "Cholesterol"
+        ],
+        "source_url": "https://roundlab.com/products/1025-dokdo-cream",
+        "ingredient_status_planned": "verified",
+        "ingredient_evidence": {
+          "raw": "Water, Glycerin, Caprylic/Capric Triglyceride, Dipropylene Glycol, Hydrogenated Poly(C6-14 Olefin), Cetearyl Alcohol, Methyl Trimethicone, 1,2-Hexanediol, Caprylyl Methicone, Phenyl Trimethicone, C12-16 Alcohols, Butyrospermum Parkii (Shea) Butter, Sea Water, Chondrus Crispus Extract, Saccharum Officinarum (Sugarcane) Extract, Hyaluronic Acid, Hydrolyzed Hyaluronic Acid, Sodium Hyaluronate, Glyceryl Stearate SE, Ceramide AP, Ceramide AS, Ceramide EOP, Ceramide NP, Ceramide NS, Polymethylsilsesquioxane, Palmitic Acid, Cetearyl Glucoside, Cetearyl Olivate, Sorbitan Olivate, Hydrogenated Lecithin, Copernicia Cerifera (Carnauba) Wax, Stearic Acid, Ammonium Acryloyldimethyltaurate/VP Copolymer, Ethylhexylglycerin, Glyceryl Caprylate, Allantoin, Panthenol, Butylene Glycol, Beta-Glucan, Cholesterol, Phytosphingosine, Disodium EDTA",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://roundlab.com/products/1025-dokdo-cream",
+          "checkedAt": "2026-07-22T07:00:00.000Z"
+        },
+        "caution": []
+      },
+      "media": {
+        "action": "insert",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/1025-dokdo-cream-round-lab-1_66b8271b-613f-4510-82e8-b15abb0f1e37.jpg?v=1772849283",
+        "sourcePageUrl": "https://roundlab.com/products/1025-dokdo-cream",
+        "trust": "A",
+        "isOfficialSource": true
+      },
+      "offer": {
+        "action": "SKIP_or_out_of_stock_only",
+        "candidate": {
+          "retailer_name": "ROUND LAB 공식몰",
+          "purchase_url": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%AC%EB%A6%BC-80ml/24/",
+          "price": 25600,
+          "currency": "KRW",
+          "stock_status": "out_of_stock",
+          "is_official": true,
+          "note": "공식몰 페이지에 '품 절/SOLD OUT' 흔적 — in_stock 승격 금지."
+        },
+        "recommendationGatePass": false
+      },
+      "ingredientsLink": {
+        "action": "upsert_product_ingredients_from_full_list",
+        "count": 44
+      },
+      "missingFields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicateRisk": {
+        "slugExact": false,
+        "brandNameCollisionCheck": "required_at_write"
+      },
+      "hold": true
+    },
+    {
+      "slug": "torriden-dive-in-serum",
+      "scenarios": [
+        "A",
+        "B"
+      ],
+      "exists": false,
+      "existingId": null,
+      "action": "insert",
+      "product": {
+        "brand": "Torriden",
+        "name": "Dive-In Low Molecular Hyaluronic Acid Serum",
+        "name_ko": "다이브인 저분자 히알루론산 세럼",
+        "category": "serum",
+        "volume": "50ml",
+        "active": true,
+        "verified_at": "set_now_if_offer_ready_else_set_with_hold_note",
+        "data_confidence": "official_brand_inci_artifact_2026-07-22",
+        "full_ingredients_count": 35,
+        "key_ingredients": [
+          "Glycerin",
+          "Panthenol",
+          "Sodium Hyaluronate",
+          "Allantoin",
+          "Madecassoside",
+          "Ceramide NP",
+          "Beta-Glucan",
+          "Cholesterol"
+        ],
+        "source_url": "https://torriden.us/products/dive-in-serum",
+        "ingredient_status_planned": "verified",
+        "ingredient_evidence": {
+          "raw": "Water, Butylene Glycol, Glycerin, Dipropylene Glycol, 1,2-Hexanediol, Panthenol, Sodium Hyaluronate, Hydrolyzed Hyaluronic Acid, Sodium Acetylated Hyaluronate, Sodium Hyaluronate Crosspolymer, Hydrolyzed Sodium Hyaluronate, Allantoin, Trehalose, Betaine, Propanediol, Portulaca Oleracea Extract, Hamamelis Virginiana (Witch Hazel) Leaf Extract, Madecassoside, Madecassic Acid, Ceramide NP, Beta-Glucan, Malachite Extract, Cholesterol, Pentylene Glycol, Glyceryl Acrylate/Acrylic Acid Copolymer, PVM/MA Copolymer, Polyglyceryl-10 Laurate, Xanthan Gum, Tromethamine, Carbomer, Ethylhexylglycerin, Scutellaria Baicalensis Root Extract, Paeonia Suffruticosa Root Extract",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://torriden.us/products/dive-in-serum",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        },
+        "caution": []
+      },
+      "media": {
+        "action": "insert",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/DIVEINSerum1_631ac0e3-a77b-422a-a806-bf34477cac19.jpg?v=1753346213",
+        "sourcePageUrl": "https://torriden.us/products/dive-in-serum",
+        "trust": "A",
+        "isOfficialSource": true
+      },
+      "offer": {
+        "action": "SKIP_or_out_of_stock_only",
+        "candidate": {
+          "retailer_name": null,
+          "purchase_url": null,
+          "price": null,
+          "currency": "KRW",
+          "stock_status": "hold",
+          "is_official": false,
+          "note": "토리든 공식몰 구매 불가. 올리브영 등 KR in-stock URL/가격 미확정 — offer 보류."
+        },
+        "recommendationGatePass": false
+      },
+      "ingredientsLink": {
+        "action": "upsert_product_ingredients_from_full_list",
+        "count": 35
+      },
+      "missingFields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicateRisk": {
+        "slugExact": false,
+        "brandNameCollisionCheck": "required_at_write"
+      },
+      "hold": true
+    },
+    {
+      "slug": "skin1004-madagascar-centella-ampoule",
+      "scenarios": [
+        "B"
+      ],
+      "exists": false,
+      "existingId": null,
+      "action": "insert",
+      "product": {
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Ampoule",
+        "name_ko": "마다가스카르 센텔라 앰플",
+        "category": "ampoule",
+        "volume": "100ml",
+        "active": true,
+        "verified_at": "set_now_if_offer_ready_else_set_with_hold_note",
+        "data_confidence": "official_brand_inci_artifact_2026-07-22",
+        "full_ingredients_count": 7,
+        "key_ingredients": [
+          "Glycerin",
+          "Centella Asiatica Extract"
+        ],
+        "source_url": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+        "ingredient_status_planned": "verified",
+        "ingredient_evidence": {
+          "raw": "Water, Glycerin, Butylene Glycol, Centella Asiatica Extract, 1,2-Hexanediol, Cellulose Gum, Ethylhexylglycerin",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "checkedAt": "2026-07-22T08:00:00.000Z"
+        },
+        "caution": []
+      },
+      "media": {
+        "action": "insert",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-ampoule-serum-centella-ampoule-1246455500.png?v=1782787571",
+        "sourcePageUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+        "trust": "A",
+        "isOfficialSource": true
+      },
+      "offer": {
+        "action": "SKIP_or_out_of_stock_only",
+        "candidate": {
+          "retailer_name": "SKIN1004 네이버 브랜드스토어",
+          "purchase_url": "https://brand.naver.com/skin1004/products/253640353",
+          "price": 17600,
+          "currency": "KRW",
+          "stock_status": "unknown_needs_confirm",
+          "is_official": true,
+          "note": "공식 브랜드스토어. 가격은 검색 근거 17600원 — 페이지에서 재고/가격 재확인 필요."
+        },
+        "recommendationGatePass": false
+      },
+      "ingredientsLink": {
+        "action": "upsert_product_ingredients_from_full_list",
+        "count": 7
+      },
+      "missingFields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicateRisk": {
+        "slugExact": false,
+        "brandNameCollisionCheck": "required_at_write"
+      },
+      "hold": true
+    },
+    {
+      "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+      "scenarios": [
+        "C"
+      ],
+      "exists": false,
+      "existingId": null,
+      "action": "insert",
+      "product": {
+        "brand": "Beauty of Joseon",
+        "name": "Green Plum Refreshing Toner AHA + BHA",
+        "name_ko": "청매실 AHA BHA 토너",
+        "category": "toner",
+        "volume": "150ml",
+        "active": true,
+        "verified_at": "set_now_if_offer_ready_else_set_with_hold_note",
+        "data_confidence": "official_brand_inci_artifact_2026-07-22",
+        "full_ingredients_count": 27,
+        "key_ingredients": [
+          "Glycerin",
+          "Glycolic Acid",
+          "Salicylic Acid"
+        ],
+        "source_url": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+        "ingredient_status_planned": "verified",
+        "ingredient_evidence": {
+          "raw": "Water, Prunus Mume Fruit Water, Dipropylene Glycol, Glycerin, Glycolic Acid, Butylene Glycol, Tromethamine, 1,2-Hexanediol, Hydroxyacetophenone, Salicylic Acid, Ethylhexylglycerin, Vigna Radiata Seed Extract, Disodium EDTA, Melia Azadirachta Leaf Extract, Melia Azadirachta Flower Extract, Coccinia Indica Fruit Extract, Ocimum Sanctum Leaf Extract, Curcuma Longa (Turmeric) Root Extract, Aloe Barbadensis Flower Extract, Solanum Melongena (Eggplant) Fruit Extract, Corallina Officinalis Extract, C12-14 Pareth-12, Xanthan Gum, Octyldodeceth-16 Key Ingredients Green Plum Water Refreshes and gently exfoliates Mung Bean Extract Hydrates and helps soothe AHA, BHA If you have sensitive skin, we recommend a 24-hour patch test before use. Wear under sunscreen during the day",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "checkedAt": "2026-07-22T08:00:00.000Z"
+        },
+        "caution": [
+          "AHA",
+          "BHA",
+          "glycolic acid",
+          "salicylic acid"
+        ]
+      },
+      "media": {
+        "action": "insert",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/green-plum-refreshing-toner-aha-bha-1-front.webp?v=1770279162",
+        "sourcePageUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+        "trust": "A",
+        "isOfficialSource": true
+      },
+      "offer": {
+        "action": "SKIP_or_out_of_stock_only",
+        "candidate": {
+          "retailer_name": "조선미녀 공식몰",
+          "purchase_url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/",
+          "price": 18000,
+          "currency": "KRW",
+          "stock_status": "out_of_stock",
+          "is_official": true,
+          "note": "공식몰 SOLD OUT 확인. in_stock 승격 금지."
+        },
+        "recommendationGatePass": false
+      },
+      "ingredientsLink": {
+        "action": "upsert_product_ingredients_from_full_list",
+        "count": 27
+      },
+      "missingFields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicateRisk": {
+        "slugExact": false,
+        "brandNameCollisionCheck": "required_at_write"
+      },
+      "hold": true
+    },
+    {
+      "slug": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "scenarios": [
+        "C"
+      ],
+      "exists": false,
+      "existingId": null,
+      "action": "insert",
+      "product": {
+        "brand": "haruharu wonder",
+        "name": "Black Rice Hyaluronic Toner",
+        "name_ko": "블랙라이스 히알루로닉 토너",
+        "category": "toner",
+        "volume": "150ml",
+        "active": true,
+        "verified_at": "set_now_if_offer_ready_else_set_with_hold_note",
+        "data_confidence": "official_brand_inci_artifact_2026-07-22",
+        "full_ingredients_count": 28,
+        "key_ingredients": [
+          "Glycerin",
+          "Hyaluronic Acid",
+          "Beta-glucan"
+        ],
+        "source_url": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+        "ingredient_status_planned": "verified",
+        "ingredient_evidence": {
+          "raw": "Water, Betaine, Glycerin, Propanediol, Oryza Sativa (Rice) Extract, Phyllostachys Pubescens Shoot Bark Extract, Aspergillus Ferment, Panax Ginseng Root Extract, Cyclodextrin, Scutellaria Baicalensis Root Extract, Hyaluronic Acid, Beta-glucan, Cellulose Gum, Xanthan Gum, Butylene Glycol, Usnea Barbata (Lichen) Extract, Zanthoxylum Piperitum Fruit Extract, Pulsatilla Koreana Extract, Sodium Phytate, Tamarindus Indica Seed Gum, Polyglyceryl-10 Laurate, Polyglyceryl-10 Myristate, Glucose, 1,2-Hexanediol, Alcohol, Lavandula Angustifolia (Lavender) Oil, Limonene, Linalool",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z"
+        },
+        "caution": []
+      },
+      "media": {
+        "action": "insert",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0707/0190/8217/files/150ml_11e70ee9-f850-4fe7-8e7e-a960590e938d.jpg?v=1751443548",
+        "sourcePageUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+        "trust": "A",
+        "isOfficialSource": true
+      },
+      "offer": {
+        "action": "SKIP_or_out_of_stock_only",
+        "candidate": {
+          "retailer_name": null,
+          "purchase_url": null,
+          "price": null,
+          "currency": "KRW",
+          "stock_status": "hold",
+          "is_official": false,
+          "note": "글로벌몰 sold out. KR in-stock 구매 URL/가격 미확정 — offer 보류."
+        },
+        "recommendationGatePass": false
+      },
+      "ingredientsLink": {
+        "action": "upsert_product_ingredients_from_full_list",
+        "count": 28
+      },
+      "missingFields": [
+        "kr_verified_in_stock_offer"
+      ],
+      "duplicateRisk": {
+        "slugExact": false,
+        "brandNameCollisionCheck": "required_at_write"
+      },
+      "hold": true
+    }
+  ],
+  "blockers": [
+    {
+      "slug": "aestura-atobarrier365-cream",
+      "reason": "공식몰 페이지에 장바구니/구매 UI 확인. 품절 문구는 미확인.",
+      "stock": "unknown_needs_confirm"
+    },
+    {
+      "slug": "round-lab-dokdo-cream",
+      "reason": "공식몰 페이지에 '품 절/SOLD OUT' 흔적 — in_stock 승격 금지.",
+      "stock": "out_of_stock"
+    },
+    {
+      "slug": "torriden-dive-in-serum",
+      "reason": "토리든 공식몰 구매 불가. 올리브영 등 KR in-stock URL/가격 미확정 — offer 보류.",
+      "stock": "hold"
+    },
+    {
+      "slug": "skin1004-madagascar-centella-ampoule",
+      "reason": "공식 브랜드스토어. 가격은 검색 근거 17600원 — 페이지에서 재고/가격 재확인 필요.",
+      "stock": "unknown_needs_confirm"
+    },
+    {
+      "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+      "reason": "공식몰 SOLD OUT 확인. in_stock 승격 금지.",
+      "stock": "out_of_stock"
+    },
+    {
+      "slug": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "reason": "글로벌몰 sold out. KR in-stock 구매 URL/가격 미확정 — offer 보류.",
+      "stock": "hold"
+    }
+  ],
+  "rollback": [
+    "Write는 product id 목록을 phase22-write-result.json에 기록한다.",
+    "Rollback(비파괴 권장): 신규 product_id에 대해 active=false, verified_at=null 로만 비활성 (DELETE/TRUNCATE 금지).",
+    "신규 offer/media는 product_id 기준으로 active=false 또는 validation_status 유지하되 DELETE 금지.",
+    "Production 절대 미적용."
+  ],
+  "writeDecision": "현재 KR verified+in_stock offer가 확정된 제품이 0건이므로, dry-run 기준 즉시 recommendation_ready Top3 write는 위험. 재고 확인된 제품만 offer verified+in_stock으로 등록하고, 나머지는 제품/이미지/성분은 등록하되 offer는 out_of_stock 또는 생략."
+}

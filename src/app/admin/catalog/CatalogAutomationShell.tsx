@@ -52,6 +52,17 @@ export function CatalogAutomationShell({
             </Link>
           ))}
         </nav>
+        <p className="mt-3 text-sm text-gray-600">
+          WQ-F exceptions:{" "}
+          <Link
+            href="/admin/review?source=catalog_exception"
+            className="text-[#8B6914] underline"
+          >
+            /admin/review (catalog_exception)
+          </Link>{" "}
+          · artifact under{" "}
+          <code className="text-xs">data/catalog/wq-f-remaining/</code>
+        </p>
         <div className="mt-6">{children}</div>
       </div>
     </main>

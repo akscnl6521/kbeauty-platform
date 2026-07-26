@@ -77,6 +77,7 @@ export function useLocale(): UseLocaleResult {
     } catch {
       // ignore
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-time hydrate from localStorage/navigator.language; not available during server render, must start at "ko" default and sync client-side
     setLocaleState(resolvePreferredLocale(countryCode, stored));
   }, [countryCode]);
 

@@ -10,7 +10,7 @@ import {
   displayBrandName,
   displayProductTitle,
 } from "@/lib/brand/displayBrandName";
-import RoutineUsageGuide from "./RoutineUsageGuide";
+import ProductUsageGuide from "@/components/usage/ProductUsageGuide";
 
 type Locale = "en" | "ja" | "ko";
 
@@ -24,8 +24,6 @@ type ProductRow = {
   price_usd: number | null;
 };
 
-type CountryCode = "US" | "JP" | "KR" | "OTHER";
-
 const ROUTINE_ORDER: string[] = [
   "Cleanser",
   "Toner",
@@ -36,6 +34,15 @@ const ROUTINE_ORDER: string[] = [
   "SPF",
   "Other",
 ];
+
+const MORNING_STEPS: string[] = ["Cleanser", "Toner", "Serum", "Essence", "Ampoule", "Cream", "SPF"];
+const EVENING_STEPS: string[] = ["Cleanser", "Toner", "Serum", "Essence", "Ampoule", "Cream", "Other"];
+
+const TIME_OF_DAY_LABELS: Record<Locale, { am: string; pm: string }> = {
+  en: { am: "Morning routine", pm: "Evening routine" },
+  ko: { am: "아침 루틴", pm: "저녁 루틴" },
+  ja: { am: "朝のルーティン", pm: "夜のルーティン" },
+};
 
 const ROUTINE_LABELS: Record<Locale, Record<string, string>> = {
   en: {
@@ -282,57 +289,91 @@ export default function RoutinePage() {
             </Link>
           </div>
         ) : (
-          <section className="space-y-8">
-            {ROUTINE_ORDER.map((step) => {
-              const items = groupedByStep[step] ?? [];
-              if (items.length === 0) return null;
-
-              const stepLabel = ROUTINE_LABELS[locale][step] ?? step;
+          <>
+            {([
+              ["am", MORNING_STEPS],
+              ["pm", EVENING_STEPS],
+            ] as const).map(([timeOfDay, stepsForTime]) => {
+              const stepsWithItems = stepsForTime.filter(
+                (step) => (groupedByStep[step] ?? []).length > 0
+              );
+              if (stepsWithItems.length === 0) return null;
 
               return (
-                <div key={step}>
-                  <h2 className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gray-700">
-                    {stepLabel}
+                <section key={timeOfDay} className="mb-10">
+                  <h2 className="mb-4 text-lg font-bold text-gray-900">
+                    {TIME_OF_DAY_LABELS[locale][timeOfDay]}
                   </h2>
-                  <div className="grid gap-4 md:grid-cols-3">
-                    {items.map((p) => {
-                      const priceDisplay = formatPrice(p.price_usd, locale, {
-                        krw,
-                        jpy,
-                      });
-                      const displayName = displayProductTitle({
-                        name: p.name,
-                        nameKo: p.name_ko,
-                        nameJa: p.name_ja,
-                        brand: p.brand,
-                        locale,
-                      });
+                  <div className="space-y-6">
+                    {stepsWithItems.map((step) => {
+                      const items = groupedByStep[step] ?? [];
+                      const stepLabel = ROUTINE_LABELS[locale][step] ?? step;
 
                       return (
-                        <div
-                          key={p.id}
-                          className="flex h-full flex-col rounded-2xl border border-pink-100 bg-pink-50/40 p-4 text-sm"
-                        >
-                          <p className="mb-1 text-xs font-semibold uppercase tracking-[0.15em] text-[#C2185B]">
-                            {displayBrandName(p.brand, locale) ?? p.brand}
-                          </p>
-                          <p className="mb-2 font-semibold text-gray-900">
-                            {displayName}
-                          </p>
-                          {priceDisplay && (
-                            <p className="text-xs font-medium text-gray-800">
-                              {priceDisplay}
-                            </p>
-                          )}
-                          <RoutineUsageGuide productId={p.id} locale={locale} />
+                        <div key={`${timeOfDay}-${step}`}>
+                          <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gray-700">
+                            {stepLabel}
+                          </h3>
+                          <div className="grid gap-4 md:grid-cols-3">
+                            {items.map((p) => {
+                              const priceDisplay = formatPrice(p.price_usd, locale, {
+                                krw,
+                                jpy,
+                              });
+                              const displayName = displayProductTitle({
+                                name: p.name,
+                                nameKo: p.name_ko,
+                                nameJa: p.name_ja,
+                                brand: p.brand,
+                                locale,
+                              });
+
+                              return (
+                                <div
+                                  key={`${timeOfDay}-${p.id}`}
+                                  className="flex h-full flex-col rounded-2xl border border-pink-100 bg-pink-50/40 p-4 text-sm"
+                                >
+                                  <p className="mb-1 text-xs font-semibold uppercase tracking-[0.15em] text-[#C2185B]">
+                                    {displayBrandName(p.brand, locale) ?? p.brand}
+                                  </p>
+                                  <p className="mb-2 font-semibold text-gray-900">
+                                    {displayName}
+                                  </p>
+                                  {priceDisplay && (
+                                    <p className="text-xs font-medium text-gray-800">
+                                      {priceDisplay}
+                                    </p>
+                                  )}
+                                  <ProductUsageGuide
+                                    productId={p.id}
+                                    locale={locale}
+                                    emptyMode="message"
+                                  />
+                                </div>
+                              );
+                            })}
+                          </div>
                         </div>
                       );
                     })}
                   </div>
-                </div>
+                </section>
               );
             })}
-          </section>
+
+            <div className="mt-4">
+              <Link
+                href="/routine/purchase"
+                className="inline-flex items-center justify-center rounded-full bg-[#C2185B] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#a3154f]"
+              >
+                {locale === "ko"
+                  ? "구매처 보기 →"
+                  : locale === "ja"
+                    ? "購入先を見る →"
+                    : "See where to buy →"}
+              </Link>
+            </div>
+          </>
         )}
       </main>
     </div>

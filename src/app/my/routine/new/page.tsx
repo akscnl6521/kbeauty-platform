@@ -6,7 +6,7 @@ import type { CareRoutineItem } from "@/lib/care/types";
 export default function NewRoutinePage() {
   const [items, setItems] = useState<CareRoutineItem[]>([]);
   const [message, setMessage] = useState("");
-  useEffect(() => { try { setItems(buildRoutineDraft(JSON.parse(localStorage.getItem("skinRankedProducts") || "[]"))); } catch { setItems(buildRoutineDraft()); } }, []);
+  useEffect(() => { try { setItems(buildRoutineDraft(JSON.parse(localStorage.getItem("skinRankedProducts") || "[]"))); } catch { setItems(buildRoutineDraft()); } }, []); // eslint-disable-line react-hooks/set-state-in-effect -- mount-time hydrate from localStorage; not available during server render
   const update = (index: number, patch: Partial<CareRoutineItem>) => setItems((old) => old.map((item, i) => i === index ? { ...item, ...patch } : item));
   async function save() {
     if (!confirm("이 초안을 내 루틴으로 저장할까요?")) return;

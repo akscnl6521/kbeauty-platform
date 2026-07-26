@@ -78,7 +78,7 @@ export function parseIngredientList(
 
   let order = 0;
   for (const token of rawTokens) {
-    let normalizedName = normalizeTextKey(token)
+    const normalizedName = normalizeTextKey(token)
       .replace(/\bparfum\b/g, "fragrance")
       .replace(/\bfragrance\b/g, "fragrance")
       .replace(/\baqua\b/g, "water")

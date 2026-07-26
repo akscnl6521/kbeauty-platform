@@ -18,6 +18,9 @@ export type ClinicCandidate = {
   partnershipType: "none" | "booking_fee" | "sponsored_listing" | "lead_fee";
   partnershipDisclosure: string | null;
   isActive: boolean;
+  /** Optional Stage 6 filters — absent means unknown / no filter match data. */
+  languages?: string[];
+  consultationBudgetBand?: "unknown" | "low" | "mid" | "high";
 };
 
 export type ReferralContext = {
@@ -25,6 +28,15 @@ export type ReferralContext = {
   requestedSpecialty: string | null;
   maxDistanceKm: number | null;
   urgent: boolean;
+  /** ISO-ish language codes the user can use (e.g. ko, en). Empty = no language filter. */
+  languages?: string[] | null;
+  /** Consultation budget preference. unknown/null = no budget filter. */
+  consultationBudgetBand?: "unknown" | "low" | "mid" | "high" | null;
+};
+
+export type ClinicRankingExtras = {
+  languages?: string[];
+  consultationBudgetBand?: "unknown" | "low" | "mid" | "high";
 };
 
 export type RankedClinic = ClinicCandidate & {
@@ -47,6 +59,14 @@ function recentEvidenceCount(candidate: ClinicCandidate, now: Date): number {
   }).length;
 }
 
+function candidateExtras(candidate: ClinicCandidate): ClinicRankingExtras {
+  const record = candidate as ClinicCandidate & ClinicRankingExtras;
+  return {
+    languages: Array.isArray(record.languages) ? record.languages : undefined,
+    consultationBudgetBand: record.consultationBudgetBand,
+  };
+}
+
 export function rankClinicCandidates(
   candidates: ClinicCandidate[],
   context: ReferralContext,
@@ -56,9 +76,22 @@ export function rankClinicCandidates(
 
   const requestedSymptoms = normalizedSet(context.symptomTags);
   const specialty = context.requestedSpecialty?.trim().toLowerCase() ?? null;
+  const requestedLanguages = normalizedSet(context.languages ?? []);
+  const budget = context.consultationBudgetBand ?? null;
 
   return candidates
     .filter((candidate) => candidate.isActive)
+    .filter((candidate) => {
+      if (requestedLanguages.size === 0) return true;
+      const langs = normalizedSet(candidateExtras(candidate).languages ?? []);
+      if (langs.size === 0) return false;
+      return [...requestedLanguages].some((lang) => langs.has(lang));
+    })
+    .filter((candidate) => {
+      if (!budget || budget === "unknown") return true;
+      const band = candidateExtras(candidate).consultationBudgetBand ?? "unknown";
+      return band === budget || band === "unknown";
+    })
     .map((candidate): RankedClinic => {
       const symptomTags = normalizedSet(candidate.symptomTags);
       const specialties = normalizedSet(candidate.specialties);
@@ -90,6 +123,22 @@ export function rankClinicCandidates(
       ) {
         score += Math.max(0, 15 - candidate.distanceKm);
         reasons.push("within_distance_preference");
+      }
+
+      const extras = candidateExtras(candidate);
+      if (requestedLanguages.size > 0) {
+        const langs = normalizedSet(extras.languages ?? []);
+        if ([...requestedLanguages].some((lang) => langs.has(lang))) {
+          score += 6;
+          reasons.push("language_match");
+        }
+      }
+      if (budget && budget !== "unknown") {
+        const band = extras.consultationBudgetBand ?? "unknown";
+        if (band === budget) {
+          score += 4;
+          reasons.push("budget_band_match");
+        }
       }
 
       if (matchedSymptoms.length === 0) score -= 40;

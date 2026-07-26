@@ -1,0 +1,101 @@
+# Phase 2 schema draft (NOT applied)
+
+Draft only. No migration applied in Phase 0/1.
+
+## Tables (proposed)
+
+### `recommendation_scenarios`
+
+- `id` uuid PK
+- `scenario_id` text UNIQUE (e.g. `kr-redness-sensitive-cream`)
+- `display_name_ko` text
+- `primary_concern` text
+- `secondary_concerns` text[]
+- `product_category` text
+- `body_area` text
+- `sensitivity_level` text
+- `priority_area` text
+- `market_priority` text DEFAULT `KR`
+- `candidate_pool_size` int DEFAULT 10
+- `final_recommendation_min` int DEFAULT 3
+- `final_recommendation_max` int DEFAULT 5
+- `brand_cap_default` int DEFAULT 2
+- `brand_cap_max_with_evidence` int DEFAULT 3
+- `required_product_evidence` jsonb
+- `prohibited_or_caution_ingredients` text[]
+- `expected_benefit_scope` text
+- `cosmetic_limitations` text
+- `dermatologist_escalation_conditions` text[]
+- `status` text (`draft`|`active`|`retired`)
+- `version` int · `updated_at`
+
+### `scenario_candidate_pools`
+
+- `id` uuid PK
+- `scenario_id` text FK
+- `pool_version` int
+- `status` text (`building`|`ready`|`stale`|`locked`)
+- `updated_at`
+
+### `scenario_candidate_slots`
+
+- `id` uuid PK
+- `pool_id` uuid FK
+- `slot_index` int 0-9
+- `roles` text[] -- multi-role allowed
+- `product_id` bigint NULL
+- `discovery_candidate_id` uuid NULL
+- `readiness` text -- ProductReadinessState
+- `source_evidence` jsonb
+- `blocked_reason` text NULL
+- UNIQUE (`pool_id`, `slot_index`)
+
+### `product_readiness` (optional join)
+
+- `product_id` bigint PK/FK
+- `state` text
+- `notes` text[]
+- `last_transition_at`
+
+## Runtime
+
+`persistTopRankedProducts` loads matching scenario pool -> filters `recommendation_ready` -> applies ranking modifiers -> Top 3-5 (no padding).
+
+## Ingestion
+
+`officialCrawl` / multi-source / `product_discovery_candidates` fill empty/stale slots only. No mass UI listing.
+
+## Pilot Top10 field proposals (2026-07-22)
+
+Draft-only proposals informed by offline pilot artifacts at data/catalog/scenario-pilot/2026-07-22/. Not applied.
+
+### Candidate slot / readiness payload
+
+- `role_tags` text[] -- multi-role: popular | safety | rising | value | emerging
+- `source_trust` jsonb -- e.g. { tier, notes, primary_source }
+- `trend_evidence` jsonb -- qualitative signals only; never affiliate-weighted
+- `ingredient_evidence` jsonb / `image_evidence` jsonb / `offer_evidence` jsonb
+- `readiness` text -- trend_candidate -> catalog_ready -> ingredient_candidate -> recommendation_ready | review_required | unavailable
+- `readiness_transition_at` timestamptz + `readiness_transition_reason` text
+- `rejection_reason` text NULL -- required when not recommendation_ready in pilot honesty mode
+- `affiliate_or_ad_in_score` boolean NOT NULL DEFAULT false -- must remain false for organic pool rank
+
+### Transitions (suggested)
+
+1. trend_candidate -> catalog_ready when identity + reachable PDP/offer exist
+2. catalog_ready -> ingredient_candidate when usable INCI evidence is attached
+3. ingredient_candidate -> recommendation_ready when image + offer freshness + no critical SKU/source conflict
+4. any -> review_required on conflict / CAPTCHA-only source / medical caution
+5. any -> unavailable when SKU discontinued or unresolvable regional conflict
+
+## Phase 2+ coverage visibility (2026-07-25)
+
+Added `summarizeScenarioCoverage` (src/lib/recommend/scenarios/gapAnalysis.ts) and
+the read-only admin page `/admin/catalog/scenario-coverage`, both built on the
+existing offline gap analysis (`analyzeScenarioCatalogGaps`) against the same
+backup snapshot used by `scripts/analyze-scenario-catalog-gap.ts`. This is
+visibility tooling only: it does not create the tables above, does not write
+to Staging/Production, and does not invent product/offer data. Applying the
+proposed schema, running a live multi-source ingestion, and closing the
+readiness gap all remain `external_only` (real official sources, human
+review, Staging migration approval).

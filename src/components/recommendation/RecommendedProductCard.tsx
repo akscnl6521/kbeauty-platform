@@ -23,11 +23,24 @@ import {
   productTrustStatusLabel,
 } from "@/lib/recommend/displayProductMeta";
 import { resolveDisplaySizeLabel } from "@/lib/catalog/verifiedDisplayOverrides";
-import { isOfferEligibleForCoreRecommendation } from "@/lib/recommend/productOffer";
+import {
+  isOfferEligibleForCoreRecommendation,
+  isOfferEligibleForRecommendation,
+  resolveProductOffers,
+} from "@/lib/recommend/productOffer";
+import {
+  commerceFitButUnavailableMessageKo,
+  commerceStatusLabelEn,
+  commerceStatusLabelKo,
+  deriveCommerceAvailability,
+  isRecommendCommerceSeparationEnabled,
+} from "@/lib/recommend/commerceStatus";
 import {
   normalizeShippingCountry,
   type ShippingCountry,
 } from "@/lib/recommend/selectPurchaseLink";
+import ProductUsageGuide from "@/components/usage/ProductUsageGuide";
+import { CommerceLaneBadge } from "@/components/commerce/CommerceLaneBadge";
 
 export type RecommendedProductCardProps = {
   /** 1부터 시작하는 순위 */
@@ -43,6 +56,11 @@ export type RecommendedProductCardProps = {
   recommendation?: Recommendation | null;
   /** 보조 관리 모드 라벨 */
   softCareMode?: boolean;
+  /**
+   * 부위 화면에서 전달된 applicationArea 필터.
+   * 지정 시 검증된 가이드 중 부위가 일치할 때만 표시.
+   */
+  applicationAreas?: readonly string[];
 };
 
 /**
@@ -57,6 +75,7 @@ export function RecommendedProductCard({
   hidePurchaseCta = false,
   recommendation = null,
   softCareMode = false,
+  applicationAreas,
 }: RecommendedProductCardProps) {
   const { product, score, matchedIngredients, excludedIngredients } = ranked;
 
@@ -96,13 +115,21 @@ export function RecommendedProductCard({
     locale
   );
   const shipping = normalizeShippingCountry(countryCode) as ShippingCountry;
-  const hasVerifiedOffer = Boolean(
-    product.offers?.some((o) => isOfferEligibleForCoreRecommendation(o, shipping))
+  const resolvedOffers = resolveProductOffers(product);
+  const commerceSeparation = isRecommendCommerceSeparationEnabled();
+  const hasPurchasableOffer = resolvedOffers.some((o) =>
+    isOfferEligibleForCoreRecommendation(o, shipping)
   );
+  const hasRecommendationOffer = resolvedOffers.some((o) =>
+    isOfferEligibleForRecommendation(o, shipping)
+  );
+  /** Trust: purchasable verified = fully ready; else recommendation-eligible offer still counts as presence */
+  const hasVerifiedOffer = hasPurchasableOffer;
   const trustStatus = getProductTrustStatus({
     productVerifiedAt: (product as { verified_at?: string | null }).verified_at,
     hasVerifiedOffer,
-    hasAnyOffer: Boolean(product.offers?.length),
+    hasAnyOffer:
+      resolvedOffers.length > 0 || hasRecommendationOffer,
   });
   const trustLabel =
     trustStatus === "manual_review"
@@ -114,7 +141,27 @@ export function RecommendedProductCard({
   const matchedLabels = displayIngredientNames(matchedIngredients, locale);
   const excludedLabels = displayIngredientNames(excludedIngredients, locale);
 
+  /** CTA only when purchasable (in_stock verified) — never for OOS */
   const purchase = selectPurchaseLink(product, countryCode);
+  const commerce = deriveCommerceAvailability({
+    offers: resolvedOffers,
+    shippingCountry: shipping,
+    productStatus: (product as { product_status?: string | null }).product_status as
+      | "active"
+      | "draft"
+      | "sample"
+      | "discontinued"
+      | null
+      | undefined,
+  });
+  const commerceLabel =
+    locale === "ko"
+      ? commerceStatusLabelKo(commerce.commerce_status)
+      : commerceStatusLabelEn(commerce.commerce_status);
+  const fitButUnavailableKo =
+    commerceSeparation && !purchase
+      ? commerceFitButUnavailableMessageKo(commerce.commerce_status)
+      : null;
 
   useEffect(() => {
     logTopProductPurchaseLinkAudit(product, countryCode, displayName);
@@ -354,7 +401,55 @@ export function RecommendedProductCard({
         </div>
       ) : null}
 
-      {purchase && !hidePurchaseCta ? (
+      <ProductUsageGuide
+        productId={product.id}
+        locale={locale}
+        emptyMode="hidden"
+        applicationAreas={applicationAreas}
+        className="border-t border-pink-100 pt-3 text-xs text-gray-700"
+      />
+
+      {commerceSeparation ? (
+        <div className="mt-1 space-y-1 border-t border-pink-50 pt-3">
+          {locale === "ko" ? <CommerceLaneBadge lane="organic" /> : null}
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+            {locale === "ko"
+              ? "추천 적합 · 구매 상태"
+              : locale === "ja"
+                ? "適合・購入状態"
+                : "Fit · purchase status"}
+          </p>
+          <p className="text-[11px] text-gray-700 sm:text-xs">
+            {locale === "ko" ? "추천 적합 제품" : "Recommendation fit"}
+            {" · "}
+            <span
+              className={
+                commerce.commerce_status === "in_stock"
+                  ? "font-medium text-emerald-800"
+                  : "font-medium text-amber-800"
+              }
+            >
+              {commerceLabel}
+            </span>
+          </p>
+          {commerce.checked_at || lastCheckedLabel ? (
+            <p className="text-[10px] text-gray-400">
+              {locale === "ko"
+                ? "공식 판매처 확인 시각"
+                : locale === "ja"
+                  ? "公式販売先確認時刻"
+                  : "Official retailer checked at"}
+              {": "}
+              {formatVerifiedAtForDisplay(
+                commerce.checked_at ?? lastCheckedRaw,
+                locale
+              ) ?? lastCheckedLabel}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
+
+      {purchase && !hidePurchaseCta && hasPurchasableOffer ? (
         <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-0.5">
             <p className="text-[11px] font-medium text-gray-700 sm:text-xs">
@@ -428,7 +523,9 @@ export function RecommendedProductCard({
         </p>
       ) : (
         <p className="mt-1 text-[11px] leading-relaxed text-gray-500 sm:text-xs">
-          {noPurchaseMessage}
+          {fitButUnavailableKo && locale === "ko"
+            ? fitButUnavailableKo
+            : noPurchaseMessage}
         </p>
       )}
     </article>

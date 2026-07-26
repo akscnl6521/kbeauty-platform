@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "mode": "dry-run",
+  "projectRef": "jfnj***gfd",
+  "linkedRef": "jfnj***gfd",
+  "production_write": 0,
+  "pdp": {
+    "status": 200,
+    "title": "청매실 AHA BHA 토너 - 조선미녀",
+    "sold": true,
+    "price18000": true,
+    "nameOk": true,
+    "vol150": false,
+    "url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/"
+  },
+  "staging_offers_for_product_25": 1,
+  "matching_target_count": 1,
+  "target": {
+    "id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+    "product_id": 25,
+    "retailer_name": "조선미녀 공식몰",
+    "retailer_country": "KR",
+    "stock_status": "out_of_stock",
+    "verification_status": "unverified",
+    "is_official": true,
+    "price": 18000,
+    "currency": "KRW",
+    "purchase_url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/",
+    "active": true,
+    "verified_at": null,
+    "last_checked_at": "2026-07-22T10:03:29.472+00:00"
+  },
+  "pdp_match": true,
+  "volume_note": "150ml not in fetched HTML snippet; keep existing SKU identity (Phase 2.3 confirmed 150ml)",
+  "proceed_gate": true
+}

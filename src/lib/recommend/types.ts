@@ -75,6 +75,12 @@ export interface Recommendation {
   safetyExcludedCount?: number;
   /** 성분 정보 부족으로 핵심 추천에서 제외된 후보 수 (선택) */
   safetyIncompleteCount?: number;
+  /** 안전 필터로 제외된 개별 제품과 사유 (표시용, 선택) */
+  safetyExcludedItems?: Array<{
+    productId: string;
+    productName: string;
+    reason: "allergy_or_avoided" | "incomplete_info";
+  }>;
 
   /** 사용자가 등록한 현재 사용 제품 (선택) */
   currentProducts?: CurrentProductInput[];
@@ -104,6 +110,16 @@ export interface Recommendation {
   precautions?: string[];
   notRecommendedReasons?: string[];
   expertReferralReasons?: string[];
+  /**
+   * Symptom-based professional routing (non-diagnostic).
+   * Separate from affiliate/sponsored clinic placements.
+   */
+  professionalRoutes?: Array<{
+    professionalType: string;
+    urgency: string;
+    reason: string;
+    productRecommendationAllowed: boolean;
+  }>;
   summaryKo?: string;
   summaryEn?: string;
   summaryJa?: string;
@@ -117,6 +133,10 @@ export interface Recommendation {
    * 제품 효능 단정이 아니라 추천 힌트·citation용.
    */
   evidenceLinks?: import("@/lib/evidence").ApprovedEvidenceLink[];
+  /** Phase 2 scenario pilot — analysis-time pool snapshot for check-in tracking. */
+  scenarioPilot?: import("./scenarios/pilotPhase2/types").ScenarioPilotSnapshot;
+  /** Phase 2 pilot — usage/limitations metadata (no fake efficacy claims). */
+  scenarioPilotDetails?: import("./scenarios/pilotPhase2/types").ScenarioPilotRecommendationDetails;
 }
 
 /** localStorage key for the structured recommendation (Phase 1). */
@@ -138,7 +158,8 @@ export const RANKED_PRODUCTS_STORAGE_KEY = "skinRankedProducts";
  * 핵심 추천 캐시 버전.
  * 이미지/offer 부착 로직이 바뀌면 올려서 기존 Top 5를 폐기한다.
  */
-export const RECOMMENDATION_CACHE_VERSION = "KR_MATCH_EVIDENCE_V3";
+export const RECOMMENDATION_CACHE_VERSION =
+  "KR_SCENARIO_PILOT_PHASE25_COMMERCE_SEP_V1";
 
 /** 캐시 버전 localStorage 키 */
 export const RECOMMENDATION_CACHE_VERSION_KEY = "recommendationCacheVersion";
@@ -224,7 +245,8 @@ export interface CandidateProduct extends RankableProduct {
   purchase_links?: PurchaseLink[] | null;
   /**
    * 국가별 ProductOffer (product_offers 테이블 또는 정규화된 배열).
-   * 핵심 추천은 배송 국가에 verified + 가격·통화·재고 적격 offer가 있는 제품만 사용한다.
+   * Phase 2.5: 랭킹은 recommendation-eligible offer(또는 availability_unknown)로 통과하고,
+   * 구매 CTA는 in_stock verified offer만 사용한다.
    */
   offers?: ProductOffer[] | null;
 }

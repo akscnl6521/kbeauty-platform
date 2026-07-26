@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BeautyShell, QuizCard } from "@/components/beauty/BeautyShell";
+import { applyDomainQuizToBeautyProfile } from "@/lib/care/local-store";
 
 export type QuizOption = { value: string; label: string };
 export type QuizStep = {
@@ -43,14 +44,24 @@ export function DomainQuizClient({
       setIdx(idx + 1);
       return;
     }
+    const completedAt = new Date().toISOString();
     localStorage.setItem(
       storageKey,
       JSON.stringify({
         domain,
         answers: next,
-        completedAt: new Date().toISOString(),
+        completedAt,
       })
     );
+    try {
+      applyDomainQuizToBeautyProfile({
+        domain,
+        answers: next,
+        completedAt,
+      });
+    } catch {
+      /* local profile merge is best-effort */
+    }
     router.push(resultsPath);
   }
 

@@ -4,6 +4,620 @@
 
 ---
 
+## 2026-07-25 (오토파일럿)
+
+- 3단계: discovery 검수 대기 후보 68건 재크롤 → draft product 40건 생성(실 성분/이미지/오퍼 연결). 활성화 0건 — Staging `ingredients` 사전 부족으로 게이트 미통과(원인 확인, 게이트 자체는 미변경).
+- 6단계: `dermatology_institution_candidates` 신규 테이블 + migration 설계, HIRA 실 후보 1,917건 적재 스크립트 준비, `/my/clinics` 실데이터 조회 배선. migration 적용은 Dashboard 사람 실행 대기.
+- 7단계: `commercial_click_events` 신규 테이블 + migration, `/api/track/click` 실 라우트로 클릭/전환 이벤트 배선(`validateClickConversionEvent`/`scrubEventForAnalytics` 재사용). migration 적용은 동일 사유로 대기.
+- 백업 체계: `docs/autopilot/BACKUP_LOG.md` 신설, non-PII Staging row-count 스냅샷 스크립트(`scripts/snapshot-staging-summary.ts`) 추가.
+- 부수 수정: CLI `server-only` 로더가 상대경로 import를 해석 못 하던 사각지대 수정(`register-server-only.mjs`/`resolve-server-only.mjs`).
+- 확인된 차단 요인(전부 사람의 Dashboard 실행 필요): migration 2건 + `pipeline_batches` GRANT 1건. 8단계 실 스케줄러 설치 스크립트는 기존 준비되어 있으나 "에이전트 자동 실행 금지" 명시로 미실행.
+
+## 2026-07-25
+
+- 스캐폴드: 11단계 사용자 여정 화면 클릭 연결 완료 (`/onboarding` 언어·통화, `/routine/purchase`, `/routine/save`, `/my/clinics`, `/my/consultation-report`, `/quiz/body` 신규) — 완료 기준 12가지 미적용, 샘플 데이터 명시 표기.
+- 스캐폴드 하위 기능 6개: 사용 영상 placeholder(`UsageVideoModal`), 광고/제휴 뱃지(`CommercialBadge`, 기본 off), 클릭 추적 stub(`trackScaffoldClick`), 마지막 확인일 표시, 알림·상담정보 전달 동의 체크박스.
+- 마스터플랜 전수 점검(섹션 2~21·26·41) 및 갭 2건 처리: 전신 부위 문진(`/quiz/body`), `/results` 제품별 "추천하지 않는 제품" 사유 노출(`filterCandidatesBySafety` 확장, `loadRecommendation.ts` 필드 allowlist 누락 수정 포함). 나머지 5건은 로드맵 후반 보류.
+- 통합 검증 1차: 모바일 375px 이상 없음 확인, 의료 단정 표현 1건 완화, 광고/제휴 disclosure 문구 명확화(`title` tooltip + 병원 카드 섹션 헤더).
+- 버그 수정: WQ-F `looksLikeProductUrl`이 한국형 `.do?i_sProductcd=` URL 패턴을 인식 못 해 espoir 브랜드가 0건이던 문제 — 수정 후 실 제품 10건 Staging 등록.
+- 데이터: HIRA 서울 피부과 실 라이브 수집 1,917/4,967건(로컬 아티팩트만, 미게시). Staging `product_discovery_candidates` 총 1,319건.
+- 로그인 게이트 e2e 신설(`test:scaffold-journey-e2e`): 고객·관리자 계정 실 로그인 기반 4개 화면 렌더링 검증, `.env.local` 누락 값(공개 Supabase URL/anon key, service role key) 2건 발견·수정.
+- 최종 회귀: 전체 `tsc`/`eslint`/`build` 통과, 기존 test suite 107건 중 104 통과 — 3건(`checkin-email-provider`/`resend`/`test-api`) 실패는 로컬 환경에 `SITE_URL` 미설정 때문으로 확인(오늘 변경과 무관, pre-existing).
+- 상세 내역: `DASHBOARD.md`.
+
+## 2026-07-24
+
+### P3-T05 — Integrated Staging import package
+
+- 계약: `stagingImportPackage` — 제품·병원 후보 · provenance · review states · duplicates · rejection reasons · refresh status · commercial separation · publishable gates · 통합 사람 검수 패키지
+- 금지 강제: Staging import 미실행 · fixture 비공개 · Production/main 미터치 · 유료 레인으로 Staging 적격 부여 금지
+- Selftest/러너: `test:staging-import-package` · `check:staging-import-package` (focused+integration 12건 · release-security · build) · 아티팩트 `artifacts/staging-import-package/`
+- Docs: `docs/prelaunch/P3-T05_STAGING_IMPORT_PACKAGE.md`
+- fixture/dry-run 통과 · 실 Staging import 승인·실행은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 live/사람 · Staging import 승인 (`external_only`)
+
+### P3-T04 — Affiliate and sponsored revenue readiness
+
+- 계약: `revenueReadiness` — affiliate offer ingestion · sponsored placement · clear disclosure · click/conversion events · country-specific purchase links · expiry · admin approval · analytics privacy · Organic·전문 라우팅 독립
+- 금지 강제: 실 상업 계약 미활성화 · 수수료율·실 URL 미발명 · 건강/증상 광고 타기팅 금지 · Organic zone 스폰서 금지
+- Selftest/러너: `test:revenue-readiness` · `check:revenue-readiness` · 아티팩트 `artifacts/revenue-readiness/`
+- Docs: `docs/prelaunch/P3-T04_REVENUE_READINESS.md`
+- fixture dry-run 통과 · 실제휴·수익 채널은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 live/사람 (`external_only`)
+
+### P3-T03 — Automated refresh and exception operations
+
+- 계약: `automatedRefresh` — 제품·병원 통합 due queue · stale(30/90·90/180) · retry/backoff · resume checkpoint · source-change diff · exception 우선순위 · audit · admin review manifest
+- 스케줄러 준비: `refresh:product-daily`(매일 09:20 KST 힌트) · `refresh:clinic-twice-weekly`(월·목 09:40 KST 힌트) · 유료 인프라·Production 스케줄 미생성
+- 금지 강제: 자동 게시·파괴적 DB 갱신 · `publishAllowed=false` · `destructiveUpdateAllowed=false`
+- Selftest/러너: `test:automated-refresh-ops` · `check:automated-refresh-ops` · 아티팩트 `artifacts/automated-refresh-ops/`
+- Docs: `docs/prelaunch/P3-T03_AUTOMATED_REFRESH_OPS.md`
+- fixture dry-run 통과 · 실 live 운영·DB 반영은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 live/사람 (`external_only`)
+
+### P3-T02 — Verified product pool and category expansion
+
+- 계약: `verifiedProductPool` — skincare·makeup·hair/scalp·body·lip/eye · 카테고리 정규화 · 안전 적격 · 중복 병합 · 추천 준비 · 거절 사유 · 공개 Top 5(출처·전성분·이미지권리·구매offer) 게이트 · 기계 판독 audit
+- 승인된 공식 매니페스트·비공개 dry-run만 · fixture/dry-run 공개 Top 5 빈 배열 · Production 쓰기 없음
+- Selftest/러너: `test:verified-product-pool` · `check:verified-product-pool` · 아티팩트 `artifacts/verified-product-pool/`
+- Docs: `docs/prelaunch/P3-T02_VERIFIED_PRODUCT_POOL.md`
+- fixture dry-run 통과 · 실 live verified SKU·공개 게시는 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 live/사람 (`external_only`)
+
+### P3-T01 — Official Korean product source onboarding
+
+- 계약: `officialKoreanProductSource` — 브랜드 공식·공식 KR몰·공식 INCI · 이미지·variants·가격·재고·국가가용·사용가이드 · 필드 provenance · 재개 매니페스트 · deterministic dedupe · stale/refresh(30/90/180) · review reasons · dry-run audit
+- 금지 강제: CAPTCHA/로그인/유료API/약관위험 · 미확인 필드 미발명 · fixture·미검증 비공개 · Production 쓰기 없음
+- Selftest/러너: `test:official-kr-product-source` · `check:official-kr-product-source` · 아티팩트 `artifacts/official-kr-product-source/`
+- Docs: `docs/prelaunch/P3-T01_OFFICIAL_KR_PRODUCT_SOURCE.md`
+- fixture dry-run 통과 · 실 live·Staging import·publishable은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 live/사람 (`external_only`)
+
+### T07-05 — Admin dry run and publishable gate
+
+- 계약: `adminDryRunPublishableGate` — T07-02→T07-03→T07-04 오케스트레이션 · fixture/실패/스테일/충돌/근거부족 비공개 · 공식근거+관리자승인만 구조적 publishable · Organic·clinical fit 유료필드 독립 · JSON/CSV 상태·사유 집계 · 1회성 사람 작업(공식사이트 검수·Staging import)
+- Selftest/러너: `test:admin-dry-run-publishable-gate` · `check:admin-dry-run-publishable-gate` · 아티팩트 `artifacts/admin-dry-run-publishable-gate/`
+- Docs: `docs/prelaunch/T07-05_ADMIN_DRY_RUN_PUBLISHABLE_GATE.md`
+- fixture dry-run 통과 · 실 live·Staging import·publishable 전환은 `external_only` · main·commit/push 미실행
+- next_task `T07` 실 live 수집·사람 검수·Staging import (`external_only`)
+
+### T07-04 — Official-site symptom evidence review bundle
+
+- 계약: `symptomEvidenceReview` — 여드름·주사/홍조·아토피피부염·색소 · 매니페스트 전용 접수 · URL/제목/발췌/확인일/검수상태/만료일/거절사유 · Organic↔affiliate/sponsored 큐 분리 · 미검증 비게시 · 로그인/CAPTCHA/크롤 금지
+- Selftest/러너: `test:symptom-evidence-review` · `check:symptom-evidence-review` · 아티팩트 `artifacts/symptom-evidence-review/`
+- Docs: `docs/prelaunch/T07-04_SYMPTOM_EVIDENCE_REVIEW.md`
+- fixture dry-run 통과 · 실 공식 페이지 검수·publishable은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 검수·publishable (`external_only`)
+
+### T07-03 — Institution detail enrichment + specialist evidence
+
+- 계약: `institutionDetailEnrichment` — 공식 기관상세 진료과목·전문의 수 · evidence strength · lastVerified · conflicting-source · retryable failure · manual-review · 피부과 근거↔증상 전문 주장 분리 · bounded concurrency · cache/checkpoint · dry-run
+- 상호명만으로 피부과 추론 금지 · 미확인 null · 게시/Production 쓰기 없음
+- Selftest/러너: `test:institution-detail-enrichment` · `check:institution-detail-enrichment` · 아티팩트 `artifacts/institution-detail-enrichment/`
+- Docs: `docs/prelaunch/T07-03_INSTITUTION_DETAIL_ENRICHMENT.md`
+- fixture dry-run 통과 · 실 live 보강·publishable은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 검수·publishable (`external_only`)
+
+### T07-02 — Seoul dermatology candidate ingestion (HIRA)
+
+- 계약: `seoulDermatologyIngestion` — 최소 공개 필드 · 서울/피부과 공식 필드 필터 · 필드 provenance · pagination checkpoint · deterministic dedupe · stale/refresh(90/180일) · dry-run audit
+- T07-01 publicData 클라이언트 재사용 · serviceKey 미임베드 · 게시/Production 쓰기 없음
+- Selftest/러너: `test:seoul-dermatology-ingestion` · `check:seoul-dermatology-ingestion` · 아티팩트 `artifacts/seoul-dermatology-ingestion/`
+- Docs: `docs/prelaunch/T07-02_SEOUL_DERMATOLOGY_INGESTION.md`
+- fixture dry-run 통과 · 실 live 수집·publishable은 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 검수·publishable (`external_only`)
+
+### P2-T05 — Final Preview evidence and human approval package
+
+- 계약: `phase2FinalEvidencePackage` — 6버킷(자동 테스트·스크린샷 육안·Android/iPhone·외부 출처·Dashboard·main/Production) · 1회성 사람 검증 절차 · 정직 플래그
+- Selftest/러너: `test:phase2-final-evidence` · `check:phase2-final-evidence` · 아티팩트 `artifacts/phase2-final-evidence/`
+- Docs: `docs/prelaunch/P2-T05_FINAL_PREVIEW_EVIDENCE_PACKAGE.md`
+- Phase 2 필수 회귀 8건 통과(P2-T01~T04·T06·autopilot·security·build) · 육안/실기기/Dashboard/Production 위장 없음
+- Preview·실기기·공식 출처·WQG-P0-002는 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
+### P2-T04 — Real data onboarding readiness
+
+- 계약: `realDataOnboarding` — 출처 매니페스트·필드 provenance·공식 우선순위·stale/refresh·검수 체크리스트·import 템플릿·dry-run·거절 사유 (KR 제품·병원/전문가)
+- Selftest: `test:real-data-onboarding` · 비공개 fixture · dry-run 공식만 스테이징 검수 적격 · 마켓/유료API/CAPTCHA/발명 거절 · `writeAttempted=false`
+- Docs: `docs/prelaunch/P2-T04_REAL_DATA_ONBOARDING.md`
+- 실공식 KR 제품·실병원 publishable·Staging/Production 쓰기는 `external_only` · main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
+### P2-T03 — Admin review end-to-end verification
+
+- 계약: `adminReviewE2E` — 제품·병원/전문가 레인 · candidate→evidence→duplicate→needs_review→admin_reviewed→publishable · 공개성 · Organic 독립
+- Selftest: `test:admin-review-e2e` · fixture·미승인 비공개 · dry-run 공식만 publishable · `writeAttempted=false`
+- Docs: `docs/prelaunch/P2-T03_ADMIN_REVIEW_E2E.md`
+- 회귀: usage-media-admin-ops · clinic-stage6 · commercial-separation · organic-commerce · 변경 ESLint · tsc — **통과**
+- Preview 관리자 육안·공식 병원 실출처는 `external_only` · Staging/Production 쓰기·main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
+### P2-T02 — Staging read-only release gates
+
+- 계약: `stagingReleaseGate` — 환경 식별·헬스·테이블/계약·auth callback 입력·Storage 기대·게시 상태·migration · `verified` vs `dashboard_only_unknown`
+- 러너: `check:staging-release-gate` (static 기본 · readonly SELECT/health 선택) · Production 차단 · 쓰기 없음
+- Selftest: `test:staging-release-gate` · 아티팩트 `artifacts/staging-release-gate/`
+- Docs: `docs/prelaunch/P2-T02_STAGING_RELEASE_GATE.md`
+- Dashboard Redirect URL·care-photos 실버킷·적용 이력은 미검증 · Staging/Production 쓰기·main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
+### P2-T01 — Automated Preview and route validation
+
+- 계약: `previewRouteValidation` — 공개·analyze/results/routine·`/my` profile/guidance·admin review·auth API · viewport 320/390/768/1440 · loading/empty/error 마커
+- 러너: `check:preview-routes` (static/http/browser) · 스크린샷+JSON 아티팩트 · `visualApprovalClaimed=false`
+- 로컬 검증: static·HTTP·browser 스크린샷 40장(10×4 viewports) · `visualApprovalClaimed=false`
+- Selftest: `test:preview-routes` · smoke 인프라 재사용 · Preview SSO 우회 금지 · Production 호스트 거부
+- Docs: `docs/prelaunch/P2-T01_PREVIEW_ROUTE_VALIDATION.md` · Preview 체크리스트 갱신
+- 사람 Preview/실기기 육안은 `external_only` · Staging/Production·main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
+## 2026-07-23
+
+### T06 — Final integration · release evidence
+
+- 여정 연결 증거: `finalIntegrationEvidence` · `docs/prelaunch/T06_FINAL_INTEGRATION_RELEASE_EVIDENCE.md`
+- empty/loading/error a11y: `ProductUsageGuide` · `PhotoAssetsSettingsPanel`
+- supabase browser/server: empty public env build placeholder (prerender throw 제거)
+- landmark 자동촬영 기본 OFF · 수동 3각도 유지 · Phase 3.1 deferred
+- Tests: `test:final-integration` · journey · master-execution · guided-capture/landmark · photo-comparison · symptom-safety · commercial-separation · content-disclosure · autopilot-queue · `check:release-security` · 변경 ESLint · tsc · `npm run build` — **통과**
+- Preview/실기기/법무/공식 병원/WQG-P0-002 — **미검증** (`external_only`) · Staging/Production DB·main·commit/push 미실행
+- next_task `T07` 공식 병원 실출처 (`external_only`)
+
+### T05 — Usage media localization · admin operations
+
+- 사용 가이드 메타: 도포량·순서·빈도·주의·패치 테스트·도포 영상 + fallback 상태 (`usageGuidanceComplete`)
+- 국가·언어별 offer: 재고/가격/판매처 미발명 · 미확인 지역 빈 상태 · 미검증 URL CTA 제외 (`localizedOffers`)
+- Admin ops: 후보 검수·중복 병합·근거 검토·상태 전환·만료 갱신 큐·재시도·감사 · local/Staging dry-run (in-memory)
+- UI/API: `ProductUsageGuide` · `/admin/catalog/ops` · `/api/admin/catalog-ops`
+- Docs: `docs/usage-media-localization-admin-ops.md`
+- Tests: `test:usage-media-admin-ops` · `test:usage-media` · 변경 ESLint · tsc — **통과**
+- Staging/Production DB 쓰기·main·commit/push 미실행 · next_task `T06` Final integration (완료)
+
+### T04 — Organic commerce · professional routing
+
+- Organic/Affiliate/Sponsored: 제휴 링크 데이터 구조 · Organic 전용 랭킹 · 광고 슬롯 안전 영역 · 스폰서 카드 · in-memory 지속화
+- API: `/api/commerce/presentation` · `/api/commerce/events` · `/api/admin/commerce` · `/api/care/professional-guidance`
+- UI 라벨: `CommerceLaneBadge` · `SponsoredCard` · 추천 카드 Organic 배지 · 병원 패널 레인 배지 · `/admin/commerce`
+- 애널리틱스: click/lead/conversion/revenue · 건강·증상 타기팅 거부 (`health_targeting_forbidden`)
+- 전문가 번들: 증상 라우팅 · 일반 vs 제휴 병원 분리 · fixture 게시 차단 · guidance 연결
+- Docs: `docs/organic-commerce-professional-routing.md`
+- Tests: `test:organic-commerce` · `test:commercial-separation` · `test:clinic-stage6` · `test:symptom-safety` · `test:care-guidance` · 변경 ESLint · tsc — **통과**
+- 공식 병원 실출처·실제휴 게시·Production·main·commit/push 미실행 · next_task `T05` (Usage media localization · 완료)
+
+### T03 — Product automation · category expansion
+
+- Ingestion 계약 18단계 · 공식출처 evidence · 정규화 · variants · images · INCI · offers · usage media 메타
+- dedupe · field verification · eligibility · review · refresh/resume · Staging/admin 링크(쓰기 없음 · autoPromote 금지)
+- 마스카라·립·샴푸/두피 카테고리 추출 + 안전 추천(급성 눈·두피 신호 시 중단) · fixture dry-run
+- Docs: `docs/catalog-product-automation.md` · 모듈 `src/lib/catalog/productAutomation/`
+- Tests: `test:product-automation` · `test:full-beauty` · `test:master-execution` · 변경 ESLint · tsc — **통과**
+- 실공식 live verify·verified 구매 SKU·Staging/Production 쓰기·main·commit/push 미실행 · next_task `T04` (공식 병원 실출처 · external_only)
+
+### T02 — 3/7/15/30 follow-up lifecycle
+
+- Opt-in · 스케줄 · due · 체크인 progress/adherence/irritation 결정 · 루틴 조정 · red-flag 에스컬레이션 · pause/resume
+- 채널 배송 인터페이스 in_app/email/sms/push · dry-run / disabled / live_blocked · 상태 레코드 (`realDeliveryClaimed=false`)
+- Persistence 재개 + 손상/누락 empty fallback
+- `/my/settings` SMS·푸시 동의(실발송 미연결 고지) · `/admin/care/follow-up` + API
+- Docs: `docs/follow-up-lifecycle.md`
+- Tests: `test:follow-up-lifecycle` · 관련 checkin/reminder · 변경 ESLint · tsc — **통과**
+- 실 email/SMS/push·Production·main·commit/push 미실행 · next_task `T03` product automation (완료)
+
+### T01 — Core journey · durable BeautyProfile
+
+- `parseBeautyProfile` / `mergeBeautyProfiles` / `sanitizeConfirmedProfilePatch` / `observationFromCheckIn`
+- 체크인 완료 시 BeautyProfile에 자극·악화·중단·급성 신호 추론 누적
+- 빈 목록이 확인값으로 고정되어 이후 추론 갱신을 막던 `mergeLists` 버그 수정
+- 서버 경계 `GET/PUT /api/care/beauty-profile` (auth · 검증 · `migrationPending` 로컬 fallback)
+- DRAFT: `supabase/migrations/DRAFT_DO_NOT_APPLY_beauty_profiles.sql` (미적용 · RLS · DELETE 금지)
+- `/my/profile` 로컬↔서버 병합 UX
+- Tests: `test:beauty-profile` · `test:master-execution` · `test:journey` · 변경 ESLint · tsc — **통과**
+- Staging/Production DB·main·commit/push 미실행 · next_task `T02` follow-up lifecycle
+
+### T00 — Master audit · Autopilot 실행 계약/큐
+
+- `docs/autopilot/EXECUTION_CONTRACT.md` · `docs/autopilot/MASTER_EXECUTION_QUEUE.md` 신설
+- 검증 완료/부분/외부전용/잔여/보류 분류 · `next_task` 명시
+- 레거시 `docs/MASTER_EXECUTION_QUEUE.md`를 canonical 포인터로 정리
+- ROADMAP 사진 비교 `[x]`/`[ ]` 모순 수리 (코드 vs Staging `care-photos`)
+- Self-test: `npm run test:autopilot-queue` · `scripts/autopilot-queue-selftest.ts`
+- Production/main/DB 미변경 · commit/push 없음
+
+### Stage 6 기반 — 병원 후보·안내 UI·상담 리드 dry-run + Preview 원격 검수 JSON
+
+- 병원 후보 수집 어댑터(fixture/dry_run/live_blocked), 필드 검증·게시 게이트, 언어·예산 필터
+- `/my/guidance`에 Organic/제휴 분리 병원 카드 + 상담 리드 최소동의 dry-run API 연결
+- 관리자 `/admin/clinics` 읽기 전용 검수 · fixture 게시 불가
+- Preview 원격 검수 JSON: `/api/public/unified-review-manifest` · `VERCEL_URL` 자동 · 로컬 fixture
+- Docs: `docs/clinic-stage6-referral.md`
+- Tests: `test:clinic-stage6` · `test:clinic-referral` · `test:unified-review-remote`
+- 공식 병원 실데이터·실리드 전달·Preview 육안·Production 미실행 · commit/push 없음
+
+### Master execution — 프로필 UI·전문가 라우팅 실연결·큐 완료
+
+- `/my/profile`에서 장기 BeautyProfile 조회·확인값 편집 (확인값 > 추론값)
+- 마스카라·립·베이스·헤어 도메인 문진 완료 시 BeautyProfile 누적
+- `applySymptomSafetyToRecommendation`이 `routeProfessionalGuidance`를 호출해 `professionalRoutes`를 추천·`/my/guidance`에 표시
+- 급성 신호 시 `productRecommendationAllowed=false`로 제품 추천 중단 명시
+- `docs/MASTER_EXECUTION_QUEUE.md` 실행 큐 Q01–Q15·Q19 완료 · Q16–Q18 외부/승인 차단
+- 빈 Supabase public env에서도 legacy client가 빌드 수집 단계에서 즉시 throw하지 않도록 placeholder 가드
+- Tests: master-execution · symptom-safety · care-guidance · full-beauty · journey · commercial-separation · checkin-scheduling · 변경 ESLint · production build(Staging public env) — **통과**
+- Preview/실기기/공식 병원·offer 실데이터/Production 미검증 · commit/push/main/Production 미실행
+
+### Master execution — 장기 프로필·전체 taxonomy·안전 게이트
+
+- 장기 `BeautyProfile`을 추가하고 기존 분석 세션 저장 시 국가/피부/민감도/고민/성분/톤을 교차 세션으로 누적
+- 사용자 확인값과 추론값을 명시적으로 분리하고 확인값 우선 병합
+- 공통 제품 모델에 규제 분류, 추천 적격, category attributes, variant/source/duplicate/reformulation, refresh와 상업 메타데이터 분리
+- taxonomy에 beauty devices, oral/smile beauty, regulated wellness, professional products 추가
+- 증상 기반 피부과·두피/탈모·알레르기·치과·응급 분기와 급성 신호 제품추천 중단 정책 추가
+- Node 24/CJS에서 실행되지 않던 catalog autopilot self-test의 top-level await를 async entry로 수정
+- `test:master-execution` 추가; 기존 full-beauty, journey, symptom safety, commercial separation, refresh, usage media, check-in 일정 회귀 통과
+- DB migration·외부 API·Production·main 변경 없음
+
+### WQG-P1-002 — 카메라·landmark 동적 로딩
+
+- `GuidedCaptureFlow`의 `CameraCapturePanel` 런타임 정적 import를 `next/dynamic` 클라이언트 청크로 분리
+- 카메라 선택 전 문진 기본 경로에서 MediaPipe landmark 구현을 실행하지 않으며, `ssr: false`로 브라우저 API 경계를 명확히 함
+- 카메라 청크 로딩 중 `role="status"`·`aria-live="polite"` 준비 상태 제공
+- 회귀 테스트에 동적 import, eager runtime import 부재, SSR-safe 접근성 fallback 검증 추가
+- Tests: `test:guided-capture` · `test:guided-landmark` · TypeScript · 변경 파일 ESLint · production build — **통과**
+- 전체 저장소 ESLint는 기존 범위 574건(64 errors, 510 warnings)으로 실패; 이번 변경 파일 lint는 통과
+- Production/main/DB/Storage/환경변수 미변경 · Preview/실기기 육안 미실행
+
+### WQG-P0-001 — 사진 AI 오인·동의·카피 정합
+
+- 동의·진행·결과 문구를 실제 동작에 맞춤: **사진 픽셀 외부 AI 미전송**, 안내는 **문진·입력 기반**, 3장 촬영은 **품질·각도 표준화**
+- `ANALYSIS_SCOPE_COPY_KO` 공용 카피 · PhotoConsentPanel / GuidedCaptureFlow / progress overlay / analyze·results·home
+- 갤러리 잔존 「사진을 업로드한 뒤…」문구 제거(동 경로) · **WQG-P1-001도 함께 해소**
+- vision AI 미도입 · Storage/DB/Production/main 미변경
+- Tests: `npm run test:guided-capture` · `npm run test:photo-comparison` · `npm run test:symptom-safety` — **통과**
+- **WQG-P0-002** → `RELEASE_GATE_PENDING` (Production 배포 직전 확인 · feature 중 미실행 · 키 미기록)
+- 다음: P0-003 / P1-003·005 Preview·실기기 육안 검수
+
+### WQ-G — Prelaunch gate (docs only)
+
+- Created `docs/prelaunch/WQ-G_PRELAUNCH_GATE.md` (audit · no app/DB/Production changes)
+- Verdict: **not launch-ready** — P0: photo-AI consent mismatch (pixels not sent to providers), Production `AI_PROVIDER` must be verified, copy must not claim multi-angle vision analysis
+- Pilot A/B/C runtime OK · D/E insufficient honest · Phase 3.1 landmark remains deferred · default manual capture
+- Next: WQG-P0-001 copy/consent alignment
+
+### Phase 3.1 deferred — default manual 3-angle capture
+
+- Status: implemented · automated tests passed · Android real-device blocker unresolved · **deferred** (not marked complete)
+- `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE` default **OFF** (explicit `1` only); voice countdown only when landmark auto is ON
+- Default UX: Phase 3.0 manual guide + shutter (front → left45 → right45); no gallery; no landmark debug for normal users
+- Auto landmark code/tests retained behind flag for later stabilization (Android Chrome + iPhone Safari)
+- Next: WQ-G Prelaunch gate (prioritize P0–P3; no blind feature adds)
+
+### Phase 3.1.4 — Fix raw_bounds parse, keep loop, separate manual shutter
+
+- Robust MediaPipe landmark list parsing (array / nested / TypedArray / pixel→norm) with valid/invalid counts
+- Cap detector hardRestart at 2; keep rAF loop alive; resume auto when bounds recover
+- Manual shutter works without landmarks (video frame → canvas → preview)
+- Debug panel default OFF, below camera (not over face); `?landmarkDebug=1` to auto-open
+- User copy without technical `raw_bounds` / INVALID jargon
+- Tests: `npm run test:guided-landmark` · build OK · **Android 실기기 미확인**
+
+## 2026-07-22
+
+### Phase 3.1.3 — Block exploded landmark coords + keep inference loop alive
+
+- Reject non-finite / out-of-range landmark, bounds, and display values (`invalid_landmark_data`); never clamp into fake-normal
+- Face bounds from validated landmark min/max only; facialTransformationMatrix used for pose (copied) never as center/bounds
+- Display cover transform: single path, width/height via two corners, mirror once
+- Inference: `finally` clears lock; rAF always reschedules; monotonic `performance.now()` timestamps
+- Stale policy: reuse ≤250ms, stale >700ms, detector restart >2s → manual_guidance fallback
+- Diagnostics: rawC / preMirrorC / dispC / invalidStage / infer / loop / lock / restart; garbage shown as INVALID
+- Tests: `npm run test:guided-landmark` · build OK · **Android 실기기 미확인**
+
+### Phase 3.1.2 — Fix false no_face/center loop + always-on alignment diagnostics
+
+- Root cause: `detect()` gated on `video.currentTime` (often stalls on Android) → null → mapped to misleading “중앙에 맞춰 주세요” (`no_face`)
+- Throttle by `minIntervalMs` + MediaPipe monotonic timestamps; reuse last snapshot with `stale_landmark` age
+- Always-on Preview/dev diagnostic panel (fail, display/video centers, deltas, cover crop, mirror count) — local only
+- Distinct messages for center_x/y, size, stale, transform; soft features unchanged
+- Mirror applied once in `displaySpace`; tests for cover crops + center-inside invariant
+- Tests: `npm run test:guided-landmark`
+
+### Phase 3.1.1 — Fix landmark alignment BLOCKER (cover transform + soft features)
+
+- Root cause: object-fit cover crop mismatch + absolute eye/nose/mouth hard fails + elongated oval guide
+- Shared `displaySpace` video→display transform (mirror + cover crop) for detector and overlay
+- Templates: wider center/size/pose; features face-relative; softFeaturesOnly (glasses-tolerant)
+- Debug overlay toggle on Preview/dev; primary single guidance message
+- Tests: `npm run test:guided-landmark`
+
+### Phase 3.1 — Face landmark auto-capture + multilingual voice countdown
+
+- `@mediapipe/tasks-vision` FaceLandmarker (Apache-2.0) · same-origin WASM (`/mediapipe/wasm`) + model (`/models/face_landmarker.task` ~3.7MB)
+- Templates: `front_template_v1` / `left_45_template_v1` / `right_45_template_v1` (normalized) · 1s hold → 3·2·1 → auto-capture once/angle
+- Voice: ko/en/ja/zh-CN/es via SpeechSynthesis · ON/OFF session toggle · failure never blocks capture
+- Fallback: manual guide or questionnaire · **no gallery** · CSP `wasm-unsafe-eval` + `camera=(self)`
+- Flags: `NEXT_PUBLIC_FACE_LANDMARK_AUTO_CAPTURE`, `NEXT_PUBLIC_CAPTURE_VOICE_COUNTDOWN` (default ON)
+- Privacy: no embeddings / no landmark coords in logs / no Storage/DB this step
+- Docs: `docs/analyze/PHASE31_FACE_LANDMARK_AUTO_CAPTURE.md` · test: `npm run test:guided-landmark`
+
+### Phase 3.0.2 — Forbid gallery upload on general user analyze path
+
+- User-facing inputs: camera + questionnaire_only only
+- Removed gallery buttons/file inputs from `/analyze` GuidedCaptureFlow and legacy upload UI
+- Camera failure fallback: retry + permission help + questionnaire (no gallery)
+- Master Plan §22 updated; `inputPolicy.ts` + selftest DOM/source checks
+
+### Phase 3.0.1 — Fix camera blank after permission grant
+
+- Root cause: unstable effect deps stopped MediaStream right after allow; play/attach race
+- requesting_permission until live preview; Overconstrained → `{ video: true }` fallback
+- 5s startup timeout + retry/gallery/manual; `camera_start_failed` / `video_play_failed` (not mislabeled denied)
+- Preview/dev diagnostics `[guided-camera]`; stream-identity cleanup for StrictMode
+- Tests extended in `test:guided-capture`
+
+### Phase 3.0 — Guided camera capture MVP + analysis waiting UX
+
+- Camera-first multi-angle capture (front / left45 / right45) on `/analyze`
+- Gallery + questionnaire-only fallbacks; permission/HTTPS/device unavailable paths
+- Local quality checks (resolution/brightness/sharpness/file/format); pose=`pose_check_unavailable` (no fake face ML)
+- Analysis progress overlay with soft 0–90% then 100% on real completion; timeout/retry; duplicate-submit guard
+- Ephemeral object URLs only — no Storage/migration/care-photos; EXIF strip via existing helper
+- Flag: `NEXT_PUBLIC_GUIDED_CAMERA_CAPTURE` (default on; `0` restores legacy single upload)
+- Docs: `docs/analyze/PHASE30_GUIDED_CAMERA_CAPTURE.md` · test: `npm run test:guided-capture`
+
+### Phase 2.6.2 종료 — A 엄격 RLS + BOJ verified OOS + Preview UI
+
+- Staging Dashboard v2: BOJ offer `verification_status` unverified→verified (stock OOS·price·URL 불변)
+- A 엄격 RLS: verified+in_stock 또는 verified official KR OOS/unknown (unverified 공개 없음)
+- anon 가시 20→21 (추가 BOJ 1건 · ROUND LAB unverified 비가시)
+- C Top: COSRX / BOJ(OOS·CTA OFF) / Anua · Haruharu=availability_unknown
+- Preview 수동 UI 검수 완료 · Production write 0 · B 예외안 미적용
+- Docs: `SCENARIO_PILOT_PHASE262_POST_APPLY_VERIFY.md` · rollback SQL v2
+
+### Phase 2.5~2.6 — recommendation ↔ commerce 분리
+
+- Ranking gate vs purchase CTA 분리 · `RECOMMEND_COMMERCE_SEPARATION` (기본 on)
+- Staging SELECT + Preview Ready 검증 · rollback OFF 시 C Top 0 복원
+- Docs: `SCENARIO_PILOT_PHASE25_COMMERCE_SEPARATION.md` · `SCENARIO_PILOT_PHASE26_STAGING_PREVIEW.md`
+
+### Scenario Top10 pilot enrichment (multiSource)
+
+- Global products + many-to-many scenario pools; reuseRate 0.16; recommendation_ready 8 (honest shortfall); `test:recommendation-pilot-enrichment`; no DB/UI/runtime
+
+### Scenario Top10 pilot + WQ-F local archive cleanup
+
+- Archive WQ-F clutter under data/archive/; curated JSON Top10 pilot pools + pure-logic selftest (	est:recommendation-pilot); no DB/runtime wiring
+
+### WQ-F Phase 0/1 — Recommendation scenario Top10 model
+
+- Curated KR core scenarios: **30** (not Cartesian) · types/match/pool/gap pure logic
+- Docs: `RECOMMENDATION_SCENARIOS.md` · Phase2 schema draft · WORK_QUEUE/MASTER_PLAN redirect
+- Tests: `npm run test:recommendation-scenarios` · `npm run analyze:scenario-catalog-gap`
+- No fake pool fill · no migration apply · no Staging write · no WQ-G / Production / main
+
+### WQ-F Catalog remaining (legacy ingestion layer · earlier same day)
+
+- CLI-safe crawl: `officialCrawl.ts` (robots-aware · no server-only)
+- Quality statuses: `qualityStatus.ts` · sprint: `wqFRemainingSprint.ts`
+- Runner: `npm run catalog:wq-f-remaining` (`WQF_DRY_RUN` / `WQF_COMMIT_STAGING`)
+- Exception queue scoring: duplicate stays critical; renewal@0.9 stays high
+- Docs: `docs/catalog/WQ_F_REMAINING.md` · demoted to **ingestion feed for scenario pools**
+- Production 미쓰기 · main 미병합 · products 자동 publish 없음
+
+### Care worker admin dry-run (WQ-E · 코드·테스트 완료)
+
+- Policy/service: Production·prod-ref 차단 · CONFIRM 필수 · dry-run tick · manual retry/cancel
+- API: `GET|POST /api/admin/care/checkin-email-worker` · UI `/admin/care/checkin-email-worker`
+- Admin retry: failed→pending · retry_count=0 · last_error clear · audit `checkin_email_*`
+- self-test: `npm run test:checkin-email-worker-admin` · Staging SELECT verify (Resend 미호출)
+- UTF-8 rewrite: `checkin-email-queue-status/route.ts`
+- Production 미배포 · main 미병합 · 실발송 없음
+### 체크인 스케줄링 (WQ-D · 코드·테스트 완료)
+
+- Pure orchestrator: `checkinSchedulingOrchestrator.ts` (in-app + email due/reminder)
+- Settings: `careEmailChannelConsent` · `locale` · 마케팅(`emailOptIn`) 분리 UI (`/my/settings`)
+- Preferences 영속: auth user_metadata + `GET/PATCH /api/care/notification-preferences` (새 migration 없음)
+- Worker: profiles.email + metadata settings 로드 후 enqueue
+- Worker: `runCheckinSchedulingTick` enqueue only · dry-run/live send 없음
+- Admin: `GET /api/admin/care/checkin-email-queue-status` · `/admin/care` 패널
+- Tests: `npm run test:checkin-scheduling` · Staging SELECT gate `verify:checkin-scheduling-staging`
+- Schema A migration 유지 · Preview test-send in-memory 유지 · Production/main 미변경
+
+### 재방문 대시보드 (WQ-C · 코드·테스트 완료)
+
+- Pure: `revisitDashboard.ts` · `quickSkinCheck.ts`
+- `/my` 모바일 우선 섹션 (다음 할 일 · quick check · 체크인 · 루틴 · 사진 상태)
+- `GET /api/care/photo-consents` 클라이언트 병렬 fetch (migration pending OK)
+- `npm run test:revisit-dashboard` · `docs/revisit-dashboard.md`
+- Staging photo migration/bucket **미적용** · Production/main **미변경**
+
+### 사진 비교 동의·저장·삭제 (WQ-B · 코드·테스트 완료)
+
+- 정책: `photoComparisonPolicy.ts` · EXIF strip · in-memory service
+- API: photo-consents / photo-assets / delete-all (synthetic fixture Preview only)
+- UI: `PhotoConsentPanel` · `PhotoAssetsSettingsPanel` · analyze/settings 연결
+- DRAFT migration: `DRAFT_DO_NOT_APPLY_care_photo_comparison.sql` (**미적용**)
+- `npm run test:photo-comparison` 추가
+- 승인 대기: Staging migration apply · private `care-photos` bucket · 실제 업로드/Storage delete
+
+### 체크인 이메일 큐 Staging 적용·검증 완료 (WQ-A)
+
+- Staging Dashboard SQL: `20260722010000_create_checkin_email_queue.sql` **적용 완료**
+- 검증: `npm run verify:checkin-email-queue-staging` **통과**
+  - Staging ref guard · Production ref 차단
+  - service_role SELECT/INSERT/UPDATE · claim RPC · anon SELECT 거부
+  - FK negative (fake UUID) · status CHECK negative · payload plaintext CHECK negative
+  - care_check_ins 행 없음 → positive insert/claim/sent/cancel 경로 스킵 (negative·RPC 검증은 완료)
+- 실발송 **없음** · DELETE **없음** · Production/main/Production DB **미변경**
+
+### Fast Execution System v1
+
+- `WORK_QUEUE.md` · `docs/FAST_EXECUTION_SYSTEM.md` · `docs/APPROVAL_POLICY.md`
+- `npm run project:status|next|verify|complete|continue`
+- `safe-command-gate` · work-queue parser · orchestrator selftests
+- Staging probe: `scripts/probe-checkin-email-queue-staging.mjs` (post-apply verify는 `verify:checkin-email-queue-staging` 사용)
+- Production/main/실발송 기본 차단 유지
+
+### 체크인 이메일 큐 Schema A Staging 구현 (코드·게이트 · DB 적용 대기)
+
+- dated migration 승격: `20260722010000_create_checkin_email_queue.sql` (DRAFT는 참고용 유지)
+- Schema A: Production 체크인만 DB queue · Preview test-send는 in-memory (`preview-email-test:…`) 유지 · queue 없어도 Preview UI 동작
+- idempotency v1: `checkin-email:v1:{user_id}:{checkin_id}:{milestone}:{kind}:email`
+- DB status: pending/processing/sent/failed/skipped_duplicate/cancelled
+- 메모리 매핑: scheduled→pending · sending→processing · retry_scheduled→pending(+retry_count/next_attempt) · duplicate→skipped_duplicate
+- claim: `claim_checkin_email_jobs` · `FOR UPDATE SKIP LOCKED` · stale processing 복구 · service_role EXECUTE만
+- persistence: enqueue/claim/markSent/markFailed/markCancelled · last_error sanitize · max retry 3
+- dry-run worker: live provider 거부 · 실제 발송 없음
+- 게이트 `npm run gate:checkin-email-queue-staging` **통과** (ref Staging · build · Care/selftest)
+- Staging DB 적용: Dashboard SQL **완료** (2026-07-22) · `verify:checkin-email-queue-staging` **통과** · Production **미변경** · 실발송 **없음**
+- 적용 후 수동 정리: synthetic fixture는 DELETE 자동 실행 금지 · `status='cancelled'` 권장
+
+### Preview 체크인 이메일 테스트 UI 육안 확인
+
+- Preview `/admin/care/check-in-email-test` 육안 **완료**
+- 폼·미리보기 정상 · milestone / locale / kind 변경 정상
+- migration / permission 오류 없음 · 깨진 화면 없음
+- 실제 이메일 발송 없음 (발송 버튼 미클릭)
+- `checkin_email_queue` Staging·Production **미적용** (당시 기준)
+
+## 2026-07-21
+
+### Care admin readiness · service_role SELECT grant (Staging migration 작성)
+
+- `/admin/care`: `42501` → permission_missing · `PGRST205`/relation missing → migration_missing · 기타 → query_error
+- migration `20260721100000_grant_service_role_care_read.sql`: care_check_ins, care_notifications, care_audit_events, care_analysis_sessions, care_routines, profiles에 service_role **SELECT만**
+- self-test: `npm run test:admin-care-readiness` (Preview ref ≠ Production guard · probe 분류 · `care-dashboard-summary-selftest.ts --admin-care-readiness`)
+- Staging apply 전: `npm run fix:utf16le-migration-grant` (Windows UTF-16LE migration 파일 보정)
+- checkin_email_queue **미생성** · Production/Production DB 변경 없음 · Staging apply는 operator
+
+### Care Staging service_role SELECT grant 적용·검증 (2026-07-21)
+
+- Staging (`jfnj***gfd`)에 GRANT SELECT 적용 완료 · `care_check_ins` probe `ready`
+- `getAdminCareOpsSummary` → `readiness=ready` · note=`counts only — no PII` (migration/permission 오표시 해소)
+- self-test에 summary 경로 assert 추가
+- Preview `/admin/care` 육안 **통과** (경고 없음 · 집계 카드 정상)
+- Production·`checkin_email_queue` 변경 없음
+
+### 체크인 이메일 큐 DRAFT Staging 검토 (적용 보류 · 2026-07-21)
+
+- 대상: `DRAFT_DO_NOT_APPLY_checkin_email_queue.sql` · **테이블 미생성**
+- 결론: Staging 적용 **불가** (보완 후 재승인)
+- 차단: RLS/정책 미작성 · service_role GRANT 없음 · `recipient_hash` NOT NULL(v1 mask-only와 불일치) · idempotency `scheduleDate` 포함 vs v1 `checkin-email:v1:…:email` · status CHECK 미비
+- Preview는 Schema A(in-memory) 유지 · Production/DB 변경 없음
+
+### 체크인 이메일 큐 DRAFT v2 보완 (Staging 미적용 · 2026-07-21)
+
+- Schema A: Production queue만 DB · Preview test-send in-memory 유지
+- idempotency: `checkin-email:v1:{user_id}:{checkin_id}:{milestone}:{kind}:email` (scheduleDate/locale/template/recipient 제외)
+- DRAFT: RLS ON · PUBLIC/anon/authenticated REVOKE · service_role SELECT/INSERT/UPDATE · DELETE/TRUNCATE 없음
+- `recipient_hash` 제거 · `recipient_mask` NOT NULL · checkin_id/user_id FK · status/milestone/kind/channel CHECK
+- self-test: `test:checkin-email-queue` · `test:checkin-email-queue-migration`
+- Staging/Production DB 미적용 · 실발송 없음
+
+## 2026-07-20
+
+### 단계 5 — Preview 관리자 체크인 이메일 테스트 발송 UI/API (mock만 · 실발송 없음)
+
+- `/admin/care/check-in-email-test` · `POST /api/admin/checkin-email/test-send`
+- Production 404/403 · `VERCEL_ENV=preview` 필수 · 관리자 인증 · same-origin
+- 수신자는 `EMAIL_STAGING_RECIPIENT_ALLOWLIST` 첫 유효 주소만 (클라이언트 recipient 무시)
+- 테스트 payload: `preview-email-test` · care consent 고정 · 마케팅 미사용
+- in-memory rate limit: 60초 1건 · 시간당 10건 (서버리스 임시 · DB audit 없음)
+- self-test: `npm run test:checkin-email-test-api` (mock transport · resend.com fetch 차단)
+- 실제 발송 없음 · Preview 재배포 후 관리자 UI 클릭 시에만 가능 · main 미병합 · Production 미배포
+
+### 단계 5 — 체크인 이메일 Resend live adapter (코드만 · 실발송 없음)
+
+- `resend` npm 패키지 추가 · live provider·게이트·allowlist·kill switch·Production 강제 차단
+- `EMAIL_DELIVERY_MODE=live` + `EMAIL_PROVIDER=resend` + kill switch + API key + from address 필요 (Production은 항상 차단)
+- Staging-only `EMAIL_STAGING_RECIPIENT_ALLOWLIST` · mock transport self-test만 (`npm run test:checkin-email-resend`)
+- 실제 발송 없음 · API 키 미설정 · DNS 미변경 · Preview API 미구현 · main 미병합 · Production 미배포
+
+### 단계 5 — 체크인 이메일 dry-run provider (실제 발송 없음)
+
+- `disabled` / `dry_run` / `live` 모드 해석 · live는 `live_mode_blocked`만 반환 (실발송·SDK·API 키 없음)
+- payload: 텍스트만 · 안전 경로 `/my/check-ins/{id}`, `/my/settings` · photo/health/affiliate/http URL 거부
+- consent: care checkin + care email 필수 · marketing만이면 `marketing_only_consent`
+- self-test: `npm run test:checkin-email-provider`
+- admin UI·실제 provider 연동·DB migration 후순위 · main 미병합 · Production 미배포
+
+
+### 단계 5 — 체크인 이메일 큐 정책 (발송 미연결)
+
+- `checkinEmailQueuePolicy` · `checkinEmailCopy` 공용 순수 모듈 추가
+- care 체크인 동의 + care 이메일 채널 동의 필수 (marketingConsent만으로는 후보 생성 금지)
+- idempotency key · 상태 전이 · 재시도(5분/30분/2시간, 최대 3회) · dead_letter
+- payload에 사진·건강상세 금지 · 수신자는 mask/hash만 (평문 email 미저장)
+- DRAFT migration `DRAFT_DO_NOT_APPLY_checkin_email_queue.sql` (실제 DB 미적용)
+- self-test: `npm run test:checkin-email-queue`
+- 실제 이메일 provider 미연결 · main 미병합 · Production 미배포
+
+
+### 단계 5 — 체크인 응답 기반 루틴 조정 제안 UI
+
+- `routineAdjustmentPolicy` · `routineAdjustmentCopy` 공용 모듈 추가
+- 응답별 조정안: keep / simplify / pause recent·new / restart_later / record_only / consultation_first
+- 사용자 승인 전 루틴 불변 · 일시 중지≠삭제 · snapshot 되돌리기 · checkinId 중복 적용 방지
+- 자외선 차단 자동 중단 금지 · 위험 신호 시 제품 조정 적용 차단
+- 화면: `/my/check-ins/[id]` 완료 결과 아래 `RoutineAdjustmentPanel`
+- 저장: localStorage `kbeautyCareStoreV1` + `routineAdjustmentHistory` (DB migration 실행 없음)
+- self-test: `npm run test:routine-adjustment`
+- Organic 점수·순위 불변 · main 미병합 · Production 미배포
+
+### 단계 5 시작 — 체크인 응답 분기 정책·화면 연결
+
+- `src/lib/retention/checkinPolicy.ts` · `checkinCopy.ts` 공용 순수 모듈 추가
+- 3·7·15·30일 일정: 동의(`consentCareTracking`) 없으면 미생성 · 시작일 없으면 미생성 · 완료 기록 보존 · milestone 중복 방지
+- 응답 6종(improved/unchanged/worsened/not_started/stopped/unsure)별 다음 행동 분기
+- 위험 신호(통증·출혈·진물·감염 의심·화상 등) → 상담 우선 (`prioritizeConsultation`)
+- 48시간 1회 재알림 정책 (`shouldRemind` · `reminderCount`) — 실제 발송 미연결
+- 화면: `/my/check-ins` · `/my/check-ins/[id]` (응답 선택·다음 행동·위험 안내)
+- careCheckinConsent ↔ `consentCareTracking` · marketingConsent ↔ `emailOptIn` 분리 매핑
+- DB migration 실행 없음 · Production·main 미변경
+- self-test: `npm run test:checkin-policy`
+
+### 단계 4 코드 검증 완료 · Preview 운영 검수 잔여
+
+- 단계 4 본기능(사용 가이드·부위 필터·disclosure·관리자 미디어 검수) 코드·자동 테스트·Staging build 검증 완료 (HEAD `555d317`)
+- Preview 콘솔 localStorage 수동 주입 검수 중단
+- Preview 수동 샘플 육안·관리자 Staging 미디어 육안·원격 검수 JSON 연결은 미완료 운영 검수 항목
+- `/qa/usage-guide` 임시 QA 페이지는 본기능에 포함하지 않음
+- main 미병합 · Production 미배포 · Production DB·환경변수 변경 없음
+
+### AI 생성·광고·협찬 공용 disclosure 정책 보강
+
+- `contentDisclosurePolicy` · `ContentDisclosure` 공용 모듈/UI 추가 (ko/en/ja)
+- `ProductUsageGuide`·미디어 표시 자격·관리자 catalog 검수가 동일 정책 사용
+- AI/광고/협찬 고지 없으면 미디어 비표시 · 공식 Organic은 광고로 오인 표시하지 않음
+- Organic 점수·순위 불변 · DB migration 없음 · Production·main 미변경
+- self-test: `test:content-disclosure` · `test:usage-media`에 포함
+
+### 부위별 화면 검증된 사용 가이드 연결
+
+- `/face-explorer` 존 선택 시 LocalStorage 검증 가이드를 `applicationArea` 교집합으로만 표시
+- `/results?area=` 쿼리로 추천 카드 가이드 필터 · `/my/guidance`는 분석 부위 스냅샷 기준 필터
+- 일치 가이드 없으면 기존 부위·카드 UI 유지 (`emptyMode=hidden`) · 사용법 추론 없음
+- Organic 점수·순위 불변 · Production DB·배포·main 병합 미실행
+
+### 관리자 사용 영상·가이드 검수 화면 (읽기 전용)
+
+- 관리자 제품 상세에 `사용 영상·가이드 검수` 섹션 추가 (`catalog_product_media` SELECT)
+- 표시 자격 순수 함수 `isUsageMediaDisplayEligible` · catalog 평가 `evaluateCatalogProductMediaDisplay`
+- HTTPS만 클릭 가능 · iframe/자동재생/`dangerouslySetInnerHTML` 없음 · 승인·삭제 쓰기 없음
+- 스키마 부족 항목은 UI·`DRAFT_DO_NOT_APPLY_usage_media_extensions.sql`에만 기록 (DB 미적용)
+- self-test: `test:admin-usage-media` · `test:usage-media`에 포함
+- Organic 점수·순위 불변 · Production DB·배포·main 병합 미실행
+
+### 추천 카드·루틴 공용 사용 가이드 표시
+
+- `src/components/usage/ProductUsageGuide.tsx` 공용 컴포넌트 분리
+- `/routine` · `RecommendedProductCard`가 동일 검증·표시 로직 사용
+- 추천 카드는 가이드 없을 때 영역 숨김(`emptyMode=hidden`), 루틴은 기존 빈 상태 유지
+- HTTPS 미디어·검증 필드만 표시 · `dangerouslySetInnerHTML` 미사용 · 자동재생 없음
+- Organic 점수 회귀 self-test 추가 (`usage-media-organic-score-regression-selftest`)
+- Production 배포 · Production DB · main 병합 미실행
+
+---
+
 ## 2026-07-16
 
 ### 로컬 출시 준비 검사 통과
@@ -617,7 +1231,7 @@
 - 설정 누락 → `/admin/unavailable`
 - 로그인 성공만으로 admin 인정하지 않음 (`admin_users` 재검증)
 - `docs/50-admin-login-implementation.md`
-- `SUPABASE_SERVICE_ROLE_KEY` 로컬 missing → E2E BLOCKER
+- `Supabase service role key (env)` 로컬 missing → E2E BLOCKER
 - commit/push·원격 DB 변경 없음
 
 ### 관리자 인증 가드 최소 구현

@@ -1,0 +1,12 @@
+{
+  "priorDeReady": {
+    "kr-uv-sunscreen-sensitive": 1,
+    "kr-aging-eye-cream": 2
+  },
+  "finalDeReady": {
+    "kr-uv-sunscreen-sensitive": 1,
+    "kr-aging-eye-cream": 2
+  },
+  "priorTotalReady": 21,
+  "finalTotalReady": 21
+}

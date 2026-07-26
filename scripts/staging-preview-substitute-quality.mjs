@@ -11,7 +11,6 @@ import { readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { createRequire } from "node:module";
 
 const STAGING = "jfnjufmldiqlgvgyugfd";
 const PROD = "rhfrmvkjsummaylpzmns";
@@ -68,19 +67,12 @@ const CONCERNS = [
   { label: "자외선", code: "uv" },
 ];
 
-const require = createRequire(import.meta.url);
 // Register tsx for TS imports
 spawnSync("npx.cmd", ["--yes", "tsx", "--version"], {
   cwd: root,
   encoding: "utf8",
   shell: true,
 });
-
-async function loadTs() {
-  const { register } = await import("node:module");
-  // Use dynamic import via tsx path resolution by spawning is heavy;
-  // instead inline minimal ranking by calling compiled-free tsx entry.
-}
 
 // Prefer a small TS runner child for imports
 function runTsHelper(catalogJson) {

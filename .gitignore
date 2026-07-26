@@ -78,3 +78,57 @@ supabase/.temp/
 /data/catalog/labels/obf-*/
 /data/catalog/labels/obf-run-log.txt
 /data/catalog/labels/_tmp-*.sql
+
+# Python bytecode
+**/__pycache__/
+*.py[cod]
+
+# P2-T01 Preview/local route validation artifacts (screenshots + JSON)
+/artifacts/preview-route-validation/
+
+# P2-T02 Staging read-only release gate artifacts
+/artifacts/staging-release-gate/
+/artifacts/phase2-final-evidence/
+/artifacts/seoul-dermatology-ingestion/
+/artifacts/institution-detail-enrichment/
+/artifacts/symptom-evidence-review/
+/artifacts/admin-dry-run-publishable-gate/
+/artifacts/official-kr-product-source/
+/artifacts/verified-product-pool/
+/artifacts/automated-refresh-ops/
+/artifacts/revenue-readiness/
+/artifacts/scaffold-journey-e2e/
+/artifacts/discovery-review-classification/
+/artifacts/staging-import-package/
+/artifacts/manual-verify-auto-approve-68/
+
+# Generated recommendation analysis (local / CI artifacts)
+/data/generated/recommendation/
+
+# WQ-F local crawl/backup artifacts (use data/archive/ for curated keep)
+/data/backups/wq-f-*/
+/data/catalog/wq-f-remaining/
+
+# Root agent/build temp logs
+/build-output-temp.txt
+/build-staging-run-log.txt
+/build-staging-run-log-temp-agent.txt
+/data/catalog/*-console.txt
+/data/catalog/uipro-install-log.txt
+/data/catalog/wq-f-vercel-ls*.txt
+
+# Accidental nested clone
+/kbeauty-platform/
+# Pilot enrichment one-off fetch temps (regenerable)
+/scripts/_fetch-*.mjs
+/scripts/_extract-html-inci.mjs
+/scripts/_shopify-search.mjs
+/scripts/_patch-pilot-evidence-expand.cjs
+/data/catalog/scenario-pilot-enrichment/**/_fetch-*.json
+/data/catalog/scenario-pilot-enrichment/**/_html-*.json
+/data/catalog/scenario-pilot-enrichment/**/_inci-*.json
+/data/catalog/scenario-pilot-enrichment/**/_shopify-*.json
+
+# Personal Claude Code overrides (not shared)
+/.claude/settings.local.json
+

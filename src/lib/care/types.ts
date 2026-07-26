@@ -55,6 +55,8 @@ export type CareAnalysisSession = {
   anonymousDeviceId: string | null;
 };
 
+export type CareRoutineItemStatus = "active" | "paused" | "stopped";
+
 export type CareRoutineItem = {
   id: string;
   step: CareRoutineStep;
@@ -69,6 +71,14 @@ export type CareRoutineItem = {
   cautionNotes: string[];
   allergyConflict: boolean;
   active: boolean;
+  /** Optional pause metadata (local care store). Deletion is never implied. */
+  itemStatus?: CareRoutineItemStatus;
+  pausedAt?: string | null;
+  pauseReason?: string | null;
+  previousActive?: boolean | null;
+  resumeAt?: string | null;
+  adjustmentSource?: "checkin" | null;
+  adjustmentCheckInId?: string | null;
 };
 
 export type CareRoutine = {
@@ -88,10 +98,26 @@ export type CareAcuteSignals = {
   oozing: boolean;
   rapidSwelling: boolean;
   spreadingRash: boolean;
+  infectionSuspect: boolean;
+  burn: boolean;
   eyeIrritation: boolean;
   breathingDifficulty: boolean;
   systemicAllergy: boolean;
 };
+
+export type CareCheckInStoppedReason =
+  | "irritation"
+  | "complexity"
+  | "purchase_failed"
+  | "other";
+
+export type CareCheckInOverallResponse =
+  | "improved"
+  | "unchanged"
+  | "worsened"
+  | "not_started"
+  | "stopped"
+  | "unsure";
 
 export type CareCheckInAnswers = {
   stillUsing: boolean | null;
@@ -108,6 +134,9 @@ export type CareCheckInAnswers = {
   photoAttached: boolean;
   freeMemo: string | null;
   acuteSignals?: Partial<CareAcuteSignals>;
+  overallResponse?: CareCheckInOverallResponse | null;
+  stoppedReason?: CareCheckInStoppedReason | null;
+  stoppedReasonNote?: string | null;
 };
 
 export type CareCheckIn = {
@@ -124,6 +153,23 @@ export type CareCheckIn = {
   progressDelta: CareProgressDelta | null;
   referralLevel: CareReferralLevel;
   suggestionIds: string[];
+};
+
+/** Local snapshot history for check-in-driven routine adjustments (undo support). */
+export type CareRoutineAdjustmentRecord = {
+  id: string;
+  checkInId: string;
+  type: string;
+  appliedAt: string;
+  undoneAt: string | null;
+  routineId: string;
+  beforeRoutine: CareRoutine;
+  afterRoutine: CareRoutine;
+  selectedItemIds: string[];
+  newStartAt?: string | null;
+  beforeCheckIns?: CareCheckIn[] | null;
+  afterCheckIns?: CareCheckIn[] | null;
+  adjustmentSource: "checkin";
 };
 
 export type CareProgressMetric =
@@ -196,7 +242,16 @@ export type CareFeedback = {
 
 export type CareUserSettings = {
   notificationsEnabled: boolean;
+  /** Marketing / promotional email opt-in (not Care check-in channel). */
   emailOptIn: boolean;
+  /** Care check-in transactional email channel; default false. */
+  careEmailChannelConsent?: boolean;
+  /** Care check-in SMS channel; default false. Real SMS not connected. */
+  careSmsChannelConsent?: boolean;
+  /** Care check-in push channel; default false. Real push not connected. */
+  carePushChannelConsent?: boolean;
+  /** Notification / email copy locale; default ko. */
+  locale?: "ko" | "en" | "ja";
   quietHoursStart: number;
   quietHoursEnd: number;
   timezone: string;
@@ -212,5 +267,9 @@ export type CareStoreSnapshot = {
   notifications: CareNotification[];
   feedback: CareFeedback[];
   settings: CareUserSettings;
+  /** Optional local history for check-in routine adjustments / undo. */
+  routineAdjustmentHistory?: CareRoutineAdjustmentRecord[];
+  /** Durable cross-session profile; optional for backward-compatible V1 snapshots. */
+  beautyProfile?: import("@/lib/profile").BeautyProfile;
   updatedAt: string;
 };

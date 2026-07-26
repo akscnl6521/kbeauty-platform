@@ -152,7 +152,15 @@ export const INGREDIENT_ALIAS_GROUPS: readonly (readonly string[])[] = [
   ["Propolis", "프로폴리스", "プロポリス"],
   ["Green Tea", "Camellia Sinensis", "EGCG", "녹차", "緑茶"],
   ["Mugwort", "Artemisia", "Artemisia Princeps", "쑥", "ヨモギ"],
-  ["Heartleaf", "Houttuynia Cordata", "어성초", "ドクダミ"],
+  [
+    "Heartleaf",
+    "Houttuynia Cordata",
+    "Houttuynia Cordata Extract",
+    "Houttuynia Cordata Flower/Leaf/Stem Water",
+    "Houttuynia Cordata Flower Leaf Stem Water",
+    "어성초",
+    "ドクダミ",
+  ],
   ["Zinc PCA", "Zinc", "징크 PCA", "亜鉛"],
   [
     "Zinc Oxide",

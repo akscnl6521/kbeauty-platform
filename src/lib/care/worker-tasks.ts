@@ -2,16 +2,13 @@
  * Care worker tasks (idempotent). Cursor must not execute these against prod.
  */
 
-import { randomUUID } from "crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { AdminConfigurationError } from "@/lib/auth/errors";
-import {
-  buildCheckInDueNotification,
-  checkInDueFingerprint,
-} from "@/lib/care/notifications";
 import { refreshCheckInStatuses } from "@/lib/care/schedule";
-import type { CareCheckIn } from "@/lib/care/types";
+import type { CareCheckIn, CareUserSettings } from "@/lib/care/types";
+import { runCheckinSchedulingTick } from "@/lib/retention/runCheckinSchedulingTick";
+import { parseCareNotificationPrefsFromMetadata } from "@/lib/care/notificationPreferences";
 
 export type CareWorkerResult = {
   attempted: string[];
@@ -132,36 +129,58 @@ export async function runCareWorkerTick(
   }
 
   const dueRows = refreshed.filter((c) => c.status === "due");
-  for (const checkIn of dueRows) {
+  const dueWithUser = dueRows.map((checkIn) => {
     const row = (rows ?? []).find(
       (r) => (r as { id: string }).id === checkIn.id
     ) as { user_id: string | null } | undefined;
-    if (!row?.user_id) continue;
+    return { ...checkIn, userId: row?.user_id ?? null };
+  });
 
-    const notif = buildCheckInDueNotification(checkIn, () => checkIn.id);
-    const fingerprint = checkInDueFingerprint(checkIn.id);
-
-    const { error: nErr } = await client.from("care_notifications").upsert(
-      {
-        id: randomUUID(),
-        user_id: row.user_id,
-        check_in_id: checkIn.id,
-        notification_type: "checkin_due",
-        kind: notif.kind,
-        title: notif.title,
-        message: notif.message,
-        related_check_in_id: checkIn.id,
-        fingerprint,
-        status: "unread",
-        read: false,
-        due_at: checkIn.dueAt,
-        created_at: nowIso,
-      },
-      { onConflict: "fingerprint", ignoreDuplicates: true }
-    );
-
-    if (!nErr) notificationsCreated += 1;
+  result.attempted.push("checkin_scheduling_tick");
+  async function loadUserSettings(userId: string): Promise<CareUserSettings | null> {
+    try {
+      const admin = createSupabaseAdminClient();
+      const { data, error } = await admin.auth.admin.getUserById(userId);
+      if (error || !data?.user) return null;
+      return parseCareNotificationPrefsFromMetadata(
+        (data.user.user_metadata ?? {}) as Record<string, unknown>
+      );
+    } catch {
+      return null;
+    }
   }
+
+  async function loadUserEmail(userId: string): Promise<string | null> {
+    try {
+      const { data, error } = await client
+        .from("profiles")
+        .select("email")
+        .eq("id", userId)
+        .maybeSingle();
+      if (error) return null;
+      const email = (data as { email?: string | null } | null)?.email;
+      return typeof email === "string" && email.includes("@") ? email : null;
+    } catch {
+      return null;
+    }
+  }
+
+  const sched = await runCheckinSchedulingTick(client, dueWithUser, {
+    now: new Date(nowIso),
+    loadUserSettings,
+    loadUserEmail,
+  });
+  notificationsCreated = sched.counts.in_app ?? 0;
+  for (const a of sched.applied) {
+    if (!result.applied.includes(a)) result.applied.push(a);
+  }
+  for (const s of sched.skipped) {
+    if (!result.skipped.includes(s)) result.skipped.push(s);
+  }
+  Object.assign(result.counts, {
+    email_due_enqueued: sched.counts.email_due_enqueued ?? 0,
+    email_reminder_enqueued: sched.counts.email_reminder_enqueued ?? 0,
+  });
 
   result.applied.push("refresh_checkin_status");
   if (notificationsCreated > 0) {
@@ -178,11 +197,22 @@ export async function runCareWorkerTick(
     due,
     expired,
     notifications: notificationsCreated,
+    email_due_enqueued: result.counts.email_due_enqueued,
+    email_reminder_enqueued: result.counts.email_reminder_enqueued,
   });
   result.applied.push("audit_events");
 
   console.info(
-    `[care-worker] due=${due} expired=${expired} notifications=${notificationsCreated}`
+    "[care-worker] due=" +
+      due +
+      " expired=" +
+      expired +
+      " notifications=" +
+      notificationsCreated +
+      " email_due=" +
+      (result.counts.email_due_enqueued ?? 0) +
+      " email_reminder=" +
+      (result.counts.email_reminder_enqueued ?? 0)
   );
 
   return result;

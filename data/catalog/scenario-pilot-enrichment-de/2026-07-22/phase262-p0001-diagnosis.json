@@ -1,0 +1,152 @@
+{
+  "ok": true,
+  "phase": "p0001_select_only_diagnosis",
+  "projectRef": "jfnj***gfd",
+  "write": 0,
+  "expected_offer_id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+  "expected_product_id_hardcoded": 25,
+  "product": {
+    "id": 25,
+    "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+    "name": "Green Plum Refreshing Toner AHA + BHA",
+    "name_ko": "청매실 AHA BHA 토너",
+    "brand": "Beauty of Joseon"
+  },
+  "actual_product_id": 25,
+  "product_id_matches_hardcoded_25": true,
+  "offers_for_product": [
+    {
+      "id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+      "product_id": 25,
+      "retailer_name": "조선미녀 공식몰",
+      "retailer_country": "KR",
+      "purchase_url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/",
+      "price": 18000,
+      "currency": "KRW",
+      "stock_status": "out_of_stock",
+      "verification_status": "unverified",
+      "is_official": true,
+      "active": true,
+      "verified_at": null,
+      "last_checked_at": "2026-07-22T10:03:29.472+00:00"
+    }
+  ],
+  "offer_by_expected_id": [
+    {
+      "id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+      "product_id": 25,
+      "retailer_name": "조선미녀 공식몰",
+      "retailer_country": "KR",
+      "purchase_url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/",
+      "price": 18000,
+      "currency": "KRW",
+      "stock_status": "out_of_stock",
+      "verification_status": "unverified",
+      "is_official": true,
+      "active": true,
+      "verified_at": null,
+      "last_checked_at": "2026-07-22T10:03:29.472+00:00"
+    }
+  ],
+  "round_lab": [
+    {
+      "id": "2fcb8bde-d3f6-482f-8eca-f0908378bff3",
+      "product_id": 22,
+      "retailer_name": "ROUND LAB 공식몰",
+      "verification_status": "unverified",
+      "stock_status": "out_of_stock",
+      "price": 25600,
+      "is_official": true,
+      "active": true
+    }
+  ],
+  "diagnosis_primary": {
+    "exists": true,
+    "checks": {
+      "id_match": true,
+      "product_id_match": true,
+      "verification_status_unverified": true,
+      "stock_status_oos": true,
+      "is_official_true": true,
+      "retailer_country_kr": true,
+      "price_18000": true,
+      "price_raw": 18000,
+      "price_type": "number",
+      "currency_krw": true,
+      "active_true": true,
+      "url_host": true,
+      "url_has_31": true
+    },
+    "failing": []
+  },
+  "diagnosis_expected_id_row": {
+    "exists": true,
+    "checks": {
+      "id_match": true,
+      "product_id_match": true,
+      "verification_status_unverified": true,
+      "stock_status_oos": true,
+      "is_official_true": true,
+      "retailer_country_kr": true,
+      "price_18000": true,
+      "price_raw": 18000,
+      "price_type": "number",
+      "currency_krw": true,
+      "active_true": true,
+      "url_host": true,
+      "url_has_31": true
+    },
+    "failing": []
+  },
+  "filter_steps": [
+    {
+      "step": "product_id = actual product id",
+      "count": 1
+    },
+    {
+      "step": "id = 13fe02a6-5519-41b7-afba-8505cad70c01",
+      "count": 1
+    },
+    {
+      "step": "verification_status = unverified",
+      "count": 1
+    },
+    {
+      "step": "stock_status = out_of_stock",
+      "count": 1
+    },
+    {
+      "step": "is_official = true",
+      "count": 1
+    },
+    {
+      "step": "retailer_country = KR",
+      "count": 1
+    },
+    {
+      "step": "price = 18000 (Number strict)",
+      "count": 1
+    },
+    {
+      "step": "currency = KRW",
+      "count": 1
+    },
+    {
+      "step": "active = true",
+      "count": 1
+    },
+    {
+      "step": "purchase_url LIKE beautyofjoseon + /31",
+      "count": 1
+    },
+    {
+      "step": "product_id = 25 (hardcoded in failed SQL)",
+      "count": 1
+    }
+  ],
+  "first_failing_step": null,
+  "notes": {
+    "rls_policy_check": "RLS ALTER is not readable via PostgREST; if P0001 rolled back whole BEGIN, policy should be unchanged. Confirm with Dashboard SELECT on pg_policies if needed.",
+    "checked_at_column": "table has last_checked_at (no checked_at column)"
+  }
+}

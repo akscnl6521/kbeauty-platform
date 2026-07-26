@@ -155,14 +155,27 @@ function parseManifest(
 }
 
 function getPreviewManifestUrl(): URL | null {
-  const raw = process.env.UNIFIED_REVIEW_MANIFEST_URL?.trim();
-  if (!raw || process.env.VERCEL_ENV === "production") return null;
-
-  const url = new URL(raw);
-  if (url.protocol !== "https:") {
-    throw new Error("UNIFIED_REVIEW_MANIFEST_URL must use HTTPS");
+  if (process.env.VERCEL_ENV === "production" || process.env.APP_ENV === "production") {
+    return null;
   }
-  return url;
+
+  const raw = process.env.UNIFIED_REVIEW_MANIFEST_URL?.trim();
+  if (raw) {
+    const url = new URL(raw);
+    if (url.protocol !== "https:") {
+      throw new Error("UNIFIED_REVIEW_MANIFEST_URL must use HTTPS");
+    }
+    return url;
+  }
+
+  // Same-deployment Preview auto path (no dashboard env required for code path).
+  const vercelUrl = process.env.VERCEL_URL?.trim();
+  if (process.env.VERCEL_ENV === "preview" && vercelUrl) {
+    const host = vercelUrl.replace(/^https?:\/\//, "");
+    return new URL(`https://${host}/api/public/unified-review-manifest`);
+  }
+
+  return null;
 }
 
 async function readRemotePreviewManifest(url: URL): Promise<UnifiedReviewManifest> {
@@ -180,7 +193,13 @@ async function readRemotePreviewManifest(url: URL): Promise<UnifiedReviewManifes
 
 export async function getUnifiedReviewManifest(): Promise<UnifiedReviewManifest> {
   const previewUrl = getPreviewManifestUrl();
-  if (previewUrl) return readRemotePreviewManifest(previewUrl);
+  if (previewUrl) {
+    try {
+      return await readRemotePreviewManifest(previewUrl);
+    } catch {
+      // Remote path failed — fall back to local artifact for Preview resilience.
+    }
+  }
 
   const filePath = path.join(
     process.cwd(),

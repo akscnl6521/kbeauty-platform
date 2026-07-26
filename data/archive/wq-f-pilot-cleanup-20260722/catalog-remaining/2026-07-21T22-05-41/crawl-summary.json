@@ -1,0 +1,43 @@
+{
+  "generatedAt": "2026-07-21T22:11:16.436Z",
+  "stamp": "2026-07-21T22-05-41",
+  "brandsCrawled": 5,
+  "productsAttempted": 32,
+  "success": 1,
+  "fail": 31,
+  "duplicate": 0,
+  "review": 27,
+  "stagingReady": 1,
+  "rates": {
+    "ingredient": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "image": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "offer": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "stagingReady": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "duplicate": {
+      "count": 0,
+      "total": 32,
+      "ratePct": 0
+    },
+    "reviewOrBlocked": {
+      "count": 31,
+      "total": 32,
+      "ratePct": 96.9
+    }
+  }
+}

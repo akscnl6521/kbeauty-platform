@@ -1,0 +1,273 @@
+{
+  "pilotDate": "2026-07-22",
+  "outputDir": "data/catalog/scenario-pilot/2026-07-22",
+  "scenarioFiles": [
+    "A-kr-redness-sensitive-cream.json",
+    "B-pilot-dryness-barrier-serum.json",
+    "C-kr-acne-pores-toner.json",
+    "D-kr-uv-sunscreen-sensitive.json",
+    "E-kr-aging-eye-cream.json"
+  ],
+  "brandCapDefault": 2,
+  "affiliateOrAdInScore": false,
+  "totals": {
+    "scenarioCount": 5,
+    "candidateSlots": 50,
+    "uniqueProductIdentities": 50,
+    "reuseRate": 0,
+    "reuseCount": 0,
+    "recommendationReadyTotal": 2,
+    "readinessTotals": {
+      "trend_candidate": 9,
+      "catalog_ready": 28,
+      "ingredient_candidate": 11,
+      "recommendation_ready": 2,
+      "review_required": 0,
+      "unavailable": 0
+    }
+  },
+  "perScenario": {
+    "kr-redness-sensitive-cream": {
+      "scenarioId": "kr-redness-sensitive-cream",
+      "poolSize": 10,
+      "brandCapDefault": 2,
+      "affiliateOrAdInScore": false,
+      "readinessCounts": {
+        "trend_candidate": 1,
+        "catalog_ready": 5,
+        "ingredient_candidate": 2,
+        "recommendation_ready": 2,
+        "review_required": 0,
+        "unavailable": 0
+      },
+      "recommendationReadyCount": 2,
+      "distinctBrands": 10,
+      "brandCounts": {
+        "cosrx": 1,
+        "aestura": 1,
+        "illiyoon": 1,
+        "dr.jart+": 1,
+        "etude": 1,
+        "skin1004": 1,
+        "torriden": 1,
+        "pyunkang yul": 1,
+        "isntree": 1,
+        "round lab": 1
+      },
+      "distinctRoleTags": [
+        "emerging",
+        "popular",
+        "rising",
+        "safety",
+        "value"
+      ],
+      "identities": [
+        "cosrx-advanced-snail-92-all-in-one-cream",
+        "aestura-atobarrier365-cream",
+        "illiyoon-ceramide-ato-concentrate-cream",
+        "drjart-cicapair-intensive-soothing-repair-cream",
+        "etude-soonjung-2x-barrier-intensive-cream",
+        "skin1004-madagascar-centella-soothing-cream",
+        "torriden-dive-in-low-molecular-hyaluronic-acid-cream",
+        "pyunkang-yul-ato-cream-deep-moisture",
+        "isntree-hyaluronic-acid-moist-cream",
+        "round-lab-dokdo-cream"
+      ]
+    },
+    "pilot-dryness-barrier-serum": {
+      "scenarioId": "pilot-dryness-barrier-serum",
+      "poolSize": 10,
+      "brandCapDefault": 2,
+      "affiliateOrAdInScore": false,
+      "readinessCounts": {
+        "trend_candidate": 2,
+        "catalog_ready": 6,
+        "ingredient_candidate": 2,
+        "recommendation_ready": 0,
+        "review_required": 0,
+        "unavailable": 0
+      },
+      "recommendationReadyCount": 0,
+      "distinctBrands": 10,
+      "brandCounts": {
+        "cosrx": 1,
+        "beauty of joseon": 1,
+        "torriden": 1,
+        "aestura": 1,
+        "isntree": 1,
+        "skin1004": 1,
+        "mixsoon": 1,
+        "iunik": 1,
+        "anua": 1,
+        "round lab": 1
+      },
+      "distinctRoleTags": [
+        "emerging",
+        "popular",
+        "rising",
+        "safety",
+        "value"
+      ],
+      "identities": [
+        "cosrx-advanced-snail-96-mucin-power-essence",
+        "beauty-of-joseon-glow-serum-propolis-niacinamide",
+        "torriden-dive-in-serum",
+        "aestura-atobarrier365-hydro-essence",
+        "isntree-hyaluronic-acid-water-essence",
+        "skin1004-madagascar-centella-ampoule",
+        "mixsoon-bean-essence",
+        "iunik-beta-glucan-power-moisture-serum",
+        "anua-heartleaf-80-soothing-ampoule",
+        "round-lab-birch-juice-moisturizing-serum"
+      ]
+    },
+    "kr-acne-pores-toner": {
+      "scenarioId": "kr-acne-pores-toner",
+      "poolSize": 10,
+      "brandCapDefault": 2,
+      "affiliateOrAdInScore": false,
+      "readinessCounts": {
+        "trend_candidate": 2,
+        "catalog_ready": 6,
+        "ingredient_candidate": 2,
+        "recommendation_ready": 0,
+        "review_required": 0,
+        "unavailable": 0
+      },
+      "recommendationReadyCount": 0,
+      "distinctBrands": 10,
+      "brandCounts": {
+        "cosrx": 1,
+        "some by mi": 1,
+        "anua": 1,
+        "beauty of joseon": 1,
+        "isntree": 1,
+        "round lab": 1,
+        "pyunkang yul": 1,
+        "haruharu wonder": 1,
+        "celimax": 1,
+        "numbuzin": 1
+      },
+      "distinctRoleTags": [
+        "emerging",
+        "popular",
+        "rising",
+        "safety",
+        "value"
+      ],
+      "identities": [
+        "cosrx-aha-bha-clarifying-treatment-toner",
+        "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+        "anua-heartleaf-77-soothing-toner",
+        "beauty-of-joseon-green-plum-refreshing-toner",
+        "isntree-green-tea-fresh-toner",
+        "round-lab-dokdo-toner",
+        "pyunkang-yul-essence-toner",
+        "haruharu-wonder-black-rice-hyaluronic-toner",
+        "celimax-dual-barrier-creamy-toner",
+        "numbuzin-no3-super-glowing-essence-toner"
+      ]
+    },
+    "kr-uv-sunscreen-sensitive": {
+      "scenarioId": "kr-uv-sunscreen-sensitive",
+      "poolSize": 10,
+      "brandCapDefault": 2,
+      "affiliateOrAdInScore": false,
+      "readinessCounts": {
+        "trend_candidate": 2,
+        "catalog_ready": 5,
+        "ingredient_candidate": 3,
+        "recommendation_ready": 0,
+        "review_required": 0,
+        "unavailable": 0
+      },
+      "recommendationReadyCount": 0,
+      "distinctBrands": 10,
+      "brandCounts": {
+        "round lab": 1,
+        "beauty of joseon": 1,
+        "isntree": 1,
+        "skin1004": 1,
+        "torriden": 1,
+        "cosrx": 1,
+        "dr.g": 1,
+        "make p:rem": 1,
+        "celimax": 1,
+        "aestura": 1
+      },
+      "distinctRoleTags": [
+        "emerging",
+        "popular",
+        "rising",
+        "safety",
+        "value"
+      ],
+      "identities": [
+        "round-lab-birch-juice-moisturizing-sunscreen",
+        "beauty-of-joseon-relief-sun-rice-probiotics",
+        "isntree-hyaluronic-acid-watery-sun-gel",
+        "skin1004-hyalu-cica-water-fit-sun-serum",
+        "torriden-dive-in-mild-suncream",
+        "cosrx-aloe-soothing-sun-cream",
+        "drg-green-mild-up-sun-plus",
+        "make-prem-uv-defense-me-blue-ray-sun-fluid",
+        "celimax-oil-control-cooling-suncream",
+        "aestura-derma-uv-365-barrier-hydro-sunscreen"
+      ]
+    },
+    "kr-aging-eye-cream": {
+      "scenarioId": "kr-aging-eye-cream",
+      "poolSize": 10,
+      "brandCapDefault": 2,
+      "affiliateOrAdInScore": false,
+      "readinessCounts": {
+        "trend_candidate": 2,
+        "catalog_ready": 6,
+        "ingredient_candidate": 2,
+        "recommendation_ready": 0,
+        "review_required": 0,
+        "unavailable": 0
+      },
+      "recommendationReadyCount": 0,
+      "distinctBrands": 10,
+      "brandCounts": {
+        "cosrx": 1,
+        "beauty of joseon": 1,
+        "illiyoon": 1,
+        "pyunkang yul": 1,
+        "dr.jart+": 1,
+        "laneige": 1,
+        "innisfree": 1,
+        "sulwhasoo": 1,
+        "torriden": 1,
+        "aestura": 1
+      },
+      "distinctRoleTags": [
+        "emerging",
+        "popular",
+        "rising",
+        "safety",
+        "value"
+      ],
+      "identities": [
+        "cosrx-advanced-snail-peptide-eye-cream",
+        "beauty-of-joseon-revive-eye-serum",
+        "illiyoon-ceramide-ato-eye-cream",
+        "pyunkang-yul-eye-cream",
+        "drjart-ceramidin-eye-cream",
+        "laneige-perfect-renew-youth-regenerator-eye-cream",
+        "innisfree-green-tea-seed-eye-cream",
+        "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
+        "torriden-dive-in-eye-cream",
+        "aestura-atobarrier365-eye-cream"
+      ]
+    }
+  },
+  "honestyNotes": [
+    "Few recommendation_ready by design ? only when identity + usable INCI + image + offer URL + no major conflict.",
+    "Scenario A: COSRX Snail 92 cream + AESTURA Atobarrier365 cream marked recommendation_ready from prior official INCI research.",
+    "ROUND LAB birch sunscreen: ingredient_candidate due to KR vs US filter SKU conflict.",
+    "BOJ Relief Sun: catalog_ready (PDP reachable, INCI not extracted).",
+    "Artifacts only ? no runtime/UI/DB/multiSource implementation in this pilot."
+  ]
+}

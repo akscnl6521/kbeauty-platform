@@ -1,0 +1,79 @@
+﻿[-] https://haruharu.com/product/%EB%B8%94%EB%9E%99%EB%9D%BC%EC%9D%B4%EC%8A%A4-%ED%9E%88%EC%95%8C%EB%A3%A8%EB%A1%9C%EB%8B%89-%ED%86%A0%EB%84%88-%EB%AC%B4%ED%96%A5-150ml/517/
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=517
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=116
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=117
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=118
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=200
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=201
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=202
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=210
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=220
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=225
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=230
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=250
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=300
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=350
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=400
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=450
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=500
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=510
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=515
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=516
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=518
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=520
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=530
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=540
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=545
+  ERR ECONNRESET
+[-] https://haruharu.com/product/detail.html?product_no=550
+  ERR ECONNRESET
+[200] https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/
+  sold=true prices=5,000/18,000/3,000/6,000 og=泥?ℓ??AHA BHA ?좊꼫 - 議곗꽑誘몃?
+
+=== INTERESTING ===
+[
+  {
+    "url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/",
+    "status": 200,
+    "finalUrl": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/",
+    "title": "泥?ℓ??AHA BHA ?좊꼫 - 議곗꽑誘몃?",
+    "og": "泥?ℓ??AHA BHA ?좊꼫 - 議곗꽑誘몃?",
+    "sold": true,
+    "buyBtn": true,
+    "prices": [
+      "5,000",
+      "18,000",
+      "3,000",
+      "6,000"
+    ],
+    "stockHints": [
+      "soldout_class"
+    ],
+    "len": 168490
+  }
+]

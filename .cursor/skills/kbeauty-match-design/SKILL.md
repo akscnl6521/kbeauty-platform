@@ -1,0 +1,396 @@
+---
+name: kbeauty-match-design
+description: Governs every user-facing K-Beauty Match page, flow, component, visual system, responsive layout, copy, accessibility review, and UI redesign. This project-specific skill overrides generic beauty, spa, ecommerce, marketplace, SaaS, and dashboard assumptions from other skills.
+---
+
+# K-Beauty Match Design Authority
+
+## Priority
+
+For all K-Beauty Match UI work, apply instructions in this order:
+
+1. K-Beauty Match product identity and safety rules
+2. Existing project design tokens and established user journey
+3. Anthropic frontend-design
+4. UI UX Pro Max
+5. Generic framework conventions
+
+If an external skill suggests a beauty shop, spa, ecommerce storefront,
+product marketplace, conversion landing page, testimonial-heavy sales page,
+price-first product grid, or generic SaaS dashboard, reject that suggestion.
+
+K-Beauty Match-specific rules always win.
+
+## Platform identity
+
+K-Beauty Match is not:
+
+- an online cosmetics store
+- a marketplace
+- a price-comparison service
+- a product catalog
+- a beauty spa booking page
+- a generic AI SaaS dashboard
+
+K-Beauty Match is a personalized Korean skincare guidance and continuing-care platform.
+
+Its primary experience is:
+
+user skin understanding
+→ cosmetic-care boundary assessment
+→ concern and body-area interpretation
+→ ingredient and category guidance
+→ scenario-specific candidate pool
+→ personal Top 3–5 recommendations
+→ application order, amount, area, and usage guidance
+→ 3/7/15/30-day follow-up
+→ routine adjustment
+→ dermatologist escalation when cosmetics are insufficient
+
+## Core product principle
+
+The user is the subject of every page.
+Products are supporting tools.
+
+Do not lead with product inventory, discounts, prices, rankings, shopping grids,
+brand logos, purchase buttons, or affiliate offers.
+
+Every important page should answer:
+
+1. What did we understand about the user's skin?
+2. Which concerns can reasonably be managed with cosmetics?
+3. What needs professional evaluation?
+4. Which ingredients or product categories are appropriate?
+5. Why were the final products selected?
+6. How should each product be applied?
+7. What should the user monitor?
+8. When is the next follow-up?
+
+## Recommendation architecture
+
+Internal candidate pool:
+
+- scenario-specific Top 10
+- recommendation_ready products only
+- role coverage may include popular, safety, rising, value, emerging
+- roles may overlap
+- same-brand default cap: 2
+- maximum 3 only with explicit quality justification
+
+User-facing results:
+
+- display only Top 3–5
+- never expose an overwhelming catalog grid
+- never rank by price, commission, affiliate fee, or ad spend
+- Organic score must remain independent
+- affiliated or sponsored placements must be explicitly labelled
+- sponsored entries must not silently replace Organic recommendations
+
+Ranking modifiers:
+
+- skin concern
+- skin type
+- sensitivity
+- body area
+- avoid ingredients
+- allergies
+- current routine
+- age group
+- climate
+- country availability
+- budget
+
+## Medical and safety boundary
+
+Preserve existing symptomSafety, expert_first, urgent_check,
+dermatologist-escalation, and contraindication logic.
+
+Never present diagnosis.
+Never promise treatment, cure, removal, regeneration, or guaranteed results.
+
+UI must distinguish:
+
+- cosmetic guidance
+- caution or stop-use guidance
+- dermatologist consultation recommended
+- urgent professional evaluation
+
+The professional-care recommendation should look helpful and trustworthy,
+not alarming or sales-driven.
+
+## Visual direction
+
+Desired character:
+
+- premium Korean skincare consultation
+- calm, precise, trustworthy, modern, human
+- luxurious through restraint and detail, not decoration
+- editorial clarity combined with guided-care interaction
+- appropriate for long-term repeated use
+- mobile-first
+
+Respect existing tokens in `src/app/globals.css` as the baseline:
+
+- `--background: #faf7f5`
+- `--foreground: #1a1a1a`
+- `--brand: #c2185b`
+- body: DM Sans
+- display: Fraunces (`.kb-display`)
+- surface: `.kb-surface` warm paper gradients
+
+Avoid:
+
+- stereotypical pink beauty template
+- generic blush-and-gold spa palette
+- excessive glassmorphism
+- purple AI gradients
+- generic bento dashboard everywhere
+- loud ecommerce cards
+- sale badges and countdowns
+- excessive rounded cards
+- fake luxury serif styling without functional hierarchy
+- excessive animation
+- image-heavy layouts that hide guidance
+- clinical hospital appearance
+- generic chat interface as the whole product
+- dark OLED / blue SaaS defaults from generic design-system search
+
+## Signature experience
+
+Use one restrained signature interaction or visual language that represents
+“skin understanding becoming a care plan.”
+
+Possible direction:
+
+- layered skin insight map
+- concern-to-care pathway
+- evolving care timeline
+- subtle skin-condition contour or texture system
+- analysis insights that progressively resolve into a routine
+
+Do not add a signature element merely as decoration.
+It must encode meaningful user information.
+
+## Typography
+
+Typography must support Korean first.
+
+Requirements:
+
+- excellent Korean readability
+- explicit display/body/utility roles
+- restrained display typography
+- stable long-form readability
+- no English-only font dependence
+- no ultra-thin Korean weights
+- no decorative type in safety or medical-boundary content
+
+Before adding fonts:
+
+- inspect current fonts and loading strategy
+- avoid unnecessary external font dependencies
+- test Korean, English, numbers, prices, and long ingredient names
+- prevent layout shift
+
+## Color
+
+Do not automatically accept generic “beauty spa” palettes generated by external tools.
+
+Color must communicate:
+
+- calm care
+- trust
+- warmth
+- clarity
+- skin diversity
+- safety distinctions
+
+Use semantic color tokens for:
+
+- normal guidance
+- positive progress
+- caution
+- stop/use professional care
+- information confidence
+- sponsored/affiliate disclosure
+
+Meet WCAG contrast requirements.
+
+## Layout
+
+The layout should follow the user's care journey rather than ecommerce conventions.
+
+Preferred sequence:
+
+understanding
+→ interpretation
+→ next action
+→ recommendation reasoning
+→ routine
+→ follow-up
+
+Product cards must not visually overpower:
+
+- skin interpretation
+- safety guidance
+- recommendation rationale
+- application instructions
+- progress tracking
+
+## Product presentation
+
+Each recommended product should show only useful information:
+
+- recommendation position
+- why it fits this user
+- matched ingredients
+- caution or avoided ingredients
+- category and role
+- application area
+- order in routine
+- amount or frequency
+- expected cosmetic benefit scope
+- limitation
+- price and purchase availability as secondary information
+- affiliate disclosure where applicable
+
+Do not use:
+
+- giant product grids
+- infinite shelves
+- “best seller” as the sole justification
+- price-first comparison tables
+- fake urgency
+- fake review counts
+- unsupported before/after imagery
+
+## Copywriting
+
+Write from the user's side of the screen.
+
+Use plain Korean.
+Avoid backend and implementation terminology.
+
+Prefer:
+
+- 피부 상태 확인하기
+- 추천 이유 보기
+- 루틴에 추가하기
+- 오늘 사용 기록 남기기
+- 피부 변화를 알려주세요
+- 전문가 상담이 더 적합할 수 있어요
+
+Avoid:
+
+- Submit
+- Execute analysis
+- Processing entity
+- Recommendation engine result
+- Conversion
+- Buy now as the primary action
+
+Action names must remain consistent throughout the flow.
+
+## Empty, error, partial, and loading states
+
+Every state must provide direction.
+
+Required states:
+
+- logged out
+- no analysis
+- analysis in progress
+- analysis-only/no saved photo
+- partial product data
+- no recommendation_ready candidate
+- product unavailable
+- missing ingredient evidence
+- check-in scheduled
+- check-in overdue
+- worsening symptom
+- API error
+- image unavailable
+
+Do not fabricate products, reviews, scores, or statistics to fill an empty screen.
+
+## Accessibility and responsive requirements
+
+Minimum validation widths:
+
+- 320
+- 375
+- 768
+- 1024
+- 1440
+- 1920
+
+Required:
+
+- visible keyboard focus
+- semantic HTML
+- keyboard-operable controls
+- reduced-motion support
+- no hover-only essential information
+- touch targets appropriate for mobile
+- no overlapping text
+- no horizontal overflow
+- long Korean and ingredient text handling
+- high contrast safety messages
+- image alt text
+- stable loading layout
+
+## Required workflow before implementation
+
+Before changing UI:
+
+1. Read:
+   - MASTER_PLAN
+   - PROJECT_STATUS
+   - ROADMAP
+   - existing design tokens (`src/app/globals.css`, `design-system/MASTER.md`)
+   - relevant route and components
+2. State the page's single job.
+3. State the user's current journey stage.
+4. Identify the primary action.
+5. Apply K-Beauty Match identity constraints.
+6. Run Anthropic frontend-design planning.
+7. Run UI UX Pro Max design-system search.
+8. Compare the two external recommendations.
+9. Remove ecommerce, spa, generic SaaS, and template defaults.
+10. Present or record:
+    - color tokens
+    - typography roles
+    - spacing/layout logic
+    - component hierarchy
+    - one meaningful signature element
+    - responsive behavior
+    - empty/error/partial states
+
+Only then implement.
+
+## Required workflow after implementation
+
+1. Run typecheck, lint, relevant tests, and build.
+2. Review all required responsive widths.
+3. Check keyboard and focus behavior.
+4. Check reduced motion.
+5. Check Korean text and ingredient overflow.
+6. Check loading, empty, error, partial-data, and long-data states.
+7. Confirm skin guidance remains more prominent than product selling.
+8. Confirm Organic ranking remains independent from affiliate information.
+9. Capture screenshots where supported.
+10. Perform one critical design review and remove unnecessary decoration.
+11. Preview only.
+12. Do not merge main or deploy Production without explicit approval.
+
+## Prohibited actions
+
+- main merge
+- Production deployment
+- Production DB or environment changes
+- fake content
+- unsupported medical claims
+- automatic ad activation
+- affiliate influence on Organic ranking
+- product marketplace redesign
+- destructive refactor without preserving user flows

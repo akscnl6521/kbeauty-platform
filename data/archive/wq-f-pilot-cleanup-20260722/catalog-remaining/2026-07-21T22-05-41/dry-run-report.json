@@ -1,0 +1,124 @@
+{
+  "generatedAt": "2026-07-21T22:11:16.436Z",
+  "stamp": "2026-07-21T22-05-41",
+  "linked": "jfnjufmldiqlgvgyugfd",
+  "productionTouched": false,
+  "mode": "dry_run",
+  "counts": {
+    "brandsCrawled": 5,
+    "productsAttempted": 32,
+    "success": 1,
+    "fail": 31,
+    "duplicate": 0,
+    "review": 27,
+    "stagingReady": 1
+  },
+  "rates": {
+    "ingredient": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "image": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "offer": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "stagingReady": {
+      "count": 1,
+      "total": 32,
+      "ratePct": 3.1
+    },
+    "duplicate": {
+      "count": 0,
+      "total": 32,
+      "ratePct": 0
+    },
+    "reviewOrBlocked": {
+      "count": 31,
+      "total": 32,
+      "ratePct": 96.9
+    }
+  },
+  "statusCounts": {
+    "staging_ready": 1,
+    "review_required": 0,
+    "source_unverified": 8,
+    "ingredient_incomplete": 0,
+    "image_missing": 0,
+    "offer_missing": 0,
+    "duplicate": 0,
+    "unavailable": 4,
+    "discontinued": 0,
+    "blocked_by_policy": 19
+  },
+  "candidates": [
+    {
+      "externalProductId": "wqf:cosrx:products-hydrium-centella-aqua-soothing-ampoule",
+      "brand": "COSRX",
+      "productName": "Hydrium Centella Aqua Soothing Ampoule",
+      "url": "https://www.cosrx.com/products/hydrium-centella-aqua-soothing-ampoule",
+      "qualityStatus": "staging_ready",
+      "workflowStatus": "discovered"
+    }
+  ],
+  "brands": [
+    {
+      "brandId": "cosrx",
+      "origin": "https://cosrx.com",
+      "robotsAllowed": true,
+      "blocked": false,
+      "connector": "generic_sitemap",
+      "productUrlCount": 8,
+      "reasons": [],
+      "pagesFetched": 9
+    },
+    {
+      "brandId": "beauty-of-joseon",
+      "origin": "https://beautyofjoseon.com",
+      "robotsAllowed": true,
+      "blocked": false,
+      "connector": "generic_sitemap",
+      "productUrlCount": 8,
+      "reasons": [],
+      "pagesFetched": 7
+    },
+    {
+      "brandId": "anua",
+      "origin": "https://anuabeauty.com",
+      "robotsAllowed": true,
+      "blocked": false,
+      "connector": "listing_href_scan",
+      "productUrlCount": 0,
+      "reasons": [
+        "no_product_urls"
+      ],
+      "pagesFetched": 11
+    },
+    {
+      "brandId": "round-lab",
+      "origin": "https://roundlab.co.kr",
+      "robotsAllowed": true,
+      "blocked": false,
+      "connector": "generic_sitemap",
+      "productUrlCount": 8,
+      "reasons": [],
+      "pagesFetched": 6
+    },
+    {
+      "brandId": "isntree",
+      "origin": "https://isntree.com",
+      "robotsAllowed": true,
+      "blocked": false,
+      "connector": "generic_sitemap",
+      "productUrlCount": 7,
+      "reasons": [],
+      "pagesFetched": 10
+    }
+  ]
+}

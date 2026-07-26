@@ -3,17 +3,12 @@ import "server-only";
 import { randomUUID } from "crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { detectRoutineConflicts } from "@/lib/care/conflicts";
-import {
-  buildCheckInDueNotification,
-  checkInDueFingerprint,
-} from "@/lib/care/notifications";
 import { computeProgressDeltas, summarizeProgress } from "@/lib/care/progress";
 import { evaluateDermatologyReferral } from "@/lib/care/referral";
 import {
   applySuggestionToRoutine,
   buildRoutineSuggestions,
 } from "@/lib/care/routine-suggestions";
-import { createCheckInSchedule } from "@/lib/care/schedule";
 import { sanitizeMemo, assertOwner, CareOwnershipError } from "@/lib/care/ownership";
 import { CareApiError } from "@/lib/care/api-response";
 import { getCareAuthUser, ensureCareProfile } from "@/lib/care/auth";
@@ -58,15 +53,13 @@ import type {
   SaveFeedbackInput,
 } from "@/lib/care/persistence/types";
 import { nextDueCheckIn, refreshCheckInStatuses } from "@/lib/care/schedule";
+import {
+  defaultCareUserSettings,
+} from "@/lib/care/settingsDefaults";
+import { buildCheckinScheduleIfConsented } from "@/lib/retention/checkinPolicy";
 
 function defaultSettings(timezone: string): CareUserSettings {
-  return {
-    notificationsEnabled: true,
-    emailOptIn: false,
-    quietHoursStart: 22,
-    quietHoursEnd: 8,
-    timezone,
-  };
+  return defaultCareUserSettings(timezone);
 }
 
 function logCareEvent(eventType: string, count = 1): void {
@@ -110,7 +103,8 @@ export class CarePersistence {
       conflictNotes: [],
     });
 
-    const schedule = createCheckInSchedule({
+    const schedule = buildCheckinScheduleIfConsented({
+      consent: { careCheckinConsent: input.consentCareTracking },
       analysisSessionId: session.id,
       routineId: routine.id,
       startAt: session.createdAt,
@@ -118,29 +112,31 @@ export class CarePersistence {
       idFactory: () => randomUUID(),
     });
 
-    const checkInRows = schedule.map((c) => ({
-      id: c.id,
-      user_id: this.userId,
-      analysis_session_id: c.analysisSessionId,
-      routine_id: c.routineId,
-      day: c.day,
-      status: c.status,
-      scheduled_for: c.scheduledFor,
-      due_at: c.dueAt,
-      timezone: c.timezone,
-      referral_level: "none",
-      referral_reasons: [],
-    }));
+    if (schedule.length > 0) {
+      const checkInRows = schedule.map((c) => ({
+        id: c.id,
+        user_id: this.userId,
+        analysis_session_id: c.analysisSessionId,
+        routine_id: c.routineId,
+        day: c.day,
+        status: c.status,
+        scheduled_for: c.scheduledFor,
+        due_at: c.dueAt,
+        timezone: c.timezone,
+        referral_level: "none",
+        referral_reasons: [],
+      }));
 
-    const { error: ciErr } = await this.client
-      .from("care_check_ins")
-      .upsert(checkInRows, {
-        onConflict: "analysis_session_id,day",
-        ignoreDuplicates: true,
-      });
+      const { error: ciErr } = await this.client
+        .from("care_check_ins")
+        .upsert(checkInRows, {
+          onConflict: "analysis_session_id,day",
+          ignoreDuplicates: true,
+        });
 
-    if (ciErr) {
-      throw new CareApiError(500, "CHECKIN_SCHEDULE_FAILED", "체크인 예약에 실패했습니다.");
+      if (ciErr) {
+        throw new CareApiError(500, "CHECKIN_SCHEDULE_FAILED", "체크인 예약에 실패했습니다.");
+      }
     }
 
     const checkIns = await this.getCheckins({ sessionId: session.id });

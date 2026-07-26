@@ -63,6 +63,7 @@ export default function MyRecommendationsPage() {
   useEffect(() => {
     void hydrateCareDashboard().then((h) => setSession(h.dashboard.sessions[0] ?? null));
     const store = loadCareStore();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-time hydrate from localStorage-backed care store; not available during server render
     setFeedback(store.feedback ?? []);
     try {
       const parsed = JSON.parse(window.localStorage.getItem(RANKED_PRODUCTS_STORAGE_KEY) || "[]");

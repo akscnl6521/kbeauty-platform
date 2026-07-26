@@ -1,0 +1,164 @@
+{
+  "generatedAt": "2026-07-21T21:18:00.035Z",
+  "stamp": "2026-07-21T21-17-55",
+  "mode": "artifact_only",
+  "publishAllowed": false,
+  "databaseTouched": false,
+  "productionTouched": false,
+  "items": [
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-daily-spf-double-cleanse-skincare-set-global",
+      "brand": "Beauty of Joseon",
+      "productName": "Daily SPF + Double Cleanse Set",
+      "sourceUrl": "https://beautyofjoseon.com/products/daily-spf-double-cleanse-skincare-set-global",
+      "reasons": [],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-daily-spf-double-cleanse-skincare-set-us",
+      "brand": "Beauty of Joseon",
+      "productName": "Daily SPF + Double Cleanse Set",
+      "sourceUrl": "https://beautyofjoseon.com/products/daily-spf-double-cleanse-skincare-set-us",
+      "reasons": [],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-get-glowing-ritual-skincare-set-global",
+      "brand": "Beauty of Joseon",
+      "productName": "Get Glowing Ritual Set",
+      "sourceUrl": "https://beautyofjoseon.com/products/get-glowing-ritual-skincare-set-global",
+      "reasons": [],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-get-glowing-ritual-skincare-set-us",
+      "brand": "Beauty of Joseon",
+      "productName": "Get Glowing Ritual Set",
+      "sourceUrl": "https://beautyofjoseon.com/products/get-glowing-ritual-skincare-set-us",
+      "reasons": [],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-lightweight-sun-duo-skincare-set",
+      "brand": "Beauty of Joseon",
+      "productName": "Lightweight Sun Duo",
+      "sourceUrl": "https://beautyofjoseon.com/products/lightweight-sun-duo-skincare-set",
+      "reasons": [],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-cosrx-5-pdrn-nad-multi-repair-cream",
+      "brand": "COSRX",
+      "productName": "COSRX 5 PDRN NAD+ Multi Repair Cream",
+      "sourceUrl": "https://cosrx.com/products/cosrx-5-pdrn-nad-multi-repair-cream",
+      "reasons": [],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-cosrx-the-blue-peptide-bakuchiol-hydra-plump-boosting-mist",
+      "brand": "COSRX",
+      "productName": "COSRX The Blue Peptide Bakuchiol Hydra Plump Boosting Mist",
+      "sourceUrl": "https://cosrx.com/products/cosrx-the-blue-peptide-bakuchiol-hydra-plump-boosting-mist",
+      "reasons": [],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-pdrn-premium-routine-kit",
+      "brand": "COSRX",
+      "productName": "PDRN Premium Routine Kit",
+      "sourceUrl": "https://cosrx.com/products/pdrn-premium-routine-kit",
+      "reasons": [],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-peptide-132-hair-home-care-duo",
+      "brand": "COSRX",
+      "productName": "Peptide-132 Hair Home Care Duo",
+      "sourceUrl": "https://cosrx.com/products/peptide-132-hair-home-care-duo",
+      "reasons": [],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-peptide-132-hair-home-care-kit",
+      "brand": "COSRX",
+      "productName": "Peptide-132 Hair Home Care Kit",
+      "sourceUrl": "https://cosrx.com/products/peptide-132-hair-home-care-kit",
+      "reasons": [],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-cosrx-5-pdrn-nad-multi-repair-cream",
+      "brand": "COSRX",
+      "productName": "COSRX 5 PDRN NAD+ Multi Repair Cream",
+      "sourceUrl": "https://cosrx.com/products/cosrx-5-pdrn-nad-multi-repair-cream",
+      "reasons": [],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-cosrx-the-blue-peptide-bakuchiol-hydra-plump-boosting-mist",
+      "brand": "COSRX",
+      "productName": "COSRX The Blue Peptide Bakuchiol Hydra Plump Boosting Mist",
+      "sourceUrl": "https://cosrx.com/products/cosrx-the-blue-peptide-bakuchiol-hydra-plump-boosting-mist",
+      "reasons": [],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-cosrx-5-pdrn-nad-multi-repair-cream",
+      "brand": "COSRX",
+      "productName": "COSRX 5 PDRN NAD+ Multi Repair Cream",
+      "sourceUrl": "https://cosrx.com/products/cosrx-5-pdrn-nad-multi-repair-cream",
+      "reasons": [],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-cosrx-the-blue-peptide-bakuchiol-hydra-plump-boosting-mist",
+      "brand": "COSRX",
+      "productName": "COSRX The Blue Peptide Bakuchiol Hydra Plump Boosting Mist",
+      "sourceUrl": "https://cosrx.com/products/cosrx-the-blue-peptide-bakuchiol-hydra-plump-boosting-mist",
+      "reasons": [],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    }
+  ]
+}

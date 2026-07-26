@@ -180,14 +180,20 @@ export async function discoverAndPersistOffers(
       }
     }
 
+    // Currency is a stronger real signal than TLD (many Korean brands sell
+    // on .com domains with real KRW pricing) — prefer it when known.
     const retailerCountry = toSchemaRetailerCountry(
-      host?.endsWith(".co.kr") || host?.endsWith(".kr")
+      summarized.price.currency === "KRW"
         ? "KR"
-        : host?.endsWith(".jp")
+        : summarized.price.currency === "JPY"
           ? "JP"
-          : host?.endsWith(".com")
-            ? "US"
-            : "GLOBAL"
+          : host?.endsWith(".co.kr") || host?.endsWith(".kr")
+            ? "KR"
+            : host?.endsWith(".jp")
+              ? "JP"
+              : host?.endsWith(".com")
+                ? "US"
+                : "GLOBAL"
     );
 
     const shipping = parseShippingCountries({

@@ -1,0 +1,95 @@
+{
+  "ref": "jfnj***gfd",
+  "products": [
+    {
+      "id": 5,
+      "slug": "cosrx-aha-bha-clarifying-treatment-toner",
+      "name_ko": "AHA BHA 클라리파잉 트리트먼트 토너",
+      "brand": "COSRX"
+    },
+    {
+      "id": 13,
+      "slug": "anua-heartleaf-77-soothing-toner",
+      "name_ko": "Anua 어성초 77 수딩 토너",
+      "brand": "Anua"
+    },
+    {
+      "id": 25,
+      "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+      "name_ko": "청매실 AHA BHA 토너",
+      "brand": "Beauty of Joseon"
+    },
+    {
+      "id": 26,
+      "slug": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "name_ko": "블랙라이스 히알루로닉 토너",
+      "brand": "haruharu wonder"
+    }
+  ],
+  "offers": [
+    {
+      "id": "38bddda2-abd0-410f-91d4-619232b9134e",
+      "product_id": 5,
+      "slug": "cosrx-aha-bha-clarifying-treatment-toner",
+      "retailer_name": "COSRX Official",
+      "retailer_country": "KR",
+      "stock_status": "in_stock",
+      "verification_status": "verified",
+      "is_official": true,
+      "price": 18000,
+      "currency": "KRW",
+      "active": true,
+      "last_checked_at": "2026-07-14T06:45:40.504968+00:00",
+      "verified_at": "2026-07-14T06:45:40.504968+00:00",
+      "purchase_url_host": "www.cosrx.com"
+    },
+    {
+      "id": "dcee1471-d3d2-4d8c-8626-8ba3fe8cd66a",
+      "product_id": 13,
+      "slug": "anua-heartleaf-77-soothing-toner",
+      "retailer_name": "Anua Official (US)",
+      "retailer_country": "US",
+      "stock_status": "in_stock",
+      "verification_status": "verified",
+      "is_official": true,
+      "price": 23,
+      "currency": "USD",
+      "active": true,
+      "last_checked_at": "2026-07-16T16:16:05.868632+00:00",
+      "verified_at": "2026-07-16T16:16:05.868632+00:00",
+      "purchase_url_host": "anua.us"
+    },
+    {
+      "id": "798af084-965d-4970-87c0-11a03e4c59b6",
+      "product_id": 13,
+      "slug": "anua-heartleaf-77-soothing-toner",
+      "retailer_name": "Anua Official KR",
+      "retailer_country": "KR",
+      "stock_status": "in_stock",
+      "verification_status": "verified",
+      "is_official": true,
+      "price": 20000,
+      "currency": "KRW",
+      "active": true,
+      "last_checked_at": "2026-07-17T00:12:49.472528+00:00",
+      "verified_at": "2026-07-17T00:12:49.472528+00:00",
+      "purchase_url_host": "anua.kr"
+    },
+    {
+      "id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+      "product_id": 25,
+      "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+      "retailer_name": "조선미녀 공식몰",
+      "retailer_country": "KR",
+      "stock_status": "out_of_stock",
+      "verification_status": "unverified",
+      "is_official": true,
+      "price": 18000,
+      "currency": "KRW",
+      "active": true,
+      "last_checked_at": "2026-07-22T10:03:29.472+00:00",
+      "verified_at": null,
+      "purchase_url_host": "beautyofjoseon.co.kr"
+    }
+  ]
+}

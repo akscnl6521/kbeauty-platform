@@ -3,9 +3,17 @@ import Link from "next/link";
 const LINKS: Array<{ href: string; label: string; key: string }> = [
   { href: "/admin", label: "대시보드", key: "dashboard" },
   { href: "/admin/review", label: "통합 검수", key: "review" },
+  { href: "/admin/clinics", label: "병원 검수", key: "clinics" },
+  { href: "/admin/commerce", label: "상업 분리", key: "commerce" },
   { href: "/admin/products", label: "제품 관리", key: "products" },
   { href: "/admin/products/import", label: "제품 일괄등록", key: "product-import" },
   { href: "/admin/catalog", label: "Catalog", key: "catalog" },
+  { href: "/admin/catalog/ops", label: "사용·운영", key: "catalog-ops" },
+  {
+    href: "/admin/catalog/scenario-coverage",
+    label: "시나리오 커버리지",
+    key: "scenario-coverage",
+  },
   { href: "/admin/offers", label: "Offers", key: "offers" },
   { href: "/admin/discovery", label: "Discovery", key: "discovery" },
   { href: "/admin/ingredients", label: "Ingredients", key: "ingredients" },

@@ -2,21 +2,29 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 async function main() {
-  const component = await readFile("src/app/routine/RoutineUsageGuide.tsx", "utf8");
   const page = await readFile("src/app/routine/page.tsx", "utf8");
+  const shared = await readFile(
+    "src/components/usage/ProductUsageGuide.tsx",
+    "utf8"
+  );
+  const reexport = await readFile(
+    "src/app/routine/RoutineUsageGuide.tsx",
+    "utf8"
+  );
 
-  assert.match(page, /RoutineUsageGuide/);
+  assert.match(page, /ProductUsageGuide/);
   assert.match(page, /productId=\{p\.id\}/);
-  assert.match(component, /skinProductUsageGuides/);
-  assert.match(component, /protocol === "https:"/);
-  assert.match(component, /검증된 사용 가이드가 아직 없습니다/);
-  assert.match(component, /amountLabel/);
-  assert.match(component, /applicationArea/);
-  assert.match(component, /methodSteps/);
-  assert.match(component, /verifiedAt/);
-  assert.match(component, /disclosureText/);
-  assert.doesNotMatch(component, /dangerouslySetInnerHTML/);
-  assert.doesNotMatch(component, /http:\/\//);
+  assert.match(shared, /skinProductUsageGuides/);
+  assert.match(shared, /protocol === "https:"/);
+  assert.match(shared, /검증된 사용 가이드가 아직 없습니다/);
+  assert.match(shared, /amountLabel/);
+  assert.match(shared, /applicationArea/);
+  assert.match(shared, /methodSteps/);
+  assert.match(shared, /verifiedAt/);
+  assert.match(shared, /disclosureText/);
+  assert.doesNotMatch(shared, /dangerouslySetInnerHTML/);
+  assert.doesNotMatch(shared, /http:\/\//);
+  assert.match(reexport, /ProductUsageGuide/);
 
   console.log("routine usage guide display self-test: ok");
 }

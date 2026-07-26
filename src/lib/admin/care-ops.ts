@@ -3,6 +3,55 @@ import "server-only";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { AdminConfigurationError } from "@/lib/auth/errors";
 
+export type CareReadinessStatus =
+  | "ready"
+  | "migration_missing"
+  | "permission_missing"
+  | "query_error";
+
+export type CareProbeError = {
+  code?: string | null;
+  message?: string | null;
+};
+
+export function classifyCareCheckInsProbeError(
+  error: CareProbeError | null | undefined
+): CareReadinessStatus {
+  if (!error) return "ready";
+
+  const code = (error.code ?? "").trim();
+  const message = (error.message ?? "").trim().toLowerCase();
+
+  if (code === "42501") {
+    return "permission_missing";
+  }
+
+  if (
+    code === "PGRST205" ||
+    code === "42P01" ||
+    message.includes("could not find the table") ||
+    message.includes("does not exist") ||
+    (message.includes("relation") && message.includes("does not exist"))
+  ) {
+    return "migration_missing";
+  }
+
+  return "query_error";
+}
+
+export function careReadinessNote(status: CareReadinessStatus): string {
+  switch (status) {
+    case "ready":
+      return "counts only — no PII";
+    case "migration_missing":
+      return "Care database migration is not applied.";
+    case "permission_missing":
+      return "Care tables exist, but the admin service role does not have read permission.";
+    case "query_error":
+      return "Care aggregates could not be loaded.";
+  }
+}
+
 const K_ANON_MIN = 3;
 
 function kAnonCount(count: number): number | null {
@@ -19,6 +68,7 @@ function kAnonNote(hidden: boolean): string | null {
  */
 export type AdminCareOpsSummary = {
   tablesReady: boolean;
+  readinessStatus: CareReadinessStatus;
   scheduledCheckIns: number | null;
   dueCheckIns: number | null;
   completedCheckIns: number | null;
@@ -41,6 +91,7 @@ export type AdminCareOpsSummary = {
 
 export type AdminCareCheckInsByDay = {
   tablesReady: boolean;
+  readinessStatus: CareReadinessStatus;
   byStatus: Record<string, number | null>;
   byDay: Array<{ day: number; count: number | null; note: string | null }>;
   note: string;
@@ -48,6 +99,7 @@ export type AdminCareCheckInsByDay = {
 
 export type AdminCareAlerts = {
   tablesReady: boolean;
+  readinessStatus: CareReadinessStatus;
   dueCheckIns: number | null;
   expiredCheckIns: number | null;
   referralPromptly: number | null;
@@ -59,6 +111,7 @@ export type AdminCareAlerts = {
 
 export type AdminCareEngagement = {
   tablesReady: boolean;
+  readinessStatus: CareReadinessStatus;
   completionRate: number | null;
   avgCheckInsPerSession: number | null;
   activeRoutines: number | null;
@@ -77,11 +130,11 @@ async function getAdminClient() {
   }
 }
 
-async function tablesReady(
+async function probeCareReadiness(
   client: ReturnType<typeof createSupabaseAdminClient>
-): Promise<boolean> {
+): Promise<CareReadinessStatus> {
   const { error } = await client.from("care_check_ins").select("id").limit(1);
-  return !error;
+  return classifyCareCheckInsProbeError(error);
 }
 
 async function countTable(
@@ -100,8 +153,10 @@ async function countTable(
 export async function getAdminCareOpsSummary(): Promise<AdminCareOpsSummary> {
   const client = await getAdminClient();
   const notes: string[] = [];
+  const readinessStatus = await probeCareReadiness(client);
   const base: AdminCareOpsSummary = {
     tablesReady: false,
+    readinessStatus,
     scheduledCheckIns: null,
     dueCheckIns: null,
     completedCheckIns: null,
@@ -118,11 +173,11 @@ export async function getAdminCareOpsSummary(): Promise<AdminCareOpsSummary> {
     notificationsUnread: null,
     sessionsLinked: null,
     progressSnapshots: null,
-    note: "care migration not applied — aggregates unavailable until approved",
+    note: careReadinessNote(readinessStatus),
     kAnonymityNotes: [],
   };
 
-  if (!(await tablesReady(client))) return base;
+  if (readinessStatus !== "ready") return base;
 
   const [
     scheduled,
@@ -185,6 +240,7 @@ export async function getAdminCareOpsSummary(): Promise<AdminCareOpsSummary> {
 
   return {
     tablesReady: true,
+    readinessStatus: "ready",
     scheduledCheckIns: kAnonCount(scheduled),
     dueCheckIns: kAnonCount(due),
     completedCheckIns: kAnonCount(completed),
@@ -208,14 +264,16 @@ export async function getAdminCareOpsSummary(): Promise<AdminCareOpsSummary> {
 
 export async function getAdminCareCheckInsByDay(): Promise<AdminCareCheckInsByDay> {
   const client = await getAdminClient();
+  const readinessStatus = await probeCareReadiness(client);
   const base: AdminCareCheckInsByDay = {
     tablesReady: false,
+    readinessStatus,
     byStatus: {},
     byDay: [],
-    note: "care tables unavailable",
+    note: careReadinessNote(readinessStatus),
   };
 
-  if (!(await tablesReady(client))) return base;
+  if (readinessStatus !== "ready") return base;
 
   const statuses = ["scheduled", "due", "completed", "skipped", "expired"];
   const byStatus: Record<string, number | null> = {};
@@ -238,6 +296,7 @@ export async function getAdminCareCheckInsByDay(): Promise<AdminCareCheckInsByDa
 
   return {
     tablesReady: true,
+    readinessStatus: "ready",
     byStatus,
     byDay,
     note: "status/day counts only — no user identifiers",
@@ -248,6 +307,7 @@ export async function getAdminCareAlerts(): Promise<AdminCareAlerts> {
   const summary = await getAdminCareOpsSummary();
   return {
     tablesReady: summary.tablesReady,
+    readinessStatus: summary.readinessStatus,
     dueCheckIns: summary.dueCheckIns,
     expiredCheckIns: summary.expiredCheckIns,
     referralPromptly: summary.referralPromptly,
@@ -261,18 +321,20 @@ export async function getAdminCareAlerts(): Promise<AdminCareAlerts> {
 export async function getAdminCareEngagement(): Promise<AdminCareEngagement> {
   const client = await getAdminClient();
   const notes: string[] = [];
+  const readinessStatus = await probeCareReadiness(client);
   const base: AdminCareEngagement = {
     tablesReady: false,
+    readinessStatus,
     completionRate: null,
     avgCheckInsPerSession: null,
     activeRoutines: null,
     feedbackCount: null,
     acceptedSuggestions: null,
-    note: "care tables unavailable",
+    note: careReadinessNote(readinessStatus),
     kAnonymityNotes: [],
   };
 
-  if (!(await tablesReady(client))) return base;
+  if (readinessStatus !== "ready") return base;
 
   const [completed, total, sessions, activeRoutines, feedback, accepted] =
     await Promise.all([
@@ -295,6 +357,7 @@ export async function getAdminCareEngagement(): Promise<AdminCareEngagement> {
 
   return {
     tablesReady: true,
+    readinessStatus: "ready",
     completionRate:
       completed >= K_ANON_MIN && total >= K_ANON_MIN ? completionRate : null,
     avgCheckInsPerSession:

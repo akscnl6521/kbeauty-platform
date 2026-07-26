@@ -1,0 +1,164 @@
+{
+  "generatedAt": "2026-07-21T21:18:00.035Z",
+  "stamp": "2026-07-21T21-17-55",
+  "linked": "jfnjufmldiqlgvgyugfd",
+  "productionTouched": false,
+  "mode": "dry_run",
+  "counts": {
+    "brandsCrawled": 2,
+    "productsAttempted": 10,
+    "success": 10,
+    "fail": 0,
+    "duplicate": 0,
+    "review": 10,
+    "stagingReady": 0
+  },
+  "rates": {
+    "ingredient": {
+      "count": 0,
+      "total": 10,
+      "ratePct": 0
+    },
+    "image": {
+      "count": 8,
+      "total": 10,
+      "ratePct": 80
+    },
+    "offer": {
+      "count": 8,
+      "total": 10,
+      "ratePct": 80
+    },
+    "stagingReady": {
+      "count": 0,
+      "total": 10,
+      "ratePct": 0
+    },
+    "duplicate": {
+      "count": 0,
+      "total": 10,
+      "ratePct": 0
+    },
+    "reviewOrBlocked": {
+      "count": 10,
+      "total": 10,
+      "ratePct": 100
+    }
+  },
+  "statusCounts": {
+    "staging_ready": 0,
+    "review_required": 0,
+    "source_unverified": 0,
+    "ingredient_incomplete": 10,
+    "image_missing": 0,
+    "offer_missing": 0,
+    "duplicate": 0,
+    "unavailable": 0,
+    "discontinued": 0,
+    "blocked_by_policy": 0
+  },
+  "candidates": [
+    {
+      "externalProductId": "wqf:cosrx:products-cosrx-5-pdrn-nad-multi-repair-cream",
+      "brand": "COSRX",
+      "productName": "COSRX 5 PDRN NAD+ Multi Repair Cream",
+      "url": "https://cosrx.com/products/cosrx-5-pdrn-nad-multi-repair-cream",
+      "qualityStatus": "ingredient_incomplete",
+      "workflowStatus": "needs_review"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-peptide-132-hair-home-care-kit",
+      "brand": "COSRX",
+      "productName": "Peptide-132 Hair Home Care Kit",
+      "url": "https://cosrx.com/products/peptide-132-hair-home-care-kit",
+      "qualityStatus": "ingredient_incomplete",
+      "workflowStatus": "needs_review"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-peptide-132-hair-home-care-duo",
+      "brand": "COSRX",
+      "productName": "Peptide-132 Hair Home Care Duo",
+      "url": "https://cosrx.com/products/peptide-132-hair-home-care-duo",
+      "qualityStatus": "ingredient_incomplete",
+      "workflowStatus": "needs_review"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-cosrx-the-blue-peptide-bakuchiol-hydra-plump-boosting-mist",
+      "brand": "COSRX",
+      "productName": "COSRX The Blue Peptide Bakuchiol Hydra Plump Boosting Mist",
+      "url": "https://cosrx.com/products/cosrx-the-blue-peptide-bakuchiol-hydra-plump-boosting-mist",
+      "qualityStatus": "ingredient_incomplete",
+      "workflowStatus": "needs_review"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-pdrn-premium-routine-kit",
+      "brand": "COSRX",
+      "productName": "PDRN Premium Routine Kit",
+      "url": "https://cosrx.com/products/pdrn-premium-routine-kit",
+      "qualityStatus": "ingredient_incomplete",
+      "workflowStatus": "needs_review"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-daily-spf-double-cleanse-skincare-set-global",
+      "brand": "Beauty of Joseon",
+      "productName": "Daily SPF + Double Cleanse Set",
+      "url": "https://beautyofjoseon.com/products/daily-spf-double-cleanse-skincare-set-global",
+      "qualityStatus": "ingredient_incomplete",
+      "workflowStatus": "needs_review"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-get-glowing-ritual-skincare-set-global",
+      "brand": "Beauty of Joseon",
+      "productName": "Get Glowing Ritual Set",
+      "url": "https://beautyofjoseon.com/products/get-glowing-ritual-skincare-set-global",
+      "qualityStatus": "ingredient_incomplete",
+      "workflowStatus": "needs_review"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-daily-spf-double-cleanse-skincare-set-us",
+      "brand": "Beauty of Joseon",
+      "productName": "Daily SPF + Double Cleanse Set",
+      "url": "https://beautyofjoseon.com/products/daily-spf-double-cleanse-skincare-set-us",
+      "qualityStatus": "ingredient_incomplete",
+      "workflowStatus": "needs_review"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-get-glowing-ritual-skincare-set-us",
+      "brand": "Beauty of Joseon",
+      "productName": "Get Glowing Ritual Set",
+      "url": "https://beautyofjoseon.com/products/get-glowing-ritual-skincare-set-us",
+      "qualityStatus": "ingredient_incomplete",
+      "workflowStatus": "needs_review"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-lightweight-sun-duo-skincare-set",
+      "brand": "Beauty of Joseon",
+      "productName": "Lightweight Sun Duo",
+      "url": "https://beautyofjoseon.com/products/lightweight-sun-duo-skincare-set",
+      "qualityStatus": "ingredient_incomplete",
+      "workflowStatus": "needs_review"
+    }
+  ],
+  "brands": [
+    {
+      "brandId": "cosrx",
+      "origin": "https://cosrx.com",
+      "robotsAllowed": true,
+      "blocked": false,
+      "connector": "generic_shopify",
+      "productUrlCount": 5,
+      "reasons": [],
+      "pagesFetched": 4
+    },
+    {
+      "brandId": "beauty-of-joseon",
+      "origin": "https://beautyofjoseon.com",
+      "robotsAllowed": true,
+      "blocked": false,
+      "connector": "generic_shopify",
+      "productUrlCount": 5,
+      "reasons": [],
+      "pagesFetched": 4
+    }
+  ]
+}

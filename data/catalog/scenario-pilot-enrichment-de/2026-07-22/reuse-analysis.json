@@ -1,0 +1,10 @@
+{
+  "totalSlots": 50,
+  "uniqueProducts": 42,
+  "reuseCount": 8,
+  "reuseRate": 0.16,
+  "targetMin": 0.15,
+  "targetMax": 0.35,
+  "metTarget": true,
+  "failureReason": null
+}

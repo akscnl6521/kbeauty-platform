@@ -1,0 +1,486 @@
+{
+  "ok": true,
+  "phase": "2.6",
+  "checked_at": "2026-07-22T11:10:50.753Z",
+  "projectRef": "jfnj***gfd",
+  "write": 0,
+  "migration_apply": false,
+  "production": false,
+  "commerce_separation": true,
+  "mode": "on",
+  "cache_version": "KR_SCENARIO_PILOT_PHASE25_COMMERCE_SEP_V1",
+  "samples": [
+    {
+      "id": "A",
+      "label": "민감·홍조·크림",
+      "scenarioId": "kr-redness-sensitive-cream",
+      "poolReady": 6,
+      "poolSlugs": [
+        "cosrx-advanced-snail-92-all-in-one-cream",
+        "aestura-atobarrier365-cream",
+        "round-lab-dokdo-cream",
+        "cosrx-advanced-snail-96-mucin-power-essence",
+        "torriden-dive-in-serum",
+        "beauty-of-joseon-glow-serum-propolis-niacinamide"
+      ],
+      "match": {
+        "scenarioId": "kr-redness-sensitive-cream",
+        "confidence": "high"
+      },
+      "status": "ok",
+      "verifiedCount": 5,
+      "shortageReason": null,
+      "rankedCount": 5,
+      "ranked": [
+        {
+          "rank": 1,
+          "slug": "cosrx-advanced-snail-96-mucin-power-essence",
+          "brand": "COSRX",
+          "score": 4.178,
+          "matchedIngredients": [
+            "Snail Secretion Filtrate",
+            "Panthenol",
+            "Sodium Hyaluronate"
+          ],
+          "commerce_status": "in_stock",
+          "seller": "COSRX 공식몰",
+          "official_seller": true,
+          "price": 23000,
+          "currency": "KRW",
+          "checked_at": "2026-07-14T06:45:40.504968+00:00",
+          "offer_count": 1,
+          "purchase_links_count": 1,
+          "cta_active": true,
+          "stock_statuses": [
+            "in_stock"
+          ],
+          "retailer_countries": [
+            "KR"
+          ]
+        },
+        {
+          "rank": 2,
+          "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+          "brand": "COSRX",
+          "score": 4.178,
+          "matchedIngredients": [
+            "Snail Secretion Filtrate",
+            "Panthenol",
+            "Sodium Hyaluronate"
+          ],
+          "commerce_status": "in_stock",
+          "seller": "COSRX 공식몰",
+          "official_seller": true,
+          "price": 23000,
+          "currency": "KRW",
+          "checked_at": "2026-07-14T06:45:40.504968+00:00",
+          "offer_count": 1,
+          "purchase_links_count": 1,
+          "cta_active": true,
+          "stock_statuses": [
+            "in_stock"
+          ],
+          "retailer_countries": [
+            "KR"
+          ]
+        },
+        {
+          "rank": 3,
+          "slug": "torriden-dive-in-serum",
+          "brand": "Torriden",
+          "score": 3.514,
+          "matchedIngredients": [
+            "Panthenol",
+            "Sodium Hyaluronate",
+            "Madecassoside"
+          ],
+          "commerce_status": "availability_unknown",
+          "seller": null,
+          "official_seller": null,
+          "price": null,
+          "currency": null,
+          "checked_at": null,
+          "offer_count": 0,
+          "purchase_links_count": 0,
+          "cta_active": false,
+          "stock_statuses": [],
+          "retailer_countries": []
+        },
+        {
+          "rank": 4,
+          "slug": "round-lab-dokdo-cream",
+          "brand": "ROUND LAB",
+          "score": 2.342,
+          "matchedIngredients": [
+            "Panthenol",
+            "Hyaluronic Acid"
+          ],
+          "commerce_status": "availability_unknown",
+          "seller": null,
+          "official_seller": null,
+          "price": null,
+          "currency": null,
+          "checked_at": null,
+          "offer_count": 0,
+          "purchase_links_count": 0,
+          "cta_active": false,
+          "stock_statuses": [],
+          "retailer_countries": []
+        },
+        {
+          "rank": 5,
+          "slug": "aestura-atobarrier365-cream",
+          "brand": "AESTURA",
+          "score": 1.171,
+          "matchedIngredients": [
+            "NIACINAMIDE"
+          ],
+          "commerce_status": "in_stock",
+          "seller": "아모레몰",
+          "official_seller": true,
+          "price": 52800,
+          "currency": "KRW",
+          "checked_at": "2026-07-22T09:59:38.119+00:00",
+          "offer_count": 1,
+          "purchase_links_count": 1,
+          "cta_active": true,
+          "stock_statuses": [
+            "in_stock"
+          ],
+          "retailer_countries": [
+            "KR"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "label": "건성·장벽·세럼",
+      "scenarioId": "pilot-dryness-barrier-serum",
+      "poolReady": 7,
+      "poolSlugs": [
+        "cosrx-advanced-snail-92-all-in-one-cream",
+        "aestura-atobarrier365-cream",
+        "round-lab-dokdo-cream",
+        "cosrx-advanced-snail-96-mucin-power-essence",
+        "torriden-dive-in-serum",
+        "beauty-of-joseon-glow-serum-propolis-niacinamide",
+        "skin1004-madagascar-centella-ampoule"
+      ],
+      "match": {
+        "scenarioId": "pilot-dryness-barrier-serum",
+        "confidence": "high"
+      },
+      "status": "ok",
+      "verifiedCount": 5,
+      "shortageReason": null,
+      "rankedCount": 5,
+      "ranked": [
+        {
+          "rank": 1,
+          "slug": "torriden-dive-in-serum",
+          "brand": "Torriden",
+          "score": 4.527,
+          "matchedIngredients": [
+            "Sodium Hyaluronate",
+            "Panthenol",
+            "Ceramide NP",
+            "Madecassoside"
+          ],
+          "commerce_status": "availability_unknown",
+          "seller": null,
+          "official_seller": null,
+          "price": null,
+          "currency": null,
+          "checked_at": null,
+          "offer_count": 0,
+          "purchase_links_count": 0,
+          "cta_active": false,
+          "stock_statuses": [],
+          "retailer_countries": []
+        },
+        {
+          "rank": 2,
+          "slug": "cosrx-advanced-snail-96-mucin-power-essence",
+          "brand": "COSRX",
+          "score": 4.0569999999999995,
+          "matchedIngredients": [
+            "Snail Secretion Filtrate",
+            "Sodium Hyaluronate",
+            "Panthenol"
+          ],
+          "commerce_status": "in_stock",
+          "seller": "COSRX 공식몰",
+          "official_seller": true,
+          "price": 23000,
+          "currency": "KRW",
+          "checked_at": "2026-07-14T06:45:40.504968+00:00",
+          "offer_count": 1,
+          "purchase_links_count": 1,
+          "cta_active": true,
+          "stock_statuses": [
+            "in_stock"
+          ],
+          "retailer_countries": [
+            "KR"
+          ]
+        },
+        {
+          "rank": 3,
+          "slug": "cosrx-advanced-snail-92-all-in-one-cream",
+          "brand": "COSRX",
+          "score": 4.0569999999999995,
+          "matchedIngredients": [
+            "Snail Secretion Filtrate",
+            "Sodium Hyaluronate",
+            "Panthenol"
+          ],
+          "commerce_status": "in_stock",
+          "seller": "COSRX 공식몰",
+          "official_seller": true,
+          "price": 23000,
+          "currency": "KRW",
+          "checked_at": "2026-07-14T06:45:40.504968+00:00",
+          "offer_count": 1,
+          "purchase_links_count": 1,
+          "cta_active": true,
+          "stock_statuses": [
+            "in_stock"
+          ],
+          "retailer_countries": [
+            "KR"
+          ]
+        },
+        {
+          "rank": 4,
+          "slug": "round-lab-dokdo-cream",
+          "brand": "ROUND LAB",
+          "score": 3.395,
+          "matchedIngredients": [
+            "Hyaluronic Acid",
+            "Panthenol",
+            "Ceramide AP"
+          ],
+          "commerce_status": "availability_unknown",
+          "seller": null,
+          "official_seller": null,
+          "price": null,
+          "currency": null,
+          "checked_at": null,
+          "offer_count": 0,
+          "purchase_links_count": 0,
+          "cta_active": false,
+          "stock_statuses": [],
+          "retailer_countries": []
+        },
+        {
+          "rank": 5,
+          "slug": "aestura-atobarrier365-cream",
+          "brand": "AESTURA",
+          "score": 2.263,
+          "matchedIngredients": [
+            "CERAMIDE NP",
+            "NIACINAMIDE"
+          ],
+          "commerce_status": "in_stock",
+          "seller": "아모레몰",
+          "official_seller": true,
+          "price": 52800,
+          "currency": "KRW",
+          "checked_at": "2026-07-22T09:59:38.119+00:00",
+          "offer_count": 1,
+          "purchase_links_count": 1,
+          "cta_active": true,
+          "stock_statuses": [
+            "in_stock"
+          ],
+          "retailer_countries": [
+            "KR"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "label": "여드름·피지·토너",
+      "scenarioId": "kr-acne-pores-toner",
+      "poolReady": 5,
+      "poolSlugs": [
+        "cosrx-aha-bha-clarifying-treatment-toner",
+        "anua-heartleaf-77-soothing-toner",
+        "beauty-of-joseon-green-plum-refreshing-toner",
+        "round-lab-dokdo-toner",
+        "haruharu-wonder-black-rice-hyaluronic-toner"
+      ],
+      "match": {
+        "scenarioId": "kr-acne-pores-toner",
+        "confidence": "low"
+      },
+      "status": "ok",
+      "verifiedCount": 4,
+      "shortageReason": null,
+      "rankedCount": 4,
+      "ranked": [
+        {
+          "rank": 1,
+          "slug": "cosrx-aha-bha-clarifying-treatment-toner",
+          "brand": "COSRX",
+          "score": 3.1590000000000003,
+          "matchedIngredients": [
+            "Salicylic Acid",
+            "Glycolic Acid"
+          ],
+          "commerce_status": "in_stock",
+          "seller": "COSRX Official",
+          "official_seller": true,
+          "price": 18000,
+          "currency": "KRW",
+          "checked_at": "2026-07-14T06:45:40.504968+00:00",
+          "offer_count": 1,
+          "purchase_links_count": 1,
+          "cta_active": true,
+          "stock_statuses": [
+            "in_stock"
+          ],
+          "retailer_countries": [
+            "KR"
+          ]
+        },
+        {
+          "rank": 2,
+          "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+          "brand": "Beauty of Joseon",
+          "score": 2.663,
+          "matchedIngredients": [
+            "Salicylic Acid",
+            "Glycolic Acid"
+          ],
+          "commerce_status": "availability_unknown",
+          "seller": null,
+          "official_seller": null,
+          "price": null,
+          "currency": null,
+          "checked_at": null,
+          "offer_count": 0,
+          "purchase_links_count": 0,
+          "cta_active": false,
+          "stock_statuses": [],
+          "retailer_countries": []
+        },
+        {
+          "rank": 3,
+          "slug": "anua-heartleaf-77-soothing-toner",
+          "brand": "Anua",
+          "score": 1.6350000000000002,
+          "matchedIngredients": [
+            "Leaf"
+          ],
+          "commerce_status": "in_stock",
+          "seller": "Anua Official KR",
+          "official_seller": true,
+          "price": 20000,
+          "currency": "KRW",
+          "checked_at": "2026-07-17T00:12:49.472528+00:00",
+          "offer_count": 2,
+          "purchase_links_count": 1,
+          "cta_active": true,
+          "stock_statuses": [
+            "in_stock",
+            "in_stock"
+          ],
+          "retailer_countries": [
+            "KR",
+            "US"
+          ]
+        },
+        {
+          "rank": 4,
+          "slug": "haruharu-wonder-black-rice-hyaluronic-toner",
+          "brand": "haruharu wonder",
+          "score": 1.162,
+          "matchedIngredients": [
+            "Hyaluronic Acid"
+          ],
+          "commerce_status": "availability_unknown",
+          "seller": null,
+          "official_seller": null,
+          "price": null,
+          "currency": null,
+          "checked_at": null,
+          "offer_count": 0,
+          "purchase_links_count": 0,
+          "cta_active": false,
+          "stock_statuses": [],
+          "retailer_countries": []
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "label": "민감·자외선·선크림",
+      "scenarioId": "kr-uv-sunscreen-sensitive",
+      "poolReady": 1,
+      "poolSlugs": [
+        "cosrx-aloe-soothing-sun-cream"
+      ],
+      "match": {
+        "scenarioId": "kr-uv-sunscreen-sensitive",
+        "confidence": "high"
+      },
+      "status": "insufficient_verified_candidates",
+      "verifiedCount": 1,
+      "shortageReason": "kr-uv-sunscreen-sensitive: recommendation_ready=1 (<3); pilot phase 2 does not wire D/E runtime.",
+      "rankedCount": 0,
+      "ranked": []
+    },
+    {
+      "id": "E",
+      "label": "탄력·건조·아이크림",
+      "scenarioId": "kr-aging-eye-cream",
+      "poolReady": 2,
+      "poolSlugs": [
+        "cosrx-advanced-snail-peptide-eye-cream",
+        "beauty-of-joseon-revive-eye-serum"
+      ],
+      "match": {
+        "scenarioId": "kr-aging-eye-cream",
+        "confidence": "low"
+      },
+      "status": "insufficient_verified_candidates",
+      "verifiedCount": 2,
+      "shortageReason": "kr-aging-eye-cream: recommendation_ready=2 (<3); pilot phase 2 does not wire D/E runtime.",
+      "rankedCount": 0,
+      "ranked": []
+    }
+  ],
+  "assertions": {
+    "affiliateForbidden": true,
+    "cacheVersion": "KR_SCENARIO_PILOT_PHASE25_COMMERCE_SEP_V1",
+    "separationEnabled": true,
+    "mode": "on",
+    "A_ok": true,
+    "B_ok": true,
+    "D_insufficient": true,
+    "E_insufficient": true,
+    "C_ok": true,
+    "C_hasCosrx": true,
+    "C_hasAnua": true,
+    "C_hasBojOrHaruharu": true,
+    "C_boj": {
+      "present": true,
+      "commerce_status": "availability_unknown",
+      "cta_active": false,
+      "expect_oos_and_cta_off": false
+    },
+    "C_haruharu": {
+      "present": true,
+      "commerce_status": "availability_unknown",
+      "cta_active": false,
+      "expect_unknown_and_cta_off": true,
+      "no_us_sku_mix": true
+    },
+    "no_us_in_kr_top": false,
+    "in_stock_cta_ok": true,
+    "oos_cta_off": true
+  }
+}

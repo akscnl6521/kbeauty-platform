@@ -2,7 +2,10 @@ import { applyEvidenceToRecommendation } from "@/lib/evidence";
 import { resolveApprovedEvidenceForConcerns } from "@/lib/evidence/loadApprovedEvidence";
 import { autoSaveCompletedAnalysisToCare } from "@/lib/care/auto-save";
 import { clampTopNWithoutPadding } from "@/lib/recommend/clampTopN";
-import { fetchCandidateProducts } from "./fetchCandidateProducts";
+import {
+  fetchCandidateProducts,
+  fetchCandidateProductsBySlugs,
+} from "./fetchCandidateProducts";
 import { filterCandidatesBySafety } from "./filterCandidatesBySafety";
 import { filterRankedByMatchEvidence } from "./filterRankedByMatchEvidence";
 import {
@@ -12,6 +15,10 @@ import {
 import { filterCandidatesByOfferAvailability } from "./productOffer";
 import { writeRecommendationCacheVersion } from "./recommendationCache";
 import { rankProducts } from "./rankProducts";
+import {
+  isScenarioPilotPhase2Enabled,
+  runScenarioPilotPhase2,
+} from "./scenarios/pilotPhase2";
 import type { CandidateProduct, RankedProduct, Recommendation } from "./types";
 import {
   CORE_RECOMMEND_OFFER_COUNTRY,
@@ -103,6 +110,45 @@ export async function persistTopRankedProducts(
     return [];
   }
 
+  if (isScenarioPilotPhase2Enabled()) {
+    try {
+      const pilot = await runScenarioPilotPhase2({
+        recommendation: withEvidence,
+        fetchCandidatesBySlugs: (slugs) =>
+          fetchCandidateProductsBySlugs(slugs, { includeOffers: true }),
+        shippingCountry: options.shippingCountry,
+      });
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("[scenarioPilotPhase2]", {
+          status: pilot.status,
+          scenarioId: pilot.snapshot.scenarioId,
+          matchConfidence: pilot.snapshot.matchConfidence,
+          readySlotCount: pilot.snapshot.readySlotCount,
+          topNSaved: pilot.ranked.length,
+          usedScenarioPoolOnly: pilot.usedScenarioPoolOnly,
+        });
+      }
+
+      writeRecommendationAndRanked(
+        pilot.recommendation,
+        JSON.stringify(pilot.ranked)
+      );
+      finishCareTracking(
+        pilot.recommendation,
+        pilot.ranked,
+        options.shippingCountry
+      );
+      return pilot.ranked;
+    } catch (e) {
+      const err = e instanceof Error ? e : new Error(String(e));
+      console.error("[persistTopRankedProducts/pilotPhase2]", err.message);
+      writeRecommendationAndRanked(withEvidence, "[]");
+      finishCareTracking(withEvidence, [], options.shippingCountry);
+      return [];
+    }
+  }
+
   try {
     const rawCandidates = await fetchCandidateProducts({ includeOffers: true });
     const candidates = filterPublicCatalogProducts(rawCandidates);
@@ -118,15 +164,18 @@ export async function persistTopRankedProducts(
       pool = filterOutStimulatingActives(pool);
     }
 
-    const { safe, excludedCount, incompleteCount } = filterCandidatesBySafety(
-      pool,
-      withEvidence
-    );
+    const { safe, excludedCount, incompleteCount, excludedProducts } =
+      filterCandidatesBySafety(pool, withEvidence);
 
     const withStats: Recommendation = {
       ...withEvidence,
       safetyExcludedCount: excludedCount,
       safetyIncompleteCount: incompleteCount,
+      safetyExcludedItems: excludedProducts.slice(0, 20).map(({ product, reason }) => ({
+        productId: product.id,
+        productName: product.name || product.brand || product.id,
+        reason,
+      })),
     };
 
     const ranked = rankProducts(withStats, safe);

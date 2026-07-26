@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "phase": "post_apply_verify",
+  "projectRef": "jfnj***gfd",
+  "production_write": 0,
+  "boj_admin": {
+    "id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+    "verification_status": "verified",
+    "stock_status": "out_of_stock",
+    "price": 18000,
+    "active": true,
+    "is_official": true,
+    "retailer_country": "KR",
+    "retailer_name": "조선미녀 공식몰",
+    "purchase_url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/"
+  },
+  "anon_visible": 21,
+  "expect_anon": 21,
+  "added_beyond_in_stock": [
+    {
+      "id": "13fe02a6-5519-41b7-afba-8505cad70c01",
+      "product_id": 25,
+      "stock_status": "out_of_stock",
+      "verification_status": "verified",
+      "is_official": true,
+      "retailer_country": "KR",
+      "price": 18000
+    }
+  ],
+  "boj_anon_visible": true,
+  "round_lab_anon_visible": false,
+  "scenario_c": {
+    "status": "ok",
+    "ranked": [
+      {
+        "rank": 1,
+        "slug": "cosrx-aha-bha-clarifying-treatment-toner",
+        "commerce_status": "in_stock",
+        "cta_active": true,
+        "offer_count": 1
+      },
+      {
+        "rank": 2,
+        "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+        "commerce_status": "out_of_stock",
+        "cta_active": false,
+        "offer_count": 1
+      },
+      {
+        "rank": 3,
+        "slug": "anua-heartleaf-77-soothing-toner",
+        "commerce_status": "in_stock",
+        "cta_active": true,
+        "offer_count": 2
+      },
+      {
+        "rank": 4,
+        "slug": "haruharu-wonder-black-rice-hyaluronic-toner",
+        "commerce_status": "availability_unknown",
+        "cta_active": false,
+        "offer_count": 0
+      }
+    ]
+  },
+  "assertions": {
+    "boj_verified_oos": true,
+    "anon_21": true,
+    "added_only_boj": true,
+    "boj_in_top_oos_cta_off": true,
+    "haruharu_unknown": true
+  }
+}

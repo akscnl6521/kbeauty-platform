@@ -1,0 +1,1588 @@
+{
+  "generatedAt": "2026-07-21T22:11:16.436Z",
+  "stamp": "2026-07-21T22-05-41",
+  "mode": "artifact_only",
+  "publishAllowed": false,
+  "databaseTouched": false,
+  "productionTouched": false,
+  "items": [
+    {
+      "externalProductId": "wqf:anua:product",
+      "brand": "Anua",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://anuabeauty.com/",
+      "reasons": [
+        "no_product_urls",
+        "NO_PRODUCT_URLS"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-apricot-blossom-peeling-gel",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/apricot-blossom-peeling-gel",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-dynasty-cream",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/dynasty-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-ginseng-essence-water",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/ginseng-essence-water",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-glow-serum-propolis-niacinamide",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-revive-serum-ginseng-snail-mucin",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/revive-serum-ginseng-snail-mucin",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-centella-blemish-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/centella-blemish-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-hydrium-moisture-power-enriched-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/hydrium-moisture-power-enriched-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-low-ph-good-morning-gel-cleanser",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/low-ph-good-morning-gel-cleanser",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-pure-fit-cica-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/pure-fit-cica-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-refresh-abc-daily-toner-aha-bha-vitamin-c",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/refresh-abc-daily-toner-aha-bha-vitamin-c",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-two-in-one-poreless-power-liquid",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/two-in-one-poreless-power-liquid",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:isntree:product-search-html",
+      "brand": "Isntree",
+      "productName": "기능성 그린뷰티의 시작, 이즈앤트리 공식몰",
+      "sourceUrl": "https://isntree.com/product/search.html?keyword=%EC%96%B4%EB%8B%88%EC%96%B8",
+      "reasons": [
+        "weak_product_title"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-eb-a1-9c-ec-85-98-200ml-21",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%EB%A1%9C%EC%85%98-200ml/21/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-ac-eb-a6-bc-80ml-24",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%AC%EB%A6%BC-80ml/24/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-b4-eb-a0-8c-ec-a0-80-150ml-2-ea-b0-9c-ec-84",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%B4%EB%A0%8C%EC%A0%80-150ml-2%EA%B0%9C-%EC%84%B8%ED%8A%B8/68/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-b4-eb-a0-8c-ec-a0-80-150ml-36",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%B4%EB%A0%8C%EC%A0%80-150ml/36/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-22",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml/22/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-eb-8f-85-eb-8f-84-eb-a1-9",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml-%EB%8F%85%EB%8F%84-%EB%A1%9C%EC%85%98-200ml-2%EC%A2%85-%EC%84%B8%ED%8A%B8/35/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-eb-8f-85-eb-8f-84-ed-86-a",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-500ml-2%EC%A2%85-%EC%84%B8%ED%8A%B8/61/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-eb-8c-80-ec-9a-a9-eb-9f-89-500m",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-%EB%8C%80%EC%9A%A9%EB%9F%89-500ml/14/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "source_mismatch",
+      "score": 95,
+      "priority": "critical",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:anua:product",
+      "brand": "Anua",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://anuabeauty.com/",
+      "reasons": [
+        "no_product_urls",
+        "NO_PRODUCT_URLS"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-apricot-blossom-peeling-gel",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/apricot-blossom-peeling-gel",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-centella-asiatica-calming-mask-10-sheets",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/centella-asiatica-calming-mask-10-sheets",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-dynasty-cream",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/dynasty-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-ginseng-essence-water",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/ginseng-essence-water",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-glow-serum-propolis-niacinamide",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-lucky-pouch",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/lucky-pouch",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-radiance-cleansing-balm",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/radiance-cleansing-balm",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-revive-serum-ginseng-snail-mucin",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/revive-serum-ginseng-snail-mucin",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-centella-blemish-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/centella-blemish-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-hydrium-green-tea-aqua-soothing-gel-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/hydrium-green-tea-aqua-soothing-gel-cream",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-hydrium-moisture-power-enriched-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/hydrium-moisture-power-enriched-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-low-ph-good-morning-gel-cleanser",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/low-ph-good-morning-gel-cleanser",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-pure-fit-cica-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/pure-fit-cica-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-refresh-abc-daily-toner-aha-bha-vitamin-c",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/refresh-abc-daily-toner-aha-bha-vitamin-c",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-two-in-one-poreless-power-liquid",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/two-in-one-poreless-power-liquid",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:isntree:product-search-html",
+      "brand": "Isntree",
+      "productName": "기능성 그린뷰티의 시작, 이즈앤트리 공식몰",
+      "sourceUrl": "https://isntree.com/product/search.html?keyword=%EC%96%B4%EB%8B%88%EC%96%B8",
+      "reasons": [
+        "weak_product_title"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-eb-a1-9c-ec-85-98-200ml-21",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%EB%A1%9C%EC%85%98-200ml/21/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-ac-eb-a6-bc-80ml-24",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%AC%EB%A6%BC-80ml/24/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-b4-eb-a0-8c-ec-a0-80-150ml-2-ea-b0-9c-ec-84",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%B4%EB%A0%8C%EC%A0%80-150ml-2%EA%B0%9C-%EC%84%B8%ED%8A%B8/68/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-b4-eb-a0-8c-ec-a0-80-150ml-36",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%B4%EB%A0%8C%EC%A0%80-150ml/36/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-22",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml/22/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-eb-8f-85-eb-8f-84-eb-a1-9",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml-%EB%8F%85%EB%8F%84-%EB%A1%9C%EC%85%98-200ml-2%EC%A2%85-%EC%84%B8%ED%8A%B8/35/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-eb-8f-85-eb-8f-84-ed-86-a",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-500ml-2%EC%A2%85-%EC%84%B8%ED%8A%B8/61/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-eb-8c-80-ec-9a-a9-eb-9f-89-500m",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-%EB%8C%80%EC%9A%A9%EB%9F%89-500ml/14/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "fetch_failed",
+      "score": 75,
+      "priority": "high",
+      "reviewGroup": "source"
+    },
+    {
+      "externalProductId": "wqf:anua:product",
+      "brand": "Anua",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://anuabeauty.com/",
+      "reasons": [
+        "no_product_urls",
+        "NO_PRODUCT_URLS"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-apricot-blossom-peeling-gel",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/apricot-blossom-peeling-gel",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-centella-asiatica-calming-mask-10-sheets",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/centella-asiatica-calming-mask-10-sheets",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-dynasty-cream",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/dynasty-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-ginseng-essence-water",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/ginseng-essence-water",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-glow-serum-propolis-niacinamide",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-lucky-pouch",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/lucky-pouch",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-radiance-cleansing-balm",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/radiance-cleansing-balm",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-revive-serum-ginseng-snail-mucin",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/revive-serum-ginseng-snail-mucin",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-centella-blemish-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/centella-blemish-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-hydrium-green-tea-aqua-soothing-gel-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/hydrium-green-tea-aqua-soothing-gel-cream",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-hydrium-moisture-power-enriched-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/hydrium-moisture-power-enriched-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-low-ph-good-morning-gel-cleanser",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/low-ph-good-morning-gel-cleanser",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-pure-fit-cica-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/pure-fit-cica-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-refresh-abc-daily-toner-aha-bha-vitamin-c",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/refresh-abc-daily-toner-aha-bha-vitamin-c",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-two-in-one-poreless-power-liquid",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/two-in-one-poreless-power-liquid",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:isntree:product-search-html",
+      "brand": "Isntree",
+      "productName": "기능성 그린뷰티의 시작, 이즈앤트리 공식몰",
+      "sourceUrl": "https://isntree.com/product/search.html?keyword=%EC%96%B4%EB%8B%88%EC%96%B8",
+      "reasons": [
+        "weak_product_title"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-eb-a1-9c-ec-85-98-200ml-21",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%EB%A1%9C%EC%85%98-200ml/21/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-ac-eb-a6-bc-80ml-24",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%AC%EB%A6%BC-80ml/24/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-b4-eb-a0-8c-ec-a0-80-150ml-2-ea-b0-9c-ec-84",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%B4%EB%A0%8C%EC%A0%80-150ml-2%EA%B0%9C-%EC%84%B8%ED%8A%B8/68/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-b4-eb-a0-8c-ec-a0-80-150ml-36",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%B4%EB%A0%8C%EC%A0%80-150ml/36/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-22",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml/22/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-eb-8f-85-eb-8f-84-eb-a1-9",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml-%EB%8F%85%EB%8F%84-%EB%A1%9C%EC%85%98-200ml-2%EC%A2%85-%EC%84%B8%ED%8A%B8/35/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-eb-8f-85-eb-8f-84-ed-86-a",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-500ml-2%EC%A2%85-%EC%84%B8%ED%8A%B8/61/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-eb-8c-80-ec-9a-a9-eb-9f-89-500m",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-%EB%8C%80%EC%9A%A9%EB%9F%89-500ml/14/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_inci",
+      "score": 60,
+      "priority": "medium",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:anua:product",
+      "brand": "Anua",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://anuabeauty.com/",
+      "reasons": [
+        "no_product_urls",
+        "NO_PRODUCT_URLS"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-apricot-blossom-peeling-gel",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/apricot-blossom-peeling-gel",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-centella-asiatica-calming-mask-10-sheets",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/centella-asiatica-calming-mask-10-sheets",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-dynasty-cream",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/dynasty-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-ginseng-essence-water",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/ginseng-essence-water",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-glow-serum-propolis-niacinamide",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-lucky-pouch",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/lucky-pouch",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-radiance-cleansing-balm",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/radiance-cleansing-balm",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-revive-serum-ginseng-snail-mucin",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/revive-serum-ginseng-snail-mucin",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-centella-blemish-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/centella-blemish-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-hydrium-green-tea-aqua-soothing-gel-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/hydrium-green-tea-aqua-soothing-gel-cream",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-hydrium-moisture-power-enriched-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/hydrium-moisture-power-enriched-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-low-ph-good-morning-gel-cleanser",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/low-ph-good-morning-gel-cleanser",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-pure-fit-cica-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/pure-fit-cica-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-refresh-abc-daily-toner-aha-bha-vitamin-c",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/refresh-abc-daily-toner-aha-bha-vitamin-c",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-two-in-one-poreless-power-liquid",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/two-in-one-poreless-power-liquid",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:isntree:product-search-html",
+      "brand": "Isntree",
+      "productName": "기능성 그린뷰티의 시작, 이즈앤트리 공식몰",
+      "sourceUrl": "https://isntree.com/product/search.html?keyword=%EC%96%B4%EB%8B%88%EC%96%B8",
+      "reasons": [
+        "weak_product_title"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-eb-a1-9c-ec-85-98-200ml-21",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%EB%A1%9C%EC%85%98-200ml/21/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-ac-eb-a6-bc-80ml-24",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%AC%EB%A6%BC-80ml/24/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-b4-eb-a0-8c-ec-a0-80-150ml-2-ea-b0-9c-ec-84",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%B4%EB%A0%8C%EC%A0%80-150ml-2%EA%B0%9C-%EC%84%B8%ED%8A%B8/68/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-b4-eb-a0-8c-ec-a0-80-150ml-36",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%B4%EB%A0%8C%EC%A0%80-150ml/36/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-22",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml/22/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-eb-8f-85-eb-8f-84-eb-a1-9",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml-%EB%8F%85%EB%8F%84-%EB%A1%9C%EC%85%98-200ml-2%EC%A2%85-%EC%84%B8%ED%8A%B8/35/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-eb-8f-85-eb-8f-84-ed-86-a",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-500ml-2%EC%A2%85-%EC%84%B8%ED%8A%B8/61/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-eb-8c-80-ec-9a-a9-eb-9f-89-500m",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-%EB%8C%80%EC%9A%A9%EB%9F%89-500ml/14/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_image",
+      "score": 45,
+      "priority": "low",
+      "reviewGroup": "content"
+    },
+    {
+      "externalProductId": "wqf:anua:product",
+      "brand": "Anua",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://anuabeauty.com/",
+      "reasons": [
+        "no_product_urls",
+        "NO_PRODUCT_URLS"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-apricot-blossom-peeling-gel",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/apricot-blossom-peeling-gel",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-centella-asiatica-calming-mask-10-sheets",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/centella-asiatica-calming-mask-10-sheets",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-dynasty-cream",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/dynasty-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-ginseng-essence-water",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/ginseng-essence-water",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-glow-serum-propolis-niacinamide",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-lucky-pouch",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/lucky-pouch",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-radiance-cleansing-balm",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/radiance-cleansing-balm",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:beauty-of-joseon:products-revive-serum-ginseng-snail-mucin",
+      "brand": "Beauty of Joseon",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://beautyofjoseon.com/products/revive-serum-ginseng-snail-mucin",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-centella-blemish-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/centella-blemish-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-hydrium-green-tea-aqua-soothing-gel-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/hydrium-green-tea-aqua-soothing-gel-cream",
+      "reasons": [
+        "HTTP_ERROR"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-hydrium-moisture-power-enriched-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/hydrium-moisture-power-enriched-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-low-ph-good-morning-gel-cleanser",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/low-ph-good-morning-gel-cleanser",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-pure-fit-cica-cream",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/pure-fit-cica-cream",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-refresh-abc-daily-toner-aha-bha-vitamin-c",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/refresh-abc-daily-toner-aha-bha-vitamin-c",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:cosrx:products-two-in-one-poreless-power-liquid",
+      "brand": "COSRX",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://www.cosrx.com/products/two-in-one-poreless-power-liquid",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:isntree:product-search-html",
+      "brand": "Isntree",
+      "productName": "기능성 그린뷰티의 시작, 이즈앤트리 공식몰",
+      "sourceUrl": "https://isntree.com/product/search.html?keyword=%EC%96%B4%EB%8B%88%EC%96%B8",
+      "reasons": [
+        "weak_product_title"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-eb-a1-9c-ec-85-98-200ml-21",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%EB%A1%9C%EC%85%98-200ml/21/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-ac-eb-a6-bc-80ml-24",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%AC%EB%A6%BC-80ml/24/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-b4-eb-a0-8c-ec-a0-80-150ml-2-ea-b0-9c-ec-84",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%B4%EB%A0%8C%EC%A0%80-150ml-2%EA%B0%9C-%EC%84%B8%ED%8A%B8/68/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-81-b4-eb-a0-8c-ec-a0-80-150ml-36",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%B4%EB%A0%8C%EC%A0%80-150ml/36/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-22",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml/22/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-eb-8f-85-eb-8f-84-eb-a1-9",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml-%EB%8F%85%EB%8F%84-%EB%A1%9C%EC%85%98-200ml-2%EC%A2%85-%EC%84%B8%ED%8A%B8/35/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-200ml-eb-8f-85-eb-8f-84-ed-86-a",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-200ml-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-500ml-2%EC%A2%85-%EC%84%B8%ED%8A%B8/61/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    },
+    {
+      "externalProductId": "wqf:round-lab:product-1025-eb-8f-85-eb-8f-84-ed-86-a0-eb-84-88-eb-8c-80-ec-9a-a9-eb-9f-89-500m",
+      "brand": "ROUND LAB",
+      "productName": "(unnamed)",
+      "sourceUrl": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%86%A0%EB%84%88-%EB%8C%80%EC%9A%A9%EB%9F%89-500ml/14/",
+      "reasons": [
+        "CAPTCHA"
+      ],
+      "kind": "missing_offer",
+      "score": 35,
+      "priority": "low",
+      "reviewGroup": "commerce"
+    }
+  ]
+}

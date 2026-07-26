@@ -56,6 +56,7 @@ export function useExchangeRate(): UseExchangeRateResult {
   useEffect(() => {
     const cached = getCached();
     if (cached) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-time hydrate from localStorage cache; not available during server render, must start at DEFAULT_* and sync client-side
       setKrw(cached.krw);
       setJpy(cached.jpy);
       setLoading(false);

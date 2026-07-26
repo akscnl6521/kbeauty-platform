@@ -1,0 +1,4694 @@
+{
+  "count": 42,
+  "products": [
+    {
+      "brandId": "cosrx",
+      "brand": "COSRX",
+      "productName": "Advanced Snail 92 All in One Cream",
+      "externalProductId": "cosrx-advanced-snail-92-all-in-one-cream",
+      "sizeLabel": null,
+      "officialUrl": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+      "primaryUrl": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+      "ingredientsRaw": "Snail Secretion Filtrate, Betaine, Caprylic/Capric Triglyceride, Butylene Glycol, Cetearyl Olivate, Sorbitan Olivate, Cetearyl Alcohol, Carbomer, Ethyl Hexanediol, Phenoxyethanol, Arginine, Dimethicone, Sodium Polyacrylate, Sodium Hyaluronate, Allantoin, Palmitic Acid, Panthenol, Xanthan Gum, Stearic acid, Adenosine, Water, Myristic Acid",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Snail Secretion Filtrate, Betaine, Caprylic/Capric Triglyceride, Butylene Glycol, Cetearyl Olivate, Sorbitan Olivate, Cetearyl Alcohol, Carbomer, Ethyl Hexanediol, Phenoxyethanol, Arginine, Dimethicone, Sodium Polyacrylate, Sodium Hyaluronate, Allantoin, Palmitic Acid, Panthenol, Xanthan Gum, Stearic acid, Adenosine, Water, Myristic Acid",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        },
+        {
+          "raw": "달팽이점액여과물, 베타인, 카프릴릭/카프릭트라이글리세라이드, 세테아릴올리베이트, 솔비탄올리베이트, 세테아릴알코올, 카보머, 알지닌, 다이메티콘, 소듐폴리아크릴레이트, 페녹시에탄올, 소듐하이알루로네이트, 스테아릭애씨드, 알란토인, 판테놀, 잔탄검, 에틸헥산다이올, 아데노신",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://www.cosrx.com/cdn/shop/files/snail_cream_thumbnail.png?v=1748420673",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "cosrx.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+          "price": 26,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "KR official shop listing; partial KO INCI from prior verified batch."
+          ]
+        },
+        {
+          "channel": "naver_brand_store",
+          "trust": "B",
+          "url": "https://brand.naver.com/cosrx",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools."
+      ],
+      "productIdentity": {
+        "productId": "cosrx-advanced-snail-92-all-in-one-cream",
+        "brand": "COSRX",
+        "productName": "Advanced Snail 92 All in One Cream",
+        "normalizedBrand": "cosrx",
+        "normalizedName": "advanced snail 92 all in one cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://www.cosrx.com/products/advanced-snail-92-all-in-one-cream",
+        "imageHash": null,
+        "category": "cream",
+        "scenarioIds": [
+          "kr-redness-sensitive-cream",
+          "pilot-dryness-barrier-serum"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "popular",
+        "safety"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "aestura",
+      "brand": "AESTURA",
+      "productName": "Atobarrier 365 Cream",
+      "externalProductId": "aestura-atobarrier365-cream",
+      "sizeLabel": null,
+      "officialUrl": "https://int.aestura.com/products/atobarrier365-cream",
+      "primaryUrl": "https://int.aestura.com/products/atobarrier365-cream",
+      "ingredientsRaw": "WATER / AQUA / EAU, BUTYLENE GLYCOL, GLYCERIN, BUTYLENE GLYCOL DICAPRYLATE/ DICAPRATE, CETYL ETHYLHEXANOATE, SQUALANE, PENTAERYTHRITYL TETRAISOSTEARATE, DICAPRYLYL CARBONATE, BEHENYL ALCOHOL, DIMETHICONE, HYDROXYPROPYL BISPALMITAMIDE MEA, STEARIC ACID, BETAINE, MANNITOL, C14-22 ALCOHOLS, PALMITIC ACID, HYDROXYPROPYL BISLAURAMIDE MEA, ARACHIDYL ALCOHOL, CHOLESTEROL, POLYACRYLATE-13, C12-20 ALKYL GLUCOSIDE, ALLANTOIN, ARACHIDYL GLUCOSIDE, NIACINAMIDE, CERAMIDE NP, GLYCERYL CAPRYLATE, ETHYLHEXYLGLYCERIN, HYDROGENATED POLYISOBUTENE, CARBOMER, TROMETHAMINE, DIMETHICONOL, POLYGLYCERYL-10 LAURATE, HYDROGENATED LECITHIN, ETHYLHEXYL PALMITATE, ACRYLATES / AMMONIUM METHACRYLATE COPOLYMER, SORBITAN ISOSTEARATE, SILICA, PHYTOSPHINGOSINE, SPHINGOLIPIDS, ARACHIDIC ACID, TOCOPHEROL, OLEIC ACID",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "WATER / AQUA / EAU, BUTYLENE GLYCOL, GLYCERIN, BUTYLENE GLYCOL DICAPRYLATE/ DICAPRATE, CETYL ETHYLHEXANOATE, SQUALANE, PENTAERYTHRITYL TETRAISOSTEARATE, DICAPRYLYL CARBONATE, BEHENYL ALCOHOL, DIMETHICONE, HYDROXYPROPYL BISPALMITAMIDE MEA, STEARIC ACID, BETAINE, MANNITOL, C14-22 ALCOHOLS, PALMITIC ACID, HYDROXYPROPYL BISLAURAMIDE MEA, ARACHIDYL ALCOHOL, CHOLESTEROL, POLYACRYLATE-13, C12-20 ALKYL GLUCOSIDE, ALLANTOIN, ARACHIDYL GLUCOSIDE, NIACINAMIDE, CERAMIDE NP, GLYCERYL CAPRYLATE, ETHYLHEXYLGLYCERIN, HYDROGENATED POLYISOBUTENE, CARBOMER, TROMETHAMINE, DIMETHICONOL, POLYGLYCERYL-10 LAURATE, HYDROGENATED LECITHIN, ETHYLHEXYL PALMITATE, ACRYLATES / AMMONIUM METHACRYLATE COPOLYMER, SORBITAN ISOSTEARATE, SILICA, PHYTOSPHINGOSINE, SPHINGOLIPIDS, ARACHIDIC ACID, TOCOPHEROL, OLEIC ACID",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://int.aestura.com/products/atobarrier365-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0723/3775/2306/files/1_Atobarrier365-Cream_thumbnail_Product-80ml__1200x1200_961c8e7e-0afb-48bd-bea7-d47f285ab4d4.png?v=1734030421",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://int.aestura.com/products/atobarrier365-cream",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "int.aestura.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://int.aestura.com/products/atobarrier365-cream",
+          "price": 44,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://int.aestura.com/products/atobarrier365-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools."
+      ],
+      "productIdentity": {
+        "productId": "aestura-atobarrier365-cream",
+        "brand": "AESTURA",
+        "productName": "Atobarrier 365 Cream",
+        "normalizedBrand": "aestura",
+        "normalizedName": "atobarrier 365 cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://int.aestura.com/products/atobarrier365-cream",
+        "imageHash": null,
+        "category": "cream",
+        "scenarioIds": [
+          "kr-redness-sensitive-cream",
+          "pilot-dryness-barrier-serum"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "safety",
+        "popular"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "illiyoon",
+      "brand": "Illiyoon",
+      "productName": "Ceramide Ato Concentrate Cream",
+      "externalProductId": "illiyoon-ceramide-ato-concentrate-cream",
+      "sizeLabel": null,
+      "officialUrl": "https://illiyoon.co.kr/",
+      "primaryUrl": "https://illiyoon.co.kr/",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://illiyoon.co.kr/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools."
+      ],
+      "productIdentity": {
+        "productId": "illiyoon-ceramide-ato-concentrate-cream",
+        "brand": "Illiyoon",
+        "productName": "Ceramide Ato Concentrate Cream",
+        "normalizedBrand": "illiyoon",
+        "normalizedName": "ceramide ato concentrate cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://illiyoon.co.kr/",
+        "imageHash": null,
+        "category": "cream",
+        "scenarioIds": [
+          "kr-redness-sensitive-cream",
+          "pilot-dryness-barrier-serum"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "value",
+        "safety"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "drjart",
+      "brand": "Dr.Jart+",
+      "productName": "Cicapair Intensive Soothing Repair Cream",
+      "externalProductId": "drjart-cicapair-intensive-soothing-repair-cream",
+      "sizeLabel": null,
+      "officialUrl": "https://www.drjart.com/",
+      "primaryUrl": "https://www.drjart.com/",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.drjart.com/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "drjart-cicapair-intensive-soothing-repair-cream",
+        "brand": "Dr.Jart+",
+        "productName": "Cicapair Intensive Soothing Repair Cream",
+        "normalizedBrand": "drjart",
+        "normalizedName": "cicapair intensive soothing repair cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://www.drjart.com/",
+        "imageHash": null,
+        "category": "cream",
+        "scenarioIds": [
+          "kr-redness-sensitive-cream"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "popular"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "etude",
+      "brand": "Etude",
+      "productName": "SoonJung 2x Barrier Intensive Cream",
+      "externalProductId": "etude-soonjung-2x-barrier-intensive-cream",
+      "sizeLabel": null,
+      "officialUrl": "https://www.etude.com/",
+      "primaryUrl": "https://www.etude.com/",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.etude.com/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools."
+      ],
+      "productIdentity": {
+        "productId": "etude-soonjung-2x-barrier-intensive-cream",
+        "brand": "Etude",
+        "productName": "SoonJung 2x Barrier Intensive Cream",
+        "normalizedBrand": "etude",
+        "normalizedName": "soonjung 2x barrier intensive cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://www.etude.com/",
+        "imageHash": null,
+        "category": "cream",
+        "scenarioIds": [
+          "kr-redness-sensitive-cream",
+          "pilot-dryness-barrier-serum"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "safety",
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "pyunkang-yul",
+      "brand": "Pyunkang Yul",
+      "productName": "ATO Cream Deep Moisture",
+      "externalProductId": "pyunkang-yul-ato-cream-deep-moisture",
+      "sizeLabel": null,
+      "officialUrl": "https://pyunkangyul.us/",
+      "primaryUrl": "https://pyunkangyul.us/",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://pyunkangyul.us/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "pyunkang-yul-ato-cream-deep-moisture",
+        "brand": "Pyunkang Yul",
+        "productName": "ATO Cream Deep Moisture",
+        "normalizedBrand": "pyunkang-yul",
+        "normalizedName": "ato cream deep moisture",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://pyunkangyul.us/",
+        "imageHash": null,
+        "category": "cream",
+        "scenarioIds": [
+          "kr-redness-sensitive-cream"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "safety",
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "round-lab",
+      "brand": "ROUND LAB",
+      "productName": "Dokdo Cream",
+      "externalProductId": "round-lab-dokdo-cream",
+      "sizeLabel": null,
+      "officialUrl": "https://roundlab.com/products/1025-dokdo-cream",
+      "primaryUrl": "https://roundlab.com/products/1025-dokdo-cream",
+      "ingredientsRaw": "Water, Glycerin, Caprylic/Capric Triglyceride, Dipropylene Glycol, Hydrogenated Poly(C6-14 Olefin), Cetearyl Alcohol, Methyl Trimethicone, 1,2-Hexanediol, Caprylyl Methicone, Phenyl Trimethicone, C12-16 Alcohols, Butyrospermum Parkii (Shea) Butter, Sea Water, Chondrus Crispus Extract, Saccharum Officinarum (Sugarcane) Extract, Hyaluronic Acid, Hydrolyzed Hyaluronic Acid, Sodium Hyaluronate, Glyceryl Stearate SE, Ceramide AP, Ceramide AS, Ceramide EOP, Ceramide NP, Ceramide NS, Polymethylsilsesquioxane, Palmitic Acid, Cetearyl Glucoside, Cetearyl Olivate, Sorbitan Olivate, Hydrogenated Lecithin, Copernicia Cerifera (Carnauba) Wax, Stearic Acid, Ammonium Acryloyldimethyltaurate/VP Copolymer, Ethylhexylglycerin, Glyceryl Caprylate, Allantoin, Panthenol, Butylene Glycol, Beta-Glucan, Cholesterol, Phytosphingosine, Disodium EDTA",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Water, Glycerin, Caprylic/Capric Triglyceride, Dipropylene Glycol, Hydrogenated Poly(C6-14 Olefin), Cetearyl Alcohol, Methyl Trimethicone, 1,2-Hexanediol, Caprylyl Methicone, Phenyl Trimethicone, C12-16 Alcohols, Butyrospermum Parkii (Shea) Butter, Sea Water, Chondrus Crispus Extract, Saccharum Officinarum (Sugarcane) Extract, Hyaluronic Acid, Hydrolyzed Hyaluronic Acid, Sodium Hyaluronate, Glyceryl Stearate SE, Ceramide AP, Ceramide AS, Ceramide EOP, Ceramide NP, Ceramide NS, Polymethylsilsesquioxane, Palmitic Acid, Cetearyl Glucoside, Cetearyl Olivate, Sorbitan Olivate, Hydrogenated Lecithin, Copernicia Cerifera (Carnauba) Wax, Stearic Acid, Ammonium Acryloyldimethyltaurate/VP Copolymer, Ethylhexylglycerin, Glyceryl Caprylate, Allantoin, Panthenol, Butylene Glycol, Beta-Glucan, Cholesterol, Phytosphingosine, Disodium EDTA",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://roundlab.com/products/1025-dokdo-cream",
+          "checkedAt": "2026-07-22T07:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/1025-dokdo-cream-round-lab-1_66b8271b-613f-4510-82e8-b15abb0f1e37.jpg?v=1772849283",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://roundlab.com/products/1025-dokdo-cream",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "roundlab.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://roundlab.com/products/1025-dokdo-cream",
+          "price": 36,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://roundlab.com/products/1025-dokdo-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools."
+      ],
+      "productIdentity": {
+        "productId": "round-lab-dokdo-cream",
+        "brand": "ROUND LAB",
+        "productName": "Dokdo Cream",
+        "normalizedBrand": "round-lab",
+        "normalizedName": "dokdo cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://roundlab.com/products/1025-dokdo-cream",
+        "imageHash": null,
+        "category": "cream",
+        "scenarioIds": [
+          "kr-redness-sensitive-cream",
+          "pilot-dryness-barrier-serum"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "emerging",
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "cosrx",
+      "brand": "COSRX",
+      "productName": "Advanced Snail 96 Mucin Power Essence",
+      "externalProductId": "cosrx-advanced-snail-96-mucin-power-essence",
+      "sizeLabel": null,
+      "officialUrl": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+      "primaryUrl": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+      "ingredientsRaw": "Water, Snail Secretion Filtrate, Betaine, Butylene Glycol, Niacinamide, Sodium Hyaluronate, Panthenol, Arginine, Allantoin, Glycerin, Sodium Polyacrylate, Copper Tripeptide-1, Caprylyl Glycol, Carbomer, Phenoxyethanol",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Water, Snail Secretion Filtrate, Betaine, Butylene Glycol, Niacinamide, Sodium Hyaluronate, Panthenol, Arginine, Allantoin, Glycerin, Sodium Polyacrylate, Copper Tripeptide-1, Caprylyl Glycol, Carbomer, Phenoxyethanol",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://www.cosrx.com/cdn/shop/files/snail-96-mucin-power-essence_thumbnail.png?v=1748420673",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "cosrx.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+          "price": 20,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools."
+      ],
+      "productIdentity": {
+        "productId": "cosrx-advanced-snail-96-mucin-power-essence",
+        "brand": "COSRX",
+        "productName": "Advanced Snail 96 Mucin Power Essence",
+        "normalizedBrand": "cosrx",
+        "normalizedName": "advanced snail 96 mucin power essence",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
+        "imageHash": null,
+        "category": "essence",
+        "scenarioIds": [
+          "kr-redness-sensitive-cream",
+          "pilot-dryness-barrier-serum"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "popular"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "beauty-of-joseon",
+      "brand": "Beauty of Joseon",
+      "productName": "Glow Serum Propolis + Niacinamide",
+      "externalProductId": "beauty-of-joseon-glow-serum-propolis-niacinamide",
+      "sizeLabel": null,
+      "officialUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+      "primaryUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+      "ingredientsRaw": "Propolis Extract, Dipropylene Glycol, Glycerin, Butylene Glycol, Aqua, Niacinamide, 1,2-Hexanediol, Betaine Salicylate, Sodium Polyacryloyldimethyl Taurate, Tromethamine, Polyglyceryl-10 Laurate, Xanthan Gum, Caprylyl Glycol, Carbomer, Ethylhexylglycerin, Melia Azadirachta Flower Extract, Melaleuca Alternifolia Extract, Melia Azadirachta Leaf Extract, Sodium Hyaluronate, Curcuma Longa Root Extract, Ocimum Sanctum Leaf Extract, Dextrin, Theobroma Cacao Seed Extract, Centella Asiatica Extract, Corallina Officinalis Extract, Lotus Corniculatus Seed Extract, Pentylene Glycol, Octanediol, Calophyllum Inophyllum Seed Oil, Tocopherol",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Propolis Extract, Dipropylene Glycol, Glycerin, Butylene Glycol, Aqua, Niacinamide, 1,2-Hexanediol, Betaine Salicylate, Sodium Polyacryloyldimethyl Taurate, Tromethamine, Polyglyceryl-10 Laurate, Xanthan Gum, Caprylyl Glycol, Carbomer, Ethylhexylglycerin, Melia Azadirachta Flower Extract, Melaleuca Alternifolia Extract, Melia Azadirachta Leaf Extract, Sodium Hyaluronate, Curcuma Longa Root Extract, Ocimum Sanctum Leaf Extract, Dextrin, Theobroma Cacao Seed Extract, Centella Asiatica Extract, Corallina Officinalis Extract, Lotus Corniculatus Seed Extract, Pentylene Glycol, Octanediol, Calophyllum Inophyllum Seed Oil, Tocopherol",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://beautyofjoseon.com/pages/glow-serum-cpnp-scpn-information",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/glow-serum-propolis-niacinamide-1-front.webp?v=1770278801",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "beautyofjoseon.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+          "price": null,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/pages/glow-serum-cpnp-scpn-information",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools."
+      ],
+      "productIdentity": {
+        "productId": "beauty-of-joseon-glow-serum-propolis-niacinamide",
+        "brand": "Beauty of Joseon",
+        "productName": "Glow Serum Propolis + Niacinamide",
+        "normalizedBrand": "beauty-of-joseon",
+        "normalizedName": "glow serum propolis + niacinamide",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+        "imageHash": null,
+        "category": "serum",
+        "scenarioIds": [
+          "kr-redness-sensitive-cream",
+          "pilot-dryness-barrier-serum"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "popular",
+        "rising"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "torriden",
+      "brand": "Torriden",
+      "productName": "Dive-In Low Molecular Hyaluronic Acid Serum",
+      "externalProductId": "torriden-dive-in-serum",
+      "sizeLabel": null,
+      "officialUrl": "https://torriden.us/products/dive-in-serum",
+      "primaryUrl": "https://torriden.us/products/dive-in-serum",
+      "ingredientsRaw": "Water, Butylene Glycol, Glycerin, Dipropylene Glycol, 1,2-Hexanediol, Panthenol, Sodium Hyaluronate, Hydrolyzed Hyaluronic Acid, Sodium Acetylated Hyaluronate, Sodium Hyaluronate Crosspolymer, Hydrolyzed Sodium Hyaluronate, Allantoin, Trehalose, Betaine, Propanediol, Portulaca Oleracea Extract, Hamamelis Virginiana (Witch Hazel) Leaf Extract, Madecassoside, Madecassic Acid, Ceramide NP, Beta-Glucan, Malachite Extract, Cholesterol, Pentylene Glycol, Glyceryl Acrylate/Acrylic Acid Copolymer, PVM/MA Copolymer, Polyglyceryl-10 Laurate, Xanthan Gum, Tromethamine, Carbomer, Ethylhexylglycerin, Scutellaria Baicalensis Root Extract, Paeonia Suffruticosa Root Extract",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Water, Butylene Glycol, Glycerin, Dipropylene Glycol, 1,2-Hexanediol, Panthenol, Sodium Hyaluronate, Hydrolyzed Hyaluronic Acid, Sodium Acetylated Hyaluronate, Sodium Hyaluronate Crosspolymer, Hydrolyzed Sodium Hyaluronate, Allantoin, Trehalose, Betaine, Propanediol, Portulaca Oleracea Extract, Hamamelis Virginiana (Witch Hazel) Leaf Extract, Madecassoside, Madecassic Acid, Ceramide NP, Beta-Glucan, Malachite Extract, Cholesterol, Pentylene Glycol, Glyceryl Acrylate/Acrylic Acid Copolymer, PVM/MA Copolymer, Polyglyceryl-10 Laurate, Xanthan Gum, Tromethamine, Carbomer, Ethylhexylglycerin, Scutellaria Baicalensis Root Extract, Paeonia Suffruticosa Root Extract",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://torriden.us/products/dive-in-serum",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/DIVEINSerum1_631ac0e3-a77b-422a-a806-bf34477cac19.jpg?v=1753346213",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://torriden.us/products/dive-in-serum",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "torriden.us",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://torriden.us/products/dive-in-serum",
+          "price": 24,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://torriden.us/products/dive-in-serum",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools.",
+        "Documented cream/serum barrier exception: shared barrier-support SKU across redness cream and dryness serum pilot pools."
+      ],
+      "productIdentity": {
+        "productId": "torriden-dive-in-serum",
+        "brand": "Torriden",
+        "productName": "Dive-In Low Molecular Hyaluronic Acid Serum",
+        "normalizedBrand": "torriden",
+        "normalizedName": "dive-in low molecular hyaluronic acid serum",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://torriden.us/products/dive-in-serum",
+        "imageHash": null,
+        "category": "serum",
+        "scenarioIds": [
+          "kr-redness-sensitive-cream",
+          "pilot-dryness-barrier-serum"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "rising",
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "isntree",
+      "brand": "Isntree",
+      "productName": "Hyaluronic Acid Water Essence",
+      "externalProductId": "isntree-hyaluronic-acid-water-essence",
+      "sizeLabel": null,
+      "officialUrl": "https://isntree.com/",
+      "primaryUrl": "https://isntree.com/",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://isntree.com/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "isntree-hyaluronic-acid-water-essence",
+        "brand": "Isntree",
+        "productName": "Hyaluronic Acid Water Essence",
+        "normalizedBrand": "isntree",
+        "normalizedName": "hyaluronic acid water essence",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://isntree.com/",
+        "imageHash": null,
+        "category": "essence",
+        "scenarioIds": [
+          "pilot-dryness-barrier-serum"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "skin1004",
+      "brand": "SKIN1004",
+      "productName": "Madagascar Centella Ampoule",
+      "externalProductId": "skin1004-madagascar-centella-ampoule",
+      "sizeLabel": null,
+      "officialUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+      "primaryUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+      "ingredientsRaw": "Water, Glycerin, Butylene Glycol, Centella Asiatica Extract, 1,2-Hexanediol, Cellulose Gum, Ethylhexylglycerin",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Water, Glycerin, Butylene Glycol, Centella Asiatica Extract, 1,2-Hexanediol, Cellulose Gum, Ethylhexylglycerin",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "checkedAt": "2026-07-22T08:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-ampoule-serum-centella-ampoule-1246455500.png?v=1782787571",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "skin1004.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "price": 19.8,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "fields": [
+            "image",
+            "offer",
+            "ingredients"
+          ],
+          "notes": [
+            "Official Full Ingredients captured from brand PDP HTML."
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://skin1004.com/",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "skin1004-madagascar-centella-ampoule",
+        "brand": "SKIN1004",
+        "productName": "Madagascar Centella Ampoule",
+        "normalizedBrand": "skin1004",
+        "normalizedName": "madagascar centella ampoule",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+        "imageHash": null,
+        "category": "ampoule",
+        "scenarioIds": [
+          "pilot-dryness-barrier-serum"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "popular",
+        "rising"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "cosrx",
+      "brand": "COSRX",
+      "productName": "AHA/BHA Clarifying Treatment Toner",
+      "externalProductId": "cosrx-aha-bha-clarifying-treatment-toner",
+      "sizeLabel": null,
+      "officialUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+      "primaryUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+      "ingredientsRaw": "Water, Salix Alba (Willow) Bark Water, Pyrus Malus (Apple) Fruit Water, Butylene Glycol, 1,2-Hexanediol, Sodium Lactate, Glycolic Acid, Betaine Salicylate, Allantoin, Panthenol, Ethyl Hexanediol",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Water, Salix Alba (Willow) Bark Water, Pyrus Malus (Apple) Fruit Water, Butylene Glycol, 1,2-Hexanediol, Sodium Lactate, Glycolic Acid, Betaine Salicylate, Allantoin, Panthenol, Ethyl Hexanediol",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://www.cosrx.com/cdn/shop/files/aha-bha-clarifying-treatment-toner_thumbnail.png?v=1748420673",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "cosrx.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+          "price": 14,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "cosrx-aha-bha-clarifying-treatment-toner",
+        "brand": "COSRX",
+        "productName": "AHA/BHA Clarifying Treatment Toner",
+        "normalizedBrand": "cosrx",
+        "normalizedName": "aha bha clarifying treatment toner",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
+        "imageHash": null,
+        "category": "toner",
+        "scenarioIds": [
+          "kr-acne-pores-toner"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "popular"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": [
+        "AHA",
+        "BHA"
+      ]
+    },
+    {
+      "brandId": "some-by-mi",
+      "brand": "Some By Mi",
+      "productName": "AHA BHA PHA 30 Days Miracle Toner",
+      "externalProductId": "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "some-by-mi-aha-bha-pha-30-days-miracle-toner",
+        "brand": "Some By Mi",
+        "productName": "AHA BHA PHA 30 Days Miracle Toner",
+        "normalizedBrand": "some-by-mi",
+        "normalizedName": "aha bha pha 30 days miracle toner",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "toner",
+        "scenarioIds": [
+          "kr-acne-pores-toner"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "popular",
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": [
+        "AHA",
+        "BHA",
+        "PHA"
+      ]
+    },
+    {
+      "brandId": "anua",
+      "brand": "Anua",
+      "productName": "Heartleaf 77% Soothing Toner",
+      "externalProductId": "anua-heartleaf-77-soothing-toner",
+      "sizeLabel": null,
+      "officialUrl": "https://anua.us/products/heartleaf-77-soothing-toner",
+      "primaryUrl": "https://anua.us/products/heartleaf-77-soothing-toner",
+      "ingredientsRaw": "Houttuynia Cordata Flower/Leaf/Stem Water, Water, 1,2-Hexanediol, Glycerin, Betaine, Butylene Glycol, Isopentyldiol, Panthenol, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Disodium EDTA, Tromethamine, Centella Asiatica Extract, Arctium Lappa Root Extract, Phellinus Linteus Extract, Portulaca Oleracea Extract, Chamomilla Recutita (Matricaria) Flower Extract, Vitex Agnus-Castus Extract, Sodium Hyaluronate, Hydroxypropyltrimonium Hyaluronate, Hydrolyzed Hyaluronic Acid, Sodium Acetylated Hyaluronate, Hyaluronic Acid, Sodium Hyaluronate Crosspolymer, Potassium Hyaluronate",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Houttuynia Cordata Flower/Leaf/Stem Water, Water, 1,2-Hexanediol, Glycerin, Betaine, Butylene Glycol, Isopentyldiol, Panthenol, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Disodium EDTA, Tromethamine, Centella Asiatica Extract, Arctium Lappa Root Extract, Phellinus Linteus Extract, Portulaca Oleracea Extract, Chamomilla Recutita (Matricaria) Flower Extract, Vitex Agnus-Castus Extract, Sodium Hyaluronate, Hydroxypropyltrimonium Hyaluronate, Hydrolyzed Hyaluronic Acid, Sodium Acetylated Hyaluronate, Hyaluronic Acid, Sodium Hyaluronate Crosspolymer, Potassium Hyaluronate",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://anua.us/products/heartleaf-77-soothing-toner",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-toner-heartleaf-77-soothing-toner-1239193744.jpg?v=1779181932",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://anua.us/products/heartleaf-77-soothing-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "anua.us",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://anua.us/products/heartleaf-77-soothing-toner",
+          "price": 23,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://anua.us/products/heartleaf-77-soothing-toner",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "anua-heartleaf-77-soothing-toner",
+        "brand": "Anua",
+        "productName": "Heartleaf 77% Soothing Toner",
+        "normalizedBrand": "anua",
+        "normalizedName": "heartleaf 77 soothing toner",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://anua.us/products/heartleaf-77-soothing-toner",
+        "imageHash": null,
+        "category": "toner",
+        "scenarioIds": [
+          "kr-acne-pores-toner"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "rising",
+        "popular"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "beauty-of-joseon",
+      "brand": "Beauty of Joseon",
+      "productName": "Green Plum Refreshing Toner AHA + BHA",
+      "externalProductId": "beauty-of-joseon-green-plum-refreshing-toner",
+      "sizeLabel": null,
+      "officialUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+      "primaryUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+      "ingredientsRaw": "Water, Prunus Mume Fruit Water, Dipropylene Glycol, Glycerin, Glycolic Acid, Butylene Glycol, Tromethamine, 1,2-Hexanediol, Hydroxyacetophenone, Salicylic Acid, Ethylhexylglycerin, Vigna Radiata Seed Extract, Disodium EDTA, Melia Azadirachta Leaf Extract, Melia Azadirachta Flower Extract, Coccinia Indica Fruit Extract, Ocimum Sanctum Leaf Extract, Curcuma Longa (Turmeric) Root Extract, Aloe Barbadensis Flower Extract, Solanum Melongena (Eggplant) Fruit Extract, Corallina Officinalis Extract, C12-14 Pareth-12, Xanthan Gum, Octyldodeceth-16 Key Ingredients Green Plum Water Refreshes and gently exfoliates Mung Bean Extract Hydrates and helps soothe AHA, BHA If you have sensitive skin, we recommend a 24-hour patch test before use. Wear under sunscreen during the day",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Water, Prunus Mume Fruit Water, Dipropylene Glycol, Glycerin, Glycolic Acid, Butylene Glycol, Tromethamine, 1,2-Hexanediol, Hydroxyacetophenone, Salicylic Acid, Ethylhexylglycerin, Vigna Radiata Seed Extract, Disodium EDTA, Melia Azadirachta Leaf Extract, Melia Azadirachta Flower Extract, Coccinia Indica Fruit Extract, Ocimum Sanctum Leaf Extract, Curcuma Longa (Turmeric) Root Extract, Aloe Barbadensis Flower Extract, Solanum Melongena (Eggplant) Fruit Extract, Corallina Officinalis Extract, C12-14 Pareth-12, Xanthan Gum, Octyldodeceth-16 Key Ingredients Green Plum Water Refreshes and gently exfoliates Mung Bean Extract Hydrates and helps soothe AHA, BHA If you have sensitive skin, we recommend a 24-hour patch test before use. Wear under sunscreen during the day",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "checkedAt": "2026-07-22T08:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/green-plum-refreshing-toner-aha-bha-1-front.webp?v=1770279162",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "beautyofjoseon.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "price": 14.4,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "fields": [
+            "image",
+            "offer",
+            "ingredients"
+          ],
+          "notes": [
+            "Official Full Ingredients captured from brand PDP HTML."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/pages/green-plum-refreshing-toner-aha-bha-cpnp-scpn-information",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "CPNP/SCPN INCI captured from official brand information page."
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "beauty-of-joseon-green-plum-refreshing-toner",
+        "brand": "Beauty of Joseon",
+        "productName": "Green Plum Refreshing Toner AHA + BHA",
+        "normalizedBrand": "beauty-of-joseon",
+        "normalizedName": "green plum refreshing toner aha + bha",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://beautyofjoseon.com/products/green-plum-refreshing-toner-aha-bha",
+        "imageHash": null,
+        "category": "toner",
+        "scenarioIds": [
+          "kr-acne-pores-toner"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "rising"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": [
+        "AHA",
+        "BHA",
+        "glycolic acid",
+        "salicylic acid"
+      ]
+    },
+    {
+      "brandId": "isntree",
+      "brand": "Isntree",
+      "productName": "Green Tea Fresh Toner",
+      "externalProductId": "isntree-green-tea-fresh-toner",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "isntree-green-tea-fresh-toner",
+        "brand": "Isntree",
+        "productName": "Green Tea Fresh Toner",
+        "normalizedBrand": "isntree",
+        "normalizedName": "green tea fresh toner",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "toner",
+        "scenarioIds": [
+          "kr-acne-pores-toner"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "round-lab",
+      "brand": "ROUND LAB",
+      "productName": "Dokdo Toner",
+      "externalProductId": "round-lab-dokdo-toner",
+      "sizeLabel": null,
+      "officialUrl": "https://roundlab.com/products/1025-dokdo-toner",
+      "primaryUrl": "https://roundlab.com/products/1025-dokdo-toner",
+      "ingredientsRaw": "Water, Butylene Glycol, Glycerin, Pentylene Glycol, Propanediol, Chondrus Crispus Extract, Saccharum Officinarum (Sugarcane) Extract, Sea Water, 1,2-Hexanediol, Protease, Betaine, Panthenol, Ethylhexylglycerin, Allantoin, Xanthan Gum, Disodium EDTA",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Water, Butylene Glycol, Glycerin, Pentylene Glycol, Propanediol, Chondrus Crispus Extract, Saccharum Officinarum (Sugarcane) Extract, Sea Water, 1,2-Hexanediol, Protease, Betaine, Panthenol, Ethylhexylglycerin, Allantoin, Xanthan Gum, Disodium EDTA",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://roundlab.com/products/1025-dokdo-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/Dokdo_Toner_2025.png?v=1772851199",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://roundlab.com/products/1025-dokdo-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "roundlab.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://roundlab.com/products/1025-dokdo-toner",
+          "price": 6,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://roundlab.com/products/1025-dokdo-toner",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "round-lab-dokdo-toner",
+        "brand": "ROUND LAB",
+        "productName": "Dokdo Toner",
+        "normalizedBrand": "round-lab",
+        "normalizedName": "dokdo toner",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://roundlab.com/products/1025-dokdo-toner",
+        "imageHash": null,
+        "category": "toner",
+        "scenarioIds": [
+          "kr-acne-pores-toner"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "safety",
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "pyunkang-yul",
+      "brand": "Pyunkang Yul",
+      "productName": "Essence Toner",
+      "externalProductId": "pyunkang-yul-essence-toner",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "pyunkang-yul-essence-toner",
+        "brand": "Pyunkang Yul",
+        "productName": "Essence Toner",
+        "normalizedBrand": "pyunkang-yul",
+        "normalizedName": "essence toner",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "toner",
+        "scenarioIds": [
+          "kr-acne-pores-toner"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "safety"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "haruharu-wonder",
+      "brand": "haruharu wonder",
+      "productName": "Black Rice Hyaluronic Toner",
+      "externalProductId": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "sizeLabel": null,
+      "officialUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+      "primaryUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+      "ingredientsRaw": "Water, Betaine, Glycerin, Propanediol, Oryza Sativa (Rice) Extract, Phyllostachys Pubescens Shoot Bark Extract, Aspergillus Ferment, Panax Ginseng Root Extract, Cyclodextrin, Scutellaria Baicalensis Root Extract, Hyaluronic Acid, Beta-glucan, Cellulose Gum, Xanthan Gum, Butylene Glycol, Usnea Barbata (Lichen) Extract, Zanthoxylum Piperitum Fruit Extract, Pulsatilla Koreana Extract, Sodium Phytate, Tamarindus Indica Seed Gum, Polyglyceryl-10 Laurate, Polyglyceryl-10 Myristate, Glucose, 1,2-Hexanediol, Alcohol, Lavandula Angustifolia (Lavender) Oil, Limonene, Linalool",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Water, Betaine, Glycerin, Propanediol, Oryza Sativa (Rice) Extract, Phyllostachys Pubescens Shoot Bark Extract, Aspergillus Ferment, Panax Ginseng Root Extract, Cyclodextrin, Scutellaria Baicalensis Root Extract, Hyaluronic Acid, Beta-glucan, Cellulose Gum, Xanthan Gum, Butylene Glycol, Usnea Barbata (Lichen) Extract, Zanthoxylum Piperitum Fruit Extract, Pulsatilla Koreana Extract, Sodium Phytate, Tamarindus Indica Seed Gum, Polyglyceryl-10 Laurate, Polyglyceryl-10 Myristate, Glucose, 1,2-Hexanediol, Alcohol, Lavandula Angustifolia (Lavender) Oil, Limonene, Linalool",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0707/0190/8217/files/150ml_11e70ee9-f850-4fe7-8e7e-a960590e938d.jpg?v=1751443548",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "haruharuwonder.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "price": 18,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "haruharu-wonder-black-rice-hyaluronic-toner",
+        "brand": "haruharu wonder",
+        "productName": "Black Rice Hyaluronic Toner",
+        "normalizedBrand": "haruharu-wonder",
+        "normalizedName": "black rice hyaluronic toner",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+        "imageHash": null,
+        "category": "toner",
+        "scenarioIds": [
+          "kr-acne-pores-toner"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "rising"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "celimax",
+      "brand": "celimax",
+      "productName": "Dual Barrier Creamy Toner",
+      "externalProductId": "celimax-dual-barrier-creamy-toner",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "celimax-dual-barrier-creamy-toner",
+        "brand": "celimax",
+        "productName": "Dual Barrier Creamy Toner",
+        "normalizedBrand": "celimax",
+        "normalizedName": "dual barrier creamy toner",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "toner",
+        "scenarioIds": [
+          "kr-acne-pores-toner"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "emerging",
+        "safety"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "numbuzin",
+      "brand": "numbuzin",
+      "productName": "No.3 Super Glowing Essence Toner",
+      "externalProductId": "numbuzin-no3-super-glowing-essence-toner",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "numbuzin-no3-super-glowing-essence-toner",
+        "brand": "numbuzin",
+        "productName": "No.3 Super Glowing Essence Toner",
+        "normalizedBrand": "numbuzin",
+        "normalizedName": "no 3 super glowing essence toner",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "toner",
+        "scenarioIds": [
+          "kr-acne-pores-toner"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "emerging"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "beauty-of-joseon",
+      "brand": "Beauty of Joseon",
+      "productName": "Relief Sun Rice + Probiotics",
+      "externalProductId": "beauty-of-joseon-relief-sun-rice-probiotics",
+      "sizeLabel": null,
+      "officialUrl": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+      "primaryUrl": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/02_0529.jpg?v=1780214476",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "beautyofjoseon.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+          "price": 13.5,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": [
+            "image",
+            "offer"
+          ],
+          "notes": [
+            "US Daily Relief Sunscreen SPF40 wired for image/offer only.",
+            "KR Relief Sun Rice+Probiotics is a distinct SKU — not merged with US Daily Relief.",
+            "Full KR INCI not captured; remains review_required for KR scenario."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "beauty-of-joseon-relief-sun-rice-probiotics",
+        "brand": "Beauty of Joseon",
+        "productName": "Relief Sun Rice + Probiotics",
+        "normalizedBrand": "beauty-of-joseon",
+        "normalizedName": "relief sun rice + probiotics",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://beautyofjoseon.com/products/daily-relief-sunscreen",
+        "imageHash": null,
+        "category": "sunscreen",
+        "scenarioIds": [
+          "kr-uv-sunscreen-sensitive"
+        ]
+      },
+      "readiness": "review_required",
+      "rejectionReason": "Critical source/SKU conflict requires human review.",
+      "roleTags": [
+        "popular",
+        "rising"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": [
+        "UV_filters_region_specific"
+      ]
+    },
+    {
+      "brandId": "isntree",
+      "brand": "Isntree",
+      "productName": "Hyaluronic Acid Watery Sun Gel",
+      "externalProductId": "isntree-hyaluronic-acid-watery-sun-gel",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "isntree-hyaluronic-acid-watery-sun-gel",
+        "brand": "Isntree",
+        "productName": "Hyaluronic Acid Watery Sun Gel",
+        "normalizedBrand": "isntree",
+        "normalizedName": "hyaluronic acid watery sun gel",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "sunscreen",
+        "scenarioIds": [
+          "kr-uv-sunscreen-sensitive"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "popular",
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "skin1004",
+      "brand": "SKIN1004",
+      "productName": "Hyalu-Cica Water-Fit Sun Serum",
+      "externalProductId": "skin1004-hyalu-cica-water-fit-sun-serum",
+      "sizeLabel": null,
+      "officialUrl": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+      "primaryUrl": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-50ml-hyalu-cica-water-fit-sun-serum-uv-1204112543.png?v=1762764544",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "skin1004.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+          "price": 17.1,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": [
+            "image",
+            "offer"
+          ],
+          "notes": [
+            "Shopify PDP lists key ingredients only — full INCI absent.",
+            "catalog_ready only; not promoted to recommendation_ready."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "skin1004-hyalu-cica-water-fit-sun-serum",
+        "brand": "SKIN1004",
+        "productName": "Hyalu-Cica Water-Fit Sun Serum",
+        "normalizedBrand": "skin1004",
+        "normalizedName": "hyalu-cica water-fit sun serum",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-uv",
+        "imageHash": null,
+        "category": "sunscreen",
+        "scenarioIds": [
+          "kr-uv-sunscreen-sensitive"
+        ]
+      },
+      "readiness": "catalog_ready",
+      "rejectionReason": "Identity + PDP/offer/image; INCI not verified.",
+      "roleTags": [
+        "rising"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "torriden",
+      "brand": "Torriden",
+      "productName": "Dive-In Mild Suncream",
+      "externalProductId": "torriden-dive-in-mild-suncream",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "torriden-dive-in-mild-suncream",
+        "brand": "Torriden",
+        "productName": "Dive-In Mild Suncream",
+        "normalizedBrand": "torriden",
+        "normalizedName": "dive-in mild suncream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "sunscreen",
+        "scenarioIds": [
+          "kr-uv-sunscreen-sensitive"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "rising",
+        "safety"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "cosrx",
+      "brand": "COSRX",
+      "productName": "Aloe Soothing Sun Cream SPF50+",
+      "externalProductId": "cosrx-aloe-soothing-sun-cream",
+      "sizeLabel": null,
+      "officialUrl": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+      "primaryUrl": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+      "ingredientsRaw": "WATER, ETHYLHEXYL METHOXYCINNAMATE, GLYCERIN, PROPYLENE GLYCOL, CYCLOPENTASILOXANE, PHENYLBENZIMIDAZOLE SULFONIC ACID, BIS-ETHYLHEXYLOXYPHENOL METHOXYPHENYL TRIAZINE, DICAPRYLYL CARBONATE, ISOAMYL P-METHOXYCINNAMATE, POTASSIUM CETYL PHOSPHATE, ALCOHOL, DIMETHICONE, BUTYLENE GLYCOL, GLYCERYL STEARATE, TITANIUM DIOXIDE, C14-22 ALCOHOLS, POLYMETHYL METHACRYLATE, CETEARYL ALCOHOL, PEG-100 STEARATE, TRIETHANOLAMINE, SILICA, SODIUM HYDROXIDE, DIMETHICONE/VINYL DIMETHICONE CROSSPOLYMER, C12-20 ALKYL GLUCOSIDE, ALUMINUM HYDROXIDE, STEARIC ACID, FRAGRANCE, CAPRYLYL GLYCOL, PHENOXYETHANOL, ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER, ALOE ARBORESCENS LEAF EXTRACT, DIPOTASSIUM GLYCYRRHIZATE, CARBOMER, XANTHAN GUM, LIMONENE, TOCOPHERYL ACETATE, DISODIUM EDTA, HEXYL CINNAMAL, LINALOOL, BENZYL SALICYLATE, GERANIOL, BENZYL ALCOHOL, CITRONELLOL, BENZYL BENZOATE, CITRAL",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "WATER, ETHYLHEXYL METHOXYCINNAMATE, GLYCERIN, PROPYLENE GLYCOL, CYCLOPENTASILOXANE, PHENYLBENZIMIDAZOLE SULFONIC ACID, BIS-ETHYLHEXYLOXYPHENOL METHOXYPHENYL TRIAZINE, DICAPRYLYL CARBONATE, ISOAMYL P-METHOXYCINNAMATE, POTASSIUM CETYL PHOSPHATE, ALCOHOL, DIMETHICONE, BUTYLENE GLYCOL, GLYCERYL STEARATE, TITANIUM DIOXIDE, C14-22 ALCOHOLS, POLYMETHYL METHACRYLATE, CETEARYL ALCOHOL, PEG-100 STEARATE, TRIETHANOLAMINE, SILICA, SODIUM HYDROXIDE, DIMETHICONE/VINYL DIMETHICONE CROSSPOLYMER, C12-20 ALKYL GLUCOSIDE, ALUMINUM HYDROXIDE, STEARIC ACID, FRAGRANCE, CAPRYLYL GLYCOL, PHENOXYETHANOL, ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER, ALOE ARBORESCENS LEAF EXTRACT, DIPOTASSIUM GLYCYRRHIZATE, CARBOMER, XANTHAN GUM, LIMONENE, TOCOPHERYL ACETATE, DISODIUM EDTA, HEXYL CINNAMAL, LINALOOL, BENZYL SALICYLATE, GERANIOL, BENZYL ALCOHOL, CITRONELLOL, BENZYL BENZOATE, CITRAL",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+          "checkedAt": "2026-07-22T08:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/aloe-soothing-sun-cream-spf50-pa-cosrx-official-1.jpg?v=1724835559",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "cosrx.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+          "price": 16,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "fields": [
+            "image",
+            "offer",
+            "ingredients"
+          ],
+          "notes": [
+            "Official Full Ingredients captured from brand PDP HTML."
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "cosrx-aloe-soothing-sun-cream",
+        "brand": "COSRX",
+        "productName": "Aloe Soothing Sun Cream SPF50+",
+        "normalizedBrand": "cosrx",
+        "normalizedName": "aloe soothing sun cream spf50+",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://www.cosrx.com/products/aloe-soothing-sun-cream-spf50-pa",
+        "imageHash": null,
+        "category": "sunscreen",
+        "scenarioIds": [
+          "kr-uv-sunscreen-sensitive"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "drg",
+      "brand": "Dr.G",
+      "productName": "Green Mild Up Sun+",
+      "externalProductId": "drg-green-mild-up-sun-plus",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "drg-green-mild-up-sun-plus",
+        "brand": "Dr.G",
+        "productName": "Green Mild Up Sun+",
+        "normalizedBrand": "drg",
+        "normalizedName": "green mild up sun+",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "sunscreen",
+        "scenarioIds": [
+          "kr-uv-sunscreen-sensitive"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "safety"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "make-prem",
+      "brand": "Make P:rem",
+      "productName": "UV Defense Me Blue Ray Sun Fluid",
+      "externalProductId": "make-prem-uv-defense-me-blue-ray-sun-fluid",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "make-prem-uv-defense-me-blue-ray-sun-fluid",
+        "brand": "Make P:rem",
+        "productName": "UV Defense Me Blue Ray Sun Fluid",
+        "normalizedBrand": "make-prem",
+        "normalizedName": "uv defense me blue ray sun fluid",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "sunscreen",
+        "scenarioIds": [
+          "kr-uv-sunscreen-sensitive"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "emerging"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "celimax",
+      "brand": "celimax",
+      "productName": "Oil Control Cooling Suncream",
+      "externalProductId": "celimax-oil-control-cooling-suncream",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "celimax-oil-control-cooling-suncream",
+        "brand": "celimax",
+        "productName": "Oil Control Cooling Suncream",
+        "normalizedBrand": "celimax",
+        "normalizedName": "oil control cooling suncream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "sunscreen",
+        "scenarioIds": [
+          "kr-uv-sunscreen-sensitive"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "aestura",
+      "brand": "AESTURA",
+      "productName": "Derma UV365 Barrier Hydro Mineral Sunscreen",
+      "externalProductId": "aestura-derma-uv365-barrier-hydro-mineral-sunscreen",
+      "sizeLabel": "40ml",
+      "officialUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+      "primaryUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+      "ingredientsRaw": "WATER / AQUA / EAU, ZINC OXIDE (NANO), CYCLOHEXASILOXANE, PROPANEDIOL, BUTYLOCTYL SALICYLATE, PROPYLHEPTYL CAPRYLATE, ISODODECANE, POLYGLYCERYL-3 POLYDIMETHYLSILOXYETHYL DIMETHICONE, CAPRYLYL METHICONE, DISILOXANE, DISTEARDIMONIUM HECTORITE, MAGNESIUM SULFATE, TRIETHOXYCAPRYLYLSILANE, 1,2-HEXANEDIOL, POLYMETHYLSILSESQUIOXANE, POLYGLYCERYL-2 DIPOLYHYDROXYSTEARATE, LAURYL POLYGLYCERYL-3 POLYDIMETHYLSILOXYETHYL DIMETHICONE, ALLANTOIN, CAPRYLYL GLYCOL, GLYCERYL CAPRYLATE, ETHYLHEXYLGLYCERIN, SODIUM HYALURONATE, CERAMIDE NP, TOCOPHEROL, SODIUM ACETYLATED HYALURONATE, HYDROLYZED HYALURONIC ACID",
+      "ingredientStatus": "source_verified_candidate",
+      "ingredientEvidences": [
+        {
+          "raw": "WATER / AQUA / EAU, ZINC OXIDE (NANO), CYCLOHEXASILOXANE, PROPANEDIOL, BUTYLOCTYL SALICYLATE, PROPYLHEPTYL CAPRYLATE, ISODODECANE, POLYGLYCERYL-3 POLYDIMETHYLSILOXYETHYL DIMETHICONE, CAPRYLYL METHICONE, DISILOXANE, DISTEARDIMONIUM HECTORITE, MAGNESIUM SULFATE, TRIETHOXYCAPRYLYLSILANE, 1,2-HEXANEDIOL, POLYMETHYLSILSESQUIOXANE, POLYGLYCERYL-2 DIPOLYHYDROXYSTEARATE, LAURYL POLYGLYCERYL-3 POLYDIMETHYLSILOXYETHYL DIMETHICONE, ALLANTOIN, CAPRYLYL GLYCOL, GLYCERYL CAPRYLATE, ETHYLHEXYLGLYCERIN, SODIUM HYALURONATE, CERAMIDE NP, TOCOPHEROL, SODIUM ACETYLATED HYALURONATE, HYDROLYZED HYALURONIC ACID",
+          "status": "source_verified_candidate",
+          "trust": "C",
+          "channel": "authorized_retailer",
+          "sourceUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "checkedAt": "2026-07-22T10:30:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0723/3775/2306/files/1200x1200___UV365__JP_72dpi_dabb991d-a730-4b60-99e0-85f7ac7bc3b3.png?v=1742874043",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "int.aestura.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "price": null,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "authorized_retailer",
+          "trust": "C",
+          "url": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T10:30:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "International official INCI reference only (int.aestura.com global SKU).",
+            "KR official label or KR authorized-retailer INCI for same SKU not captured — not recommendation_ready."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T10:30:00.000Z",
+          "fields": [
+            "image",
+            "offer",
+            "spf_pa",
+            "volume"
+          ],
+          "notes": [
+            "Global mineral sunscreen SKU — SPF50+ PA++++, 40ml/25ml variants.",
+            "Replaces ambiguous hydro-chemical pilot id; KR/Global identity kept separate."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Global mineral SKU identity — int.aestura.com reference INCI only; KR label not verified."
+      ],
+      "productIdentity": {
+        "productId": "aestura-derma-uv365-barrier-hydro-mineral-sunscreen",
+        "brand": "AESTURA",
+        "productName": "Derma UV365 Barrier Hydro Mineral Sunscreen",
+        "normalizedBrand": "aestura",
+        "normalizedName": "derma uv365 barrier hydro mineral sunscreen",
+        "volumeLabel": "40ml",
+        "gtin": null,
+        "canonicalUrl": "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
+        "imageHash": null,
+        "category": "sunscreen",
+        "scenarioIds": [
+          "kr-uv-sunscreen-sensitive"
+        ]
+      },
+      "readiness": "ingredient_candidate",
+      "rejectionReason": "INCI source_verified_candidate only — not yet recommendation_ready.",
+      "roleTags": [
+        "safety"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": [
+        "zinc_oxide_nano",
+        "UV_filters_region_specific",
+        "zinc_oxide_nano",
+        "UV_filters_region_specific"
+      ]
+    },
+    {
+      "brandId": "round-lab",
+      "brand": "ROUND LAB",
+      "productName": "Birch Juice Moisturizing Sunscreen UVLock (US)",
+      "externalProductId": "round-lab-birch-juice-moisturizing-sunscreen-us",
+      "sizeLabel": "50ml",
+      "officialUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+      "primaryUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/BIRCH_JUICE_MOISTURIZING_UVLOCK3_Large_10126e46-dfcc-4cd5-970c-146d4be65989.webp?v=1772852134",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "roundlab.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+          "price": 19.99,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T07:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": [
+            "image",
+            "offer",
+            "spf_pa"
+          ],
+          "notes": [
+            "US official UVLock SPF45 PDP — image+offer only.",
+            "KR Birch Juice Moisturizing Sunscreen SPF50+ PA++++ is a separate SKU; filters/INCI not cross-confirmed.",
+            "KR sensitive-UV scenario: US SKU kept as review_required until KR label matches."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "KR cross-check not fetched — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "US UVLock SKU split — KR formula not verified for recommendation_ready."
+      ],
+      "productIdentity": {
+        "productId": "round-lab-birch-juice-moisturizing-sunscreen-us",
+        "brand": "ROUND LAB",
+        "productName": "Birch Juice Moisturizing Sunscreen UVLock (US)",
+        "normalizedBrand": "round-lab",
+        "normalizedName": "birch juice moisturizing sunscreen uvlock us",
+        "volumeLabel": "50ml",
+        "gtin": null,
+        "canonicalUrl": "https://roundlab.com/products/birch-moisturizing-uv-sunscreen",
+        "imageHash": null,
+        "category": "sunscreen",
+        "scenarioIds": [
+          "kr-uv-sunscreen-sensitive"
+        ]
+      },
+      "readiness": "review_required",
+      "rejectionReason": "Critical source/SKU conflict requires human review.",
+      "roleTags": [
+        "popular",
+        "safety"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": [
+        "UV_filters_region_specific",
+        "UV_filters_region_specific"
+      ]
+    },
+    {
+      "brandId": "cosrx",
+      "brand": "COSRX",
+      "productName": "Advanced Snail Peptide Eye Cream",
+      "externalProductId": "cosrx-advanced-snail-peptide-eye-cream",
+      "sizeLabel": null,
+      "officialUrl": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+      "primaryUrl": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+      "ingredientsRaw": "Snail Secretion Filtrate, Butylene Glycol, Glycerin, Helianthus Annuus (Sunflower) Seed Oil, 1,2-Hexanediol, Niacinamide, Water, Palmitic Acid, Arginine, Carbomer, Stearic Acid, Betaine, Cetearyl Olivate, Sorbitan Olivate, Sodium Polyacrylate, Allantoin, Tocopheryl Acetate, Panthenol, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Sodium Hyaluronate, Adenosine, Xanthan Gum, Myristic Acid, Copper Tripeptide-1, Acetyl Hexapeptide-8, Palmitoyl Pentapeptide-4, Palmitoyl Tripeptide-1, Palmitoyl Tetrapeptide-7",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Snail Secretion Filtrate, Butylene Glycol, Glycerin, Helianthus Annuus (Sunflower) Seed Oil, 1,2-Hexanediol, Niacinamide, Water, Palmitic Acid, Arginine, Carbomer, Stearic Acid, Betaine, Cetearyl Olivate, Sorbitan Olivate, Sodium Polyacrylate, Allantoin, Tocopheryl Acetate, Panthenol, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Sodium Hyaluronate, Adenosine, Xanthan Gum, Myristic Acid, Copper Tripeptide-1, Acetyl Hexapeptide-8, Palmitoyl Pentapeptide-4, Palmitoyl Tripeptide-1, Palmitoyl Tetrapeptide-7",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://www.cosrx.com/cdn/shop/files/advanced-snail-peptide-eye-cream_thumbnail.png?v=1748420673",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "cosrx.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+          "price": 28,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "image",
+            "offer"
+          ]
+        },
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "cosrx-advanced-snail-peptide-eye-cream",
+        "brand": "COSRX",
+        "productName": "Advanced Snail Peptide Eye Cream",
+        "normalizedBrand": "cosrx",
+        "normalizedName": "advanced snail peptide eye cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://www.cosrx.com/products/advanced-snail-peptide-eye-cream",
+        "imageHash": null,
+        "category": "eye_cream",
+        "scenarioIds": [
+          "kr-aging-eye-cream"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "popular"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "beauty-of-joseon",
+      "brand": "Beauty of Joseon",
+      "productName": "Revive Eye Serum Ginseng + Retinal",
+      "externalProductId": "beauty-of-joseon-revive-eye-serum",
+      "sizeLabel": null,
+      "officialUrl": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+      "primaryUrl": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+      "ingredientsRaw": "Aqua, Panax Ginseng Root Extract, Glycerin, Dipropylene Glycol, Caprylic/Capric Triglyceride, 1,2-Hexanediol, Butylene Glycol Dicaprylate/Dicaprate, Niacinamide, Pentaerythrityl Tetraethylhexanoate, Cetearyl Alcohol, Cetearyl Olivate, Sorbitan Olivate, Butylene Glycol, Hydrogenated Lecithin, Carbomer, Glyceryl Stearate, Tromethamine, Macadamia Ternifolia Seed Oil, Ethylhexylglycerin, Adenosine, Cholesterol, Dextrin, Polyglyceryl-10 Oleate, Theobroma Cacao Extract, Disodium EDTA, Brassica Campestris Sterols, Phytosteryl/Behenyl/Octyldodecyl Lauroyl Glutamate, Retinal, Silica, Aluminum/Magnesium Hydroxide Stearate, Sodium Hyaluronate, Tocopherol, Ceramide NP, Potassium Cetyl Phosphate, Pentaerythrityl Tetra-di-t-butyl Hydroxyhydrocinnamate, Palmitoyl Tripeptide-5",
+      "ingredientStatus": "verified",
+      "ingredientEvidences": [
+        {
+          "raw": "Aqua, Panax Ginseng Root Extract, Glycerin, Dipropylene Glycol, Caprylic/Capric Triglyceride, 1,2-Hexanediol, Butylene Glycol Dicaprylate/Dicaprate, Niacinamide, Pentaerythrityl Tetraethylhexanoate, Cetearyl Alcohol, Cetearyl Olivate, Sorbitan Olivate, Butylene Glycol, Hydrogenated Lecithin, Carbomer, Glyceryl Stearate, Tromethamine, Macadamia Ternifolia Seed Oil, Ethylhexylglycerin, Adenosine, Cholesterol, Dextrin, Polyglyceryl-10 Oleate, Theobroma Cacao Extract, Disodium EDTA, Brassica Campestris Sterols, Phytosteryl/Behenyl/Octyldodecyl Lauroyl Glutamate, Retinal, Silica, Aluminum/Magnesium Hydroxide Stearate, Sodium Hyaluronate, Tocopherol, Ceramide NP, Potassium Cetyl Phosphate, Pentaerythrityl Tetra-di-t-butyl Hydroxyhydrocinnamate, Palmitoyl Tripeptide-5",
+          "status": "source_verified_candidate",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourceUrl": "https://beautyofjoseon.com/pages/revive-eye-serum-cpnp-scpn-information",
+          "checkedAt": "2026-07-22T09:30:00.000Z"
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/revive-eye-serum-ginseng-retinal-1-front.webp?v=1770287139",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "beautyofjoseon.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+          "price": 13.6,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://beautyofjoseon.com/pages/revive-eye-serum-cpnp-scpn-information",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": [
+            "ingredients",
+            "caution"
+          ],
+          "notes": [
+            "CPNP/SCPN official ingredient table — retinal caution for eye area.",
+            "Pregnancy/breastfeeding disclaimer on official PDP."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "beauty-of-joseon-revive-eye-serum",
+        "brand": "Beauty of Joseon",
+        "productName": "Revive Eye Serum Ginseng + Retinal",
+        "normalizedBrand": "beauty-of-joseon",
+        "normalizedName": "revive eye serum ginseng + retinal",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal",
+        "imageHash": null,
+        "category": "eye_cream",
+        "scenarioIds": [
+          "kr-aging-eye-cream"
+        ]
+      },
+      "readiness": "recommendation_ready",
+      "rejectionReason": null,
+      "roleTags": [
+        "popular",
+        "rising"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": [
+        "retinal",
+        "retinal"
+      ]
+    },
+    {
+      "brandId": "illiyoon",
+      "brand": "Illiyoon",
+      "productName": "Ceramide Ato Eye Cream",
+      "externalProductId": "illiyoon-ceramide-ato-eye-cream",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "illiyoon-ceramide-ato-eye-cream",
+        "brand": "Illiyoon",
+        "productName": "Ceramide Ato Eye Cream",
+        "normalizedBrand": "illiyoon",
+        "normalizedName": "ceramide ato eye cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "eye_cream",
+        "scenarioIds": [
+          "kr-aging-eye-cream"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "safety",
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "pyunkang-yul",
+      "brand": "Pyunkang Yul",
+      "productName": "Eye Cream",
+      "externalProductId": "pyunkang-yul-eye-cream",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "pyunkang-yul-eye-cream",
+        "brand": "Pyunkang Yul",
+        "productName": "Eye Cream",
+        "normalizedBrand": "pyunkang-yul",
+        "normalizedName": "eye cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "eye_cream",
+        "scenarioIds": [
+          "kr-aging-eye-cream"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "value",
+        "safety"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "drjart",
+      "brand": "Dr.Jart+",
+      "productName": "Ceramidin Eye Cream",
+      "externalProductId": "drjart-ceramidin-eye-cream",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "drjart-ceramidin-eye-cream",
+        "brand": "Dr.Jart+",
+        "productName": "Ceramidin Eye Cream",
+        "normalizedBrand": "drjart",
+        "normalizedName": "ceramidin eye cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "eye_cream",
+        "scenarioIds": [
+          "kr-aging-eye-cream"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "popular"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "laneige",
+      "brand": "Laneige",
+      "productName": "Perfect Renew Youth Regenerator Eye Cream",
+      "externalProductId": "laneige-perfect-renew-youth-regenerator-eye-cream",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "laneige-perfect-renew-youth-regenerator-eye-cream",
+        "brand": "Laneige",
+        "productName": "Perfect Renew Youth Regenerator Eye Cream",
+        "normalizedBrand": "laneige",
+        "normalizedName": "perfect renew youth regenerator eye cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "eye_cream",
+        "scenarioIds": [
+          "kr-aging-eye-cream"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "popular"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "innisfree",
+      "brand": "Innisfree",
+      "productName": "Green Tea Seed Eye Cream",
+      "externalProductId": "innisfree-green-tea-seed-eye-cream",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://us.innisfree.com/products/green-tea-seed-eye-cream-30ml",
+          "outcome": "not_found",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "US official handle 404 — product line renamed/discontinued on US store.",
+            "KR SKU not verified in this pass; stays trend_candidate."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "innisfree-green-tea-seed-eye-cream",
+        "brand": "Innisfree",
+        "productName": "Green Tea Seed Eye Cream",
+        "normalizedBrand": "innisfree",
+        "normalizedName": "green tea seed eye cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "eye_cream",
+        "scenarioIds": [
+          "kr-aging-eye-cream"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "value"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "sulwhasoo",
+      "brand": "Sulwhasoo",
+      "productName": "Concentrated Ginseng Renewing Eye Cream",
+      "externalProductId": "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
+      "sizeLabel": null,
+      "officialUrl": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+      "primaryUrl": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [
+        {
+          "imageUrl": "https://cdn.shopify.com/s/files/1/0249/8399/4413/files/Brand.com_1080x1080_NewCGREyeCream_01.Packshot_15ml.jpg?v=1736981469",
+          "trust": "A",
+          "channel": "official_brand",
+          "sourcePageUrl": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "isOfficialSource": true
+        }
+      ],
+      "offers": [
+        {
+          "retailerName": "us.sulwhasoo.com",
+          "trust": "A",
+          "channel": "official_brand",
+          "purchaseUrl": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+          "price": 120,
+          "currency": "USD",
+          "inStock": null,
+          "isOfficialStore": true,
+          "checkedAt": "2026-07-22T08:00:00.000Z",
+          "sourceVerified": true
+        }
+      ],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+          "outcome": "ok",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": [
+            "image",
+            "offer"
+          ],
+          "notes": [
+            "US PDP title Rejuvenating vs pilot Renewing — same line, naming variance.",
+            "Full INCI not on US PDP body — catalog_ready only."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "sulwhasoo-concentrated-ginseng-renewing-eye-cream",
+        "brand": "Sulwhasoo",
+        "productName": "Concentrated Ginseng Renewing Eye Cream",
+        "normalizedBrand": "sulwhasoo",
+        "normalizedName": "concentrated ginseng renewing eye cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": "https://us.sulwhasoo.com/products/concentrated-ginseng-rejuvenating-eye-cream",
+        "imageHash": null,
+        "category": "eye_cream",
+        "scenarioIds": [
+          "kr-aging-eye-cream"
+        ]
+      },
+      "readiness": "catalog_ready",
+      "rejectionReason": "Identity + PDP/offer/image; INCI not verified.",
+      "roleTags": [
+        "emerging",
+        "popular"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "torriden",
+      "brand": "Torriden",
+      "productName": "Dive-In Eye Cream",
+      "externalProductId": "torriden-dive-in-eye-cream",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://torriden.us/collections/all/products.json",
+          "outcome": "empty",
+          "checkedAt": "2026-07-22T09:30:00.000Z",
+          "fields": [
+            "offer",
+            "ingredients"
+          ],
+          "notes": [
+            "Dive-In eye cream not listed on torriden.us — likely KR-only SKU.",
+            "Not reclassified as face cream; verification incomplete."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "torriden-dive-in-eye-cream",
+        "brand": "Torriden",
+        "productName": "Dive-In Eye Cream",
+        "normalizedBrand": "torriden",
+        "normalizedName": "dive-in eye cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "eye_cream",
+        "scenarioIds": [
+          "kr-aging-eye-cream"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "rising"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    },
+    {
+      "brandId": "aestura",
+      "brand": "AESTURA",
+      "productName": "Atobarrier 365 Eye Cream",
+      "externalProductId": "aestura-atobarrier365-eye-cream",
+      "sizeLabel": null,
+      "officialUrl": null,
+      "primaryUrl": "",
+      "ingredientsRaw": null,
+      "ingredientStatus": "ingredient_incomplete",
+      "ingredientEvidences": [],
+      "images": [],
+      "offers": [],
+      "sourceEvidences": [
+        {
+          "channel": "naver_shopping",
+          "trust": "C",
+          "url": "https://shopping.naver.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "coupang_official",
+          "trust": "C",
+          "url": "https://www.coupang.com/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "oliveyoung",
+          "trust": "B",
+          "url": "https://www.oliveyoung.co.kr/",
+          "outcome": "blocked_by_policy",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients",
+            "offer",
+            "image"
+          ],
+          "notes": [
+            "Live marketplace fetch not done — policy."
+          ]
+        },
+        {
+          "channel": "official_brand",
+          "trust": "A",
+          "url": "https://",
+          "outcome": "skipped",
+          "checkedAt": "2026-07-22T05:00:00.000Z",
+          "fields": [
+            "ingredients"
+          ],
+          "notes": [
+            "No invented INCI; official extraction not captured in this pack.",
+            "2026-07-22 expand: official PDP still not captured (blocked/CAPTCHA/missing handle)."
+          ]
+        }
+      ],
+      "mismatches": [],
+      "duplicate": false,
+      "qualityNotes": [
+        "Aligned with scenario concern and category for pilot pool."
+      ],
+      "productIdentity": {
+        "productId": "aestura-atobarrier365-eye-cream",
+        "brand": "AESTURA",
+        "productName": "Atobarrier 365 Eye Cream",
+        "normalizedBrand": "aestura",
+        "normalizedName": "atobarrier 365 eye cream",
+        "volumeLabel": null,
+        "gtin": null,
+        "canonicalUrl": null,
+        "imageHash": null,
+        "category": "eye_cream",
+        "scenarioIds": [
+          "kr-aging-eye-cream"
+        ]
+      },
+      "readiness": "trend_candidate",
+      "rejectionReason": "Identity only; catalog/INCI package incomplete.",
+      "roleTags": [
+        "safety"
+      ],
+      "affiliateOrAdInScore": false,
+      "cautionIngredients": []
+    }
+  ]
+}

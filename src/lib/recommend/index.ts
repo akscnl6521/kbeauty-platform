@@ -31,12 +31,26 @@ export { CATALOG_DATA_GOALS, CORE_ALLOWED_STOCK } from "./catalogTypes";
 export {
   filterCandidatesByOfferAvailability,
   isOfferEligibleForCoreRecommendation,
+  isOfferEligibleForRecommendation,
+  isOfferPurchasableForCta,
   normalizeCatalogProduct,
   normalizeProductOffer,
   productOfferToPurchaseLink,
   resolveProductOffers,
 } from "./productOffer";
 export type { OfferFilterResult } from "./productOffer";
+export {
+  commerceFitButUnavailableMessageKo,
+  commerceStatusLabelEn,
+  commerceStatusLabelKo,
+  deriveCommerceAvailability,
+  isRecommendCommerceSeparationEnabled,
+  stockStatusToCommerceStatus,
+} from "./commerceStatus";
+export type {
+  CommerceAvailability,
+  CommerceStatus,
+} from "./commerceStatus";
 export {
   findDuplicateBrandProductNames,
   findDuplicateProducts,

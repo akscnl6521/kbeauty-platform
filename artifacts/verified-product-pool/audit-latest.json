@@ -1,0 +1,211 @@
+{
+  "taskId": "P3-T02",
+  "generatedAt": "2026-07-24T11:16:11.857Z",
+  "mode": "fixture",
+  "runId": "p3-t02-2026-07-24T11-16-11-87d586d3",
+  "ok": true,
+  "totals": {
+    "rawSeen": 15,
+    "manifestApproved": 14,
+    "manifestRejected": 1,
+    "byCategory": {
+      "skincare": 6,
+      "makeup": 1,
+      "hair_scalp": 1,
+      "body": 1,
+      "lip_eye": 2
+    },
+    "normalized": 11,
+    "duplicatesMerged": 1,
+    "uniqueCandidates": 14,
+    "rejected": 3,
+    "safetyHold": 1,
+    "needsReview": 4,
+    "recommendationReady": 6,
+    "publicTop5Eligible": 0,
+    "publicTop5Blocked": 15,
+    "missingSource": 2,
+    "missingIngredients": 1,
+    "missingImageRights": 1,
+    "missingPurchaseOffer": 2,
+    "fixtureNonPublic": 15,
+    "dryRunNonPublic": 15
+  },
+  "candidateIds": [
+    "vp-body-lotion",
+    "vp-eye-mascara",
+    "vp-hair-shampoo",
+    "vp-invented-offer",
+    "vp-lip-tint",
+    "vp-makeup-cushion",
+    "vp-marketplace",
+    "vp-missing-image",
+    "vp-missing-inci",
+    "vp-missing-offer",
+    "vp-missing-source",
+    "vp-safety-hold",
+    "vp-skincare-serum",
+    "vp-unsupported-nail",
+    "vp-skincare-serum-dup"
+  ],
+  "top5BlockedSample": [
+    {
+      "candidateId": "vp-body-lotion",
+      "reasons": [
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    },
+    {
+      "candidateId": "vp-eye-mascara",
+      "reasons": [
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    },
+    {
+      "candidateId": "vp-hair-shampoo",
+      "reasons": [
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    },
+    {
+      "candidateId": "vp-invented-offer",
+      "reasons": [
+        "purchase_offer_missing",
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    },
+    {
+      "candidateId": "vp-lip-tint",
+      "reasons": [
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    },
+    {
+      "candidateId": "vp-makeup-cushion",
+      "reasons": [
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    },
+    {
+      "candidateId": "vp-marketplace",
+      "reasons": [
+        "source_not_verified",
+        "fixture_non_public",
+        "dry_run_non_public",
+        "official_manifest_not_approved"
+      ]
+    },
+    {
+      "candidateId": "vp-missing-image",
+      "reasons": [
+        "image_rights_not_verified",
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    },
+    {
+      "candidateId": "vp-missing-inci",
+      "reasons": [
+        "ingredients_not_verified",
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    },
+    {
+      "candidateId": "vp-missing-offer",
+      "reasons": [
+        "purchase_offer_missing",
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    },
+    {
+      "candidateId": "vp-missing-source",
+      "reasons": [
+        "source_not_verified",
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    },
+    {
+      "candidateId": "vp-safety-hold",
+      "reasons": [
+        "safety_ineligible",
+        "fixture_non_public",
+        "dry_run_non_public"
+      ]
+    }
+  ],
+  "recommendationReadySample": [
+    {
+      "candidateId": "vp-body-lotion",
+      "poolCategory": "body",
+      "publicTop5Allowed": false
+    },
+    {
+      "candidateId": "vp-eye-mascara",
+      "poolCategory": "lip_eye",
+      "publicTop5Allowed": false
+    },
+    {
+      "candidateId": "vp-hair-shampoo",
+      "poolCategory": "hair_scalp",
+      "publicTop5Allowed": false
+    },
+    {
+      "candidateId": "vp-lip-tint",
+      "poolCategory": "lip_eye",
+      "publicTop5Allowed": false
+    },
+    {
+      "candidateId": "vp-makeup-cushion",
+      "poolCategory": "makeup",
+      "publicTop5Allowed": false
+    },
+    {
+      "candidateId": "vp-skincare-serum",
+      "poolCategory": "skincare",
+      "publicTop5Allowed": false
+    }
+  ],
+  "rejectionReasonCounts": {
+    "fixture_non_public": 15,
+    "dry_run_non_public": 15,
+    "invented_field_forbidden": 1,
+    "purchase_offer_missing": 2,
+    "official_manifest_not_approved": 1,
+    "marketplace_only_forbidden": 1,
+    "source_not_verified": 2,
+    "image_rights_not_verified": 1,
+    "ingredients_not_verified": 1,
+    "safety_ineligible": 1,
+    "category_unsupported": 1,
+    "duplicate_merged": 1
+  },
+  "categoryCounts": {
+    "skincare": 6,
+    "makeup": 1,
+    "hair_scalp": 1,
+    "body": 1,
+    "lip_eye": 2
+  },
+  "databaseTouched": false,
+  "writeAttempted": false,
+  "productionTouched": false,
+  "publishAllowed": false,
+  "publicVisible": false,
+  "paidApiUsed": false,
+  "captchaBypassAttempted": false,
+  "authenticatedScrapeAttempted": false,
+  "notesKo": [
+    "승인된 공식 매니페스트·비공개 dry-run만 사용.",
+    "출처·전성분·이미지 권리·구매 offer 미검증 시 공개 Top 5 진입 금지.",
+    "fixture/dry-run은 비공개 · Production 쓰기 없음."
+  ]
+}

@@ -1,14 +1,45 @@
 # ROADMAP.md — K-Beauty Match
 
-최종 갱신: 2026-07-19
+최종 갱신: 2026-07-25
 
-현재 실제 진행 상태는 이 문서를 우선한다. 최상위 방향은 Master Plan v4.1을 따른다.
+현재 실제 진행 상태는 이 문서를 우선한다. 최상위 방향은 Master Plan **v4.2**를 따른다.
 
 ## 현재 단계
 
-**단계 4 — 제품 사용 영상과 루틴 연결부**
+**단계 6 피부과 기반(코드) + 단계 5 리텐션 + Phase 3.0 수동 촬영** · Phase 3.1 deferred · WQ-G · WQG-P0-002=`RELEASE_GATE_PENDING` · 공식 병원 실데이터는 미연결
 
 ## 완료
+
+### 최상위 실행 명세 기반 확장 (2026-07-23)
+
+- [x] 장기 BeautyProfile 계약과 기존 Care 로컬 저장 흐름 연결
+- [x] 사용자 확인값/추론값 우선순위 및 구형 V1 스냅샷 fallback
+- [x] BeautyProfile 조회·편집 UI (`/my/profile`)
+- [x] 도메인 문진 → BeautyProfile 누적
+- [x] 체크인 → BeautyProfile 추론 누적 · 안전 파싱/병합 · 서버 API 경계 · DRAFT migration (Staging 미적용)
+- [x] 전체 beauty taxonomy의 기기·구강·규제·전문가용 분리
+- [x] 공통 제품/규제/추천 적격/상업 메타데이터 계약
+- [x] 증상별 피부과·두피·알레르기·치과·응급 라우팅 (symptomSafety 실연결)
+- [x] 마스카라·립·샴푸 기존 category-specific 랭커와 새 taxonomy 회귀 검증
+- [x] T03 제품 자동화 ingestion 계약·카테고리 확장 fixture dry-run·안전 추천 (`test:product-automation`)
+- [x] T04 Organic/Affiliate/Sponsored 분리 · 전문가 라우팅 번들 (`test:organic-commerce`)
+- [x] T05 사용 가이드 현지화·패치/영상 fallback · 국가/언어 offer · admin ops dry-run (`test:usage-media-admin-ops`)
+- [x] T06 최종 통합·릴리스 증거 (`test:final-integration` · landmark OFF · build placeholder · Preview/device external_only)
+- [x] **P2-T01** Preview/local 라우트 자동 검증 (`test:preview-routes` · `check:preview-routes` · viewport 320/390/768/1440 · 스크린샷 증거 · 육안 승인 미주장)
+- [x] **P2-T02** Staging 읽기 전용 릴리스 게이트 (`test:staging-release-gate` · `check:staging-release-gate` · Dashboard 미확인 분리 · Production 쓰기 없음)
+- [x] **P2-T03** Admin review E2E 검증 (`test:admin-review-e2e` · 제품·병원 레인 · fixture 비공개 · Organic 독립 · dry-run)
+- [x] **P2-T04** 실데이터 온보딩 준비 (`test:real-data-onboarding` · 매니페스트·provenance·공식 우선·stale·체크리스트·템플릿·dry-run·거절 사유 · 비공개 fixture)
+- [x] **P2-T05** Final Preview 증거·사람 승인 패키지 (`test:phase2-final-evidence` · `check:phase2-final-evidence` · 6버킷 분리 · 1회성 검수 절차 · 위장 승인 금지)
+- [x] Master execution queue 문서화 (`docs/autopilot/MASTER_EXECUTION_QUEUE.md` · 계약 `docs/autopilot/EXECUTION_CONTRACT.md`)
+- [x] **P3-T01** 공식 한국 제품 출처 온보딩 (`test:official-kr-product-source` · 재개·dedupe·provenance·stale · fixture dry-run · 게시 금지)
+- [x] **P3-T02** 검증 제품 풀·카테고리 확장 (`test:verified-product-pool` · 5카테고리 · Top 5 4기둥 게이트 · fixture dry-run · 게시 금지)
+- [x] **P3-T03** 통합 갱신·예외 운영 (`test:automated-refresh-ops` · due/stale/retry/checkpoint/diff/admin · 일일 제품·주2회 병원 스케줄러 준비 · 자동 게시·파괴적 갱신 금지)
+- [x] **P3-T04** 제휴·스폰서 수익 준비 아키텍처 (`test:revenue-readiness` · offer/placement/disclosure/events/country/expiry/admin/privacy · 실계약 미활성화 · fixture dry-run)
+- [x] **P3-T05** 통합 Staging import 패키지 (`test:staging-import-package` · 제품/병원·provenance·review·duplicates·rejection·refresh·commercial·publishable gates · 사람 검수 패키지 · import 미실행)
+- [x] **T07-02** 서울 피부과 후보 HIRA 수집 파이프라인 (재개·dedupe·provenance·stale · fixture dry-run · 게시 금지)
+- [x] **T07-03** 기관상세 보강·전문의 증거 (공식 진료과목·전문의 수 · evidence/conflict/retry/manual-review · 증상 주장 분리 · fixture dry-run · 게시 금지)
+- [x] **T07-04** 공식 사이트 증상 근거 검수 번들 (여드름·주사/홍조·아토피·색소 · 매니페스트 · Organic/유료 큐 분리 · 미검증 비게시 · fixture dry-run)
+- [x] **T07-05** Admin dry-run · publishable 게이트 (T07-02~04 오케스트레이션 · 비공개 강제 · 공식근거+승인 · Organic/clinical fit 독립 · JSON/CSV 감사)
 
 ### 플랫폼 핵심 사용자 여정
 
@@ -30,6 +61,12 @@
 - [x] 제품 예외 검수 큐
 - [x] 자동 게시·Production 쓰기 차단
 - [x] 매일 09:20 KST 갱신 아티팩트 생성
+- [x] **T03** ingestion 계약·카테고리 추출(마스카라/립/샴푸)·fixture dry-run·refresh/resume·admin 링크 (`test:product-automation`)
+- [x] **P3-T01** 공식 한국 제품 출처 온보딩 (브랜드/공식몰/INCI · 이미지·variants·가격·재고·국가·사용가이드 · provenance · 재개·dedupe·stale · fixture dry-run · `test:official-kr-product-source`)
+- [x] **P3-T02** 검증 제품 풀·카테고리 확장 (skincare·makeup·hair/scalp·body·lip/eye · 정규화·안전·dedupe·추천준비·거절사유 · Top 5 4기둥 게이트 · `test:verified-product-pool`)
+- [x] **P3-T03** 통합 갱신·예외 운영 (due/stale/retry/checkpoint/diff/admin · `test:automated-refresh-ops` · `refresh:product-daily` · `refresh:clinic-twice-weekly`)
+- [~] 실공식 출처 live verify · verified 구매 SKU 풀 — **2026-07-25 실 라이브 크롤 등록 브랜드 전수(35개) 1회 실행** (robots-aware · 4배치 · 실제 189건 시도 · 16개 브랜드에서 실제 제품 추출 성공(COSRX·Beauty of Joseon·ROUND LAB·SKIN1004·Torriden·numbuzin·AXIS-Y·PURITO·Klairs·LANEIGE·innisfree·banila co.·Sulwhasoo·HERA·Lador·mise en scène) · Staging `product_discovery_candidates`에 official_brand_page 소스 145건 실등록 · Production 미접촉 · 사람 검수 전이라 공개/추천 미반영). 크롤 중 브랜드 조회가 인기 상위 20개로만 제한되어 21위 이후 브랜드가 조용히 누락되는 버그 발견·수정 (`test:wq-f-brand-lookup`). 현재 Staging 실 공개 `products` 활성 **20개**, discovery 대기(discovered+needs_review) **224건** (수천 개와는 여전히 거리가 있음) · 누적 1,309건 중 1,085건은 과거 placeholder 시드가 증거 미비로 정당하게 rejected · Anua 등 일부 브랜드는 사이트 구조상 커넥터 미대응으로 0건(추가 커넥터 작업 필요) · 실사람 검수→verified→published 전환은 여전히 `external_only`
+- [x] **P3-T05** 통합 Staging import 검수 패키지 (`test:staging-import-package` · 사람 승인 전 import 미실행)
 
 ### 피부과 후보 자동화
 
@@ -38,6 +75,13 @@
 - [x] 제휴 여부와 Organic 적합도 분리
 - [x] 피부과 Staging 계획과 검수 큐
 - [x] 매주 월·목 09:40 KST 검수 아티팩트 생성
+- [x] **T07-02** HIRA 서울 피부과 후보 ingestion (공식 필드 필터·checkpoint·dedupe·audit · `test:seoul-dermatology-ingestion`)
+- [x] **T07-03** 기관상세 보강·전문의 증거 (evidence strength·충돌·재시도·수동검수·증상 주장 분리 · `test:institution-detail-enrichment`)
+- [x] **T07-04** 공식 사이트 증상 근거 검수 번들 (매니페스트·Organic/유료 큐·미검증 비게시 · `test:symptom-evidence-review`)
+- [x] **T07-05** Admin dry-run · publishable 게이트 (전체 dry-run · 비공개 강제 · JSON/CSV 감사 · `test:admin-dry-run-publishable-gate`)
+- [x] **P3-T03** 피부과·제품 통합 재검증 주기 인터페이스 (아티팩트·스케줄러 준비 · 실운영 스케줄러 제외 · `test:automated-refresh-ops`)
+- [x] **P3-T05** 제품·병원 통합 Staging import 검수 패키지 (사람 승인 전 import 미실행 · `test:staging-import-package`)
+- [~] 실 HIRA live 수집 → 관리자 검수 → publishable — **2026-07-25 실 라이브 수집 1회 실행** (`DATA_GO_KR_SERVICE_KEY` 실키 확인 · 서울 sidoCd=110000 + 피부과 dgsbjtCd=14 · 10페이지·1,000건 조회 · 실제 서울 피부과 932건 확보 · 로컬 `artifacts/seoul-dermatology-ingestion/`에만 기록 · DB/Staging/Production 미접촉 · 게시 미실행). 전체 모수 약 4,968건 중 일부만 수집 — 공공데이터 API 사용량 보수적으로 이번엔 여기서 중단. 나머지 페이지 수집·관리자 검수→publishable 전환은 여전히 `external_only`
 
 ### 통합 운영 안전
 
@@ -57,7 +101,7 @@
 - [x] 빈 상태·오류 상태·모바일 대응
 - [x] 자체 테스트와 CI·빌드 검증
 - [ ] 실제 Preview 로그인 화면 육안 검수
-- [ ] Preview 원격 검수 JSON 전달 경로 연결
+- [x] Preview 원격 검수 JSON 전달 경로 연결 (공개 artifact 라우트 + VERCEL_URL 자동 · 대시보드 URL 설정은 선택)
 
 ## 지금 진행할 작업
 
@@ -67,54 +111,131 @@
 - [x] 게시 가능한 제품 사용 가이드 선택 정책
 - [x] 도포량·사용 순서·아침/저녁 정보 모델
 - [x] 광고·협찬 표시와 Organic 점수 분리 정책
-- [ ] 제품·루틴·부위 화면 연결
-- [ ] 권리 만료·삭제·비공개 점검 큐
-- [ ] 관리자 영상 검수 화면
-- [ ] AI 생성 영상 표시 정책 보강
-- [ ] 영상이 Organic 적합도 점수에 영향을 주지 않는 통합 회귀 테스트
+- [x] 루틴 화면(`/routine`) 사용 가이드 연결
+- [x] 추천 결과 핵심 제품 카드 사용 가이드 연결 (공용 컴포넌트)
+- [x] 권리 만료·삭제·비공개 점검 큐
+- [x] 영상이 Organic 적합도 점수에 영향을 주지 않는 통합 회귀 테스트
+- [x] 부위별 화면 사용 가이드 연결 (`/face-explorer`, results `area`, `/my/guidance`)
+- [x] 관리자 영상 검수 화면 (제품 상세 읽기 전용)
+- [x] AI 생성·광고·협찬 표시 정책 보강 (공용 disclosure)
+- [x] 단계 4 본기능 코드·자동 테스트·Staging build 검증 완료
+- [x] **T05** 도포량·순서·빈도·주의·패치 테스트·도포 영상 메타 + fallback · 국가/언어 offer(미발명) · admin 후보/중복/근거/전환/만료큐/재시도/감사 dry-run
+- [x] **T06** 최종 통합·릴리스 증거 (여정 연결 계약 · empty/loading a11y · landmark OFF · 로컬 자동검증·security·production build) · Preview/실기기 육안은 미검증
+- [x] **P2-T01** 공개·analyze/results/routine·profile/guidance·admin review 라우트 자동 검증 + viewport 스크린샷 파이프라인 (육안 승인 아님)
+- [x] **P2-T02** Staging 읽기 전용 릴리스 게이트 (환경·헬스·계약·auth·Storage·게시·migration · dashboard_only_unknown 정직 분리)
+- [x] **P2-T03** Admin review E2E (후보·근거·중복·needs_review/admin_reviewed/publishable · fixture 비공개 · Organic 독립)
+- [x] **P2-T04** 실데이터 온보딩 준비 (출처 매니페스트·provenance·공식 우선·stale/refresh·검수 체크리스트·import 템플릿·dry-run·거절 사유 · 비공개 fixture · Production 쓰기 없음)
+- [x] **P2-T05** Final Preview 증거 패키지 (Phase 2 자동 회귀 · 스크린샷/실기기/외부출처/Dashboard/main·Production 버킷 분리 · 1회성 사람 검증 문서 · 위장 승인 금지)
+- [x] **P3-T01** 공식 한국 제품 출처 온보딩 파이프라인 (공식 우선 · 미확인 미발명 · fixture 비공개 · dry-run · Production 쓰기 없음)
+- [x] **P3-T02** 검증 제품 풀·카테고리 확장 (5카테고리 · Top 5 게이트 · fixture dry-run · Production 쓰기 없음)
+- [x] **P3-T03** 통합 갱신·예외 운영 (due/stale/retry/checkpoint/diff/admin · 스케줄러 준비 · 자동 게시·파괴적 갱신 금지 · Production 스케줄 미생성)
+- [x] **P3-T04** 제휴·스폰서 수익 준비 아키텍처 (offer/placement/disclosure/events/country/expiry/admin/privacy · 실계약 미활성화 · `test:revenue-readiness`)
+- [x] **P3-T05** 통합 Staging import 패키지 (제품/병원 번들 · 사람 검수 패키지 · import 미실행 · `test:staging-import-package` · `check:staging-import-package`)
+- [ ] Preview 수동 샘플 육안 확인 (콘솔 주입 검수 중단 · QA 페이지 미포함) — P2-T05 절차 문서화 · 사람 미실행
+- [ ] Preview 관리자 로그인 후 Staging 미디어 육안 검수 — P2-T05 절차 문서화 · 사람 미실행
+- [x] Preview 원격 검수 JSON 경로 연결 (코드·fixture·자동 Preview 경로)
 
 ## 다음 작업
 
+Autopilot canonical: `docs/autopilot/MASTER_EXECUTION_QUEUE.md` (`next_task` = T07 live/사람)
+
+1. 공식 병원 실출처 live 수집·승인 → 관리자 검수 → Staging import → publishable (T07-02~T07-05·P3-T05 코드 완료 · fixture 게시 금지 · 1회성 사람 작업 잔여)
+2. P0-003 / P1-003·005 Preview·실기기 육안 (사람)
+3. P1-006 개인정보 전송 범위 정책·법무 최종 검수
+4. **WQG-P0-002** `RELEASE_GATE_PENDING` — Production 배포 직전 `AI_PROVIDER` 확인 (지금 미실행 · 키 미기록)
+5. Phase 3.1 자동 정렬은 **보류** 유지
+6. (승인 대기) 사진 비교 Staging migration · `care-photos`
+7. (승인 대기) BeautyProfile Staging migration · `beauty_profiles`
+8. (외부) 실제 제휴 URL·수익 채널 연결 (P3-T04 코드 완료 · EX-12)
+9. (외부/사람) 2026-07-25 실 크롤 1회로 확보한 Staging discovery 후보(신규 22건 · staging_ready 8건) 사람 검수→verified→published 승인 · 반복 크롤 확대 · P3-T03 실운영 스케줄 등록 (EX-11)
+
 ### 단계 5 — 리텐션 보강
 
-- [ ] 체크인 응답 기반 루틴 조정 UI
-- [ ] 사진 비교 동의·삭제 흐름
-- [ ] 재방문 대시보드 보강
-- [ ] 알림 채널별 동의 분리
+- [x] 3·7·15·30일 체크인 응답 분기 정책 (`checkinPolicy`)
+- [x] 위험 신호 상담 우선 · 48시간 1회 재알림 정책 (발송 미연결)
+- [x] `/my/check-ins` · `/my/check-ins/[id]` 화면 연결
+- [x] 체크인 응답 기반 루틴 조정 제안 UI (승인 전 불변 · 일시 중지 · 되돌리기)
+- [x] **T02 follow-up lifecycle** — opt-in·스케줄·due·progress/adherence/irritation·루틴조정·red-flag·resume/fallback · in_app/email/sms/push 인터페이스·dry-run·상태레코드·관리자 가시성 (`test:follow-up-lifecycle` · 실발송 미주장)
+- [x] 체크인 이메일 큐 정책 (발송 미연결 · DRAFT migration)
+- [x] 체크인 이메일 dry-run provider (disabled/dry_run/live_blocked · 실제 발송·SDK·API 키 없음 · admin UI 후순위)
+- [x] 체크인 이메일 Resend live adapter 코드 준비 (게이트·allowlist·kill switch · mock self-test · 실제 발송·API 키·DNS 변경 없음 · main 미병합)
+- [x] Preview 관리자 체크인 이메일 테스트 발송 UI/API (Production 차단 · same-origin · allowlist 서버 고정 · in-memory rate limit · mock self-test · 실제 발송 미실행 · DB audit 미구현 · main 미병합)
+- [x] Care admin readiness 오류 분류 (`42501` vs `PGRST205`) · service_role care SELECT grant migration 작성
+- [x] Staging care service_role SELECT grant migration 적용 (2026-07-21 · probe ready)
+- [x] Preview `/admin/care` 육안 확인 (migration/permission 경고 없음 · counts only — no PII · 집계 카드 정상)
+- [x] 체크인 이메일 큐 DRAFT Staging 검토 (적용 보류 · 테이블 미생성)
+- [x] 체크인 이메일 큐 Schema A 코드·게이트 (dated migration · persistence · SKIP LOCKED claim · dry-run worker · Preview 분리 유지)
+- [x] 사진 비교 동의·저장·삭제 **코드** (WQ-B · policy/API/UI/selftest)
+- [ ] 사진 비교 Staging migration · `care-photos` Storage 연결 (승인 대기 · external_only)
+- [x] Staging에 `20260722010000_create_checkin_email_queue.sql` Dashboard 적용 · `verify:checkin-email-queue-staging` **통과** (2026-07-22 · FK/status/payload negative · claim RPC · 실발송 없음 · Production 미적용)
+- [x] 재방문 대시보드 보강 (WQ-C)
+- [x] 알림 채널별 동의 분리 UI / 스케줄링 연결 (WQ-D · enqueue only · 실발송 없음)
+- [x] Care worker admin / dry-run delivery (WQ-E · dry-run tick · retry/cancel · 실발송 없음)
+- [x] WQ-F Phase 0/1: scenario Top10 model + KR core scenarios (30) + gap analysis (no fake pool fill)
+- [x] WQ-F Scenario Top10 pilot artifacts (2026-07-22 · offline pools + selftest · no runtime fill)
+- [x] WQ-F Scenario Top10 pilot enrichment (2026-07-22 · multiSource · global products + many-to-many pools · reuse 15–35% · honest ready shortfall · no runtime)
+- [x] Phase 2.5 — recommendation ↔ commerce 분리 (`RECOMMEND_COMMERCE_SEPARATION`)
+- [x] Phase 2.6 — Staging SELECT + Preview commerce 분리 검증
+- [x] Phase 2.6.2 — A 엄격 RLS + BOJ verified OOS + Preview 수동 UI 검수 **종료** (2026-07-22)
+- [x] Phase 3.0 — 안내형 얼굴 촬영 MVP + AI 분석 대기 UX (카메라 3각도 · 로컬 품질 · progress overlay · Storage/migration 없음 · `NEXT_PUBLIC_GUIDED_CAMERA_CAPTURE`)
+- [x] Phase 3.0.2 — 일반 사용자 갤러리 업로드 금지 (카메라/문진만)
+- [~] Phase 3.1 — 얼굴 랜드마크 자동 정렬·자동 촬영 (**implemented · tests passed · Android blocker unresolved · deferred**) · 기본 flag OFF · 코드 보존
+- [x] 프로젝트 UI 스킬 설치 (frontend-design, ui-ux-pro-max) + kbeauty-match-design + design-system 초안 (페이지 재디자인 미실시)
+- [x] **WQ-F Phase 2+ 커버리지 시각화** (`summarizeScenarioCoverage` · `/admin/catalog/scenario-coverage` 읽기 전용 · 기존 오프라인 gap 분석 재사용 · 실데이터 미발명·DB 쓰기 없음 · `test:scenario-coverage`) — 스키마 실적용·live ingestion·pool 채움은 여전히 external_only
+- [x] **WQ-G Prelaunch gate** 문서 (`docs/prelaunch/WQ-G_PRELAUNCH_GATE.md` · 조사만 · P0×3 / P1×6)
+- [x] **WQG-P0-001** 사진 AI 분석 오인·동의 정합 (문진 기반 · 픽셀 외부 AI 미전송 · vision 미도입)
+- [~] **WQG-P0-002** Production `AI_PROVIDER` — **`RELEASE_GATE_PENDING`** (배포 직전 · 지금 미실행)
+- [x] **WQG-P1-002** CameraCapturePanel/landmark dynamic import (카메라 선택 시 로드 · SSR-safe 접근성 fallback · 회귀 테스트)
+- [ ] Phase 3.1 실기기 안정화 재개 (Android Chrome · iPhone Safari 통과 후)
+- [ ] WQ-F Phase 2+ 잔여: `recommendation_scenarios` 등 Phase 2 스키마 실제 Staging 적용 · live multi-source ingestion · 실 pool 채움 (커버리지 시각화는 완료 · 나머지는 external_only)
 
 ### 단계 6 — 증상 기반 피부과 실제 데이터
 
-- [ ] 공식 병원 후보 수집
-- [ ] 증상 태그별 근거 검수
-- [ ] 의료진·진료시간·주소·예약 URL 검증
-- [ ] 거리·언어·예산 필터
-- [ ] 제휴 병원 명확한 표시
-- [ ] 상담 리드 최소정보 동의 흐름
+- [x] 공식 병원 후보 수집 어댑터·fixture·dry-run/live_blocked (실출처 미연결)
+- [x] **T07-02** HIRA 서울 피부과 후보 재개 가능 수집 (공식 필드·provenance·dedupe·stale · 게시 금지)
+- [x] 증상 태그·필드 검증·관리자 검수 게이트 (실데이터 검수 대기)
+- [x] 진료시간·주소·예약 URL·언어 필드 검증 구조
+- [x] 거리·언어·예산 필터
+- [x] 제휴 병원 Organic 분리 표시 (`/my/guidance` · `/admin/clinics`)
+- [x] 상담 리드 최소정보 동의 흐름 (dry-run only · DB 미저장)
+- [ ] 공식 병원 실데이터 live 수집·사람 최종 검수 후 publishable 전환
+- [ ] 상담 리드 실전달 채널 (승인 후)
 
 ### 단계 7 — 수익화
 
-- [ ] 화장품 제휴 링크 데이터 구조
-- [ ] 제휴 피부과와 Organic 추천 분리 검증
-- [ ] 광고 슬롯 안전 영역 정책
-- [ ] 스폰서 카드 분리
-- [ ] 클릭·리드·전환·수익 이벤트
-- [ ] 개인정보·건강정보 광고 타기팅 금지 테스트
+- [x] 화장품 제휴 링크 데이터 구조 (`affiliateLink` · in-memory store)
+- [x] 제휴 피부과와 Organic 추천 분리 검증 (코드·selftest · 실데이터는 별도)
+- [x] 광고 슬롯 안전 영역 정책
+- [x] 스폰서 카드 분리 (`SponsoredCard` · Organic 레인 금지)
+- [x] 클릭·리드·전환·수익 이벤트 (in-memory · Production 미연결)
+- [x] 개인정보·건강정보 광고 타기팅 금지 테스트
+- [x] **P3-T04** 수익 준비 아키텍처 (offer ingestion·sponsored contract·disclosure·country links·expiry·admin·privacy · fixture dry-run · 실계약 미활성화)
+- [ ] 실제 제휴 URL·수익 채널 연결 (external_only · EX-12)
 
 ### 단계 8 — 자동 갱신·운영 자동화
 
-- [ ] 영상 URL·권리 만료 갱신
-- [ ] 피부과 정보 재검증 주기
-- [ ] 제휴·광고 계약 상태 갱신
-- [ ] 실패 재시도·중복 알림 억제
-- [ ] 변경 이력과 rollback
+- [x] **T05** 영상/가이드·offer 후보 운영 인터페이스 (상태 전환·만료 큐·재시도·감사 · dry-run · 실운영 스케줄러 제외)
+- [x] **P3-T03** 제품·병원 통합 갱신·예외 운영 인터페이스 (아티팩트·스케줄러 준비 · 실운영 제외)
+- [ ] 영상 URL·권리 만료 실운영 갱신
+- [ ] 피부과 정보 재검증 주기 (실운영 스케줄러)
+- [ ] 제휴·광고 계약 상태 갱신 · rollback (RE-07)
+- [ ] 실패 재시도·중복 알림 억제 (실운영 채널)
+- [ ] 변경 이력과 rollback (Production 연결)
 
 ### 단계 9 — 통합 검증과 출시
 
+- [x] **T06** 코드 수준 여정 통합·릴리스 증거 문서·로컬 자동검증·production build (Preview/실기기·법무 제외)
+- [x] **P2-T01** Preview/local 라우트·viewport 자동 검증 인프라 (사람 육안은 별도)
+- [x] **P2-T02** Staging 읽기 전용 릴리스 게이트 인프라 (Dashboard 실확인·Production 직전 게이트는 별도)
+- [x] **P2-T03** Admin review E2E 하네스 (사람 Preview 관리자 육안은 별도)
+- [x] **P2-T04** 실데이터 온보딩 준비 계약·dry-run (실공식 데이터·Staging 쓰기는 별도)
+- [x] **P2-T05** Final Preview 증거·사람 승인 패키지 (자동 회귀·버킷 분리·1회성 절차 · 사람 검수는 별도)
+- [x] **P3-T05** 통합 Staging import 사람 검수 패키지 (import 미실행 · 실 승인·실행은 별도)
 - [ ] 실제 제품·판매처·피부과 데이터 사람 최종 검수
 - [ ] 전체 사용자 여정 Preview 검증
-- [ ] 모바일·접근성·성능 재검증
-- [ ] 개인정보·의료·광고 문구 검수
-- [ ] 보안 하드닝
+- [ ] 모바일·접근성·성능 재검증 (실기기)
+- [ ] 개인정보·의료·광고 문구 검수 (법무)
+- [ ] 보안 하드닝 (운영)
 - [ ] Production 환경 확인
 - [ ] Production 배포 승인 후 공개
 

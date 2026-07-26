@@ -1,0 +1,228 @@
+{
+  "phase": "2.2-apply",
+  "mode": "DRY_RUN",
+  "projectRef": "jfnj***gfd",
+  "productionWrite": 0,
+  "caseTag": "[phase22-missing-slug-2026-07-22]",
+  "products": [
+    {
+      "slug": "aestura-atobarrier365-cream",
+      "action": "insert",
+      "productId": null,
+      "media": {
+        "action": "would_insert",
+        "url": "https://cdn.shopify.com/s/files/1/0723/3775/2306/files/1_Atobarrier365-Cream_thumbnail_Product-80ml__1200x1200_961c8e7e-0afb-48bd-bea7-d47f285ab4d4.png?v=1734030421"
+      },
+      "offer": {
+        "action": "would_insert_verified",
+        "retailer_name": "아모레몰",
+        "purchase_url": "https://www.amoremall.com/kr/ko/product/detail?onlineProdCode=150100000286&onlineProdSn=60498",
+        "price": 52800,
+        "currency": "KRW",
+        "stock_status": "in_stock",
+        "is_official": true,
+        "note": "공식 유통 아모레몰 더블(80ml×2) 구매 UI+주간판매 확인. 단품 공식몰은 일시품절 신호."
+      },
+      "ingredientsLinked": 45,
+      "hold": false,
+      "offerPlan": {
+        "retailer_name": "아모레몰",
+        "purchase_url": "https://www.amoremall.com/kr/ko/product/detail?onlineProdCode=150100000286&onlineProdSn=60498",
+        "price": 52800,
+        "currency": "KRW",
+        "stock_status": "in_stock",
+        "is_official": true,
+        "note": "공식 유통 아모레몰 더블(80ml×2) 구매 UI+주간판매 확인. 단품 공식몰은 일시품절 신호."
+      },
+      "keyIngredients": [
+        "GLYCERIN",
+        "SQUALANE",
+        "CHOLESTEROL",
+        "ALLANTOIN",
+        "NIACINAMIDE",
+        "CERAMIDE NP",
+        "TOCOPHEROL"
+      ]
+    },
+    {
+      "slug": "round-lab-dokdo-cream",
+      "action": "insert",
+      "productId": null,
+      "media": {
+        "action": "would_insert",
+        "url": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/1025-dokdo-cream-round-lab-1_66b8271b-613f-4510-82e8-b15abb0f1e37.jpg?v=1772849283"
+      },
+      "offer": {
+        "action": "would_insert_out_of_stock",
+        "retailer_name": "ROUND LAB 공식몰",
+        "purchase_url": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%AC%EB%A6%BC-80ml/24/",
+        "price": 25600,
+        "currency": "KRW",
+        "stock_status": "out_of_stock",
+        "is_official": true,
+        "note": "공식몰 품절 확인 — in_stock 승격 금지."
+      },
+      "ingredientsLinked": 44,
+      "hold": true,
+      "offerPlan": {
+        "retailer_name": "ROUND LAB 공식몰",
+        "purchase_url": "https://roundlab.co.kr/product/1025-%EB%8F%85%EB%8F%84-%ED%81%AC%EB%A6%BC-80ml/24/",
+        "price": 25600,
+        "currency": "KRW",
+        "stock_status": "out_of_stock",
+        "is_official": true,
+        "note": "공식몰 품절 확인 — in_stock 승격 금지."
+      },
+      "keyIngredients": [
+        "Glycerin",
+        "Hyaluronic Acid",
+        "Ceramide AP",
+        "Allantoin",
+        "Panthenol",
+        "Beta-Glucan",
+        "Cholesterol"
+      ]
+    },
+    {
+      "slug": "torriden-dive-in-serum",
+      "action": "insert",
+      "productId": null,
+      "media": {
+        "action": "would_insert",
+        "url": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/DIVEINSerum1_631ac0e3-a77b-422a-a806-bf34477cac19.jpg?v=1753346213"
+      },
+      "offer": {
+        "action": "skip_no_verified_kr_offer"
+      },
+      "ingredientsLinked": 35,
+      "hold": true,
+      "offerPlan": null,
+      "keyIngredients": [
+        "Glycerin",
+        "Panthenol",
+        "Sodium Hyaluronate",
+        "Allantoin",
+        "Madecassoside",
+        "Ceramide NP",
+        "Beta-Glucan",
+        "Cholesterol"
+      ]
+    },
+    {
+      "slug": "skin1004-madagascar-centella-ampoule",
+      "action": "insert",
+      "productId": null,
+      "media": {
+        "action": "would_insert",
+        "url": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-ampoule-serum-centella-ampoule-1246455500.png?v=1782787571"
+      },
+      "offer": {
+        "action": "skip_no_verified_kr_offer"
+      },
+      "ingredientsLinked": 7,
+      "hold": true,
+      "offerPlan": null,
+      "keyIngredients": [
+        "Glycerin",
+        "Centella Asiatica Extract"
+      ]
+    },
+    {
+      "slug": "beauty-of-joseon-green-plum-refreshing-toner",
+      "action": "insert",
+      "productId": null,
+      "media": {
+        "action": "would_insert",
+        "url": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/green-plum-refreshing-toner-aha-bha-1-front.webp?v=1770279162"
+      },
+      "offer": {
+        "action": "would_insert_out_of_stock",
+        "retailer_name": "조선미녀 공식몰",
+        "purchase_url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/",
+        "price": 18000,
+        "currency": "KRW",
+        "stock_status": "out_of_stock",
+        "is_official": true,
+        "note": "공식몰 SOLD OUT 확인 — in_stock 승격 금지."
+      },
+      "ingredientsLinked": 27,
+      "hold": true,
+      "offerPlan": {
+        "retailer_name": "조선미녀 공식몰",
+        "purchase_url": "https://beautyofjoseon.co.kr/product/%EC%B2%AD%EB%A7%A4%EC%8B%A4-aha-bha-%ED%86%A0%EB%84%88/31/",
+        "price": 18000,
+        "currency": "KRW",
+        "stock_status": "out_of_stock",
+        "is_official": true,
+        "note": "공식몰 SOLD OUT 확인 — in_stock 승격 금지."
+      },
+      "keyIngredients": [
+        "Glycerin",
+        "Glycolic Acid",
+        "Salicylic Acid"
+      ]
+    },
+    {
+      "slug": "haruharu-wonder-black-rice-hyaluronic-toner",
+      "action": "insert",
+      "productId": null,
+      "media": {
+        "action": "would_insert",
+        "url": "https://cdn.shopify.com/s/files/1/0707/0190/8217/files/150ml_11e70ee9-f850-4fe7-8e7e-a960590e938d.jpg?v=1751443548"
+      },
+      "offer": {
+        "action": "skip_no_verified_kr_offer"
+      },
+      "ingredientsLinked": 28,
+      "hold": true,
+      "offerPlan": null,
+      "keyIngredients": [
+        "Glycerin",
+        "Hyaluronic Acid",
+        "Beta-glucan"
+      ]
+    }
+  ],
+  "keyEnrich": [
+    {
+      "id": 14,
+      "slug": "beauty-of-joseon-glow-serum-propolis-niacinamide",
+      "status": "dry_update",
+      "before": [
+        "Propolis Extract",
+        "Dipropylene Glycol",
+        "Glycerin",
+        "Butylene Glycol",
+        "Aqua"
+      ],
+      "after": [
+        "Glycerin",
+        "Niacinamide",
+        "Betaine Salicylate",
+        "Sodium Hyaluronate",
+        "Centella Asiatica Extract",
+        "Tocopherol"
+      ]
+    },
+    {
+      "id": 13,
+      "slug": "anua-heartleaf-77-soothing-toner",
+      "status": "dry_update",
+      "before": [
+        "Houttuynia Cordata Flower/Leaf/Stem Water",
+        "Water",
+        "1,2-Hexanediol",
+        "Glycerin",
+        "Betaine"
+      ],
+      "after": [
+        "Houttuynia Cordata Flower/Leaf/Stem Water",
+        "Glycerin",
+        "Panthenol",
+        "Centella Asiatica Extract",
+        "Sodium Hyaluronate"
+      ]
+    }
+  ],
+  "errors": []
+}

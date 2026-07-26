@@ -2,8 +2,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { FaceZoneVerifiedUsageGuides } from "@/components/usage/FaceZoneVerifiedUsageGuides";
+import type { FaceExplorerZone } from "@/lib/media/usageGuideApplicationArea";
 
-type Zone = "hair" | "forehead" | "eyebrow" | "eyes" | "cheeks" | "nose" | "lips" | "neck" | null;
+type Zone = FaceExplorerZone | null;
 
 const zoneInfo: Record<Exclude<Zone, null>, {
   tag: string; title: string; desc: string; tags: string[]; concern: string; color: string;
@@ -217,12 +219,15 @@ export default function FaceExplorer() {
                       </span>
                     ))}
                   </div>
-                  <Link href={`/results?concern=${info.concern}`}>
+                  <Link href={`/results?concern=${info.concern}&area=${displayZone}`}>
                     <button className="w-full text-white rounded-full py-3 text-sm font-semibold transition hover:opacity-90"
                       style={{ background: info.color }}>
                       관련 제품 정보 보기 →
                     </button>
                   </Link>
+                  {displayZone ? (
+                    <FaceZoneVerifiedUsageGuides zone={displayZone} locale="ko" />
+                  ) : null}
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center text-center text-gray-400 gap-4 py-8">
