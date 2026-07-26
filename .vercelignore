@@ -2,7 +2,12 @@
 node_modules
 .next
 .git
-data/backups
+# Exclude all backup snapshots EXCEPT the 2026-07-14-catalog fixture, which is
+# imported at build time by src/lib/recommend/scenarios/scenarioCoverageReport.ts.
+# (Excluding all of data/backups previously broke the Vercel build with
+#  "Module not found: data/backups/2026-07-14-catalog/products.json".)
+data/backups/*
+!data/backups/2026-07-14-catalog
 data/catalog/full-beauty
 data/catalog/enrichment
 data/catalog/labels
