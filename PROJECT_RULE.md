@@ -1,6 +1,6 @@
 # PROJECT_RULE.md — K-Beauty Match 운영 규칙
 
-최종 갱신: 2026-07-13  
+최종 갱신: 2026-07-26  
 상위 계획: `MASTER_PLAN.md` (v3.1)
 
 모든 기여자와 AI 어시스턴트는 아래 규칙을 우선 적용한다.  
@@ -136,3 +136,22 @@
 3. `PROJECT_STATUS.md` — 현재 상태 (가장 최신 사실)  
 4. `ROADMAP.md` / `CHANGELOG.md` — 순서·이력  
 5. `docs/*` — 상세 초안 (충돌 시 상위 문서 우선)
+
+---
+
+## 10. SQL 실행 원칙
+
+- Production 스키마/데이터를 변경하는 쓰기 쿼리(INSERT/UPDATE/DELETE/DROP/TRUNCATE 등)는
+  Supabase SQL Editor에서 직접 실행하지 않는다.
+- 모든 쓰기 쿼리는 `supabase/migrations/`에 `날짜_설명.sql` 파일로 작성하고
+  git commit → PR 리뷰 → 승인 후에만 적용한다.
+- Supabase SQL Editor는 조회(SELECT)용으로만 사용한다.
+- SQL Editor의 저장된 쿼리와 History는 분기마다(3개월) 한 번씩 비운다.
+
+### 배경 (2026-07-26)
+
+병원 데이터 1,917행을 SQL Editor에 4개 파트로 나눠 붙여넣어 적용했다고 판단했으나,
+실제로는 **한 행도 커밋되지 않았다**. 각 파트가 `BEGIN; … COMMIT;` 단일 트랜잭션이라
+중간 오류 시 파트 전체가 조용히 롤백되는데, 화면상으로는 성공과 구분이 어려웠다.
+붙여넣기 실행은 (1) 실행 여부가 git에 남지 않고 (2) 리뷰를 거치지 않으며
+(3) 부분 실패를 사람이 알아채기 어렵다. 위 원칙은 이 세 가지를 막기 위한 것이다.
