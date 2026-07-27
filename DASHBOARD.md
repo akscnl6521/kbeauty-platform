@@ -1114,6 +1114,41 @@ miseenscene 3 · 기타 9. 전부 HTML에 사용법 텍스트가 없다. cosrx.c
 코퍼스는 추출이 좋아지면 늘어나는 값이므로, 숫자 대신 «전부 needs_review» 같은
 불변식을 검사하도록 고쳤다.
 
+### 26-20. 트랙 대기 진입 — 테스트 커버리지 정리 (2026-07-27)
+
+트랙 C(디자인)·제품/성분 트랙 진행 상황을 확인하고 `/routine`·`/results` 착수
+시점을 판단할 때까지 이 트랙은 **대기**. 그 전에 커버리지 구멍 하나를 메웠다.
+
+**메운 구멍**: `blockingReasonsForApproval`·`fieldsNotFoundInSource` — 승인
+가능 여부를 판정하고 추출 오류를 표시하는 함수인데, **Staging e2e(네트워크+DB
+필요)로만 검증되고 있었다.** 승인 게이트가 망가져도 오프라인에서는 아무것도
+잡지 못하는 상태였다. 두 함수 모두 DB를 건드리지 않고 server-only 모듈에 있을
+뿐이라, 로더로 스텁해서 순수 테스트를 붙였다.
+
+`npm run test:usage-guide-review-policy` — 근거 없는 승인 거부(단계 없음·의학적
+표현·출처 없음·대조할 원문 없음·패치테스트 단계 없음), 수기 입력 예외, 원문
+대조 불일치 탐지, 공백 차이 오탐 방지.
+
+**`npm run test:video-track`** — 이 트랙의 오프라인 테스트 10종을 한 번에 실행한다.
+네트워크·DB가 필요한 것(`verify:*`·`e2e:*`·`media:recheck`·`usage:collect|ingest`·
+`catalog:repair-*`)은 제외했으므로 어디서나 돌릴 수 있다.
+
+| 포함된 스위트 | 검증 대상 |
+|---|---|
+| `test:media-asset-library` | §36.4 도메인 + migration 정적 검토 |
+| `test:media-category-registry` | 영상 후보 분류·권리 레지스트리 |
+| `test:product-usage-guides` | 사용법 추출(활용형·플레이스홀더·구간·부위) + migration |
+| `test:usage-guide-review-policy` | 승인 게이트·원문 대조 |
+| `test:media-recheck-policy` | §41 재확인·재시도 일정 |
+| `test:product-name-repair` | 모지바케 복구 안전장치 |
+| `test:korean-product-slug` | 로마자 슬러그 + 공용 생성기 회귀 |
+| `test:spreadsheet-encoding` | CSV UTF-8/BOM/cp949 판정 |
+| `test:admin-review-a11y` | 색 대비 + 접근성 마크업 규칙 |
+| `check:product-registration-slugs` | 제품 등록 플로우 드라이런 |
+
+> CI(`core-journey-ci.yml`)에는 아직 넣지 않았다. 다른 트랙과 공유하는 파일이라
+> 편집이 겹칠 수 있고, 병합 시점에 함께 정하는 편이 낫다.
+
 ---
 
 *갱신 이력은 git 커밋 로그 참고. 이 파일이 최신 상태 요약의 단일 진실.*

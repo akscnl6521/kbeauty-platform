@@ -51,6 +51,7 @@
     "test:product-name-repair": "npx --yes tsx scripts/product-name-repair-selftest.ts",
     "usage:collect-guides": "npx --yes tsx scripts/collect-product-usage-guides.ts",
     "usage:ingest-guides": "node scripts/ingest-product-usage-guides.mjs",
+    "test:usage-guide-review-policy": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/usage-guide-review-policy-selftest.ts",
     "e2e:usage-guide-review-staging": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/e2e-usage-guide-review-staging.ts",
     "verify:usage-guides-staging": "node scripts/verify-usage-guides-staging.mjs",
     "media:discover-channels": "node scripts/discover-brand-official-channels.mjs",
@@ -198,7 +199,8 @@
     "test:guided-landmark": "npx --yes tsx scripts/guided-landmark-selftest.ts",
     "verify:recommendation-scenario-phase21-staging": "npx --yes tsx scripts/recommendation-scenario-phase21-staging.ts",
     "check:preview-scenario-phase21": "node scripts/recommendation-scenario-phase21-preview-smoke.mjs",
-    "analyze:scenario-catalog-gap": "npx --yes tsx scripts/analyze-scenario-catalog-gap.ts"
+    "analyze:scenario-catalog-gap": "npx --yes tsx scripts/analyze-scenario-catalog-gap.ts",
+    "test:video-track": "npm run test:media-asset-library && npm run test:media-category-registry && npm run test:product-usage-guides && npm run test:usage-guide-review-policy && npm run test:media-recheck-policy && npm run test:product-name-repair && npm run test:korean-product-slug && npm run test:spreadsheet-encoding && npm run test:admin-review-a11y && npm run check:product-registration-slugs"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.32",
