@@ -1,6 +1,28 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-27 (category 채우기 43/44 · 알레르겐 노출 최종 감사)
+최종 갱신: 2026-07-27 (얼굴 트랙 밖 8건 추천 풀 제외 · Production 감사 SQL 작성)
+
+## 2026-07-27 얼굴 트랙 밖 제품 제외 + Production 감사 SQL (사람이 실행)
+
+### (1) 얼굴 트랙 밖 8건을 추천 후보 풀에서 제외
+
+- `isOutsideFaceTrack()` 신설([publicCatalogFilter.ts](src/lib/recommend/publicCatalogFilter.ts)). `perfume` · `hand_cream` · `body_lotion` · `body_wash` · `body_oil` · `body_scrub` · `foot_cream` 을 얼굴 추천 후보에서 뺀다.
+- **제품을 내리지 않았다.** `active=false` 로 바꾸지 않고 카탈로그에는 그대로 두고 **추천 풀에서만** 뺐다. §44 단계 6.5 트랙 B 를 시작하면 그때 각 트랙의 풀로 쓸 수 있다. DB 쓰기 없음 — 코드 변경만.
+- 적용 지점 2곳: `fetchCandidateProducts`(핵심 추천 경로)와 [results/page.tsx](src/app/results/page.tsx)(결과 화면이 직접 조회하는 경로). 두 번째를 놓치면 화면에는 그대로 나온다.
+- **`category` 가 비어 있으면 빼지 않는다.** 유형을 모른다는 이유로 얼굴 제품을 조용히 떨어뜨리는 쪽이 더 나쁘다.
+- 두피·모발 카테고리(shampoo/conditioner/hair_treatment/hair_styling)는 **건드리지 않았다.** 단계 5.5 가 별도 점수 체계를 쓰기로 돼 있어 미리 손대면 그 설계와 충돌한다. `npm run test:face-track-filter` 가 이걸 못 박아 둔다.
+- 결과: 추천 풀 106 → **98건**. 정확히 8건 제외.
+
+### (2) Production 알레르겐 감사 SQL — 읽기 전용, 사람이 직접 실행
+
+- 파일: [data/production-audit/2026-07-27-allergen-exposure-READONLY.sql](data/production-audit/2026-07-27-allergen-exposure-READONLY.sql). Production CLI 토큰은 발급하지 않기로 해서, 사람이 Dashboard SQL Editor 에서 실행하고 결과만 가져오는 방식.
+- 처음에 `supabase/migrations/STAGING_ONLY_DIAGNOSE_*` 로 만들었던 것을 옮기고 이름을 고쳤다 — Production 대상이고 마이그레이션이 아니다.
+- **읽기 전용 기계 검증**: 주석을 제거하고 문자열 리터럴을 인식해 파싱한 결과 구문 4개(WITH·WITH·SELECT·SELECT), 주석 밖에 `insert/update/delete/drop/alter/create/truncate/grant/revoke/merge/copy/commit/rollback` **0건**.
+- **로직 검증**: 이 세션에 SQL 실행 경로가 없어(CLI 토큰 없음) SQL 자체는 시험 실행하지 못했다. 대신 SQL 의 판정 규칙을 TS 로 그대로 옮겨 Staging 에 돌려(`npm run check:allergen-audit-sql-validate`) 운영 코드 경로와 대조 — **28건 = 28건, 갈리는 제품 0건**.
+- 검증 중에 SQL 버그 2개를 잡았다: (a) 정규화에서 숫자를 안 지워 코드와 어긋남, (b) 길이 하한 4자를 **정확 일치에도** 걸어서 «향료»(2자)·«리모넨»(3자)이 잘림 — 이것 때문에 설화수 3건을 놓쳤다. 둘 다 고쳐서 일치시켰다.
+- **미검증**: SQL 문법 자체. 실행할 때 드러난다. 쿼리 1 부터 하나씩 실행 권장.
+- next_task: 사람이 Production 쿼리 1~4 실행 → 결과 회수 후 판단
+
 
 ## 2026-07-27 category 채우기 + 알레르겐 노출 최종 감사
 

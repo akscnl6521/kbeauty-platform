@@ -3,7 +3,10 @@ import { getCanonicalBrandName } from "@/lib/brand/displayBrandName";
 import type { ProductOffer } from "./catalogTypes";
 import { asConcernOrToneField } from "./asConcernOrToneField";
 import { normalizeProductOffer } from "./productOffer";
-import { isExcludedFromPublicCatalog } from "./publicCatalogFilter";
+import {
+  isExcludedFromPublicCatalog,
+  isOutsideFaceTrack,
+} from "./publicCatalogFilter";
 import type { CandidateProduct, FetchCandidateProductsOptions } from "./types";
 
 export { asConcernOrToneField } from "./asConcernOrToneField";
@@ -250,6 +253,8 @@ async function hydrateCandidateProducts(
     const mapped = mapRowToCandidateProduct(row);
     if (!mapped) continue;
     if (isExcludedFromPublicCatalog(mapped)) continue;
+    // 향수·핸드크림·바디 제품은 카탈로그에는 남기되 얼굴 추천 후보에선 뺀다 (§29).
+    if (isOutsideFaceTrack(mapped)) continue;
     products.push(mapped);
   }
 

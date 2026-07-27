@@ -101,7 +101,7 @@ async function main() {
   if (ref === PROD_REF) throw new Error("ABORT_PRODUCTION");
 
   const [
-    { rankProducts, filterCandidatesBySafety, applyUserIngredientPreferences, filterRankedByMatchEvidence, mapRowToCandidateProduct, isExcludedFromPublicCatalog },
+    { rankProducts, filterCandidatesBySafety, applyUserIngredientPreferences, filterRankedByMatchEvidence, mapRowToCandidateProduct, isExcludedFromPublicCatalog, isOutsideFaceTrack },
     { toCanonicalConcern },
     scenariosModule,
   ] = await Promise.all([
@@ -124,7 +124,9 @@ async function main() {
     .filter((r) => r.active === true && r.verified_at != null)
     .map((r) => mapRowToCandidateProduct(r as never))
     .filter((p): p is NonNullable<typeof p> => p != null)
-    .filter((p) => !isExcludedFromPublicCatalog(p));
+    .filter((p) => !isExcludedFromPublicCatalog(p))
+    // 실제 추천 풀과 동일하게 얼굴 트랙 밖 제품을 뺀다 (§29).
+    .filter((p) => !isOutsideFaceTrack(p));
 
   // 오퍼는 Top 5 가 실제로 구매 가능한지 보는 용도로만 쓴다.
   const offers = await fetchAll<{ product_id: string; retailer_country: string | null; stock_status: string | null; verification_status: string | null }>(

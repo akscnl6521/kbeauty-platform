@@ -35,7 +35,10 @@ import {
   evidenceCitationHref,
   evidenceLevelLabelKo,
 } from "@/lib/evidence";
-import { filterPublicCatalogProducts } from "@/lib/recommend/publicCatalogFilter";
+import {
+  filterPublicCatalogProducts,
+  isOutsideFaceTrack,
+} from "@/lib/recommend/publicCatalogFilter";
 import { ResultsDomainTabs } from "@/components/results/ResultsDomainTabs";
 
 function managementLevelLabelKo(level: ManagementLevel): string {
@@ -641,7 +644,8 @@ function ResultsPageInner() {
             ...row,
             brand: getCanonicalBrandName(row.brand) ?? row.brand,
           }))
-        );
+          // 향수·핸드크림·바디 제품은 얼굴 고민 추천에 올리지 않는다 (§29).
+        ).filter((row) => !isOutsideFaceTrack(row));
 
         // 핵심 추천 경로와 같은 오퍼 근거를 붙인다. 실패해도 목록 자체는
         // 보여준다 — 그 경우 판매처 배지만 보수적으로 표시된다.

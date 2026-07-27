@@ -4,6 +4,12 @@
 
 ---
 
+## 2026-07-27 얼굴 트랙 밖 8건 추천 풀 제외 + Production 감사 SQL
+
+- **fix(recommend)**: `isOutsideFaceTrack()` 신설 — 향수·핸드크림·바디 제품을 얼굴 추천 후보 풀에서 뺀다. 제품을 내리지 않고(카탈로그·`active` 무변경) 풀에서만 제외해, 트랙 B 착수 시 그대로 쓸 수 있게 했다. `fetchCandidateProducts` 와 `results/page.tsx` 두 경로에 적용. 추천 풀 106 → 98건. `category` 가 비면 빼지 않고, 두피·모발 카테고리는 단계 5.5 설계와 충돌하지 않도록 건드리지 않는다(`test:face-track-filter` 가 고정).
+- **chore(audit)**: `data/production-audit/2026-07-27-allergen-exposure-READONLY.sql` — Production 알레르겐 노출 감사용 SELECT 전용 SQL 4개. 사람이 Dashboard 에서 실행. 주석 밖 쓰기 구문 0건 기계 검증.
+- **check**: `check:allergen-audit-sql-validate` — SQL 판정 규칙을 TS 로 재현해 Staging 에서 운영 코드와 대조(28 = 28, 불일치 0). 이 과정에서 SQL 버그 2개 수정: 숫자 미제거, 길이 하한 4자를 정확 일치에도 적용해 «향료»·«리모넨» 이 잘리던 것.
+
 ## 2026-07-27 category 채우기 (43/44) + 알레르겐 노출 최종 감사
 
 - **data(staging)**: 활성 제품 43건에 `category` 채움 — mask 15 · cream 9 · foam_cleanser 3 · serum 3 · perfume 3 · hand_cream 3 · toner 2 · sunscreen 1 · body_lotion 1 · body_wash 1 · cleanser 1 · eye_patch 1. 근거는 제품명의 유형 표기이고, 표기가 없는 3건은 브랜드 공식 페이지·카테고리 목록에서 확인했다. 감사 로그 `product_category_filled` 에 근거 문구 기록, 되돌리기 백업 `data/backups/2026-07-27/product-category-before-fill.json`.
