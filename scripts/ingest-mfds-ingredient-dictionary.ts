@@ -197,9 +197,12 @@ async function main() {
     if (k && !taken.has(k)) taken.set(k, a.ingredient_id);
   }
   const byNameEn = new Map<string, number>();
+  const byNameKo = new Map<string, number>();
   for (const r of ingredients) {
-    const k = normalizeTextKey(r.name_en);
-    if (k) byNameEn.set(k, r.id);
+    const ke = normalizeTextKey(r.name_en);
+    if (ke) byNameEn.set(ke, r.id);
+    const kk = normalizeTextKey(r.name_ko);
+    if (kk) byNameKo.set(kk, r.id);
   }
 
   // ---------- 식약처 색인 ----------
@@ -247,7 +250,11 @@ async function main() {
     }
 
     const enKey = normalizeTextKey(hit.engName);
-    const existingId = byNameEn.get(enKey);
+    // 영문명뿐 아니라 **한글명으로도** 기존 행을 찾는다. 한쪽만 보면, 이미
+    // 한글명으로 들어와 있는 성분을 «없다» 고 판단해 행을 새로 만들게 되고,
+    // 그러면 두 행의 한글명이 같은 키로 부딪혀 **기존 매칭까지 잃는다**
+    // (`카프릴릭/카프릭트라이글리세라이드` 가 실제로 그랬다).
+    const existingId = byNameEn.get(enKey) ?? byNameKo.get(normalizeTextKey(hit.korName));
     if (existingId != null) {
       // 경로 1 — 행을 만들지 않고 별칭만 붙인다.
       newAliases.push({
@@ -314,6 +321,14 @@ async function main() {
   };
   const before = count(maps);
   const after = count(simMaps);
+
+  // 새 행이 기존 키와 부딪히면 그 키는 매칭에서 통째로 빠진다. 늘어나는
+  // 충돌은 반드시 눈에 보여야 한다 — 모르고 넘기면 매칭을 잃는다.
+  const newCollisions = simMaps.collisions.filter((x) => !maps.collisions.includes(x));
+  if (newCollisions.length > 0) {
+    console.log(`\n새로 생기는 충돌 키 ${newCollisions.length}건:`);
+    for (const x of newCollisions) console.log(`  ${x}`);
+  }
 
   console.log(`\n=== 예상 변화 ===`);
   console.log(`  토큰 매칭        ${before.matched} -> ${after.matched}  (+${after.matched - before.matched})`);

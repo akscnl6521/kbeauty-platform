@@ -105,6 +105,10 @@ const KO_TO_INCI: Array<[ko: string, nameEn: string]> = [
   ["글리세린", "Glycerin"],
   ["정제수", "Water"],
 
+  // 사전에는 CI 번호를 괄호로 붙여 저장돼 있는데(«티타늄디옥사이드 (CI 77891)»),
+  // 제품 전성분에는 맨몸으로 적힌다. 별칭이 없으면 영영 만나지 못한다.
+  ["티타늄디옥사이드", "Titanium Dioxide (CI 77891)"],
+
   // --- 기타 기능성 ---
   ["생강추출물", "Zingiber Officinale (Ginger) Root Extract"],
   ["하이드롤라이즈드케라틴", "Hydrolyzed Keratin"],
