@@ -1,47 +1,14 @@
 {
-  "generatedAt": "2026-07-27T06:37:18.368Z",
+  "generatedAt": "2026-07-27T09:40:26.083Z",
   "policy": "Official brand product pages only (product_offers.is_official). Extraction only — every field is present in the source or null. Nothing approved; each row needs human review.",
   "totals": {
     "productsWithOfficialPage": 76,
-    "fetched": 70,
-    "withUsageGuidance": 18,
-    "withoutUsageSection": 52,
-    "fetchFailures": 6
+    "fetched": 68,
+    "withUsageGuidance": 19,
+    "withoutUsageSection": 49,
+    "fetchFailures": 8
   },
   "candidates": [
-    {
-      "productId": 65,
-      "productName": "Pine Cica Deep Pore Cleansing Oil 200ml",
-      "brand": "Round Lab",
-      "category": "sunscreen",
-      "locale": "en",
-      "sourceType": "official_brand",
-      "sourceUrl": "https://roundlab.com/products/pine-cica-deep-pore-cleansing-oil-200ml?variant=47750540984534",
-      "sourceDomain": "roundlab.com",
-      "extractionMethod": "automated_extraction",
-      "contentHash": "b5632e81c3ce93060fbc9ec7844652cb",
-      "amountLabel": "200ml",
-      "methodSteps": [
-        "Apply cleansing oil to dry hands and gently massage onto dry skin.",
-        "Focus on areas with makeup or pore buildup.",
-        "Add water to emulsify and rinse thoroughly.",
-        "Uncover how nature’s healing plants bring strength and relief to damage.",
-        "read more And More, Feels like Lightweight cleansing oil that emulsifies smoothly Smells like Light herbal scent Good for Makeup removal, deep pore cleansing, sensitive skin Active"
-      ],
-      "applicationArea": [],
-      "orderHints": [],
-      "frequency": null,
-      "cautionText": [],
-      "statutoryNotices": [],
-      "sourceExcerpt": "Apply cleansing oil to dry hands and gently massage onto dry skin. Focus on areas with makeup or pore buildup. Add water to emulsify and rinse thoroughly. Pine Cica Deep Pore Cleansing Oil 200ml Regular price $25.00 Sale price $25.00 Regular price Unit price / Select options Select options Default Title - $25.00 Add to cart Pine Tree Born from the forested slopes of Yangyang, this line combines pine leaf extract and Centella Asiatica to repair and protect sensitive skin. Uncover how nature’s healing plants bring strength and relief to damage. read more And More, Feels like Lightweight cleansing oil that emulsifies smoothly Smells like Light herbal scent Good for Makeup removal, deep pore cleansing, sensitive skin Active",
-      "missingFields": [
-        "applicationArea",
-        "orderHints",
-        "frequency",
-        "cautions"
-      ],
-      "usable": true
-    },
     {
       "productId": 1,
       "productName": "Advanced Snail 96 Mucin Power Essence",
@@ -141,36 +108,6 @@
       "usable": false
     },
     {
-      "productId": 5,
-      "productName": "AHA/BHA Clarifying Treatment Toner",
-      "brand": "COSRX",
-      "category": "toner",
-      "locale": "en",
-      "sourceType": "official_brand",
-      "sourceUrl": "https://www.cosrx.com/products/aha-bha-clarifying-treatment-toner",
-      "sourceDomain": "cosrx.com",
-      "extractionMethod": "automated_extraction",
-      "contentHash": "df44d2b1fab57736a39b0b4119f140e9",
-      "amountLabel": null,
-      "methodSteps": [
-        "After cleansing, spray the toner onto a cotton pad and gently wipe onto face, avoiding the eye and mouth area.",
-        "For use during the daytime, follow with a broad-spectrum sunscreen rated SPF 30 or greater."
-      ],
-      "applicationArea": [],
-      "orderHints": [],
-      "frequency": "morning",
-      "cautionText": [],
-      "statutoryNotices": [],
-      "sourceExcerpt": "After cleansing, spray the toner onto a cotton pad and gently wipe onto face, avoiding the eye and mouth area. For use during the daytime, follow with a broad-spectrum sunscreen rated SPF 30 or greater. * Avoid using with other acids (AHAs / BHAs / Retinols & Vitamin C) * Avoid when pregnant or breast feeding!",
-      "missingFields": [
-        "amountLabel",
-        "applicationArea",
-        "orderHints",
-        "cautions"
-      ],
-      "usable": false
-    },
-    {
       "productId": 7,
       "productName": "The Niacinamide 15 Serum",
       "brand": "COSRX",
@@ -201,6 +138,46 @@
         "frequency"
       ],
       "usable": false
+    },
+    {
+      "productId": 11,
+      "productName": "The Retinol 0.1 Cream",
+      "brand": "COSRX",
+      "category": "cream",
+      "locale": "en",
+      "sourceType": "official_brand",
+      "sourceUrl": "https://www.cosrx.com/products/the-retinol-0-1-cream",
+      "sourceDomain": "cosrx.com",
+      "extractionMethod": "automated_extraction",
+      "contentHash": "02ddae55733b0e8bb515e2fdac76d85f",
+      "amountLabel": "1ml",
+      "methodSteps": [
+        "START SMALL AND SLOW!",
+        "&bull; After using essence or serum, pat a small amount using your ring finger.",
+        "Apply evenly over the face, neck, and onto parts with wrinkle concerns.",
+        "&bull; Limit initial use to three times per week; gradually increase frequency to every other night, use as tolerated.",
+        "&bull; e.g.",
+        "under eyes, mouth, forehead and neck (Recommended amount : 0.1ml per section / 1 grain of rice) WEEK 3~ &bull; Frequency : may apply everyday at night &bull; How to use : After cleansing, at the moisturizer step, may spread over the entire face."
+      ],
+      "applicationArea": [],
+      "orderHints": [],
+      "frequency": "evening",
+      "cautionText": [
+        "S &bull; Patch testing prior to use is advised.",
+        "&bull; When pregnant or breastfeeding, it is recommended to avoid any retinoid products.",
+        "&bull; After the use of retinol, the skin may feel stingy and may show signs of reddening due to deep skin exfoliation.",
+        "Irritation is a temporary and normal symptom.",
+        "If irritation persists, reduce the frequency or stop the use of the product.",
+        "&bull; Due to the nature of the retinol component, the color may become darker or you may feel a unique odor.",
+        "&bull; To maintain the freshness of retinol"
+      ],
+      "statutoryNotices": [],
+      "sourceExcerpt": "START SMALL AND SLOW! &bull; After using essence or serum, pat a small amount using your ring finger. Apply evenly over the face, neck, and onto parts with wrinkle concerns. &bull; Limit initial use to three times per week; gradually increase frequency to every other night, use as tolerated. * Have an &lsquo;adaption period&rsquo; when using retinol WEEK 1~2 &bull; Frequency : use every other day at night &bull; How to Use : After cleansing, at the moisturizer step, apply a small amount to areas of concern. &bull; e.g. under eyes, mouth, forehead and neck (Recommended amount : 0.1ml per section / 1 grain of rice) WEEK 3~ &bull; Frequency : may apply everyday at night &bull; How to use : After cleansing, at the moisturizer step, may spread over the entire face. * The \"building tolerance\" phase can be shortened or extended depending on individual differences. * Maintain this phase until no discomfort is experienced. * Gradually increase frequency and areas of application.",
+      "missingFields": [
+        "applicationArea",
+        "orderHints"
+      ],
+      "usable": true
     },
     {
       "productId": 12,
@@ -485,7 +462,7 @@
       "sourceUrl": "https://www.amoremall.com/kr/ko/product/detail?onlineProdCode=150100000286&onlineProdSn=60498",
       "sourceDomain": "amoremall.com",
       "extractionMethod": "automated_extraction",
-      "contentHash": "bada26370ffba1c120f4900192fcd4ae",
+      "contentHash": "274fa7cde96c736783f807c873400d1b",
       "amountLabel": null,
       "methodSteps": [],
       "applicationArea": [],
@@ -942,39 +919,6 @@
       "usable": false
     },
     {
-      "productId": 73,
-      "productName": "Pine Calming Cica Shampoo",
-      "brand": "Round Lab",
-      "category": "shampoo",
-      "locale": "en",
-      "sourceType": "official_brand",
-      "sourceUrl": "https://roundlab.com/products/pine-calming-cica-shampoo?variant=47756818448598",
-      "sourceDomain": "roundlab.com",
-      "extractionMethod": "automated_extraction",
-      "contentHash": "a59873a7790110d1689aab6c380273d9",
-      "amountLabel": null,
-      "methodSteps": [
-        "Take an appropriate amount and apply to wet hair and scalp.",
-        "Gently massage to create a lather, focusing on the scalp.",
-        "Rinse thoroughly with lukewarm water.",
-        "Uncover how nature’s healing plants bring strength and relief to damage.",
-        "read more And More, Feels like A refreshing gel shampoo Smells like Light pine Good for Sensitive or irritated scalp Active"
-      ],
-      "applicationArea": [],
-      "orderHints": [],
-      "frequency": "as_needed",
-      "cautionText": [],
-      "statutoryNotices": [],
-      "sourceExcerpt": "Take an appropriate amount and apply to wet hair and scalp. Gently massage to create a lather, focusing on the scalp. Rinse thoroughly with lukewarm water. Use daily or as needed Pine Calming Cica Shampoo Regular price $22.00 Sale price $22.00 Regular price Unit price / Select options Select options Default Title - $22.00 Add to cart Pine Tree Born from the forested slopes of Yangyang, this line combines pine leaf extract and Centella Asiatica to repair and protect sensitive skin. Uncover how nature’s healing plants bring strength and relief to damage. read more And More, Feels like A refreshing gel shampoo Smells like Light pine Good for Sensitive or irritated scalp Active",
-      "missingFields": [
-        "amountLabel",
-        "applicationArea",
-        "orderHints",
-        "cautions"
-      ],
-      "usable": true
-    },
-    {
       "productId": 74,
       "productName": "하이드로 LPP 단백질 트리트먼트 530ml",
       "brand": "아도르",
@@ -1082,7 +1026,7 @@
         "orderHints",
         "frequency"
       ],
-      "usable": false
+      "usable": true
     },
     {
       "productId": 77,
@@ -2028,39 +1972,6 @@
       "usable": true
     },
     {
-      "productId": 66,
-      "productName": "Vita Niacinamide Glow Capsule Cream",
-      "brand": "Round Lab",
-      "category": "moisturizer",
-      "locale": "en",
-      "sourceType": "official_brand",
-      "sourceUrl": "https://roundlab.com/products/vita-niacinamide-glow-capsule-cream?variant=47756819136726",
-      "sourceDomain": "roundlab.com",
-      "extractionMethod": "automated_extraction",
-      "contentHash": "b0405f471ee75a2980eb6a39a14b1dfc",
-      "amountLabel": null,
-      "methodSteps": [
-        "Take a small amount of the capsule and gel, gently mix them together.",
-        "Apply evenly to the entire face and allow it to absorb.",
-        "Use morning and night as part of your daily routine.",
-        "Learn how this antioxidant-powered formula naturally revives dull, uneven complexions.",
-        "Read more And More, Feels like A lightweight gel cream Smells like Unscented Good for Dull or uneven skin tone Active"
-      ],
-      "applicationArea": [],
-      "orderHints": [],
-      "frequency": "morning",
-      "cautionText": [],
-      "statutoryNotices": [],
-      "sourceExcerpt": "Take a small amount of the capsule and gel, gently mix them together. Apply evenly to the entire face and allow it to absorb. Use morning and night as part of your daily routine. Vita Niacinamide Glow Capsule Cream Regular price $28.00 Sale price $28.00 Regular price Unit price / Select options Select options Default Title - $28.00 Add to cart Vita Niacinamide From the sunlit region of Yeongwol comes Seaberry, a vitamin-rich fruit blended with stabilized Vitamin C to brighten and energize the skin. Learn how this antioxidant-powered formula naturally revives dull, uneven complexions. Read more And More, Feels like A lightweight gel cream Smells like Unscented Good for Dull or uneven skin tone Active",
-      "missingFields": [
-        "amountLabel",
-        "applicationArea",
-        "orderHints",
-        "cautions"
-      ],
-      "usable": true
-    },
-    {
       "productId": 63,
       "productName": "[SNS 화제템] 토너패드 본품 2종 1+1 (총 140매)",
       "brand": "넘버즈인",
@@ -2097,7 +2008,7 @@
         "amountLabel",
         "frequency"
       ],
-      "usable": false
+      "usable": true
     },
     {
       "productId": 58,
@@ -2307,8 +2218,42 @@
       "usable": false
     },
     {
+      "productId": 64,
+      "productName": "[Limited Edition] Birch Moisturizing Lip Balm + Silicone Brush Set",
+      "brand": "Round Lab",
+      "category": "lip care",
+      "locale": "en",
+      "sourceType": "official_brand",
+      "sourceUrl": "https://roundlab.com/products/birch-moisturizing-lip-balm-brush-set?variant=47451078525142",
+      "sourceDomain": "roundlab.com",
+      "extractionMethod": "automated_extraction",
+      "contentHash": "a2334d66e17619b716ae71c55784b1a4",
+      "amountLabel": null,
+      "methodSteps": [
+        "Apply as needed throughout the day.",
+        "Layer a thicker coat at bedtime for overnight softening.",
+        "Can be worn alone or under/over lip color.",
+        "Discover how birch trees nurture sensitive skin with gentle replenishment.",
+        "read more And More, Feels like A cushiony balm that melts into lips with a soft glow finish.",
+        "Smells like Unscented Good for All skin types, including sensitive Dry or chapped lips needing daily hydration Active"
+      ],
+      "applicationArea": [],
+      "orderHints": [],
+      "frequency": "evening",
+      "cautionText": [],
+      "statutoryNotices": [],
+      "sourceExcerpt": "Apply as needed throughout the day. Layer a thicker coat at bedtime for overnight softening. Can be worn alone or under/over lip color. [Limited Edition] Birch Moisturizing Lip Balm + Silicone Brush Set Regular price $23.00 Sale price $23.00 Regular price Unit price / Select options Select options Default Title - $23.00 Add to cart Birch Tree Sourced from the spring sap of Inje’s silver birch trees, this line hydrates and soothes with nature’s own moisture complex. Discover how birch trees nurture sensitive skin with gentle replenishment. read more And More, Feels like A cushiony balm that melts into lips with a soft glow finish. Smells like Unscented Good for All skin types, including sensitive Dry or chapped lips needing daily hydration Active",
+      "missingFields": [
+        "amountLabel",
+        "applicationArea",
+        "orderHints",
+        "cautions"
+      ],
+      "usable": true
+    },
+    {
       "productId": 68,
-      "productName": "COSRX [[1+1] ǻ�� �� ��ī ��Ʈ ����ũ 1��]",
+      "productName": "COSRX [[1+1] 퓨어 핏 시카 시트 마스크 1매]",
       "brand": "COSRX",
       "category": "mask",
       "locale": "ko",
@@ -2348,7 +2293,7 @@
     },
     {
       "productId": 69,
-      "productName": "COSRX [ǻ�� �� ��ī ũ�� ���ٽ� 50ml ]",
+      "productName": "COSRX [퓨어 핏 시카 크림 인텐스 50ml ]",
       "brand": "COSRX",
       "category": "moisturizer",
       "locale": "ko",
@@ -2383,7 +2328,7 @@
     },
     {
       "productId": 70,
-      "productName": "COSRX [ǻ�� �� ��ī ũ�� 50ml]",
+      "productName": "COSRX [퓨어 핏 시카 크림 50ml]",
       "brand": "COSRX",
       "category": "moisturizer",
       "locale": "ko",
@@ -2419,7 +2364,7 @@
     },
     {
       "productId": 71,
-      "productName": "COSRX [ǻ�� �� ��ī Ŭ��¡ ���� 200ml]",
+      "productName": "COSRX [퓨어 핏 시카 클렌징 오일 200ml]",
       "brand": "COSRX",
       "category": "cleanser",
       "locale": "ko",
@@ -2456,7 +2401,7 @@
     },
     {
       "productId": 72,
-      "productName": "COSRX [ǻ�� �� ��ī ũ���� �� Ŭ���� 150ml]",
+      "productName": "COSRX [퓨어 핏 시카 크리미 폼 클렌저 150ml]",
       "brand": "COSRX",
       "category": "cleanser",
       "locale": "ko",
@@ -2490,6 +2435,20 @@
   ],
   "failures": [
     {
+      "productId": 65,
+      "label": "Round Lab Pine Cica Deep Pore Cleansing Oil 200ml",
+      "host": "roundlab.com",
+      "reason": "blocked_or_throttled",
+      "httpStatus": 429
+    },
+    {
+      "productId": 5,
+      "label": "COSRX AHA/BHA Clarifying Treatment Toner",
+      "host": "cosrx.com",
+      "reason": "blocked_or_throttled",
+      "httpStatus": 429
+    },
+    {
       "productId": 6,
       "label": "COSRX Hydrium Watery Toner",
       "host": "cosrx.com",
@@ -2511,22 +2470,22 @@
       "httpStatus": 429
     },
     {
-      "productId": 11,
-      "label": "COSRX The Retinol 0.1 Cream",
-      "host": "cosrx.com",
+      "productId": 73,
+      "label": "Round Lab Pine Calming Cica Shampoo",
+      "host": "roundlab.com",
+      "reason": "blocked_or_throttled",
+      "httpStatus": 429
+    },
+    {
+      "productId": 66,
+      "label": "Round Lab Vita Niacinamide Glow Capsule Cream",
+      "host": "roundlab.com",
       "reason": "blocked_or_throttled",
       "httpStatus": 429
     },
     {
       "productId": 67,
       "label": "Round Lab [LTK creators] Birch Juice Moisturizing Sun Serum SPF 50",
-      "host": "roundlab.com",
-      "reason": "blocked_or_throttled",
-      "httpStatus": 429
-    },
-    {
-      "productId": 64,
-      "label": "Round Lab [Limited Edition] Birch Moisturizing Lip Balm + Silicone Brush Set",
       "host": "roundlab.com",
       "reason": "blocked_or_throttled",
       "httpStatus": 429

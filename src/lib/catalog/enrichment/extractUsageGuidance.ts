@@ -87,9 +87,39 @@ const PLACEHOLDER_STEPS: RegExp[] = [
   /^상세\s*페이지\s*참고/,
 ];
 
-/** A real instruction tells you to do something to the product or your skin. */
-const INSTRUCTIONAL_MARKERS =
-  /(바르|발라|도포|문지르|두드리|헹구|마사지|덜어|펴\s|씻어|뿌리|짜서|적신|흡수|apply|massage|rinse|dispense|spread|pat\s)/i;
+/**
+ * A real instruction tells you to do something to the product or your skin.
+ *
+ * Korean verb stems change when conjugated, so matching the dictionary stem
+ * alone silently misses most real sentences: 바르다 appears as 바른다 / 발라 /
+ * 바릅니다, and 헹구다 as 헹군 / 헹궈. An earlier version listed only 바르 and
+ * 헹구, which rejected pages whose usage text was perfectly good — "모발에 균등히
+ * 바른다" matched nothing at all.
+ */
+const INSTRUCTIONAL_MARKERS = new RegExp(
+  [
+    "바르|바른|바릅|발라|발랐|발린", // 바르다
+    "도포",
+    "문지르|문질러|문지릅",
+    "두드리|두드려|두드립|두들",
+    "헹구|헹군|헹궈|헹굽",
+    "마사지",
+    "덜어|덜은|덜어서",
+    "펴\\s|펴발|펴 바",
+    "씻어|씻고|씻은|씻습",
+    "뿌리|뿌려|뿌립",
+    "짜서|짜내",
+    "적신|적셔",
+    "흡수",
+    "섞어|섞은|섞습", // mixing instructions (hair dye, two-part products)
+    "감아|감고|감습", // 머리를 감다
+    "닦아|닦고|닦은|닦습", // 닦다 — toner on a pad
+    "뿜어|분사",
+    "apply|massage|rinse|dispense|spread|pat\\s|lather|cleanse",
+    "spray|wipe|smooth\\s|blot|sweep|glide",
+  ].join("|"),
+  "i"
+);
 
 function isPlaceholderStep(step: string): boolean {
   return PLACEHOLDER_STEPS.some((pattern) => pattern.test(step.trim()));

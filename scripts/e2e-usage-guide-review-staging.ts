@@ -111,14 +111,16 @@ async function main() {
   const queue = await getUsageGuideQueue({});
   assert.equal(queue.schemaReady, true, "schema is ready");
   if (!queue.schemaReady) return;
-  assert.equal(queue.total, 18, `18 guides in the queue (got ${queue.total})`);
-  ok(`queue reports ${queue.total} guides`);
+  // The corpus grows as extraction improves, so pin the invariant, not the count.
+  const expectedTotal = queue.total;
+  assert.ok(expectedTotal > 0, `queue is not empty (got ${expectedTotal})`);
+  ok(`queue reports ${expectedTotal} guides`);
   assert.equal(
     queue.counts.needs_review,
-    18,
-    `all 18 are needs_review (got ${JSON.stringify(queue.counts)})`
+    expectedTotal,
+    `every guide is needs_review (got ${JSON.stringify(queue.counts)})`
   );
-  ok("all 18 are needs_review");
+  ok(`all ${expectedTotal} are needs_review`);
 
   const withNames = queue.items.filter((item) => item.guide.productName);
   assert.equal(
@@ -210,7 +212,7 @@ async function main() {
   const queueAfterFixture = await getUsageGuideQueue({});
   assert.equal(
     queueAfterFixture.schemaReady && queueAfterFixture.total,
-    18,
+    expectedTotal,
     "the fixture does not appear in the reviewer's queue"
   );
   ok("fixture is excluded from the reviewer's queue");
@@ -305,15 +307,19 @@ async function main() {
   console.log("");
   console.log("[e2e:usage-guide-review] 5. final state");
   const finalQueue = await getUsageGuideQueue({});
-  assert.equal(finalQueue.schemaReady && finalQueue.total, 18, "still 18 real guides");
+  assert.equal(
+    finalQueue.schemaReady && finalQueue.total,
+    expectedTotal,
+    `still ${expectedTotal} real guides`
+  );
   if (finalQueue.schemaReady) {
     assert.equal(
       finalQueue.counts.needs_review,
-      18,
-      `all 18 back to needs_review (${JSON.stringify(finalQueue.counts)})`
+      expectedTotal,
+      `all ${expectedTotal} back to needs_review (${JSON.stringify(finalQueue.counts)})`
     );
   }
-  ok("all 18 guides remain needs_review, untouched by this run");
+  ok(`all ${expectedTotal} guides remain needs_review, untouched by this run`);
 
   console.log("");
   console.log(`[e2e:usage-guide-review] ${passed} checks passed`);

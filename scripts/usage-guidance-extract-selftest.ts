@@ -271,3 +271,61 @@ assert.ok(
 );
 
 console.log("[usage-guidance-extract] area-token guards: ok");
+
+// --- Korean verbs conjugate; the stem alone is not enough --------------------
+// Real text from miseenscene.com that an earlier version rejected outright.
+const conjugated = extractUsageGuidance(`
+사용방법
+제1제 염모제 40g에 대하여 제2제 산화제 60g의 비율로 사용 직전에 잘 섞은 후 모발에 균등히 바른다.
+30~35분 후에 미지근한 물로 잘 헹군 후 비누나 샴푸로 깨끗이 씻고 마지막에 따뜻한 물로 충분히 헹군다.
+전성분
+`);
+assert.ok(conjugated.methodSteps.length >= 2, "steps captured");
+assert.equal(
+  hasUsableGuidance(conjugated),
+  true,
+  "바른다 / 헹군다 are instructions — the dictionary stems 바르 and 헹구 never appear in them"
+);
+
+for (const [form, sentence] of [
+  ["바른다", "얼굴 전체에 고르게 바른다."],
+  ["발라", "손에 덜어 얼굴에 발라 줍니다."],
+  ["바릅니다", "적당량을 취해 얼굴에 바릅니다."],
+  ["헹군", "미지근한 물로 헹군 뒤 마무리합니다."],
+  ["문질러", "거품을 내어 부드럽게 문질러 줍니다."],
+  ["두드려", "손끝으로 가볍게 두드려 흡수시킵니다."],
+  ["씻고", "깨끗이 씻고 물기를 닦아냅니다."],
+  ["섞은", "1제와 2제를 잘 섞은 후 사용합니다."],
+] as const) {
+  const parsed = extractUsageGuidance(`사용방법\n${sentence}\n전성분\n`);
+  assert.equal(
+    hasUsableGuidance(parsed),
+    true,
+    `conjugation "${form}" must read as an instruction`
+  );
+}
+
+// a description still must not pass
+assert.equal(
+  hasUsableGuidance(
+    extractUsageGuidance("사용방법\n피부를 촉촉하게 가꿔주는 제품입니다.\n전성분\n")
+  ),
+  false,
+  "a claim about the product is still not an instruction"
+);
+
+console.log("[usage-guidance-extract] conjugation guards: ok");
+
+// more real sentences that the whitelist missed, from cosrx.com and numbuzin.com
+for (const sentence of [
+  "세안 후 눈 주위를 피해 피부결을 따라 안쪽에서 바깥으로 닦아줍니다.",
+  "After cleansing, spray the toner onto a cotton pad and gently wipe onto face.",
+]) {
+  assert.equal(
+    hasUsableGuidance(extractUsageGuidance(`사용방법\n${sentence}\n전성분\n`)),
+    true,
+    `must read as an instruction: ${sentence.slice(0, 30)}`
+  );
+}
+
+console.log("[usage-guidance-extract] observed-verb coverage: ok");
