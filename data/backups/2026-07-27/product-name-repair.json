@@ -1,0 +1,58 @@
+{
+  "appliedAt": "2026-07-27T07:04:46.310Z",
+  "environment": "staging",
+  "reason": "EUC-KR product pages were decoded as UTF-8 at collection time; names were unreadable.",
+  "changes": [
+    {
+      "id": 68,
+      "brand": "COSRX",
+      "slug": "cosrx-cosrx-11-a-i-u-1",
+      "oldName": "COSRX [[1+1] ǻ�� �� ��ī ��Ʈ ����ũ 1��]",
+      "newName": "COSRX [[1+1] 퓨어 핏 시카 시트 마스크 1매]",
+      "extractedFrom": "og:title",
+      "charset": "EUC-KR",
+      "officialUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1176703"
+    },
+    {
+      "id": 69,
+      "brand": "COSRX",
+      "slug": "cosrx-cosrx-a-i-u-50ml-",
+      "oldName": "COSRX [ǻ�� �� ��ī ũ�� ���ٽ� 50ml ]",
+      "newName": "COSRX [퓨어 핏 시카 크림 인텐스 50ml ]",
+      "extractedFrom": "og:title",
+      "charset": "EUC-KR",
+      "officialUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177114"
+    },
+    {
+      "id": 70,
+      "brand": "COSRX",
+      "slug": "cosrx-cosrx-a-i-u-50ml",
+      "oldName": "COSRX [ǻ�� �� ��ī ũ�� 50ml]",
+      "newName": "COSRX [퓨어 핏 시카 크림 50ml]",
+      "extractedFrom": "og:title",
+      "charset": "EUC-KR",
+      "officialUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1176702"
+    },
+    {
+      "id": 71,
+      "brand": "COSRX",
+      "slug": "cosrx-cosrx-a-i-u-200ml",
+      "oldName": "COSRX [ǻ�� �� ��ī Ŭ��¡ ���� 200ml]",
+      "newName": "COSRX [퓨어 핏 시카 클렌징 오일 200ml]",
+      "extractedFrom": "og:title",
+      "charset": "EUC-KR",
+      "officialUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177327"
+    },
+    {
+      "id": 72,
+      "brand": "COSRX",
+      "slug": "cosrx-cosrx-a-i-u-u-150ml",
+      "oldName": "COSRX [ǻ�� �� ��ī ũ���� �� Ŭ���� 150ml]",
+      "newName": "COSRX [퓨어 핏 시카 크리미 폼 클렌저 150ml]",
+      "extractedFrom": "og:title",
+      "charset": "EUC-KR",
+      "officialUrl": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=1177326"
+    }
+  ],
+  "skipped": []
+}
