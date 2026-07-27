@@ -774,14 +774,39 @@ XLSX.read(csv, { type:"buffer", codepage:65001 })  -> "원더밤 200ml"
 깨진 이름으로 슬러그를 만들면 `e-e2-i-i-i-e-e-200ml` 같은 값이 나온다.
 슬러그 생성기 문제가 아니라 **입력 단계에서 이미 이름이 깨진 것**이다.
 
-**고치지 않았다.** 한 줄로 보이지만 그렇지 않다 — 한국어 Windows의 Excel은
-CSV를 기본적으로 cp949로 저장한다. `codepage:65001`을 강제하면 UTF-8 파일은
-살지만 cp949 파일이 깨진다. BOM 감지 후 UTF-8 → cp949 순으로 판단하는 설계가
-필요하고, 이건 별도 판단 사항이다.
+### 26-11. CSV 인코딩 자동 판정 (사용자 승인 후 완료)
 
-`npm run check:product-registration-slugs`는 이 항목에서 **의도적으로 실패**한다.
-한글 CSV 등록이 실제로 깨지는데 초록불을 띄우면 안 되기 때문이다. 슬러그 관련
-항목은 전부 통과한다.
+`codepage:65001` 강제는 답이 아니었다 — 한국어 Windows의 Excel은 CSV를 기본
+cp949로 저장하므로, UTF-8을 강제하면 반대 케이스가 깨진다. 그래서 **감지**한다.
+
+`src/lib/admin/product-bulk/decodeSpreadsheetBytes.ts` (신규):
+
+1. **UTF-8 BOM이 있으면 UTF-8로 확정** — BOM은 제거한다. 남겨두면 첫 헤더가
+   `﻿brand`가 되어 컬럼 매핑이 조용히 깨진다.
+2. **BOM 없으면 strict UTF-8 디코딩 시도** (`TextDecoder("utf-8", {fatal:true})`).
+   잘못된 바이트 시퀀스가 있으면 예외 → 실패로 판정.
+3. **실패하면 cp949로 재시도.** 한글 cp949 바이트열은 UTF-8로는 거의 항상
+   무효라서 이 구분이 안전하다.
+
+바이너리 워크북(.xlsx/.xls)은 매직넘버(`PK..`, OLE)로 식별해 **텍스트 디코딩
+없이 그대로** 넘긴다.
+
+**회귀 테스트** — `npm run test:spreadsheet-encoding`
+
+| 입력 | 판정 | 결과 |
+|---|---|---|
+| UTF-8 CSV | `utf-8` | 넘버즈인 / 원더밤 200ml ✓ |
+| UTF-8 + BOM CSV | `utf-8-bom` | BOM 제거 후 정상 ✓ |
+| **cp949 CSV** (실제 바이트 고정) | `cp949` | 정상 ✓ |
+| ASCII CSV | `utf-8` | 정상 ✓ |
+| .xlsx | `binary` | 텍스트 디코딩 안 함 ✓ |
+
+cp949 픽스처는 **실제 바이트를 hex 리터럴로 고정**했다. 실행 시점에 인코더로
+생성하지 않으므로, 인코딩 라이브러리가 바뀌어도 테스트는 계속 진짜 한국어 Excel
+파일을 기술한다. 또한 그 바이트가 UTF-8로는 무효임을 테스트가 직접 확인한다 —
+감지 로직이 성립하는 근거이기 때문이다.
+
+**`npm run check:product-registration-slugs`는 이제 전 항목 통과한다.**
 
 ---
 
