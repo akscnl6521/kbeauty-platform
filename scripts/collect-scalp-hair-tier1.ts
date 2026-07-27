@@ -245,9 +245,45 @@ async function main() {
       out.offerError = e instanceof Error ? e.message.slice(0, 120) : String(e);
     }
 
-    // 품질 게이트 — 통과 못 하면 needs_review 로 남는다
+    // 품질 게이트 — 통과 못 하면 needs_review 로 남는다.
+    //
+    // `extracted` 를 넘기지 않으면 내부 하드코딩 fallback(0.75)이 identity
+    // 차원에 쓰인다. 그러면 나머지가 다 좋아도 점수가 0.628 로 고정되어
+    // 항상 C 가 나온다. 게이트·점수 공식은 그대로 두고, 방금 크롤로 실제
+    // 확인한 값만 정직하게 채워 넘긴다 (발명 없음).
+    const signals =
+      (extracted.productName ? 1 : 0) +
+      (extracted.brandName ? 1 : 0) +
+      (extracted.ingredients.length > 0 ? 1 : 0) +
+      (extracted.price != null ? 1 : 0) +
+      (cand.discovered_url ? 1 : 0);
+    const confidence = Math.round((signals / 5) * 100) / 100;
+    out.confidence = confidence;
+
     try {
-      const act = await verifyAndActivateProduct(client, { productId, batchId });
+      const act = await verifyAndActivateProduct(client, {
+        productId,
+        batchId,
+        extracted: {
+          productName: extracted.productName,
+          brandName: extracted.brandName,
+          canonicalUrl: cand.discovered_url as string,
+          category: extracted.category,
+          imageUrl: extracted.imageUrl,
+          description: extracted.description,
+          fullIngredientsText: extracted.ingredientsRaw,
+          keyIngredients: [],
+          sizeLabel: null,
+          priceReference: extracted.price != null ? String(extracted.price) : null,
+          currency: extracted.currency,
+          availabilityReference: extracted.availability,
+          country: "KR",
+          sourceType: "official_brand_page",
+          confidence,
+          extractionMethod: "scalp_hair_tier1_official_crawl",
+          fieldConfidence: {},
+        } as never,
+      });
       out.activated = act.activated;
       out.gateBlockers = act.gateBlockers;
       out.needsReview = act.needsReview;

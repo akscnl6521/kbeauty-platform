@@ -702,9 +702,34 @@ Staging은 `mailer_autoconfirm: true`라 **로컬 dev + Staging으로 실 인증
 1. **카테고리 임의 기본값**: 추출 실패 시 `"shampoo"` 를 넣어 헤어젤·트리트먼트까지 샴푸로 기록됐다. 방금 쓴 정책의 «확인되지 않은 필드는 비워 둔다» 위반. 제품명 유추 함수로 바꾸고 모르면 `null` 을 넣도록 고친 뒤, 이미 들어간 5건(id 73~77)의 카테고리를 실제 유형으로 교정했다.
 2. **성분 링크 누락**: 첫 실행에서 `linkProductIngredients` 를 빠뜨려 `structured_ingredients_missing` 이 떴다. 추가 후 해소.
 
-### 30-5. 다음 병목
+### 30-5. `extract_failed` 원인 규명 — Shopify captcha 오탐
 
-`extract_failed` 7건은 원시 fetch 로는 JSON-LD 가 보이는데 추출기가 거부한다 — 추출기 쪽 조사 필요. 활성화까지 가려면 **품질 점수(이미지·가격·태그 완성도)** 를 채우는 작업이 남는다.
+**두피·헤어 특유의 스키마 차이가 아니었다.** 추출기의 챌린지 판정이 잘못돼 있었다.
+
+```js
+// 이전
+if (/captcha|cf-challenge|attention required/i.test(page.text)) → CAPTCHA 거부
+```
+
+Shopify 는 로그인·문의 폼 스팸 방지용 `captcha-bootstrap` 스크립트를 **모든 스토어 페이지**에 심는다. COSRX 제품 페이지에서 `captcha` 가 **14회** 등장하는데, 그 페이지는 HTTP 200 · 678KB · JSON-LD Product 를 정상적으로 돌려준다. 결과적으로 **해당 테마를 쓰는 Shopify 스토어 전체가 크롤 불가**였다.
+
+**수정**: `looksLikeChallengePage()` 신설. 진짜 챌린지 표지(`cf-challenge`, `just a moment`, `checking your browser`, `<title>…captcha`)만 보고, 그마저도 **상품 데이터(JSON-LD Product / og:type=product)가 함께 있으면 통과**시킨다. 표지 없이 `captcha` 만 있는 경우는 페이지가 50KB 미만일 때만 챌린지로 본다.
+
+**챌린지 우회는 하지 않았다** — User-Agent 도 그대로다. 바뀐 것은 «무엇을 챌린지로 볼 것인가» 뿐이다. `test:challenge-detection` 으로 양방향 고정(진짜 챌린지 5종 거부 · Shopify 정상 페이지 통과).
+
+**결과**: COSRX Peptide-132 Hair 2건이 추출을 통과해 제품 생성(id 78·79, 실성분 14·13개). 남은 4건은 진짜 접근 불가 — 404 ×3(URL 소멸), 403 ×1, RYSES 는 robots 존중.
+
+### 30-6. 품질 점수 C 돌파 — **두피·헤어 첫 공개 제품**
+
+품질 점수는 9개 차원 평균이고, **가변 요소는 `identity: product.confidence` 하나뿐**이다(나머지는 상수이거나 boolean).
+
+수집 스크립트가 `extracted` 를 넘기지 않아 내부 하드코딩 fallback **0.75** 가 쓰였고, 계산하면 `(0.75+0.85+0.8+0.7+0.2+0.5+0.3+0.7+0.85)/9 = 0.628` → **항상 C** 였다.
+
+기존 `finalize-activate-draft-products.ts` 와 동일한 «정직한 신뢰도»(이름·브랜드·전성분·가격·출처 URL 5개 신호의 실제 충족률)를 크롤 결과로 계산해 넘기도록 수정. **게이트·점수 공식은 건드리지 않았다**(§5-6) — 누락됐던 실데이터를 채웠을 뿐이다.
+
+**결과: ROUND LAB Pine Calming Cica Shampoo 활성화.** 활성 제품 28 → **29**. anon 공개 경로 조회로 노출 확인, `verified_at` 설정됨. `category=shampoo` → `beautyDomainForCategory` → `hair_care` 로 라우팅(30-1 별칭 수정 덕분).
+
+**남은 병목**: Lador·mise en scène 5건은 `verified_offer_missing` — 오퍼는 삽입됐으나 검증을 못 넘었다. COSRX 2건은 `structured_ingredients_missing` — 영문 INCI 가 한글 위주 `ingredients` 사전과 매칭되지 않는다(사전 보강이 선행 과제).
 
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
