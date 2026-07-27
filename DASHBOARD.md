@@ -808,6 +808,67 @@ cp949 픽스처는 **실제 바이트를 hex 리터럴로 고정**했다. 실행
 
 **`npm run check:product-registration-slugs`는 이제 전 항목 통과한다.**
 
+### 26-12. Staging migration CLI 적용 경로 확보 (2026-07-27)
+
+`SUPABASE_ACCESS_TOKEN` 확보 후 `supabase link` 성공 → CLI로 Staging DDL 적용
+가능해졌다. migration 2건 적용 완료.
+
+| | |
+|---|---|
+| `20260727120000_create_media_asset_library` | 테이블 9개 생성 |
+| `20260727150000_create_product_usage_guides` | 테이블 2개 + 뷰 생성 |
+
+**`supabase db push`는 쓰지 않았다.** 원격 migration 이력이
+`20260714040000`에서 멈춰 있어 **21건이 미기록** 상태였다. 그대로 push하면 이미
+Dashboard로 수동 적용된 19건이 재실행된다. 그중
+`20260714080000_staging_public_results_kr_offers`는 **가드 없는 INSERT 1건 +
+UPDATE/DELETE 3건**을 담고 있어, 다른 트랙이 쓰는 운영 카탈로그 데이터를
+변형시킬 수 있었다.
+
+그래서 대상 파일만 `supabase db query --file`로 적용하고, 적용된 2건만
+`supabase migration repair --status applied`로 이력에 기록했다. **나머지 19건의
+이력은 건드리지 않았다** — 내가 적용하지 않은 migration의 이력을 임의로
+고쳐 쓰지 않는다.
+
+> **앞으로 `db push`를 쓰려면** 미기록 19건의 이력 정리가 먼저다. 다른 트랙이
+> 같은 DB를 쓰는 동안에는 하지 않는 게 좋다.
+
+**두 가지 함정을 잡았다.**
+
+1. `.env.local`의 토큰이 `[sbp_...]`처럼 **대괄호로 감싸여** 있어 CLI가
+   형식 오류로 거부했다. 스크립트가 대괄호를 제거하도록 했다. (`.env.local`
+   자체는 정책상 수정하지 않았다 — 직접 지워주시면 좋다.)
+2. DDL 직후 verify가 "테이블 없음(PGRST205)"으로 실패했다. 테이블은 실제로
+   생성돼 있었고, **PostgREST의 스키마 캐시가 갱신되지 않은 것**이었다.
+   apply 스크립트가 `notify pgrst, 'reload schema'` 후 대기하도록 고쳤다.
+   이걸 안 잡았으면 "적용 성공했는데 검증 실패"로 오진할 뻔했다.
+
+### 26-13. 검증 결과 — 제약이 실제로 막는다
+
+배포된 스키마에 **거부돼야 할 INSERT 21건**을 실제로 시도했고 전부 거부됐다.
+
+| 대상 | 거부 확인 |
+|---|---|
+| media_assets | 브랜드 영상 복제본 · 고지 없는 AI · 고지 없는 협찬 · 제품명 붙은 공통 영상 · http 출처 · 미등록 출처유형 · 승인일 없는 승인 (7건) |
+| video_performance_events | metadata에 user_id (1건) |
+| product_usage_guides | 단계 없이 승인 · 검수시각 없이 승인 · 의학적 표현 승인 · 출처 없는 자동추출 · http 출처 · 미등록 출처유형 · 근거 없는 패치테스트 · 미등록 빈도 (8건) |
+| review_events | 사유 없는 반려 (1건) |
+| anon 접근 | 5개 테이블 전부 차단 확인 |
+
+전부 실패가 정상이므로 행이 생기지 않았고 지울 것도 없다.
+
+### 26-14. 사용 가이드 18건 적재 완료
+
+```
+inserted 18 · updated 0 · failed 0
+전부 needs_review (승인 0건)
+한국어 15 · 영어 3
+```
+
+제품명이 깨진 행 **0건** — 26-7에서 복구한 COSRX 5건이 정상 이름으로 연결된다.
+`/admin/usage-guides`에서 원문 대조 후 승인하면 된다. 승인해도 사용자 화면에는
+나오지 않는다(노출은 별도 트랙).
+
 ---
 
 *갱신 이력은 git 커밋 로그 참고. 이 파일이 최신 상태 요약의 단일 진실.*

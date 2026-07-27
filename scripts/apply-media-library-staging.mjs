@@ -59,6 +59,24 @@ function loadEnvFile(name) {
   return out;
 }
 
+/**
+ * The CLI needs SUPABASE_ACCESS_TOKEN in the environment. Square brackets are
+ * stripped because a token pasted as "[sbp_…]" is otherwise rejected with an
+ * unhelpful format error — the brackets are never part of the token.
+ */
+function withAccessToken(env) {
+  const raw = (env.SUPABASE_ACCESS_TOKEN ?? process.env.SUPABASE_ACCESS_TOKEN ?? "")
+    .trim()
+    .replace(/^\[/, "")
+    .replace(/\]$/, "");
+  if (!raw) return { ...process.env, npm_config_loglevel: "silent" };
+  return {
+    ...process.env,
+    SUPABASE_ACCESS_TOKEN: raw,
+    npm_config_loglevel: "silent",
+  };
+}
+
 function resolveLinkedRef() {
   const refFile = path.join(root, "supabase", ".temp", "project-ref");
   if (existsSync(refFile)) return readFileSync(refFile, "utf8").trim();
@@ -113,15 +131,12 @@ if (!existsSync(MIGRATION)) fail("migration file missing");
 const sqlFile = path.join(tmpdir(), `kb-media-${process.pid}-${Date.now()}.sql`);
 writeFileSync(sqlFile, readFileSync(MIGRATION, "utf8"), "utf8");
 
+const cliEnv = withAccessToken(loadEnvFile(".env.local"));
+
 const applied = spawnSync(
   npx(),
   ["supabase", "db", "query", "--linked", "--file", sqlFile],
-  {
-    cwd: root,
-    encoding: "utf8",
-    shell: true,
-    env: { ...process.env, npm_config_loglevel: "silent" },
-  }
+  { cwd: root, encoding: "utf8", shell: true, env: cliEnv }
 );
 try {
   unlinkSync(sqlFile);
@@ -145,6 +160,27 @@ if (applied.status !== 0) {
   fail(`db query failed status=${applied.status}`);
 }
 pass("migration SQL applied");
+
+// --- reload PostgREST -------------------------------------------------------
+// New tables exist in Postgres immediately, but PostgREST answers from a cached
+// schema and returns PGRST205 ("could not find the table") until it reloads. The
+// verify step goes through PostgREST, so without this it reports the migration
+// as missing right after a successful apply.
+const reloadFile = path.join(tmpdir(), `kb-reload-${process.pid}.sql`);
+writeFileSync(reloadFile, "notify pgrst, 'reload schema';", "utf8");
+spawnSync(npx(), ["supabase", "db", "query", "--linked", "--file", reloadFile], {
+  cwd: root,
+  encoding: "utf8",
+  shell: true,
+  env: cliEnv,
+});
+try {
+  unlinkSync(reloadFile);
+} catch {
+  /* ignore */
+}
+await new Promise((resolve) => setTimeout(resolve, 5000));
+pass("PostgREST schema cache reloaded");
 
 // --- verify ------------------------------------------------------------------
 const verify = spawnSync(
