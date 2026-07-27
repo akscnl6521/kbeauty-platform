@@ -173,3 +173,26 @@ import { attachIngredientMatches, buildIngredientLookupMaps } from "../src/lib/p
 }
 
 console.log("ingredient truncated-tail selftest: ok");
+
+// --- 반각 괄호·구획 라벨·결제 팝업 (2026-07-27 추가) -------------------
+
+// 원문이 반각 괄호를 쓰면 전각 표식으로는 안 걸린다. NFKC 로 먼저 통일한다.
+assert.deepEqual(
+  keys("정제수, 토코페롤, 다이소듐이디티에이 . ｢화장품법｣에 따른 기능성 화장품(미백"),
+  ["정제수", "토코페롤", "다이소듐이디티에이"]
+);
+
+// `제2제 :` 도 경계다. 공백으로 지우면 앞뒤가 붙는다.
+assert.deepEqual(keys("다이소듐이디티에이 제2제 : 정제수, 세테아릴알코올"), [
+  "다이소듐이디티에이",
+  "정제수",
+  "세테아릴알코올",
+]);
+
+// 쇼핑몰 결제 팝업 문구는 성분이 아니다.
+assert.deepEqual(
+  keys("정제수, 글리세린, 현재 결제가 진행중입니다. 본 결제 창은"),
+  ["정제수", "글리세린"]
+);
+
+console.log("ingredient parse fullwidth/section selftest: ok");
