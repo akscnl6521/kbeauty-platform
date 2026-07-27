@@ -271,6 +271,8 @@ export async function getUsageGuideQueue(
   let query = client
     .from("product_usage_guides")
     .select(GUIDE_COLUMNS, { count: "exact" })
+    // Verification fixtures must never reach a human reviewer's queue.
+    .eq("is_fixture", false)
     .order("created_at", { ascending: false })
     .range((page - 1) * pageSize, page * pageSize - 1);
   if (status) query = query.eq("verification_status", status);
@@ -291,6 +293,7 @@ export async function getUsageGuideQueue(
   const { data: statusRows } = await client
     .from("product_usage_guides")
     .select("verification_status")
+    .eq("is_fixture", false)
     .limit(5000);
   for (const row of (statusRows ?? []) as unknown as Row[]) {
     const key = String(row.verification_status);
