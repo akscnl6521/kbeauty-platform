@@ -127,3 +127,39 @@ const row = (o: Partial<CommercialEventRow>): CommercialEventRow => ({
 }
 
 console.log("revenue ledger selftest: ok");
+
+// --- §38.8 지표 커버리지 -----------------------------------------------
+
+import {
+  METRIC_SOURCES,
+  resolveMetricCoverage,
+  summarizeCoverage,
+} from "../src/lib/commercial/revenueMetricCoverage";
+
+{
+  // 적재처가 없으면 «수집 안 함». 0 으로 세면 «측정했더니 0» 이 되어 거짓이다.
+  const rows = resolveMetricCoverage(new Map([["commercial_click_events", 0]]));
+  const clicks = rows.find((r) => r.metric === "제품 클릭률")!;
+  assert.equal(clicks.status, "empty");
+  assert.equal(clicks.count, 0);
+
+  const clinic = rows.find((r) => r.metric === "병원 리드")!;
+  assert.equal(clinic.status, "uninstrumented", "테이블이 없으면 0 이 아니라 «수집 안 함»");
+  assert.equal(clinic.count, null, "건수를 0 으로 채우지 않는다");
+}
+
+{
+  const rows = resolveMetricCoverage(
+    new Map([
+      ["commercial_click_events", 12],
+      ["care_check_ins", 0],
+    ])
+  );
+  assert.equal(rows.find((r) => r.metric === "구매 전환율")!.status, "collected");
+  assert.equal(rows.find((r) => r.metric === "3·7·15·30일 응답률")!.status, "empty");
+  const s = summarizeCoverage(rows);
+  assert.equal(s.collected + s.empty + s.uninstrumented, METRIC_SOURCES.length);
+  assert.ok(s.uninstrumented > 0, "아직 수집하지 않는 지표가 있다는 사실이 드러나야 한다");
+}
+
+console.log("metric coverage selftest: ok");

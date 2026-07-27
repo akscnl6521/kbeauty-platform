@@ -6,6 +6,7 @@ import {
   type CommercialEventRow,
   type RevenueLedgerSummary,
 } from "@/lib/commercial/revenueLedger";
+import { METRIC_SOURCES } from "@/lib/commercial/revenueMetricCoverage";
 
 /**
  * `commercial_click_events` 를 읽어 관리자용 요약으로 만든다.
@@ -92,4 +93,33 @@ export async function loadRevenueLedgerSummary(
   }
 
   return { ok: true, summary: summarizeRevenueLedger(rows), truncated };
+}
+
+/**
+ * §38.8 지표의 적재처를 하나씩 조회해 «몇 건인지 / 테이블이 없는지» 를 센다.
+ *
+ * 테이블이 없으면 `null` 을 넣는다. 0 을 넣으면 «측정했더니 0» 이 되어,
+ * 실제로는 수집조차 하지 않는 지표가 «성과 없음» 으로 보고된다.
+ */
+export async function loadMetricSourceCounts(): Promise<Map<string, number | null>> {
+  const counts = new Map<string, number | null>();
+  let client;
+  try {
+    client = createSupabaseAdminClient();
+  } catch {
+    return counts;
+  }
+
+  const sources = [...new Set(METRIC_SOURCES.map((m) => m.source))];
+  for (const source of sources) {
+    const { count, error } = await client
+      .from(source)
+      .select("*", { count: "exact", head: true });
+    // 없는 테이블은 **오류를 내지 않는다.** 2026-07-27 실측: 존재하는 빈
+    // 테이블은 `status 200, count 0`, 없는 테이블은 `status 204, count null`
+    // 이고 둘 다 `error` 는 null 이다. 그래서 `count ?? 0` 으로 받으면 수집
+    // 자체를 안 하는 지표가 «측정했더니 0» 으로 둔갑한다.
+    counts.set(source, error || count == null ? null : count);
+  }
+  return counts;
 }
