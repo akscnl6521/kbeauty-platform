@@ -96,3 +96,39 @@ assert.deepEqual(keys("(1번) 정제수, 글리세린 (3번) 정제수, 판테�
 assert.deepEqual(keys("로즈마리잎오일 (3번) 정제수"), ["로즈마리잎오일", "정제수"]);
 
 console.log("ingredient parse tail-rule selftest: ok");
+
+// --- 변형 제품 구획 라벨 (2026-07-27 추가) -----------------------------
+
+// 목록 뒤 고지 문구. 앞의 `*` 가 지워져 마지막 성분에 눌어붙는다.
+assert.deepEqual(
+  keys("정제수, 카르노신 * 전성분은 제조 시기에 따라 변경될 수 있습니다."),
+  ["정제수", "카르노신"]
+);
+
+// 세트 구성품 라벨 — 콜론은 INCI 이름에 쓰이지 않는다.
+assert.deepEqual(keys("원더밤: 정제수, 글리세린"), ["정제수", "글리세린"]);
+assert.deepEqual(keys("향료 원더티어 : 정제수, 판테놀"), ["향료", "정제수", "판테놀"]);
+
+// 번호 붙은 변형 라벨.
+assert.deepEqual(keys("1. 어웨이크닝 - 정제수, 멘톨"), ["정제수", "멘톨"]);
+assert.deepEqual(keys("향료 2. 퓨리파잉 - 정제수, 글리세린"), ["향료", "정제수", "글리세린"]);
+
+// 라벨 규칙이 성분명을 삼키면 안 된다.
+assert.deepEqual(keys("정제수, 부틸렌글라이콜, 글리세린"), [
+  "정제수",
+  "부틸렌글라이콜",
+  "글리세린",
+]);
+assert.deepEqual(keys("1,2-헥산다이올, 판테놀"), ["1,2 헥산다이올", "판테놀"]);
+
+console.log("ingredient parse variant-label selftest: ok");
+
+// 대괄호 구획 라벨도 경계다. 지우기만 하면 앞뒤 성분이 붙는다.
+assert.deepEqual(keys("향료, 황색4호 [컨디셔너] 정제수, 글리세린"), [
+  "향료",
+  "황색4호",
+  "정제수",
+  "글리세린",
+]);
+
+console.log("ingredient parse bracket-label selftest: ok");
