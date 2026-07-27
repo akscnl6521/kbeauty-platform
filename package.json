@@ -179,7 +179,8 @@
     "test:domain-alias": "npx --yes tsx scripts/domain-category-alias-selftest.ts",
     "test:challenge-detection": "npx --yes tsx scripts/challenge-detection-selftest.ts",
     "test:ingredient-keys": "tsx scripts/ingredient-key-normalize-selftest.ts",
-    "test:cafe24-stock": "tsx scripts/cafe24-stock-selftest.ts"
+    "test:cafe24-stock": "tsx scripts/cafe24-stock-selftest.ts",
+    "probe:mfds-cosmetic": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/probe-mfds-cosmetic-apis.ts"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.32",
