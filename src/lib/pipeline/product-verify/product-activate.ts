@@ -2,6 +2,7 @@ import "server-only";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { tryInsertWriteAudit } from "@/lib/admin/audit-log";
+import { deriveKeyIngredientsFromFullList } from "@/lib/catalog/keyIngredients";
 import { loadPipelineOperationConfig } from "@/lib/pipeline/operation-config";
 import {
   evaluateProductVerificationGate,
@@ -337,12 +338,24 @@ export async function verifyAndActivateProduct(
   }
 
   const verifiedAt = new Date().toISOString();
+
+  // 추천·안전 필터는 key_ingredients 만 읽는다. 수집기는 full_ingredients 만
+  // 채우기 때문에, 여기서 잇지 않으면 활성화돼도 추천에서 incomplete_info 로
+  // 통째로 빠진다. 전성분에 실제로 등장하는 토큰만 고르므로 새 정보는 없다.
+  const derivedKeyIngredients =
+    keyIngredients.length === 0 && fullIngredients.length > 0
+      ? deriveKeyIngredientsFromFullList(fullIngredients)
+      : [];
+
   const { error: prodErr } = await client
     .from("products")
     .update({
       active: true,
       verified_at: verifiedAt,
       data_confidence: grade,
+      ...(derivedKeyIngredients.length > 0
+        ? { key_ingredients: derivedKeyIngredients }
+        : {}),
     })
     .eq("id", input.productId)
     .is("verified_at", null);
@@ -387,6 +400,8 @@ export async function verifyAndActivateProduct(
         ingredientsApproved,
         verifiedOfferCount: verifiedInStock.length,
         published: false,
+        derivedKeyIngredients:
+          derivedKeyIngredients.length > 0 ? derivedKeyIngredients : undefined,
       },
       oldValue: {
         active: row.active,

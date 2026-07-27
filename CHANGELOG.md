@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-07-27 추천 품질 검증 — key_ingredients 미채움 수정 · 알레르겐 커버리지 결함 보고
+
+- **fix(pipeline)**: `product-activate.ts` 가 활성화 시 `key_ingredients` 를 함께 채운다. 추천·안전 필터는 `key_ingredients` 만 읽는데 수집기는 `full_ingredients` 만 채워서, 수집된 제품이 활성화돼도 매 시나리오에서 `incomplete_info` 로 제외되고 있었다(활성 106건 중 60건).
+- **feat(catalog)**: `deriveKeyIngredientsFromFullList` 신설 — 사전에 있으면서 동시에 그 제품 전성분에 등장하는 토큰만, 전성분 원문 표기 그대로 반환한다. 선언 순서 유지·중복 제거. 자체 검증 `npm run test:key-ingredients-derive`.
+- **data(staging)**: 백필 41건(abib 40 · Round Lab 1). 성분 없는 활성 제품 60 → 19건(전부 아도르 헤어 + 아로마티카 — 사전 미매칭이라 손대지 않음). 감사 로그 `product_key_ingredients_backfilled`, 되돌리기 백업 `data/backups/2026-07-27/`.
+- **검증 도구**: `npm run check:recommendation-scenarios` — §29 KR 코어 시나리오 6종의 Top 5 + 매칭 근거, 알레르기 필터 정합성(근거 없는 제외·새어나간 제품 양방향), 신규 브랜드별 필터 동작, 알레르겐 커버리지. 읽기 전용.
+- **미수정(승인 필요)**: 안전 필터가 `key_ingredients` 만 봐서 향료 함유 40건 중 3건, 리모넨 19건 중 0건, 리날룰 18건 중 0건만 걸러진다. 안전 필터 변경은 명시적 승인 대상이라 측정만 함.
+- **대기열**: 활성 44건(abib 43 · 아로마티카 1)의 `category` 미채움 — 시나리오 카테고리 매칭 불가.
+
 ## 2026-07-26 Master Plan v4.3 — 두피·모발 트랙 편입
 
 - **docs(master-plan)**: v4.2 → **v4.3**. 기존 §1~§46 삭제·축약 없이 추가·명확화만 수행(diff: +90 / −7, 삭제 7줄은 전부 제목·버전 줄의 치환분).

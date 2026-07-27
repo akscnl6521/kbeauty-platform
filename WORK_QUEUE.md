@@ -106,6 +106,11 @@ notes: |
   Phase 2+: schema + pool fill + runtime Top3-5. No WQ-G / Production / main / auto-publish.
   Pilot Top10 artifacts: data/catalog/scenario-pilot/2026-07-22/ (docs/catalog/SCENARIO_TOP10_PILOT.md · npm run test:recommendation-pilot).
   Enrichment artifacts: data/catalog/scenario-pilot-enrichment/2026-07-22/ (npm run test:recommendation-pilot-enrichment).
+  2026-07-27 품질 검증(npm run check:recommendation-scenarios): 활성 106건으로 KR 시나리오 6종 실행.
+  수집기가 key_ingredients 를 안 채워 60건이 추천에서 제외되던 문제 수정·백필 41건 완료.
+  대기 중(손대지 않음): sioris 24건(성분 이미지뿐) · 에스쁘아 8 / 미쟝센 4(오퍼 없음) · COSRX 9건 비활성.
+  승인 대기: 안전 필터가 full_ingredients 를 안 봐서 향료 40건 중 3건만 걸러짐 — filterCandidatesBySafety 확장 여부.
+  대기열: 활성 44건(abib 43 · 아로마티카 1) category 미채움 → 시나리오 카테고리 매칭 불가.
 
 ### TASK WQ-G-prelaunch-integration
 

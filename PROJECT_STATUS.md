@@ -1,6 +1,20 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-07-26 (Master Plan v4.3 · 두피·모발 트랙 편입)
+최종 갱신: 2026-07-27 (추천 품질 검증 — key_ingredients 미채움 발견·수정, 알레르겐 커버리지 결함 보고)
+
+## 2026-07-27 추천 품질 검증 (Staging) — 수집 제품이 추천에 안 들어가던 원인 수정
+
+활성 106건으로 §29 KR 코어 시나리오 6종을 실제로 돌려보고, 새 브랜드(abib·아로마티카·SIORIS)에서 안전 필터가 제대로 도는지 확인했다. 재현: `npm run check:recommendation-scenarios` (읽기 전용).
+
+- **결함 1 (수정 완료) — 수집한 제품이 추천 후보에서 통째로 빠지고 있었다.** 추천·안전 필터(`rankProducts`, `filterCandidatesBySafety`)는 `products.key_ingredients` 만 읽는데, 자율 수집기는 `full_ingredients` 와 `product_ingredients` 링크만 채우고 `key_ingredients` 는 건드리지 않았다. 그래서 활성 106건 중 **60건이 `incomplete_info` 로 매 시나리오에서 제외**되고 있었다(abib 43건 전부 포함). 어떤 시나리오에서도 abib·아로마티카 제품이 한 건도 노출되지 않았다.
+  - 근본 원인 수정: `product-activate.ts` 가 활성화 시 `deriveKeyIngredientsFromFullList` 로 `key_ingredients` 를 함께 채운다. 사전에 있으면서 **동시에 그 제품 전성분에 실제로 등장하는 토큰**만 고르고, 저장값은 전성분 원문 그대로다(지어내지 않음, 원문 대조 가능).
+  - 기존 데이터 백필: 41건(abib 40 · Round Lab 1). 성분 없음 60 → **19건**. 되돌리기용 백업 `data/backups/2026-07-27/key-ingredients-before-backfill.json`, 감사 로그 `product_key_ingredients_backfilled`.
+  - 남은 19건은 전부 아도르 헤어 제품 + 아로마티카 2건 — 사전이 얼굴 스킨케어 성분 위주라 매칭 0건. **억지로 채우지 않고 그대로 뒀다.**
+- **결함 2 (보고만, 미수정 — 승인 필요) — 알레르겐 필터가 전성분을 보지 않는다.** 안전 필터는 `key_ingredients`(사전으로 골라낸 부분집합)만 읽는데, 향료·리모넨·리날룰 같은 대표 알레르겐은 그 사전에 없다. 활성 106건 기준 **향료 함유 40건 중 필터가 잡는 건 3건**, 리모넨 19건 중 0건, 리날룰 18건 중 0건. 즉 «향료 알레르기» 를 입력해도 대부분 걸러지지 않는다. 안전 필터 변경은 명시적 승인 대상이라 측정만 하고 손대지 않았다.
+- **정상 확인된 것**: 알레르기 필터가 근거 없이 제외한 제품 0건, 해당 성분을 갖고 있는데 통과한 제품 0건(= `key_ingredients` 범위 안에서는 정확). 새 브랜드도 기존 브랜드와 동일하게 필터를 통과·제외한다(나이아신아마이드 회피 시 abib 17건, 센텔라 14건, 글리세린 40건 제외). Top 5 매칭 근거는 전부 실제 성분 교집합이고 `filterRankedByMatchEvidence` 를 통과한 것만 노출된다.
+- **부수 발견**: 활성 제품 44건(abib 43 · 아로마티카 1)의 `category` 가 비어 있어 시나리오 카테고리(serum/cream/toner…) 매칭이 안 된다. 랭킹 점수에는 영향 없으나 «세럼 추천» 에 시트 마스크가 1위로 오는 원인. 대기열.
+- next_task: 결함 2(알레르겐 전성분 조회) 승인 여부 결정 → 승인 시 `filterCandidatesBySafety` 확장 · 미승인 시 수집기 category 채우기로 이동
+
 
 ## 2026-07-26 Master Plan v4.3 — 두피·모발 트랙과 카테고리 확장 로드맵 정식 편입
 

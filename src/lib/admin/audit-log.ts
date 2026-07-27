@@ -30,6 +30,9 @@ export type AuditAction =
   // 브랜드 표기를 공식 표기로 통일한 것. 이름을 «바꾼» 게 아니라 같은 이름의
   // 표기 변형을 모은 것이므로, 근거(확인한 출처)를 metadata 에 남긴다.
   | "brand_name_normalized"
+  // 전성분에서 key_ingredients 를 파생시킨 것. 새 정보를 넣은 게 아니라 이미
+  // 제품이 선언한 목록에서 골라낸 것이라, 고른 근거를 metadata 에 남긴다.
+  | "product_key_ingredients_backfilled"
   | "pipeline_operation_settings_updated";
 
 type AuditChangeType = "status" | "source" | "other";
