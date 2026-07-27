@@ -1229,6 +1229,30 @@ dry-run: 해당 3건, **잘못 지우는 것 0건**, 3건 모두 미매칭 0 도
 
 **결과: 83·84·85 재활성화. 활성 제품 42 → 45.**
 
+### 30-26. §38.8 병원 리드 계측 — **스키마가 막는다. 마이그레이션 승인 대기**
+
+계측을 붙이려고 현황을 조사한 결과, 코드가 아니라 **DB 제약**이 막고 있다.
+
+| 확인 사항 | 결과 |
+|---|---|
+| 실제 병원 데이터 | `dermatology_institution_candidates` **1,917행** |
+| 제휴·광고 관계 컬럼 | **없음** — 전부 지리 기반 organic 노출 |
+| `/my/clinics` 의 «sponsored» 구역 | `MOCK_CLINICS` 하드코딩. 실제 제휴 병원 **0건** |
+| `/api/clinics/leads` | **dry-run 전용** — DB 에 쓰지 않는다 |
+| 클릭 추적 연결 | **없음** |
+| `commercial_click_events.lane` | **`affiliate` \| `sponsored` 만 허용** |
+
+**organic 병원 클릭을 `affiliate` 로 기록할 수 없다.** 그건 존재하지 않는 상업 관계를 데이터로 남기는 것이고, §39.1(Organic 추천은 광고비·수수료를 입력 변수로 쓰지 않는다)과 충돌한다. 수익 대시보드에서 제휴 매출로 집계돼 버린다는 실질적 문제도 있다.
+
+**코드 어휘는 이미 넓다** — `commerceLabels.ts` 의 `COMMERCE_LANE_LABELS_KO` 에 `organic` 과 `partner_clinic` 이 이미 있다. 좁은 것은 DB CHECK 하나뿐이다.
+
+`supabase/migrations/20260727180000_allow_organic_lane_in_commercial_click_events.sql` 을 작성했다. lane 허용값에 `organic` · `partner_clinic` 을 더한다. 컬럼 변경도 기존 행 변경도 없다.
+
+**적용은 하지 않았다** — PROJECT_RULE §10 대로 파일 → PR → 승인 → `supabase db push` 순서다. 승인되면 그다음이 실제 계측 연결이다:
+
+1. 병원 목록·상담 버튼에 `/api/track/click` 호출 (`entity_type=clinic`, `lane=organic`)
+2. `/api/clinics/leads` 가 dry-run 을 유지하되 **연락처는 빼고** 리드 발생 사실만 이벤트로 남기기 (이 테이블은 PII 금지다)
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |
