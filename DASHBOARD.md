@@ -688,9 +688,50 @@ npm run catalog:repair-names               # 드라이런
 npm run catalog:repair-names -- --write    # 적용
 ```
 
-**남은 문제 — slug는 손대지 않았다.** 이 5건의 slug가 깨진 이름에서 생성돼
-의미가 없다(`cosrx-cosrx-a-i-u-50ml`, `cosrx-cosrx-11-a-i-u-1` 등). slug는 URL
-정체성이라 바꾸면 기존 링크가 깨진다. 별도 판단이 필요해 그대로 두었다.
+### 26-8. slug 재생성 (사용자 승인 후 실행 완료)
+
+| id | 수정 전 | 수정 후 |
+|---|---|---|
+| 68 | `cosrx-cosrx-11-a-i-u-1` | `cosrx-1-1-pyueo-pit-sika-siteu-maseukeu-1mae` |
+| 69 | `cosrx-cosrx-a-i-u-50ml-` | `cosrx-pyueo-pit-sika-keurim-intenseu-50ml` |
+| 70 | `cosrx-cosrx-a-i-u-50ml` | `cosrx-pyueo-pit-sika-keurim-50ml` |
+| 71 | `cosrx-cosrx-a-i-u-200ml` | `cosrx-pyueo-pit-sika-keulrenjing-oil-200ml` |
+| 72 | `cosrx-cosrx-a-i-u-u-150ml` | `cosrx-pyueo-pit-sika-keurimi-pom-keulrenjeo-150ml` |
+
+**원인은 모지바케가 아니었다.** 기존 `slugifyBrandAndName`가 NFKD 후
+`[^\w\s-]`를 제거하는데, 이게 **한글을 통째로 지운다**. 그래서 이름을 고친 뒤
+기존 함수를 그대로 돌려도 `cosrx-cosrx-50ml`이 나온다. 슬러그 생성기 자체의 결함이다.
+
+그래서 한글은 **로마자로 변환한 뒤** 슬러그를 만든다(Revised Romanization,
+음절 단위 전자 변환 — 음절 간 자음동화는 적용하지 않음, 결정적이고 문서화된 동작).
+영문 이름은 기존 규칙 그대로 둔다.
+
+**안전장치는 제품명 복구와 동일**: 새 슬러그가 브랜드와 이름 속 용량·수량 토큰을
+전부 유지해야 교체한다. `50ml`이 빠진 슬러그는 100ml 형제 제품과 구분이 안 되므로
+거부된다. 쓰기 전 전체 슬러그와 중복 검사도 한다.
+
+**감사 기록**: `product_change_history` 5행(`change_type='other'`,
+`action='slug_regeneration'`, old/new slug + 제품명). products를 건드리기 전에 기록.
+백업: `data/backups/2026-07-27/product-slug-repair.json`
+
+**검증 후**: 5건 갱신, 여전히 깨진 슬러그 0건, 중복 슬러그 0건.
+
+```
+npm run catalog:repair-slugs               # 드라이런 (제품명 복구된 5건)
+npm run catalog:repair-slugs -- --write    # 적용
+npm run catalog:repair-slugs -- --all      # 전체 손상 슬러그 대상 드라이런
+npm run test:korean-product-slug           # 로마자·안전장치 테스트
+```
+
+### 26-9. 아직 남은 것 — 슬러그 손상 53건
+
+같은 슬러그 생성기 결함으로 **92개 중 53개 제품의 슬러그가 손상**돼 있다.
+한글 이름이 통째로 날아가서 `-`, `--0h9r`, `-200ml`, `-5-c-200ml`,
+`sulwhasoo--2bkv` 같은 값이 들어있다. 이번 지시 범위(5건)가 아니라 **건드리지
+않았다.** `npm run catalog:repair-slugs -- --all`로 대상 목록을 먼저 확인할 수 있다.
+
+`src/lib/admin/productSlug.ts`의 `slugifyBrandAndName`도 그대로 두었다 — 신규 제품
+등록 화면이 쓰는 함수라 교체하면 등록 흐름에 영향이 간다. 별도 판단 필요.
 
 ---
 
