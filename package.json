@@ -176,7 +176,8 @@
     "check:preview-scenario-phase21": "node scripts/recommendation-scenario-phase21-preview-smoke.mjs",
     "analyze:scenario-catalog-gap": "npx --yes tsx scripts/analyze-scenario-catalog-gap.ts",
     "test:scalp-hair-safety": "npx --yes tsx scripts/scalp-hair-safety-selftest.ts",
-    "test:domain-alias": "npx --yes tsx scripts/domain-category-alias-selftest.ts"
+    "test:domain-alias": "npx --yes tsx scripts/domain-category-alias-selftest.ts",
+    "test:challenge-detection": "npx --yes tsx scripts/challenge-detection-selftest.ts"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.32",

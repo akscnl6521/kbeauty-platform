@@ -110,6 +110,37 @@ export type ExtractedOfficialProduct = {
   httpStatus?: number;
 };
 
+/** 실제 챌린지 페이지에만 나타나는 표지. 본문 어디든 나오는 낱말은 쓰지 않는다. */
+const CHALLENGE_MARKER_RE =
+  /cf-challenge|cf_chl_|attention required|just a moment|checking your browser|enable javascript and cookies to continue|<title>[^<]{0,60}captcha/i;
+
+/** 정상 상품 페이지임을 보여주는 신호 */
+const PRODUCT_PAYLOAD_RE = /"@type"\s*:\s*"Product"|<meta[^>]+property=["']og:type["'][^>]+product/i;
+
+/**
+ * 봇 챌린지 페이지인지 판정한다.
+ *
+ * 이전에는 본문에 `captcha` 가 한 번이라도 있으면 거부했는데, Shopify 는
+ * 모든 스토어 페이지에 로그인·문의 폼 스팸 방지용 `captcha-bootstrap`
+ * 스크립트를 심는다. 그 결과 정상적으로 200 과 JSON-LD Product 를 돌려주는
+ * 제품 페이지가 통째로 CAPTCHA 로 오판됐다 (COSRX 페이지에서 14회 등장).
+ *
+ * 챌린지 우회는 하지 않는다 (§35.4). 진짜 챌린지 표지가 있으면 그대로
+ * 거부하며, 여기서 바뀌는 것은 «무엇을 챌린지로 볼 것인가» 뿐이다.
+ */
+export function looksLikeChallengePage(html: string): boolean {
+  if (!html) return false;
+  if (CHALLENGE_MARKER_RE.test(html)) {
+    // 챌린지 표지가 있어도 실제 상품 데이터를 함께 주면 통과시킨다.
+    return !PRODUCT_PAYLOAD_RE.test(html);
+  }
+  // 표지는 없지만 captcha 만 있는 경우: 챌린지 페이지는 대체로 아주 작다.
+  if (/captcha/i.test(html) && html.length < 50_000) {
+    return !PRODUCT_PAYLOAD_RE.test(html);
+  }
+  return false;
+}
+
 function isPrivateOrLocalHost(hostname: string): boolean {
   const h = hostname.toLowerCase();
   if (h === "localhost" || h.endsWith(".local")) return true;
@@ -656,7 +687,7 @@ export async function extractOfficialProductFromUrl(
       httpStatus: page.status,
     };
   }
-  if (/captcha|cf-challenge|attention required/i.test(page.text)) {
+  if (looksLikeChallengePage(page.text)) {
     return {
       ...base,
       code: "CAPTCHA",
