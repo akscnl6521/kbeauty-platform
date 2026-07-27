@@ -731,6 +731,28 @@ Shopify 는 로그인·문의 폼 스팸 방지용 `captcha-bootstrap` 스크립
 
 **남은 병목**: Lador·mise en scène 5건은 `verified_offer_missing` — 오퍼는 삽입됐으나 검증을 못 넘었다. COSRX 2건은 `structured_ingredients_missing` — 영문 INCI 가 한글 위주 `ingredients` 사전과 매칭되지 않는다(사전 보강이 선행 과제).
 
+### 30-7. Lador·mise en scène 오퍼 미검증 원인 — **코드 결함 아님, 게이트가 옳게 막았다**
+
+성공 대조군(ROUND LAB)과 비교한 결과:
+
+| | ROUND LAB (73) | Lador·mise en scène (74~77) |
+|---|---|---|
+| `verification_status` | **verified** | unverified |
+| `stock_status` | **in_stock** | **unknown** |
+| 가격 | 22 USD | 19,500 / 7,000 / **100** / **100** KRW |
+
+차단 사유는 `offer-gate.ts` 의 `if (stockStatus !== "in_stock") → not_in_stock` 이다.
+
+**원인은 출처 페이지에 있다.**
+
+- **Lador**: 제품 페이지에 **JSON-LD 블록이 0개**다. 판매 가능 여부(`availability`)를 구조화해 제공하지 않는다.
+- **mise en scène**: 자기 메타 태그에 `product:price:amount=100` 을 게시한다. 헤어젤·트리트먼트가 100원일 수 없다 — 실판매 몰이 아니라 **브랜드 소개 사이트의 placeholder** 다.
+- ROUND LAB 만 Shopify 로 `availability: "http://schema.org/InStock"` 을 정상 제공한다.
+
+**게이트를 고치지 않는다.** 100원짜리 placeholder 를 verified 로 올리면 사용자에게 가짜 가격이 노출된다 — §5-3 위반이다. 지금 동작이 정확히 설계 의도대로다(§5-6 에 따라 offer 적격 로직도 손대지 않았다).
+
+**정책상 다음 경로**: 이 5건은 1순위(브랜드 직판몰)에서 **판매 정보를 얻을 수 없음이 확정**됐다. `docs/product-sourcing-policy.md` 에 따라 **2순위(정식 리테일러)** 로 오퍼를 확보해야 한다. 브랜드 사이트는 성분·제품명 출처로는 계속 유효하다.
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |
