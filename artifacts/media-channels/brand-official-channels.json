@@ -1,0 +1,194 @@
+{
+  "generatedAtNote": "Evidence = the brand's own website linked to this channel. Re-verify before relying on it.",
+  "results": [
+    {
+      "brand": "올리브영",
+      "site": "https://www.oliveyoung.co.kr/store/main/main.do",
+      "status": "site_unreachable",
+      "httpStatus": 403,
+      "note": null,
+      "channels": []
+    },
+    {
+      "brand": "아모레퍼시픽",
+      "site": "https://www.apgroup.com/int/ko/index.html",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/@innisfreeofficial",
+          "channelId": "UCorcEeedw7Q1oUFfPN-TQ_w"
+        },
+        {
+          "link": "https://www.youtube.com/@primera.official",
+          "channelId": "UC2Bhc3nG7ND_Et96adlmg3w"
+        },
+        {
+          "link": "https://www.youtube.com/@hanyulofficial",
+          "channelId": "UCgwc0gJOlH-T3lryBz_0axA"
+        }
+      ]
+    },
+    {
+      "brand": "LG생활건강",
+      "site": "https://www.lgcare.com/",
+      "status": "site_unreachable",
+      "httpStatus": 0,
+      "note": "fetch failed",
+      "channels": []
+    },
+    {
+      "brand": "이니스프리",
+      "site": "https://www.innisfree.com/kr/ko/Main.do",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/user/ecoinnisfree11",
+          "channelId": "UCorcEeedw7Q1oUFfPN-TQ_w"
+        }
+      ]
+    },
+    {
+      "brand": "에뛰드",
+      "site": "https://www.etude.com/kr/ko/main",
+      "status": "site_unreachable",
+      "httpStatus": 404,
+      "note": null,
+      "channels": []
+    },
+    {
+      "brand": "COSRX",
+      "site": "https://www.cosrx.com/",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/channel/UC8_qETGWRNIH01-QEjWYBKw",
+          "channelId": "UC8_qETGWRNIH01-QEjWYBKw"
+        }
+      ]
+    },
+    {
+      "brand": "Torriden",
+      "site": "https://www.torriden.com/",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/@torriden-official",
+          "channelId": "UC3wmXZAsLYGINtBuZZOonLQ"
+        }
+      ]
+    },
+    {
+      "brand": "Anua",
+      "site": "https://anua.com/",
+      "status": "no_youtube_link",
+      "channels": []
+    },
+    {
+      "brand": "Isntree",
+      "site": "https://isntree.com/",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/user/isskin",
+          "channelId": "UCIZePui25Qae-Y8qlekzskw"
+        }
+      ]
+    },
+    {
+      "brand": "SKIN1004",
+      "site": "https://skin1004.com/",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/channel/UCslty1jg7F3mpGM3VMjv8qg",
+          "channelId": "UCslty1jg7F3mpGM3VMjv8qg"
+        }
+      ]
+    },
+    {
+      "brand": "Beauty of Joseon",
+      "site": "https://beautyofjoseon.com/",
+      "status": "no_youtube_link",
+      "channels": []
+    },
+    {
+      "brand": "Round Lab",
+      "site": "https://roundlab.co.kr/",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/channel/UCH-GEdKDs-xWJnySXxXqFRA",
+          "channelId": "UCH-GEdKDs-xWJnySXxXqFRA"
+        }
+      ]
+    },
+    {
+      "brand": "haruharu wonder",
+      "site": "https://haruharuwonder.com/",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/@haruharuwonderofficial",
+          "channelId": "UCyiXrQyZpVyC6hv--_l3NGA"
+        }
+      ]
+    },
+    {
+      "brand": "AESTURA",
+      "site": "https://www.aestura.com/",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/channel/UCVj6JWY6c9IYvI0MWZPp2Gg",
+          "channelId": "UCVj6JWY6c9IYvI0MWZPp2Gg"
+        }
+      ]
+    },
+    {
+      "brand": "Laneige",
+      "site": "https://www.laneige.com/kr/ko/index.html",
+      "status": "no_youtube_link",
+      "channels": []
+    },
+    {
+      "brand": "Sulwhasoo",
+      "site": "https://www.sulwhasoo.com/kr/ko/index.html",
+      "status": "no_youtube_link",
+      "channels": []
+    },
+    {
+      "brand": "banila co.",
+      "site": "https://www.banilaco.com/",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/user/banilacobtube",
+          "channelId": "UCOHx-fs3kdDLSP6_TMtP0xA"
+        }
+      ]
+    },
+    {
+      "brand": "넘버즈인",
+      "site": "https://numbuzin.com/",
+      "status": "no_youtube_link",
+      "channels": []
+    },
+    {
+      "brand": "에스쁘아",
+      "site": "https://www.espoir.com/",
+      "status": "no_youtube_link",
+      "channels": []
+    },
+    {
+      "brand": "미쟝센",
+      "site": "https://www.miseenscene.co.kr/",
+      "status": "resolved",
+      "channels": [
+        {
+          "link": "https://www.youtube.com/user/mjsenmugshot",
+          "channelId": "UCBn6ZpCfulPer0eEt-HnKtQ"
+        }
+      ]
+    }
+  ]
+}
