@@ -1,0 +1,76 @@
+/**
+ * MASTER_PLAN §35.7 «전성분 처리 규칙» 회귀 고정.
+ *
+ * 2026-07-27 확인: 아래 규칙 네 가지가 파서에 구현돼 있지 않아, 성분이
+ * 사라지는 정도가 아니라 **다른 성분으로 바뀌고 있었다.**
+ *
+ *   1,2-헥산다이올                    -> 2 헥산다이올        (다른 물질)
+ *   N,N-다이메틸아세트아마이드          -> n 다이메틸...       (다른 물질)
+ *   카프릴릭/카프릭트라이글리세라이드     -> 두 조각
+ *   알라닌/히스티딘/라이신폴리펩타이드... -> 세 조각 (제품에 없는 알라닌이 매칭됨)
+ *
+ * 마지막 것이 특히 위험하다. 그 제품에 알라닌은 들어 있지 않은데 추천 엔진은
+ * 들어 있다고 믿었다. 성분은 안전 판정의 근거이므로 그냥 «덜 매칭됨» 이 아니다.
+ */
+import assert from "node:assert/strict";
+import { parseIngredientList } from "../src/lib/pipeline/ingredient-normalize";
+
+const keys = (raw: string): string[] =>
+  parseIngredientList(raw).normalized.map((x) => x.normalizedName);
+
+// --- §35.7 화학명 내부 쉼표를 보호한다 --------------------------------
+
+assert.deepEqual(keys("1,2-헥산다이올"), ["1,2 헥산다이올"], "1,2- 접두가 잘리면 안 된다");
+assert.deepEqual(keys("N,N-다이메틸아세트아마이드"), ["n,n 다이메틸아세트아마이드"]);
+assert.deepEqual(keys("2,4,5-트라이메틸아닐린"), ["2,4,5 트라이메틸아닐린"], "쉼표가 둘이어도 보호된다");
+
+// 목록 구분자는 그대로 잘라야 한다 — 보호가 과하면 성분이 뭉친다.
+assert.deepEqual(keys("정제수, 1,2-헥산다이올, 글리세린"), [
+  "정제수",
+  "1,2 헥산다이올",
+  "글리세린",
+]);
+assert.deepEqual(keys("피이지-40, 2-헥산다이올"), ["피이지 40", "2 헥산다이올"], "쉼표 뒤 공백은 구분자다");
+
+// --- §35.7 괄호 안 쉼표를 보호한다 ------------------------------------
+
+assert.deepEqual(keys("나이아신아마이드(50,000 ppm)"), ["나이아신아마이드"], "농도 표기는 제거된다");
+assert.deepEqual(keys("판테놀(750 ppm)"), ["판테놀"]);
+
+// 괄호 안 숫자를 무조건 지우면 안 된다 — 색소는 번호가 이름의 일부다.
+assert.deepEqual(keys("적색104호의(1)"), ["적색104호의(1)"], "색소 번호는 이름이다");
+
+// --- §35.7 성분 내부 슬래시를 임의 분리하지 않는다 ---------------------
+
+assert.deepEqual(keys("카프릴릭/카프릭트라이글리세라이드"), ["카프릴릭 카프릭트라이글리세라이드"]);
+assert.deepEqual(keys("알라닌/히스티딘/라이신폴리펩타이드카퍼에이치씨엘"), [
+  "알라닌 히스티딘 라이신폴리펩타이드카퍼에이치씨엘",
+]);
+assert.deepEqual(keys("PEG/PPG-17/6 Copolymer"), ["peg ppg 17 6 copolymer"]);
+
+// 세미콜론과 파이프는 여전히 구분자다.
+assert.deepEqual(keys("정제수; 글리세린 | 부틸렌글라이콜"), ["정제수", "글리세린", "부틸렌글라이콜"]);
+
+// --- §35.7 모지베이크를 자동 탐지한다 ---------------------------------
+
+assert.deepEqual(keys("정제수, ����, 글리세린"), ["정제수", "글리세린"]);
+
+// --- 크롤이 함께 담아 온 문구 -----------------------------------------
+
+assert.deepEqual(keys("Open / Close 정제수, 글리세린"), ["정제수", "글리세린"]);
+assert.deepEqual(
+  keys("정제수, 토코페롤 사용상의 주의사항 이 제품은..."),
+  ["정제수", "토코페롤"],
+  "주의사항부터는 성분이 아니다"
+);
+assert.deepEqual(keys("제1제 : 정제수, 글리세린"), ["정제수", "글리세린"]);
+
+// --- 기존 동작이 유지되는지 -------------------------------------------
+
+assert.deepEqual(keys("Water, Glycerin, Butylene Glycol"), ["water", "glycerin", "butylene glycol"]);
+assert.deepEqual(keys("Aqua"), ["water"], "aqua -> water 정규화 유지");
+assert.deepEqual(keys("CI 77891"), ["ci 77891"]);
+assert.deepEqual(keys(""), []);
+assert.deepEqual(keys(null), []);
+
+console.log("ingredient parse §35.7 selftest: ok");

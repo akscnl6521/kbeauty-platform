@@ -2,19 +2,19 @@
   "proposedAt": "2026-07-27",
   "applied": false,
   "tokens": {
-    "before": 2669,
+    "before": 2501,
     "after": 2508
   },
   "matched": {
-    "before": 2387,
+    "before": 2364,
     "after": 2366
   },
   "cleanProducts": {
-    "before": 28,
+    "before": 41,
     "after": 41
   },
-  "gainedTokenTypes": 32,
-  "lostTokenTypes": 36,
-  "droppedTokenTypes": 213,
-  "productsChanged": 43
+  "gainedTokenTypes": 4,
+  "lostTokenTypes": 2,
+  "droppedTokenTypes": 5,
+  "productsChanged": 4
 }
