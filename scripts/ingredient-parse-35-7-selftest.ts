@@ -74,3 +74,25 @@ assert.deepEqual(keys(""), []);
 assert.deepEqual(keys(null), []);
 
 console.log("ingredient parse §35.7 selftest: ok");
+
+// --- 꼬리 문구 규칙 (2026-07-27 추가) ---------------------------------
+
+// 저장된 전성분이 «사용상의» 에서 잘려 있다. 뒤에 «주의사항» 이 없어도 끝이다.
+assert.deepEqual(keys("정제수, 생강추출물 사용상의"), ["정제수", "생강추출물"]);
+assert.deepEqual(keys("정제수, 토코페롤 사용상의 주의사항 이 제품은..."), ["정제수", "토코페롤"]);
+
+// `!---!` 는 구분 마커다. 성분명 앞에 눌어붙으면 안 된다.
+assert.deepEqual(keys("에틸헥실글리세린!---!다이아이소스테아릴말레이트"), [
+  "에틸헥실글리세린",
+  "다이아이소스테아릴말레이트",
+]);
+
+// «(N번)» 은 구획 경계다. 공백이 아니라 쉼표로 끊어야 앞뒤가 안 붙는다.
+assert.deepEqual(keys("(1번) 정제수, 글리세린 (3번) 정제수, 판테놀"), [
+  "정제수",
+  "글리세린",
+  "판테놀",
+]);
+assert.deepEqual(keys("로즈마리잎오일 (3번) 정제수"), ["로즈마리잎오일", "정제수"]);
+
+console.log("ingredient parse tail-rule selftest: ok");
