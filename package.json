@@ -41,6 +41,7 @@
     "test:product-usage-guides": "npx --yes tsx scripts/usage-guidance-extract-selftest.ts && npx --yes tsx scripts/product-usage-guides-migration-selftest.ts",
     "usage:collect-guides": "npx --yes tsx scripts/collect-product-usage-guides.ts",
     "usage:ingest-guides": "node scripts/ingest-product-usage-guides.mjs",
+    "verify:usage-guides-staging": "node scripts/verify-usage-guides-staging.mjs",
     "media:discover-channels": "node scripts/discover-brand-official-channels.mjs",
     "media:collect-category-videos": "npx --yes tsx scripts/collect-category-common-videos.ts",
     "media:ingest-category-videos": "node scripts/ingest-category-common-videos.mjs",

@@ -20,6 +20,7 @@ const LINKS: Array<{ href: string; label: string; key: string }> = [
   { href: "/admin/evidence", label: "Evidence", key: "evidence" },
   { href: "/admin/verification", label: "Verification", key: "verification" },
   { href: "/admin/media-review", label: "영상 검수", key: "media-review" },
+  { href: "/admin/usage-guides", label: "사용 가이드 검수", key: "usage-guides" },
   { href: "/admin/pipeline", label: "Pipeline", key: "pipeline" },
   { href: "/admin/operations", label: "Operations", key: "operations" },
   { href: "/admin/care", label: "Care", key: "care" },
