@@ -117,3 +117,41 @@ const baseInput = {
 }
 
 console.log("cafe24 stock + placeholder price selftest: ok");
+
+// --- 부모가 감추는 테마 (2026-07-27 abib.co.kr 실물) --------------------
+
+/**
+ * abib 은 품절 배지를 감출 때 `displaynone` 을 **부모 div** 에 붙인다.
+ * 요소의 class 만 보면 판매중인 상품이 전부 품절로 뒤집힌다 —
+ * 실제로 그렇게 10건을 잘못 기록했다.
+ */
+const ABIB_IN_STOCK =
+  '<div class=" "><a href="#none" onclick="product_submit(1, \'/exec/front/order/basket/\', this)">' +
+  '<input type="button" class="btn buy-btn" value="구매하기"></a></div>' +
+  '<div class="displaynone"><span class="mar10 btn sold-out">SOLDOUT</span></div>';
+
+const ABIB_SOLD_OUT =
+  '<div class="displaynone"><a href="#none"><input type="button" class="btn buy-btn" value="구매하기"></a></div>' +
+  '<div class=" "><span class="mar10 btn sold-out">SOLDOUT</span></div>';
+
+assert.equal(
+  parseCafe24StockSignal(ABIB_IN_STOCK)?.stockStatus,
+  "in_stock",
+  "부모가 감춘 품절 배지는 품절이 아니다"
+);
+assert.equal(parseCafe24StockSignal(ABIB_SOLD_OUT)?.stockStatus, "out_of_stock");
+
+// 부모 div 가 요소 앞에서 이미 닫혔으면 그 div 는 부모가 아니다.
+assert.equal(
+  parseCafe24StockSignal(
+    '<div class="displaynone">다른 내용</div><span class="btn sold-out">SOLDOUT</span>'
+  )?.stockStatus,
+  "out_of_stock",
+  "닫힌 div 를 부모로 오인하면 안 된다"
+);
+
+// 기존 lador 형태(요소 자체에 displaynone)는 그대로 동작한다.
+assert.equal(parseCafe24StockSignal(IN_STOCK_HTML)?.stockStatus, "in_stock");
+assert.equal(parseCafe24StockSignal(SOLD_OUT_HTML)?.stockStatus, "out_of_stock");
+
+console.log("cafe24 ancestor-hidden selftest: ok");

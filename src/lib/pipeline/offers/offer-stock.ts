@@ -34,6 +34,33 @@ export type StockParseResult = {
  * 버튼이 있다는 것만으로 재고를 단정하지 않는 기존 방침(§5-3)은 그대로다.
  * 여기서 읽는 것은 버튼의 존재가 아니라 **플랫폼이 명시한 품절 플래그**다.
  */
+/**
+ * 품절 배지가 **감춰져 있는지** 본다.
+ *
+ * 쇼핑몰마다 감추는 자리가 다르다. 2026-07-27 실측:
+ *
+ *   lador  <span class="button sold-out displaynone">   요소 자체에 붙는다
+ *   abib   <div class="displaynone"><span class="btn sold-out">   부모에 붙는다
+ *
+ * 요소의 class 만 보면 abib 같은 테마를 전부 품절로 오판한다 — 실제로는
+ * 구매 버튼이 멀쩡히 보이는 판매중 상품이었다. 바로 앞의 여는 태그까지
+ * 살펴 부모가 감춰졌는지 확인한다.
+ *
+ * 완전한 DOM 해석은 아니다. 조상 한 단계만 본다 — 실제 마크업이 그 형태였고,
+ * 더 깊이 추정하는 것보다 «모르면 판단하지 않는» 쪽이 안전하다.
+ */
+function isHiddenByAncestor(html: string, elementIndex: number): boolean {
+  const before = html.slice(Math.max(0, elementIndex - 400), elementIndex);
+  const lastOpen = before.lastIndexOf("<div");
+  if (lastOpen === -1) return false;
+  const openTagEnd = before.indexOf(">", lastOpen);
+  if (openTagEnd === -1) return false;
+  const openTag = before.slice(lastOpen, openTagEnd + 1);
+  // 그 div 가 우리 요소 앞에서 이미 닫혔으면 부모가 아니다.
+  if (before.slice(openTagEnd).includes("</div>")) return false;
+  return /\bdisplaynone\b/.test(openTag);
+}
+
 export function parseCafe24StockSignal(html: string | null | undefined): {
   stockStatus: SchemaStockStatus;
   confidence: number;
@@ -41,16 +68,18 @@ export function parseCafe24StockSignal(html: string | null | undefined): {
 } | null {
   if (!html) return null;
 
-  const soldOutClasses = [
+  const matches = [
     ...html.matchAll(
       /<(?:span|div|button)[^>]*\bclass="([^"]*(?:sold-?out|sub_sold)[^"]*)"[^>]*>/gi
     ),
-  ].map((m) => m[1]!);
+  ];
 
   // Cafe24 특유의 마크업이 없으면 이 판독기가 할 말은 없다.
-  if (soldOutClasses.length === 0) return null;
+  if (matches.length === 0) return null;
 
-  const visibleSoldOut = soldOutClasses.filter((c) => !/\bdisplaynone\b/.test(c));
+  const visibleSoldOut = matches.filter(
+    (m) => !/\bdisplaynone\b/.test(m[1]!) && !isHiddenByAncestor(html, m.index ?? 0)
+  );
   if (visibleSoldOut.length > 0) {
     return {
       stockStatus: "out_of_stock",

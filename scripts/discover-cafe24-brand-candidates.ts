@@ -137,13 +137,24 @@ async function main() {
     }
 
     const all = [...found.values()];
-    const fresh = all.filter((f) => !known.has(decodeURIComponent(f.url).replace(/\/+$/, "")));
+    let fresh = all.filter((f) => !known.has(decodeURIComponent(f.url).replace(/\/+$/, "")));
+
+    // `--limit=N` 으로 소규모부터 확인할 수 있게 한다. 자를 때는 조용히
+    // 자르지 않고 몇 개 중 몇 개인지 함께 알린다.
+    const limitArg = process.argv.find((a) => a.startsWith("--limit="))?.slice(8);
+    const limit = limitArg ? Number(limitArg) : null;
+    let limited = false;
+    if (limit != null && Number.isFinite(limit) && fresh.length > limit) {
+      fresh = fresh.slice(0, limit);
+      limited = true;
+    }
     const truncated = all.length >= MAX_PRODUCTS_PER_BRAND || cats.length > MAX_CATEGORIES;
 
     console.log(
       `### ${host} — 카테고리 ${cats.length}개(살펴본 ${Math.min(cats.length, MAX_CATEGORIES)}) · ` +
         `상품 ${all.length}개 · 신규 ${fresh.length}개` +
-        (truncated ? "  [상한 도달 — 전부는 아니다]" : "")
+        (limited ? `  [--limit 로 ${fresh.length}개만]` : "") +
+        (truncated ? "  [수집 상한 도달 — 전부는 아니다]" : "")
     );
     for (const f of fresh.slice(0, 6)) console.log(`    ${(f.name || f.url).slice(0, 62)}`);
     if (fresh.length > 6) console.log(`    ... 외 ${fresh.length - 6}개`);
