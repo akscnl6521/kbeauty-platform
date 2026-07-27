@@ -81,6 +81,7 @@ export function extractOpenGraph(html: string): {
   title: string | null;
   image: string | null;
   description: string | null;
+  siteName: string | null;
 } {
   const pick = (prop: string): string | null => {
     const escaped = prop.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -104,5 +105,6 @@ export function extractOpenGraph(html: string): {
     title: pick("og:title"),
     image: pick("og:image") ?? pick("og:image:secure_url"),
     description: pick("og:description"),
+    siteName: pick("og:site_name"),
   };
 }

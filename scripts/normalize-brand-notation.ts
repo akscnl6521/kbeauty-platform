@@ -45,6 +45,13 @@ const BRAND_NOTATION: ReadonlyArray<{
       "roundlab.com JSON-LD brand.name = 'Round Lab' · og:site_name = 'Round Lab' (2026-07-27 확인). " +
       "국내몰 roundlab.co.kr 의 한글 표기는 '라운드랩' 이지만, 기존 데이터가 모두 영문이라 영문 공식 표기로 모은다.",
   },
+  {
+    official: "SIORIS",
+    variants: ["시오리스 온라인 공식몰", "시오리스"],
+    evidence:
+      "sioris.co.kr 홈 og:site_name = 'SIORIS' (2026-07-27 확인). " +
+      "상품 페이지의 JSON-LD brand.name 은 '시오리스 온라인 공식몰' 인데 이는 브랜드가 아니라 쇼핑몰 이름이라 근거로 쓰지 않는다.",
+  },
 ];
 
 async function fetchAll<T>(client: SupabaseClient, table: string, select: string): Promise<T[]> {

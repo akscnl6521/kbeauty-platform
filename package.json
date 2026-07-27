@@ -184,7 +184,8 @@
     "check:mfds-ingredient-survey": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/survey-mfds-ingredient-catalog.ts",
     "apply:mfds-ingredient-dictionary": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/ingest-mfds-ingredient-dictionary.ts",
     "test:ingredient-parse-357": "tsx scripts/ingredient-parse-35-7-selftest.ts",
-    "test:revenue-ledger": "tsx scripts/revenue-ledger-selftest.ts"
+    "test:revenue-ledger": "tsx scripts/revenue-ledger-selftest.ts",
+    "test:brand-name": "tsx scripts/brand-name-extraction-selftest.ts"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.32",

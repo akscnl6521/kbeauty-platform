@@ -128,6 +128,37 @@ const PRODUCT_PAYLOAD_RE = /"@type"\s*:\s*"Product"|<meta[^>]+property=["']og:ty
  * 챌린지 우회는 하지 않는다 (§35.4). 진짜 챌린지 표지가 있으면 그대로
  * 거부하며, 여기서 바뀌는 것은 «무엇을 챌린지로 볼 것인가» 뿐이다.
  */
+/**
+ * 쇼핑몰 이름을 브랜드명으로 잘못 담는 것을 막는다.
+ *
+ * JSON-LD 의 `brand.name` 은 브랜드가 채우는 칸인데, 쇼핑몰 이름을 그대로
+ * 넣어 두는 곳이 있다. 2026-07-27 sioris.co.kr 이 «시오리스 온라인 공식몰» 을
+ * 브랜드로 신고했고, 제품 24건이 그 이름으로 저장됐다. 그건 브랜드가 아니라
+ * 가게 이름이다.
+ *
+ * 브랜드명 자체를 바꾸거나 번역하지 않는다(§35.3). 뒤에 붙은 **가게를 가리키는
+ * 말만** 떼어 낸다 — 남는 것이 없으면 이 출처를 쓰지 않는다.
+ */
+const SHOP_DESIGNATION =
+  /\s*(?:온라인|공식|글로벌|국내)?\s*(?:공식)?\s*(?:쇼핑몰|공식몰|스토어|스토아|샵|몰)\s*$|\s*(?:official\s+)?(?:online\s+)?(?:store|shop|mall)\s*$/i;
+
+export function cleanBrandName(raw: string | null | undefined): string | null {
+  const value = (raw ?? "").trim();
+  if (!value) return null;
+  if (/unknown/i.test(value)) return null;
+
+  let cleaned = value;
+  // «시오리스 온라인 공식몰» 처럼 겹쳐 붙는 경우가 있어 더 줄지 않을 때까지 뗀다.
+  for (let i = 0; i < 3; i++) {
+    const next = cleaned.replace(SHOP_DESIGNATION, "").trim();
+    if (next === cleaned) break;
+    cleaned = next;
+  }
+  // 가게를 가리키는 말만 있던 값이면 브랜드로 쓸 수 없다.
+  if (!cleaned || cleaned.length < 2) return null;
+  return cleaned;
+}
+
 export function looksLikeChallengePage(html: string): boolean {
   if (!html) return false;
   if (CHALLENGE_MARKER_RE.test(html)) {
@@ -713,10 +744,8 @@ export async function extractOfficialProductFromUrl(
     og.title?.trim() ||
     null;
   const brandName =
-    (!jsonProduct?.brandCanonical ||
-    /unknown/i.test(jsonProduct.brandCanonical)
-      ? null
-      : jsonProduct.brandCanonical.trim()) ||
+    cleanBrandName(jsonProduct?.brandCanonical) ||
+    cleanBrandName(og.siteName) ||
     options?.fallbackBrand?.trim() ||
     null;
   const imageUrl =
