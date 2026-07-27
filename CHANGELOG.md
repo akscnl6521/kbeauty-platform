@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-07-27 category 채우기 (43/44) + 알레르겐 노출 최종 감사
+
+- **data(staging)**: 활성 제품 43건에 `category` 채움 — mask 15 · cream 9 · foam_cleanser 3 · serum 3 · perfume 3 · hand_cream 3 · toner 2 · sunscreen 1 · body_lotion 1 · body_wash 1 · cleanser 1 · eye_patch 1. 근거는 제품명의 유형 표기이고, 표기가 없는 3건은 브랜드 공식 페이지·카테고리 목록에서 확인했다. 감사 로그 `product_category_filled` 에 근거 문구 기록, 되돌리기 백업 `data/backups/2026-07-27/product-category-before-fill.json`.
+- **미채움 1건**: 242 아로마티카 수딩 알로에 베라 젤 — 제품명·원문 어디에도 유형 표기 없음, 사용방법이 «얼굴과 몸 전체에». `verification_queue` 에 `product_category_unknown` 등록.
+- **발견**: 얼굴 트랙 밖 제품 8건(향수 3 · 핸드크림 3 · 바디 2)이 얼굴 고민 시나리오의 추천 후보 풀에 들어 있다. §29 MVP 범위 밖 — 카테고리는 채웠고 풀에서 뺄지는 미결.
+- **audit**: `check:allergen-exposure-audit` 신설. 옛 필터가 놓쳐 노출될 수 있었던 제품 **28건**(향료 18 · 리모넨 14 · 리날룰 13 …) — 이번 수정으로 전부 걸러진다. 여전히 매칭 안 되는 4건은 별개 성분(`Hexyl Cinnamal`≠`Cinnamal` 3건, `Capryloyl Salicylic Acid`≠`Salicylic Acid` 1건)이라 누락이 아니다. **Staging 한정** — Production 자격증명이 세션에 없어 미확인.
+
 ## 2026-07-27 알레르기·회피 필터를 전성분 전체로 확장
 
 - **fix(safety)**: `filterCandidatesBySafety` 가 알레르겐을 `full_ingredients` 까지 훑는다. 기존엔 `key_ingredients`(기능성 성분 사전으로 골라낸 부분집합)만 봐서 향료·리모넨·리날룰이 구조적으로 안 잡혔다. **랭킹 점수는 무변경** — `key_ingredients` 만 쓴다. 추천 풀 자격(`incomplete_info`) 기준도 무변경.

@@ -33,6 +33,9 @@ export type AuditAction =
   // 전성분에서 key_ingredients 를 파생시킨 것. 새 정보를 넣은 게 아니라 이미
   // 제품이 선언한 목록에서 골라낸 것이라, 고른 근거를 metadata 에 남긴다.
   | "product_key_ingredients_backfilled"
+  // 제품 유형(category)을 채운 것. 근거(제품명 표기 또는 확인한 공식 페이지 문구)를
+  // metadata 에 남긴다 — 추정으로 채운 게 아님을 나중에 확인할 수 있어야 한다.
+  | "product_category_filled"
   | "pipeline_operation_settings_updated";
 
 type AuditChangeType = "status" | "source" | "other";

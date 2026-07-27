@@ -188,6 +188,8 @@
     "test:brand-name": "tsx scripts/brand-name-extraction-selftest.ts",
     "test:key-ingredients-derive": "tsx scripts/key-ingredients-derive-selftest.ts",
     "test:allergen-full-ingredients": "tsx scripts/allergen-full-ingredients-selftest.ts",
+    "check:allergen-exposure-audit": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/audit-allergen-exposure.ts",
+    "apply:product-category-fill": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/fill-product-category.ts",
     "check:allergen-expansion-dryrun": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/dryrun-allergen-full-ingredients.ts",
     "check:recommendation-scenarios": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/verify-recommendation-scenarios.ts",
     "apply:key-ingredients-backfill": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/backfill-key-ingredients.ts"
