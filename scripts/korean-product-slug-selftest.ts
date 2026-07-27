@@ -201,3 +201,77 @@ for (const target of TARGETS) {
 }
 
 console.log("[korean-product-slug] self-test: ok");
+
+// ---------------------------------------------------------------------------
+// The shared slugifier used by the product registration flow.
+//
+// These assertions are deliberately written against the *intended* behaviour so
+// they can be run before and after swapping its implementation: what must not
+// change is pinned, and the Korean cases are the change being made.
+// ---------------------------------------------------------------------------
+import {
+  normalizeManualSlug,
+  slugifyBrandAndName,
+} from "../src/lib/admin/productSlug";
+
+// --- invariants that must survive the swap -----------------------------------
+assert.equal(
+  slugifyBrandAndName("COSRX", "Advanced Snail 96 Mucin Power Essence"),
+  "cosrx-advanced-snail-96-mucin-power-essence",
+  "REGRESSION: latin product slugs must be unchanged"
+);
+assert.equal(
+  slugifyBrandAndName("Round Lab", "1025 Dokdo Toner"),
+  "round-lab-1025-dokdo-toner",
+  "REGRESSION: multi-word brands unchanged"
+);
+// Intentional change, not a regression: the old function deleted punctuation and
+// fused the words into "ahabha". The catalog already stored "aha-bha", so the new
+// separator behaviour matches the convention the data was using.
+assert.equal(
+  slugifyBrandAndName("COSRX", "AHA/BHA Clarifying Treatment Toner"),
+  "cosrx-aha-bha-clarifying-treatment-toner",
+  "CHANGED: punctuation between letters becomes a separator"
+);
+const longSlug = slugifyBrandAndName("COSRX", "A".repeat(200));
+assert.ok(longSlug.length <= 80, "REGRESSION: 80 character cap holds");
+assert.ok(!/^-|-$/.test(longSlug), "REGRESSION: no edge separator after truncation");
+assert.equal(
+  slugifyBrandAndName("COSRX", "  Spaced   Out  "),
+  "cosrx-spaced-out",
+  "REGRESSION: whitespace collapses"
+);
+assert.equal(
+  slugifyBrandAndName("COSRX", "MiXeD CaSe"),
+  "cosrx-mixed-case",
+  "REGRESSION: lowercased"
+);
+
+// normalizeManualSlug is untouched by this change
+assert.equal(normalizeManualSlug("  My Slug  "), "my-slug");
+assert.equal(normalizeManualSlug("UPPER--Case__x"), "upper-case__x");
+assert.equal(normalizeManualSlug(""), "");
+assert.ok(normalizeManualSlug("a".repeat(200)).length <= 80, "manual slug cap holds");
+
+// --- the behaviour being introduced ------------------------------------------
+assert.equal(
+  slugifyBrandAndName("COSRX", "COSRX [퓨어 핏 시카 크림 50ml]"),
+  "cosrx-pyueo-pit-sika-keurim-50ml",
+  "NEW: Korean names romanise instead of collapsing"
+);
+assert.equal(
+  slugifyBrandAndName("넘버즈인", "원더밤 200ml"),
+  "neombeojeuin-wondeobam-200ml",
+  "NEW: Korean brand and name both romanise"
+);
+assert.equal(
+  slugifyBrandAndName("Sulwhasoo", "옥용팩"),
+  "sulwhasoo-okyongpaek",
+  "NEW: a name that used to slug to just the brand"
+);
+assert.ok(
+  !slugifyBrandAndName("에스쁘아", "꾸뛰르 립틴트 글레이즈").startsWith("-"),
+  "NEW: never produces a leading separator"
+);
+
+console.log("[korean-product-slug] shared slugifier: ok");
