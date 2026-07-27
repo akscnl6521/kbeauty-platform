@@ -723,15 +723,65 @@ npm run catalog:repair-slugs -- --all      # 전체 손상 슬러그 대상 드�
 npm run test:korean-product-slug           # 로마자·안전장치 테스트
 ```
 
-### 26-9. 아직 남은 것 — 슬러그 손상 53건
+### 26-9. 나머지 슬러그 48건 + 공용 생성기 교체 (사용자 승인 후 완료)
 
-같은 슬러그 생성기 결함으로 **92개 중 53개 제품의 슬러그가 손상**돼 있다.
-한글 이름이 통째로 날아가서 `-`, `--0h9r`, `-200ml`, `-5-c-200ml`,
-`sulwhasoo--2bkv` 같은 값이 들어있다. 이번 지시 범위(5건)가 아니라 **건드리지
-않았다.** `npm run catalog:repair-slugs -- --all`로 대상 목록을 먼저 확인할 수 있다.
+남아있던 손상 슬러그 48건(53건 중 5건은 26-8에서 처리) 전부 재생성.
 
-`src/lib/admin/productSlug.ts`의 `slugifyBrandAndName`도 그대로 두었다 — 신규 제품
-등록 화면이 쓰는 함수라 교체하면 등록 흐름에 영향이 간다. 별도 판단 필요.
+```
+92개 제품 · 손상 슬러그 0건 · 중복 슬러그 0건
+audited 48 · updated 48 · failed 0
+```
+
+감사 기록·백업은 26-8과 동일(`product_change_history` 48행 +
+`data/backups/2026-07-27/product-slug-repair.json`).
+
+**적용 전 확인한 것**: 아도르 제품 12건의 `brand="아도르"`가 판매처가
+lador.co.kr(라도르)인데 잘못된 값 아닌지 의심됐다. 브랜드 공식몰
+`og:site_name`을 확인하니 **아도르가 맞았고**(라도르 언급 0회) 오히려 기존
+슬러그의 `라도르-` 접두어가 잘못이었다. brand 필드는 건드리지 않았다.
+
+**공용 생성기 교체**: `src/lib/admin/productSlug.ts`의 `slugifyBrandAndName`이
+새 로마자 생성기로 위임하도록 교체. 등록 화면·일괄등록에서 같은 결함이 다시
+생기지 않는다. `normalizeManualSlug`은 그대로 뒀다(생성이 아니라 사람이 입력한
+슬러그를 정리하는 함수).
+
+교체 전에 기존 함수까지 테스트로 덮어 회귀를 먼저 확인했고, 그 과정에서 한글
+지원 외에 **의도한 동작 변경 1건**이 드러났다: 옛 함수는 글자 사이 구두점을
+지워서 `AHA/BHA` → `ahabha`로 붙였는데, 새 함수는 `aha-bha`로 분리한다. DB에
+이미 `cosrx-aha-bha-clarifying-treatment-toner`가 저장돼 있어 **데이터가 쓰던
+관례를 따른 것**이다. 라틴 이름의 나머지 동작은 동일하다.
+
+```
+npm run test:korean-product-slug              # 로마자 + 공용 함수 회귀
+npm run check:product-registration-slugs      # 등록 플로우 dry-run
+```
+
+### 26-10. 등록 플로우 dry-run에서 발견한 별건 버그 — 일괄등록 CSV 인코딩
+
+새 제품 등록 플로우를 dry-run으로 통과시키는 과정에서 **슬러그와 무관한
+기존 버그**를 발견했다.
+
+`src/lib/admin/product-bulk/parseSpreadsheet.ts`가
+`XLSX.read(bytes, { type: "buffer" })`로 읽는데, **codepage를 지정하지 않아
+UTF-8 CSV를 latin1으로 해석**한다. 그래서 한글 제품명이 들어간 CSV를 일괄
+등록하면 이름이 깨진다.
+
+```
+XLSX.read(csv, { type:"buffer" })                  -> "ìëë°¤ 200ml"
+XLSX.read(csv, { type:"buffer", codepage:65001 })  -> "원더밤 200ml"
+```
+
+깨진 이름으로 슬러그를 만들면 `e-e2-i-i-i-e-e-200ml` 같은 값이 나온다.
+슬러그 생성기 문제가 아니라 **입력 단계에서 이미 이름이 깨진 것**이다.
+
+**고치지 않았다.** 한 줄로 보이지만 그렇지 않다 — 한국어 Windows의 Excel은
+CSV를 기본적으로 cp949로 저장한다. `codepage:65001`을 강제하면 UTF-8 파일은
+살지만 cp949 파일이 깨진다. BOM 감지 후 UTF-8 → cp949 순으로 판단하는 설계가
+필요하고, 이건 별도 판단 사항이다.
+
+`npm run check:product-registration-slugs`는 이 항목에서 **의도적으로 실패**한다.
+한글 CSV 등록이 실제로 깨지는데 초록불을 띄우면 안 되기 때문이다. 슬러그 관련
+항목은 전부 통과한다.
 
 ---
 
