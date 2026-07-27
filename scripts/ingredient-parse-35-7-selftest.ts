@@ -196,3 +196,36 @@ assert.deepEqual(
 );
 
 console.log("ingredient parse fullwidth/section selftest: ok");
+
+// --- 영문·한글 두 벌 목록의 경계 (2026-07-27 abib.co.kr) --------------
+
+// 영문 목록 끝과 한글 목록 시작이 공백 하나로 붙어 온다.
+assert.deepEqual(keys("Camellia Sinensis Leaf Extract, Glucose 정제수, 글리세린"), [
+  "camellia sinensis leaf extract",
+  "glucose",
+  "정제수",
+  "글리세린",
+]);
+assert.deepEqual(keys("Xanthan Gum, Disodium EDTA 메틸프로판다이올"), [
+  "xanthan gum",
+  "disodium edta",
+  "메틸프로판다이올",
+]);
+
+// 숫자·기호로 끝나면 경계가 아니다 — 띄어 쓴 하이픈이 든 한글 성분명이다.
+assert.deepEqual(keys("피이지 -240/ 에이치디아이코폴리머비스 - 데실테트라데세스 -20 에터"), [
+  "피이지 240 에이치디아이코폴리머비스 데실테트라데세스 20 에터",
+]);
+assert.deepEqual(keys("폴리글리세릴 -10 올리에이트"), ["폴리글리세릴 10 올리에이트"]);
+
+// 두 글자 이하 로마자도 경계로 보지 않는다.
+assert.deepEqual(keys("CI 77891 티타늄디옥사이드"), ["ci 77891 티타늄디옥사이드"]);
+
+// 쇼핑몰 푸터는 성분이 아니다.
+assert.deepEqual(keys("정제수, 소듐벤조에이트 카테고리 인기 BEST 함께 쓰면 좋은"), [
+  "정제수",
+  "소듐벤조에이트",
+]);
+assert.deepEqual(keys("정제수, 토코페롤 네비게이션 검색 홈 Cart"), ["정제수", "토코페롤"]);
+
+console.log("ingredient parse latin-hangul-boundary selftest: ok");

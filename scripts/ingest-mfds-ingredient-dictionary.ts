@@ -237,6 +237,8 @@ async function main() {
   type NewIngredient = { slug: string; name_en: string; name_ko: string; token: string };
   const newAliases: NewAlias[] = [];
   const newIngredients: NewIngredient[] = [];
+  /** 이번 실행에서 만들 행에 붙일 별칭. 행이 생긴 뒤에야 id 를 알 수 있다. */
+  const pendingAliasesForNew: Array<{ enKey: string; token: string }> = [];
   const skipped: Array<[string, string]> = [];
   const plannedKeys = new Set<string>();
   const plannedSlugs = new Set(ingredients.map((r) => (r.slug ?? "").toLowerCase()));
@@ -267,8 +269,20 @@ async function main() {
       continue;
     }
 
+    // 같은 실행에서 이미 이 영문명으로 행을 만들기로 했다면, 이 토큰은 그
+    // 행의 **별칭**이다. 버리면 안 된다.
+    //
+    // 제품이 전성분을 한글과 영문으로 함께 적는 경우가 있어서
+    // (`돌나물추출물` 과 `sedum sarmentosum extract` 가 둘 다 미매칭 토큰),
+    // 먼저 처리된 쪽이 영문 키를 선점하고 나머지가 통째로 버려졌다.
+    if (plannedKeys.has(enKey)) {
+      pendingAliasesForNew.push({ enKey, token });
+      plannedKeys.add(token);
+      continue;
+    }
+
     // 경로 2 — 사전에 없는 성분. 식약처 공식 데이터로 새로 만든다.
-    if (taken.has(enKey) || plannedKeys.has(enKey)) {
+    if (taken.has(enKey)) {
       skipped.push([token, `영문명 «${hit.engName}» 키가 이미 점유됨`]);
       continue;
     }
@@ -290,6 +304,7 @@ async function main() {
   console.log(`미매칭 토큰 ${unmatched.size}종 대상`);
   console.log(`  경로1 별칭만 추가 (기존 성분)  ${newAliases.length}건`);
   console.log(`  경로2 새 성분 행 추가          ${newIngredients.length}건`);
+  console.log(`  경로3 새 행에 붙일 별칭        ${pendingAliasesForNew.length}건`);
   console.log(`  건너뜀(키 충돌 등)             ${skipped.length}건`);
   for (const [t, why] of skipped.slice(0, 15)) console.log(`      ${t.slice(0, 40).padEnd(42)}${why}`);
 
@@ -298,10 +313,19 @@ async function main() {
     ...ingredients,
     ...newIngredients.map((n, i) => ({ id: -1000 - i, slug: n.slug, name_en: n.name_en, name_ko: n.name_ko })),
   ];
+  // 새 행에 붙일 별칭도 시뮬레이션에 넣어야 예상 매칭이 실제와 맞는다.
+  const plannedIndexByEnKey = new Map<string, number>();
+  newIngredients.forEach((n, i) => plannedIndexByEnKey.set(normalizeTextKey(n.name_en), i));
+
   const simAliases = [
     ...activeAliases,
     ...newAliases.map((a) => ({ ingredient_id: a.ingredient_id, normalized_alias: a.normalized_alias, alias: a.alias })),
-    // 새로 만든 행은 name_ko 로 이미 잡히므로 별도 별칭이 필요 없다.
+    ...pendingAliasesForNew
+      .map((p) => {
+        const idx = plannedIndexByEnKey.get(p.enKey);
+        return idx == null ? null : { ingredient_id: -1000 - idx, normalized_alias: p.token, alias: p.token };
+      })
+      .filter((x): x is { ingredient_id: number; normalized_alias: string; alias: string } => x != null),
   ];
   const simMaps = buildIngredientLookupMaps(simIngredients as never, simAliases as never);
 
@@ -357,6 +381,24 @@ async function main() {
       return;
     }
     console.log(`\ningredients ${data?.length ?? 0}행 추가`);
+
+    // 방금 만든 행에 별칭을 붙인다. 같은 성분을 한글·영문 둘 다로 적는 제품이
+    // 있어서, 한쪽만 넣으면 나머지 표기는 계속 미매칭으로 남는다.
+    const idByEnKey = new Map<string, number>();
+    for (const r of (data ?? []) as Array<{ id: number; name_en: string | null }>) {
+      const k = normalizeTextKey(r.name_en);
+      if (k) idByEnKey.set(k, r.id);
+    }
+    for (const p of pendingAliasesForNew) {
+      const id = idByEnKey.get(p.enKey);
+      if (id == null) continue;
+      newAliases.push({
+        ingredient_id: id,
+        alias: p.token,
+        normalized_alias: p.token,
+        via: `이번에 만든 성분 ${id}`,
+      });
+    }
   }
 
   if (newAliases.length > 0) {
