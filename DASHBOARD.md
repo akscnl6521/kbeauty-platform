@@ -410,4 +410,137 @@ GRANT 대기 중 시간 활용 — 아직 안 건드린 브랜드 5개(beauty-of
 
 ---
 
+## 25. 영상 인프라 트랙 (2026-07-27 · `feature/video-infrastructure-20260727`)
+
+MASTER_PLAN §36 기준 영상 인프라 구축. **화면에 영상을 끼워넣지 않음** — 디자인
+트랙과 충돌을 피하려고 구조·검수까지만. `/routine`, `/results` 미변경.
+
+작업은 별도 git worktree(`../kbeauty-video-wt`)에서 진행했다. 같은 작업 폴더에서
+디자인 트랙이 동시에 파일을 수정하고 브랜치를 바꾸고 있어서 빌드 검증이 불가능했다.
+
+### 25-1. §36.4 데이터 구조 — 설계·migration 완료, Staging 적용은 사람 몫
+
+`supabase/migrations/20260727120000_create_media_asset_library.sql` (테이블 9개)
+
+| 테이블 | 역할 |
+|---|---|
+| `media_assets` | 자산 본체 (유형·출처·언어·길이·고지·검수 상태) |
+| `media_rights` | 권리 1건 = 1행 (상태·근거·허용범위·기간·지역·증빙) |
+| `media_localizations` | 언어별 제목·자막 |
+| `product_videos` | 제품·변형 연결 (설계만, 이번 트랙 미사용) |
+| `routine_videos` | 루틴·카테고리 연결 (이번 트랙 대상) |
+| `creator_assets` | 계약 크리에이터 출처 |
+| `video_usage_steps` | 영상 내 단계별 사용법 |
+| `video_performance_events` | 재생 집계 (PII 저장을 CHECK로 차단) |
+| `media_review_events` | 검수 결정 감사 로그 |
+
+§36.3 권리 규칙을 DB CHECK로 강제했다. 핵심은 **무단 복제 금지가 코드 규칙이 아니라
+스키마 제약**이라는 점: `storage_url`은 자체 제작·계약 영상에만 설정 가능하고,
+브랜드·판매처·UGC 영상은 링크/임베드만 된다. AI·협찬 영상은 고지 없이는 저장 자체가
+안 되고, 카테고리 공통 자산은 제품명 노출 플래그를 켤 수 없다.
+
+`anon`·`authenticated` 권한은 **하나도 부여하지 않았다** — 이번 트랙에서 어떤 화면도
+이 테이블을 읽지 않는다. 사용자 노출 권한은 별도 승인 건.
+
+**Staging 적용 실패 — 사람이 실행해야 함.** 이 작업 PC는 IPv4 전용인데 Supabase
+direct host가 IPv6 전용이고 CLI access token도 없어서 DDL을 넣을 수 없다(§13과 동일
+원인). 실행 방법은 25-5 참고.
+
+### 25-2. 카테고리 공통 영상 확보 — **0건 (실패)**
+
+출처 검증 사슬을 고정했다: **브랜드 자사 사이트 → 거기 링크된 공식 채널 ID →
+그 채널 RSS 피드 → oEmbed**. 검색 결과는 근거로 쓰지 않는다. 실제로 검색이
+"아모레퍼시픽 공식", "COSRX 공식"이라고 소개한 영상 6건을 oEmbed로 확인하니
+**6건 전부 개인 유튜버 채널**이었다.
+
+```
+공식 채널 (브랜드 사이트 근거)   13개
+스캔한 공식 영상               195건
+공식 업로드로 검증됨           195건 (100%)
+임베드 불가·접속 실패            0건
+────────────────────────────────
+카테고리 공통 분류               0건   ← 확보 실패
+제품 전용 분류                 195건
+```
+
+원인은 권리도 도구도 아니고 **공급**이다. 브랜드 공식 채널은 자사 제품을 파는
+채널이라 최근 업로드가 전부 제품 마케팅이었다(제품명 언급 75, 신제품 31,
+한정·에디션 9 등). 교육형 신호(`바르는 순서`·`사용법`·`세안법`·`아침/저녁 루틴`)는
+195건 중 0건.
+
+분류기가 과하게 거른 게 아니다 — selftest가 `"스킨케어 바르는 순서 완전정복"`,
+`"올바른 이중 세안법"` 같은 제목을 `category_common`으로 정확히 잡는지 검증한다.
+감지 대상이 실제로 없었다.
+
+상세·한계·다음 선택지: `docs/media-category-common-sourcing.md`
+
+### 25-3. `/admin/media-review` 신규 화면 — 완료
+
+기존 화면 재사용 없이 새 경로만 추가. 승인해도 사용자 화면에는 안 나온다.
+
+- `/admin/media-review` — 검수 큐 (상태·범위 필터, 항목별 통과/실패 배지)
+- `/admin/media-review/[id]` — 영상·출처·권리 전체 + 검수 결정
+- `POST /api/admin/media-review/[id]` — admin·reviewer만. 결정은 전부 감사 로그행
+
+공개 조건을 못 채운 자산은 **서버가 승인을 거부**한다. 만료된 권리나 고지 없는
+협찬을 검수자가 승인 버튼으로 통과시킬 수 없다. 반려는 사유 필수.
+
+Staging에 테이블이 아직 없으므로 화면은 PGRST205를 감지해 "이 migration을
+실행하세요" 안내를 띄운다(에러 화면 아님).
+
+### 25-4. 검증
+
+| 항목 | 결과 |
+|---|---|
+| `npm run build` | 통과 (커밋 4건 각각 확인) |
+| `npm run lint` | 통과 |
+| `npm run test:media-asset-library` | 통과 (도메인 + migration 정적 검토) |
+| `npm run test:media-category-registry` | 통과 (분류 로직 + 레지스트리 형식) |
+| `npm run gate:media-library-staging` | 통과 |
+| `npm run apply:media-library-staging` | **차단** — IPv6/토큰 (25-5) |
+
+### 25-5. 사람이 해야 할 일 (Staging 전용, Production 무관)
+
+Supabase Dashboard → **Staging(`jfnj***gfd`)** → SQL Editor 에서 아래 파일 내용을
+그대로 붙여넣고 실행:
+
+```
+supabase/migrations/20260727120000_create_media_asset_library.sql
+```
+
+이 파일에 포함된 권한 문(GRANT)은 다음이 전부다. `anon`·`authenticated` 대상 GRANT는
+없고, DELETE 권한도 없다.
+
+```sql
+GRANT SELECT, INSERT, UPDATE ON TABLE public.media_assets            TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.media_rights            TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.media_localizations     TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.product_videos          TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.routine_videos          TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.creator_assets          TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.video_usage_steps       TO service_role;
+GRANT SELECT, INSERT         ON TABLE public.video_performance_events TO service_role;
+GRANT SELECT, INSERT         ON TABLE public.media_review_events     TO service_role;
+GRANT SELECT                 ON      public.media_assets_publishable TO service_role;
+```
+
+실행 후 확인:
+
+```
+npm run verify:media-library-staging
+```
+
+이 검증은 표가 생겼는지만 보지 않는다. 스키마가 실제로 막아야 할 INSERT 7건
+(브랜드 영상 복제본, 고지 없는 AI, 고지 없는 협찬, 제품명 붙은 공통 영상, http 출처,
+미등록 출처 유형, 승인일 없는 승인)을 일부러 시도해서 **전부 거부되는지** 확인한다.
+전부 실패가 정상이므로 행이 생기지 않고 지울 것도 없다.
+
+### 25-6. 다음 트랙 판단 근거
+
+디자인 트랙(트랙 B)은 현재 **전역 셸까지만** 왔다 — `1e04cce design(shell)`이
+`globals.css`·`layout.tsx`·`SiteHeader`·`SiteFooter`를 바꿨고, `/routine`·`/results`는
+아직 손대지 않았다. 따라서 "영상을 제품 카드에 끼워넣는" 4번째 트랙은 아직 이르다.
+
+---
+
 *갱신 이력은 git 커밋 로그 참고. 이 파일이 최신 상태 요약의 단일 진실.*
