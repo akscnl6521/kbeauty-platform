@@ -30,9 +30,16 @@ const PROD_REF = "rhfrmvkjsummaylpzmns";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36";
 
-/** 한 브랜드에서 한 번에 살펴볼 카테고리·상품 수 상한. 조용히 자르지 않고 보고한다. */
-const MAX_CATEGORIES = 8;
-const MAX_PRODUCTS_PER_BRAND = 40;
+/**
+ * 한 브랜드에서 한 번에 살펴볼 카테고리·상품 수 상한.
+ * `--categories=N` · `--max=N` 으로 조정한다. 조용히 자르지 않고 보고한다.
+ */
+const MAX_CATEGORIES = Number(
+  process.argv.find((a) => a.startsWith("--categories="))?.slice(13) ?? 8
+);
+const MAX_PRODUCTS_PER_BRAND = Number(
+  process.argv.find((a) => a.startsWith("--max="))?.slice(6) ?? 40
+);
 
 type Found = { url: string; name: string; productNo: string };
 
