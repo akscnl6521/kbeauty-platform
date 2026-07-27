@@ -132,3 +132,6 @@ supabase/.temp/
 # Personal Claude Code overrides (not shared)
 /.claude/settings.local.json
 
+
+# DB 스냅샷. 대량 변경 전에 뜨는 로컬 백업이라 저장소에 넣지 않는다.
+/backups/

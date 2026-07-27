@@ -17,7 +17,12 @@ export type NormalizedIngredientToken = {
   order: number;
 };
 
-function normalizeTextKey(value: string | null | undefined): string {
+/**
+ * 토큰과 사전 항목이 **같은 규칙으로** 키를 만들게 하려고 내보낸다.
+ * 여기서 하이픈이 공백이 되므로, 사전 쪽에서 `Polyquaternium-10` 을 원문
+ * 그대로 키로 쓰면 토큰 `폴리쿼터늄 10` 과 영영 만나지 못한다.
+ */
+export function normalizeTextKey(value: string | null | undefined): string {
   if (!value) return "";
   return value
     .normalize("NFKC")
@@ -124,6 +129,78 @@ export type IngredientLookupMaps = {
   byNameKo: Map<string, number>;
   byAlias: Map<string, number>;
 };
+
+export type IngredientDictionaryRow = {
+  id: number;
+  slug?: string | null;
+  name_en?: string | null;
+  name_ko?: string | null;
+};
+
+export type IngredientAliasRow = {
+  ingredient_id: number;
+  normalized_alias?: string | null;
+  alias?: string | null;
+};
+
+/**
+ * 사전 조회 맵을 만든다. 키는 토큰과 **같은 정규화**를 쓴다.
+ *
+ * 한 키가 서로 다른 성분 두 개를 가리키면 그 키는 통째로 버린다. 그냥 Map 에
+ * 넣으면 나중 행이 앞 행을 덮어써서 «조용히 아무거나» 고르게 되는데, 사전에
+ * 중복 행이 있을 때 어느 쪽이 이길지는 조회 순서에 달린 문제다. 잘못 붙은
+ * 성분은 안전 정보까지 틀리게 만드니, 확실하지 않으면 미매칭으로 남겨
+ * needs_review 로 보내는 편이 옳다.
+ */
+export function buildIngredientLookupMaps(
+  ingredients: readonly IngredientDictionaryRow[],
+  aliases: readonly IngredientAliasRow[] = []
+): IngredientLookupMaps & { collisions: string[] } {
+  const collisions: string[] = [];
+
+  const collect = (
+    entries: ReadonlyArray<readonly [string | null | undefined, number]>,
+    label: string
+  ): Map<string, number> => {
+    const seen = new Map<string, Set<number>>();
+    for (const [raw, id] of entries) {
+      const key = normalizeTextKey(raw);
+      if (!key) continue;
+      const bucket = seen.get(key);
+      if (bucket) bucket.add(id);
+      else seen.set(key, new Set([id]));
+    }
+    const out = new Map<string, number>();
+    for (const [key, ids] of seen) {
+      if (ids.size > 1) {
+        collisions.push(`${label} "${key}": ${[...ids].join(", ")}`);
+        continue;
+      }
+      out.set(key, [...ids][0]!);
+    }
+    return out;
+  };
+
+  return {
+    bySlug: collect(
+      ingredients.map((r) => [r.slug, r.id] as const),
+      "slug"
+    ),
+    byNameEn: collect(
+      ingredients.map((r) => [r.name_en, r.id] as const),
+      "name_en"
+    ),
+    byNameKo: collect(
+      ingredients.map((r) => [r.name_ko, r.id] as const),
+      "name_ko"
+    ),
+    byAlias: collect(
+      aliases.map((a) => [a.normalized_alias || a.alias, a.ingredient_id] as const),
+      "alias"
+    ),
+    collisions,
+  };
+}
 
 /**
  * Match tokens: slug → name_en → name_ko → alias.
