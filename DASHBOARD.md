@@ -619,6 +619,46 @@ Staging은 `mailer_autoconfirm: true`라 **로컬 dev + Staging으로 실 인증
 
 **부수 발견 (미해결)**: `public.profiles`에 `authenticated` 역할 **GRANT가 없다** — 사용자 토큰으로 upsert 시 `42501 permission denied`(Postgres 힌트: `GRANT SELECT, INSERT ON public.profiles TO authenticated;`). `20250315000000_bootstrap_core_schema_for_empty_staging.sql`이 `ENABLE ROW LEVEL SECURITY`만 하고 정책·GRANT를 두지 않았다. 현재는 `ensureCareProfile`이 경고만 남기고 삼켜서 attach 자체는 성공하지만, **프로필 행이 필요한 다른 경로는 잠재적으로 막혀 있다.** migration 작성은 PROJECT_RULE §10(파일 → PR → 승인 → `db push`)을 따라야 하는데 `db push`에 액세스 토큰이 필요해 이번에 적용하지 못했다 — 28-1과 같은 차단.
 
+## 29. 단계 5.5 두피·모발 트랙 착수 (2026-07-27)
+
+사람이 착수를 지시. §44 순서에 따라 단계 5.5부터 연다. §6.2대로 **기존 코드를 먼저 전수 조사**한 결과, 7개 항목 중 5개가 이미 구현돼 있었다.
+
+| §44 5.5 항목 | 기존 상태 |
+|---|---|
+| ① 두피 부위 문진 | ✅ `/quiz/hair` 존재 |
+| ② 두피 사진(뒷머리 각도) | ❌ 없음 |
+| ③ 두피 제품 카테고리 | ✅ `src/lib/catalog/scalpHair/categories.ts` |
+| ④ 두피 점수 분리 | ✅ `rankScalpHair` 별도 랭커 · `rankByDomain`이 도메인 분리 |
+| ⑤ 두피 사용 영상 | ✅ 일부 |
+| ⑥ §14 결과 단계 D/E 강화 | ⚠️ **분류만 있고 등급 상향 없음** |
+| ⑦ §37 두피·모발 전문의 | ✅ `hair_scalp_clinic` 라우팅 존재 |
+
+### 29-1. ⑥ 안전 규칙 갭 — 수정 완료
+
+**문제**: `applySymptomSafetyToRecommendation`은 **위험 신호(red flag)나 severe+악화/지속이 있을 때만** 관리 단계를 올린다. 탈모는 그 어느 것에도 해당하지 않는 경우가 대부분이라, 조기 반환되어 **`cosmetic_care`(A등급)로 남고 제품이 자유롭게 추천**됐다. 어제 §14에 명문화한 «남성형·여성형 탈모는 대부분 화장품으로 관리 불가 → C/D/E»와 정면으로 어긋난다.
+
+`mapConcernToSymptomArea`가 두피를 `hair_loss_scalp_inflammation`으로 분류하고 `hair_scalp_clinic`으로 라우팅하기는 했지만, **그 라우팅이 관리 단계에 반영되지 않았다.**
+
+**수정** (`src/lib/ai/symptomSafety.ts`):
+
+| 소견 | 최소 관리 단계 |
+|---|---|
+| 지루성 두피염 · 원형탈모 · 급격히 진행(`worsening=true`) | **D** `expert_first` |
+| 그 밖의 탈모·두피·비듬 | **C** `combined_care` |
+| 두피 상처·감염·통증 | 기존 red flag 경로가 이미 D/E — 중복 처리하지 않음 |
+
+- C 단계는 «화장품 관리와 상담 병행»이므로 **성분 추천을 비우지 않는다**(위험 신호 경로와 다름).
+- 이미 더 높은 단계면 낮추지 않는다(`strongerLevel`).
+- **얼굴 판정은 건드리지 않았다** — 두피 정규식에 걸리는 관찰에만 적용.
+- §14 표현 규칙 반영: 「탈모 관련 제품은 “탈모 증상 완화 기능성” 범위이며 치료 목적이 아닙니다」를 `precautions`에 추가하고, ‘탈모 치료’ 문구는 쓰지 않는다.
+
+**회귀**: `npm run test:scalp-hair-safety` 신설(11개 단언 — 분류·등급·성분 유지·표현 금지·얼굴 무영향·하향 금지). `test:symptom-safety`·`test:analyze-safety`·`test:result-exposure`·`test:care-referral`·`pipeline-diagnostic scalp-hair` 전부 통과. `tsc`·`eslint`·`build` 통과.
+
+### 29-2. 남은 항목
+
+- **② 두피 사진(뒷머리 각도)** — 미착수. `CaptureAngle`이 `front|left45|right45` 3종뿐이라 §22.2의 5각도 확장과 함께 처리하는 편이 자연스럽다.
+- 제품 데이터: 두피·헤어 카테고리 **공개 제품 0건**. 랭커·카테고리·안전 규칙은 준비됐지만 **추천할 실물이 없다**. 단계 6.5 카테고리 확장이 선행되어야 사용자에게 의미가 생긴다.
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |
