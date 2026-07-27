@@ -35,6 +35,8 @@
     "test:checkin-email-queue-migration": "npx --yes tsx scripts/checkin-email-queue-migration-selftest.ts",
     "test:checkin-email-queue-persistence": "npx --yes tsx scripts/checkin-email-queue-persistence-selftest.ts",
     "test:photo-comparison": "npx --yes tsx scripts/photo-comparison-policy-selftest.ts && npx --yes tsx scripts/photo-comparison-exif-selftest.ts && npx --yes tsx scripts/photo-comparison-service-selftest.ts && npx --yes tsx scripts/photo-comparison-migration-selftest.ts",
+    "media:recheck": "npx --yes tsx scripts/run-media-recheck.ts",
+    "test:media-recheck-policy": "npx --yes tsx scripts/media-recheck-policy-selftest.ts",
     "test:media-asset-library": "npx --yes tsx scripts/media-asset-library-selftest.ts && npx --yes tsx scripts/media-asset-library-migration-selftest.ts",
     "test:media-category-registry": "npx --yes tsx scripts/media-category-registry-selftest.ts",
     "probe:media-library-staging": "node scripts/probe-media-library-staging.mjs",
