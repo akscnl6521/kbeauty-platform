@@ -26,6 +26,8 @@ export function UsageGuideDecisionPanel({
   );
   const [note, setNote] = useState("");
   const [pending, setPending] = useState(false);
+  const messageId = "usage-guide-decision-message";
+  const approveHintId = "usage-guide-approve-disabled-hint";
   const [message, setMessage] = useState<
     { kind: "ok" | "error"; text: string } | null
   >(null);
@@ -85,11 +87,14 @@ export function UsageGuideDecisionPanel({
                 value={option.value}
                 checked={decision === option.value}
                 disabled={disabled}
+                aria-describedby={disabled ? approveHintId : undefined}
                 onChange={() => setDecision(option.value)}
               />
               {option.label}
               {disabled ? (
-                <span className="text-xs">— 근거 부족으로 선택 불가</span>
+                <span id={approveHintId} className="text-xs">
+                  — 근거 부족으로 선택 불가
+                </span>
               ) : null}
             </label>
           );
@@ -106,6 +111,8 @@ export function UsageGuideDecisionPanel({
           value={note}
           onChange={(event) => setNote(event.target.value)}
           maxLength={2000}
+          aria-describedby={message ? messageId : undefined}
+          aria-invalid={message?.kind === "error" ? true : undefined}
           className="mt-1 w-full rounded-lg border border-[#E8DFD8] bg-white px-3 py-2"
           placeholder="원문과 대조한 결과를 남겨 주세요."
         />
@@ -114,6 +121,7 @@ export function UsageGuideDecisionPanel({
       <button
         type="submit"
         disabled={pending}
+        aria-busy={pending}
         className="rounded-lg bg-[#8B6914] px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
       >
         {pending ? "저장 중…" : "검수 결과 저장"}
@@ -121,7 +129,9 @@ export function UsageGuideDecisionPanel({
 
       {message ? (
         <p
-          role="status"
+          id={messageId}
+          role={message.kind === "error" ? "alert" : "status"}
+          aria-live={message.kind === "error" ? "assertive" : "polite"}
           className={
             message.kind === "ok"
               ? "text-sm text-emerald-800"

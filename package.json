@@ -44,6 +44,7 @@
     "catalog:repair-slugs": "npx --yes tsx scripts/repair-product-slugs.ts",
     "test:spreadsheet-encoding": "npx --yes tsx scripts/spreadsheet-encoding-selftest.ts",
     "check:product-registration-slugs": "npx --yes tsx scripts/product-registration-slug-dryrun.ts",
+    "test:admin-review-a11y": "npx --yes tsx scripts/admin-review-a11y-selftest.ts",
     "test:korean-product-slug": "npx --yes tsx scripts/korean-product-slug-selftest.ts",
     "test:product-name-repair": "npx --yes tsx scripts/product-name-repair-selftest.ts",
     "usage:collect-guides": "npx --yes tsx scripts/collect-product-usage-guides.ts",

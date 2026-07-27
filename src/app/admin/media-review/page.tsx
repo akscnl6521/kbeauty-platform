@@ -8,6 +8,7 @@ import {
 } from "@/lib/admin/mediaReview";
 import { AdminLogoutButton } from "../AdminLogoutButton";
 import { AdminSubnav } from "../AdminSubnav";
+import { StatusPill, StatusText } from "@/components/admin/StatusMark";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -63,15 +64,7 @@ function formatDate(value: string | null | undefined): string {
 
 function Pill({ ok, label }: { ok: boolean; label: string }) {
   return (
-    <span
-      className={
-        ok
-          ? "inline-flex items-center rounded border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[11px] font-medium text-emerald-800"
-          : "inline-flex items-center rounded border border-red-200 bg-red-50 px-1.5 py-0.5 text-[11px] font-medium text-red-800"
-      }
-    >
-      {ok ? "✓" : "✕"} {label}
-    </span>
+    <StatusPill state={ok ? "pass" : "fail"}>{label}</StatusPill>
   );
 }
 
@@ -110,13 +103,17 @@ function ReviewRow({ item }: { item: MediaReviewItem }) {
           <Pill ok={checklist.reachable} label="접속" />
         </div>
         {item.blockingReasons.length > 0 ? (
-          <div className="mt-1.5 text-xs text-red-800">
-            {item.blockingReasons
-              .map((code) => REASON_LABEL[code] ?? code)
-              .join(" · ")}
+          <div className="mt-1.5 text-xs">
+            <StatusText state="fail">
+              {item.blockingReasons
+                .map((code) => REASON_LABEL[code] ?? code)
+                .join(" · ")}
+            </StatusText>
           </div>
         ) : (
-          <div className="mt-1.5 text-xs text-emerald-800">공개 조건 충족</div>
+          <div className="mt-1.5 text-xs">
+            <StatusText state="pass">공개 조건 충족</StatusText>
+          </div>
         )}
       </td>
       <td className="px-3 py-3 text-sm tabular-nums">
@@ -290,16 +287,21 @@ export default async function AdminMediaReviewPage({
                 </p>
               </div>
             ) : (
-              <div className="mt-6 overflow-x-auto rounded-lg border border-[#E8DFD8] bg-white">
+              <div
+                role="region"
+                aria-label="영상 검수 목록"
+                tabIndex={0}
+                className="mt-6 overflow-x-auto rounded-lg border border-[#E8DFD8] bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B6914]"
+              >
                 <table className="min-w-full text-left text-sm">
                   <thead className="border-b border-[#E8DFD8] bg-[#F7F1EC] text-xs uppercase tracking-wide text-gray-600">
                     <tr>
-                      <th className="px-3 py-2 font-medium">영상</th>
-                      <th className="px-3 py-2 font-medium">출처 / 권리</th>
-                      <th className="px-3 py-2 font-medium">상태</th>
-                      <th className="px-3 py-2 font-medium">검수 항목</th>
-                      <th className="px-3 py-2 font-medium">권리 만료</th>
-                      <th className="px-3 py-2 font-medium">이동</th>
+                      <th scope="col" className="px-3 py-2 font-medium">영상</th>
+                      <th scope="col" className="px-3 py-2 font-medium">출처 / 권리</th>
+                      <th scope="col" className="px-3 py-2 font-medium">상태</th>
+                      <th scope="col" className="px-3 py-2 font-medium">검수 항목</th>
+                      <th scope="col" className="px-3 py-2 font-medium">권리 만료</th>
+                      <th scope="col" className="px-3 py-2 font-medium">이동</th>
                     </tr>
                   </thead>
                   <tbody>

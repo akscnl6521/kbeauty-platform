@@ -259,7 +259,12 @@ export default async function AdminUsageGuideDetailPage({
           <p className="mt-1 text-xs text-gray-500">
             추출에 사용된 원문입니다. 위 값들이 여기에 실제로 있는지 확인하세요.
           </p>
-          <pre className="mt-2 max-h-72 overflow-auto whitespace-pre-wrap rounded border border-[#F0E8E2] bg-[#FBF8F6] p-3 text-xs leading-relaxed text-gray-800">
+          <pre
+            role="region"
+            aria-label="원문 발췌"
+            tabIndex={0}
+            className="mt-2 max-h-72 overflow-auto whitespace-pre-wrap rounded border border-[#F0E8E2] bg-[#FBF8F6] p-3 text-xs leading-relaxed text-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B6914]"
+          >
             {guide.sourceExcerpt ?? "저장된 원문 발췌가 없습니다."}
           </pre>
         </section>

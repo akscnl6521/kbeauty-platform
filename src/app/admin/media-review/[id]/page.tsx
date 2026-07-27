@@ -5,6 +5,7 @@ import { getMediaReviewItem } from "@/lib/admin/mediaReview";
 import { AdminLogoutButton } from "../../AdminLogoutButton";
 import { AdminSubnav } from "../../AdminSubnav";
 import { MediaReviewDecisionPanel } from "../MediaReviewDecisionPanel";
+import { StatusText } from "@/components/admin/StatusMark";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -265,8 +266,8 @@ export default async function AdminMediaReviewDetailPage({
                 ["reachable", "영상 접속 가능"],
               ] as const
             ).map(([key, label]) => (
-              <li key={key} className={checklist[key] ? "text-emerald-800" : "text-red-800"}>
-                {checklist[key] ? "✓" : "✕"} {label}
+              <li key={key}>
+                <StatusText state={checklist[key] ? "pass" : "fail"}>{label}</StatusText>
               </li>
             ))}
           </ul>

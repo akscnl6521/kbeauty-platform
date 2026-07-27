@@ -7,6 +7,7 @@ import {
 } from "@/lib/admin/usageGuideReview";
 import { AdminLogoutButton } from "../AdminLogoutButton";
 import { AdminSubnav } from "../AdminSubnav";
+import { StatusText } from "@/components/admin/StatusMark";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -84,14 +85,18 @@ function Row({ item }: { item: UsageGuideReviewItem }) {
       <td className="px-3 py-3 text-sm">
         {STATUS_LABEL[guide.verificationStatus] ?? guide.verificationStatus}
         {item.blockingReasons.length > 0 ? (
-          <div className="mt-1 text-xs text-red-800">
-            {item.blockingReasons
-              .map((code) => REASON_LABEL[code] ?? code)
-              .join(" · ")}
+          <div className="mt-1 text-xs">
+            <StatusText state="fail">
+              {item.blockingReasons
+                .map((code) => REASON_LABEL[code] ?? code)
+                .join(" · ")}
+            </StatusText>
           </div>
         ) : null}
         {item.unmatchedFields.length > 0 ? (
-          <div className="mt-1 text-xs text-amber-800">원문 대조 불일치</div>
+          <div className="mt-1 text-xs">
+            <StatusText state="warn">원문 대조 불일치</StatusText>
+          </div>
         ) : null}
       </td>
       <td className="px-3 py-3">
@@ -252,18 +257,23 @@ export default async function AdminUsageGuidesPage({
                 </p>
               </div>
             ) : (
-              <div className="mt-6 overflow-x-auto rounded-lg border border-[#E8DFD8] bg-white">
+              <div
+                role="region"
+                aria-label="사용 가이드 검수 목록"
+                tabIndex={0}
+                className="mt-6 overflow-x-auto rounded-lg border border-[#E8DFD8] bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B6914]"
+              >
                 <table className="min-w-full text-left text-sm">
                   <thead className="border-b border-[#E8DFD8] bg-[#F7F1EC] text-xs uppercase tracking-wide text-gray-600">
                     <tr>
-                      <th className="px-3 py-2 font-medium">제품</th>
-                      <th className="px-3 py-2 font-medium">도포량</th>
-                      <th className="px-3 py-2 font-medium">부위</th>
-                      <th className="px-3 py-2 font-medium">시점</th>
-                      <th className="px-3 py-2 font-medium">단계</th>
-                      <th className="px-3 py-2 font-medium">주의</th>
-                      <th className="px-3 py-2 font-medium">상태</th>
-                      <th className="px-3 py-2 font-medium">이동</th>
+                      <th scope="col" className="px-3 py-2 font-medium">제품</th>
+                      <th scope="col" className="px-3 py-2 font-medium">도포량</th>
+                      <th scope="col" className="px-3 py-2 font-medium">부위</th>
+                      <th scope="col" className="px-3 py-2 font-medium">시점</th>
+                      <th scope="col" className="px-3 py-2 font-medium">단계</th>
+                      <th scope="col" className="px-3 py-2 font-medium">주의</th>
+                      <th scope="col" className="px-3 py-2 font-medium">상태</th>
+                      <th scope="col" className="px-3 py-2 font-medium">이동</th>
                     </tr>
                   </thead>
                   <tbody>
