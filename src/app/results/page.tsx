@@ -14,12 +14,14 @@ import {
 } from "@/lib/media/usageGuideApplicationArea";
 import {
   displayIngredientNames,
+  fetchOffersByProductIds,
   getShippingCountryLabel,
   loadLatestRecommendationPipeline,
   productHasKrVerifiedCoreOffer,
   purgeLegacyRecommendationCaches,
   type CandidateProduct,
   type ManagementLevel,
+  type ProductOffer,
   type RankedProduct,
   type Recommendation,
 } from "@/lib/recommend";
@@ -227,6 +229,13 @@ type ProductRow = {
   link_oliveyoung: string | null;
   link_coupang: string | null;
   link_yesstyle: string | null;
+  /**
+   * product_offers 병합분. 핵심 추천 경로(fetchCandidateProducts)와 동일한
+   * 근거로 판매처 배지를 판정하기 위해 필요하다. 없으면
+   * productHasKrVerifiedCoreOffer 가 항상 false 가 되어, 검증된 오퍼가 있는
+   * 제품에도 "확인된 판매처 정보가 없습니다"가 뜬다.
+   */
+  offers?: ProductOffer[] | null;
 };
 
 type Locale = "en" | "ja" | "ko";
@@ -633,7 +642,25 @@ function ResultsPageInner() {
             brand: getCanonicalBrandName(row.brand) ?? row.brand,
           }))
         );
-        setProducts(rows);
+
+        // 핵심 추천 경로와 같은 오퍼 근거를 붙인다. 실패해도 목록 자체는
+        // 보여준다 — 그 경우 판매처 배지만 보수적으로 표시된다.
+        let withOffers = rows;
+        try {
+          const offerMap = await fetchOffersByProductIds(
+            rows.map((row) => String(row.id))
+          );
+          if (offerMap.size > 0) {
+            withOffers = rows.map((row) => ({
+              ...row,
+              offers: offerMap.get(String(row.id)) ?? null,
+            }));
+          }
+        } catch (offerError) {
+          console.error("[product offers fetch failed]", offerError);
+        }
+
+        setProducts(withOffers);
       } catch (e) {
         const err = e instanceof Error ? e : new Error(String(e));
         console.error("[Supabase products fetch exception]", err);

@@ -565,6 +565,60 @@ Vercel Production의 `SUPABASE_SERVICE_ROLE_KEY`를 **Legacy JWT(`eyJ…`) → �
 1. Supabase Production secret key 목록 조회 및 옛 키(`sb_secret_cMkVM…`) 삭제
 2. 삭제 전 안전 확인(Vercel에 실제로 어떤 키가 들어있는지 대조)
 
+## 28. 오토파일럿 — 잔여 항목 일괄 처리 (2026-07-27)
+
+미완료 항목을 낮은 리스크부터 순서대로 처리. main 병합·Production 배포·Production DB 쓰기 없음.
+
+### 28-1. SUPABASE_ACCESS_TOKEN — 여전히 확보 불가 (사람 필요)
+
+`.env.local`·셸 환경변수·`~/.supabase`(telemetry만 존재)·CLI 인증 4곳 모두 부재. 추가로 **service_role 키가 Management API를 대체할 수 없음을 실측으로 확정** — Staging service_role로 `GET https://api.supabase.com/v1/projects` 호출 시 **401**. 따라서 옛 secret key(`sb_secret_cMkVM…`) 삭제는 사람이 대시보드에서 직접 하거나 PAT를 제공해야만 가능하다.
+
+### 28-2. `NEXT_PUBLIC_ANTHROPIC_API_KEY` — 실행 코드 0건 확인, README 수정
+
+`git grep` 전수: **`src/`·`scripts/`·`config/`에 참조 0건**. `src/lib/ai/analyzeWithAnthropic.ts`는 이미 서버 전용 `ANTHROPIC_API_KEY`를 사용한다. 다만 `README.md`가 여전히 이 변수를 "AI 분석용"으로 **안내**하고 있어 수정했다(서버 전용 키 안내 + `NEXT_PUBLIC_` 금지 사유 명시). `docs/AI_Security_Migration.md` 등의 잔여 언급은 이전 작업 이력 문서라 그대로 둔다.
+
+### 28-3. docs 통합 PR — 포함 관계 검증 완료
+
+`docs/masterplan-v4.2-scalp-expansion-20260726`이 나머지 3개 브랜치를 **완전히 포함**함을 확인(cherry-pick으로 SHA만 다름 — `PROJECT_RULE.md` 내용 비교 결과 통합 브랜치가 19줄 더 많은 상위집합). 병합 후 나머지 3개는 삭제 가능.
+
+### 28-4. draft product 활성화 — +1건 (27 → 28)
+
+백업 선행(`backup:staging-snapshot`: products 72 / active 27 / offers 94).
+
+| 단계 | 결과 |
+|---|---|
+| 오퍼 재수집 | `collect-offers-for-draft-products` 실행 → 오퍼 94 → 95, **verified 5 → 54** |
+| 활성화 재시도 | `finalize-activate-draft-products` (실 추출 신뢰도 공급) → **1건 활성화** (id=65 Round Lab Pine Cica Deep Pore Cleansing Oil 200ml) |
+| 잔여 | 32건이 `quality_grade_C` + `verified_offer_missing` + `country_eligible_offer_missing` **3중 차단** |
+
+비활성 45건 원인 분해: 오퍼 0건 12 · 성분 링크 0건 12 · `full_ingredients` 없음 1 · 3요소 보유 23. 3요소를 갖춘 23건도 오퍼가 `unverified`/`stock_status=unknown`이라 게이트를 못 넘는다. **게이트·점수 공식은 손대지 않았다**(PROJECT_RULE §5-6). 남은 32건은 공식 페이지가 JSON-LD 오퍼를 노출하지 않는 구조적 한계로, 커넥터 추가 없이는 더 진전 불가.
+
+### 28-5. `/results` 판매처 배지 불일치 — **버그 수정**
+
+**증상**: "다른 제품 둘러보기" 목록의 모든 카드에 "현재 확인된 판매처 정보가 없습니다"가 표시됨. 검증된 KR 오퍼가 있어 Top 5에 구매 링크가 뜨는 제품도 동일.
+
+**원인**: 핵심 추천 경로(`fetchCandidateProducts`)는 `product_offers`를 병합하지만, 브라우즈 목록은 `.from("products").select(...)`로 **오퍼도 `purchase_links`도 가져오지 않는다**. 카드가 호출하는 `productHasKrVerifiedCoreOffer` → `resolveProductOffers`는 둘 중 하나가 있어야 하므로 항상 빈 배열 → 항상 false.
+
+**수정**: 기존 헬퍼 `fetchOffersByProductIds`를 재사용해 목록 로드 후 오퍼를 병합(`src/app/results/page.tsx`). 오퍼 조회 실패 시에도 목록 자체는 보이고 배지만 보수적으로 표시된다. 판정 로직·게이트는 미변경.
+
+### 28-6. care attach — **실제 원인 발견·수정** (원래 "연결에 실패했습니다"의 정체)
+
+Staging은 `mailer_autoconfirm: true`라 **로컬 dev + Staging으로 실 인증 검증이 가능**했다(Production은 `false`라 불가). 일회성 계정 생성 → 실제 세션 쿠키 → `POST /api/care/analyses/attach`.
+
+| 검증 | 결과 |
+|---|---|
+| 미인증 | 401 (정상) |
+| **인증 상태** | **500 INTERNAL_ERROR** ← 재현 성공 |
+| 서버 예외 | `TypeError: payload.notifications is not iterable` (`care/persistence/supabase.ts:297`) |
+
+**원인**: `isCareStoreSnapshot`은 `version`·`sessions`·`checkIns`만 검사하는데, `attachAnonymousLocalStore`는 **`sessions`·`routines`·`checkIns`·`notifications` 4개를 순회**한다. `routines`/`notifications`는 나중에 추가된 필드라, **그 이전에 만들어진 로컬 저장소를 가진 사용자는 로그인 직후 반드시 500**이 나고 화면에는 "연결에 실패했습니다"만 보였다.
+
+**수정**: 검증되지 않는 두 배열을 `Array.isArray(...) ? ... : []`로 방어 처리. 가드를 조이는 대신 방어를 택한 이유는, 조이면 옛 저장소가 400으로 거부되어 **데이터가 유실**되기 때문이다.
+
+**수정 후 재검증**: `notifications` 없음 → **200**, 둘 다 없음 → **200**, 전 필드 정상 → **200**, 잘못된 형식 → 400, 미인증 → 401. 검증용 테스트 계정 10개는 전부 삭제했다.
+
+**부수 발견 (미해결)**: `public.profiles`에 `authenticated` 역할 **GRANT가 없다** — 사용자 토큰으로 upsert 시 `42501 permission denied`(Postgres 힌트: `GRANT SELECT, INSERT ON public.profiles TO authenticated;`). `20250315000000_bootstrap_core_schema_for_empty_staging.sql`이 `ENABLE ROW LEVEL SECURITY`만 하고 정책·GRANT를 두지 않았다. 현재는 `ensureCareProfile`이 경고만 남기고 삼켜서 attach 자체는 성공하지만, **프로필 행이 필요한 다른 경로는 잠재적으로 막혀 있다.** migration 작성은 PROJECT_RULE §10(파일 → PR → 승인 → `db push`)을 따라야 하는데 `db push`에 액세스 토큰이 필요해 이번에 적용하지 못했다 — 28-1과 같은 차단.
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |
