@@ -100,12 +100,26 @@ async function main() {
     .limit(3000);
   if (error) throw error;
 
-  const targets = (rows ?? []).filter(
-    (r) =>
-      r.discovered_url &&
+  // 기본은 두피·헤어 후보만 본다. `--host=<도메인>` 을 주면 그 자사몰의 후보를
+  // 대상으로 삼는다 — 수집·매칭·오퍼·게이트 경로는 완전히 같고, 어떤 후보를
+  // 넣을지만 달라진다. 스킨케어 브랜드도 같은 경로로 돌리기 위한 것이다.
+  const hostArg = process.argv.find((a) => a.startsWith("--host="))?.slice(7)?.toLowerCase() ?? null;
+  const hostOf = (u: string) => {
+    try {
+      return new URL(u).hostname.replace(/^www\./, "").toLowerCase();
+    } catch {
+      return null;
+    }
+  };
+
+  const targets = (rows ?? []).filter((r) => {
+    if (!r.discovered_url) return false;
+    if (hostArg) return hostOf(r.discovered_url as string) === hostArg;
+    return (
       HAIR_RE.test(r.discovered_name ?? "") &&
       !FACE_FALSE_POSITIVE_RE.test(r.discovered_name ?? "")
-  );
+    );
+  });
 
   const results: Array<Record<string, unknown>> = [];
 

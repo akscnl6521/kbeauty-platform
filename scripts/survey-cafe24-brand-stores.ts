@@ -26,6 +26,12 @@ import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 loadDotEnvLocal();
 
 const OUT_DIR = path.join("artifacts", "cafe24-brand-survey");
+/**
+ * 전성분이 텍스트로 실려 있는지 보는 표식. 상세 설명을 이미지로만 올리는
+ * 쇼핑몰이 많아, 가격·재고가 읽혀도 여기서 걸리면 게이트를 못 넘는다.
+ */
+const INGREDIENT_TEXT_RE = /전성분|정제수|\bWater\s*,|\bAqua\s*,/;
+
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36";
 
@@ -38,6 +44,13 @@ type BrandProbe = {
   hasJsonLdProduct: boolean;
   price: string | null;
   stockSignal: "in_stock" | "out_of_stock" | null;
+  /**
+   * 전성분이 **텍스트로** 있는지. 가격·재고가 다 읽혀도 이게 없으면 게이트를
+   * 못 넘는다 — 성분이 없으면 `official_ingredients_text_missing` 이다.
+   * 국내 쇼핑몰은 상세 설명을 통째로 이미지로 올리는 곳이 많아서, 미리 재지
+   * 않으면 오퍼만 24건 만들고 활성화 0 이 되는 일이 생긴다 (sioris 사례).
+   */
+  hasIngredientText: boolean;
   note: string;
 };
 
@@ -93,15 +106,29 @@ function cafe24Stock(html: string): BrandProbe["stockSignal"] {
  */
 const CAFE24_PRODUCT_HREF = /href="(\/product\/[^"/]+\/\d+\/)/;
 
-async function findProductUrl(origin: string, home: string): Promise<string | null> {
-  const direct = home.match(CAFE24_PRODUCT_HREF);
-  if (direct) return origin + direct[1];
+/**
+ * Cafe24 는 상품 주소를 두 형태로 낸다. 앞의 «예쁜 주소» 만 보면 뒤 형태를
+ * 쓰는 쇼핑몰이 통째로 «상품 없음» 으로 나온다.
+ */
+const CAFE24_PRODUCT_DETAIL_HREF = /href="(\/product\/detail\.html\?[^"]*product_no=\d+[^"]*)"/;
 
-  // 홈에 상품 링크가 없으면 카테고리 목록을 한 번 거친다.
-  for (const m of [...home.matchAll(/href="(\/product\/list\.html\?[^"]*cate_no=\d+[^"]*)"/g)].slice(0, 3)) {
+function firstProductHref(html: string, origin: string): string | null {
+  const pretty = html.match(CAFE24_PRODUCT_HREF);
+  if (pretty) return origin + pretty[1];
+  const detail = html.match(CAFE24_PRODUCT_DETAIL_HREF);
+  if (detail) return origin + detail[1]!.replace(/&amp;/g, "&");
+  return null;
+}
+
+async function findProductUrl(origin: string, home: string): Promise<string | null> {
+  const direct = firstProductHref(home, origin);
+  if (direct) return direct;
+
+  // 홈에 상품 링크가 없으면 카테고리 목록을 몇 개 거친다.
+  for (const m of [...home.matchAll(/href="(\/product\/list\.html\?[^"]*cate_no=\d+[^"]*)"/g)].slice(0, 5)) {
     const listing = await get(origin + m[1]!.replace(/&amp;/g, "&"));
-    const hit = listing.body.match(CAFE24_PRODUCT_HREF);
-    if (hit) return origin + hit[1];
+    const hit = firstProductHref(listing.body, origin);
+    if (hit) return hit;
   }
   return null;
 }
@@ -131,20 +158,25 @@ async function main() {
       return null;
     }
   };
-  const hosts = new Set<string>();
-  for (const o of await fetchAll<{ purchase_url: string | null }>(client, "product_offers", "id,purchase_url")) {
-    const h = hostOf(o.purchase_url);
-    if (h) hosts.add(h);
+  // 인자로 도메인을 주면 그것만 본다. 신규 브랜드 후보를 재는 용도다.
+  const argHosts = process.argv.slice(2).filter((a) => !a.startsWith("--") && /\./.test(a));
+
+  const hosts = new Set<string>(argHosts);
+  if (argHosts.length === 0) {
+    for (const o of await fetchAll<{ purchase_url: string | null }>(client, "product_offers", "id,purchase_url")) {
+      const h = hostOf(o.purchase_url);
+      if (h) hosts.add(h);
+    }
+    for (const c of await fetchAll<{ discovered_url: string | null }>(
+      client,
+      "product_discovery_candidates",
+      "id,discovered_url"
+    )) {
+      const h = hostOf(c.discovered_url);
+      if (h) hosts.add(h);
+    }
+    hosts.delete("example.invalid");
   }
-  for (const c of await fetchAll<{ discovered_url: string | null }>(
-    client,
-    "product_discovery_candidates",
-    "id,discovered_url"
-  )) {
-    const h = hostOf(c.discovered_url);
-    if (h) hosts.add(h);
-  }
-  hosts.delete("example.invalid");
 
   const results: BrandProbe[] = [];
   for (const host of [...hosts].sort()) {
@@ -158,6 +190,7 @@ async function main() {
       hasJsonLdProduct: false,
       price: null,
       stockSignal: null,
+      hasIngredientText: false,
       note: "",
     };
 
@@ -182,6 +215,7 @@ async function main() {
         probe.hasJsonLdProduct = /"@type"\s*:\s*"Product"/.test(page.body);
         probe.price = page.body.match(/product:price:amount[^>]*content="([^"]*)"/)?.[1] ?? null;
         probe.stockSignal = cafe24Stock(page.body);
+        probe.hasIngredientText = INGREDIENT_TEXT_RE.test(page.body);
       } else {
         probe.note ||= "상품 링크를 찾지 못함";
       }
@@ -191,13 +225,17 @@ async function main() {
     const verdict =
       probe.platform === "cafe24"
         ? probe.stockSignal && probe.price
-          ? `*** 경로 통함 (가격 ${probe.price} · ${probe.stockSignal}) ***`
+          ? probe.hasIngredientText
+            ? `*** 경로 통함 (가격 ${probe.price} · ${probe.stockSignal} · 전성분 텍스트) ***`
+            : `가격·재고는 되나 **전성분이 이미지뿐** — 게이트를 못 넘는다`
           : `Cafe24 이나 신호 부족 ${probe.note}`
         : probe.platform;
     console.log(`  ${host.padEnd(26)} ${verdict}`);
   }
 
-  const usable = results.filter((r) => r.platform === "cafe24" && r.price && r.stockSignal);
+  const usable = results.filter(
+    (r) => r.platform === "cafe24" && r.price && r.stockSignal && r.hasIngredientText
+  );
   console.log(`\n조사 ${results.length}곳`);
   console.log(`  Cafe24: ${results.filter((r) => r.platform === "cafe24").length}곳`);
   console.log(`  검증 경로가 통하는 곳: ${usable.length}곳 — ${usable.map((r) => r.host).join(", ")}`);
