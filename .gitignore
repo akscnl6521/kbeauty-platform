@@ -135,3 +135,4 @@ supabase/.temp/
 
 # DB 스냅샷. 대량 변경 전에 뜨는 로컬 백업이라 저장소에 넣지 않는다.
 /backups/
+/.claude/settings.json.backup-*
