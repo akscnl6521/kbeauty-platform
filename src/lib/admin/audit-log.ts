@@ -27,6 +27,9 @@ export type AuditAction =
   // 내려졌던 제품을 다시 공개한 것. 사람이 내린 결정을 되돌리는 조작이라
   // 최초 검증(`verification_approved`)과 구분해서 남긴다.
   | "product_reactivated"
+  // 브랜드 표기를 공식 표기로 통일한 것. 이름을 «바꾼» 게 아니라 같은 이름의
+  // 표기 변형을 모은 것이므로, 근거(확인한 출처)를 metadata 에 남긴다.
+  | "brand_name_normalized"
   | "pipeline_operation_settings_updated";
 
 type AuditChangeType = "status" | "source" | "other";
