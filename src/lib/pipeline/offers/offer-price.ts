@@ -13,6 +13,30 @@ export type ParsedPrice = {
   reasons: string[];
 };
 
+/**
+ * 실제 판매가로 보기 어려운 자리표시 가격인지 본다.
+ *
+ * 브랜드 소개용 쇼핑몰은 결제를 다른 몰로 넘기면서 상품 가격 칸을 100원 같은
+ * 최소값으로 채워두는 일이 흔하다. 2026-07-27 miseenscene.com 이 헤어젤과
+ * 트리트먼트를 **둘 다 100원**으로 게시하고 있었다. 그 값을 그대로 검증하면
+ * 사용자에게 존재하지 않는 가격을 보여주게 된다 (§5-3).
+ *
+ * 여기서 «비싸다/싸다» 를 판단하지 않는다. 화장품 소매가가 도달할 수 없는
+ * 구간인지만 본다. 걸리면 거절이 아니라 **검증 보류** 로 보내 사람이 본다 —
+ * 값이 진짜라면 사람이 통과시키면 된다.
+ */
+export function isImplausibleRetailPrice(
+  price: number | null | undefined,
+  currency: OfferCurrency | null | undefined
+): boolean {
+  if (price == null || !Number.isFinite(price) || price <= 0) return false;
+  // 국내 화장품 단품이 1,000원 미만으로 정식 판매되는 경우는 사실상 없다.
+  if (currency === "KRW") return price < 1000;
+  if (currency === "JPY") return price < 100;
+  if (currency === "USD") return price < 1;
+  return false;
+}
+
 function detectCurrency(raw: string): OfferCurrency | null {
   if (/₩|KRW|원/i.test(raw)) return "KRW";
   if (/¥|JPY|円/i.test(raw) && !/\$/.test(raw)) return "JPY";

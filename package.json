@@ -178,7 +178,8 @@
     "test:scalp-hair-safety": "npx --yes tsx scripts/scalp-hair-safety-selftest.ts",
     "test:domain-alias": "npx --yes tsx scripts/domain-category-alias-selftest.ts",
     "test:challenge-detection": "npx --yes tsx scripts/challenge-detection-selftest.ts",
-    "test:ingredient-keys": "tsx scripts/ingredient-key-normalize-selftest.ts"
+    "test:ingredient-keys": "tsx scripts/ingredient-key-normalize-selftest.ts",
+    "test:cafe24-stock": "tsx scripts/cafe24-stock-selftest.ts"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.32",
