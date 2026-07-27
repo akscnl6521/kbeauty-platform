@@ -206,6 +206,8 @@ async function main() {
       out.ingredients = {
         linked: linked.linked,
         unmatched: linked.unmatched,
+        // 게이트가 «모호» 도 차단 사유로 본다. 세어 놓고 안 넘기면 소용없다.
+        ambiguous: linked.ambiguous,
       };
     } catch (e) {
       out.ingredientError =
@@ -260,10 +262,20 @@ async function main() {
     const confidence = Math.round((signals / 5) * 100) / 100;
     out.confidence = confidence;
 
+    // 게이트는 미매칭·모호 성분 개수를 **호출자에게서 받는다.** 넘기지 않으면
+    // 0 으로 간주되어 `ingredient_unmatched` 조건이 아예 발동하지 않는다.
+    // 실제로 그 탓에 성분이 절반도 매칭되지 않은 제품이 활성화됐다 —
+    // 게이트를 낮춘 적이 없는데도 통과한 셈이다. 방금 센 값을 그대로 넘긴다.
+    const ingredientCounts = out.ingredients as
+      | { linked: number; unmatched: number; ambiguous?: number }
+      | undefined;
+
     try {
       const act = await verifyAndActivateProduct(client, {
         productId,
         batchId,
+        unmatchedIngredientCount: ingredientCounts?.unmatched ?? 0,
+        ambiguousIngredientCount: ingredientCounts?.ambiguous ?? 0,
         extracted: {
           productName: extracted.productName,
           brandName: extracted.brandName,
