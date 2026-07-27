@@ -132,3 +132,44 @@ assert.deepEqual(keys("향료, 황색4호 [컨디셔너] 정제수, 글리세린
 ]);
 
 console.log("ingredient parse bracket-label selftest: ok");
+
+// --- 길이 한도에서 잘린 꼬리 조각 (2026-07-27 추가) --------------------
+
+import { attachIngredientMatches, buildIngredientLookupMaps } from "../src/lib/pipeline/ingredient-normalize";
+
+{
+  // 사전에 온전한 이름만 있고, 목록 끝에는 잘린 조각이 남은 상황.
+  const maps = buildIngredientLookupMaps([
+    { id: 1, name_ko: "정제수" },
+    { id: 2, name_ko: "카프릴릭/카프릭트라이글리세라이드" },
+  ]);
+  const parsed = parseIngredientList(
+    "정제수, 카프릴릭/카프릭트라이글리세라이드, 정제수, 카프릴릭/카프릭트라이글리세"
+  );
+  const out = attachIngredientMatches(parsed, maps).normalized;
+  assert.equal(out.length, 2, "잘린 꼬리 조각은 성분으로 세지 않는다");
+  assert.equal(out.filter((x) => !x.matchedIngredientId).length, 0);
+}
+
+{
+  // 마지막 토큰이 사전에 있으면 접두사여도 지우지 않는다 — 진짜 성분이다.
+  const maps = buildIngredientLookupMaps([
+    { id: 1, name_ko: "레티놀팔미테이트" },
+    { id: 2, name_ko: "레티놀" },
+  ]);
+  const out = attachIngredientMatches(
+    parseIngredientList("레티놀팔미테이트, 레티놀"),
+    maps
+  ).normalized;
+  assert.equal(out.length, 2, "매칭되는 성분은 접두사여도 남긴다");
+  assert.equal(out[1]!.matchedIngredientId, 2);
+}
+
+{
+  // 접두사가 아니면 그대로 둔다.
+  const maps = buildIngredientLookupMaps([{ id: 1, name_ko: "정제수" }]);
+  const out = attachIngredientMatches(parseIngredientList("정제수, 알수없는성분"), maps).normalized;
+  assert.equal(out.length, 2);
+}
+
+console.log("ingredient truncated-tail selftest: ok");
