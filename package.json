@@ -41,6 +41,8 @@
     "test:product-usage-guides": "npx --yes tsx scripts/usage-guidance-extract-selftest.ts && npx --yes tsx scripts/product-usage-guides-migration-selftest.ts",
     "catalog:scan-mojibake-names": "node scripts/scan-mojibake-product-names.mjs",
     "catalog:repair-names": "npx --yes tsx scripts/repair-mojibake-product-names.ts",
+    "catalog:repair-slugs": "npx --yes tsx scripts/repair-product-slugs.ts",
+    "test:korean-product-slug": "npx --yes tsx scripts/korean-product-slug-selftest.ts",
     "test:product-name-repair": "npx --yes tsx scripts/product-name-repair-selftest.ts",
     "usage:collect-guides": "npx --yes tsx scripts/collect-product-usage-guides.ts",
     "usage:ingest-guides": "node scripts/ingest-product-usage-guides.mjs",
