@@ -543,4 +543,117 @@ npm run verify:media-library-staging
 
 ---
 
+## 26. 영상 → 텍스트 전환 (2026-07-27 · 같은 브랜치)
+
+사용자 지시로 트랙 방향 변경. 카테고리 공통 영상은 자체 제작이 필요해 보류하고,
+§36.5의 **텍스트 정보(도포량·사용 순서·사용 부위·주의사항)**를 제품 데이터에
+붙이는 작업으로 전환. 영상 플레이어 없음, 화면 삽입 없음, 데이터만.
+
+### 26-1. 발견 — 표시 컴포넌트는 있는데 DB가 없었다
+
+`src/components/usage/ProductUsageGuide.tsx`는 이미 `/routine`·`/my/guidance`·
+추천 카드·페이스 익스플로러에서 쓰이고 있었다. 그런데 데이터를
+**`window.localStorage["skinProductUsageGuides"]`**에서 읽고 있었다. DB에 아무것도
+없었으니 출처도 검수도 재확인 주기도 없는 상태였다.
+
+이번 트랙은 그 컴포넌트가 원래 읽었어야 할 테이블을 만들고 채웠다.
+**컴포넌트는 건드리지 않았다** — 배선 교체는 다음 트랙.
+
+### 26-2. `product_usage_guides` 스키마 — 작성 완료, Staging 적용 대기
+
+`supabase/migrations/20260727150000_create_product_usage_guides.sql`
+(+ `product_usage_guide_review_events` 감사 로그)
+
+§36.5 항목을 전부 컬럼으로 두되, **주의사항은 두 칸으로 나눴다**:
+
+- `caution_text` — 이 제품에만 해당하는 주의사항
+- `statutory_notices` — 화장품법이 모든 제품에 의무화한 동일 문구
+
+법정 문구를 제품별 주의사항으로 저장하면 제품에 대해 아는 것보다 많이 아는 척이
+된다.
+
+**지어내기 방지는 관례가 아니라 제약이다.**
+`product_usage_guides_approved_requires_evidence_chk`가 사용 단계·검수 시각·출처
+없이는 `approved` 상태 자체를 거부한다. 지어낸 사용법은 지어낸 안전 정보다.
+
+`anon`·`authenticated` 권한 없음(데이터 전용 트랙).
+
+### 26-3. 실제 텍스트 수집 — 18건
+
+`product_offers.is_official=true`인 브랜드 자사 페이지만 대상. 제품당 1페이지,
+1.5초 간격, 403/429는 우회하지 않고 건너뜀.
+
+```
+공식 페이지가 있는 제품       76건
+가져온 페이지                70건
+403/429 차단                 6건
+────────────────────────────────
+사용 가이드 추출 성공         18건   (도포량 10 · 부위 10 · 시점 6 · 순서 5)
+사용법 구간이 없는 페이지      52건   (대부분 사용법을 이미지로만 넣음)
+```
+
+**1차 추출은 55건이라고 보고했는데 그게 틀린 숫자였다.** 네 가지를 놓치고 있었다:
+
+| 문제 | 내용 |
+|---|---|
+| EUC-KR 인코딩 | 한국 브랜드몰 다수가 아직 EUC-KR. UTF-8로 읽으면 전부 `���`가 되는데 추출기가 그 쓰레기에서도 "단계"를 뽑아냈음 |
+| 플레이스홀더 | `제품 상세 페이지 참조`는 안내문이지 사용법이 아님 |
+| 구간 초과 | 사용법 구간이 제조업자 블록·전성분·주의사항까지 삼킴 (띄어쓰기 변형 때문에 종료 마커가 안 걸림) |
+| 손 = 부위 오인 | `손에 덜어`(덜어내는 동작)를 사용 부위로 기록 |
+
+네 가지 전부 테스트로 고정했다. 걸러내니 55 → 18.
+
+상세: `docs/product-usage-guidance-sourcing.md`
+
+### 26-4. `/admin/usage-guides` 신규 화면 — 완료
+
+기존 화면 재사용 없이 새 경로만 추가. 승인해도 사용자 화면에 안 나온다.
+
+상세 화면의 핵심은 **대조**다. 추출된 도포량·부위·시점·단계를 **원문 발췌 바로
+옆에** 놓아서 검수자가 믿는 게 아니라 확인하게 한다. 원문에서 못 찾은 값은
+"추출 오류 가능성"으로 따로 표시한다. 법정 문구는 별도 패널에 라벨을 달아 분리.
+
+근거 미충족 시 서버가 승인을 거부한다(제약에 기대지 않고 읽을 수 있는 이유를 준다).
+
+### 26-5. 검증
+
+| 항목 | 결과 |
+|---|---|
+| `npm run build` | 통과 (커밋마다 확인) |
+| `npm run lint` | 통과 |
+| `npm run test:product-usage-guides` | 통과 (추출 로직 + migration 정적 검토) |
+| `npm run verify:usage-guides-staging` | 스키마 미적용 상태를 정확히 보고 |
+
+### 26-6. 사람이 해야 할 일 (Staging 전용)
+
+SQL Editor(Staging `jfnj***gfd`)에서 실행:
+
+```
+supabase/migrations/20260727150000_create_product_usage_guides.sql
+```
+
+GRANT는 아래가 전부다. `anon`·`authenticated` 대상 없음, DELETE 없음.
+
+```sql
+GRANT SELECT, INSERT, UPDATE ON TABLE public.product_usage_guides              TO service_role;
+GRANT SELECT, INSERT         ON TABLE public.product_usage_guide_review_events TO service_role;
+GRANT SELECT                 ON      public.product_usage_guides_publishable   TO service_role;
+```
+
+실행 후:
+
+```
+npm run verify:usage-guides-staging      # 제약이 실제로 막는지 확인 (8건 거부 확인)
+npm run usage:ingest-guides -- --write   # 18건을 needs_review로 적재
+```
+
+### 26-7. 별건 — 카탈로그 데이터 문제 발견
+
+`products` 테이블의 **COSRX 제품명 5건이 깨져 있다**(`COSRX [ǻ�� �� ��ī ũ��
+50ml]`). 과거 EUC-KR 페이지 수집 때 인코딩을 잘못 처리한 흔적. **이번엔 고치지
+않았다** — 운영 카탈로그 데이터 수정은 별도 승인 사항. 사용 가이드 텍스트 자체는
+디코딩을 고쳤으므로 정상이다.
+
+---
+
 *갱신 이력은 git 커밋 로그 참고. 이 파일이 최신 상태 요약의 단일 진실.*
