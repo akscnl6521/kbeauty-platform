@@ -1,0 +1,4304 @@
+[
+  {
+    "token": "bambusa vulgaris leaf",
+    "products": [
+      12
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "stem extract",
+    "products": [
+      12
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "polydiethyleneglycol adipate",
+    "products": [
+      12
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "ipdi copolymer",
+    "products": [
+      12
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "methoxy peg 15 methacrylate copolymer",
+    "products": [
+      12
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "houttuynia cordata flower",
+    "products": [
+      13
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "leaf",
+    "products": [
+      13
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "stem water",
+    "products": [
+      13
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "c10 30 alkyl acrylate crosspolymer",
+    "products": [
+      13
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "methicone silsesquioxane crosspolymer",
+    "products": [
+      16
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "프로폴리스추출물(7",
+    "products": [
+      17
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "프로폴리스추출물(8",
+    "products": [
+      18
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "프로폴리스추출물(6",
+    "products": [
+      20
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "hydrogenated poly(c6 14 olefin)",
+    "products": [
+      22,
+      66
+    ],
+    "via": "영문명 일치",
+    "mfdsKor": "하이드로제네이티드폴리(C6-14올레핀)",
+    "mfdsEng": "Hydrogenated Poly(C6-14 Olefin)",
+    "mfdsCas": ""
+  },
+  {
+    "token": "비스 다이글리세릴폴리아실아디페이트 2",
+    "products": [
+      28,
+      30,
+      53
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "비스-다이글리세릴폴리아실아디페이트-2",
+    "mfdsEng": "Bis-Diglyceryl Polyacyladipate-2",
+    "mfdsCas": "82249-33-0"
+  },
+  {
+    "token": "비스 베헤닐",
+    "products": [
+      28,
+      53
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "아이소스테아릴",
+    "products": [
+      28,
+      53
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "피토스테릴다이머다이리놀레일다이머다이리놀리에이트",
+    "products": [
+      28,
+      53
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "다이페닐다이메티콘",
+    "products": [
+      28
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "다이페닐다이메티콘",
+    "mfdsEng": "Diphenyl Dimethicone",
+    "mfdsCas": ""
+  },
+  {
+    "token": "세틸피이지",
+    "products": [
+      28,
+      47
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "피피지 10",
+    "products": [
+      28,
+      47
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "1다이메티콘",
+    "products": [
+      28,
+      47
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "트라이메틸실록시페닐다이메티콘",
+    "products": [
+      28
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "트라이메틸실록시페닐다이메티콘",
+    "mfdsEng": "Trimethylsiloxyphenyl Dimethicone",
+    "mfdsCas": ""
+  },
+  {
+    "token": "폴리글리세릴 4아이소스테아레이트",
+    "products": [
+      28
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리글리세릴-4아이소스테아레이트",
+    "mfdsEng": "Polyglyceryl-4 Isostearate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "세테아레스 20",
+    "products": [
+      28
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "세테아레스-20",
+    "mfdsEng": "Ceteareth-20",
+    "mfdsCas": "68439-49-6(Generic)"
+  },
+  {
+    "token": "황색5호",
+    "products": [
+      28,
+      29,
+      53
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "황색5호",
+    "mfdsEng": "Sunset Yellow FCF,CI 15985",
+    "mfdsCas": ""
+  },
+  {
+    "token": "소듐다이라우미도글루타미드라이신",
+    "products": [
+      28
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "소듐다이라우미도글루타미드라이신",
+    "mfdsEng": "Sodium Dilauramidoglutamide Lysine",
+    "mfdsCas": ""
+  },
+  {
+    "token": "적색227호",
+    "products": [
+      28
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "적색227호",
+    "mfdsEng": "Fast Acid Magenta,CI 17200",
+    "mfdsCas": ""
+  },
+  {
+    "token": "트라이소듐에틸렌다이아민다이석시네이트",
+    "products": [
+      28
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "트라이소듐에틸렌다이아민다이석시네이트",
+    "mfdsEng": "Trisodium Ethylenediamine Disuccinate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "적색104호의(1) 정제수",
+    "products": [
+      28
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "적색104호의(1)",
+    "products": [
+      28,
+      29,
+      53
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "적색104호의(1)",
+    "mfdsEng": "Phloxine B,CI 45410",
+    "mfdsCas": ""
+  },
+  {
+    "token": "암모늄폴리아크릴레이트",
+    "products": [
+      28
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "암모늄폴리아크릴레이트",
+    "mfdsEng": "Ammonium Polyacrylate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "청색1호 정제수",
+    "products": [
+      28
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "폴리글리세린 3크로스폴리머",
+    "products": [
+      29
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "다이메티콘크로스폴리머",
+    "products": [
+      29
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "다이메티콘크로스폴리머",
+    "mfdsEng": "Dimethicone Crosspolymer",
+    "mfdsCas": ""
+  },
+  {
+    "token": "브이피",
+    "products": [
+      29,
+      76
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "헥사데센코폴리머",
+    "products": [
+      29
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "적색226호",
+    "products": [
+      29,
+      30,
+      53
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "적색226호",
+    "mfdsEng": "Helindone Pink CN,CI 73360",
+    "mfdsCas": ""
+  },
+  {
+    "token": "적색202호",
+    "products": [
+      29,
+      30,
+      53
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "적색202호",
+    "mfdsEng": "Lithol Rubine BCA,CI 15850:1",
+    "mfdsCas": ""
+  },
+  {
+    "token": "폴리하이드록시스테아릭애씨드",
+    "products": [
+      29,
+      30,
+      35
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리하이드록시스테아릭애씨드",
+    "mfdsEng": "Polyhydroxystearic Acid",
+    "mfdsCas": ""
+  },
+  {
+    "token": "프로필렌카보네이트",
+    "products": [
+      29
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "프로필렌카보네이트",
+    "mfdsEng": "Propylene Carbonate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "청색1호",
+    "products": [
+      29
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "청색1호",
+    "mfdsEng": "Brilliant Blue FCF,CI 42090",
+    "mfdsCas": ""
+  },
+  {
+    "token": "흑색산화철 다이메티콘",
+    "products": [
+      29
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "토코페롤 다이메티콘",
+    "products": [
+      29
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "다이스테아다이",
+    "products": [
+      29
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "하이드로제네이티드캐스터오일다이머다이리놀레에이트",
+    "products": [
+      30
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "하이드로제네이티드캐스터오일다이머다이리놀레에이트",
+    "mfdsEng": "Hydrogenated Castor Oil Dimer Dilinoleate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에틸렌",
+    "products": [
+      30
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "프로필렌코폴리머",
+    "products": [
+      30
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "폴리아마이드 8",
+    "products": [
+      30
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리아마이드-8",
+    "mfdsEng": "Polyamide-8",
+    "mfdsCas": ""
+  },
+  {
+    "token": "칸데릴라왁스",
+    "products": [
+      30
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "칸데릴라왁스",
+    "mfdsEng": "Euphorbia Cerifera (Candelilla) Wax,Candelilla Cera",
+    "mfdsCas": ""
+  },
+  {
+    "token": "시어버터불검화물",
+    "products": [
+      30
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "시어버터불검화물",
+    "mfdsEng": "Butyrospermum Parkii (Shea) Butter Unsaponifiables",
+    "mfdsCas": ""
+  },
+  {
+    "token": "락틱애씨드",
+    "products": [
+      30,
+      74,
+      75
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "락틱애씨드",
+    "mfdsEng": "Lactic Acid",
+    "mfdsCas": ""
+  },
+  {
+    "token": "적색223호",
+    "products": [
+      30
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "적색223호",
+    "mfdsEng": "Tetrabromofluorescein,CI 45380:2",
+    "mfdsCas": ""
+  },
+  {
+    "token": "락토바실러스발효용해물",
+    "products": [
+      30
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "락토바실러스발효용해물",
+    "mfdsEng": "Lactobacillus Ferment Lysate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "아라비아고무나무검",
+    "products": [
+      30
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "아라비아고무나무검",
+    "mfdsEng": "Acacia Senegal Gum",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에틸헥실글리세린 하이드로제네이티드폴리아이소부텐",
+    "products": [
+      30
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "적색103호의(1)",
+    "products": [
+      30
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "적색103호의(1)",
+    "mfdsEng": "Eosine YS,CI 45380",
+    "mfdsCas": ""
+  },
+  {
+    "token": "적색218호",
+    "products": [
+      30
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "적색218호",
+    "mfdsEng": "Tetrachlorotetrabromofluorescein,CI 45410:1",
+    "mfdsCas": ""
+  },
+  {
+    "token": "카프릭트라이글리세",
+    "products": [
+      30
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "호모살레이트",
+    "products": [
+      31
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "호모살레이트",
+    "mfdsEng": "Homosalate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "옥토크릴렌",
+    "products": [
+      31
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "옥토크릴렌",
+    "mfdsEng": "Octocrylene",
+    "mfdsCas": ""
+  },
+  {
+    "token": "부틸메톡시디벤조일메탄",
+    "products": [
+      31
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "부틸메톡시디벤조일메탄",
+    "mfdsEng": "Butyl Methoxydibenzoylmethane",
+    "mfdsCas": "70356-09-1"
+  },
+  {
+    "token": "다이부틸라우로일글루타마이드",
+    "products": [
+      31
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "다이부틸라우로일글루타마이드",
+    "mfdsEng": "Dibutyl Lauroyl Glutamide",
+    "mfdsCas": ""
+  },
+  {
+    "token": "다이부틸에틸헥사노일글루타마이드",
+    "products": [
+      31
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "다이부틸에틸헥사노일글루타마이드",
+    "mfdsEng": "Dibutyl Ethylhexanoyl Glutamide",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에틸헥실메톡시크릴렌",
+    "products": [
+      31
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "에틸헥실메톡시크릴렌",
+    "mfdsEng": "Ethylhexyl Methoxycrylene",
+    "mfdsCas": ""
+  },
+  {
+    "token": "c30 45알킬다이메틸실릴폴리프로필실세스퀴옥세인",
+    "products": [
+      31
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "C30-45알킬다이메틸실릴폴리프로필실세스퀴옥세인",
+    "mfdsEng": "C30-45 Alkyldimethylsilyl Polypropylsilsesquioxane",
+    "mfdsCas": ""
+  },
+  {
+    "token": "카르노신 전성분은 제조 시기에 따라 변경될 수 있습니다.",
+    "products": [
+      31
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "다이실록세인",
+    "products": [
+      32
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "다이실록세인",
+    "mfdsEng": "Disiloxane",
+    "mfdsCas": ""
+  },
+  {
+    "token": "카프릭",
+    "products": [
+      32
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "석시닉트라이글리세라이드",
+    "products": [
+      32
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "라우릴폴리글리세릴 3폴리다이메틸실록시에틸다이메티콘",
+    "products": [
+      32
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "라우릴폴리글리세릴-3폴리다이메틸실록시에틸다이메티콘",
+    "mfdsEng": "Lauryl Polyglyceryl-3 Polydimethylsiloxyethyl Dimethicone",
+    "mfdsCas": ""
+  },
+  {
+    "token": "울트라마린",
+    "products": [
+      32
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "울트라마린",
+    "mfdsEng": "Ultramarines,CI 77007",
+    "mfdsCas": ""
+  },
+  {
+    "token": "트라이실록세인",
+    "products": [
+      32
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "트라이실록세인",
+    "mfdsEng": "Trisiloxane",
+    "mfdsCas": ""
+  },
+  {
+    "token": "귀리커넬추출물",
+    "products": [
+      32
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "귀리커넬추출물",
+    "mfdsEng": "Avena Sativa (Oat) Kernel Extract",
+    "mfdsCas": "84012-26-0"
+  },
+  {
+    "token": "아티초크잎추출물",
+    "products": [
+      32
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "아티초크잎추출물",
+    "mfdsEng": "Cynara Scolymus (Artichoke) Leaf Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "녹차수",
+    "products": [
+      32
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "녹차수",
+    "mfdsEng": "Camellia Sinensis Leaf Water",
+    "mfdsCas": ""
+  },
+  {
+    "token": "티트리잎수",
+    "products": [
+      32
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "티트리잎수",
+    "mfdsEng": "Melaleuca Alternifolia (Tea Tree) Leaf Water",
+    "mfdsCas": ""
+  },
+  {
+    "token": "블루아가베잎추출물",
+    "products": [
+      32
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "블루아가베잎추출물",
+    "mfdsEng": "Agave Tequilana Leaf Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "부틸렌글라이콜 전성분은 제조 시기에 따라 변경될 수 있습니다.",
+    "products": [
+      32
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "코코 카프릴레이트",
+    "products": [
+      33,
+      34
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "코코-카프릴레이트",
+    "mfdsEng": "Coco-Caprylate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "카프레이트",
+    "products": [
+      33,
+      34
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "폴리글리세릴 4다이아이소스테아레이트",
+    "products": [
+      33
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "폴리하이드록시스테아레이트",
+    "products": [
+      33
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "세바케이트",
+    "products": [
+      33
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "마이카",
+    "products": [
+      33
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "마이카",
+    "mfdsEng": "Mica,CI 77019",
+    "mfdsCas": "12001-26-2"
+  },
+  {
+    "token": "아크릴레이트코폴리머",
+    "products": [
+      33
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "아크릴레이트코폴리머",
+    "mfdsEng": "Acrylates Copolymer",
+    "mfdsCas": ""
+  },
+  {
+    "token": "세틸다이메티콘",
+    "products": [
+      33
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "세틸다이메티콘",
+    "mfdsEng": "Cetyl Dimethicone",
+    "mfdsCas": "191044-49-2"
+  },
+  {
+    "token": "하이드로제네이티드폴리데센",
+    "products": [
+      33
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "하이드로제네이티드폴리데센",
+    "mfdsEng": "Hydrogenated Polydecene",
+    "mfdsCas": ""
+  },
+  {
+    "token": "드럼스틱씨추출물",
+    "products": [
+      33
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "드럼스틱씨추출물",
+    "mfdsEng": "Moringa Oleifera Seed Extract,Moringa Pterygosperma Seed Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "붉은토끼풀꽃추출물",
+    "products": [
+      33
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "붉은토끼풀꽃추출물",
+    "mfdsEng": "Trifolium Pratense (Clover) Flower Extract",
+    "mfdsCas": "85085-25-2"
+  },
+  {
+    "token": "빌베리열매추출물",
+    "products": [
+      33
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "빌베리열매추출물",
+    "mfdsEng": "Vaccinium Myrtillus Fruit Extract",
+    "mfdsCas": "84082-34-8"
+  },
+  {
+    "token": "워터히솝추출물 전성분은 제조 시기에 따라 변경될 수 있습니다.",
+    "products": [
+      33
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "보론나이트라이드",
+    "products": [
+      34
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "보론나이트라이드",
+    "mfdsEng": "Boron Nitride",
+    "mfdsCas": "10043-11-5"
+  },
+  {
+    "token": "메티콘",
+    "products": [
+      34
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "메티콘",
+    "mfdsEng": "Methicone",
+    "mfdsCas": "63148-57-2&#13;,9004-73-3"
+  },
+  {
+    "token": "징크피씨에이",
+    "products": [
+      34
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "징크피씨에이",
+    "mfdsEng": "Zinc PCA",
+    "mfdsCas": ""
+  },
+  {
+    "token": "피토스테롤",
+    "products": [
+      34
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "피토스테롤",
+    "mfdsEng": "Phytosterols",
+    "mfdsCas": ""
+  },
+  {
+    "token": "엑토인",
+    "products": [
+      34
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "엑토인",
+    "mfdsEng": "Ectoin",
+    "mfdsCas": ""
+  },
+  {
+    "token": "녹차추출물 전성분은 제조 시기에 따라 변경될 수 있습니다.",
+    "products": [
+      34
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "티타늄디옥사이드",
+    "products": [
+      35,
+      47
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "티타늄디옥사이드",
+    "mfdsEng": "Titanium Dioxide,CI 77891",
+    "mfdsCas": "13463-67-7"
+  },
+  {
+    "token": "페닐트라이메티콘",
+    "products": [
+      35
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "페닐트라이메티콘",
+    "mfdsEng": "Phenyl Trimethicone",
+    "mfdsCas": ""
+  },
+  {
+    "token": "다이페닐실록시페닐트라이메티콘",
+    "products": [
+      35
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "다이페닐실록시페닐트라이메티콘",
+    "mfdsEng": "Diphenylsiloxy Phenyl Trimethicone",
+    "mfdsCas": ""
+  },
+  {
+    "token": "알루미늄스테아레이트",
+    "products": [
+      35
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "알루미늄스테아레이트",
+    "mfdsEng": "Aluminum Stearate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "알루미나",
+    "products": [
+      35
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "알루미나",
+    "mfdsEng": "Alumina",
+    "mfdsCas": ""
+  },
+  {
+    "token": "병풀꽃",
+    "products": [
+      35,
+      36,
+      37
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "줄기추출물",
+    "products": [
+      35,
+      36,
+      37
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "창포뿌리추출물",
+    "products": [
+      35
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "창포뿌리추출물",
+    "mfdsEng": "Acorus Calamus Root Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "세라마이드엔에스",
+    "products": [
+      35
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "세라마이드엔에스",
+    "mfdsEng": "Ceramide NS",
+    "mfdsCas": ""
+  },
+  {
+    "token": "세라마이드에이피",
+    "products": [
+      35
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "세라마이드에이피",
+    "mfdsEng": "Ceramide AP",
+    "mfdsCas": ""
+  },
+  {
+    "token": "세라마이드에이에스",
+    "products": [
+      35
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "세라마이드에이에스",
+    "mfdsEng": "Ceramide AS",
+    "mfdsCas": ""
+  },
+  {
+    "token": "세라마이드이오피 전성분은 제조 시기에 따라 변경될 수 있습니다.",
+    "products": [
+      35
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "제1제 : 정제수",
+    "products": [
+      36,
+      37
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "다이소듐이디티에이 제2제 : 정제수",
+    "products": [
+      36,
+      37
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "염산2",
+    "products": [
+      37
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "4 디아미노페녹시에탄올",
+    "products": [
+      37
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "open",
+    "products": [
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      74,
+      75
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "close 에탄올",
+    "products": [
+      38,
+      39
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "라이신폴리펩타이드카퍼에이치씨엘",
+    "products": [
+      38,
+      39
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "close 정제수",
+    "products": [
+      40,
+      41,
+      42,
+      43,
+      74,
+      75
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "하이드롤라이즈드케라틴(100ppm)",
+    "products": [
+      40,
+      41,
+      42
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "close 원더밤: 정제수",
+    "products": [
+      44
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "향료 원더티어 : 정제수",
+    "products": [
+      44
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "c12 14sec 파레스 7",
+    "products": [
+      44
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "원추리꽃추출물",
+    "products": [
+      45
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "원추리꽃추출물",
+    "mfdsEng": "Hemerocallis Fulva Flower Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "소엽맥문동뿌리추출물",
+    "products": [
+      45,
+      48,
+      49,
+      50,
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "소엽맥문동뿌리추출물",
+    "mfdsEng": "Ophiopogon Japonicus Root Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "틴옥사이드",
+    "products": [
+      45
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "틴옥사이드",
+    "mfdsEng": "Tin Oxide",
+    "mfdsCas": ""
+  },
+  {
+    "token": "토코페롤 사용상의",
+    "products": [
+      45,
+      46,
+      48,
+      51
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "폴리비닐알코올",
+    "products": [
+      46,
+      76
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리비닐알코올",
+    "mfdsEng": "Polyvinyl Alcohol",
+    "mfdsCas": ""
+  },
+  {
+    "token": "층층갈고리둥굴레뿌리",
+    "products": [
+      46
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "뿌리줄기가루",
+    "products": [
+      46
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "피이지 75",
+    "products": [
+      46
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "피이지-75",
+    "mfdsEng": "PEG-75",
+    "mfdsCas": ""
+  },
+  {
+    "token": "벤토나이트",
+    "products": [
+      46
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "벤토나이트",
+    "mfdsEng": "Bentonite,CI 77004",
+    "mfdsCas": "1302-78-9"
+  },
+  {
+    "token": "인동덩굴꽃추출물",
+    "products": [
+      46
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "인동덩굴꽃추출물",
+    "mfdsEng": "Lonicera Japonica (Honeysuckle) Flower Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "둥굴레뿌리줄기가루",
+    "products": [
+      46
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "둥굴레뿌리줄기가루",
+    "mfdsEng": "Polygonatum Odoratum Rhizome Powder",
+    "mfdsCas": ""
+  },
+  {
+    "token": "각시둥굴레뿌리줄기",
+    "products": [
+      46,
+      48,
+      49,
+      61
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "뿌리추출물",
+    "products": [
+      46,
+      48,
+      49,
+      61
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "트라이메틸실록시실리케이트",
+    "products": [
+      47
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "트라이메틸실록시실리케이트",
+    "mfdsEng": "Trimethylsiloxysilicate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "연꽃추출물 사용상의",
+    "products": [
+      47
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "메톡시피이지 114",
+    "products": [
+      48,
+      49
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "폴리엡실론카프로락톤",
+    "products": [
+      48,
+      49
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "메티콘실세스퀴옥세인크로스폴리머",
+    "products": [
+      48
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "스클레로튬검",
+    "products": [
+      48
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "스클레로튬검",
+    "mfdsEng": "Sclerotium Gum",
+    "mfdsCas": ""
+  },
+  {
+    "token": "연옥가루",
+    "products": [
+      48,
+      49
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "연옥가루",
+    "mfdsEng": "Nephrite Powder",
+    "mfdsCas": ""
+  },
+  {
+    "token": "인삼뿌리프로토플라스트",
+    "products": [
+      48
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "인삼뿌리프로토플라스트",
+    "mfdsEng": "Panax Ginseng Root Protoplasts",
+    "mfdsCas": "72480-62-7&#13;,1449115-64-3"
+  },
+  {
+    "token": "피토스테릴",
+    "products": [
+      49
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "베헤닐",
+    "products": [
+      49
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "옥틸도데실라우로일글루타메이트",
+    "products": [
+      49
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "하이드로제네이티드로진",
+    "products": [
+      49
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "하이드로제네이티드로진",
+    "mfdsEng": "Hydrogenated Rosin",
+    "mfdsCas": ""
+  },
+  {
+    "token": "호호바에스터",
+    "products": [
+      49
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "호호바에스터",
+    "mfdsEng": "Jojoba Esters",
+    "mfdsCas": ""
+  },
+  {
+    "token": "미리스틸미리스테이트",
+    "products": [
+      49
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "미리스틸미리스테이트",
+    "mfdsEng": "Myristyl Myristate",
+    "mfdsCas": "3234-85-3"
+  },
+  {
+    "token": "하이드로제네이티드캐스터오일아이소스테아레이트",
+    "products": [
+      49
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "하이드로제네이티드캐스터오일아이소스테아레이트",
+    "mfdsEng": "Hydrogenated Castor Oil Isostearate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "피이지 100스테아레이트",
+    "products": [
+      49
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "피이지-100스테아레이트",
+    "mfdsEng": "PEG-100 Stearate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "펜타에리스리틸다이스테아레이트",
+    "products": [
+      49
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "펜타에리스리틸다이스테아레이트",
+    "mfdsEng": "Pentaerythrityl Distearate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "토코페릴리놀리에이트",
+    "products": [
+      49
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "토코페릴리놀리에이트",
+    "mfdsEng": "Tocopheryl Linoleate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "인삼뿌리프로토플라스트 사용상의",
+    "products": [
+      49
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "카라기난",
+    "products": [
+      50
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "카라기난",
+    "mfdsEng": "Carrageenan",
+    "mfdsCas": ""
+  },
+  {
+    "token": "생강추출물 사용상의",
+    "products": [
+      50
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "하이드록시프로필스타치포스페이트",
+    "products": [
+      51
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "하이드록시프로필스타치포스페이트",
+    "mfdsEng": "Hydroxypropyl Starch Phosphate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "더보기 숨기기 정제수",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "콘민트잎추출물",
+    "products": [
+      52
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "콘민트잎추출물",
+    "mfdsEng": "Mentha Arvensis Leaf Extract",
+    "mfdsCas": "90063-97-1"
+  },
+  {
+    "token": "폴리글리세릴 10스테아레이트",
+    "products": [
+      52
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리글리세릴-10스테아레이트",
+    "mfdsEng": "Polyglyceryl-10 Stearate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "한국어 한국",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "한국어 international",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "english 中文 繁體中文 日本",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "日本語 singapore",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "english malaysia",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "english ประเทศไทย",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "ไทย việt nam",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "tiếng việt indonesia",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "bahasa indonesia philippines",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "english hongkong china",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "english > united states",
+    "products": [
+      52
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "더보기 숨기기 ! !다이아이소스테아릴말레이트",
+    "products": [
+      53
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "석류씨오일",
+    "products": [
+      53
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "석류씨오일",
+    "mfdsEng": "Punica Granatum Seed Oil",
+    "mfdsCas": ""
+  },
+  {
+    "token": "콩폴리펩타이드",
+    "products": [
+      53
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "콩폴리펩타이드",
+    "mfdsEng": "Glycine Max (Soybean) Polypeptide",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에틸헥실글리세린! !다이아이소스테아릴말레이트",
+    "products": [
+      53
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "신남알",
+    "products": [
+      53
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "신남알",
+    "mfdsEng": "Cinnamal",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에틸헥실글리세린! ! 다이아이소스테아릴말레이트",
+    "products": [
+      53
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "피토스테릴다이머다이리놀레일다",
+    "products": [
+      53
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "콜라겐수( )",
+    "products": [
+      54
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "나이아신아마이드( )",
+    "products": [
+      54
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "피이지 240",
+    "products": [
+      54,
+      55
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "피이지-240",
+    "mfdsEng": "PEG-240",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에이치디아이코폴리머비스 데실테트라데세스 20에텔",
+    "products": [
+      54
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "이노시톨",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "이노시톨",
+    "mfdsEng": "Inositol",
+    "mfdsCas": ""
+  },
+  {
+    "token": "옥틸도데세스 16",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "옥틸도데세스-16",
+    "mfdsEng": "Octyldodeceth-16",
+    "mfdsCas": ""
+  },
+  {
+    "token": "소듐디엔에이( )",
+    "products": [
+      54
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "다마스크장미꽃추출물( )",
+    "products": [
+      54
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "폴리글리세릴 10올리에이트",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리글리세릴-10올리에이트",
+    "mfdsEng": "Polyglyceryl-10 Oleate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "레스베라트롤",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "레스베라트롤",
+    "mfdsEng": "Resveratrol",
+    "mfdsCas": ""
+  },
+  {
+    "token": "아세틸헥사펩타이드 1",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "아세틸헥사펩타이드-1",
+    "mfdsEng": "Acetyl Hexapeptide-1",
+    "mfdsCas": ""
+  },
+  {
+    "token": "트라이펩타이드 2",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "트라이펩타이드-2",
+    "mfdsEng": "Tripeptide-2",
+    "mfdsCas": ""
+  },
+  {
+    "token": "아세틸옥타펩타이드 3",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "아세틸옥타펩타이드-3",
+    "mfdsEng": "Acetyl Octapeptide-3",
+    "mfdsCas": ""
+  },
+  {
+    "token": "팔미토일테트라펩타이드 7",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "팔미토일테트라펩타이드-7",
+    "mfdsEng": "Palmitoyl Tetrapeptide-7",
+    "mfdsCas": ""
+  },
+  {
+    "token": "라즈베리케톤",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "라즈베리케톤",
+    "mfdsEng": "Raspberry Ketone",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에스에이치 올리고펩타이드 1",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "에스에이치-올리고펩타이드-1",
+    "mfdsEng": "sh-Oligopeptide-1",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에스에이치 폴리펩타이드 1",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "에스에이치-폴리펩타이드-1",
+    "mfdsEng": "sh-Polypeptide-1",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에스에이치 폴리펩타이드 11",
+    "products": [
+      54
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "에스에이치-폴리펩타이드-11",
+    "mfdsEng": "sh-Polypeptide-11",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에스에이치 폴리펩타이드 22 「화장품법」에 따른 기능성 화장품(미백",
+    "products": [
+      54
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "주름개선",
+    "products": [
+      54,
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "자외선 차단제품 등)의 경우 미백 주름개선 2중 기능성 화장품 사용할 때의",
+    "products": [
+      54
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "콜라겐수 (656",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "600 ppm)",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "에이치디아이코폴리머비스 데실테트라데세스 20 에터",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "콜라겐 (100 ppm)",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "아이비고드열매추출물",
+    "products": [
+      55,
+      56
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "아이비고드열매추출물",
+    "mfdsEng": "Coccinia Indica Fruit Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "소듐디엔에이 (10.1 ppm)",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "폴리글리세릴 10 올리에이트",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "폴리글리세릴 10 라우레이트",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "다마스크장미추출물 (0.1 ppm)",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "카퍼트라이펩타이드 1",
+    "products": [
+      55
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "카퍼트라이펩타이드-1",
+    "mfdsEng": "Copper Tripeptide-1",
+    "mfdsCas": ""
+  },
+  {
+    "token": "헥사펩타이드 11",
+    "products": [
+      55
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "헥사펩타이드-11",
+    "mfdsEng": "Hexapeptide-11",
+    "mfdsCas": ""
+  },
+  {
+    "token": "아세틸테트라펩타이드 2",
+    "products": [
+      55
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "아세틸테트라펩타이드-2",
+    "mfdsEng": "Acetyl Tetrapeptide-2",
+    "mfdsCas": ""
+  },
+  {
+    "token": "지모뿌리추출물",
+    "products": [
+      55
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "지모뿌리추출물",
+    "mfdsEng": "Anemarrhena Asphodeloides Root Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "팔미토일트라이펩타이드 5",
+    "products": [
+      55
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "팔미토일트라이펩타이드-5",
+    "mfdsEng": "Palmitoyl Tripeptide-5",
+    "mfdsCas": ""
+  },
+  {
+    "token": "다이소듐이디티에이 . 「화장품법」에 따른 기능성 화장품(미백",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "자외선 차단제품 등)의 경우 미백",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "주름개선 2중 기능성 화장품 사용할 때의",
+    "products": [
+      55
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "빙하수",
+    "products": [
+      56
+    ],
+    "via": "한글명은 있으나 영문명 비어 있음",
+    "mfdsKor": "빙하수",
+    "mfdsEng": "",
+    "mfdsCas": ""
+  },
+  {
+    "token": "클로렐라 불가리스추출물",
+    "products": [
+      56
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "클로렐라 불가리스추출물",
+    "mfdsEng": "Chlorella Vulgaris Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "프룩토올리고사카라이드",
+    "products": [
+      56
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "프룩토올리고사카라이드",
+    "mfdsEng": "Fructooligosaccharides",
+    "mfdsCas": ""
+  },
+  {
+    "token": "프룩토오스",
+    "products": [
+      56
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "프룩토오스",
+    "mfdsEng": "Fructose",
+    "mfdsCas": ""
+  },
+  {
+    "token": "피이지",
+    "products": [
+      57
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "피피지 17",
+    "products": [
+      57
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "피피지-17",
+    "mfdsEng": "PPG-17",
+    "mfdsCas": ""
+  },
+  {
+    "token": "6코폴리머",
+    "products": [
+      57
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "나이아신아마이드(50",
+    "products": [
+      58,
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "000 ppm)",
+    "products": [
+      58,
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "판테놀(50",
+    "products": [
+      58
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "트라넥사믹애씨드(40",
+    "products": [
+      58
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "네오펜틸글라이콜다이카프레이트",
+    "products": [
+      58
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "네오펜틸글라이콜다이카프레이트",
+    "mfdsEng": "Neopentyl Glycol Dicaprate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "월귤추출물",
+    "products": [
+      58
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "월귤추출물",
+    "mfdsEng": "Vaccinium Vitis-Idaea Fruit Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "알파 알부틴",
+    "products": [
+      58
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "알파-알부틴",
+    "mfdsEng": "Alpha-Arbutin",
+    "mfdsCas": ""
+  },
+  {
+    "token": "비피다발효용해물",
+    "products": [
+      58
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "비피다발효용해물",
+    "mfdsEng": "Bifida Ferment Lysate",
+    "mfdsCas": "96507-89-0"
+  },
+  {
+    "token": "3 o 에틸아스코빅애씨드(2",
+    "products": [
+      58
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "글루타티온(100 ppm)",
+    "products": [
+      58
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "아스코빅애씨드(1 ppb)",
+    "products": [
+      58
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "아스코빌글루코사이드(1 ppb)",
+    "products": [
+      58
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "티옥틱애씨드",
+    "products": [
+      58
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "티옥틱애씨드",
+    "mfdsEng": "Thioctic Acid",
+    "mfdsCas": ""
+  },
+  {
+    "token": "폴리글리세린 3",
+    "products": [
+      59
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리글리세린-3",
+    "mfdsEng": "Polyglycerin-3",
+    "mfdsCas": ""
+  },
+  {
+    "token": "에리스리톨",
+    "products": [
+      59
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "에리스리톨",
+    "mfdsEng": "Erythritol",
+    "mfdsCas": ""
+  },
+  {
+    "token": "3 o 에틸아스코빅애씨드",
+    "products": [
+      59
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "3-O-에틸아스코빅애씨드",
+    "mfdsEng": "3-O-Ethyl Ascorbic Acid",
+    "mfdsCas": ""
+  },
+  {
+    "token": "폴리글리세릴 4카프레이트",
+    "products": [
+      59
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리글리세릴-4카프레이트",
+    "mfdsEng": "Polyglyceryl-4 Caprate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "데실글루코사이드",
+    "products": [
+      59
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "데실글루코사이드",
+    "mfdsEng": "Decyl Glucoside",
+    "mfdsCas": ""
+  },
+  {
+    "token": "노나펩타이드 1",
+    "products": [
+      59
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "노나펩타이드-1",
+    "mfdsEng": "Nonapeptide-1",
+    "mfdsCas": ""
+  },
+  {
+    "token": "퀼라자껍질추출물",
+    "products": [
+      60
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "퀼라자껍질추출물",
+    "mfdsEng": "Quillaja Saponaria Bark Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "코코 글루코사이드",
+    "products": [
+      60
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "코코-글루코사이드",
+    "mfdsEng": "Coco-Glucoside",
+    "mfdsCas": "110615-47-9"
+  },
+  {
+    "token": "폴리쿼터늄 7",
+    "products": [
+      60
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리쿼터늄-7",
+    "mfdsEng": "Polyquaternium-7",
+    "mfdsCas": ""
+  },
+  {
+    "token": "소듐코코일이세티오네이트",
+    "products": [
+      60
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "소듐코코일이세티오네이트",
+    "mfdsEng": "Sodium Cocoyl Isethionate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "향료 기능성 화장품 식품의약품안전처 심사필 여부 해당사항 없음 사용할 때의",
+    "products": [
+      60
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "스페인감초뿌리수",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "스페인감초뿌리수",
+    "mfdsEng": "Glycyrrhiza Glabra (Licorice) Root Water",
+    "mfdsCas": ""
+  },
+  {
+    "token": "폴리글리세릴 3다이스테아레이트",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리글리세릴-3다이스테아레이트",
+    "mfdsEng": "Polyglyceryl-3 Distearate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "폴리실리콘 15",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리실리콘-15",
+    "mfdsEng": "Polysilicone-15",
+    "mfdsCas": ""
+  },
+  {
+    "token": "글리세릴스테아레이트시트레이트",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "글리세릴스테아레이트시트레이트",
+    "mfdsEng": "Glyceryl Stearate Citrate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "녹용추출물",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "녹용추출물",
+    "mfdsEng": "Velvet Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "하수오뿌리추출물",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "하수오뿌리추출물",
+    "mfdsEng": "Polygonum Multiflorum Root Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "황기뿌리추출물",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "황기뿌리추출물",
+    "mfdsEng": "Astragalus Membranaceus Root Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "트루로즈오브예리코추출물",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "트루로즈오브예리코추출물",
+    "mfdsEng": "Anastatica Hierochuntica Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "모창출뿌리추출물",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "모창출뿌리추출물",
+    "mfdsEng": "Atractylodes Lancea Root Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "다이메틸실란올하이알루로네이트",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "다이메틸실란올하이알루로네이트",
+    "mfdsEng": "Dimethylsilanol Hyaluronate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "소듐하이알루로네이트다이메틸실란올",
+    "products": [
+      61
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "소듐하이알루로네이트다이메틸실란올",
+    "mfdsEng": "Sodium Hyaluronate Dimethylsilanol",
+    "mfdsCas": ""
+  },
+  {
+    "token": "알바수련꽃추출물 기능성 화장품 식품의약품안전처 심사필 여부 해당사항 없음 사용할 때의",
+    "products": [
+      62
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "(1번) 정제수",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "알바수련꽃추출물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "알바수련꽃추출물",
+    "mfdsEng": "Nymphaea Alba Flower Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "자몽껍질오일",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "자몽껍질오일",
+    "mfdsEng": "Citrus Paradisi (Grapefruit) Peel Oil",
+    "mfdsCas": ""
+  },
+  {
+    "token": "센티드제라늄꽃오일",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "센티드제라늄꽃오일",
+    "mfdsEng": "Pelargonium Graveolens Flower Oil",
+    "mfdsCas": ""
+  },
+  {
+    "token": "티트리잎오일",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "티트리잎오일",
+    "mfdsEng": "Melaleuca Alternifolia (Tea Tree) Leaf Oil",
+    "mfdsCas": ""
+  },
+  {
+    "token": "로즈마리잎오일 (3번) 정제수",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "메도우스위트추출물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "메도우스위트추출물",
+    "mfdsEng": "Spiraea Ulmaria Extract",
+    "mfdsCas": "84775-57-5"
+  },
+  {
+    "token": "효모발효물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "효모발효물",
+    "mfdsEng": "Saccharomyces Ferment",
+    "mfdsCas": ""
+  },
+  {
+    "token": "효모발효여과물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "효모발효여과물",
+    "mfdsEng": "Saccharomyces Ferment Filtrate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "스키조사카로미세스발효여과물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "스키조사카로미세스발효여과물",
+    "mfdsEng": "Schizosaccharomyces Ferment Filtrate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "아스퍼질러스",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "전분발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "락토코쿠스",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "녹두추출물발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "락토바실러스",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "락토바실러스",
+    "mfdsEng": "Lactobacillus",
+    "mfdsCas": ""
+  },
+  {
+    "token": "쌀발효물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "클로렐라발효물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "클로렐라발효물",
+    "mfdsEng": "Chlorella Ferment",
+    "mfdsCas": ""
+  },
+  {
+    "token": "조류추출발효물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "효모",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "효모",
+    "mfdsEng": "Yeast",
+    "mfdsCas": ""
+  },
+  {
+    "token": "포도발효추출물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "호박발효추출물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "콩발효추출물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "콩추출물발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "보리씨발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "칼슘발효물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "슈가캘프발효물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "감자추출물발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "여바산타발효추출물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "여바산타발효추출물",
+    "mfdsEng": "Eriodictyon Californicum Ferment Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "부레옥잠발효물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "호밀가루발효물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "히비스커스꽃발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "우유발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "홍삼발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "아세로라체리발효물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "락토바실러스발효물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "락토바실러스발효물",
+    "mfdsEng": "Lactobacillus Ferment",
+    "mfdsCas": ""
+  },
+  {
+    "token": "락토바실러스발효용해여과물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "락토바실러스발효용해여과물",
+    "mfdsEng": "Lactobacillus Ferment Lysate Filtrate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "우유발효용해물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "락토코쿠스발효물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "락토코쿠스발효물",
+    "mfdsEng": "Lactococcus Ferment",
+    "mfdsCas": ""
+  },
+  {
+    "token": "락토코쿠스발효추출물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "락토코쿠스발효추출물",
+    "mfdsEng": "Lactococcus Ferment Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "락토코쿠스발효용해물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "락토코쿠스발효용해물",
+    "mfdsEng": "Lactococcus Ferment Lysate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "스트렙토코쿠스 테르모필루스발효물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "스트렙토코쿠스 테르모필루스발효물",
+    "mfdsEng": "Streptococcus Thermophilus Ferment",
+    "mfdsCas": ""
+  },
+  {
+    "token": "흑효모발효여과물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "흑효모발효여과물",
+    "mfdsEng": "Aureobasidium Pullulans Ferment Filtrate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "비피다발효여과물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "비피다발효여과물",
+    "mfdsEng": "Bifida Ferment Filtrate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "비피다발효추출물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "비피다발효추출물",
+    "mfdsEng": "Bifida Ferment Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "류코노스톡",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "무발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "고추냉이뿌리발효추출물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "고추냉이뿌리발효추출물",
+    "mfdsEng": "Wasabia Japonica Root Ferment Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "석류발효추출물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "바실러스",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "바실러스",
+    "mfdsEng": "Bacillus",
+    "mfdsCas": ""
+  },
+  {
+    "token": "글루타믹애씨드발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "쌀겨추출물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "쌀겨추출물",
+    "mfdsEng": "Oryza Sativa (Rice) Bran Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "모나스커스",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "쌀겨발효여과추출물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "쌀겨발효물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "배즙발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "피키아발효용해여과물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "피키아발효용해여과물",
+    "mfdsEng": "Pichia Ferment Lysate Filtrate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "알테로모나스발효추출물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "알테로모나스발효추출물",
+    "mfdsEng": "Alteromonas Ferment Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "율무씨발효여과물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "콩단백질발효물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "공작석발효물",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "테트라하이드로커큐민",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "테트라하이드로커큐민",
+    "mfdsEng": "Tetrahydrocurcumin",
+    "mfdsCas": "36062-04-1"
+  },
+  {
+    "token": "시트로넬올 (4번) 정제수",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "글루코노락톤",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "글루코노락톤",
+    "mfdsEng": "Gluconolactone",
+    "mfdsCas": "90-80-2"
+  },
+  {
+    "token": "카프릴로일살리실릭애씨드",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "카프릴로일살리실릭애씨드",
+    "mfdsEng": "Capryloyl Salicylic Acid",
+    "mfdsCas": ""
+  },
+  {
+    "token": "달맞이꽃추출물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "달맞이꽃추출물",
+    "mfdsEng": "Oenothera Biennis (Evening Primrose) Extract",
+    "mfdsCas": "90028-66-3"
+  },
+  {
+    "token": "향료 (5번) 정제수",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "판테놀(750 ppm)",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "판토락톤",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "판토락톤",
+    "mfdsEng": "Pantolactone",
+    "mfdsCas": ""
+  },
+  {
+    "token": "아스코빌글루코사이드",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "아스코빌글루코사이드",
+    "mfdsEng": "Ascorbyl Glucoside",
+    "mfdsCas": ""
+  },
+  {
+    "token": "마그네슘클로라이드",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "마그네슘클로라이드",
+    "mfdsEng": "Magnesium Chloride",
+    "mfdsCas": "7786-30-3&#13;,7791-18-6(hydrate)"
+  },
+  {
+    "token": "폴리솔베이트80",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리솔베이트80",
+    "mfdsEng": "Polysorbate 80",
+    "mfdsCas": ""
+  },
+  {
+    "token": "칼슘글루코네이트",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "칼슘글루코네이트",
+    "mfdsEng": "Calcium Gluconate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "피리독신에이치씨엘",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "피리독신에이치씨엘",
+    "mfdsEng": "Pyridoxine HCl",
+    "mfdsCas": ""
+  },
+  {
+    "token": "효모추출물",
+    "products": [
+      63
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "효모추출물",
+    "mfdsEng": "Yeast Extract",
+    "mfdsCas": ""
+  },
+  {
+    "token": "다이소듐이디티에이 기능성 화장품 식품의약품안전처 심사필 여부 해당사항 없음 사용할 때의",
+    "products": [
+      63
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "asiaticoside",
+    "products": [
+      65,
+      73
+    ],
+    "via": "영문명 일치",
+    "mfdsKor": "아시아티코사이드",
+    "mfdsEng": "Asiaticoside",
+    "mfdsCas": ""
+  },
+  {
+    "token": "anthemis nobilis flower oil",
+    "products": [
+      67
+    ],
+    "via": "영문명 일치",
+    "mfdsKor": "캐모마일꽃오일",
+    "mfdsEng": "Anthemis Nobilis Flower Oil",
+    "mfdsCas": ""
+  },
+  {
+    "token": "�ƽþ�ƽ�־��� ����ī�ľ־���",
+    "products": [
+      68
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "����ī�һ��̵�",
+    "products": [
+      68,
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "������",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "��ƿ���۶�����",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�۸�����",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�عوٴ�鬥����",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "ī������",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "ī����ʈ���̱۸������̵�",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "���׾ƹ��ø�����ʈ",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "2 ������̿�",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�ֺ�ź�ø�����ʈ",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "ʈ���̿�ƿ�������",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "��ī�ٹ̾ƾ�����",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "��ǯ�ѹ����⹰(6",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "379ppm)",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "��ǯ�����⹰(6",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "��ǯ���⹰(6",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "���׳�",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "���׾ƹ����ڿ�",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "����ν�",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "���̵�ͻÿ�ƿ��ũ������ʈ",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�ҵ��ũ�����θ��̸�ƿÿ�췹��ʈ��������",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "����ŭ������ƿϼ���",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�ƽþ�ƽ�ڻ��̵�",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "����ī�ľ־���",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�ƽþ�ƽ�־���",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "���̸�ƽ��",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "��ҵ��̸�ƽ��ũ�ν�������",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "ī����",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�˶�����",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�ҵ����̾˷�γ���ʈ",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�ֺ�ź���̼ҽ��׾ʒ���ʈ",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�����ֺ���ʈ60",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�������",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�������ؾȼ۲������⹰",
+    "products": [
+      69
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "�ȹ�ƽ�־���",
+    "products": [
+      72
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "���׾ƹ��־���",
+    "products": [
+      72
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "��츯�־���",
+    "products": [
+      72
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "sodium c14 16 olefin sulfonate",
+    "products": [
+      73
+    ],
+    "via": "영문명 일치",
+    "mfdsKor": "소듐C14-16올레핀설포네이트",
+    "mfdsEng": "Sodium C14-16 Olefin Sulfonate",
+    "mfdsCas": ""
+  },
+  {
+    "token": "lauryl hydroxysultaine",
+    "products": [
+      73
+    ],
+    "via": "영문명 일치",
+    "mfdsKor": "라우릴하이드록시설테인",
+    "mfdsEng": "Lauryl Hydroxysultaine",
+    "mfdsCas": ""
+  },
+  {
+    "token": "스테아라미도프로필다이메틸아민",
+    "products": [
+      74,
+      75
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "스테아라미도프로필다이메틸아민",
+    "mfdsEng": "Stearamidopropyl Dimethylamine",
+    "mfdsCas": ""
+  },
+  {
+    "token": "다이 c12 18알킬다이모늄클로라이드",
+    "products": [
+      74,
+      75
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "다이-C12-18알킬다이모늄클로라이드",
+    "mfdsEng": "Di-C12-18 Alkyl Dimonium Chloride",
+    "mfdsCas": ""
+  },
+  {
+    "token": "올레일알코올",
+    "products": [
+      74,
+      75
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "올레일알코올",
+    "mfdsEng": "Oleyl Alcohol",
+    "mfdsCas": ""
+  },
+  {
+    "token": "아이소프로필알코올",
+    "products": [
+      74,
+      75,
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "아이소프로필알코올",
+    "mfdsEng": "Isopropyl Alcohol",
+    "mfdsCas": "67-63-0"
+  },
+  {
+    "token": "피브이피",
+    "products": [
+      76
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "피브이피",
+    "mfdsEng": "PVP",
+    "mfdsCas": ""
+  },
+  {
+    "token": "브이에이코폴리머",
+    "products": [
+      76
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "라우레스 9",
+    "products": [
+      76
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "라우레스-9",
+    "mfdsEng": "Laureth-9",
+    "mfdsCas": ""
+  },
+  {
+    "token": "트리에탄올아민",
+    "products": [
+      76
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "트라이에탄올아민",
+    "mfdsEng": "Triethanolamine",
+    "mfdsCas": ""
+  },
+  {
+    "token": "벤조페논 5",
+    "products": [
+      76
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "벤조페논-5",
+    "mfdsEng": "Benzophenone-5",
+    "mfdsCas": "6628-37-1"
+  },
+  {
+    "token": "폴리쿼터늄 11",
+    "products": [
+      76
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "폴리쿼터늄-11",
+    "mfdsEng": "Polyquaternium-11",
+    "mfdsCas": ""
+  },
+  {
+    "token": "product relation > 해당하는 데이터가 아직 없습니다. 상세정보 상품후기 0 상품문의 0",
+    "products": [
+      76,
+      77
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "말레익애씨드",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "말레익애씨드",
+    "mfdsEng": "Maleic Acid",
+    "mfdsCas": "110-16-7&#13;,6915-18-0"
+  },
+  {
+    "token": "트라이데세스 10",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "트라이데세스-10",
+    "mfdsEng": "Trideceth-10",
+    "mfdsCas": ""
+  },
+  {
+    "token": "부틸페닐메틸프로피오날",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "부틸페닐메틸프로피오날",
+    "mfdsEng": "Butylphenyl Methylpropional",
+    "mfdsCas": "80-54-6"
+  },
+  {
+    "token": "살구씨오일",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "살구씨오일",
+    "mfdsEng": "Prunus Armeniaca (Apricot) Kernel Oil,Kyounin Yu",
+    "mfdsCas": "68650-44-2&#13;,72869-69-3"
+  },
+  {
+    "token": "마룰라씨오일",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "마룰라씨오일",
+    "mfdsEng": "Sclerocarya Birrea Seed Oil",
+    "mfdsCas": ""
+  },
+  {
+    "token": "하이드롤라이즈드콜라겐",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "하이드롤라이즈드콜라겐",
+    "mfdsEng": "Hydrolyzed Collagen",
+    "mfdsCas": ""
+  },
+  {
+    "token": "아세틱애씨드",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "아세틱애씨드",
+    "mfdsEng": "Acetic Acid",
+    "mfdsCas": ""
+  },
+  {
+    "token": "수크로오스",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "수크로오스",
+    "mfdsEng": "Sucrose",
+    "mfdsCas": ""
+  },
+  {
+    "token": "달맞이꽃오일",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "달맞이꽃오일",
+    "mfdsEng": "Oenothera Biennis (Evening Primrose) Oil",
+    "mfdsCas": ""
+  },
+  {
+    "token": "시트룰린",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "시트룰린",
+    "mfdsEng": "Citrulline",
+    "mfdsCas": ""
+  },
+  {
+    "token": "글라이코젠",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "글라이코젠",
+    "mfdsEng": "Glycogen",
+    "mfdsCas": "9005-79-2"
+  },
+  {
+    "token": "히스티딘에이치씨엘",
+    "products": [
+      77
+    ],
+    "via": "한글명/이명 -> 영문명 확보",
+    "mfdsKor": "히스티딘에이치씨엘",
+    "mfdsEng": "Histidine HCl",
+    "mfdsCas": ""
+  },
+  {
+    "token": "bha explore more hair",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "body toggle menu from skin to hair care body care hair",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "scalp blog",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "new",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "hair mini kit",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "jumbo size shampoo",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "3 step system designed to completely transform damaged",
+    "products": [
+      78
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "dull",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "frizzy hair into smooth",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "strong",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "visibly healthy glossy strands. now in a larger size",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "enjoy a truly premium experience featuring a luxurious ivy scent",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "elevating your routine with a fresh",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "strengthen peptide 132 ultra perfect hair bonding shampoo (400ml",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "8.11 fl. oz) step 3: finish",
+    "products": [
+      78
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "shine peptide 132 ultra perfect hair bonding oil serum (28ml",
+    "products": [
+      78
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "0.94 fl. oz) details step 1: cleanse",
+    "products": [
+      78
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "strengthens",
+    "products": [
+      78,
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "5 from 531",
+    "products": [
+      78
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "2 step system designed to completely transform damaged",
+    "products": [
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "8.11 fl. oz) details step 1: cleanse",
+    "products": [
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  },
+  {
+    "token": "5 from 391",
+    "products": [
+      79
+    ],
+    "via": "미발견",
+    "mfdsKor": null,
+    "mfdsEng": null,
+    "mfdsCas": null
+  }
+]
