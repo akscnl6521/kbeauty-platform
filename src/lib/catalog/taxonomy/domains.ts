@@ -342,6 +342,51 @@ const LEGACY_FACE_ALIASES = new Set([
   "moisturizer_cream",
 ]);
 
+/**
+ * 얼굴 외 도메인의 실사용 별칭 (§44 단계 5.5 · 6.5).
+ *
+ * 정규 카테고리는 `scalp_shampoo`·`moisturizing_shampoo`처럼 세분화돼 있지만,
+ * 공식 사이트 크롤과 기존 DB는 `shampoo`·`hair_treatment` 같은 평문을 쓴다.
+ * 그대로 두면 두피·헤어·바디 제품이 전부 `other` 로 떨어져 도메인 필터
+ * (`filterCandidatesForDomain`)에서 사라진다 — 즉 등록해도 추천에 안 뜬다.
+ *
+ * 정규 목록(`SCALP_CARE_CATEGORIES` 등)은 그대로 두고 조회 시점에만 흡수한다.
+ * 목록을 늘리면 `categoriesForDomain`·관리자 필터의 의미가 함께 바뀐다.
+ */
+const LEGACY_DOMAIN_ALIASES = new Map<string, BeautyDomain>([
+  // 헤어 — 일반 세정·트리트먼트는 hair_care
+  ["shampoo", "hair_care"],
+  ["hair_shampoo", "hair_care"],
+  ["conditioner_rinse", "hair_care"],
+  ["hair_treatment", "hair_care"],
+  ["hair_pack", "hair_care"],
+  ["hair_essence", "hair_care"],
+  ["hair_ampoule", "hair_care"],
+  ["hair_styling", "hair_care"],
+  ["hair_gel", "hair_care"],
+
+  // 두피 — 두피를 명시한 것만 scalp_care
+  ["scalp_care", "scalp_care"],
+  ["scalp_treatment", "scalp_care"],
+  ["hair_tonic", "scalp_care"],
+  ["scalp_shampoo_legacy", "scalp_care"],
+
+  // 바디·핸드·풋
+  ["body", "body_care"],
+  ["body_care", "body_care"],
+  ["bodywash", "body_care"],
+  ["shower_gel", "body_care"],
+  ["hand_care", "hand_foot_care"],
+  ["foot_care", "hand_foot_care"],
+
+  // 기존 DB 에 실제로 남아있는 공백·슬래시 표기
+  ["lip care", "lip_care"],
+  ["lip_care", "lip_care"],
+  ["makeup/base", "base_makeup"],
+  ["makeup_base", "base_makeup"],
+  ["sun care", "sun_care"],
+]);
+
 export function beautyDomainForCategory(
   category: string | null | undefined
 ): BeautyDomain {
@@ -352,6 +397,8 @@ export function beautyDomainForCategory(
   const hit = CATEGORY_TO_DOMAIN.get(c);
   if (hit) return hit;
   if (LEGACY_FACE_ALIASES.has(c)) return "face_skincare";
+  const alias = LEGACY_DOMAIN_ALIASES.get(c);
+  if (alias) return alias;
   return "other";
 }
 
