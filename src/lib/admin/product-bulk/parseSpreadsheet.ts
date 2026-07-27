@@ -4,6 +4,7 @@ import {
   normalizeHeader,
   resolveBulkSlug,
 } from "@/lib/admin/product-bulk/cells";
+import { decodeSpreadsheetBytes } from "@/lib/admin/product-bulk/decodeSpreadsheetBytes";
 import {
   PRODUCT_BULK_MAX_ROWS,
   type ProductBulkParsedRow,
@@ -76,7 +77,13 @@ export function parseProductBulkSpreadsheet(
     );
   }
 
-  const workbook = XLSX.read(bytes, { type: "buffer", raw: false });
+  // Detect the text encoding rather than letting SheetJS default a CSV to
+  // codepage 1252, which turns UTF-8 Korean into mojibake before any field is read.
+  const decoded = decodeSpreadsheetBytes(bytes);
+  const workbook =
+    decoded.kind === "binary"
+      ? XLSX.read(bytes, { type: "buffer", raw: false })
+      : XLSX.read(decoded.text, { type: "string", raw: false });
   const sheetName = workbook.SheetNames[0];
   if (!sheetName) {
     throw new ProductBulkParseError("파일에 시트가 없습니다.");
