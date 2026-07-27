@@ -145,22 +145,33 @@ async function main() {
     }
   }
 
-  for (const t of TARGETS) {
-    const p = describeUnusable(process.env[t.env] ?? "", "url");
-    if (p) problems.push([t.env, p]);
+  // 인증키가 없으면 아무것도 못 한다. URL 은 준비된 것만 골라서 부른다 —
+  // 하나가 비었다고 나머지 확인까지 미룰 이유가 없다.
+  if (problems.length > 0) {
+    console.log("호출할 수 없는 항목 (값은 출력하지 않는다):\n");
+    for (const [name, why] of problems) console.log(`  ${name}\n      -> ${why}`);
+    console.log();
+    return;
   }
 
-  if (problems.length > 0) {
-    console.log("아래 값을 .env.local 에서 고쳐야 호출할 수 있다 (값은 출력하지 않는다):\n");
-    for (const [name, why] of problems) console.log(`  ${name}\n      -> ${why}`);
-    console.log("\n고친 뒤 `npm run probe:mfds-cosmetic` 을 다시 실행하면 된다.");
+  const ready: Array<(typeof TARGETS)[number]> = [];
+  for (const t of TARGETS) {
+    const p = describeUnusable(process.env[t.env] ?? "", "url");
+    if (p) {
+      console.log(`건너뜀  ${t.label} (${t.env})\n        -> ${p}\n`);
+      continue;
+    }
+    ready.push(t);
+  }
+  if (ready.length === 0) {
+    console.log("호출할 수 있는 API 가 없다.");
     return;
   }
 
   const redact = (s: string) => redactSecrets(s, [serviceKey]);
   console.log(`인증키 확인됨 (지문 ${serviceKeyFingerprint(serviceKey)}) — 값 자체는 출력하지 않는다.\n`);
 
-  for (const t of TARGETS) {
+  for (const t of ready) {
     const baseUrl = (process.env[t.env] ?? "").trim();
     console.log("=".repeat(70));
     console.log(`${t.label}`);
@@ -175,11 +186,28 @@ async function main() {
       }
       console.log(`  [${typeParam}=json] HTTP ${res.status}  content-type: ${res.contentType}`);
 
-      // 공공 API 는 인증 실패도 HTTP 200 + 본문 에러코드로 준다.
-      const authProblem = /SERVICE_KEY_IS_NOT_REGISTERED|SERVICE ERROR|등록되지 않은|인증키/i.test(res.body);
-      if (authProblem) {
-        console.log("  ⚠ 본문에 인증 관련 오류가 있다. 아래 응답을 확인할 것.");
+      // apis.data.go.kr 게이트웨이는 두 가지를 뚜렷이 구분한다.
+      // 2026-07-27 실측: 가짜 키·키 없음은 401, 유효하지만 이 서비스에 대한
+      // 활용신청이 승인되지 않은 키는 403 이다. 둘을 뭉뚱그리면 «키가 틀렸나»
+      // 하고 엉뚱한 데를 고치게 된다.
+      if (res.status === 401) {
+        console.log(
+          "  ⚠ 401 — 게이트웨이가 인증키를 인식하지 못한다. 키 값 자체를 확인할 것\n" +
+            "     (인코딩(Encoding) 키가 아니라 디코딩(Decoding) 키를 넣어야 한다)."
+        );
+      } else if (res.status === 403) {
+        console.log(
+          "  ⚠ 403 — 키는 유효하지만 **이 서비스에 대한 권한이 없다.**\n" +
+            "     이 API 의 활용신청이 승인되지 않았거나, 승인된 계정과 지금 쓰는\n" +
+            "     인증키의 계정이 다르다. data.go.kr 마이페이지에서 해당 API 의\n" +
+            "     승인 상태와 그 계정의 인증키를 확인할 것."
+        );
       }
+      // 공공 API 는 인증 실패를 HTTP 200 + 본문 에러코드로 주기도 한다.
+      const authProblem =
+        res.status === 401 ||
+        res.status === 403 ||
+        /SERVICE_KEY_IS_NOT_REGISTERED|SERVICE ERROR|등록되지 않은|인증키/i.test(res.body);
       console.log("  --- 응답 1건 ---");
       console.log(
         firstRecord(res.body, res.contentType)
