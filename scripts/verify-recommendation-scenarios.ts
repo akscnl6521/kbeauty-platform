@@ -117,7 +117,7 @@ async function main() {
   const rows = await fetchAll<Record<string, unknown>>(
     client,
     "products",
-    "id,name,name_ko,name_ja,brand,category,skin_concern,skin_tone,key_ingredients,key_ingredients_ja,price_usd,recommendation_reason,recommendation_reason_ko,recommendation_reason_ja,slug,link_sephora,link_amazon_us,link_amazon_jp,link_qoo10,link_oliveyoung,link_coupang,link_yesstyle,active,verified_at"
+    "id,name,name_ko,name_ja,brand,category,skin_concern,skin_tone,key_ingredients,key_ingredients_ja,price_usd,recommendation_reason,recommendation_reason_ko,recommendation_reason_ja,slug,link_sephora,link_amazon_us,link_amazon_jp,link_qoo10,link_oliveyoung,link_coupang,link_yesstyle,active,verified_at,full_ingredients"
   );
 
   const candidates = rows
@@ -219,9 +219,10 @@ async function main() {
     { label: "글리세린 회피", allergy: ["Glycerin"] },
   ];
 
-  const { indexIngredients, findMatchByCanonical, toCanonical } = await import(
+  const { indexIngredients, toCanonical, coerceIngredientListUnknown } = await import(
     "@/lib/recommend/normalizeIngredient"
   );
+  const { matchAllergenByCanonical } = await import("@/lib/recommend/allergenMatch");
 
   for (const c of allergyCases) {
     const base = {
@@ -234,12 +235,15 @@ async function main() {
     const safe = filterCandidatesBySafety(candidates, rec);
 
     const banned = c.allergy.map((a) => toCanonical(a)).filter(Boolean);
+    // 필터와 **같은 근거 범위·같은 매처**로 독립 재현한다. 다르면 교차검사가
+    // 아니라 그냥 두 개의 다른 규칙을 비교하는 게 된다.
     const has = (p: (typeof candidates)[number]) => {
       const idx = indexIngredients([
-        ...(p.key_ingredients ?? []),
-        ...(p.key_ingredients_ja ?? []),
+        ...coerceIngredientListUnknown(p.key_ingredients),
+        ...coerceIngredientListUnknown(p.key_ingredients_ja),
+        ...coerceIngredientListUnknown(p.full_ingredients),
       ]);
-      return banned.some((b) => findMatchByCanonical(b, idx));
+      return banned.some((b) => matchAllergenByCanonical(b, idx));
     };
 
     // 제외된 것이 정말 그 성분을 갖고 있는지, 통과한 것에 남아 있지 않은지 양쪽 다 본다.
@@ -308,53 +312,98 @@ async function main() {
     );
   }
 
-  await measureAllergenGap(client);
+  await measureAllergenGap(client, candidates);
 }
 
 /**
- * 안전 필터는 `key_ingredients`(사전으로 골라낸 부분집합)만 읽는다. 향료·에탄올·
- * 리모넨 같은 대표적 알레르겐은 그 사전에 없어서 key 목록에 거의 안 들어간다.
- * 그래서 «향료 알레르기» 를 입력해도 실제로는 대부분 걸러지지 않는다.
+ * 알레르겐 커버리지 — 실제 필터가 얼마나 잡는지.
  *
- * 여기서는 **고치지 않고 영향 범위만 잰다** — 안전 필터 변경은 명시적 승인이
- * 필요하다(CLAUDE.md). 아래 숫자는 «전성분까지 봤다면» 의 가정치다.
+ * «전성분에 있음» 은 문자열 검색으로 센 상한선이고, «필터가 잡음» 은 실제
+ * `filterCandidatesBySafety` 를 돌려 센 값이다. 둘이 벌어져 있으면 그만큼
+ * 알레르기를 신고한 사용자에게 새어 나간다는 뜻이다.
  */
-async function measureAllergenGap(client: SupabaseClient) {
-  console.log("\n═══ 4. 알레르겐 커버리지 (측정만, 변경 없음) ═══\n");
+async function measureAllergenGap(
+  client: SupabaseClient,
+  candidates: Array<{
+    id: string;
+    key_ingredients: string[] | null;
+    key_ingredients_ja: string[] | null;
+    full_ingredients: string[] | null;
+  }>
+) {
+  console.log("\n═══ 4. 알레르겐 커버리지 (실제 필터 기준) ═══\n");
+
+  const { filterCandidatesBySafety, applyUserIngredientPreferences } = await import(
+    "@/lib/recommend"
+  );
 
   const rows = await fetchAll<{
     id: number;
     active: boolean | null;
     verified_at: string | null;
     category: string | null;
-    key_ingredients: unknown;
-    full_ingredients: unknown;
-  }>(client, "products", "id,active,verified_at,category,key_ingredients,full_ingredients");
-  const active = rows.filter((r) => r.active === true && r.verified_at != null);
+  }>(client, "products", "id,active,verified_at,category");
+  const noCategory = rows.filter(
+    (r) => r.active === true && r.verified_at != null && !r.category
+  ).length;
 
   const arr = (v: unknown) => (Array.isArray(v) ? (v as string[]) : []);
   const hasAny = (list: string[], words: string[]) =>
     list.some((t) => words.some((w) => t.toLowerCase().includes(w)));
 
-  const ALLERGENS: Array<{ label: string; words: string[] }> = [
-    { label: "향료 fragrance/parfum/향료", words: ["fragrance", "parfum", "향료"] },
-    { label: "변성알코올 alcohol denat", words: ["alcohol denat", "변성알코올"] },
-    { label: "리모넨 limonene", words: ["limonene", "리모넨"] },
-    { label: "리날룰 linalool", words: ["linalool", "리날룰"] },
-    { label: "정유 essential oil", words: ["essential oil"] },
+  const ALLERGENS: Array<{ label: string; input: string; words: string[] }> = [
+    { label: "향료 fragrance/parfum/향료", input: "Fragrance", words: ["fragrance", "parfum", "향료"] },
+    { label: "변성알코올 alcohol denat", input: "Alcohol Denat", words: ["alcohol denat", "변성알코올"] },
+    { label: "리모넨 limonene", input: "Limonene", words: ["limonene", "리모넨"] },
+    { label: "리날룰 linalool", input: "Linalool", words: ["linalool", "리날룰"] },
+    { label: "정유 essential oil", input: "Essential Oil", words: ["essential oil"] },
   ];
 
-  console.log(`  활성 ${active.length}건 기준`);
-  console.log(`  ${pad("알레르겐", 32)}전성분에 있음   지금 필터가 잡는 것`);
+  const base = {
+    skinConcerns: ["dryness"],
+    recommendedIngredients: ["Hyaluronic Acid"],
+    ingredientsToAvoid: [] as string[],
+    confidenceScore: 0.8,
+  };
+
+  console.log(`  활성 ${candidates.length}건 기준`);
+  console.log(
+    `  ${pad("알레르겐", 32)}${"단어 보임".padStart(10)}${"필터가 잡음".padStart(14)}${"미검출".padStart(10)}`
+  );
+  const residue: string[] = [];
   for (const a of ALLERGENS) {
-    const inFull = active.filter((r) => hasAny(arr(r.full_ingredients), a.words));
-    const caught = inFull.filter((r) => hasAny(arr(r.key_ingredients), a.words));
+    // 분모는 «전성분 어딘가에 그 단어가 보이는 제품» 이다. 광고 문구가 성분
+    // 토큰에 섞여 들어간 경우까지 세므로 상한선이지 실제 함유 건수가 아니다.
+    //
+    // key_ingredients 가 비어 알레르겐 검사 전에 incomplete_info 로 빠지는 제품은
+    // 분모에서 뺀다. 어차피 사용자에게 노출되지 않으므로 «새어 나감» 이 아니다.
+    const inFull = candidates.filter(
+      (p) =>
+        (arr(p.key_ingredients).length > 0 || arr(p.key_ingredients_ja).length > 0) &&
+        (hasAny(arr(p.full_ingredients), a.words) || hasAny(arr(p.key_ingredients), a.words))
+    );
+    const r = filterCandidatesBySafety(
+      candidates as never,
+      applyUserIngredientPreferences(base, [a.input], []) as never
+    );
+    const excludedIds = new Set(
+      r.excludedProducts.filter((e) => e.reason === "allergy_or_avoided").map((e) => e.product.id)
+    );
+    const missed = inFull.filter((p) => !excludedIds.has(p.id));
     console.log(
-      `  ${pad(a.label, 32)}${String(inFull.length).padStart(10)}${String(caught.length).padStart(18)}`
+      `  ${pad(a.label, 32)}${String(inFull.length).padStart(10)}` +
+        `${String(inFull.length - missed.length).padStart(14)}${String(missed.length).padStart(10)}`
+    );
+    for (const p of missed) residue.push(`${a.label} → ${p.id}`);
+  }
+  if (residue.length > 0) {
+    console.log(
+      `\n  미검출 ${residue.length}건은 전부 §35.7 파서 잔여물이다 — 성분이 아니라 광고·안내\n` +
+        `  문구가 성분 토큰에 붙어 있어서(예: "*리모넨 *에센셜오일에서 자연적으로 발견되는 성분\n` +
+        `  기능성화장품의 경우…") 하나의 긴 토큰이 됐다. 필터가 아니라 수집 데이터 문제다.`
     );
   }
 
-  const noCategory = active.filter((r) => !r.category).length;
   console.log(`\n  참고: category 가 비어 있는 활성 제품 ${noCategory}건 (시나리오 카테고리 매칭 불가)`);
 }
 

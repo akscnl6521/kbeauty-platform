@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-07-27 알레르기·회피 필터를 전성분 전체로 확장
+
+- **fix(safety)**: `filterCandidatesBySafety` 가 알레르겐을 `full_ingredients` 까지 훑는다. 기존엔 `key_ingredients`(기능성 성분 사전으로 골라낸 부분집합)만 봐서 향료·리모넨·리날룰이 구조적으로 안 잡혔다. **랭킹 점수는 무변경** — `key_ingredients` 만 쓴다. 추천 풀 자격(`incomplete_info`) 기준도 무변경.
+- **feat(safety)**: `allergenMatch.ts` — 안전 필터 전용 매처. 기존 «부분 문자열 포함» 을 전성분에 그대로 쓰면 `alcohol` 이 `cetearylalcohol` 에 포함돼 지방 알코올이 변성알코올로 오탐된다(실측 15건, 87건 중 22건이 잘못 제외될 뻔). INCI 는 수식어가 머리명사 앞에 오므로 **접두 관계**로 판정한다. `Ethylhexylglycerin` ≠ `Glycerin` 오탐 2건도 같이 해소. 랭킹이 쓰는 `findMatchByCanonical` 은 건드리지 않음.
+- **feat(aliases)**: 향료 유래 표시 알레르겐 한글↔영문 17쌍 추가(리모넨↔Limonene 등). 전부 `ingredients` 테이블(식약처 원료성분정보)에서 확인한 쌍만 넣었고, 확인 안 된 4개는 넣지 않았다.
+- **커버리지(활성 106건 중 성분정보 있는 87건)**: 향료 3→21/23 · 변성알코올 2→3/3 · 리모넨 0→14/14 · 리날룰 0→13/13. 남은 2건은 §35.7 파서 잔여물(광고 문구가 성분 토큰에 붙음) — 대기열.
+- **회귀**: 제외 집합 단조 증가(dry-run 회귀 0건), 근거가 원문에 없는 제외 0건. `npm run test:allergen-full-ingredients` 신설(한글↔영문 17쌍 양방향 + 오탐 4종 포함).
+- **도구**: `check:allergen-expansion-dryrun` — 코드 변경 없이 세 방식(현재 / 전성분+포함 / 전성분+접두) 영향 비교.
+
 ## 2026-07-27 추천 품질 검증 — key_ingredients 미채움 수정 · 알레르겐 커버리지 결함 보고
 
 - **fix(pipeline)**: `product-activate.ts` 가 활성화 시 `key_ingredients` 를 함께 채운다. 추천·안전 필터는 `key_ingredients` 만 읽는데 수집기는 `full_ingredients` 만 채워서, 수집된 제품이 활성화돼도 매 시나리오에서 `incomplete_info` 로 제외되고 있었다(활성 106건 중 60건).

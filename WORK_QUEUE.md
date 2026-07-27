@@ -109,8 +109,10 @@ notes: |
   2026-07-27 품질 검증(npm run check:recommendation-scenarios): 활성 106건으로 KR 시나리오 6종 실행.
   수집기가 key_ingredients 를 안 채워 60건이 추천에서 제외되던 문제 수정·백필 41건 완료.
   대기 중(손대지 않음): sioris 24건(성분 이미지뿐) · 에스쁘아 8 / 미쟝센 4(오퍼 없음) · COSRX 9건 비활성.
-  승인 대기: 안전 필터가 full_ingredients 를 안 봐서 향료 40건 중 3건만 걸러짐 — filterCandidatesBySafety 확장 여부.
-  대기열: 활성 44건(abib 43 · 아로마티카 1) category 미채움 → 시나리오 카테고리 매칭 불가.
+  2026-07-27 알레르겐 필터 전성분 확장 완료(승인 후). 커버리지 향료 3→21/23 · 리모넨 0→14/14.
+  확장이 새로 만들 뻔한 오탐 2종(지방 알코올 15건, Ethylhexylglycerin 2건)을 접두 매처로 같이 해소.
+  대기열: 활성 44건(abib 43 · 아로마티카 1) category 미채움 → 시나리오 카테고리 매칭 불가. ← 다음 작업
+  대기열: §35.7 파서 잔여물 — 광고 문구가 성분 토큰에 붙어 알레르겐 2건 미검출.
 
 ### TASK WQ-G-prelaunch-integration
 

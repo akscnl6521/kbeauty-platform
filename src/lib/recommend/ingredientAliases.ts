@@ -206,6 +206,31 @@ export const INGREDIENT_ALIAS_GROUPS: readonly (readonly string[])[] = [
     "フレグランス",
   ],
   ["Essential Oil", "에센셜 오일", "精油"],
+
+  // ── 향료 유래 표시 알레르겐 ────────────────────────────────────────────────
+  // 국내 전성분은 한글 음역으로 적히는데(«리모넨»), 사용자·시나리오는 영문으로
+  // 입력한다(«Limonene»). 둘을 잇지 않으면 알레르기 필터가 통과시켜 버린다.
+  // Staging 실측: 리모넨 함유 19건 중 3건, 리날룰 18건 중 4건만 걸렸다.
+  //
+  // 한글↔영문 쌍은 전부 `ingredients` 테이블(식약처 화장품 원료성분정보 적재분)
+  // 에서 확인한 것이다. 거기서 확인되지 않은 이름은 넣지 않았다.
+  ["Limonene", "리모넨"],
+  ["Linalool", "리날룰"],
+  ["Citronellol", "시트로넬올"],
+  ["Geraniol", "제라니올"],
+  ["Citral", "시트랄"],
+  ["Eugenol", "유제놀"],
+  ["Coumarin", "쿠마린"],
+  ["Farnesol", "파네솔"],
+  ["Cinnamal", "신남알"],
+  ["Hexyl Cinnamal", "헥실신남알"],
+  ["Cinnamyl Alcohol", "신나밀알코올"],
+  ["Benzyl Alcohol", "벤질알코올"],
+  ["Benzyl Benzoate", "벤질벤조에이트"],
+  ["Benzyl Salicylate", "벤질살리실레이트"],
+  ["Hydroxycitronellal", "하이드록시시트로넬알"],
+  ["Butylphenyl Methylpropional", "부틸페닐메틸프로피오날"],
+  ["Alpha-Isomethyl Ionone", "알파-아이소메틸아이오논"],
 ] as const;
 
 let aliasLookup: Map<string, string> | null = null;

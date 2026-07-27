@@ -181,6 +181,11 @@ export interface RankableProduct {
   key_ingredients?: string[] | string | null;
   /** 일본어 성분 표기가 있으면 매칭에 함께 사용 */
   key_ingredients_ja?: string[] | string | null;
+  /**
+   * 제품이 선언한 전성분(INCI). **알레르기·회피 필터 전용** —
+   * 랭킹 점수는 `key_ingredients` 만 쓴다(가중치 변경 없음).
+   */
+  full_ingredients?: string[] | string | null;
   /** 피부 고민 태그 (문자열 또는 DB 배열) */
   skin_concern?: string | string[] | null;
   /** 피부 톤 태그 (문자열 또는 DB 배열) */
@@ -224,6 +229,7 @@ export interface CandidateProduct extends RankableProduct {
   skin_tone: string | string[] | null;
   key_ingredients: string[] | null;
   key_ingredients_ja: string[] | null;
+  full_ingredients: string[] | null;
   price_usd: number | null;
   recommendation_reason: string | null;
   recommendation_reason_ko: string | null;

@@ -24,6 +24,8 @@ const CANDIDATE_PRODUCT_COLUMNS = [
   "skin_tone",
   "key_ingredients",
   "key_ingredients_ja",
+  // 알레르기·회피 필터가 전성분까지 훑기 위해 필요 (랭킹 점수에는 안 쓴다)
+  "full_ingredients",
   "price_usd",
   "recommendation_reason",
   "recommendation_reason_ko",
@@ -74,6 +76,7 @@ type ProductRowRaw = {
   skin_tone?: unknown;
   key_ingredients?: unknown;
   key_ingredients_ja?: unknown;
+  full_ingredients?: unknown;
   price_usd?: unknown;
   recommendation_reason?: unknown;
   recommendation_reason_ko?: unknown;
@@ -167,6 +170,7 @@ export function mapRowToCandidateProduct(
     skin_tone: asConcernOrToneField(row.skin_tone),
     key_ingredients: asIngredientArray(row.key_ingredients),
     key_ingredients_ja: asIngredientArray(row.key_ingredients_ja),
+    full_ingredients: asIngredientArray(row.full_ingredients),
     price_usd: asNullableNumber(row.price_usd),
     recommendation_reason: asNullableString(row.recommendation_reason),
     recommendation_reason_ko: asNullableString(row.recommendation_reason_ko),
