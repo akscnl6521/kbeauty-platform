@@ -659,6 +659,53 @@ Staging은 `mailer_autoconfirm: true`라 **로컬 dev + Staging으로 실 인증
 - **② 두피 사진(뒷머리 각도)** — 미착수. `CaptureAngle`이 `front|left45|right45` 3종뿐이라 §22.2의 5각도 확장과 함께 처리하는 편이 자연스럽다.
 - 제품 데이터: 두피·헤어 카테고리 **공개 제품 0건**. 랭커·카테고리·안전 규칙은 준비됐지만 **추천할 실물이 없다**. 단계 6.5 카테고리 확장이 선행되어야 사용자에게 의미가 생긴다.
 
+## 30. 두피·헤어 1순위 실수집 (2026-07-27)
+
+`docs/product-sourcing-policy.md` 신설 후 1순위(브랜드 직판몰)만으로 실제 수집.
+
+### 30-1. 정책 문서 신설
+
+1·2순위는 `MASTER_PLAN §35.4`를 참조만 하고 중복 서술하지 않았다. 새로 쓴 것은 3순위(오픈 DB)와 4순위(라벨 OCR)뿐이다.
+
+- **3순위 오픈 DB**: `discovered` → `needs_review` 까지만. **단독 `verified` 절대 불가**(누구나 편집 가능 → §17 위반). 가격·재고 사용 금지.
+- **4순위 라벨 OCR**: `needs_review` 고정. OCR 오독이 성분명을 쪼갠다(§35.7 화학명 내부 쉼표).
+- **제약 발견**: `source_type` CHECK 에 **`label_ocr` 이 없다**(허용값 10개 고정). OCR 은 `official_label`, 오픈 DB 는 `other` 를 쓰고, 전용 값이 필요하면 migration 으로 확장한다.
+
+### 30-2. 1순위 도달성 실측
+
+두피·헤어 후보 14건(얼굴 오탐 제외)의 `discovered_url` 을 직접 확인:
+
+| 결과 | 건수 |
+|---|---|
+| **JSON-LD 오퍼까지 노출** | **9** (COSRX·ROUND LAB·Lador·mise en scène) |
+| 404 (구 URL) | 3 |
+| robots 차단 | 1 (RYSES) |
+| 오퍼 없음 | 1 (Dr.Jart+) |
+
+### 30-3. 실수집 결과 — draft 5건 생성, 활성화 0건
+
+`scripts/collect-scalp-hair-tier1.ts` 신설. 기존 파이프라인 함수만 호출하고 게이트·점수 공식은 건드리지 않았다.
+
+| 제품 | 성분 링크 | 오퍼 | 잔여 차단 |
+|---|---|---|---|
+| ROUND LAB Pine Calming Cica Shampoo | 12 (미매칭 3) | **검증 1** | `quality_grade_C` **만** |
+| Lador 하이드로 LPP 트리트먼트 ×2 | 19 (미매칭 12) | 삽입 1 | C + verified_offer_missing |
+| mise en scène 리본드 트리트먼트 | 27 (미매칭 21) | 삽입 1 | C + verified_offer_missing |
+| mise en scène 헤어젤 | 5 (미매칭 15) | 삽입 1 | C + verified_offer_missing |
+
+**products 72 → 77 · product_ingredients 1996 → 2078 · product_offers 95 → 100.** 활성 제품은 28로 변동 없다 — 게이트를 못 넘은 것은 §35.6대로 `needs_review` 로 남는다.
+
+**ROUND LAB 은 verified offer 와 구조화 성분을 모두 갖췄고 `quality_grade_C` 하나만 남았다.** 점수는 0.5~0.65 구간이며, 게이트를 손대지 않고 올리려면 이미지·가격·고민 태그 등 필드 완성도를 더 채워야 한다.
+
+### 30-4. 스스로 만든 결함 2건 — 수정 완료
+
+1. **카테고리 임의 기본값**: 추출 실패 시 `"shampoo"` 를 넣어 헤어젤·트리트먼트까지 샴푸로 기록됐다. 방금 쓴 정책의 «확인되지 않은 필드는 비워 둔다» 위반. 제품명 유추 함수로 바꾸고 모르면 `null` 을 넣도록 고친 뒤, 이미 들어간 5건(id 73~77)의 카테고리를 실제 유형으로 교정했다.
+2. **성분 링크 누락**: 첫 실행에서 `linkProductIngredients` 를 빠뜨려 `structured_ingredients_missing` 이 떴다. 추가 후 해소.
+
+### 30-5. 다음 병목
+
+`extract_failed` 7건은 원시 fetch 로는 JSON-LD 가 보이는데 추출기가 거부한다 — 추출기 쪽 조사 필요. 활성화까지 가려면 **품질 점수(이미지·가격·태그 완성도)** 를 채우는 작업이 남는다.
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |
