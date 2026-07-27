@@ -1180,6 +1180,56 @@ miseenscene 3 · 기타 9. 전부 HTML에 사용법 텍스트가 없다. cosrx.c
 **넘길 준비가 된 재사용 자산**: `src/lib/a11y/contrast.ts` ·
 `src/components/admin/StatusMark.tsx` (§26-16). 전달 시점은 사용자가 안내.
 
+### 26-22. 브랜드 대표 모델 레퍼런스 등록 (2026-07-27)
+
+이후 모든 시연 영상·이미지 생성 시 **얼굴 일치 기준**으로 참조할 고정 모델
+레퍼런스를 등록했다.
+
+**원본**: `kbeauty-platform/ai모델` (원본 유지, 이동하지 않음)
+
+**지시는 6장이었으나 폴더에는 파일 11개가 있었고, 그중 2쌍이 바이트 단위
+완전 중복이라 고유 이미지는 9장이었다.** 어느 3장을 뺄지는 판단 대상이라
+임의로 고르지 않고 **9장 전부 보존·등록**했다. 뺄 것이 있으면 지시 바람.
+
+정리 위치: `data/model-assets/kbm-main-model/`
+
+| 파일 | 각도 |
+|---|---|
+| `ref-01-profile-right-updo.png` | 오른쪽 완전 측면 |
+| `ref-02-profile-left-updo.png` | 왼쪽 준측면 |
+| `ref-03-three-quarter-right-gaze-away.png` | 3/4 우향, 시선 카메라 밖 |
+| `ref-04-three-quarter-left-gaze-camera.png` | 3/4 좌향, 시선 카메라 |
+| `ref-05-three-quarter-left-tilt.png` | 3/4 좌향, 고개 기울임 |
+| `ref-06-three-quarter-left-upright.png` | 3/4 좌향, 상체 정면 |
+| `ref-07-front-neutral.png` | 정면 |
+| `ref-08-front-hand-chin-left.png` | 정면, 손 턱 근처(좌) |
+| `ref-09-front-hand-chin-right.png` | 정면, 손 턱 근처(우) |
+
+**`manifest.json`** — 생성일 2026-07-27, 도구 «ChatGPT 이미지 생성»,
+용도(브랜드 대표 모델), `sourceType: ai_generated`, 이미지별 sha256, 그리고
+**얼굴 정체성 고정 프롬프트 전문**을 원문 그대로 보존했다. 원문의 오타
+(`깆누`→기준, `신뢰감으`→신뢰감을)도 고치지 않았다 — 실제 생성에 사용된
+문자열이 재현의 기준이기 때문이다.
+
+**media_assets 등록** (`npm run media:register-model-assets -- --write`)
+
+```
+scope                = brand_general      media_type = image
+source_type          = platform_original  (자체 생성 — storage_url이 허용되는 유일한 계열)
+is_ai_generated      = true
+content_relationship = ai_generated       (스키마 CHECK가 강제)
+disclosure           = "AI 생성 콘텐츠입니다. 실존 인물이 아닙니다."
+verification_status  = needs_review       ← 자동 공개 아님
+```
+
+Storage: 신규 **비공개** 버킷 `model-assets` 생성 후 업로드.
+결과 — 자산 9 · 권리 9(`owned`, 자체 생성) · 감사 로그 9 ·
+`media_assets_publishable` **0행(공개 안 됨)** · 재실행 시 등록 0건(멱등).
+
+> §36.3상 AI 생성 이미지는 실존 인물로 오인되지 않아야 한다. 메타데이터의
+> `disclosure`는 등록했으나, **화면에 노출할 때의 표기는 별도 작업**이다
+> (이 레퍼런스는 사용자 화면용이 아니라 생성 기준용이므로 현재는 무관).
+
 ---
 
 *갱신 이력은 git 커밋 로그 참고. 이 파일이 최신 상태 요약의 단일 진실.*

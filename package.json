@@ -54,6 +54,7 @@
     "test:usage-guide-review-policy": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/usage-guide-review-policy-selftest.ts",
     "e2e:usage-guide-review-staging": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/e2e-usage-guide-review-staging.ts",
     "verify:usage-guides-staging": "node scripts/verify-usage-guides-staging.mjs",
+    "media:register-model-assets": "node scripts/register-model-reference-assets.mjs",
     "media:discover-channels": "node scripts/discover-brand-official-channels.mjs",
     "media:collect-category-videos": "npx --yes tsx scripts/collect-category-common-videos.ts",
     "media:ingest-category-videos": "node scripts/ingest-category-common-videos.mjs",
