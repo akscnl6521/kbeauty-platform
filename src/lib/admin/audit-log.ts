@@ -24,6 +24,9 @@ export type AuditAction =
   | "verification_rejected"
   | "verification_needs_review"
   | "workflow_status_changed"
+  // 내려졌던 제품을 다시 공개한 것. 사람이 내린 결정을 되돌리는 조작이라
+  // 최초 검증(`verification_approved`)과 구분해서 남긴다.
+  | "product_reactivated"
   | "pipeline_operation_settings_updated";
 
 type AuditChangeType = "status" | "source" | "other";
@@ -36,6 +39,7 @@ function mapChangeType(action: AuditAction): AuditChangeType {
     case "verification_rejected":
     case "verification_needs_review":
     case "verification_review_started":
+    case "product_reactivated":
       return "status";
     case "discovery_candidate_created":
     case "candidate_imported_from_url":
