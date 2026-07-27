@@ -1,11 +1,74 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   K-Beauty Match — foundation
+   Baseline palette is fixed by design-system/MASTER.md and must not drift:
+     --background #faf7f5 / --foreground #1a1a1a / --brand #c2185b
+   Everything else below is derived from that warm-paper base so the whole
+   product stays one material instead of a pile of one-off hex values.
+   --------------------------------------------------------------------------- */
+
 :root {
+  /* Baseline (locked) */
   --background: #faf7f5;
   --foreground: #1a1a1a;
   --brand: #c2185b;
+
+  /* Brand support */
+  --brand-deep: #9d1449;
+  --brand-line: #eccfdb;
+  --brand-tint: #f8ecf1;
+
+  /* Warm neutral ink — replaces cool `text-gray-*` on paper */
+  --ink: #1a1a1a;
+  --ink-2: #4a4038;
+  --ink-3: #7a6c62;
+
+  /* Surfaces and rules */
+  --surface: #ffffff;
+  --surface-sunken: #f4ede7;
+  --line: #e7ddd5;
+  --line-strong: #d9cabd;
+
+  /* Semantic — one job each (design-system/MASTER.md "Semantic" table) */
+  --guidance: #6b5a4c;
+  --progress: #45654f;
+  --caution: #9a6118;
+  --professional: #8c2f39;
+  --confidence: #3f5a6b;
+  --sponsored: #665c51;
+
+  /* Type roles. `--kb-` prefixed because `--font-*` is a Tailwind theme
+     namespace — declaring `--font-display` here would collide with the theme
+     mapping below and resolve to itself. */
+  --kb-font-display: "Fraunces", "Gowun Batang", "Iowan Old Style", Georgia,
+    serif;
+  --kb-font-body: "DM Sans", "IBM Plex Sans KR", system-ui, -apple-system,
+    sans-serif;
+
+  /* Type scale — fluid, mobile first */
+  --step--1: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-0: 1rem;
+  --step-1: clamp(1.0625rem, 1.03rem + 0.18vw, 1.1875rem);
+  --step-2: clamp(1.3125rem, 1.23rem + 0.42vw, 1.625rem);
+  --step-3: clamp(1.625rem, 1.44rem + 0.92vw, 2.375rem);
+  --step-4: clamp(2.125rem, 1.68rem + 2.2vw, 3.5rem);
+
+  /* Layout */
   --site-header-height: 3.5rem; /* 56px — mobile */
   --site-content-max: 72rem; /* max-w-6xl */
+  --site-prose-max: 38rem; /* comfortable Korean reading measure */
+  --site-gutter: clamp(1.25rem, 5vw, 2.5rem);
+  --section-y: clamp(3.5rem, 9vw, 7rem);
+
+  /* Shape and elevation — paper, not glass. `--kb-` prefixed so these do not
+     overwrite Tailwind's own `--radius-*` / `--shadow-*` theme values, which
+     existing `rounded-*` / `shadow-*` classes across the app still rely on. */
+  --kb-radius-sm: 6px;
+  --kb-radius-md: 10px;
+  --kb-radius-lg: 18px;
+  --kb-shadow-paper: 0 1px 2px rgba(42, 28, 20, 0.04),
+    0 12px 28px -20px rgba(42, 28, 20, 0.22);
 }
 
 @media (min-width: 768px) {
@@ -17,19 +80,111 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--background);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-line: var(--brand-line);
+  --color-brand-tint: var(--brand-tint);
+  --color-guidance: var(--guidance);
+  --color-progress: var(--progress);
+  --color-caution: var(--caution);
+  --color-professional: var(--professional);
+  --color-confidence: var(--confidence);
+  --color-sponsored: var(--sponsored);
+
+  --font-sans: var(--kb-font-body);
+  --font-display: var(--kb-font-display);
+
+  --text-step--1: var(--step--1);
+  --text-step-0: var(--step-0);
+  --text-step-1: var(--step-1);
+  --text-step-2: var(--step-2);
+  --text-step-3: var(--step-3);
+  --text-step-4: var(--step-4);
 }
 
 html {
   scroll-padding-top: calc(var(--site-header-height) + 0.75rem);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "DM Sans", system-ui, sans-serif;
+  font-family: var(--kb-font-body);
+  font-size: var(--step-0);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
+
+/* Korean wraps by character by default, which breaks 어절 mid-word and makes
+   long copy read as ragged. `keep-all` keeps each 어절 intact; `break-word`
+   stays as the escape hatch so long INCI strings and URLs can still wrap
+   instead of overflowing. Scoped to the public journey — admin tables keep the
+   default so dense cells never grow past their column. */
+.public-main,
+.kb-prose {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* --- Type roles ----------------------------------------------------------- */
+
+.kb-display {
+  font-family: var(--kb-font-display);
+  font-weight: 600;
+  font-variation-settings: "opsz" 96, "SOFT" 20, "WONK" 0;
+  letter-spacing: -0.015em;
+  line-height: 1.22;
+  color: #2a1c14;
+}
+
+/* Eyebrow: a section's index label, not decoration — it names the stage the
+   reader is in. Letterspaced small caps read as editorial, not as a chip. */
+.kb-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.kb-prose {
+  max-width: var(--site-prose-max);
+}
+
+.kb-numeric {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* --- Layout --------------------------------------------------------------- */
+
+.kb-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--site-content-max);
+  padding-inline: var(--site-gutter);
+}
+
+.kb-section {
+  padding-block: var(--section-y);
+}
+
+.kb-rule {
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+/* --- Surfaces ------------------------------------------------------------- */
 
 .kb-surface {
   background:
@@ -38,21 +193,141 @@ body {
     linear-gradient(180deg, #fbf7f3 0%, #f7f1ea 48%, #faf7f5 100%);
 }
 
-.kb-display {
-  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
-  font-weight: 650;
-  color: #2a1c14;
-}
-
 .kb-noise {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
 }
 
+/* --- Actions -------------------------------------------------------------- */
 
-/* Focus for keyboard users */
+.kb-cta,
+.kb-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding-inline: 1.75rem;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  text-align: center;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
+}
+
+.kb-cta {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: var(--kb-shadow-paper);
+}
+
+.kb-cta:hover {
+  background: var(--brand-deep);
+}
+
+.kb-cta-secondary {
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink-2);
+}
+
+.kb-cta-secondary:hover {
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+
+.kb-cta:active,
+.kb-cta-secondary:active {
+  transform: translateY(1px);
+}
+
+/* --- Signature: the care scale -------------------------------------------
+   A hairline rail with ticks at the product's real follow-up cadence
+   (MASTER_PLAN §20 — 3 / 7 / 15 / 30 days). It is used wherever the page has
+   to say "understanding becomes a plan you keep", so the marks always carry
+   information; never place it as ornament.
+   -------------------------------------------------------------------------- */
+
+.kb-scale {
+  position: relative;
+}
+
+.kb-scale__track {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.kb-scale__marks {
+  position: relative;
+  height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Each mark sits at its true share of the window (`--at`), so the marks bunch
+   up early and spread out later — which is the actual shape of the cadence. */
+.kb-scale__mark {
+  position: absolute;
+  top: 0;
+  left: var(--at);
+  transform: translateX(-50%);
+  padding-top: 0.875rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+
+.kb-scale__mark::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 0.5rem;
+  background: var(--line-strong);
+}
+
+/* Pin the outer marks inside the rail instead of letting them hang past it. */
+.kb-scale__mark:first-child {
+  transform: none;
+}
+
+.kb-scale__mark:first-child::before {
+  left: 0;
+}
+
+.kb-scale__mark:last-child {
+  transform: translateX(-100%);
+}
+
+.kb-scale__mark:last-child::before {
+  left: auto;
+  right: 0;
+}
+
+/* Reserved for screens that know which check-in is next (e.g. /my). */
+.kb-scale__mark[data-next="true"] {
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.kb-scale__mark[data-next="true"]::before {
+  background: var(--brand);
+  height: 0.75rem;
+}
+
+/* --- Accessibility -------------------------------------------------------- */
+
 :focus-visible {
   outline: 2px solid var(--brand);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 .public-main {
@@ -85,4 +360,15 @@ body {
 .touch-target {
   min-height: 44px;
   min-width: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

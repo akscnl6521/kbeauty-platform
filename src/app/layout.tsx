@@ -42,9 +42,19 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        {/*
+          Type roles (design-system/MASTER.md):
+            display — Fraunces (latin) + Gowun Batang (한글 명조). Korean is the
+              primary script here, so the display face has to carry 한글 itself
+              rather than falling back to whatever the OS ships.
+            body/UI — DM Sans (latin, numerals) + IBM Plex Sans KR (한글).
+            Playfair Display is legacy: still referenced inline by /results,
+              /routine, /analyze and /ingredients. Drop it from this list once
+              those screens move to `.kb-display`.
+        */}
         {/* eslint-disable-next-line @next/next/no-page-custom-font -- this rule targets pages/_document.js single-page loads; the App Router root layout is the correct, app-wide place for this link */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,SOFT,wght@9..144,0..100,400..700&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap"
           rel="stylesheet"
         />
         <script
@@ -53,7 +63,9 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="antialiased bg-[#FAFAF8] text-[#1A1A1A] font-['DM_Sans',system-ui,sans-serif]">
+      {/* Canvas, ink and font stack all come from globals.css tokens — hard-coded
+          body classes used to shadow them with a slightly different paper. */}
+      <body>
         <PublicChrome>{children}</PublicChrome>
       </body>
     </html>
