@@ -13,7 +13,7 @@
  *   node scripts/register-model-reference-assets.mjs           # dry run
  *   node scripts/register-model-reference-assets.mjs --write    # upload + register
  */
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createClient } from "@supabase/supabase-js";
