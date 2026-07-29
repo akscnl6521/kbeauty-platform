@@ -157,11 +157,40 @@ Cafe24 기반 자사몰은 이번 세션에서 검증된 경로다(플랫폼 감
 
 ---
 
-## 7. 사람 결정이 필요한 것
+## 7. 확정된 결정 (2026-07-28)
 
-1. **단계 0 쿼리 실행** — (나) 결과에 따라 경로 A/B 가 갈린다. 이것부터.
-2. **단종·판매종료 제품 처리** — 189건은 오래된 시드다. 국내 판매가 끝난 제품은
-   오퍼가 영영 안 생긴다. 그런 건 비활성 유지인지, 정리(삭제)인지 결정 필요.
-3. **투입 범위** — 전수 189건인지, 브랜드 상위 N개만인지. 수율 전망상 전수는
-   비용 대비 효과가 낮을 수 있다.
-4. **Production 쓰기 승인** — 단계 3 진입 시점.
+1. **전수 189건 대상.** 상위 N개로 임의로 자르지 않는다.
+2. **오퍼를 끝내 못 얻은 것은 삭제하지 않고 표시만 한다** — `unavailable` / `discontinued`.
+   표시할 자리가 없어 컬럼을 신설해야 한다(아래 §8).
+3. **Production 쓰기는 아직 승인되지 않았다.** Staging 게이트 통과분 목록까지만 보고한다.
+4. **`price_usd` 는 오퍼 가격으로 쓰지 않는다.** 검증된 판매처 가격이 아니다.
+
+## 8. 결정 2 를 위해 필요한 스키마 (미적용)
+
+표시할 자리가 없다는 것을 확인했다:
+
+| 후보 | 왜 안 되는가 |
+|---|---|
+| `product_offers.stock_status` | `in_stock` / `out_of_stock` / `unknown` 만 허용. 게다가 **189건은 오퍼가 0건**이라 표시할 행 자체가 없다 |
+| 없는 오퍼를 `out_of_stock` 으로 생성 | 판매처를 지어내는 것 — §5-3 위반. `purchase_url` 도 가격도 없다 |
+| `products.active` | 노출 여부일 뿐 «왜» 를 담지 못한다 |
+
+그래서 제품에 상태 컬럼을 둔다:
+[`DRAFT_DO_NOT_APPLY_20260728_products_availability_status.sql`](../../supabase/migrations/DRAFT_DO_NOT_APPLY_20260728_products_availability_status.sql)
+
+- `availability_status` — `NULL`(미판단) · `unknown`(재시도 대상) · `unavailable`(현재 판매처 미확인) · `discontinued`(단종 확인)
+- `availability_checked_at` · `availability_evidence` — **근거 없이 status 만 채우지 않는다**
+- **노출 판단에는 쓰지 않는다.** 노출은 지금처럼 `active` + `verified_at` + verified 오퍼로만 결정한다
+
+`unavailable` 과 `discontinued` 를 나누는 이유: 전자는 재시도 큐에 남기고 후자는 뺀다.
+합치면 단종 제품을 영원히 재크롤하게 된다.
+
+## 9. 사람 결정이 필요한 것
+
+1. **단계 0 쿼리 실행** — (나) 결과에 따라 경로 A/B 가 갈린다. **이것부터.**
+   에이전트 세션에 Production 자격증명이 없어 실행하지 못한다. 사람이 SQL Editor
+   에서 돌리거나, `.env.local` 에 `PRODUCTION_SUPABASE_URL` + `PRODUCTION_SUPABASE_ANON_KEY`
+   를 넣어 주면 이후로는 에이전트가 계속 조회한다.
+2. **`availability_status` 마이그레이션 적용 승인** — §8. 결정 2 를 실행하려면 필요하다.
+   Staging 먼저 적용하고, Production 은 단계 3 승인 시 함께.
+3. **Production 쓰기 승인** — 단계 3 진입 시점. 아직 보류 상태.
