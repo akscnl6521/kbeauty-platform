@@ -190,6 +190,7 @@
     "test:face-track-filter": "tsx scripts/face-track-filter-selftest.ts",
     "test:allergen-full-ingredients": "tsx scripts/allergen-full-ingredients-selftest.ts",
     "check:allergen-audit-sql-validate": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/validate-allergen-audit-sql.ts",
+    "check:tier1-feasibility": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/dryrun-tier1-brand-feasibility.ts",
     "check:production-offer-gap": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/survey-production-offer-gap.ts",
     "check:offer-missing-survey": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/survey-offer-missing-products.ts",
     "check:allergen-exposure-audit": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/audit-allergen-exposure.ts",

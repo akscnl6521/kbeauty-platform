@@ -33,6 +33,10 @@ export const KR_BRAND_SEED_REGISTRY: KrBrandSeedEntry[] = [
   { brandId: "klairs", canonicalBrand: "Klairs", officialDomains: ["klairs.com"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
   { brandId: "heimish", canonicalBrand: "heimish", officialDomains: ["heimish.com"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
   { brandId: "dr-jart", canonicalBrand: "Dr.Jart+", officialDomains: ["drjart.com"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
+  // 2026-07-28 추가 — Staging 에서 118건 수집에 성공한 브랜드인데 레지스트리에
+  // 빠져 있어 「도메인 없음」으로 잘못 판정됐다. abib.co.kr · abib.com 둘 다
+  // HTTP 200 · Cafe24 · robots.txt 응답 확인(제품 경로 차단 없음).
+  { brandId: "abib", canonicalBrand: "Abib", officialDomains: ["abib.co.kr", "abib.com"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
   { brandId: "laneige", canonicalBrand: "LANEIGE", officialDomains: ["laneige.com", "laneige.co.kr"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
   { brandId: "innisfree", canonicalBrand: "innisfree", officialDomains: ["innisfree.com", "innisfree.co.kr"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
   { brandId: "missha", canonicalBrand: "MISSHA", officialDomains: ["missha.com", "missha.co.kr"], country: "KR", language: "ko", allowsAutomation: false, parserType: "brand_official", rateLimitPerMinute: 6, lastTermsReviewAt: null },
