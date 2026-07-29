@@ -24,10 +24,16 @@
 -- -----------------------------------------------------------------------------
 -- 값의 뜻
 -- -----------------------------------------------------------------------------
---   NULL           아직 판단 안 함 (기본값). 수집 대상으로 남아 있다.
---   unknown        수집을 시도했으나 판매처를 확인하지 못함. 재시도 대상.
---   unavailable    현재 국내 판매처가 확인되지 않음. 재입고·재판매 가능성 있음.
---   discontinued   단종·판매종료가 확인됨. 더 쫓지 않는다.
+--   NULL                아직 판단 안 함 (기본값). 수집 대상으로 남아 있다.
+--   unknown             수집을 시도했으나 판매처를 확인하지 못함. 재시도 대상.
+--   unavailable         현재 국내 판매처가 확인되지 않음. 재입고·재판매 가능성 있음.
+--   discontinued        단종·판매종료가 확인됨. 더 쫓지 않는다.
+--   blocked_by_policy   제품에는 문제가 없으나 **우리 정책상 대상이 아님**.
+--                       2026-07-28 결정: §29 K-뷰티 스코프 밖 브랜드(The Ordinary·
+--                       Clinique·Bioderma 등)는 수집하지 않는다. 판매 여부와 무관한
+--                       사유라 unavailable/discontinued 와 반드시 구분한다 —
+--                       섞으면 나중에 «판매처가 없어서» 인지 «안 하기로 해서» 인지
+--                       알 수 없게 된다.
 --
 -- unavailable 과 discontinued 를 나누는 이유: 전자는 재시도 큐에 남기고 후자는
 -- 빼기 위해서다. 둘을 합치면 단종 제품을 영원히 재크롤하게 된다.
@@ -37,7 +43,8 @@
 
 ALTER TABLE products
   ADD COLUMN IF NOT EXISTS availability_status text
-    CHECK (availability_status IN ('unknown', 'unavailable', 'discontinued'));
+    CHECK (availability_status IN
+      ('unknown', 'unavailable', 'discontinued', 'blocked_by_policy'));
 
 ALTER TABLE products
   ADD COLUMN IF NOT EXISTS availability_checked_at timestamptz;
@@ -48,7 +55,7 @@ ALTER TABLE products
   ADD COLUMN IF NOT EXISTS availability_evidence text;
 
 COMMENT ON COLUMN products.availability_status IS
-  '판매처 확보 실패 사유 표시. NULL=미판단, unknown=재시도 대상, unavailable=현재 판매처 미확인, discontinued=단종 확인. 노출 판단에는 쓰지 않는다(노출은 active+verified_at+verified offer).';
+  '수집 대상에서 빠진 사유. NULL=미판단, unknown=재시도 대상, unavailable=현재 판매처 미확인, discontinued=단종 확인, blocked_by_policy=K-뷰티 스코프 밖 등 정책상 제외. 노출 판단에는 쓰지 않는다(노출은 active+verified_at+verified offer).';
 COMMENT ON COLUMN products.availability_evidence IS
   '위 판단의 근거(확인한 URL·응답 요약). 근거 없이 status 만 채우지 않는다.';
 
