@@ -217,16 +217,30 @@ async function main() {
     // `product_ingredients` 는 이름이 아니라 `ingredient_id`(FK)를 받으므로,
     // 사전에 이미 있는 성분만 연결한다. 없는 성분을 만들어 넣지 않는다 —
     // 07-25 에 사전에 그림자 행을 만들었다가 296건을 정리한 적이 있다.
+    // 순번은 기존 링크(admin_entry 등) 뒤로 이어붙인다.
+    // `product_ingredients_order_uidx` 가 (product_id, ingredient_order) 라서
+    // 1 부터 다시 매기면 기존 행과 충돌한다 — 2026-07-29 에 5건이 이렇게 실패했다.
+    const { data: orderRows } = await client
+      .from("product_ingredients")
+      .select("ingredient_order")
+      .eq("product_id", String(pid))
+      .order("ingredient_order", { ascending: false })
+      .limit(1);
+    const baseOrder = Number((orderRows ?? [])[0]?.ingredient_order ?? 0);
+
     const linkRows: Array<Record<string, unknown>> = [];
-    let order = 0;
+    const usedIngredientIds = new Set<number>();
+    let order = baseOrder;
     for (const name of tokens) {
-      order += 1;
       const id = ingredientIdByKey.get(normalizeTextKey(name));
       if (!id) continue;
+      // 같은 성분이 두 토큰에서 잡히면 한 번만 넣는다.
+      if (usedIngredientIds.has(id)) continue;
+      usedIngredientIds.add(id);
       linkRows.push({
         product_id: String(pid),
         ingredient_id: id,
-        ingredient_order: order,
+        ingredient_order: (order += 1),
         source_url: t.purchaseUrl,
         source_type: "official_brand_page",
         verification_status: "approved",
@@ -265,9 +279,40 @@ async function main() {
   for (const t of targets) {
     const matched = matchedByProduct.get(t.productId) ?? 0;
     try {
+      // 수집에서 확인한 것을 그대로 넘긴다. 넘기지 않으면 게이트가 기본 스텁
+      // (카테고리·이미지·설명 전부 null, confidence 0.75)을 쓴다.
+      //
+      // `confidence` 는 실제 근거로 계산한다. 부풀리지 않는다 —
+      //   구조화 API(Shopify /products.json) 에서 왔는가        +0.10
+      //   제품명이 사실상 일치하는가 (포함도 >= 0.95)            +0.10
+      //   전성분이 용매·성분다움 검사를 통과했는가              +0.05
+      const conf = Math.min(
+        0.95,
+        0.70 + 0.10 + (t.similarity >= 0.95 ? 0.1 : t.similarity >= 0.85 ? 0.05 : 0) +
+          ((t.ingredientCount ?? 0) > 0 ? 0.05 : 0)
+      );
       const r = await verifyAndActivateProduct(client, {
         productId: t.productId,
         batchId,
+        extracted: {
+          productName: t.name,
+          brandName: t.brand,
+          canonicalUrl: t.purchaseUrl!,
+          category: null,
+          imageUrl: null,
+          description: t.matchedTitle,
+          fullIngredientsText: null,
+          keyIngredients: [],
+          sizeLabel: null,
+          priceReference: t.price,
+          currency: "USD",
+          availabilityReference: t.inStock ? "in_stock" : null,
+          country: "US",
+          sourceType: "official_site",
+          confidence: conf,
+          extractionMethod: "shopify_products_json",
+          fieldConfidence: {},
+        },
         // 사전에 없어 링크하지 못한 성분은 미매칭으로 정직하게 넘긴다.
         unmatchedIngredientCount: Math.max(0, (t.ingredientCount ?? 0) - matched),
         ambiguousIngredientCount: 0,
