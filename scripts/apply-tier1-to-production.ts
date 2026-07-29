@@ -83,7 +83,9 @@ async function main() {
   const { extractLabeledIngredientsRaw } = await import(
     "@/lib/catalog/enrichment/extractLabeledIngredients"
   );
-  const { parseIngredientList } = await import("@/lib/pipeline/ingredient-normalize");
+  const { parseIngredientList, normalizeTextKey } = await import(
+    "@/lib/pipeline/ingredient-normalize"
+  );
 
   const client: SupabaseClient = createClient(url, key, { auth: { persistSession: false } });
 
@@ -128,7 +130,20 @@ async function main() {
   let ingredientsUpdated = 0;
   let offersInserted = 0;
   let activated = 0;
+  let linksInserted = 0;
+  const matchedByProduct = new Map<number, number>();
   const failures: string[] = [];
+
+  // Production 성분 사전을 한 번만 읽어 이름 → id 로 만든다. 영문·한글 둘 다 건다.
+  const { data: dict } = await client.from("ingredients").select("id,name_en,name_ko");
+  const ingredientIdByKey = new Map<string, number>();
+  for (const row of (dict ?? []) as Array<{ id: number; name_en: string | null; name_ko: string | null }>) {
+    for (const n of [row.name_en, row.name_ko]) {
+      const k = normalizeTextKey(n);
+      if (k && !ingredientIdByKey.has(k)) ingredientIdByKey.set(k, row.id);
+    }
+  }
+  console.log(`  성분 사전 ${ingredientIdByKey.size}개 키 로드`);
 
   for (const [index, t] of targets.entries()) {
     const pid = t.productId;
@@ -184,17 +199,33 @@ async function main() {
     }
     offersInserted += 1;
 
-    // 성분 링크 — 활성화 게이트가 공식 소스 성분 개수를 요구한다
-    const links = tokens.slice(0, 200).map((name) => ({
-      product_id: String(pid),
-      ingredient_name: name,
-      source_url: t.purchaseUrl,
-      source_type: "official_brand_page",
-      verification_status: "approved",
-      verified_at: nowIso,
-    }));
-    const { error: linkErr } = await client.from("product_ingredients").insert(links);
-    if (linkErr) failures.push(`${pid} 성분링크 실패: ${linkErr.code} ${linkErr.message}`);
+    // 성분 링크 — 활성화 게이트가 «공식 소스에서 온 구조화 성분» 개수를 요구한다.
+    // `product_ingredients` 는 이름이 아니라 `ingredient_id`(FK)를 받으므로,
+    // 사전에 이미 있는 성분만 연결한다. 없는 성분을 만들어 넣지 않는다 —
+    // 07-25 에 사전에 그림자 행을 만들었다가 296건을 정리한 적이 있다.
+    const linkRows: Array<Record<string, unknown>> = [];
+    let order = 0;
+    for (const name of tokens) {
+      order += 1;
+      const id = ingredientIdByKey.get(normalizeTextKey(name));
+      if (!id) continue;
+      linkRows.push({
+        product_id: String(pid),
+        ingredient_id: id,
+        ingredient_order: order,
+        source_url: t.purchaseUrl,
+        source_type: "official_brand_page",
+        verification_status: "approved",
+        verified_at: nowIso,
+        source_verified: true,
+      });
+    }
+    if (linkRows.length > 0) {
+      const { error: linkErr } = await client.from("product_ingredients").insert(linkRows);
+      if (linkErr) failures.push(`${pid} 성분링크 실패: ${linkErr.code} ${linkErr.message}`);
+      else linksInserted += linkRows.length;
+    }
+    matchedByProduct.set(pid, linkRows.length);
 
     console.log(
       `  ${String(pid).padStart(4)} ${t.brand.padEnd(18)}${t.name.slice(0, 36).padEnd(38)}성분 ${String(tokens.length).padStart(3)} · $${t.price}`
@@ -203,7 +234,39 @@ async function main() {
     await new Promise((r) => setTimeout(r, 400));
   }
 
-  console.log(`\n  전성분 갱신 ${ingredientsUpdated} · 오퍼 ${offersInserted} · 활성화 ${activated}`);
+  // ── 5. 활성화 — 게이트를 그대로 태운다. 낮추지 않는다.
+  console.log("\n[3] 활성화 (verifyAndActivateProduct)");
+  const { verifyAndActivateProduct } = await import(
+    "@/lib/pipeline/product-verify/product-activate"
+  );
+  const batchId = `tier1-prod-${nowIso}`;
+  for (const t of targets) {
+    const matched = matchedByProduct.get(t.productId) ?? 0;
+    try {
+      const r = await verifyAndActivateProduct(client, {
+        productId: t.productId,
+        batchId,
+        // 사전에 없어 링크하지 못한 성분은 미매칭으로 정직하게 넘긴다.
+        unmatchedIngredientCount: Math.max(0, (t.ingredientCount ?? 0) - matched),
+        ambiguousIngredientCount: 0,
+        safetyConflict: false,
+      });
+      if (r.activated) {
+        activated += 1;
+        console.log(`  ${String(t.productId).padStart(4)} 활성화`);
+      } else {
+        console.log(
+          `  ${String(t.productId).padStart(4)} 보류 — ${r.skippedReason ?? ""} ${r.gateBlockers.join(",")}`
+        );
+      }
+    } catch (e) {
+      failures.push(`${t.productId} 활성화 예외: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+
+  console.log(
+    `\n  전성분 갱신 ${ingredientsUpdated} · 오퍼 ${offersInserted} · 성분링크 ${linksInserted} · 활성화 ${activated}`
+  );
   if (failures.length > 0) {
     console.log(`\n  실패 ${failures.length}건:`);
     for (const f of failures.slice(0, 20)) console.log(`    ${f}`);
