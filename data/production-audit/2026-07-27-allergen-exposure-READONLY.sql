@@ -303,6 +303,42 @@ FROM products;
 
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- 쿼리 3-B — **쿼리 1 의 결과가 유효한지 판정한다** (2026-07-28 추가)
+--
+-- 쿼리 1 이 빈 표로 나오는 경우는 두 가지다. 둘을 구분하지 않으면 «노출 없음»
+-- 이라고 잘못 읽는다:
+--
+--   (가) 진짜로 노출이 없었다                            → 좋은 결과
+--   (나) 애초에 검사할 게 없었다                          → 아무것도 증명하지 못함
+--         · 활성 제품이 없거나
+--         · key_ingredients 가 전부 비어 검사 대상에서 빠졌거나
+--         · full_ingredients 가 전부 비어 «전성분까지 본다» 는 확장이
+--           볼 것이 없었거나
+--
+-- 마지막 열 「둘 다 있음」이 이번 감사가 **실제로 검사한 제품 수**다.
+-- 이 값이 0 이면 쿼리 1 의 빈 결과는 (나)이고, 안전을 확인한 게 아니다.
+-- ─────────────────────────────────────────────────────────────────────────────
+SELECT count(*) FILTER (WHERE active IS TRUE AND verified_at IS NOT NULL)
+         AS "활성 제품",
+       count(*) FILTER (
+         WHERE active IS TRUE AND verified_at IS NOT NULL
+           AND COALESCE(array_length(full_ingredients, 1), 0) > 0
+       ) AS "전성분 있음",
+       count(*) FILTER (
+         WHERE active IS TRUE AND verified_at IS NOT NULL
+           AND (COALESCE(array_length(key_ingredients, 1), 0) > 0
+                OR COALESCE(array_length(key_ingredients_ja, 1), 0) > 0)
+       ) AS "key_ingredients 있음",
+       count(*) FILTER (
+         WHERE active IS TRUE AND verified_at IS NOT NULL
+           AND COALESCE(array_length(full_ingredients, 1), 0) > 0
+           AND (COALESCE(array_length(key_ingredients, 1), 0) > 0
+                OR COALESCE(array_length(key_ingredients_ja, 1), 0) > 0)
+       ) AS "둘 다 있음 = 감사가 실제로 검사한 수"
+FROM products;
+
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- 쿼리 4 — 참고: 얼굴 트랙 밖 제품이 추천 후보에 있는지
 --
 -- 향수·핸드크림·바디 제품은 §29 얼굴 트랙 밖인데, 브랜드 자사몰을 통째로
