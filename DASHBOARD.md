@@ -1731,6 +1731,54 @@ Shopify 메타필드 · 브랜드별 전용 파서 · 사람 검수 큐 중 선�
 `Snail Secretion Filtrate` · `Propolis Extract` 는 **정당한 첫 성분**이다.
 K뷰티는 정제수 대신 식물수·추출물로 시작하는 제품이 많다. 판정기 보완 필요.
 
+## 35. 안 A(Shopify 구조화 소스) 결과 — 활성 2 → 5건 (2026-07-30)
+
+### Shopify 메타필드는 없었다. 대신 **선두 잡음**이 진짜 원인이었다
+
+메타필드 API 는 공개돼 있지 않고, `/products/<handle>.js` 에도 `metafields` 키가 없다.
+`description` 만으로는 24건 중 **3건**밖에 못 얻는다(나머지는 페이지 본문에 있다).
+
+그런데 페이지에서 뽑은 값을 자세히 보니 **목록 자체는 멀쩡하고 앞에 UI 조각이
+붙어 있었다.** 아코디언·탭 페이지에서 라벨 뒤에 닫기 버튼과 소제목이 딸려 온 것이다:
+
+```
+"&times; Full Ingredients Water, Caprylic/Capric..."  →  "Water, Caprylic/Capric..."
+"List: Water, Butylene Glycol..."                     →  "Water, Butylene Glycol..."
+"PEACH ICED TEA: DIISOSTEARYL MALATE..."              →  "DIISOSTEARYL MALATE..."
+```
+
+`stripLeadingNoise` 로 벗겼다. **24건 중 22건이 정상 성분으로 시작**하게 됐다.
+
+### 결과
+
+| 항목 | 이전 | 현재 |
+|---|---:|---:|
+| **활성 제품** | 2 | **5** |
+| product_offers | 2 | 27 |
+| ingredients | 112 | 1,215 |
+| 성분 링크 | 111 | 678 |
+
+신규 활성: `171` SKIN1004 · `86` Anua · `20` Torriden
+
+### 남은 벽 — `ingredient_unmatched`
+
+게이트는 미매칭 **0건**을 요구한다. 미매칭 0건 제품은 4건뿐이다(1~3건 6 · 4건 이상 14).
+
+남은 미매칭은 두 종류다:
+
+1. **진짜 성분인데 사전에 없음** — `Caprylic/Capric Triglyceride` ·
+   `Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer` · `Aqua/Water`
+   (슬래시 표기가 사전과 안 맞는 경우 포함). 사전 보강으로 해결 가능.
+2. **아직 남은 문구 오염** — `2025` · `Radiant Skin The freshest` · `Pore-refining.&emsp`
+   등. id 1(COSRX 센텔라 워터 토너)·id 156(설화수 윤조에센스) 두 페이지가 특히 그렇다.
+
+### 알려진 미해결
+
+- **오래된 성분 링크가 남아 있다.** 링크 삽입에 «이미 있으면 건너뜀» 가드를 둬서,
+  전성분을 새로 뽑아도 링크는 옛 토큰 기준 그대로다. 링크 재생성이 필요하다.
+- 오염 판정기 오탐 — «첫 토큰이 용매가 아니면 오염» 규칙이 `Snail Secretion Filtrate` ·
+  `Houttuynia Cordata Flower/Leaf/Stem Water` 같은 정당한 첫 성분을 잡는다.
+
 ### 차단되지 않은 것 (지시 3번 D단계 착수 가능 범위)
 
 크롤링(node fetch) · Staging 데이터 적재(PostgREST service_role) · 코드·테스트·빌드 ·
