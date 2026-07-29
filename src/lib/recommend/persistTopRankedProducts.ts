@@ -20,6 +20,7 @@ import {
   runScenarioPilotPhase2,
 } from "./scenarios/pilotPhase2";
 import type { CandidateProduct, RankedProduct, Recommendation } from "./types";
+import { normalizeShippingCountry } from "./selectPurchaseLink";
 import {
   CORE_RECOMMEND_OFFER_COUNTRY,
   RANKED_PRODUCTS_STORAGE_KEY,
@@ -30,8 +31,14 @@ import {
 
 export type PersistTopRankedOptions = {
   /**
-   * 참고용 배송 국가.
-   * 핵심 추천 offer 필터는 항상 KR(CORE_RECOMMEND_OFFER_COUNTRY)을 사용한다.
+   * 사용자의 배송 국가. offer 필터가 **이 국가 기준**으로 동작한다.
+   *
+   * 예전에는 이 값을 받아 두고도 offer 필터에는 항상 KR 을 썼다. 그러면 미국
+   * 사용자는 US 판매처가 있는 제품도 «구매처 없음» 으로 보게 된다 — 국가별
+   * 구매처를 제공한다는 설계와 어긋난다.
+   *
+   * 값이 없거나 인식할 수 없으면 KR 로 떨어진다. 기존 동작(한국 사용자)은
+   * 그대로다.
    */
   shippingCountry?: string | null;
 };
@@ -153,11 +160,13 @@ export async function persistTopRankedProducts(
     const rawCandidates = await fetchCandidateProducts({ includeOffers: true });
     const candidates = filterPublicCatalogProducts(rawCandidates);
 
+    // 사용자 국가로 판매처를 고른다. 인식 못 하면 KR (기존 동작).
+    const offerCountry =
+      normalizeShippingCountry(options.shippingCountry) ??
+      CORE_RECOMMEND_OFFER_COUNTRY;
+
     const { eligible: sellable, excludedCount: offerExcludedCount } =
-      filterCandidatesByOfferAvailability(
-        candidates,
-        CORE_RECOMMEND_OFFER_COUNTRY
-      );
+      filterCandidatesByOfferAvailability(candidates, offerCountry);
 
     let pool = sellable;
     if (isRiskLevel(withEvidence)) {
@@ -197,7 +206,7 @@ export async function persistTopRankedProducts(
         topNSaved: top.length,
         riskSoftMode: isRiskLevel(withEvidence),
         padded: false,
-        offerCountry: CORE_RECOMMEND_OFFER_COUNTRY,
+        offerCountry,
       });
     }
 
