@@ -1564,6 +1564,69 @@ Isntree 4 · Abib 4 · Numbuzin 2 · Banila Co 1. `abib.us`·`isntreeglobal.com`
 **정정 대상은 Staging 이 아니라 Production 이다.** id 9·21·26·36·90 은 Production
 `products` 행이라 브랜드 수정은 Production write 에 해당한다 — 승인 대기.
 
+## 32. Production Tier 1 반영 — 오퍼는 성공, 전성분은 **오염되어 되돌림** (2026-07-29)
+
+### 결과
+
+| 항목 | 결과 |
+|---|---|
+| 브랜드 정정 | **4건 성공** (id 9·21·26·36 SKIN1004 → COSRX) |
+| `product_offers` INSERT | **24건 성공** — 총 2 → **26건** |
+| `products.full_ingredients` | 19건 갱신 → **전량 되돌림** (아래 사고) |
+| `product_ingredients` 링크 | 131건 삽입 → **오염 상태로 남아 있음** (정리 승인 대기) |
+| **활성화** | **0건** — 게이트가 전부 막았다 |
+| 활성 제품 | 2 → **2** (변화 없음) |
+
+### 사고 1 — 전성분에 성분이 아닌 문구가 들어갔다
+
+제품 페이지 HTML 에서 전성분을 뽑았는데, `extractLabeledIngredientsRaw` 가 「전성분」
+라벨 대신 **페이지 네비게이션·마케팅 문구**를 잡았다. 24건 중 **18건이 오염**됐다:
+
+```
+"Body From Skin to Hair Care Body Care Hair"   ← 네비게이션 메뉴
+"avoid storing in high temperatures"            ← 보관 주의사항
+"$24 Value Lip Sleeping Mask Nourish"           ← 판촉 문구
+"BENEFITS &bull"                                ← 섹션 제목
+"Travel Sizes Merch Clearance Product Type"     ← 카테고리 목록
+```
+
+성분을 지어낸 것과 같은 결과다(§5-3 위반). **활성화가 0건이라 사용자 노출은 없었다.**
+검증 3종의 «샘플 3건 확인» 에서 걸렸다 — 이 검증이 없었으면 그대로 남았을 것이다.
+
+### 사고 2 — 되돌리기가 과해서 원래 값까지 지웠다
+
+반영 스크립트에는 `.is("full_ingredients", null)` 가드가 있어 이미 값이 있는 제품은
+건드리지 않았다(24건 중 19건만 갱신). 그런데 **되돌리기 스크립트가 그 가드를 고려하지
+않고 24건 전부를 NULL 로 만들어**, 반영 전부터 있던 **5건(id 188·189·190·191·192)의
+전성분이 함께 사라졌다.**
+
+백업 `backups/production_20260729_210138_tier1-24건-반영전.sql` 에서 5건 전부 복구했다.
+현재 `full_ingredients 있음 = 5` 로 **반영 전 상태와 일치**한다.
+
+백업이 없었으면 복구하지 못했다. 상태 변경 전 백업 원칙이 실제로 작동한 사례다.
+
+### 활성화가 0건인 이유 — 게이트는 정상 동작했다
+
+전 24건이 `gate_failed`. 차단 사유:
+
+| 사유 | 건수 | 뜻 |
+|---|---:|---|
+| `quality_grade_C` | 24 | 품질 점수가 허용 등급(A·B) 미달 |
+| `ingredient_unmatched` | 24 | 사전에 없는 성분이 남아 있음 |
+| `structured_ingredients_missing` | 11 | 공식 소스 성분 링크 부족 |
+
+**게이트를 낮추지 않았다.** 오염된 데이터가 활성화되지 않은 것은 게이트가 제 역할을
+한 것이다.
+
+### 발견된 문제 (추가)
+
+| # | 문제 | 상태 |
+|---|---|---|
+| 7 | **HTML 에서 전성분 추출이 Production 에 쓸 만큼 정확하지 않다** | 24건 중 18건 오염. Shopify `/products.json` 의 가격·재고는 구조화돼 있어 정확했지만, 전성분은 페이지 HTML 에서 긁어야 해서 문구가 섞인다. **추출기를 고치기 전에는 전성분 수집을 Production 에 반영하면 안 된다** |
+| 8 | **Production 성분 사전이 112행뿐** (Staging 1,191행) | 매칭 키 152개. 수집 성분이 제품당 8~115개인데 대부분 사전에 없어 `ingredient_unmatched` 로 막힌다. 사전 적재가 선행돼야 한다 |
+| 9 | `product_ingredients` 오염 링크 131건이 Production 에 남아 있다 | 오염된 토큰으로 만든 링크다. 삭제는 승인 대상(대량 DELETE)이라 **정리 승인 대기**. 제품이 비활성이라 노출 영향은 없다 |
+| 10 | `product_ingredients_order_uidx` 중복 오류 3건 | 같은 성분이 두 번 매칭되면 같은 `(product_id, ingredient_id)` 가 두 번 들어간다. 중복 제거 필요 |
+
 ### 차단되지 않은 것 (지시 3번 D단계 착수 가능 범위)
 
 크롤링(node fetch) · Staging 데이터 적재(PostgREST service_role) · 코드·테스트·빌드 ·
