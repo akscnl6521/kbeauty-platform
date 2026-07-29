@@ -131,6 +131,7 @@ async function main() {
   let offersInserted = 0;
   let activated = 0;
   let linksInserted = 0;
+  let offersSkipped = 0;
   const matchedByProduct = new Map<number, number>();
   const failures: string[] = [];
 
@@ -172,8 +173,20 @@ async function main() {
     }
     if ((up ?? []).length > 0) ingredientsUpdated += 1;
 
-    // 오퍼 — 실제 판매 페이지에서 읽은 값만
+    // 오퍼 — 실제 판매 페이지에서 읽은 값만.
+    // 같은 URL 의 오퍼가 이미 있으면 넣지 않는다. 재실행 시 중복이 쌓이는 것을 막는다.
     const host = retailerFromUrl(t.purchaseUrl!);
+    const { data: dup } = await client
+      .from("product_offers")
+      .select("id")
+      .eq("product_id", String(pid))
+      .eq("purchase_url", t.purchaseUrl!)
+      .limit(1);
+    if ((dup ?? []).length > 0) {
+      console.log(`  ${String(pid).padStart(4)} 오퍼 이미 있음 — 건너뜀`);
+      matchedByProduct.set(pid, matchedByProduct.get(pid) ?? 0);
+      offersSkipped += 1;
+    } else {
     const { error: offErr } = await client.from("product_offers").insert({
       product_id: String(pid),
       retailer_name: host,
@@ -198,6 +211,7 @@ async function main() {
       continue;
     }
     offersInserted += 1;
+    }
 
     // 성분 링크 — 활성화 게이트가 «공식 소스에서 온 구조화 성분» 개수를 요구한다.
     // `product_ingredients` 는 이름이 아니라 `ingredient_id`(FK)를 받으므로,
@@ -220,7 +234,15 @@ async function main() {
         source_verified: true,
       });
     }
-    if (linkRows.length > 0) {
+    const { data: existingLinks } = await client
+      .from("product_ingredients")
+      .select("id")
+      .eq("product_id", String(pid))
+      .eq("source_type", "official_brand_page")
+      .limit(1);
+    if ((existingLinks ?? []).length > 0) {
+      matchedByProduct.set(pid, linkRows.length);
+    } else if (linkRows.length > 0) {
       const { error: linkErr } = await client.from("product_ingredients").insert(linkRows);
       if (linkErr) failures.push(`${pid} 성분링크 실패: ${linkErr.code} ${linkErr.message}`);
       else linksInserted += linkRows.length;
