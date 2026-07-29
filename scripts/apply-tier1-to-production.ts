@@ -83,7 +83,7 @@ async function main() {
   const { extractLabeledIngredientsRaw } = await import(
     "@/lib/catalog/enrichment/extractLabeledIngredients"
   );
-  const { parseIngredientList, normalizeTextKey } = await import(
+  const { parseIngredientList, normalizeTextKey, ingredientNameVariants } = await import(
     "@/lib/pipeline/ingredient-normalize"
   );
 
@@ -140,8 +140,11 @@ async function main() {
   const ingredientIdByKey = new Map<string, number>();
   for (const row of (dict ?? []) as Array<{ id: number; name_en: string | null; name_ko: string | null }>) {
     for (const n of [row.name_en, row.name_ko]) {
-      const k = normalizeTextKey(n);
-      if (k && !ingredientIdByKey.has(k)) ingredientIdByKey.set(k, row.id);
+      // 부연 괄호가 달린 이름도 원문 토큰과 만나게 변형 키를 함께 건다.
+      for (const variant of ingredientNameVariants(n)) {
+        const k = normalizeTextKey(variant);
+        if (k && !ingredientIdByKey.has(k)) ingredientIdByKey.set(k, row.id);
+      }
     }
   }
   console.log(`  성분 사전 ${ingredientIdByKey.size}개 키 로드`);
