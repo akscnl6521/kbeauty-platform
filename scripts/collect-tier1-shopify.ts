@@ -28,6 +28,14 @@ const SHOPIFY_BRANDS: ReadonlyArray<{ brands: string[]; domain: string }> = [
   { brands: ["COSRX", "CosRX"], domain: "cosrx.com" },
   { brands: ["SKIN1004"], domain: "skin1004.com" },
   { brands: ["Beauty of Joseon"], domain: "beautyofjoseon.com" },
+  // 2026-07-28 추가 — 국내 Cafe24 몰은 상품명이 한국어라 영문 DB 명과 매칭이
+  // 안 된다. 같은 브랜드의 **글로벌 Shopify 스토어**를 찾아 붙였다. 영문 상품명이라
+  // 매칭이 되고, /products.json 이 열려 있어 가격·재고가 구조화돼 있다.
+  { brands: ["Round Lab"], domain: "roundlab.com" },
+  { brands: ["Laneige"], domain: "us.laneige.com" },
+  { brands: ["Sulwhasoo"], domain: "us.sulwhasoo.com" },
+  { brands: ["Anua"], domain: "anua.com" },
+  { brands: ["Torriden"], domain: "torriden.us" },
 ];
 
 type ShopifyVariant = {
