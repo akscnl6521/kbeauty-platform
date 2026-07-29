@@ -1540,11 +1540,29 @@ sioris 24건을 `SIORIS` 로 모았다. 상품 JSON-LD 의 `brand.name` 은 근�
 매칭 실패 5건은 연결하지 않고 남겼다(임계값 미달). 엉뚱한 제품의 가격·성분을
 붙이는 것이 빈 상태보다 나쁘다.
 
+### Tier 1 수집 확장 — 글로벌 스토어 발견 (2026-07-28, `904037a`)
+
+국내 Cafe24 몰(abib.co.kr·numbuzin.com·laneige.com·sulwhasoo.com 등)은 **상품명이
+한국어**라 영문 DB 이름과 토큰 매칭이 되지 않는다. 번역해서 맞추는 것은 지어내기이므로
+하지 않았다. 대신 **같은 브랜드의 글로벌 Shopify 스토어**를 찾아 붙였다:
+
+`roundlab.com` · `us.laneige.com` · `us.sulwhasoo.com` · `anua.com` · `torriden.us`
+
+→ 활성화 가능 후보 **16 → 24건**.
+
+**건너뛴 브랜드 11건** — 글로벌 스토어를 찾지 못했다(국내몰만 있고 한국어 상품명):
+Isntree 4 · Abib 4 · Numbuzin 2 · Banila Co 1. `abib.us`·`isntreeglobal.com`·
+`numbuzinglobal.com`·`banila.us` 전부 미존재 확인.
+
 ### 발견된 문제 (추가)
 
 | # | 문제 | 근거 |
 |---|---|---|
-| 5 | **Production 시드의 브랜드 귀속이 틀린 것으로 보인다** | `SKIN1004 Vitamin C 23 Serum`(id 21)·`SKIN1004 Galactomyces Pure Vitamin C Glow Serum`(id 26) 은 skin1004.com 에 없다. «Vitamin C 23 Serum» 은 COSRX 제품명이다. 브랜드가 잘못 붙었을 가능성 — 수집 전 확인 필요 |
+| 5 | **Production 시드의 브랜드 귀속이 틀렸다 — 확인 완료** | `cosrx.com`·`skin1004.com` 전체 카탈로그(138 / 94건)를 대조했다. skin1004.com 에는 «vitamin c 23» «galactomyces» «pure fit cica» 가 **0건**이고, cosrx.com 에 전부 있다(`Advanced The Vitamin C 23 Serum` · `Galactomyces 95 Tone Balancing Essence` · `Pure Fit Cica` 5종). → id 9·21·26·36 은 **SKIN1004 가 아니라 COSRX** 다 |
+| 6 | 같은 오류 추정 1건 더 | id 90 `Numbuzin Birch Juice Moisturizing Serum` — «Birch Juice» 는 Round Lab 라인이고, id 168 에 `Round Lab Birch Juice Moisturizing Serum` 이 이미 있다. 중복·오귀속 가능성 |
+
+**정정 대상은 Staging 이 아니라 Production 이다.** id 9·21·26·36·90 은 Production
+`products` 행이라 브랜드 수정은 Production write 에 해당한다 — 승인 대기.
 
 ### 차단되지 않은 것 (지시 3번 D단계 착수 가능 범위)
 
