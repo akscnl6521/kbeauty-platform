@@ -1515,6 +1515,37 @@ sioris 24건을 `SIORIS` 로 모았다. 상품 JSON-LD 의 `brand.name` 은 근�
 | 3 | **도구·기기 카테고리가 성분 게이트와 충돌** | `product-activate.ts` 가 `hasOfficialIngredientsText` 를 필수로 요구한다. 퍼프·브러시·클렌징 기기는 전성분이 없어 전부 막힌다 | 게이트를 낮추는 게 아니라 카테고리별 요구 증거 분기 설계 필요. 미해결 |
 | 4 | **Production 189건은 전성분 5/189** | 오퍼를 다 확보해도 활성화 게이트를 못 넘는다 | 수집 시 오퍼+전성분 동시 확보로 대응 (계획 수립 완료) |
 
+### D단계 진행 — Shopify Tier 1 수집 완료 (2026-07-28)
+
+`npm run collect:tier1-shopify` (`4f11120`). **DB 에 쓰지 않고** 결과를
+`artifacts/tier1-collect/shopify-2026-07-28.json` 에 남겼다.
+
+| 단계 | 건수 |
+|---|---:|
+| 대상 (COSRX 13 · SKIN1004 6 · Beauty of Joseon 5) | 24 |
+| 제품 매칭 성공 | 19 |
+| 오퍼 확보 (가격 > 0) | 19 |
+| 그중 재고 있음 | 18 |
+| **전성분까지 확보 = 활성화 가능 후보** | **16** |
+
+두 번 고쳐서 1건 → 16건이 됐다:
+
+1. **매칭 방식**: 자카드 유사도를 쓰다가 «Relief Sun : Rice + Probiotics SPF50+
+   PA++++» 같이 사이트 제목이 훨씬 긴 경우 사실상 같은 제품인데도 0.57 로 떨어졌다.
+   교집합/짧은쪽(포함도)으로 바꾸고 임계값을 0.8 로 올렸다.
+2. **전성분 위치**: Shopify `body_html` 에는 전성분이 거의 없다. 별도 탭·메타필드에
+   있어서, 제품 페이지 HTML 을 한 번 더 받아 `extractLabeledIngredientsRaw` 로
+   찾도록 했다. **이것이 1 → 16 의 대부분을 만들었다.**
+
+매칭 실패 5건은 연결하지 않고 남겼다(임계값 미달). 엉뚱한 제품의 가격·성분을
+붙이는 것이 빈 상태보다 나쁘다.
+
+### 발견된 문제 (추가)
+
+| # | 문제 | 근거 |
+|---|---|---|
+| 5 | **Production 시드의 브랜드 귀속이 틀린 것으로 보인다** | `SKIN1004 Vitamin C 23 Serum`(id 21)·`SKIN1004 Galactomyces Pure Vitamin C Glow Serum`(id 26) 은 skin1004.com 에 없다. «Vitamin C 23 Serum» 은 COSRX 제품명이다. 브랜드가 잘못 붙었을 가능성 — 수집 전 확인 필요 |
+
 ### 차단되지 않은 것 (지시 3번 D단계 착수 가능 범위)
 
 크롤링(node fetch) · Staging 데이터 적재(PostgREST service_role) · 코드·테스트·빌드 ·
