@@ -84,6 +84,37 @@ function looksLikeInciList(text: string): boolean {
   return inciListScore(text) > 0;
 }
 
+/**
+ * 목록 앞에 붙는 **UI 잡음**을 걷어낸다.
+ *
+ * 아코디언·탭으로 만든 페이지에서는 라벨 뒤에 닫기 버튼(`×`)이나 소제목이
+ * 그대로 딸려 온다. 2026-07-29 실측에서 이런 것들이 첫 성분 자리를 차지했다:
+ *
+ *   "&times; Full Ingredients Water, Caprylic/Capric..."   -> "Water, Caprylic..."
+ *   "List: Water, Butylene Glycol..."                      -> "Water, Butylene..."
+ *   "PEACH ICED TEA: DIISOSTEARYL MALATE..."               -> "DIISOSTEARYL..."
+ *
+ * 마지막 형태(제형·호수 라벨)는 §35.7 이 이미 본문에서 다루는 규칙과 같은
+ * 성격이라 여기서도 같은 방식으로 벗긴다. 성분 자체는 지우지 않는다 —
+ * 콜론 앞의 «라벨» 만 떼어낸다.
+ */
+function stripLeadingNoise(raw: string): string {
+  let out = raw.trim();
+  // 1) 닫기 버튼·엔티티
+  out = out.replace(/^(?:&times;|&#215;|×|✕|✖)\s*/i, "").trim();
+  // 2) 소제목: Full Ingredients / Ingredients List / List
+  out = out
+    .replace(/^(?:full\s+ingredients?|ingredients?\s*list|list|전\s*성\s*분)\s*[:：]?\s*/i, "")
+    .trim();
+  // 3) 다시 한 번 닫기 버튼 (순서가 뒤바뀐 경우)
+  out = out.replace(/^(?:&times;|&#215;|×)\s*/i, "").trim();
+  // 4) 앞머리 라벨 «AAA BBB :» — 콜론까지가 40자 이내이고 쉼표가 없을 때만.
+  //    성분명에도 콜론이 드물게 쓰이므로 짧고 쉼표 없는 경우로 좁힌다.
+  const labeled = out.match(/^([^,:]{2,40})\s*[:：]\s+([\s\S]+)$/);
+  if (labeled) out = labeled[2].trim();
+  return out;
+}
+
 /** Returns raw ingredient text after a clear label, or null. */
 export function extractLabeledIngredientsRaw(
   html: string
@@ -113,7 +144,7 @@ export function extractLabeledIngredientsRaw(
     // 거꾸로였다. 이제 성분다움 점수가 높은 쪽을 고르고, 같으면 긴 쪽을 쓴다.
     if (score > bestScore || (score === bestScore && best && chunk.length > best.raw.length)) {
       bestScore = score;
-      best = { raw: chunk, label };
+      best = { raw: stripLeadingNoise(chunk), label };
     }
   }
   return best;
