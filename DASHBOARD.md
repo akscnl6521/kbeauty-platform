@@ -1689,6 +1689,48 @@ identity = product.confidence   ← 유일한 변수
 | `ingredient_unmatched` | 22 (사전 병합 후에도 잔존) |
 | `structured_ingredients_missing` | 6 (131 → 6 으로 감소) |
 
+## 34. 등급 C 허용 후 실측 — 활성 2 → 4건 (2026-07-29)
+
+| 조치 | 결과 |
+|---|---|
+| `productVerifyQualityGrades` 에 `"C"` 추가 (사람 승인) | `quality_grade_C` 차단 **전건 해소** |
+| 성분 링크 순번 충돌·중복 수정 | 실패 5건 → **0건** |
+| `extracted` 스냅샷 전달 (근거 기반 confidence) | 적용 |
+| **사전 부연 괄호 매칭 수정** | 사전 키 1,215 → **1,722개** |
+
+**활성 제품 2 → 4건** (신규: `171` SKIN1004 마다가스카르 센텔라 · `86` Anua 어성초 토너)
+
+### 사전 부연 괄호 — 가장 큰 한 방이었다
+
+사전이 `Panthenol (Vitamin B5)` · `Vitamin C (Ascorbic Acid)` · `Niacinamide( )` 처럼
+사람이 읽기 좋게 부연을 달아 두는데, 전성분 원문에는 `Panthenol` 만 적힌다. 이름을
+통째로만 키로 써서 둘이 만나지 못했다 — 판테놀 14회·나이아신아마이드 9회가 이렇게
+미매칭으로 빠졌다. `ingredientNameVariants` 로 원문·괄호앞·괄호안을 모두 키로 낸다.
+
+미매칭 0건 제품 3 → **7건**.
+
+### 남은 벽 — HTML 전성분 추출이 수렴하지 않는다
+
+추출기를 고쳤는데도 일부 페이지에서 계속 문구가 섞인다:
+
+```
+id 1    ""works""            id 10·29·186  "&times"
+id 156  "improves hydration"  id 104·105·20 "List Water" / "List: Water"
+```
+
+`apply → 오염 → 되돌리기 → apply → 다시 오염` 이 반복되고 있다. 페이지마다 전성분
+표기 위치·형식이 달라, 라벨 기반 추출로는 브랜드별 예외를 계속 쫓게 된다.
+
+**판정: 이 경로로는 전수 확보가 안 된다.** 다른 접근이 필요하다 —
+Shopify 메타필드 · 브랜드별 전용 파서 · 사람 검수 큐 중 선택.
+
+### 오염 판정기의 오탐도 확인됐다
+
+«첫 토큰이 용매가 아니면 오염» 규칙이 정상 제품을 잡는다:
+`Salix Alba (Willow) Bark Water` · `Houttuynia Cordata Flower/Leaf/Stem Water` ·
+`Snail Secretion Filtrate` · `Propolis Extract` 는 **정당한 첫 성분**이다.
+K뷰티는 정제수 대신 식물수·추출물로 시작하는 제품이 많다. 판정기 보완 필요.
+
 ### 차단되지 않은 것 (지시 3번 D단계 착수 가능 범위)
 
 크롤링(node fetch) · Staging 데이터 적재(PostgREST service_role) · 코드·테스트·빌드 ·
