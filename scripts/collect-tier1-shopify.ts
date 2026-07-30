@@ -36,6 +36,14 @@ const SHOPIFY_BRANDS: ReadonlyArray<{ brands: string[]; domain: string }> = [
   { brands: ["Sulwhasoo"], domain: "us.sulwhasoo.com" },
   { brands: ["Anua"], domain: "anua.com" },
   { brands: ["Torriden"], domain: "torriden.us" },
+  // ── Tier 2 (2026-07-30) — 글로벌 Shopify 스토어가 확인된 브랜드만 ──
+  { brands: ["Innisfree"], domain: "us.innisfree.com" },
+  { brands: ["Axis-Y"], domain: "axis-y.com" },
+  { brands: ["Klairs"], domain: "klairs.com" },
+  { brands: ["Haruharu Wonder"], domain: "haruharuwonder.com" },
+  { brands: ["Missha"], domain: "misshaus.com" },
+  { brands: ["Medicube"], domain: "medicube.us" },
+  { brands: ["Ma:nyo"], domain: "manyo.us" },
 ];
 
 type ShopifyVariant = {
