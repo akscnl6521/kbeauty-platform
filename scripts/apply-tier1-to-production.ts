@@ -83,9 +83,12 @@ async function main() {
   const { extractLabeledIngredientsRaw } = await import(
     "@/lib/catalog/enrichment/extractLabeledIngredients"
   );
-  const { parseIngredientList, normalizeTextKey, ingredientNameVariants } = await import(
-    "@/lib/pipeline/ingredient-normalize"
-  );
+  const {
+    parseIngredientList,
+    normalizeTextKey,
+    ingredientNameVariants,
+    ingredientTokenLookupCandidates,
+  } = await import("@/lib/pipeline/ingredient-normalize");
 
   const client: SupabaseClient = createClient(url, key, { auth: { persistSession: false } });
 
@@ -235,7 +238,17 @@ async function main() {
     const usedIngredientIds = new Set<number>();
     let order = baseOrder;
     for (const name of tokens) {
-      const id = ingredientIdByKey.get(normalizeTextKey(name));
+      // INCI 는 같은 물질의 여러 이름을 슬래시로 묶는다(`Aqua/Water/Eau`).
+      // 통째로 없으면 «조각 전부가 사전에 있을 때만» 동의어로 보고 첫 조각의 id 를 쓴다.
+      const cand = ingredientTokenLookupCandidates(name);
+      let id = ingredientIdByKey.get(cand.whole);
+      if (
+        !id &&
+        cand.segments.length >= 2 &&
+        cand.segments.every((sg) => ingredientIdByKey.has(sg))
+      ) {
+        id = ingredientIdByKey.get(cand.segments[0]);
+      }
       if (!id) continue;
       // 같은 성분이 두 토큰에서 잡히면 한 번만 넣는다.
       if (usedIngredientIds.has(id)) continue;

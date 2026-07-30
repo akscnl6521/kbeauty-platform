@@ -29,9 +29,8 @@ async function main() {
     return;
   }
 
-  const { normalizeTextKey, ingredientNameVariants } = await import(
-    "@/lib/pipeline/ingredient-normalize"
-  );
+  const { normalizeTextKey, ingredientNameVariants, ingredientTokenLookupCandidates } =
+    await import("@/lib/pipeline/ingredient-normalize");
   const client = createClient(url, key, { auth: { persistSession: false } });
 
   const { data: dict } = await client.from("ingredients").select("id,name_en,name_ko");
@@ -64,9 +63,13 @@ async function main() {
     if (tokens.length === 0) continue;
     let miss = 0;
     for (const t of tokens) {
-      const k = normalizeTextKey(String(t));
-      if (!k) continue;
-      if (!keys.has(k)) {
+      const cand = ingredientTokenLookupCandidates(String(t));
+      if (!cand.whole) continue;
+      // 통째로 있으면 그것으로 끝. 없으면 «조각 전부가 사전에 있을 때만» 동의어로 본다.
+      const matched =
+        keys.has(cand.whole) ||
+        (cand.segments.length >= 2 && cand.segments.every((sg) => keys.has(sg)));
+      if (!matched) {
         miss += 1;
         missCount.set(String(t), (missCount.get(String(t)) ?? 0) + 1);
       }
