@@ -1897,10 +1897,23 @@ Potassium Hyaluronate Overall rating: 4.9310346 / 5 from 203
 메이크업의 `May Contain (+/-): CI 77491` 은 뒤에 오는 색소가 실제 성분이라
 이 «경계 애매» 조건에 걸려 사람이 보게 된다 — 의도한 동작이다.
 
-### ⚠️ Production 실측 — 활성 제품 17건의 전성분이 오염 상태
+### ⚠️ Production 실측 — 오염 17건, **단 노출된 적은 없다** (판정 기준 정정)
 
 `npm run check:production-full-ingredients` (읽기 전용) 결과. products 191행 중
-전성분 있음 35행, 그중 **17행이 검증 반려이고 17행 전부 활성(사용자 노출 중)**.
+전성분 있음 35행, 그중 **17행이 검증 반려**.
+
+**최초 보고를 정정한다.** 처음에는 `active = true` 를 «노출 중» 으로 읽어 17건을
+사용자 노출 위험으로 보고했는데 **틀렸다.** 추천 풀은 `fetchCandidateProducts` 가
+`active = true AND verified_at IS NOT NULL` 로 뽑는다. Production 은 191행 중
+**190행이 `active = true`** 라서 이 값만으로는 아무것도 걸러지지 않는다.
+
+실제 추천 풀은 **17건**이고, 오염된 17건은 전부 `verified_at` 이 비어 **풀에 없었다.**
+즉 오염된 전성분이 사용자 추천에 나간 적은 없다. 감사 스크립트의 판정 기준을
+`isInRecommendationPool()` 로 고쳤다 — `fetchCandidateProducts` 와 같은 조건이어야
+감사 결과가 현실과 어긋나지 않는다.
+
+오염 자체는 여전히 고쳐야 한다. 이 제품들은 **활성화 대기 중**이고, 그대로 활성화되면
+그때 진짜 위험이 된다.
 
 **위험도가 둘로 갈린다.**
 
@@ -1970,6 +1983,54 @@ Numbuzin us.numbuzin.com · Tonymoly tonymoly.us
 ### 전성분 검증 통과율
 
 같은 21건 후보에 대해 **3/21 → 14/21**. 남은 7건은 위 «교체 불가» 와 같은 원인이다.
+
+### 실제로 남아 있던 유일한 빈틈 — 추천 풀 2건의 전성분 부재
+
+풀 17건 중 **15건만** 전성분 검증을 통과한다. 나머지 2건은 반려가 아니라
+**전성분이 아예 없다**:
+
+| id | 제품 | 상태 |
+|---|---|---|
+| 4 | COSRX Snail Mucin 96% Power Repairing Essence | `full_ingredients` 없음 · `key_ingredients` 2개뿐 |
+| 28 | COSRX Advanced Snail 92 All in One Cream | `full_ingredients` 없음 · `key_ingredients` 2개뿐 |
+
+이 2건은 알레르겐 검사가 `key_ingredients`(`Snail Secretion Filtrate` ·
+`Sodium Hyaluronate`)만 보게 된다. 기능성 성분 사전으로 고른 부분집합이라
+향료·리모넨·리날룰이 구조적으로 없다 — 향료 알레르기를 입력해도 «알레르겐 없음» 이 된다.
+**오염 17건보다 이쪽이 실제 위험이다.** (§34 가 고친 결함의 잔여 케이스)
+
+**왜 여태 보강되지 않았나 — 수집기 대상 선정의 결함.** 수집기는
+`verified_at IS NULL` 인 제품만 대상으로 삼는다. 그런데 추천 풀 조건은
+`verified_at IS NOT NULL` 이다. 즉 **수집기가 정확히 «라이브인 제품» 을 건너뛴다.**
+활성 제품의 데이터 구멍은 구조적으로 메워지지 않는다.
+
+보강 가능성은 확인했다(읽기 전용). cosrx.com 글로벌 스토어에서 두 제품 모두
+찾히고, 새 검증기를 통과한다:
+
+```
+ 4 통과 · 성분 12개 — Snail Secretion Filtrate, Betaine, Butylene Glycol, 1,2-Hexanediol …
+28 통과 · 성분 22개 — Snail Secretion Filtrate, Betaine, Caprylic/Capric Triglyceride …
+```
+
+Production write 라서 승인 대기.
+
+### 반영 완료 (2026-07-30 · 승인 받음)
+
+1. **오염 10건 정제 교체** — `npm run repair:full-ingredients -- --apply`
+   (21·32·48·77·133·167·168·169·187·192). 백업
+   `backups/production_20260730_145720_full-ingredients-정제전.sql`.
+   읽기 검증: 검증 반려 17행 → 7행.
+2. **id 1 비활성화** — `scripts/deactivate-product-no-ingredients.ts --apply`.
+   백업 `backups/production_20260730_145830_제품-비활성화전.sql`.
+   전성분 전체가 자바스크립트 배열이라 교체가 불가능했다. 오염된 값은 **지우지 않고
+   남겼다** — 지우면 무엇이 잘못됐는지 추적할 근거가 사라지고, NULL 로 만들면
+   안전 필터가 `key_ingredients` 만 보게 되어 §34 결함으로 되돌아간다.
+   (사후 확인: 이 제품도 `verified_at` 이 비어 원래 풀에 없었다. 비활성화는 노출
+   차단이 아니라 **잘못된 데이터로 활성화되는 것을 막는 효과**다.)
+
+남은 5건(80·93·123·156·176·191 중 191 포함)은 그 페이지에 깨끗한 전성분 구간이
+아예 없어 추출기로는 해결되지 않는다. 80·93 은 향/제형별 목록이 합쳐진 것으로
+**과다 포함이라 안전한 쪽**이다.
 
 ### 백업·검증
 

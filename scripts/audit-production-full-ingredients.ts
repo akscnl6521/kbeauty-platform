@@ -8,6 +8,14 @@
  * 2026-07-29 에 오염 18건을 Production 에 저장했다가 되돌렸는데, 되돌린 범위가
  * 정확했는지 실제로 읽어서 확인한 적이 없다. 이번에 검증기가 생겼으니 전수로 본다.
  *
+ * ## 노출 판정은 `active` 만으로 하면 안 된다
+ *
+ * 2026-07-30 첫 감사에서 `active === true` 를 «노출 중» 으로 읽어 17건을 위험으로
+ * 보고했는데, **틀렸다.** 추천 풀은 `fetchCandidateProducts` 가
+ * `active = true AND verified_at IS NOT NULL` 로 뽑는다. Production 은 191행 중
+ * 190행이 `active = true` 라서 이 값만으로는 아무것도 걸러지지 않는다.
+ * 실제 풀은 17건이고, 오염된 17건은 전부 `verified_at` 이 비어 **풀에 없었다.**
+ *
  * **읽기 전용.** 아무것도 쓰지 않는다.
  *
  * 실행: npm run check:production-full-ingredients
@@ -29,6 +37,14 @@ type Row = {
   verified_at: string | null;
   full_ingredients: string[] | string | null;
 };
+
+/**
+ * 이 제품이 **실제로 추천에 나오는가**. `fetchCandidateProducts` 의 조건과 같아야 한다
+ * — 다르면 감사 결과가 현실과 어긋난다.
+ */
+function isInRecommendationPool(r: Row): boolean {
+  return r.active === true && r.verified_at != null;
+}
 
 /** PostgREST 는 1000행에서 자른다. limit 을 키워도 안 되고 페이지로 넘겨야 한다. */
 async function fetchAll(client: SupabaseClient): Promise<Row[]> {
@@ -79,11 +95,13 @@ async function main() {
     if (!v.ok) bad.push({ row: r, reason: v.reason, sample: v.sample });
   }
 
-  const badActive = bad.filter((b) => b.row.active === true);
-  console.log(`검증 반려 ${bad.length}행 (그중 활성 ${badActive.length}행)\n`);
+  const poolSize = rows.filter(isInRecommendationPool).length;
+  const badActive = bad.filter((b) => isInRecommendationPool(b.row));
+  console.log(`추천 풀 (active=true AND verified_at NOT NULL) ${poolSize}행`);
+  console.log(`검증 반려 ${bad.length}행 (그중 추천 풀에 있는 것 ${badActive.length}행)\n`);
 
   if (badActive.length > 0) {
-    console.log("!! 사용자에게 노출 중인 제품의 전성분이 오염됐다 — 즉시 조치 필요:");
+    console.log("!! 추천에 실제로 나오는 제품의 전성분이 오염됐다 — 즉시 조치 필요:");
     for (const b of badActive)
       console.log(
         `  ${String(b.row.id).padStart(4)} ${String(b.row.brand).padEnd(16)} ${String(b.row.name).slice(0, 34).padEnd(36)} ${b.reason}${b.sample ? ` (${b.sample.slice(0, 40)})` : ""}`
@@ -91,20 +109,22 @@ async function main() {
     console.log("");
   }
 
-  const badInactive = bad.filter((b) => b.row.active !== true);
+  const badInactive = bad.filter((b) => !isInRecommendationPool(b.row));
   if (badInactive.length > 0) {
-    console.log(`비활성 제품 반려 ${badInactive.length}행 (노출 안 됨 — 활성화 전 정리 대상):`);
+    console.log(`추천 풀 밖 반려 ${badInactive.length}행 (지금은 노출 안 됨 — 활성화 전 정리 대상):`);
     for (const b of badInactive.slice(0, 30))
       console.log(
-        `  ${String(b.row.id).padStart(4)} ${String(b.row.brand).padEnd(16)} ${b.reason}${b.sample ? ` (${b.sample.slice(0, 40)})` : ""}`
+        `  ${String(b.row.id).padStart(4)} ${String(b.row.brand).padEnd(16)} ` +
+          `active=${String(b.row.active)} verified=${b.row.verified_at ? "있음" : "없음"}  ` +
+          `${b.reason}${b.sample ? ` (${b.sample.slice(0, 40)})` : ""}`
       );
     if (badInactive.length > 30) console.log(`  … 외 ${badInactive.length - 30}행`);
   }
 
-  const okActive = withIngredients.filter(
-    (r) => r.active === true && validateIngredientList(asText(r.full_ingredients)).ok
+  const okPool = withIngredients.filter(
+    (r) => isInRecommendationPool(r) && validateIngredientList(asText(r.full_ingredients)).ok
   ).length;
-  console.log(`\n활성 제품 중 전성분 검증 통과 ${okActive}행`);
+  console.log(`\n추천 풀 제품 중 전성분 검증 통과 ${okPool}행 / 풀 ${poolSize}행`);
 
   mkdirSync("artifacts/production-audit", { recursive: true });
   const path = "artifacts/production-audit/full-ingredients-verdicts.json";
@@ -114,12 +134,15 @@ async function main() {
       {
         checkedAt: new Date().toISOString(),
         totalProducts: rows.length,
+        recommendationPoolSize: poolSize,
         withIngredients: withIngredients.length,
         rejected: bad.map((b) => ({
           id: b.row.id,
           brand: b.row.brand,
           name: b.row.name,
           active: b.row.active,
+          verifiedAt: b.row.verified_at,
+          inRecommendationPool: isInRecommendationPool(b.row),
           reason: b.reason,
           sample: b.sample,
         })),
