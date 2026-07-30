@@ -16,6 +16,12 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
+import {
+  BRAND_GLOBAL_STORES,
+  nameSimilarity,
+  nameTokens,
+  NAME_MATCH_MIN,
+} from "../src/lib/catalog/brandGlobalStores";
 
 loadDotEnvLocal();
 
@@ -23,41 +29,11 @@ const EXPECTED_PROD_REF = "rhfrmvkjsummaylpzmns";
 const UA =
   "Mozilla/5.0 (compatible; kbeautymatch-catalog/1.0; +https://www.kbeautymatch.com)";
 
-/** Production 브랜드 표기 → Shopify 도메인. 레지스트리에서 확인된 것만. */
-const SHOPIFY_BRANDS: ReadonlyArray<{ brands: string[]; domain: string }> = [
-  { brands: ["COSRX", "CosRX"], domain: "cosrx.com" },
-  { brands: ["SKIN1004"], domain: "skin1004.com" },
-  { brands: ["Beauty of Joseon"], domain: "beautyofjoseon.com" },
-  // 2026-07-28 추가 — 국내 Cafe24 몰은 상품명이 한국어라 영문 DB 명과 매칭이
-  // 안 된다. 같은 브랜드의 **글로벌 Shopify 스토어**를 찾아 붙였다. 영문 상품명이라
-  // 매칭이 되고, /products.json 이 열려 있어 가격·재고가 구조화돼 있다.
-  { brands: ["Round Lab"], domain: "roundlab.com" },
-  { brands: ["Laneige"], domain: "us.laneige.com" },
-  { brands: ["Sulwhasoo"], domain: "us.sulwhasoo.com" },
-  { brands: ["Anua"], domain: "anua.com" },
-  { brands: ["Torriden"], domain: "torriden.us" },
-  // ── Tier 2 (2026-07-30) — 글로벌 Shopify 스토어가 확인된 브랜드만 ──
-  { brands: ["Innisfree"], domain: "us.innisfree.com" },
-  { brands: ["Axis-Y"], domain: "axis-y.com" },
-  { brands: ["Klairs"], domain: "klairs.com" },
-  { brands: ["Haruharu Wonder"], domain: "haruharuwonder.com" },
-  { brands: ["Missha"], domain: "misshaus.com" },
-  { brands: ["Medicube"], domain: "medicube.us" },
-  { brands: ["Ma:nyo"], domain: "manyo.us" },
-  // ── Tier 3 (2026-07-30) — `discover-brand-shopify-stores.ts` 로 도메인을 찾고
-  //    /products.json 이 실제로 제품을 돌려주는 것만 남겼다. 비K뷰티 브랜드
-  //    (SK-II · Elizabeth Arden)는 스토어가 열려 있어도 §29 스코프 밖이라 뺐다.
-  //    Glow Recipe 는 한국 제조·미국 법인이라 스코프 판단이 남아 보류한다.
-  { brands: ["TIRTIR"], domain: "tirtir.us" },
-  { brands: ["Heimish"], domain: "heimish.us" },
-  { brands: ["Rovectin"], domain: "rovectin.com" },
-  { brands: ["Tocobo"], domain: "tocobo.us" },
-  { brands: ["mixsoon"], domain: "mixsoon.us" },
-  { brands: ["Holika Holika"], domain: "holikaholika.com" },
-  { brands: ["Pyunkang Yul"], domain: "pyunkangyulglobal.com" },
-  { brands: ["Numbuzin"], domain: "us.numbuzin.com" },
-  { brands: ["Tonymoly"], domain: "tonymoly.us" },
-];
+/**
+ * 브랜드 → 글로벌 스토어 목록은 `src/lib/catalog/brandGlobalStores.ts` 가 단일 출처다.
+ * 전성분 보강 스크립트도 같은 목록을 쓴다 — 두 곳에 복사하면 한쪽만 갱신되어 어긋난다.
+ */
+const SHOPIFY_BRANDS = BRAND_GLOBAL_STORES;
 
 type ShopifyVariant = {
   id: number;
@@ -72,34 +48,6 @@ type ShopifyProduct = {
   body_html: string;
   variants: ShopifyVariant[];
 };
-
-/** 제품명 비교용 정규화 — 브랜드명·용량·기호를 걷어내고 핵심 토큰만 남긴다. */
-function nameTokens(raw: string, brand: string): Set<string> {
-  const stripped = raw
-    .toLowerCase()
-    .replace(new RegExp(brand.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"), " ")
-    .replace(/\d+(\.\d+)?\s*(ml|g|oz|매|ea|개|pcs)\b/g, " ")
-    .replace(/[^a-z0-9가-힣]+/g, " ");
-  return new Set(stripped.split(/\s+/).filter((t) => t.length >= 2));
-}
-
-/**
- * 포함도(containment) — 교집합 / 짧은 쪽 크기.
- *
- * 자카드를 먼저 썼다가 실패했다. 사이트 제목이 «Relief Sun : Rice + Probiotics
- * SPF50+ PA++++» 처럼 DB 이름보다 토큰이 훨씬 많으면, 사실상 같은 제품인데도
- * 합집합이 커져 점수가 0.57 로 떨어진다. 한쪽이 다른 쪽을 «거의 포함» 하는지를
- * 보는 편이 이 경우에 맞다.
- *
- * 0.8 이상만 같은 제품으로 본다. 애매하면 연결하지 않는다 — 엉뚱한 제품의
- * 가격·성분을 붙이는 것이 빈 상태보다 나쁘다.
- */
-function similarity(a: Set<string>, b: Set<string>): number {
-  if (a.size === 0 || b.size === 0) return 0;
-  let inter = 0;
-  for (const t of a) if (b.has(t)) inter += 1;
-  return inter / Math.min(a.size, b.size);
-}
 
 async function getJson<T>(url: string): Promise<T | null> {
   try {
@@ -164,8 +112,25 @@ async function main() {
     brand: string | null;
     name: string | null;
     verified_at: string | null;
-  }>(client, "products", "id,brand,name,verified_at");
-  const targets = products.filter((p) => p.verified_at == null);
+    full_ingredients: string[] | string | null;
+  }>(client, "products", "id,brand,name,verified_at,full_ingredients");
+
+  // 대상은 «아직 검증 안 된 것» **또는 «전성분 데이터가 비어 있는 것»** 이다.
+  //
+  // 원래는 `verified_at == null` 만 봤다. 그런데 추천 풀 조건은
+  // `active = true AND verified_at IS NOT NULL` 이라, 그 필터는 **정확히 라이브인
+  // 제품을 건너뛴다.** 활성 제품의 데이터 구멍이 구조적으로 메워지지 않았다.
+  //
+  // 2026-07-30 실측: 추천 풀 17건 중 2건(COSRX 스네일 96 에센스 · 스네일 92 크림)이
+  // `full_ingredients` 가 비어 있었고, 그 상태면 알레르겐 검사가 `key_ingredients`
+  // 2개만 본다 — 향료 알레르기를 입력해도 «알레르겐 없음» 이 된다.
+  const targets = products.filter((p) => {
+    if (p.verified_at == null) return true;
+    const text = Array.isArray(p.full_ingredients)
+      ? p.full_ingredients.join(", ")
+      : String(p.full_ingredients ?? "");
+    return text.trim().length === 0;
+  });
 
   type Result = {
     productId: number;
@@ -209,11 +174,11 @@ async function main() {
       const mineTokens = nameTokens(String(p.name ?? ""), group.brands[0]);
       let best: { product: ShopifyProduct; score: number } | null = null;
       for (const cand of prepared) {
-        const score = similarity(mineTokens, cand.tokens);
+        const score = nameSimilarity(mineTokens, cand.tokens);
         if (!best || score > best.score) best = { product: cand.product, score };
       }
 
-      if (!best || best.score < 0.8) {
+      if (!best || best.score < NAME_MATCH_MIN) {
         results.push({
           productId: p.id,
           brand: String(p.brand),
@@ -265,7 +230,7 @@ async function main() {
 
   console.log("\n════ 결과 ════");
   console.log(`  대상                       ${results.length}`);
-  console.log(`  제품 매칭 성공             ${results.filter((r) => r.matchedTitle && r.similarity >= 0.8).length}`);
+  console.log(`  제품 매칭 성공             ${results.filter((r) => r.matchedTitle && r.similarity >= NAME_MATCH_MIN).length}`);
   console.log(`  오퍼 확보(가격>0)          ${withOffer.length}`);
   console.log(`  그중 재고 있음             ${inStock.length}`);
   console.log(`  **전성분까지 확보**        ${withIngredients.length}  ← 활성화 가능 후보`);
@@ -278,7 +243,7 @@ async function main() {
     );
   }
 
-  const failed = results.filter((r) => !r.matchedTitle || r.similarity < 0.8);
+  const failed = results.filter((r) => !r.matchedTitle || r.similarity < NAME_MATCH_MIN);
   if (failed.length > 0) {
     console.log(`\n── 매칭 실패 ${failed.length}건 (연결하지 않음) ──`);
     for (const r of failed.slice(0, 20))

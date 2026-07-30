@@ -17,6 +17,17 @@ export type ProductVerifyGateInput = {
   qualityGrade: ProductQualityGrade;
   allowedGrades: ProductQualityGrade[];
   hasOfficialIngredientsText: boolean;
+  /**
+   * 전성분 문자열이 **실제 성분표 형태인가** (`validateIngredientList`).
+   *
+   * 텍스트가 «있다» 는 것만으로는 부족하다. 2026-07-29·07-30 두 번, 추출기가
+   * 페이지 문구를 전성분으로 저장했다(`email-only` · `#HIGH-CONCENTRATION` ·
+   * 자바스크립트 배열 통째로). 전성분은 알레르겐 필터의 입력이라, 쓰레기가 들어간
+   * 채로 활성화되면 «알레르겐 없음 = 안전» 이라는 잘못된 판정이 사용자에게 나간다.
+   *
+   * 데이터 정리로는 재발을 못 막는다. **게이트에서 막아야** 구조적으로 끝난다.
+   */
+  ingredientsTextValid: boolean;
   /** Official-sourced structured rows (pending or approved) */
   structuredOfficialIngredientCount: number;
   ambiguousIngredientCount: number;
@@ -62,6 +73,9 @@ export function evaluateProductVerificationGate(
   if (!input.hasOfficialIngredientsText) {
     blockers.push("official_ingredients_text_missing");
   }
+  if (input.hasOfficialIngredientsText && !input.ingredientsTextValid) {
+    blockers.push("official_ingredients_text_invalid");
+  }
   if (input.structuredOfficialIngredientCount < 1) {
     blockers.push("structured_ingredients_missing");
   }
@@ -101,6 +115,7 @@ export function evaluateProductVerificationGate(
       blockers.includes("verified_offer_missing") ||
       blockers.includes("structured_ingredients_missing") ||
       blockers.includes("official_ingredients_text_missing") ||
+      blockers.includes("official_ingredients_text_invalid") ||
       blockers.includes("ingredient_unmatched"));
 
   const skipAsUnchanged =

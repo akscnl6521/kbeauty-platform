@@ -88,10 +88,6 @@ function inciListScore(text: string): number {
   return looksLikeIngredientToken(parts[0]) ? ratio : ratio * 0.5;
 }
 
-function looksLikeInciList(text: string): boolean {
-  return inciListScore(text) > 0;
-}
-
 /**
  * 목록 앞에 붙는 **UI 잡음**을 걷어낸다.
  *

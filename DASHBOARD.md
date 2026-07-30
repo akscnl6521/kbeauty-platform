@@ -2044,6 +2044,94 @@ Production write 라서 승인 대기.
 
 ---
 
+## 38. 오염 재발을 **구조적으로** 막음 + 라이브 알레르겐 빈틈 해소 (2026-07-30)
+
+§37 에서 «데이터를 고쳐도 재발한다» 는 것이 두 번 확인됐다. 이번에는 데이터가 아니라
+**경로**를 고쳤다.
+
+### 1) 활성화 게이트가 전성분 «형태» 를 요구한다
+
+`evaluateProductVerificationGate` 에 `ingredientsTextValid` 입력을 추가했다.
+텍스트가 **있다**(`hasOfficialIngredientsText`)는 것만으로는 부족하다 — 페이지 문구가
+들어차 있어도 «있다» 는 참이다.
+
+```
+official_ingredients_text_missing   전성분이 없다        (기존)
+official_ingredients_text_invalid   성분표 형태가 아니다  (신규)
+```
+
+`needsReview` 에도 넣었다 — 조용히 버려지면 안 되고 사람이 봐야 하는 건이다.
+활성화 경로 두 곳(`product-activate` · `product-reactivate`) 모두에 걸었다.
+한쪽만 막으면 다른 경로로 오염이 들어온다.
+
+**이제 오염된 전성분을 가진 제품은 활성화될 수 없다.** §37 의 남은 6건도 이 게이트에
+걸리므로 별도 조치가 필요 없다 — 그게 3번 항목의 답이다.
+
+**놓칠 뻔한 것**: `tsconfig.json` 이 `**/*selftest.ts` 를 제외하므로
+`src/lib/pipeline/selftest.ts` 의 게이트 픽스처는 **타입 검사를 받지 않는다.**
+`tsc --noEmit` 은 통과했지만 런타임에서 `product gate A pass` 가 깨졌다.
+`scripts/pipeline-selftest-entry.ts` 로 실제 실행해서 잡았다. 타입 검사만 믿으면 안 된다.
+
+### 2) 수집기가 라이브 제품을 건너뛰던 결함
+
+수집기 대상은 `verified_at IS NULL` 이었다. 추천 풀 조건은
+`active = true AND verified_at IS NOT NULL` 이다. **정확히 반대라서 라이브인 제품의
+데이터 구멍은 구조적으로 메워지지 않았다.**
+
+대상 선정을 «검증 안 됨 **또는** 전성분이 비어 있음» 으로 바꿨다.
+
+### 3) 라이브 알레르겐 빈틈 해소 — 추천 풀 15/17 → 17/17
+
+풀 2건이 `full_ingredients` 가 비어 알레르겐 검사가 `key_ingredients` 2개
+(`Snail Secretion Filtrate` · `Sodium Hyaluronate`)만 보고 있었다. 향료·리모넨·
+리날룰이 구조적으로 없어 향료 알레르기를 입력해도 «알레르겐 없음» 이 됐다.
+**§37 의 오염 17건보다 이쪽이 실제 위험이었다.**
+
+`npm run refill:full-ingredients -- --apply` 로 브랜드 글로벌 스토어에서 채웠다.
+
+| id | 제품 | 결과 |
+|---|---|---|
+| 4 | COSRX Snail Mucin 96% Power Repairing Essence | 0 → 12개 (대조 0.83) |
+| 28 | COSRX Advanced Snail 92 All in One Cream | 0 → 22개 (대조 1.00) |
+| 76 | Pyunkang Yul Essence Toner | 0 → 12개 (대조 1.00) — 풀 밖이지만 같이 채움 |
+
+백업 `backups/production_20260730_152254_full-ingredients-보강전.sql`.
+읽기 검증: **추천 풀 제품 중 전성분 검증 통과 17행 / 풀 17행.**
+
+기존 `repair-contaminated-full-ingredients` 는 `product_offers` 의 URL 에서
+재수집하는데 그게 국내몰(`cosrx.co.kr`)이나 올리브영이면 전성분 구간이 없다.
+새 스크립트는 **브랜드 글로벌 스토어**에서 가져오고, 제품명 대조가 `NAME_MATCH_MIN`
+(0.8) 미만이면 연결하지 않는다.
+
+### 4) 중복 제거
+
+브랜드 → 글로벌 스토어 도메인 목록과 제품명 대조 함수가 수집기 안에만 있었는데
+보강 스크립트도 같은 것이 필요해졌다. `src/lib/catalog/brandGlobalStores.ts` 로
+옮겨 단일 출처로 만들었다 — 두 곳에 복사하면 한쪽만 갱신되어 어긋난다.
+매칭 하한 `0.8` 도 하드코딩 3곳을 `NAME_MATCH_MIN` 으로 통일했다.
+
+이전 세션에서 커밋된 임시 파일 `scripts/_tmp_metafield.mjs` 도 지웠다 (lint 경고 원인).
+
+### 아직 안 된 것
+
+- **카탈로그 확대는 막혀 있다.** 브랜드 스토어를 11개 더 찾아 붙였지만 수집 결과는
+  매칭 1건이었다. 전성분이 없거나 오염된 79건 중 채울 수 있었던 것은 3건뿐이다.
+  나머지는 **제품명 대조 미달**(DB 이름이 미국 스토어 카탈로그에 없음)이거나
+  **페이지에 전성분 구간 없음**이다. 스토어를 더 찾는 것으로는 안 늘어난다.
+- Glow Recipe 4건 — 한국 제조·미국 법인. §29 스코프 판단 대기.
+- 브랜드 상한(`e585323`)·이번 변경 모두 **아직 배포 안 됨**. 다음 PR 필요.
+
+### 검증
+
+- 코드: `fcaf00b` 이후 커밋 (feature 브랜치)
+- CI 회귀 목록(`core-journey-ci.yml`) **40개 전부 통과**
+- 신규: `test:product-verify-gate`(게이트 블로커 12케이스) ·
+  `test:ingredient-list-validate`(28케이스)
+- `npx tsc --noEmit` 무경고 · `npm run lint` 무경고 · `npm run build` 통과
+- 파이프라인 셀프테스트 `scripts/pipeline-selftest-entry.ts` 통과
+
+---
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |

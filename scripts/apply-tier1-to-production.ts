@@ -108,12 +108,8 @@ async function main() {
   const { extractLabeledIngredientsRaw } = await import(
     "@/lib/catalog/enrichment/extractLabeledIngredients"
   );
-  const {
-    parseIngredientList,
-    normalizeTextKey,
-    ingredientNameVariants,
-    ingredientTokenLookupCandidates,
-  } = await import("@/lib/pipeline/ingredient-normalize");
+  const { normalizeTextKey, ingredientNameVariants, ingredientTokenLookupCandidates } =
+    await import("@/lib/pipeline/ingredient-normalize");
 
   const client: SupabaseClient = createClient(url, key, { auth: { persistSession: false } });
 
@@ -404,7 +400,8 @@ async function main() {
   }
 
   console.log(
-    `\n  전성분 갱신 ${ingredientsUpdated} · 오퍼 ${offersInserted} · 성분링크 ${linksInserted} · 활성화 ${activated}`
+    `\n  전성분 갱신 ${ingredientsUpdated} · 오퍼 ${offersInserted}(중복 건너뜀 ${offersSkipped}) · ` +
+      `성분링크 ${linksInserted} · 활성화 ${activated}`
   );
   if (failures.length > 0) {
     console.log(`\n  실패 ${failures.length}건:`);
