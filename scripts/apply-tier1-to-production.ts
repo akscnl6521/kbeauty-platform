@@ -136,6 +136,8 @@ async function main() {
   let linksInserted = 0;
   let offersSkipped = 0;
   const matchedByProduct = new Map<number, number>();
+  /** 이번에 실제로 뽑은 전성분 토큰 수. artifact 의 옛 개수를 쓰면 미매칭 수가 틀린다. */
+  const tokenCountByProduct = new Map<number, number>();
   const failures: string[] = [];
 
   // Production 성분 사전을 한 번만 읽어 이름 → id 로 만든다. 영문·한글 둘 다 건다.
@@ -272,6 +274,7 @@ async function main() {
       .limit(1);
     if ((existingLinks ?? []).length > 0) {
       matchedByProduct.set(pid, linkRows.length);
+    tokenCountByProduct.set(pid, tokens.length);
     } else if (linkRows.length > 0) {
       const { error: linkErr } = await client.from("product_ingredients").insert(linkRows);
       if (linkErr) failures.push(`${pid} 성분링크 실패: ${linkErr.code} ${linkErr.message}`);
@@ -330,7 +333,10 @@ async function main() {
           fieldConfidence: {},
         },
         // 사전에 없어 링크하지 못한 성분은 미매칭으로 정직하게 넘긴다.
-        unmatchedIngredientCount: Math.max(0, (t.ingredientCount ?? 0) - matched),
+        unmatchedIngredientCount: Math.max(
+          0,
+          (tokenCountByProduct.get(t.productId) ?? t.ingredientCount ?? 0) - matched
+        ),
         ambiguousIngredientCount: 0,
         safetyConflict: false,
       });
