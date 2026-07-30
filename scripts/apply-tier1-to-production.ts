@@ -65,6 +65,30 @@ function retailerFromUrl(url: string): string {
   return host;
 }
 
+
+/**
+ * 성분 사전 전량. **PostgREST 는 1000행에서 자른다** — limit 을 키워도 안 되고,
+ * 페이지로 넘겨야 한다. 사전이 1,242행이 된 뒤 이 절단 때문에 새로 넣은 성분이
+ * 조회에서 빠져 활성화가 멈췄다(2026-07-30).
+ */
+async function fetchIngredientDict(
+  client: SupabaseClient
+): Promise<Array<{ id: number; name_en: string | null; name_ko: string | null }>> {
+  const out: Array<{ id: number; name_en: string | null; name_ko: string | null }> = [];
+  for (let offset = 0; ; offset += 1000) {
+    const { data, error } = await client
+      .from("ingredients")
+      .select("id,name_en,name_ko")
+      .order("id")
+      .range(offset, offset + 999);
+    if (error) throw new Error(`ingredients 조회 실패: ${error.code} ${error.message}`);
+    const page = (data ?? []) as Array<{ id: number; name_en: string | null; name_ko: string | null }>;
+    out.push(...page);
+    if (page.length < 1000) break;
+  }
+  return out;
+}
+
 async function main() {
   const apply = process.argv.includes("--apply");
   const url = process.env.PRODUCTION_SUPABASE_URL ?? "";
@@ -141,9 +165,9 @@ async function main() {
   const failures: string[] = [];
 
   // Production 성분 사전을 한 번만 읽어 이름 → id 로 만든다. 영문·한글 둘 다 건다.
-  const { data: dict } = await client.from("ingredients").select("id,name_en,name_ko");
+  const dict = await fetchIngredientDict(client);
   const ingredientIdByKey = new Map<string, number>();
-  for (const row of (dict ?? []) as Array<{ id: number; name_en: string | null; name_ko: string | null }>) {
+  for (const row of dict) {
     for (const n of [row.name_en, row.name_ko]) {
       // 부연 괄호가 달린 이름도 원문 토큰과 만나게 변형 키를 함께 건다.
       for (const variant of ingredientNameVariants(n)) {

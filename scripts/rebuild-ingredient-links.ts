@@ -13,7 +13,7 @@
  * 실행: npm run rebuild:ingredient-links -- --apply
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 
 loadDotEnvLocal();
@@ -25,6 +25,30 @@ function stamp(): string {
   const d = new Date();
   const p = (n: number) => String(n).padStart(2, "0");
   return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
+}
+
+
+/**
+ * 성분 사전 전량. **PostgREST 는 1000행에서 자른다** — limit 을 키워도 안 되고,
+ * 페이지로 넘겨야 한다. 사전이 1,242행이 된 뒤 이 절단 때문에 새로 넣은 성분이
+ * 조회에서 빠져 활성화가 멈췄다(2026-07-30).
+ */
+async function fetchIngredientDict(
+  client: SupabaseClient
+): Promise<Array<{ id: number; name_en: string | null; name_ko: string | null }>> {
+  const out: Array<{ id: number; name_en: string | null; name_ko: string | null }> = [];
+  for (let offset = 0; ; offset += 1000) {
+    const { data, error } = await client
+      .from("ingredients")
+      .select("id,name_en,name_ko")
+      .order("id")
+      .range(offset, offset + 999);
+    if (error) throw new Error(`ingredients 조회 실패: ${error.code} ${error.message}`);
+    const page = (data ?? []) as Array<{ id: number; name_en: string | null; name_ko: string | null }>;
+    out.push(...page);
+    if (page.length < 1000) break;
+  }
+  return out;
 }
 
 async function main() {
@@ -55,9 +79,9 @@ async function main() {
   for (const r of artifact.results) if (r.purchaseUrl) urlByProduct.set(r.productId, r.purchaseUrl);
 
   // 사전 (부연 괄호 변형 포함)
-  const { data: dict } = await client.from("ingredients").select("id,name_en,name_ko");
+  const dict = await fetchIngredientDict(client);
   const byKey = new Map<string, number>();
-  for (const r of (dict ?? []) as Array<{ id: number; name_en: string | null; name_ko: string | null }>) {
+  for (const r of dict) {
     for (const n of [r.name_en, r.name_ko]) {
       for (const v of ingredientNameVariants(n)) {
         const k = normalizeTextKey(v);

@@ -6,7 +6,7 @@
  *
  * 실행: npm run check:near-miss-ingredients
  */
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 
 loadDotEnvLocal();
@@ -14,6 +14,30 @@ loadDotEnvLocal();
 const EXPECTED_PROD_REF = "rhfrmvkjsummaylpzmns";
 /** 이 개수 이하로 남은 제품만 본다 */
 const MAX_MISS = 6;
+
+
+/**
+ * 성분 사전 전량. **PostgREST 는 1000행에서 자른다** — limit 을 키워도 안 되고,
+ * 페이지로 넘겨야 한다. 사전이 1,242행이 된 뒤 이 절단 때문에 새로 넣은 성분이
+ * 조회에서 빠져 활성화가 멈췄다(2026-07-30).
+ */
+async function fetchIngredientDict(
+  client: SupabaseClient
+): Promise<Array<{ id: number; name_en: string | null; name_ko: string | null }>> {
+  const out: Array<{ id: number; name_en: string | null; name_ko: string | null }> = [];
+  for (let offset = 0; ; offset += 1000) {
+    const { data, error } = await client
+      .from("ingredients")
+      .select("id,name_en,name_ko")
+      .order("id")
+      .range(offset, offset + 999);
+    if (error) throw new Error(`ingredients 조회 실패: ${error.code} ${error.message}`);
+    const page = (data ?? []) as Array<{ id: number; name_en: string | null; name_ko: string | null }>;
+    out.push(...page);
+    if (page.length < 1000) break;
+  }
+  return out;
+}
 
 async function main() {
   const url = process.env.PRODUCTION_SUPABASE_URL ?? "";
@@ -33,9 +57,9 @@ async function main() {
     await import("@/lib/pipeline/ingredient-normalize");
   const client = createClient(url, key, { auth: { persistSession: false } });
 
-  const { data: dict } = await client.from("ingredients").select("id,name_en,name_ko");
+  const dict = await fetchIngredientDict(client);
   const keys = new Set<string>();
-  for (const r of (dict ?? []) as Array<{ name_en: string | null; name_ko: string | null }>) {
+  for (const r of dict) {
     for (const n of [r.name_en, r.name_ko]) {
       for (const v of ingredientNameVariants(n)) {
         const k = normalizeTextKey(v);
