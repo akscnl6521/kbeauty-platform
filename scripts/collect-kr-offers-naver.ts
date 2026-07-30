@@ -15,7 +15,10 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
-import { koreanProductNameToComparable } from "../src/lib/catalog/koreanProductTerms";
+import {
+  koreanProductNameToComparable,
+  englishProductNameToKoreanQuery,
+} from "../src/lib/catalog/koreanProductTerms";
 
 loadDotEnvLocal();
 
@@ -94,7 +97,7 @@ function containment(a: Set<string>, b: Set<string>): number {
  * 실측에서 «COSRX SET 더 레티놀 0.1 크림 20ml x 2개» 98,400원이 단품으로 잡혔다.
  */
 const BUNDLE_MARKERS =
-  /(?:set|bundle|pack)|세트|기획|묶음|증정|사은품|더블|듀오|리필\s*포함|\d+\s*개입|(?:^|[^\d])[2-9]\d*\s*개(?![월년])|x\s*\d+\s*개|\+\s*\d+\s*개/i;
+  /(?:set|bundle|pack)|세트|기획|묶음|증정|사은품|더블|듀오|리필\s*포함|\d+\s*개입|(?:^|[^\d])[2-9]\d*\s*개(?![월년])|x\s*\d+\s*개|\d\s*\+\s*\d|리필|\+\s*\d+\s*개/i;
 
 function looksLikeBundle(title: string): boolean {
   return BUNDLE_MARKERS.test(title);
@@ -258,8 +261,16 @@ async function main() {
   for (const p of targets) {
     const en = String(p.brand ?? "");
     const ko = brandMap.get(en)?.ko;
-    const query = `${ko ?? en} ${String(p.name ?? "")}`.trim();
-    const items = await search(query, 30);
+    // 긴 영문 질의는 국내 색인에서 0건이 나온다. 한글 단축 질의를 먼저 쓰고,
+    // 비면 영문 원본으로 한 번 더 시도한다.
+    const koQuery = englishProductNameToKoreanQuery(String(p.name ?? ""));
+    const primary = `${ko ?? en} ${koQuery}`.trim();
+    const fallback = `${ko ?? en} ${String(p.name ?? "")}`.trim();
+    let items = koQuery ? await search(primary, 30) : [];
+    if (items.length === 0) {
+      await new Promise((r) => setTimeout(r, 250));
+      items = await search(fallback, 30);
+    }
     const want = tokens(String(p.name ?? ""));
 
     // 신뢰 판매처 + 제품명 유사도 상위

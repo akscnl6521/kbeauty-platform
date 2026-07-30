@@ -149,3 +149,45 @@ export function koreanProductNameToComparable(raw: string): string {
   for (const [ko, en] of SORTED) out = out.split(ko).join(` ${en} `);
   return out.replace(/\s+/g, " ").trim();
 }
+
+/**
+ * 영문 제품명 → **네이버 검색용 짧은 한글 질의**.
+ *
+ * 긴 영문 질의는 국내 쇼핑 색인에서 결과가 0건으로 나온다(2026-07-30 실측:
+ * `조선미녀 Glow Serum Propolis and Niacinamide` 0건 → `조선미녀 글로우 세럼` 14건).
+ * 사전에 있는 낱말만 한글로 바꿔 **짧고 신호가 센 질의**를 만든다.
+ *
+ * 사전에 없는 낱말은 **버린다**. 억지로 음역하면 없는 제품을 검색하게 된다.
+ * `and` · `with` 같은 기능어도 뺀다.
+ */
+const STOPWORDS = new Set(["and", "with", "for", "the", "a", "of", "in", "plus"]);
+
+export function englishProductNameToKoreanQuery(nameEn: string): string {
+  // 영문 → 한글 대응을 역방향으로 만든다 (같은 영문에 여러 한글이 있으면 첫 것)
+  const enToKo = new Map<string, string>();
+  for (const [ko, en] of TRANSLITERATION) if (!enToKo.has(en)) enToKo.set(en, ko);
+
+  const src = String(nameEn ?? "").toLowerCase();
+  const out: string[] = [];
+
+  // 두 낱말 짝(`eye cream` · `black rice`)을 먼저 본다
+  const words = src
+    .replace(/[^a-z0-9%.\s/+-]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+  for (let i = 0; i < words.length; i += 1) {
+    const pair = `${words[i]} ${words[i + 1] ?? ""}`.trim();
+    if (words[i + 1] && enToKo.has(pair)) {
+      out.push(enToKo.get(pair)!);
+      i += 1;
+      continue;
+    }
+    const one = words[i];
+    if (STOPWORDS.has(one)) continue;
+    const ko = enToKo.get(one);
+    if (ko) out.push(ko);
+    // 숫자·퍼센트는 그대로 살린다 (`96` · `77%` · `0.1` 이 강한 식별자다)
+    else if (/^[\d.]+%?$/.test(one)) out.push(one);
+  }
+  return [...new Set(out)].join(" ").trim();
+}

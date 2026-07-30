@@ -195,6 +195,7 @@
     "purge:contaminated-links": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/purge-contaminated-ingredient-links.ts",
     "merge:ingredients-to-production": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/merge-staging-ingredients-to-production.ts",
     "apply:tier1-production": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/apply-tier1-to-production.ts",
+    "replace:naver-offers": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/replace-naver-kr-offers.ts",
     "collect:kr-offers": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/collect-kr-offers-naver.ts",
     "check:tier1-feasibility": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/dryrun-tier1-brand-feasibility.ts",
     "check:production-offer-gap": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/survey-production-offer-gap.ts",
