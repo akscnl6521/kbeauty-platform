@@ -115,6 +115,29 @@ function stripLeadingNoise(raw: string): string {
   return out;
 }
 
+/**
+ * 목록 **끝**에 붙는 UI 낱말을 걷어낸다.
+ *
+ * 아코디언 뒤에 «DETAILS» · «MORE» 같은 버튼 글자가 마지막 성분에 그대로 붙는다.
+ * 2026-07-30 실측: `Ethyl Hexanediol DETAILS` · `Disodium EDTA DETAILS` ·
+ * `Glutathione DETAILS`. 성분 자체는 사전에 있는데 이 꼬리 때문에 미매칭이 났다.
+ *
+ * 성분명이 이 낱말로 끝나는 경우는 없으므로, **낱말 단위로 끝에 붙었을 때만** 뗀다.
+ */
+const TRAILING_UI_WORDS =
+  /\s+(?:DETAILS?|MORE|CLOSE|VIEW|SHOP\s+NOW|LEARN\s+MORE|READ\s+MORE|더\s*보기|자세히\s*보기|닫기)\s*$/i;
+
+function stripTrailingUiWords(raw: string): string {
+  let out = raw.trim();
+  // 여러 개가 겹쳐 붙는 경우가 있어 더 이상 안 줄어들 때까지 반복한다.
+  for (let i = 0; i < 3; i += 1) {
+    const next = out.replace(TRAILING_UI_WORDS, "").trim();
+    if (next === out) break;
+    out = next;
+  }
+  return out;
+}
+
 /** Returns raw ingredient text after a clear label, or null. */
 export function extractLabeledIngredientsRaw(
   html: string
@@ -144,7 +167,7 @@ export function extractLabeledIngredientsRaw(
     // 거꾸로였다. 이제 성분다움 점수가 높은 쪽을 고르고, 같으면 긴 쪽을 쓴다.
     if (score > bestScore || (score === bestScore && best && chunk.length > best.raw.length)) {
       bestScore = score;
-      best = { raw: stripLeadingNoise(chunk), label };
+      best = { raw: stripTrailingUiWords(stripLeadingNoise(chunk)), label };
     }
   }
   return best;
