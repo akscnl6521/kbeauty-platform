@@ -4,6 +4,63 @@
 
 ---
 
+## 2026-07-30 Production 카탈로그 복구 + 추천 안전 수정 (배포 대기)
+
+Production 활성 제품 **2 → 17건** · 오퍼 2 → 38건 · 성분 사전 112 → 1,284행 ·
+성분 링크 111 → 1,134건. 코드는 `feature/scalp-hair-track-20260727` 에 있고 미배포
+(배포본 `355624d`, 92커밋 뒤처짐).
+
+**안전**
+
+- **fix(safety)**: 알레르기·회피 필터가 `full_ingredients` 까지 훑는다. 기존엔
+  `key_ingredients`(기능성 성분 사전 부분집합)만 봐서 향료·리모넨·리날룰이 구조적으로
+  안 잡혔다. 커버리지 향료 3→21/23 · 리모넨 0→14/14 · 리날룰 0→13/13. **랭킹 점수는
+  무변경.**
+- **feat(safety)**: `allergenMatch.ts` — 안전 필터 전용 매처. 기존 «부분 문자열 포함»
+  을 전성분에 쓰면 `alcohol` 이 `cetearylalcohol` 에 포함돼 지방 알코올이 변성알코올로
+  오탐된다(실측 15건, 87건 중 22건이 잘못 제외될 뻔). INCI 는 수식어가 머리명사 앞에
+  오므로 **접두 관계**로 판정한다. `Ethylhexylglycerin` ≠ `Glycerin` 오탐도 해소.
+- **feat(aliases)**: 향료 유래 표시 알레르겐 한글↔영문 17쌍. 전부 `ingredients`
+  테이블(식약처)에서 확인한 쌍만.
+
+**국가별 구매처**
+
+- **fix(recommend)**: `persistTopRankedProducts` 가 `shippingCountry` 를 받아 두고도
+  오퍼 필터에 항상 KR 을 넘겼다. 미국 사용자는 US 판매처가 있어도 «구매처 없음» 을
+  봤다. `normalizeShippingCountry(...) ?? KR` — 한국 사용자 동작은 그대로.
+
+**카탈로그 파이프라인**
+
+- **fix(pipeline)**: 활성화 시 `key_ingredients` 를 함께 채운다. 수집기가 채우지 않아
+  활성 106건 중 60건이 추천에서 통째로 제외되고 있었다.
+- **fix(catalog)**: 전성분 추출기 오염 — 「가장 긴 후보 선택」·8000자 창·느슨한 통과
+  조건이 네비게이션·판촉 문구를 성분으로 잡았다. 선두(`&times; Full Ingredients` ·
+  `List:`)·꼬리(`DETAILS`) UI 잡음도 제거. 실제로 들어갔던 오염 문구 5종을 selftest 에
+  고정.
+- **fix(ingredients)**: 사전 부연 괄호 매칭(`Panthenol (Vitamin B5)` ↔ `Panthenol`,
+  판테놀 14회·나이아신아마이드 9회가 이렇게 빠졌다) · INCI 슬래시 동의어
+  (`Aqua/Water/Eau`, 조각 전부가 사전에 있을 때만) · **PostgREST 1000행 절단**(사전이
+  1,242행이 되자 새 성분이 조회에서 빠져 활성화가 멈췄다).
+- **fix(catalog)**: 성분 링크 순번 충돌·중복 · 게이트 미매칭 수 계산 오류 · 링크 재생성.
+- **fix(recommend)**: 얼굴 트랙 밖 제품(향수·핸드크림·바디) 추천 풀 제외. 제품은 내리지
+  않아 트랙 B 착수 시 그대로 쓸 수 있다.
+- **config(pipeline)**: 활성화 허용 등급에 `C` 추가(사람 승인). 9개 차원 중 8개가 상수
+  (합 4.9)라 등급 B 는 confidence 1.0 에서만 나온다 — 자동 추출에서 그 값을 넣는 것은
+  게이트를 속이는 것이라 하지 않았다.
+
+**data(production)**
+
+- 브랜드 정정 4건(SKIN1004 → COSRX, cosrx.com·skin1004.com 전수 대조) · 오퍼 38건 ·
+  전성분 24건 · 성분 사전 1,172행 추가(Staging 1,103 + 식약처 69) · 성분 링크 1,134건.
+  **모든 변경 전 백업**(`backups/production_*.sql`). 작업 중 두 번의 실수를 백업으로
+  복구했다.
+
+**검증**: 타입체크 · `npm run build` · 회귀 11종 · 추천 selftest 4종 통과. Production
+시나리오 4종 실측 Top 5 정상.
+
+**미해결**: 배포 대기(구매 링크가 안 뜨는 상태) · 브랜드 쏠림(17건 중 COSRX 10) ·
+수집 대상 9건 페이지 문구 오염 · `availability_status` 마이그레이션 미적용.
+
 ## 2026-07-27 얼굴 트랙 밖 8건 추천 풀 제외 + Production 감사 SQL
 
 - **fix(recommend)**: `isOutsideFaceTrack()` 신설 — 향수·핸드크림·바디 제품을 얼굴 추천 후보 풀에서 뺀다. 제품을 내리지 않고(카탈로그·`active` 무변경) 풀에서만 제외해, 트랙 B 착수 시 그대로 쓸 수 있게 했다. `fetchCandidateProducts` 와 `results/page.tsx` 두 경로에 적용. 추천 풀 106 → 98건. `category` 가 비면 빼지 않고, 두피·모발 카테고리는 단계 5.5 설계와 충돌하지 않도록 건드리지 않는다(`test:face-track-filter` 가 고정).
