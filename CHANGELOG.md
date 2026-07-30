@@ -4,6 +4,133 @@
 
 ---
 
+## 2026-07-30 Production 카탈로그 복구 + 추천 안전 수정 (배포 대기)
+
+Production 활성 제품 **2 → 17건** · 오퍼 2 → 38건 · 성분 사전 112 → 1,284행 ·
+성분 링크 111 → 1,134건. 코드는 `feature/scalp-hair-track-20260727` 에 있고 미배포
+(배포본 `355624d`, 92커밋 뒤처짐).
+
+**안전**
+
+- **fix(safety)**: 알레르기·회피 필터가 `full_ingredients` 까지 훑는다. 기존엔
+  `key_ingredients`(기능성 성분 사전 부분집합)만 봐서 향료·리모넨·리날룰이 구조적으로
+  안 잡혔다. 커버리지 향료 3→21/23 · 리모넨 0→14/14 · 리날룰 0→13/13. **랭킹 점수는
+  무변경.**
+- **feat(safety)**: `allergenMatch.ts` — 안전 필터 전용 매처. 기존 «부분 문자열 포함»
+  을 전성분에 쓰면 `alcohol` 이 `cetearylalcohol` 에 포함돼 지방 알코올이 변성알코올로
+  오탐된다(실측 15건, 87건 중 22건이 잘못 제외될 뻔). INCI 는 수식어가 머리명사 앞에
+  오므로 **접두 관계**로 판정한다. `Ethylhexylglycerin` ≠ `Glycerin` 오탐도 해소.
+- **feat(aliases)**: 향료 유래 표시 알레르겐 한글↔영문 17쌍. 전부 `ingredients`
+  테이블(식약처)에서 확인한 쌍만.
+
+**국가별 구매처**
+
+- **fix(recommend)**: `persistTopRankedProducts` 가 `shippingCountry` 를 받아 두고도
+  오퍼 필터에 항상 KR 을 넘겼다. 미국 사용자는 US 판매처가 있어도 «구매처 없음» 을
+  봤다. `normalizeShippingCountry(...) ?? KR` — 한국 사용자 동작은 그대로.
+
+**카탈로그 파이프라인**
+
+- **fix(pipeline)**: 활성화 시 `key_ingredients` 를 함께 채운다. 수집기가 채우지 않아
+  활성 106건 중 60건이 추천에서 통째로 제외되고 있었다.
+- **fix(catalog)**: 전성분 추출기 오염 — 「가장 긴 후보 선택」·8000자 창·느슨한 통과
+  조건이 네비게이션·판촉 문구를 성분으로 잡았다. 선두(`&times; Full Ingredients` ·
+  `List:`)·꼬리(`DETAILS`) UI 잡음도 제거. 실제로 들어갔던 오염 문구 5종을 selftest 에
+  고정.
+- **fix(ingredients)**: 사전 부연 괄호 매칭(`Panthenol (Vitamin B5)` ↔ `Panthenol`,
+  판테놀 14회·나이아신아마이드 9회가 이렇게 빠졌다) · INCI 슬래시 동의어
+  (`Aqua/Water/Eau`, 조각 전부가 사전에 있을 때만) · **PostgREST 1000행 절단**(사전이
+  1,242행이 되자 새 성분이 조회에서 빠져 활성화가 멈췄다).
+- **fix(catalog)**: 성분 링크 순번 충돌·중복 · 게이트 미매칭 수 계산 오류 · 링크 재생성.
+- **fix(recommend)**: 얼굴 트랙 밖 제품(향수·핸드크림·바디) 추천 풀 제외. 제품은 내리지
+  않아 트랙 B 착수 시 그대로 쓸 수 있다.
+- **config(pipeline)**: 활성화 허용 등급에 `C` 추가(사람 승인). 9개 차원 중 8개가 상수
+  (합 4.9)라 등급 B 는 confidence 1.0 에서만 나온다 — 자동 추출에서 그 값을 넣는 것은
+  게이트를 속이는 것이라 하지 않았다.
+
+**data(production)**
+
+- 브랜드 정정 4건(SKIN1004 → COSRX, cosrx.com·skin1004.com 전수 대조) · 오퍼 38건 ·
+  전성분 24건 · 성분 사전 1,172행 추가(Staging 1,103 + 식약처 69) · 성분 링크 1,134건.
+  **모든 변경 전 백업**(`backups/production_*.sql`). 작업 중 두 번의 실수를 백업으로
+  복구했다.
+
+**검증**: 타입체크 · `npm run build` · 회귀 11종 · 추천 selftest 4종 통과. Production
+시나리오 4종 실측 Top 5 정상.
+
+**미해결**: 배포 대기(구매 링크가 안 뜨는 상태) · 브랜드 쏠림(17건 중 COSRX 10) ·
+수집 대상 9건 페이지 문구 오염 · `availability_status` 마이그레이션 미적용.
+
+## 2026-07-27 얼굴 트랙 밖 8건 추천 풀 제외 + Production 감사 SQL
+
+- **fix(recommend)**: `isOutsideFaceTrack()` 신설 — 향수·핸드크림·바디 제품을 얼굴 추천 후보 풀에서 뺀다. 제품을 내리지 않고(카탈로그·`active` 무변경) 풀에서만 제외해, 트랙 B 착수 시 그대로 쓸 수 있게 했다. `fetchCandidateProducts` 와 `results/page.tsx` 두 경로에 적용. 추천 풀 106 → 98건. `category` 가 비면 빼지 않고, 두피·모발 카테고리는 단계 5.5 설계와 충돌하지 않도록 건드리지 않는다(`test:face-track-filter` 가 고정).
+- **chore(audit)**: `data/production-audit/2026-07-27-allergen-exposure-READONLY.sql` — Production 알레르겐 노출 감사용 SELECT 전용 SQL 4개. 사람이 Dashboard 에서 실행. 주석 밖 쓰기 구문 0건 기계 검증.
+- **check**: `check:allergen-audit-sql-validate` — SQL 판정 규칙을 TS 로 재현해 Staging 에서 운영 코드와 대조(28 = 28, 불일치 0). 이 과정에서 SQL 버그 2개 수정: 숫자 미제거, 길이 하한 4자를 정확 일치에도 적용해 «향료»·«리모넨» 이 잘리던 것.
+
+## 2026-07-27 category 채우기 (43/44) + 알레르겐 노출 최종 감사
+
+- **data(staging)**: 활성 제품 43건에 `category` 채움 — mask 15 · cream 9 · foam_cleanser 3 · serum 3 · perfume 3 · hand_cream 3 · toner 2 · sunscreen 1 · body_lotion 1 · body_wash 1 · cleanser 1 · eye_patch 1. 근거는 제품명의 유형 표기이고, 표기가 없는 3건은 브랜드 공식 페이지·카테고리 목록에서 확인했다. 감사 로그 `product_category_filled` 에 근거 문구 기록, 되돌리기 백업 `data/backups/2026-07-27/product-category-before-fill.json`.
+- **미채움 1건**: 242 아로마티카 수딩 알로에 베라 젤 — 제품명·원문 어디에도 유형 표기 없음, 사용방법이 «얼굴과 몸 전체에». `verification_queue` 에 `product_category_unknown` 등록.
+- **발견**: 얼굴 트랙 밖 제품 8건(향수 3 · 핸드크림 3 · 바디 2)이 얼굴 고민 시나리오의 추천 후보 풀에 들어 있다. §29 MVP 범위 밖 — 카테고리는 채웠고 풀에서 뺄지는 미결.
+- **audit**: `check:allergen-exposure-audit` 신설. 옛 필터가 놓쳐 노출될 수 있었던 제품 **28건**(향료 18 · 리모넨 14 · 리날룰 13 …) — 이번 수정으로 전부 걸러진다. 여전히 매칭 안 되는 4건은 별개 성분(`Hexyl Cinnamal`≠`Cinnamal` 3건, `Capryloyl Salicylic Acid`≠`Salicylic Acid` 1건)이라 누락이 아니다. **Staging 한정** — Production 자격증명이 세션에 없어 미확인.
+
+## 2026-07-27 알레르기·회피 필터를 전성분 전체로 확장
+
+- **fix(safety)**: `filterCandidatesBySafety` 가 알레르겐을 `full_ingredients` 까지 훑는다. 기존엔 `key_ingredients`(기능성 성분 사전으로 골라낸 부분집합)만 봐서 향료·리모넨·리날룰이 구조적으로 안 잡혔다. **랭킹 점수는 무변경** — `key_ingredients` 만 쓴다. 추천 풀 자격(`incomplete_info`) 기준도 무변경.
+- **feat(safety)**: `allergenMatch.ts` — 안전 필터 전용 매처. 기존 «부분 문자열 포함» 을 전성분에 그대로 쓰면 `alcohol` 이 `cetearylalcohol` 에 포함돼 지방 알코올이 변성알코올로 오탐된다(실측 15건, 87건 중 22건이 잘못 제외될 뻔). INCI 는 수식어가 머리명사 앞에 오므로 **접두 관계**로 판정한다. `Ethylhexylglycerin` ≠ `Glycerin` 오탐 2건도 같이 해소. 랭킹이 쓰는 `findMatchByCanonical` 은 건드리지 않음.
+- **feat(aliases)**: 향료 유래 표시 알레르겐 한글↔영문 17쌍 추가(리모넨↔Limonene 등). 전부 `ingredients` 테이블(식약처 원료성분정보)에서 확인한 쌍만 넣었고, 확인 안 된 4개는 넣지 않았다.
+- **커버리지(활성 106건 중 성분정보 있는 87건)**: 향료 3→21/23 · 변성알코올 2→3/3 · 리모넨 0→14/14 · 리날룰 0→13/13. 남은 2건은 §35.7 파서 잔여물(광고 문구가 성분 토큰에 붙음) — 대기열.
+- **회귀**: 제외 집합 단조 증가(dry-run 회귀 0건), 근거가 원문에 없는 제외 0건. `npm run test:allergen-full-ingredients` 신설(한글↔영문 17쌍 양방향 + 오탐 4종 포함).
+- **도구**: `check:allergen-expansion-dryrun` — 코드 변경 없이 세 방식(현재 / 전성분+포함 / 전성분+접두) 영향 비교.
+
+## 2026-07-27 추천 품질 검증 — key_ingredients 미채움 수정 · 알레르겐 커버리지 결함 보고
+
+- **fix(pipeline)**: `product-activate.ts` 가 활성화 시 `key_ingredients` 를 함께 채운다. 추천·안전 필터는 `key_ingredients` 만 읽는데 수집기는 `full_ingredients` 만 채워서, 수집된 제품이 활성화돼도 매 시나리오에서 `incomplete_info` 로 제외되고 있었다(활성 106건 중 60건).
+- **feat(catalog)**: `deriveKeyIngredientsFromFullList` 신설 — 사전에 있으면서 동시에 그 제품 전성분에 등장하는 토큰만, 전성분 원문 표기 그대로 반환한다. 선언 순서 유지·중복 제거. 자체 검증 `npm run test:key-ingredients-derive`.
+- **data(staging)**: 백필 41건(abib 40 · Round Lab 1). 성분 없는 활성 제품 60 → 19건(전부 아도르 헤어 + 아로마티카 — 사전 미매칭이라 손대지 않음). 감사 로그 `product_key_ingredients_backfilled`, 되돌리기 백업 `data/backups/2026-07-27/`.
+- **검증 도구**: `npm run check:recommendation-scenarios` — §29 KR 코어 시나리오 6종의 Top 5 + 매칭 근거, 알레르기 필터 정합성(근거 없는 제외·새어나간 제품 양방향), 신규 브랜드별 필터 동작, 알레르겐 커버리지. 읽기 전용.
+- **미수정(승인 필요)**: 안전 필터가 `key_ingredients` 만 봐서 향료 함유 40건 중 3건, 리모넨 19건 중 0건, 리날룰 18건 중 0건만 걸러진다. 안전 필터 변경은 명시적 승인 대상이라 측정만 함.
+- **대기열**: 활성 44건(abib 43 · 아로마티카 1)의 `category` 미채움 — 시나리오 카테고리 매칭 불가.
+
+## 2026-07-26 Master Plan v4.3 — 두피·모발 트랙 편입
+
+- **docs(master-plan)**: v4.2 → **v4.3**. 기존 §1~§46 삭제·축약 없이 추가·명확화만 수행(diff: +90 / −7, 삭제 7줄은 전부 제목·버전 줄의 치환분).
+- **§44**: 단계 1~4에 `[얼굴 MVP]` 태그 · 단계 4 완료를 MVP 런칭 시점으로 확정 · **단계 5.5 두피·모발 트랙(확장 A) 신설** · **단계 6.5 카테고리 확장 트랙 B 신설** · 단계 6을 "얼굴 + 두피·모발 전문의 포함"으로 확장.
+- **§14**: 두피·모발 특별 규칙 추가(탈모 C/D/E 분기, '치료' 표현 금지, 기능성과 치료의 구분, 지루성 두피염·원형탈모·급격한 탈모 D/E, 두피 상처·감염·통증 E).
+- **§29**: MVP는 얼굴 트랙만 포함함을 명시.
+- **부록 A 신설**: v4.1 → v4.2(§22 촬영 확장·§32.1 신설) → v4.3 변경 이력 기록.
+- `ROADMAP.md`에 트랙 구조와 신설 트랙 착수 조건 추가, `PROJECT_STATUS.md`에 결정사항 기록.
+
+## 2026-07-26 관리자 로그인 루프 수정 + 정리 원칙 신설
+
+- **fix(admin)**: `/admin/login`이 `redirect()`를 `try` 안에서 호출해 `catch`가 `NEXT_REDIRECT`를 삼키는 바람에 초당 3회 무한 재요청 → 흰 화면. `redirect()`를 `try` 밖으로 이동(`dfdbcca`, PR #35). main `355624d` 병합 → Vercel `mdnkflqc9` 배포. 배포 후 초당 0.09회로 정상화, 미로그인 `/admin`은 1회 리다이렉트 후 정지. 저장소 전체에서 같은 패턴은 이 파일 하나뿐이었음.
+- **정정**: care attach "연결에 실패했습니다"는 service_role 키와 무관. 해당 경로는 `createSupabaseServerClient()`(anon + 사용자 세션)만 사용하며, care에서 service_role은 백그라운드 이메일 워커에서만 쓰인다.
+- **docs**: `PROJECT_RULE.md` §10 SQL 실행 원칙, §11 작업 정리 원칙 신설.
+- **chore(cleanup)**: 병합 완료 브랜치 원격 24개·로컬 1개 삭제(미병합 보존), 임시 env 파일 2개·scratchpad 10개 삭제, 로컬 `main` 최신화, `.env.local`에서 `PRODUCTION_SUPABASE_SERVICE_ROLE_KEY` 제거.
+- 미완: `SUPABASE_ACCESS_TOKEN` 부재로 Supabase secret key 목록 조회·옛 키 삭제 미실행.
+
+## 2026-07-26 병원 데이터 Production 이관 완료
+
+- **이관**: Staging → Production `dermatology_institution_candidates` **1,917행**(verified 1,868 · discovered 49). 사람이 이번 작업에 한해 Production 쓰기를 승인, 병원 테이블 한정으로 실행. `products` 무영향(공개 191건 유지) 확인.
+- **원인**: 앞선 4개 파트 붙여넣기가 실제로는 커밋되지 않았음(행 0건 · RLS 정상). 파트가 단일 트랜잭션이라 중간 오류 시 전체 롤백.
+- **방식**: 동일 데이터·동일 순서·동일 500행 배치·`ON CONFLICT DO NOTHING`(=`resolution=ignore-duplicates`) REST INSERT. UPDATE/DELETE/DDL 없음, 재실행 안전. 1차 시도는 Vercel이 마스킹한 service_role placeholder로 401 → 0행 기록 후 즉시 중단.
+- **검증**: 공개 anon 경로로 페이지와 동일 쿼리 실행 → 1,868건 노출, `/my/clinics` 목업 fallback 해제 조건 충족.
+
+## 2026-07-26 병원 데이터 Production 검증 (읽기 전용)
+
+- **검증**: 병원 SQL 4개 파트 적용 보고 후 Production `/my/clinics` 실검증 → **anon 조회 0건**, 목업 fallback 유지. 동일 쿼리를 Staging에 실행하면 1,868건 정상 → 코드·쿼리·정책 정의 문제 아님. 원인은 (1) 파트 미커밋 또는 (2) Production RLS 정책 부재 둘 중 하나로 좁혀짐.
+- **추가**: `DASHBOARD.md` §26에 원인 확정용 SELECT 전용 진단 SQL(사람이 Production SQL Editor에서 실행) + 결과 해석 기준.
+- **대조**: Staging↔Production `products` slug 대조(읽기 전용) — Staging 공개 27건 중 Production 미존재 21건, 그중 5건은 다른 slug로 이미 존재 → 실제 미존재 16건. Production 공개 카탈로그 191건으로 더 크고 slug 규칙이 달라 slug 기준 이관 시 중복 발생 위험 확인.
+- Production DB 쓰기 없음 · INSERT 없음 · main 병합 없음.
+
+## 2026-07-26 🚀 Production 출시
+
+- **9단계 로드맵 완주 → Production 배포**: `https://www.kbeautymatch.com` 라이브(커밋 `9f293da`).
+- **§23 전체 흐름 Production 실검증 통과**: health green, 핵심 경로 전부 200, 홈·퀴즈·결과 실렌더, 신규 `/api/track/click` 실동작 확인.
+- **fix(vercel)**: `.vercelignore`가 빌드 시점 import되는 픽스처(`data/backups/2026-07-14-catalog/*.json`)를 제외해 Preview 빌드가 13h+ 연속 실패하던 것 수정 — `data/backups/*` 제외 + 해당 픽스처 디렉터리만 재포함(`92192f8`).
+- **Production DB**: `dermatology_institution_candidates`, `commercial_click_events` 테이블 마이그레이션 적용(사람 실행).
+- **이메일**: Production 실발송 차단 유지(환경변수 부재 + 코드 하드 차단).
+
 ## 2026-07-25 (오토파일럿)
 
 - 3단계: discovery 검수 대기 후보 68건 재크롤 → draft product 40건 생성(실 성분/이미지/오퍼 연결). 활성화 0건 — Staging `ingredients` 사전 부족으로 게이트 미통과(원인 확인, 게이트 자체는 미변경).

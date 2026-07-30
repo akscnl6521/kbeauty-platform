@@ -101,10 +101,16 @@ npm run dev
 | 변수 | 용도 |
 |------|------|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase 프로젝트 URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
-| `NEXT_PUBLIC_ANTHROPIC_API_KEY` | AI 분석용 (서버 이전 권장) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (공개용) |
+| `SUPABASE_SERVICE_ROLE_KEY` | 서버 전용. 관리자·워커 경로에서만 사용 |
+| `AI_PROVIDER` | `openai` 또는 `anthropic`. production에서 `mock` 금지 |
+| `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` | 서버 전용 AI 키 |
 
-> 시크릿은 저장소에 커밋하지 마세요. AI 키는 서버 API로 이전하는 것을 권장합니다.
+전체 목록은 [`.env.example`](./.env.example)을 참고하세요.
+
+> **AI 키에 `NEXT_PUBLIC_` 접두사를 붙이지 마세요.** 해당 접두사는 값을 브라우저 번들에 포함시킵니다.
+> 과거 `NEXT_PUBLIC_ANTHROPIC_API_KEY`를 사용하던 구조는 서버 전용 `ANTHROPIC_API_KEY`로 이전 완료되었습니다
+> (`src/lib/ai/analyzeWithAnthropic.ts`). 시크릿은 저장소에 커밋하지 않습니다.
 
 ---
 

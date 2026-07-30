@@ -1,9 +1,9 @@
 import {
   coerceIngredientListUnknown,
-  findMatchByCanonical,
   indexIngredients,
   toCanonical,
 } from "./normalizeIngredient";
+import { matchAllergenByCanonical } from "./allergenMatch";
 import type { RankableProduct, Recommendation } from "./types";
 
 export type SafetyExclusionReason = "allergy_or_avoided" | "incomplete_info";
@@ -26,18 +26,46 @@ export type SafetyFilterResult<T extends RankableProduct> = {
   excludedProducts: SafetyExcludedProduct<T>[];
 };
 
-function collectProductIngredientLabels(product: RankableProduct): string[] {
-  const primary = coerceIngredientListUnknown(product.key_ingredients);
-  const ja = coerceIngredientListUnknown(product.key_ingredients_ja);
+function dedupe(names: string[]): string[] {
   const seen = new Set<string>();
   const out: string[] = [];
-  for (const name of [...primary, ...ja]) {
+  for (const name of names) {
     const key = name.trim();
     if (!key || seen.has(key)) continue;
     seen.add(key);
     out.push(key);
   }
   return out;
+}
+
+/**
+ * 이 제품에 «성분 정보가 있는가» 판정용 목록.
+ *
+ * 핵심 추천 자격의 기준이라 일부러 `key_ingredients` 계열만 본다. 전성분까지
+ * 세면 성분 사전에 하나도 안 잡히는 제품(현재 19건)이 추천 풀에 새로 들어오는데,
+ * 그건 안전 필터가 결정할 일이 아니다.
+ */
+function collectProductIngredientLabels(product: RankableProduct): string[] {
+  return dedupe([
+    ...coerceIngredientListUnknown(product.key_ingredients),
+    ...coerceIngredientListUnknown(product.key_ingredients_ja),
+  ]);
+}
+
+/**
+ * 알레르기·회피 성분을 훑을 목록 — **전성분까지 본다.**
+ *
+ * `key_ingredients` 는 기능성 성분 사전으로 골라낸 부분집합이라 향료·리모넨·
+ * 리날룰 같은 대표 알레르겐이 구조적으로 들어가지 않는다. 그 결과 «향료 알레르기»
+ * 를 입력해도 Staging 실측 기준 향료 함유 40건 중 3건만 걸러졌다. 알레르겐 판정은
+ * 제품이 선언한 전성분 전체를 근거로 해야 한다.
+ */
+function collectAllergenScanLabels(product: RankableProduct): string[] {
+  return dedupe([
+    ...coerceIngredientListUnknown(product.key_ingredients),
+    ...coerceIngredientListUnknown(product.key_ingredients_ja),
+    ...coerceIngredientListUnknown(product.full_ingredients),
+  ]);
 }
 
 function forbiddenCanonicals(recommendation: Recommendation): string[] {
@@ -81,10 +109,10 @@ export function filterCandidatesBySafety<T extends RankableProduct>(
     }
 
     if (banned.length > 0) {
-      const index = indexIngredients(labels);
+      const index = indexIngredients(collectAllergenScanLabels(product));
       let hit = false;
       for (const canonical of banned) {
-        if (findMatchByCanonical(canonical, index)) {
+        if (matchAllergenByCanonical(canonical, index)) {
           hit = true;
           break;
         }

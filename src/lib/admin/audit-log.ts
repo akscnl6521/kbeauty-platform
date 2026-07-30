@@ -24,6 +24,18 @@ export type AuditAction =
   | "verification_rejected"
   | "verification_needs_review"
   | "workflow_status_changed"
+  // 내려졌던 제품을 다시 공개한 것. 사람이 내린 결정을 되돌리는 조작이라
+  // 최초 검증(`verification_approved`)과 구분해서 남긴다.
+  | "product_reactivated"
+  // 브랜드 표기를 공식 표기로 통일한 것. 이름을 «바꾼» 게 아니라 같은 이름의
+  // 표기 변형을 모은 것이므로, 근거(확인한 출처)를 metadata 에 남긴다.
+  | "brand_name_normalized"
+  // 전성분에서 key_ingredients 를 파생시킨 것. 새 정보를 넣은 게 아니라 이미
+  // 제품이 선언한 목록에서 골라낸 것이라, 고른 근거를 metadata 에 남긴다.
+  | "product_key_ingredients_backfilled"
+  // 제품 유형(category)을 채운 것. 근거(제품명 표기 또는 확인한 공식 페이지 문구)를
+  // metadata 에 남긴다 — 추정으로 채운 게 아님을 나중에 확인할 수 있어야 한다.
+  | "product_category_filled"
   | "pipeline_operation_settings_updated";
 
 type AuditChangeType = "status" | "source" | "other";
@@ -36,6 +48,7 @@ function mapChangeType(action: AuditAction): AuditChangeType {
     case "verification_rejected":
     case "verification_needs_review":
     case "verification_review_started":
+    case "product_reactivated":
       return "status";
     case "discovery_candidate_created":
     case "candidate_imported_from_url":

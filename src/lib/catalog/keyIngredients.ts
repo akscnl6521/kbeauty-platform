@@ -103,3 +103,22 @@ export function extractKeyIngredientsFromFullList(
 
   return hits.sort((a, b) => a.orderInList - b.orderInList);
 }
+
+/**
+ * 전성분 문자열 배열 → `products.key_ingredients` 에 넣을 값.
+ *
+ * 추천·안전 필터는 `key_ingredients` 만 읽는데 수집기는 `full_ingredients` 만
+ * 채우기 때문에, 그 사이를 잇는다. 반환값은 사전 표시명이 아니라 **전성분에 적힌
+ * 원문 토큰**이다 — 나중에 원문과 대조할 수 있어야 하고, 제품이 선언하지 않은
+ * 이름이 들어가서도 안 된다.
+ */
+export function deriveKeyIngredientsFromFullList(
+  fullIngredients: readonly string[]
+): string[] {
+  const tokens = fullIngredients
+    .map((raw, index) => ({ token: raw.trim(), order: index }))
+    .filter((t) => t.token.length > 0)
+    .map((t) => ({ ...t, normalizedName: t.token }));
+
+  return extractKeyIngredientsFromFullList(tokens).map((hit) => hit.tokenFromList);
+}

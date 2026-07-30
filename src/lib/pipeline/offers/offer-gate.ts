@@ -7,7 +7,10 @@ import {
   type OfferSourceGrade,
 } from "@/lib/pipeline/offers/offer-source-class";
 import type { OfferIdentityMatch } from "@/lib/pipeline/offers/offer-identity";
-import type { OfferCurrency } from "@/lib/pipeline/offers/offer-price";
+import {
+  isImplausibleRetailPrice,
+  type OfferCurrency,
+} from "@/lib/pipeline/offers/offer-price";
 import type { SchemaStockStatus } from "@/lib/pipeline/offers/offer-stock";
 
 export type SchemaVerificationStatus =
@@ -58,6 +61,12 @@ export function evaluateOfferVerificationGate(
   }
   if (input.identityConfidence < 0.7) blockers.push("identity_confidence_low");
   if (input.price == null || input.price <= 0) blockers.push("price_invalid");
+  // 0원은 아니지만 소매가로 성립할 수 없는 값(브랜드 소개몰의 100원 자리표시
+  // 등)은 자동 검증하지 않는다. 그대로 통과시키면 없는 가격을 사용자에게
+  // 보여주게 된다 (§5-3). 거절이 아니라 사람 검수로 넘긴다.
+  if (isImplausibleRetailPrice(input.price, input.currency)) {
+    blockers.push("price_implausible_placeholder");
+  }
   if (!input.currency) blockers.push("currency_missing");
   if (input.stockStatus !== "in_stock") blockers.push("not_in_stock");
   if (input.stockConfidence < 0.7) blockers.push("stock_confidence_low");

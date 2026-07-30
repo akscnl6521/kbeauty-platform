@@ -1,0 +1,38 @@
+[
+  {
+    "host": "abib.co.kr",
+    "reachable": true,
+    "robotsAllowsProducts": true,
+    "platform": "cafe24",
+    "productUrl": "https://abib.co.kr/product/히알루로닉-수분-시트-마스크-데일리-픽/711/",
+    "hasJsonLdProduct": true,
+    "price": "28000",
+    "stockSignal": "out_of_stock",
+    "hasIngredientText": true,
+    "note": ""
+  },
+  {
+    "host": "aromatica.co.kr",
+    "reachable": true,
+    "robotsAllowsProducts": true,
+    "platform": "cafe24",
+    "productUrl": "https://aromatica.co.kr/product/detail.html?product_no=2456&cate_no=1&display_group=31",
+    "hasJsonLdProduct": true,
+    "price": "42000",
+    "stockSignal": "in_stock",
+    "hasIngredientText": true,
+    "note": ""
+  },
+  {
+    "host": "sioris.co.kr",
+    "reachable": true,
+    "robotsAllowsProducts": true,
+    "platform": "cafe24",
+    "productUrl": "https://sioris.co.kr/product/renewal-클렌즈-미-소프틀리-밀크-클렌저-시그니처-200ml/10/",
+    "hasJsonLdProduct": true,
+    "price": "26000",
+    "stockSignal": "in_stock",
+    "hasIngredientText": false,
+    "note": ""
+  }
+]

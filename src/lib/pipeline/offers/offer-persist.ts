@@ -9,6 +9,7 @@ import {
   canAutoPersistOffer,
   classifyOfferSource,
   hostFromUrl,
+  isSameProductPage,
 } from "@/lib/pipeline/offers/offer-source-class";
 import {
   canAutoSaveByIdentity,
@@ -147,12 +148,17 @@ export async function discoverAndPersistOffers(
       }
     }
 
-    const summarized = summarizeExtractedOffer({
-      ...signal,
-      purchaseUrl,
-      offerTitle: signal.offerTitle ?? input.productName,
-      offerBrand: signal.offerBrand ?? input.brandName,
-    });
+    const summarized = summarizeExtractedOffer(
+      {
+        ...signal,
+        purchaseUrl,
+        offerTitle: signal.offerTitle ?? input.productName,
+        offerBrand: signal.offerBrand ?? input.brandName,
+      },
+      // 오퍼가 이 페이지 자체에서 나온 경우에만 원문을 재고 근거로 쓴다.
+      // 다른 호스트로 나가는 링크에는 이 페이지의 품절 표시가 적용되지 않는다.
+      isSameProductPage(purchaseUrl, input.pageUrl) ? input.pageHtml : null
+    );
 
     const identity = matchOfferToProduct({
       productName: input.productName,

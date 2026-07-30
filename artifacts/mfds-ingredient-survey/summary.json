@@ -1,0 +1,27 @@
+{
+  "surveyedAt": "2026-07-27",
+  "source": "식약처 화장품 원료성분정보 (data.go.kr)",
+  "totalCountReported": 21833,
+  "rowsCollected": 21833,
+  "fieldFill": {
+    "engName": 20574,
+    "casNo": 1578,
+    "origin": 21770,
+    "synonym": 3609,
+    "korAndEng": 20574
+  },
+  "localDictionary": {
+    "ingredients": 602,
+    "aliases": 59
+  },
+  "unmatchedTokens": {
+    "total": 421,
+    "resolvableWithEnglish": 203,
+    "koreanOnlyInMfds": 1,
+    "absentFromMfds": 217
+  },
+  "productImpact": {
+    "stillUnmatched": 56,
+    "wouldFullyClear": 6
+  }
+}

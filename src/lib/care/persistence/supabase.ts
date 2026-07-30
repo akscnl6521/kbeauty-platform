@@ -206,7 +206,16 @@ export class CarePersistence {
       logCareEvent("attach_session");
     }
 
-    for (const localRoutine of payload.routines) {
+    // isCareStoreSnapshot 은 sessions/checkIns 만 배열로 보장한다. routines 와
+    // notifications 는 나중에 추가된 필드라 그 이전에 만들어진 로컬 저장소에는
+    // 없을 수 있다. 그대로 순회하면 TypeError 로 500 이 나고 사용자에게는
+    // "연결에 실패했습니다"만 보인다 — 있는 것만 붙이고 나머지는 건너뛴다.
+    const localRoutines = Array.isArray(payload.routines) ? payload.routines : [];
+    const localNotifications = Array.isArray(payload.notifications)
+      ? payload.notifications
+      : [];
+
+    for (const localRoutine of localRoutines) {
       const mappedSessionId = localRoutine.analysisSessionId
         ? sessionIdMap.get(localRoutine.analysisSessionId)
         : null;
@@ -294,7 +303,7 @@ export class CarePersistence {
       if (!error) result.checkInsAttached += 1;
     }
 
-    for (const notif of payload.notifications) {
+    for (const notif of localNotifications) {
       const fp = localNotificationAttachFingerprint(this.userId, notif.fingerprint);
       await this.createNotification({
         kind: notif.kind,

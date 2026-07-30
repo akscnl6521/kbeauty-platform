@@ -106,6 +106,17 @@ notes: |
   Phase 2+: schema + pool fill + runtime Top3-5. No WQ-G / Production / main / auto-publish.
   Pilot Top10 artifacts: data/catalog/scenario-pilot/2026-07-22/ (docs/catalog/SCENARIO_TOP10_PILOT.md · npm run test:recommendation-pilot).
   Enrichment artifacts: data/catalog/scenario-pilot-enrichment/2026-07-22/ (npm run test:recommendation-pilot-enrichment).
+  2026-07-27 품질 검증(npm run check:recommendation-scenarios): 활성 106건으로 KR 시나리오 6종 실행.
+  수집기가 key_ingredients 를 안 채워 60건이 추천에서 제외되던 문제 수정·백필 41건 완료.
+  대기 중(손대지 않음): sioris 24건(성분 이미지뿐) · 에스쁘아 8 / 미쟝센 4(오퍼 없음) · COSRX 9건 비활성.
+  2026-07-27 알레르겐 필터 전성분 확장 완료(승인 후). 커버리지 향료 3→21/23 · 리모넨 0→14/14.
+  확장이 새로 만들 뻔한 오탐 2종(지방 알코올 15건, Ethylhexylglycerin 2건)을 접두 매처로 같이 해소.
+  2026-07-27 category 채우기 43/44 완료. 미채움 1건(242 아로마티카 알로에 젤)은 needs_review 큐.
+  알레르겐 노출 감사: 옛 필터가 놓쳤던 28건 전부 해소 확인 (Staging 한정).
+  2026-07-27 얼굴 트랙 밖 8건 추천 풀에서 제외 완료 (제품은 내리지 않음, 코드 필터). 풀 106 -> 98.
+  진행 중: Production 알레르겐 감사 — SELECT 전용 SQL 작성 완료, 사람이 Dashboard 에서 실행 후 결과 회수.
+  대기열: §35.7 파서 잔여물 — 광고 문구가 성분 토큰에 붙어 알레르겐 2건 미검출.
+  대기열: Capryloyl Salicylic Acid(LHA)를 Salicylic Acid 회피에 묶을지 — alias 그룹 판단.
 
 ### TASK WQ-G-prelaunch-integration
 

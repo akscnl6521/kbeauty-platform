@@ -1,0 +1,342 @@
+/**
+ * 단계 5.5/6.5 — 두피·헤어 카테고리 1순위(브랜드 직판몰) 실수집.
+ *
+ * docs/product-sourcing-policy.md 1순위. 브랜드 공식 제품 페이지에서만
+ * 가져오고, 오픈 DB·OCR 은 쓰지 않는다. 기존 파이프라인 함수만 호출하며
+ * 품질 게이트·점수 공식은 건드리지 않는다 (PROJECT_RULE §5-6).
+ *
+ * Staging 전용. Production ref 면 즉시 중단한다.
+ *
+ * 실행:
+ *   node --import ./scripts/register-server-only.mjs --import tsx/esm \
+ *     scripts/collect-scalp-hair-tier1.ts
+ */
+import { createClient } from "@supabase/supabase-js";
+import { loadDotEnvLocal } from "./_loadDotEnvLocal";
+
+loadDotEnvLocal();
+
+const STAGING_REF = "jfnjufmldiqlgvgyugfd";
+const PROD_REF = "rhfrmvkjsummaylpzmns";
+
+/** 두피·헤어로 인정할 이름 (얼굴 오탐 제외) */
+const HAIR_RE = /샴푸|컨디셔너|트리트먼트|두피|헤어|shampoo|conditioner|scalp|hair|필업|토닉/i;
+const FACE_FALSE_POSITIVE_RE = /립|lip|시카페어|유스 인핸싱/i;
+
+/**
+ * 제품명에서만 카테고리를 유추한다. 확신이 없으면 null 을 돌려 비워 둔다.
+ * 여기서 나온 값은 beautyDomainForCategory 의 별칭 계층이 도메인으로 흡수한다.
+ */
+function categoryFromName(name: string): string | null {
+  const n = name.toLowerCase();
+  if (/두피\s*토닉|scalp\s*tonic|헤어\s*토닉/.test(n)) return "scalp_tonic";
+  if (/스케일러|scaler/.test(n)) return "scalp_scaler";
+  if (/샴푸|shampoo/.test(n)) return "shampoo";
+  if (/컨디셔너|conditioner|린스/.test(n)) return "conditioner";
+  if (/트리트먼트|treatment|헤어팩|hair\s*pack/.test(n)) return "hair_treatment";
+  if (/헤어\s*오일|hair\s*oil/.test(n)) return "hair_oil";
+  if (/헤어\s*에센스|hair\s*essence|헤어\s*세럼/.test(n)) return "hair_essence";
+  if (/헤어\s*젤|hair\s*gel|왁스|wax|스프레이|spray/.test(n)) return "hair_styling";
+  return null;
+}
+
+const robotsCache = new Map<string, boolean>();
+async function robotsAllows(origin: string): Promise<boolean> {
+  if (robotsCache.has(origin)) return robotsCache.get(origin)!;
+  try {
+    const res = await fetch(`${origin}/robots.txt`, { redirect: "follow" });
+    if (!res.ok) {
+      robotsCache.set(origin, true);
+      return true;
+    }
+    const text = await res.text();
+    let relevant = false;
+    let disallowAll = false;
+    for (const raw of text.split(/\r?\n/)) {
+      const line = raw.trim().toLowerCase();
+      if (line.startsWith("user-agent:")) relevant = line.includes("*");
+      if (relevant && line === "disallow: /") disallowAll = true;
+    }
+    robotsCache.set(origin, !disallowAll);
+    return !disallowAll;
+  } catch {
+    robotsCache.set(origin, false);
+    return false;
+  }
+}
+
+async function main() {
+  const { extractOfficialProductFromUrl } = await import(
+    "../src/lib/catalog/officialCrawl"
+  );
+  const { discoverAndPersistOffers } = await import(
+    "../src/lib/pipeline/offers/offer-persist"
+  );
+  const { linkProductIngredients } = await import(
+    "../src/lib/pipeline/ingredient-link"
+  );
+  const { parseIngredientList } = await import(
+    "../src/lib/pipeline/ingredient-normalize"
+  );
+  const { verifyAndActivateProduct } = await import(
+    "../src/lib/pipeline/product-verify/product-activate"
+  );
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const ref = url.match(/https:\/\/([a-z0-9]+)\.supabase\.co/i)?.[1] ?? "";
+  if (ref === PROD_REF) throw new Error("ABORT_PRODUCTION");
+  if (ref !== STAGING_REF) throw new Error(`ABORT_NOT_STAGING:${ref}`);
+
+  const client = createClient(url, key, { auth: { persistSession: false } });
+  const batchId = `scalp-hair-tier1-${new Date().toISOString().slice(0, 10)}`;
+
+  const { data: rows, error } = await client
+    .from("product_discovery_candidates")
+    .select(
+      "id, discovered_name, discovered_brand, discovered_url, workflow_status, linked_product_id"
+    )
+    .neq("workflow_status", "rejected")
+    .limit(3000);
+  if (error) throw error;
+
+  // 기본은 두피·헤어 후보만 본다. `--host=<도메인>` 을 주면 그 자사몰의 후보를
+  // 대상으로 삼는다 — 수집·매칭·오퍼·게이트 경로는 완전히 같고, 어떤 후보를
+  // 넣을지만 달라진다. 스킨케어 브랜드도 같은 경로로 돌리기 위한 것이다.
+  const hostArg = process.argv.find((a) => a.startsWith("--host="))?.slice(7)?.toLowerCase() ?? null;
+  const hostOf = (u: string) => {
+    try {
+      return new URL(u).hostname.replace(/^www\./, "").toLowerCase();
+    } catch {
+      return null;
+    }
+  };
+
+  const targets = (rows ?? []).filter((r) => {
+    if (!r.discovered_url) return false;
+    if (hostArg) return hostOf(r.discovered_url as string) === hostArg;
+    return (
+      HAIR_RE.test(r.discovered_name ?? "") &&
+      !FACE_FALSE_POSITIVE_RE.test(r.discovered_name ?? "")
+    );
+  });
+
+  const results: Array<Record<string, unknown>> = [];
+
+  for (const cand of targets) {
+    const out: Record<string, unknown> = {
+      candidateId: String(cand.id).slice(0, 8),
+      brand: cand.discovered_brand,
+      name: cand.discovered_name,
+    };
+
+    let origin: string;
+    try {
+      origin = new URL(cand.discovered_url as string).origin;
+    } catch {
+      out.skipped = "bad_url";
+      results.push(out);
+      continue;
+    }
+    if (!(await robotsAllows(origin))) {
+      out.skipped = "robots_disallow";
+      results.push(out);
+      continue;
+    }
+
+    // 1순위: 브랜드 공식 페이지에서 직접 추출
+    const extracted = await extractOfficialProductFromUrl(
+      cand.discovered_url as string
+    );
+    if (!extracted.ok) {
+      out.skipped = "extract_failed";
+      out.code = extracted.code ?? extracted.httpStatus;
+      results.push(out);
+      continue;
+    }
+    out.ingredientsFound = extracted.ingredients.length;
+    out.priceFound = extracted.price != null;
+    out.imageFound = Boolean(extracted.imageUrl);
+    if (extracted.hasMojibake) out.mojibake = true;
+
+    // 기존 제품이 연결돼 있으면 그것을 쓰고, 없으면 draft 를 만든다.
+    let productId = cand.linked_product_id as number | null;
+    if (!productId) {
+      const slugBase = `${cand.discovered_brand ?? "brand"}-${extracted.productName ?? cand.discovered_name}`
+        .toLowerCase()
+        .replace(/<br\s*\/?>/g, " ")
+        .replace(/[^a-z0-9가-힣]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 80);
+
+      const { data: created, error: insErr } = await client
+        .from("products")
+        .insert({
+          name: extracted.productName ?? cand.discovered_name,
+          brand: extracted.brandName ?? cand.discovered_brand,
+          slug: `${slugBase}-${String(cand.id).slice(0, 4)}`,
+          // 추출된 카테고리가 없으면 제품명에서만 유추하고, 그래도 모르면
+          // 비워 둔다. 임의 기본값("shampoo")을 넣으면 헤어젤·트리트먼트가
+          // 전부 샴푸로 기록된다 — docs/product-sourcing-policy.md 의
+          // «확인되지 않은 필드는 비워 둔다» 위반.
+          category:
+            extracted.category ??
+            categoryFromName(extracted.productName ?? cand.discovered_name ?? ""),
+          full_ingredients: extracted.ingredients,
+          // §35.6: 신규는 항상 비활성·미검증으로 시작한다
+          active: false,
+          verified_at: null,
+        })
+        .select("id")
+        .maybeSingle();
+      if (insErr || !created) {
+        out.skipped = "product_insert_failed";
+        out.error = insErr?.message?.slice(0, 120);
+        results.push(out);
+        continue;
+      }
+      productId = created.id as number;
+      await client
+        .from("product_discovery_candidates")
+        .update({ linked_product_id: productId, workflow_status: "needs_review" })
+        .eq("id", cand.id);
+      out.productCreated = productId;
+    } else {
+      out.productExisting = productId;
+    }
+
+    // 전성분 구조화 링크 — 게이트의 structured_ingredients 조건을 채운다.
+    // 파싱 규칙(§35.7 화학명 내부 쉼표 보호 등)은 기존 파서를 그대로 쓴다.
+    try {
+      const parsed = parseIngredientList(
+        extracted.ingredientsRaw ?? extracted.ingredients.join(", ")
+      );
+      const linked = await linkProductIngredients(client, {
+        productId,
+        parsed,
+        sourceUrl: cand.discovered_url as string,
+        batchId,
+      });
+      out.ingredients = {
+        linked: linked.linked,
+        unmatched: linked.unmatched,
+        // 게이트가 «모호» 도 차단 사유로 본다. 세어 놓고 안 넘기면 소용없다.
+        ambiguous: linked.ambiguous,
+      };
+    } catch (e) {
+      out.ingredientError =
+        e instanceof Error ? e.message.slice(0, 120) : String(e);
+    }
+
+    // 오퍼 수집 — 가격·재고를 발명하지 않고 페이지가 노출한 것만 저장한다.
+    // discoverAndPersistOffers 는 원본 HTML 을 직접 파싱하므로 그대로 넘긴다.
+    try {
+      const pageRes = await fetch(cand.discovered_url as string, {
+        redirect: "follow",
+        headers: { "user-agent": "Mozilla/5.0 (compatible; kbm-sourcing)" },
+      });
+      const pageHtml = pageRes.ok ? await pageRes.text() : "";
+      if (!pageHtml) {
+        out.offerError = `page_fetch_${pageRes.status}`;
+      } else {
+        const offer = await discoverAndPersistOffers(client, {
+          productId,
+          productName: (extracted.productName ?? cand.discovered_name ?? "") as string,
+          brandName: (extracted.brandName ?? cand.discovered_brand ?? "") as string,
+          productActive: false,
+          pageHtml,
+          pageUrl: cand.discovered_url as string,
+          officialHost: origin.replace(/^https?:\/\//, ""),
+          batchId,
+        });
+        out.offer = {
+          inserted: offer.inserted,
+          updated: offer.updated,
+          verified: offer.verified,
+          skipped: offer.skipped,
+          reasons: offer.reasons,
+        };
+      }
+    } catch (e) {
+      out.offerError = e instanceof Error ? e.message.slice(0, 120) : String(e);
+    }
+
+    // 품질 게이트 — 통과 못 하면 needs_review 로 남는다.
+    //
+    // `extracted` 를 넘기지 않으면 내부 하드코딩 fallback(0.75)이 identity
+    // 차원에 쓰인다. 그러면 나머지가 다 좋아도 점수가 0.628 로 고정되어
+    // 항상 C 가 나온다. 게이트·점수 공식은 그대로 두고, 방금 크롤로 실제
+    // 확인한 값만 정직하게 채워 넘긴다 (발명 없음).
+    const signals =
+      (extracted.productName ? 1 : 0) +
+      (extracted.brandName ? 1 : 0) +
+      (extracted.ingredients.length > 0 ? 1 : 0) +
+      (extracted.price != null ? 1 : 0) +
+      (cand.discovered_url ? 1 : 0);
+    const confidence = Math.round((signals / 5) * 100) / 100;
+    out.confidence = confidence;
+
+    // 게이트는 미매칭·모호 성분 개수를 **호출자에게서 받는다.** 넘기지 않으면
+    // 0 으로 간주되어 `ingredient_unmatched` 조건이 아예 발동하지 않는다.
+    // 실제로 그 탓에 성분이 절반도 매칭되지 않은 제품이 활성화됐다 —
+    // 게이트를 낮춘 적이 없는데도 통과한 셈이다. 방금 센 값을 그대로 넘긴다.
+    const ingredientCounts = out.ingredients as
+      | { linked: number; unmatched: number; ambiguous?: number }
+      | undefined;
+
+    try {
+      const act = await verifyAndActivateProduct(client, {
+        productId,
+        batchId,
+        unmatchedIngredientCount: ingredientCounts?.unmatched ?? 0,
+        ambiguousIngredientCount: ingredientCounts?.ambiguous ?? 0,
+        extracted: {
+          productName: extracted.productName,
+          brandName: extracted.brandName,
+          canonicalUrl: cand.discovered_url as string,
+          category: extracted.category,
+          imageUrl: extracted.imageUrl,
+          description: extracted.description,
+          fullIngredientsText: extracted.ingredientsRaw,
+          keyIngredients: [],
+          sizeLabel: null,
+          priceReference: extracted.price != null ? String(extracted.price) : null,
+          currency: extracted.currency,
+          availabilityReference: extracted.availability,
+          country: "KR",
+          sourceType: "official_brand_page",
+          confidence,
+          extractionMethod: "scalp_hair_tier1_official_crawl",
+          fieldConfidence: {},
+        } as never,
+      });
+      out.activated = act.activated;
+      out.gateBlockers = act.gateBlockers;
+      out.needsReview = act.needsReview;
+    } catch (e) {
+      out.activateError = e instanceof Error ? e.message.slice(0, 120) : String(e);
+    }
+
+    results.push(out);
+  }
+
+  const activated = results.filter((r) => r.activated).length;
+  console.log(
+    JSON.stringify(
+      {
+        batchId,
+        stagingRef: `${ref.slice(0, 4)}***`,
+        targets: targets.length,
+        activated,
+        results,
+      },
+      null,
+      2
+    )
+  );
+}
+
+main().catch((e) => {
+  console.error("[collect-scalp-hair-tier1] FAILED:", e instanceof Error ? e.message : e);
+  process.exitCode = 1;
+});

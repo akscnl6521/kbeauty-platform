@@ -18,10 +18,90 @@ export type StockParseResult = {
   reasons: string[];
 };
 
+/**
+ * Cafe24(국내 쇼핑몰 다수가 쓰는 플랫폼)가 서버에서 렌더링하는 품절 상태를 읽는다.
+ *
+ * Cafe24 는 품절 배지와 구매 버튼을 **둘 다 항상 마크업에 넣고**, 어느 쪽을
+ * 숨길지 `displaynone` 클래스로 표시한다. 그래서 «sold out» 이라는 낱말이
+ * 페이지에 있다는 사실만으로는 품절인지 알 수 없다 — 판매 중인 상품에도
+ * 그 낱말은 들어 있다. 반대로 낱말이 없다고 재고가 있는 것도 아니다.
+ *
+ * 2026-07-27 lador.co.kr 에서 판매중/품절 상품을 직접 대조해 확인한 형태:
+ *
+ *   판매중 (id 414): <span class="button sold-out displaynone">Soldout</span>
+ *   품절   (id 104): <span class="button sold-out">Soldout</span>   + 구매 버튼 숨김
+ *
+ * 버튼이 있다는 것만으로 재고를 단정하지 않는 기존 방침(§5-3)은 그대로다.
+ * 여기서 읽는 것은 버튼의 존재가 아니라 **플랫폼이 명시한 품절 플래그**다.
+ */
+/**
+ * 품절 배지가 **감춰져 있는지** 본다.
+ *
+ * 쇼핑몰마다 감추는 자리가 다르다. 2026-07-27 실측:
+ *
+ *   lador  <span class="button sold-out displaynone">   요소 자체에 붙는다
+ *   abib   <div class="displaynone"><span class="btn sold-out">   부모에 붙는다
+ *
+ * 요소의 class 만 보면 abib 같은 테마를 전부 품절로 오판한다 — 실제로는
+ * 구매 버튼이 멀쩡히 보이는 판매중 상품이었다. 바로 앞의 여는 태그까지
+ * 살펴 부모가 감춰졌는지 확인한다.
+ *
+ * 완전한 DOM 해석은 아니다. 조상 한 단계만 본다 — 실제 마크업이 그 형태였고,
+ * 더 깊이 추정하는 것보다 «모르면 판단하지 않는» 쪽이 안전하다.
+ */
+function isHiddenByAncestor(html: string, elementIndex: number): boolean {
+  const before = html.slice(Math.max(0, elementIndex - 400), elementIndex);
+  const lastOpen = before.lastIndexOf("<div");
+  if (lastOpen === -1) return false;
+  const openTagEnd = before.indexOf(">", lastOpen);
+  if (openTagEnd === -1) return false;
+  const openTag = before.slice(lastOpen, openTagEnd + 1);
+  // 그 div 가 우리 요소 앞에서 이미 닫혔으면 부모가 아니다.
+  if (before.slice(openTagEnd).includes("</div>")) return false;
+  return /\bdisplaynone\b/.test(openTag);
+}
+
+export function parseCafe24StockSignal(html: string | null | undefined): {
+  stockStatus: SchemaStockStatus;
+  confidence: number;
+  reasons: string[];
+} | null {
+  if (!html) return null;
+
+  const matches = [
+    ...html.matchAll(
+      /<(?:span|div|button)[^>]*\bclass="([^"]*(?:sold-?out|sub_sold)[^"]*)"[^>]*>/gi
+    ),
+  ];
+
+  // Cafe24 특유의 마크업이 없으면 이 판독기가 할 말은 없다.
+  if (matches.length === 0) return null;
+
+  const visibleSoldOut = matches.filter(
+    (m) => !/\bdisplaynone\b/.test(m[1]!) && !isHiddenByAncestor(html, m.index ?? 0)
+  );
+  if (visibleSoldOut.length > 0) {
+    return {
+      stockStatus: "out_of_stock",
+      confidence: 0.85,
+      reasons: ["cafe24_soldout_badge_visible"],
+    };
+  }
+
+  // 품절 배지가 전부 숨겨져 있다 = 플랫폼이 «품절 아님» 을 렌더링한 것.
+  return {
+    stockStatus: "in_stock",
+    confidence: 0.8,
+    reasons: ["cafe24_soldout_badge_hidden"],
+  };
+}
+
 export function parseStockStatus(input: {
   availability?: string | null;
   buttonText?: string | null;
   pageText?: string | null;
+  /** Cafe24 상세 페이지 원문. 있으면 스키마 다음가는 근거로 쓴다. */
+  pageHtml?: string | null;
 }): StockParseResult {
   const text = [
     input.availability,
@@ -43,6 +123,19 @@ export function parseStockStatus(input: {
       reasons,
     };
   }
+  // 원문 HTML 이 있으면 낱말 검색보다 먼저 구조를 읽는다. Cafe24 는 판매중인
+  // 상품에도 «sold out» 문자열을 숨겨서 넣어두기 때문에, 아래 낱말 검사보다
+  // 이쪽이 먼저 와야 판매중인 상품을 품절로 오판하지 않는다.
+  const cafe24 = parseCafe24StockSignal(input.pageHtml);
+  if (cafe24) {
+    return {
+      stockStatus: cafe24.stockStatus,
+      logicalStatus: cafe24.stockStatus === "in_stock" ? "in_stock" : "out_of_stock",
+      confidence: cafe24.confidence,
+      reasons: [...reasons, ...cafe24.reasons],
+    };
+  }
+
   if (
     /outofstock|out.?of.?stock|sold\s*out|품절|재고\s*없음|instock.?false/i.test(
       text

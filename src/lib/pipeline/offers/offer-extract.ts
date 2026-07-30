@@ -122,11 +122,21 @@ export function extractOffersFromHtml(
   });
 }
 
-export function summarizeExtractedOffer(signal: ExtractedOfferSignal) {
+export function summarizeExtractedOffer(
+  signal: ExtractedOfferSignal,
+  /**
+   * 상세 페이지 원문. Cafe24 처럼 재고를 JSON-LD 로 내보내지 않고 마크업의
+   * 표시/숨김으로만 알리는 쇼핑몰이 있어서, 있으면 같이 넘긴다.
+   */
+  pageHtml?: string | null
+) {
   const price = parseOfferPrice({
     priceText: signal.priceText,
     currencyHint: signal.currencyHint,
   });
-  const stock = parseStockStatus({ availability: signal.availability });
+  const stock = parseStockStatus({
+    availability: signal.availability,
+    pageHtml,
+  });
   return { signal, price, stock };
 }

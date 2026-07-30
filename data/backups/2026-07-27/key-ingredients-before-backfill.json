@@ -1,0 +1,572 @@
+{
+  "takenAt": "2026-07-27T11:58:24.395Z",
+  "note": "backfill-key-ingredients 실행 직전 값 — 되돌릴 때 이 값으로 UPDATE",
+  "rows": [
+    {
+      "id": 73,
+      "brand": "Round Lab",
+      "name": "Pine Calming Cica Shampoo",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Centella Asiatica Extract",
+        "Panthenol"
+      ]
+    },
+    {
+      "id": 117,
+      "brand": "Abib Cosmetic",
+      "name": "히알루로닉 수분 시트 마스크 데일리 픽",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Allantoin",
+        "Panthenol",
+        "Sodium Hyaluronate",
+        "Camellia Sinensis Leaf Extract"
+      ]
+    },
+    {
+      "id": 119,
+      "brand": "Abib Cosmetic",
+      "name": "히알루로닉 붐 크림 워터 튜브",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Sodium Hyaluronate",
+        "Ceramide NP",
+        "Allantoin",
+        "Panthenol",
+        "Tocopherol"
+      ]
+    },
+    {
+      "id": 121,
+      "brand": "Abib Cosmetic",
+      "name": "약산성 시트 마스크 아쿠아 핏",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Sodium Hyaluronate",
+        "Allantoin",
+        "Sodium Carboxymethyl Beta-Glucan",
+        "Acetyl Dipeptide-1 Cetyl Ester",
+        "Ceramide NP",
+        "Cholesterol"
+      ]
+    },
+    {
+      "id": 122,
+      "brand": "Abib Cosmetic",
+      "name": "콜라겐 겔 마스크 수분초 젤리",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Niacinamide",
+        "Allantoin",
+        "Panthenol",
+        "Adenosine",
+        "Sodium Hyaluronate",
+        "Tocopherol",
+        "Ascorbic Acid",
+        "Palmitoyl Tripeptide-5"
+      ]
+    },
+    {
+      "id": 123,
+      "brand": "Abib Cosmetic",
+      "name": "딥 클린 폼 클렌저 수분초 히알루론 폼",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Sodium Hyaluronate",
+        "Allantoin",
+        "Panthenol"
+      ]
+    },
+    {
+      "id": 124,
+      "brand": "Abib Cosmetic",
+      "name": "껌딱지 시트 마스크 수분초 히알루론 스티커",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Sodium Hyaluronate",
+        "Panthenol",
+        "Niacinamide",
+        "Asiaticoside"
+      ]
+    },
+    {
+      "id": 125,
+      "brand": "Abib Cosmetic",
+      "name": "수분초 히알루론 선세럼 워터리 튜브 SPF50+ PA++++",
+      "key_ingredients": null,
+      "willSet": [
+        "Niacinamide",
+        "Panthenol",
+        "Ethylhexylglycerin",
+        "Adenosine",
+        "Tocopherol",
+        "Sodium Hyaluronate"
+      ]
+    },
+    {
+      "id": 126,
+      "brand": "Abib Cosmetic",
+      "name": "히알루론 수분 시트 마스크 에센셜 핏",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Sodium Hyaluronate",
+        "Allantoin",
+        "Panthenol"
+      ]
+    },
+    {
+      "id": 127,
+      "brand": "Abib Cosmetic",
+      "name": "엑토인 판테놀 11 퍼센트 크림 배리어 튜브",
+      "key_ingredients": null,
+      "willSet": [
+        "Panthenol",
+        "SQUALANE",
+        "Glycerin",
+        "CHOLESTEROL",
+        "CERAMIDE NP",
+        "TOCOPHEROL"
+      ]
+    },
+    {
+      "id": 128,
+      "brand": "Abib Cosmetic",
+      "name": "PDRN 인텐시브 크림 1.5 튜브",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Niacinamide",
+        "Adenosine",
+        "Tocopherol",
+        "Ceramide NP",
+        "Panthenol",
+        "Squalane",
+        "Acetyl Hexapeptide-8",
+        "Hydrolyzed Hyaluronic Acid 정제수"
+      ]
+    },
+    {
+      "id": 138,
+      "brand": "Abib Cosmetic",
+      "name": "껌딱지 시트 마스크 어성초 스티커",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Sodium Hyaluronate",
+        "Allantoin",
+        "Panthenol",
+        "Niacinamide",
+        "Asiaticoside"
+      ]
+    },
+    {
+      "id": 140,
+      "brand": "Abib Cosmetic",
+      "name": "약산성 시트 마스크 어성초 핏",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Centella Asiatica Extract",
+        "Camellia Sinensis Leaf Extract",
+        "Allantoin"
+      ]
+    },
+    {
+      "id": 141,
+      "brand": "Abib Cosmetic",
+      "name": "부활초 탄력 시트 마스크 데일리 픽",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Niacinamide",
+        "ADENOSINE",
+        "ALLANTOIN",
+        "Panthenol",
+        "HYDROLYZED HYALURONIC ACID"
+      ]
+    },
+    {
+      "id": 142,
+      "brand": "Abib Cosmetic",
+      "name": "어성초 진정 시트 마스크 데일리 픽",
+      "key_ingredients": null,
+      "willSet": [
+        "Niacinamide",
+        "Glycerin",
+        "Adenosine",
+        "Allantoin",
+        "Sodium Hyaluronate",
+        "Asiaticoside"
+      ]
+    },
+    {
+      "id": 144,
+      "brand": "Abib Cosmetic",
+      "name": "마데카소사이드 진정 시트 에센셜 핏",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Centella Asiatica Extract",
+        "Allantoin"
+      ]
+    },
+    {
+      "id": 145,
+      "brand": "Abib Cosmetic",
+      "name": "비타 씨 미백 시트 마스크 에센셜 핏",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Niacinamide",
+        "3-O-Ethyl Ascorbic Acid",
+        "Sodium Hyaluronate"
+      ]
+    },
+    {
+      "id": 152,
+      "brand": "Abib Cosmetic",
+      "name": "어성초 카밍 토너 스킨 부스터",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Panthenol",
+        "Sodium Hyaluronate",
+        "Centella Asiatica Extract",
+        "Tocopherol"
+      ]
+    },
+    {
+      "id": 153,
+      "brand": "Abib Cosmetic",
+      "name": "부활초 크림 뉴트리션 튜브",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Panthenol",
+        "Adenosine",
+        "Tocopherol"
+      ]
+    },
+    {
+      "id": 155,
+      "brand": "Abib Cosmetic",
+      "name": "어성초 크림 카밍 튜브",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Niacinamide",
+        "Panthenol",
+        "Sodium Hyaluronate",
+        "Tocopherol",
+        "Allantoin",
+        "Beta-Glucan",
+        "Ceramide NP"
+      ]
+    },
+    {
+      "id": 156,
+      "brand": "Abib Cosmetic",
+      "name": "부활초 비피다 세럼 퍼밍 드롭",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Niacinamide",
+        "Sodium Hyaluronate",
+        "Panthenol",
+        "Squalane",
+        "Adenosine",
+        "Ceramide NP",
+        "Beta-Glucan",
+        "Sodium Ascorbyl Phosphate",
+        "Tocopherol",
+        "Asiaticoside",
+        "Palmitoyl Tripeptide-5"
+      ]
+    },
+    {
+      "id": 158,
+      "brand": "Abib Cosmetic",
+      "name": "수분초 히알루론 크림 하이드레이팅 팟",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Sodium Hyaluronate",
+        "Centella Asiatica Leaf Extract",
+        "Panthenol",
+        "Allantoin",
+        "Cholesterol",
+        "Beta-Glucan",
+        "Tocopherol",
+        "Ceramide NP"
+      ]
+    },
+    {
+      "id": 169,
+      "brand": "Abib Cosmetic",
+      "name": "약산성 시트 마스크 허니 핏",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Allantoin",
+        "Panthenol"
+      ]
+    },
+    {
+      "id": 170,
+      "brand": "Abib Cosmetic",
+      "name": "껌딱지 시트 마스크 콜라겐 밀크 스티커",
+      "key_ingredients": null,
+      "willSet": [
+        "Niacinamide",
+        "Glycerin",
+        "Panthenol",
+        "Adenosine",
+        "Centella Asiatica Extract",
+        "Tripeptide-1"
+      ]
+    },
+    {
+      "id": 177,
+      "brand": "Abib Cosmetic",
+      "name": "글루타치온좀 잡티 토너 스킨 부스터",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Niacinamide",
+        "3-O-Ethyl Ascorbic Acid",
+        "Adenosine",
+        "Madecassoside",
+        "Cholesterol",
+        "Tocopherol",
+        "Ceramide NP",
+        "Allantoin",
+        "Capryloyl Salicylic Acid",
+        "Panthenol",
+        "Lactic Acid",
+        "Sodium Hyaluronate Crosspolymer",
+        "Beta-Glucan"
+      ]
+    },
+    {
+      "id": 178,
+      "brand": "Abib Cosmetic",
+      "name": "콜라겐 아이패치 부활초 젤리",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Niacinamide",
+        "Sodium Hyaluronate",
+        "Allantoin",
+        "Adenosine",
+        "Panthenol",
+        "Ceramide NP",
+        "Palmitoyl Tripeptide-5"
+      ]
+    },
+    {
+      "id": 179,
+      "brand": "Abib Cosmetic",
+      "name": "아크네 폼 클렌저 어성초 폼",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Salicylic Acid",
+        "Panthenol",
+        "Centella Asiatica Extract"
+      ]
+    },
+    {
+      "id": 181,
+      "brand": "Abib Cosmetic",
+      "name": "레드 이펙트 세럼 1.05 펌프",
+      "key_ingredients": null,
+      "willSet": [
+        "Niacinamide",
+        "Panthenol",
+        "Ethylhexylglycerin",
+        "Adenosine",
+        "Ascorbic Acid",
+        "Tocopherol 정제수"
+      ]
+    },
+    {
+      "id": 182,
+      "brand": "Abib Cosmetic",
+      "name": "PDRN 콜라겐 오버나이트 마스크 퍼밍 젤리",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Niacinamide",
+        "Panthenol",
+        "Adenosine",
+        "Sodium Hyaluronate",
+        "Allantoin",
+        "Centella Asiatica Extract",
+        "Tripeptide-1",
+        "Squalane",
+        "Ceramide NP"
+      ]
+    },
+    {
+      "id": 187,
+      "brand": "Abib Cosmetic",
+      "name": "브라이트 포스 세럼 13.0 펌프",
+      "key_ingredients": null,
+      "willSet": [
+        "Niacinamide",
+        "Glycerin",
+        "Tranexamic Acid",
+        "Panthenol",
+        "Sodium Ascorbyl Phosphate",
+        "Sodium Hyaluronate",
+        "Beta-Glucan",
+        "Tocopherol 정제수"
+      ]
+    },
+    {
+      "id": 188,
+      "brand": "Abib Cosmetic",
+      "name": "핸드크림 타입 N",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Panthenol",
+        "Tocopherol 정제수"
+      ]
+    },
+    {
+      "id": 189,
+      "brand": "Abib Cosmetic",
+      "name": "핸드크림 타입 G",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Panthenol",
+        "Beta-Glucan",
+        "Tocopherol 정제수"
+      ]
+    },
+    {
+      "id": 190,
+      "brand": "Abib Cosmetic",
+      "name": "핸드크림 타입 S",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Panthenol",
+        "Tocopherol 정제수"
+      ]
+    },
+    {
+      "id": 192,
+      "brand": "Abib Cosmetic",
+      "name": "바디 에멀전 타입 R 프라그란트 보틀",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Panthenol",
+        "Squalane",
+        "Ceramide NP"
+      ]
+    },
+    {
+      "id": 193,
+      "brand": "Abib Cosmetic",
+      "name": "바디 워시 타입 R 프라그란트 보틀",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Panthenol",
+        "Squalane",
+        "Ceramide NP"
+      ]
+    },
+    {
+      "id": 196,
+      "brand": "Abib Cosmetic",
+      "name": "라이스 오버나이트 마스크 배리어 젤리",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Adenosine",
+        "Sodium Hyaluronate",
+        "Allantoin"
+      ]
+    },
+    {
+      "id": 200,
+      "brand": "Abib Cosmetic",
+      "name": "카밍 페이셜 솝 어성초 스톤",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin"
+      ]
+    },
+    {
+      "id": 204,
+      "brand": "Abib Cosmetic",
+      "name": "부활초 크림 - 미니어쳐 뉴트리션 튜브",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Panthenol",
+        "Adenosine",
+        "Tocopherol"
+      ]
+    },
+    {
+      "id": 205,
+      "brand": "Abib Cosmetic",
+      "name": "아크네 폼 클렌저 - 미니어쳐 어성초 폼",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Salicylic Acid",
+        "Panthenol",
+        "Centella Asiatica Extract"
+      ]
+    },
+    {
+      "id": 206,
+      "brand": "Abib Cosmetic",
+      "name": "수분초 히알루론 크림 - 미니어쳐 하이드레이팅 팟",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Sodium Hyaluronate",
+        "Centella Asiatica Leaf Extract",
+        "Panthenol",
+        "Allantoin",
+        "Cholesterol",
+        "Beta-Glucan",
+        "Tocopherol",
+        "Ceramide NP"
+      ]
+    },
+    {
+      "id": 234,
+      "brand": "Abib Cosmetic",
+      "name": "어성초 크림 - 미니어쳐 카밍 튜브",
+      "key_ingredients": null,
+      "willSet": [
+        "Glycerin",
+        "Niacinamide",
+        "Panthenol",
+        "Sodium Hyaluronate",
+        "Tocopherol",
+        "Allantoin",
+        "Beta-Glucan",
+        "Ceramide NP"
+      ]
+    }
+  ]
+}

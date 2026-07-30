@@ -25,6 +25,7 @@ export {
   filterOutStimulatingActives,
   hasStimulatingActives,
   isExcludedFromPublicCatalog,
+  isOutsideFaceTrack,
 } from "./publicCatalogFilter";
 export { buildMatchReason, buildEvidenceCitationItems } from "./buildMatchReason";
 export { CATALOG_DATA_GOALS, CORE_ALLOWED_STOCK } from "./catalogTypes";

@@ -69,6 +69,39 @@ export function filterPublicCatalogProducts<T extends PublicCatalogProductLike>(
 }
 
 /**
+ * 얼굴 트랙(§29) 밖의 제품 유형.
+ *
+ * MVP 는 얼굴 트랙만이고 §44 단계 6.5(카테고리 확장 트랙 B — 바디케어·핸드/풋·
+ * 향수 등)는 미착수다. 그런데 브랜드 자사몰을 통째로 수집하면 향수·핸드크림·
+ * 바디워시가 같이 딸려 들어와, 얼굴 고민(홍조·모공·주름) 시나리오의 추천 후보로
+ * 잡힌다. Staging 실측 8건.
+ *
+ * 제품을 내리지는 않는다 — 카탈로그에는 그대로 두고 **얼굴 추천 후보 풀에서만**
+ * 뺀다. 트랙 B 를 시작하면 그때 각 트랙의 풀로 쓰면 된다.
+ */
+const FACE_TRACK_EXCLUDED_CATEGORIES: ReadonlySet<string> = new Set([
+  "perfume",
+  "hand_cream",
+  "body_lotion",
+  "body_wash",
+  "body_oil",
+  "body_scrub",
+  "foot_cream",
+]);
+
+/**
+ * 얼굴 추천 후보 풀에서 빼야 하는 제품인지 (카테고리 기준).
+ *
+ * `category` 가 비어 있으면 **제외하지 않는다.** 유형을 모른다는 이유로 얼굴
+ * 제품을 조용히 떨어뜨리는 쪽이 더 나쁘고, 카테고리 미채움은 별도로 다룬다.
+ */
+export function isOutsideFaceTrack(product: { category?: string | null }): boolean {
+  const category = typeof product.category === "string" ? product.category.trim() : "";
+  if (!category) return false;
+  return FACE_TRACK_EXCLUDED_CATEGORIES.has(category.toLowerCase());
+}
+
+/**
  * 위험 신호(전문가 상담 우선) 시 제외할 자극·강한 활성 성분.
  * 제품명·주요 성분 라벨 기준 (진단 아님).
  */
