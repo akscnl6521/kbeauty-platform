@@ -44,6 +44,19 @@ const SHOPIFY_BRANDS: ReadonlyArray<{ brands: string[]; domain: string }> = [
   { brands: ["Missha"], domain: "misshaus.com" },
   { brands: ["Medicube"], domain: "medicube.us" },
   { brands: ["Ma:nyo"], domain: "manyo.us" },
+  // ── Tier 3 (2026-07-30) — `discover-brand-shopify-stores.ts` 로 도메인을 찾고
+  //    /products.json 이 실제로 제품을 돌려주는 것만 남겼다. 비K뷰티 브랜드
+  //    (SK-II · Elizabeth Arden)는 스토어가 열려 있어도 §29 스코프 밖이라 뺐다.
+  //    Glow Recipe 는 한국 제조·미국 법인이라 스코프 판단이 남아 보류한다.
+  { brands: ["TIRTIR"], domain: "tirtir.us" },
+  { brands: ["Heimish"], domain: "heimish.us" },
+  { brands: ["Rovectin"], domain: "rovectin.com" },
+  { brands: ["Tocobo"], domain: "tocobo.us" },
+  { brands: ["mixsoon"], domain: "mixsoon.us" },
+  { brands: ["Holika Holika"], domain: "holikaholika.com" },
+  { brands: ["Pyunkang Yul"], domain: "pyunkangyulglobal.com" },
+  { brands: ["Numbuzin"], domain: "us.numbuzin.com" },
+  { brands: ["Tonymoly"], domain: "tonymoly.us" },
 ];
 
 type ShopifyVariant = {

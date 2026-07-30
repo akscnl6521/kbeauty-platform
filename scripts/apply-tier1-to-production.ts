@@ -20,6 +20,7 @@
 import { readFileSync } from "node:fs";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
+import { sanitizeIngredientList } from "../src/lib/catalog/validateIngredientList";
 
 loadDotEnvLocal();
 
@@ -124,7 +125,20 @@ async function main() {
   console.log(`반영 대상 ${targets.length}건 · 브랜드 정정 ${BRAND_FIXES.length}건`);
   if (!apply) {
     console.log("\ndry-run. --apply 를 붙이면 실제로 반영한다.");
-    for (const t of targets) console.log(`  ${String(t.productId).padStart(4)} ${t.brand} ${t.name}`);
+    console.log("전성분 검증까지 미리 태운다 — 반려될 건은 반영해도 저장되지 않는다.\n");
+    let pass = 0;
+    for (const t of targets) {
+      const page = await getText(t.purchaseUrl!);
+      const raw = extractLabeledIngredientsRaw(page);
+      const v = raw ? sanitizeIngredientList(raw.raw) : { ok: false as const, reason: "전성분 추출 실패" };
+      const mark = v.ok ? "통과" : "반려";
+      if (v.ok) pass += 1;
+      const why = v.ok
+        ? `  성분 ${v.tokens.length}개${v.cutAtMarker ? " (꼬리 절단)" : ""}${v.droppedTailTokens ? ` (항목 ${v.droppedTailTokens}개 버림)` : ""}`
+        : `  ← ${v.reason}${"sample" in v && v.sample ? ` (${v.sample})` : ""}`;
+      console.log(`  ${mark} ${String(t.productId).padStart(4)} ${t.brand.padEnd(16)} ${t.name.slice(0, 42).padEnd(42)}${why}`);
+    }
+    console.log(`\n  통과 ${pass}건 / 대상 ${targets.length}건`);
     return;
   }
 
@@ -163,6 +177,8 @@ async function main() {
   /** 이번에 실제로 뽑은 전성분 토큰 수. artifact 의 옛 개수를 쓰면 미매칭 수가 틀린다. */
   const tokenCountByProduct = new Map<number, number>();
   const failures: string[] = [];
+  /** 전성분이 성분표로 보이지 않아 저장을 건너뛴 것. 실패와 구분해서 남긴다. */
+  const rejected: string[] = [];
 
   // Production 성분 사전을 한 번만 읽어 이름 → id 로 만든다. 영문·한글 둘 다 건다.
   const dict = await fetchIngredientDict(client);
@@ -184,12 +200,22 @@ async function main() {
     // 전성분 재수집 (artifact 에는 개수만 있고 토큰이 없다)
     const page = await getText(t.purchaseUrl!);
     const raw = extractLabeledIngredientsRaw(page);
-    const parsed = raw ? parseIngredientList(raw.raw) : null;
-    const tokens = (parsed?.normalized ?? []).map((n) => n.token).filter(Boolean);
-    if (tokens.length === 0) {
+    if (!raw) {
       failures.push(`${pid} 전성분 재수집 실패`);
       continue;
     }
+
+    // 쓰기 직전 관문 — 추출기를 두 번 고쳤는데도 마케팅 문구가 새어 들어왔고,
+    // 2026-07-29 에 오염된 18건이 Production 에 저장돼 되돌려야 했다. 전성분은
+    // 알레르겐 검사의 입력이라 쓰레기가 들어가면 "안전" 판정이 무의미해진다.
+    const verdict = sanitizeIngredientList(raw!.raw);
+    if (!verdict.ok) {
+      rejected.push(`${pid} ${t.brand} — ${verdict.reason}${verdict.sample ? ` (${verdict.sample})` : ""}`);
+      continue;
+    }
+    // 검증을 통과한 **정제된 토큰**을 저장한다. 추출기가 뽑은 토큰을 그대로 쓰면
+    // 잘라낸 꼬리가 다시 들어간다.
+    const tokens = verdict.tokens;
 
     // full_ingredients 갱신 — 기존 값이 있으면 덮지 않는다
     const { data: up, error: upErr } = await client

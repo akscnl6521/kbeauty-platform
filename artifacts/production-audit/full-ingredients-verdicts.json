@@ -1,0 +1,143 @@
+{
+  "checkedAt": "2026-07-30T04:10:13.379Z",
+  "totalProducts": 191,
+  "withIngredients": 35,
+  "rejected": [
+    {
+      "id": 1,
+      "brand": "COSRX",
+      "name": "Centella Water Alcohol-Free Toner",
+      "active": true,
+      "reason": "성분명 형태가 아닌 항목 4개",
+      "sample": "\"works\""
+    },
+    {
+      "id": 21,
+      "brand": "COSRX",
+      "name": "Vitamin C 23 Serum",
+      "active": true,
+      "reason": "HTML 엔티티 포함",
+      "sample": "&emsp"
+    },
+    {
+      "id": 32,
+      "brand": "Innisfree",
+      "name": "Green Tea Hyaluronic Cream",
+      "active": true,
+      "reason": "성분명 형태가 아닌 항목 1개",
+      "sample": "neck. Gently pat for better absorption 3. Use AM"
+    },
+    {
+      "id": 48,
+      "brand": "Klairs",
+      "name": "Supple Preparation Unscented Toner",
+      "active": true,
+      "reason": "성분명 형태가 아닌 항목 3개",
+      "sample": "pH-balanced toner designed for sensitive skin"
+    },
+    {
+      "id": 77,
+      "brand": "CosRX",
+      "name": "Black Snail All In One Cream",
+      "active": true,
+      "reason": "HTML 엔티티 포함",
+      "sample": "&emsp"
+    },
+    {
+      "id": 80,
+      "brand": "Laneige",
+      "name": "Lip Sleeping Mask",
+      "active": true,
+      "reason": "성분명 형태가 아닌 항목 2개",
+      "sample": "VITIS VINIFERA (GRAPE) JUICE GRAPEFRUIT: DIISOSTEARYL MALATE"
+    },
+    {
+      "id": 93,
+      "brand": "Innisfree",
+      "name": "Complete No-Sebum Mineral Powder",
+      "active": true,
+      "reason": "성분명 형태가 아닌 항목 1개",
+      "sample": "Tocopherol Compact: Mica"
+    },
+    {
+      "id": 123,
+      "brand": "Medicube",
+      "name": "Red Erasing Serum",
+      "active": true,
+      "reason": "HTML 엔티티 포함",
+      "sample": "&times"
+    },
+    {
+      "id": 133,
+      "brand": "Ma:nyo",
+      "name": "Bifida Biome Complex Ampoule",
+      "active": true,
+      "reason": "성분명 형태가 아닌 항목 1개",
+      "sample": "Potassium Hyaluronate Overall rating: 4.9310346 / 5 from 203"
+    },
+    {
+      "id": 156,
+      "brand": "Sulwhasoo",
+      "name": "First Care Activating Serum",
+      "active": true,
+      "reason": "성분명 형태가 아닌 항목 1개",
+      "sample": "firmness GINSENG CAFFEINETM COMPLEX : Reduces visible puffin"
+    },
+    {
+      "id": 167,
+      "brand": "Axis-Y",
+      "name": "Complete No-Stress Physical Sunscreen",
+      "active": true,
+      "reason": "연도 포함",
+      "sample": "2023"
+    },
+    {
+      "id": 168,
+      "brand": "Round Lab",
+      "name": "Birch Juice Moisturizing Serum",
+      "active": true,
+      "reason": "마케팅·UI 문구 포함",
+      "sample": "welcome offer"
+    },
+    {
+      "id": 169,
+      "brand": "Round Lab",
+      "name": "Birch Juice Moisturizing Cream",
+      "active": true,
+      "reason": "마케팅·UI 문구 포함",
+      "sample": "welcome offer"
+    },
+    {
+      "id": 176,
+      "brand": "Innisfree",
+      "name": "Green Tea Seed Serum",
+      "active": true,
+      "reason": "성분명 형태가 아닌 항목 3개",
+      "sample": "balance skin's microbiome Panthenol: Hydrates"
+    },
+    {
+      "id": 187,
+      "brand": "COSRX",
+      "name": "The Vitamin C 23 Serum",
+      "active": true,
+      "reason": "HTML 엔티티 포함",
+      "sample": "&emsp"
+    },
+    {
+      "id": 191,
+      "brand": "COSRX",
+      "name": "The Niacinamide 15 Serum",
+      "active": true,
+      "reason": "HTML 엔티티 포함",
+      "sample": "&emsp"
+    },
+    {
+      "id": 192,
+      "brand": "COSRX",
+      "name": "The 6 Peptide Skin Booster Serum",
+      "active": true,
+      "reason": "HTML 엔티티 포함",
+      "sample": "&emsp"
+    }
+  ]
+}

@@ -77,7 +77,15 @@ function inciListScore(text: string): number {
   const ratio = parts.filter(looksLikeIngredientToken).length / parts.length;
   if (ratio < 0.85) return 0;
 
-  return ratio;
+  // **첫 항목이 성분이 아니면 구간을 잘못 잡은 것이다.** 전성분은 함량 내림차순이라
+  // 첫 자리는 반드시 성분이다. 설명 문단 한가운데를 집으면 여기가 문장으로 시작한다:
+  //
+  //   «improves hydration, firmness GINSENG CAFFEINETM COMPLEX : Reduces, GLYCERIN, …»
+  //   «Green Tea Water + Encapsulated Hyaluronic Acid: Amplified hydration, …»
+  //
+  // 같은 페이지에 제대로 된 구간이 따로 있으면 그쪽이 이기도록 점수를 깎는다.
+  // 0 으로 만들지는 않는다 — 다른 후보가 없을 때는 이거라도 사람이 보는 편이 낫다.
+  return looksLikeIngredientToken(parts[0]) ? ratio : ratio * 0.5;
 }
 
 function looksLikeInciList(text: string): boolean {
