@@ -187,6 +187,7 @@
     "test:revenue-ledger": "tsx scripts/revenue-ledger-selftest.ts",
     "test:brand-name": "tsx scripts/brand-name-extraction-selftest.ts",
     "test:key-ingredients-derive": "tsx scripts/key-ingredients-derive-selftest.ts",
+    "test:brand-diversity": "tsx scripts/brand-diversity-selftest.ts",
     "test:face-track-filter": "tsx scripts/face-track-filter-selftest.ts",
     "test:allergen-full-ingredients": "tsx scripts/allergen-full-ingredients-selftest.ts",
     "check:allergen-audit-sql-validate": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/validate-allergen-audit-sql.ts",

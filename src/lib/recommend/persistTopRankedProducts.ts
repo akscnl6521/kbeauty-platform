@@ -2,6 +2,7 @@ import { applyEvidenceToRecommendation } from "@/lib/evidence";
 import { resolveApprovedEvidenceForConcerns } from "@/lib/evidence/loadApprovedEvidence";
 import { autoSaveCompletedAnalysisToCare } from "@/lib/care/auto-save";
 import { clampTopNWithoutPadding } from "@/lib/recommend/clampTopN";
+import { applyBrandDiversity } from "@/lib/recommend/applyBrandDiversity";
 import {
   fetchCandidateProducts,
   fetchCandidateProductsBySlugs,
@@ -189,8 +190,12 @@ export async function persistTopRankedProducts(
 
     const ranked = rankProducts(withStats, safe);
     const withMatchEvidence = filterRankedByMatchEvidence(ranked);
+    // 한 브랜드가 추천을 독차지하지 않게 상한을 건다(§29 brandCapDefault).
+    // 점수는 건드리지 않고 뽑는 단계에서만 제한한다 — 2026-07-30 Production
+    // 실측에서 「건성+장벽」 Top 5 가 전부 COSRX 로 나왔다.
+    const diversified = applyBrandDiversity(withMatchEvidence, RANKED_PRODUCTS_TOP_N);
     const top = clampTopNWithoutPadding(
-      withMatchEvidence,
+      diversified,
       RANKED_PRODUCTS_TOP_N
     );
 
