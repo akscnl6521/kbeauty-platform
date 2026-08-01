@@ -51,6 +51,14 @@ export function findBrandStore(brand: string | null | undefined): string | null 
   return null;
 }
 
+/**
+ * 제품명에서 의미를 갖지 않는 낱말. 있으나 없으나 같은 제품이다.
+ *
+ * `Relief Sun Rice and Probiotics` 와 `Relief Sun : Rice + Probiotics SPF50+` 는
+ * 같은 제품인데, `and` 가 한쪽에만 있어 분모를 키운다.
+ */
+const NAME_STOPWORDS: ReadonlySet<string> = new Set(["and", "with", "the", "for", "plus"]);
+
 /** 제품명 비교용 정규화 — 브랜드명·용량·기호를 걷어내고 핵심 토큰만 남긴다. */
 export function nameTokens(raw: string, brand: string): Set<string> {
   const stripped = String(raw ?? "")
@@ -58,7 +66,37 @@ export function nameTokens(raw: string, brand: string): Set<string> {
     .replace(new RegExp(String(brand ?? "").toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"), " ")
     .replace(/\d+(\.\d+)?\s*(ml|g|oz|매|ea|개|pcs)\b/g, " ")
     .replace(/[^a-z0-9가-힣]+/g, " ");
-  return new Set(stripped.split(/\s+/).filter((t) => t.length >= 2));
+  return new Set(
+    stripped.split(/\s+/).filter((t) => t.length >= 2 && !NAME_STOPWORDS.has(t))
+  );
+}
+
+/**
+ * 두 토큰이 같은 낱말인가. **접두 일치까지 인정한다.**
+ *
+ * 제품명은 성분명을 줄여 적는 일이 흔하다:
+ *
+ *   DB   `Peach 70 Niacin Serum`
+ *   스토어 `Peach 70% Niacinamide Serum`   ← 같은 제품
+ *
+ * `niacin` 과 `niacinamide` 를 다른 토큰으로 세면 0.75 가 되어 연결이 끊긴다.
+ * 2026-07-30 실측에서 대조 실패 76건 중 36건이 이런 표기 차이였다.
+ *
+ * **포함(substring)이 아니라 접두(prefix)로 본다.** 화장품 낱말은 수식어가 앞에
+ * 붙고 핵심 명사가 뒤에 오므로, 포함으로 보면 엉뚱한 짝이 생긴다
+ * (`oil` ⊂ `moisturizing` 은 아니지만 `sun` ⊂ `unscented` 같은 사고가 난다).
+ *
+ * 짧은 낱말은 접두 일치를 인정하지 않는다 — `sun` 이 `sunscreen` 에 붙는 것까지
+ * 허용하면 서로 다른 제품이 묶인다.
+ */
+const PREFIX_MATCH_MIN_LENGTH = 5;
+
+function tokensEquivalent(a: string, b: string): boolean {
+  if (a === b) return true;
+  const shorter = a.length <= b.length ? a : b;
+  const longer = a.length <= b.length ? b : a;
+  if (shorter.length < PREFIX_MATCH_MIN_LENGTH) return false;
+  return longer.startsWith(shorter);
 }
 
 /**
@@ -71,9 +109,22 @@ export function nameTokens(raw: string, brand: string): Set<string> {
  */
 export function nameSimilarity(a: Set<string>, b: Set<string>): number {
   if (a.size === 0 || b.size === 0) return 0;
+  // 짧은 쪽을 기준으로 센다 — 한 토큰이 상대쪽 여러 토큰에 걸려 중복으로 세어지면
+  // 점수가 부풀어 엉뚱한 제품이 연결된다.
+  const [shorter, longer] = a.size <= b.size ? [a, b] : [b, a];
+  const used = new Set<string>();
   let inter = 0;
-  for (const t of a) if (b.has(t)) inter += 1;
-  return inter / Math.min(a.size, b.size);
+  for (const t of shorter) {
+    for (const u of longer) {
+      if (used.has(u)) continue;
+      if (tokensEquivalent(t, u)) {
+        used.add(u);
+        inter += 1;
+        break;
+      }
+    }
+  }
+  return inter / shorter.size;
 }
 
 /**

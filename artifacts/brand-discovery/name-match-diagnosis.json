@@ -1,0 +1,1753 @@
+{
+  "checkedAt": "2026-08-01T01:16:35.828Z",
+  "report": [
+    {
+      "id": 1,
+      "brand": "COSRX",
+      "name": "Centella Water Alcohol-Free Toner",
+      "domain": "cosrx.com",
+      "catalogSize": 137,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Centella Water Alcohol-Free Toner",
+          "sim": 1
+        },
+        {
+          "title": "Hydrium Watery Toner",
+          "sim": 0.67
+        },
+        {
+          "title": "COSRX Centella Blemish Cream 30mL",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 9,
+      "brand": "COSRX",
+      "name": "Pure Fit Cica Serum",
+      "domain": "cosrx.com",
+      "catalogSize": 137,
+      "best": 0.75,
+      "candidates": [
+        {
+          "title": "Pure Fit Cica Creamy Foam Cleanser",
+          "sim": 0.75
+        },
+        {
+          "title": "Pure Fit Cica Clear Cleansing Oil",
+          "sim": 0.75
+        },
+        {
+          "title": "Pure Fit Cica Cream Intense",
+          "sim": 0.75
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 26,
+      "brand": "COSRX",
+      "name": "Galactomyces Pure Vitamin C Glow Serum",
+      "domain": "cosrx.com",
+      "catalogSize": 137,
+      "best": 0.67,
+      "candidates": [
+        {
+          "title": "The Vitamin C 13 Serum",
+          "sim": 0.67
+        },
+        {
+          "title": "Advanced The Vitamin C 23 Serum",
+          "sim": 0.5
+        },
+        {
+          "title": "COSRX The Blue Peptide Bakuchiol Plump Glow Serum",
+          "sim": 0.4
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 36,
+      "brand": "COSRX",
+      "name": "Galactomyces 95 Whitening Power Essence",
+      "domain": "cosrx.com",
+      "catalogSize": 137,
+      "best": 0.6,
+      "candidates": [
+        {
+          "title": "Galactomyces 95 Tone Balancing Essence",
+          "sim": 0.6
+        },
+        {
+          "title": "Advanced Snail 96 Mucin Power Essence",
+          "sim": 0.4
+        },
+        {
+          "title": "Hyaluronic Acid Hydra Power Essence",
+          "sim": 0.4
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 191,
+      "brand": "COSRX",
+      "name": "The Niacinamide 15 Serum",
+      "domain": "cosrx.com",
+      "catalogSize": 137,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "The Niacinamide 15 Serum",
+          "sim": 1
+        },
+        {
+          "title": "COSRX The Blue Peptide Bakuchiol Plump Glow Serum",
+          "sim": 0.33
+        },
+        {
+          "title": "COSRX RED RICE INOSITOL Exfoliating Care Pore Wash-Off Peel Serum",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 12,
+      "brand": "Innisfree",
+      "name": "Tone Up Cream",
+      "domain": "us.innisfree.com",
+      "catalogSize": 85,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "Green Tea Panthenol Gel Cream",
+          "sim": 0.33
+        },
+        {
+          "title": "Ceramide Plump Cream Duo",
+          "sim": 0.33
+        },
+        {
+          "title": "Green Tea Cream Duo",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 17,
+      "brand": "Innisfree",
+      "name": "Mugwort Pore Clarifying Serum",
+      "domain": "us.innisfree.com",
+      "catalogSize": 85,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "Vitamin C Serum Duo",
+          "sim": 0.33
+        },
+        {
+          "title": "Green Tea Sunscreen Serum Duo",
+          "sim": 0.25
+        },
+        {
+          "title": "Daily UV Invisible Barrier Sunscreen Serum Broad Spectrum SPF 47 with Green Tea",
+          "sim": 0.25
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 31,
+      "brand": "Innisfree",
+      "name": "Tea Tree Pore Tightening Toner",
+      "domain": "us.innisfree.com",
+      "catalogSize": 85,
+      "best": 0.4,
+      "candidates": [
+        {
+          "title": "Green Tea Panthenol Calming Toner Pads",
+          "sim": 0.4
+        },
+        {
+          "title": "Retinol Green Tea PDRN™ Skinbooster Toner",
+          "sim": 0.4
+        },
+        {
+          "title": "Green Tea Enzyme Vitamin C Brightening Toner Pads",
+          "sim": 0.4
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 93,
+      "brand": "Innisfree",
+      "name": "Complete No-Sebum Mineral Powder",
+      "domain": "us.innisfree.com",
+      "catalogSize": 85,
+      "best": 0.8,
+      "candidates": [
+        {
+          "title": "No-Sebum™ Mineral Powder - Loose & Pressed Powder",
+          "sim": 0.8
+        },
+        {
+          "title": "Daily UV Defense Mineral Sunscreen Broad Spectrum SPF 45 with Color Correcting",
+          "sim": 0.2
+        },
+        {
+          "title": "Daily Sheet Mask Bundle",
+          "sim": 0
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 176,
+      "brand": "Innisfree",
+      "name": "Green Tea Seed Serum",
+      "domain": "us.innisfree.com",
+      "catalogSize": 85,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Green Tea Seed Hyaluronic Serum - Face Serum",
+          "sim": 1
+        },
+        {
+          "title": "Green Tea Sunscreen Serum Duo",
+          "sim": 0.75
+        },
+        {
+          "title": "Daily UV Invisible Barrier Sunscreen Serum Broad Spectrum SPF 47 with Green Tea",
+          "sim": 0.75
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 16,
+      "brand": "Round Lab",
+      "name": "Relief Sun Rice and Probiotics",
+      "domain": "roundlab.com",
+      "catalogSize": 122,
+      "best": 0.25,
+      "candidates": [
+        {
+          "title": "Birch Juice Moisturizing Sun Serum SPF 50",
+          "sim": 0.25
+        },
+        {
+          "title": "🎁 Sun Stick Keyring (100% off)",
+          "sim": 0.25
+        },
+        {
+          "title": "Sun-Ready Everywhere Sun Care Bundle",
+          "sim": 0.25
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 88,
+      "brand": "Round Lab",
+      "name": "Cica Soosoo Cream",
+      "domain": "roundlab.com",
+      "catalogSize": 122,
+      "best": 0.67,
+      "candidates": [
+        {
+          "title": "Pine Calming Cica Cream",
+          "sim": 0.67
+        },
+        {
+          "title": "Vita Niacinamide Glow Capsule Cream",
+          "sim": 0.33
+        },
+        {
+          "title": "Pine Cica Deep Pore Cleansing Oil 200ml",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 89,
+      "brand": "Round Lab",
+      "name": "1025 Dokdo Toner",
+      "domain": "roundlab.com",
+      "catalogSize": 122,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Simplest 2 Step Routine- 1025 Dokdo Toner + Birch Moisturizing Cream",
+          "sim": 1
+        },
+        {
+          "title": "1025 Dokdo Cleanser + Dokdo Toner 200ml",
+          "sim": 1
+        },
+        {
+          "title": "[DEAL] 1025 Dokdo Toner",
+          "sim": 1
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 19,
+      "brand": "Torriden",
+      "name": "Hyaluronic Acid Hydra Power Essence",
+      "domain": "torriden.us",
+      "catalogSize": 62,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "[Amazon] Hyaluronic Acid Serum",
+          "sim": 0.5
+        },
+        {
+          "title": "[Amazon] DIVE IN Hyaluronic Acid Serum",
+          "sim": 0.4
+        },
+        {
+          "title": "[Amazon] DIVE-IN Hyaluronic Acid Serum",
+          "sim": 0.4
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 44,
+      "brand": "Torriden",
+      "name": "B5 Hydra-Gel Eye Cream",
+      "domain": "torriden.us",
+      "catalogSize": 62,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "CELLMAZING Firming Eye Cream",
+          "sim": 0.5
+        },
+        {
+          "title": "BALANCEFUL Cream",
+          "sim": 0.5
+        },
+        {
+          "title": "[FreeGift] CELLMAZING Firming Eye Cream 2ml",
+          "sim": 0.4
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 73,
+      "brand": "Torriden",
+      "name": "Water Filler Hyaluronic Serum",
+      "domain": "torriden.us",
+      "catalogSize": 62,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "[Amazon] DIVE IN Hyaluronic Acid Serum",
+          "sim": 0.5
+        },
+        {
+          "title": "[Amazon] DIVE-IN Hyaluronic Acid Serum",
+          "sim": 0.5
+        },
+        {
+          "title": "[Amazon] Hyaluronic Acid Serum",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 37,
+      "brand": "Holika Holika",
+      "name": "Aloe Soothing Sun Cream",
+      "domain": "holikaholika.com",
+      "catalogSize": 61,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Aloe 99% Soothing Gel (Fresh Moisturizing) 8.5 Ounce/250ml No Sticky 99% Aloe Vera Sunburn Relief - Moisturizing, Fast Absorbing for Face, Skin, Body&Hair",
+          "sim": 0.5
+        },
+        {
+          "title": "Aloe Soothing Gel + Cleansing Foam [Mini]",
+          "sim": 0.5
+        },
+        {
+          "title": "Aloe Soothing gel + Shower Gel [Mini]",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 51,
+      "brand": "Holika Holika",
+      "name": "Jeju Aloe 99% Soothing Gel",
+      "domain": "holikaholika.com",
+      "catalogSize": 61,
+      "best": 0.8,
+      "candidates": [
+        {
+          "title": "Aloe 99% Soothing Gel (Fresh Moisturizing) 8.5 Ounce/250ml No Sticky 99% Aloe Vera Sunburn Relief - Moisturizing, Fast Absorbing for Face, Skin, Body&Hair",
+          "sim": 0.8
+        },
+        {
+          "title": "Aloe Soothing Gel + Cleansing Foam [Mini]",
+          "sim": 0.6
+        },
+        {
+          "title": "Aloe Soothing gel + Shower Gel [Mini]",
+          "sim": 0.6
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 38,
+      "brand": "Axis-Y",
+      "name": "Heartleaf Quercetinol Pore Cleansing Serum",
+      "domain": "axis-y.com",
+      "catalogSize": 36,
+      "best": 0.25,
+      "candidates": [
+        {
+          "title": "Kojic Yuzu Cleansing Water",
+          "sim": 0.25
+        },
+        {
+          "title": "Vegan Collagen Eye Serum",
+          "sim": 0.25
+        },
+        {
+          "title": "Sunday Morning Refreshing Cleansing Foam",
+          "sim": 0.2
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 41,
+      "brand": "Axis-Y",
+      "name": "Cicaful Ampoule",
+      "domain": "axis-y.com",
+      "catalogSize": 36,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Artichoke Intensive Skin Barrier Ampoule",
+          "sim": 0.5
+        },
+        {
+          "title": "Kojic Yuzu Cleansing Water",
+          "sim": 0
+        },
+        {
+          "title": "Kojic Yuzu Pack Cleanser",
+          "sim": 0
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 55,
+      "brand": "Axis-Y",
+      "name": "Cica Serum",
+      "domain": "axis-y.com",
+      "catalogSize": 36,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Vegan Collagen Eye Serum",
+          "sim": 0.5
+        },
+        {
+          "title": "Dark Spot Correcting Glow Serum",
+          "sim": 0.5
+        },
+        {
+          "title": "Kojic Yuzu Cleansing Water",
+          "sim": 0
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 92,
+      "brand": "Axis-Y",
+      "name": "Cicaful Aqua Cream",
+      "domain": "axis-y.com",
+      "catalogSize": 36,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "TXA 2.5% Intensive Brightening Cream",
+          "sim": 0.33
+        },
+        {
+          "title": "Panthenol 10 Skin Smoothing Shield Cream",
+          "sim": 0.33
+        },
+        {
+          "title": "Cera-Heart My Type Duo Cream",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 39,
+      "brand": "Heimish",
+      "name": "Propolis Energy Boosting Serum",
+      "domain": "heimish.us",
+      "catalogSize": 59,
+      "best": 0.25,
+      "candidates": [
+        {
+          "title": "Dailism Peptide Enhancing Lash Serum",
+          "sim": 0.25
+        },
+        {
+          "title": "RX MULTI VITAMIN GLOW SERUM 35ml",
+          "sim": 0.25
+        },
+        {
+          "title": "RX HYALURONIC ACID 2% HYDRATING SERUM 35ml",
+          "sim": 0.25
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 40,
+      "brand": "Heimish",
+      "name": "All Clean Balm",
+      "domain": "heimish.us",
+      "catalogSize": 59,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "All Clean balm Mandarin Trio (3ea)",
+          "sim": 1
+        },
+        {
+          "title": "All Clean Balm 120ml for TIKTOK!",
+          "sim": 1
+        },
+        {
+          "title": "All Clean balm 50ml (cleansing balm)",
+          "sim": 1
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 84,
+      "brand": "Heimish",
+      "name": "Propolis Synergy Toner",
+      "domain": "heimish.us",
+      "catalogSize": 59,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "Matcha Biome Redness Relief Hydrating Toner 150ml/5.07fl.oz",
+          "sim": 0.33
+        },
+        {
+          "title": "All Clean balm Mandarin Trio (3ea)",
+          "sim": 0
+        },
+        {
+          "title": "All Clean Lip&Eye Makeup Remover 120ml",
+          "sim": 0
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 46,
+      "brand": "Klairs",
+      "name": "Brightening Vitamin C Cream",
+      "domain": "klairs.com",
+      "catalogSize": 115,
+      "best": 0.67,
+      "candidates": [
+        {
+          "title": "Vitamin A-mazing Bakuchiol Night Cream 10g",
+          "sim": 0.67
+        },
+        {
+          "title": "Vitamin A-mazing Bakuchiol Night Cream",
+          "sim": 0.67
+        },
+        {
+          "title": "Vitamin Toning Barrier Cream 60g",
+          "sim": 0.67
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 47,
+      "brand": "Klairs",
+      "name": "Midnight Blue Calming Cream",
+      "domain": "klairs.com",
+      "catalogSize": 115,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "🎁 (Free Gift) Midnight Blue Calming Cream",
+          "sim": 1
+        },
+        {
+          "title": "Midnight Blue Calming Cream",
+          "sim": 1
+        },
+        {
+          "title": "Midnight Blue Clearing Water Cream",
+          "sim": 0.75
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 178,
+      "brand": "Klairs",
+      "name": "Rich Moist Soothing Serum",
+      "domain": "klairs.com",
+      "catalogSize": 115,
+      "best": 0.75,
+      "candidates": [
+        {
+          "title": "Rich Moist Soothing Cream",
+          "sim": 0.75
+        },
+        {
+          "title": "Rich Moist Barrier Capsule Cream 80 g",
+          "sim": 0.5
+        },
+        {
+          "title": "Ginseng Serum",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 179,
+      "brand": "Klairs",
+      "name": "Freshly Juiced Vitamin C Serum",
+      "domain": "klairs.com",
+      "catalogSize": 115,
+      "best": 0.75,
+      "candidates": [
+        {
+          "title": "Freshly Juiced Vitamin Routine - Full Size",
+          "sim": 0.75
+        },
+        {
+          "title": "Freshly Juiced Vitamin C Drop + E Mask Set",
+          "sim": 0.75
+        },
+        {
+          "title": "Freshly Juiced Vitamin Skin Prep Pads",
+          "sim": 0.75
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 75,
+      "brand": "Pyunkang Yul",
+      "name": "Cica Peptide Toner",
+      "domain": "pyunkangyulglobal.com",
+      "catalogSize": 120,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "Pyunkang Yul Ultimate Calming Solution Toner 110ml",
+          "sim": 0.33
+        },
+        {
+          "title": "Pyunkang Yul Red Ginseng Propolis Booster Toner 110ml",
+          "sim": 0.33
+        },
+        {
+          "title": "Pyunkang Yul Calming Toner Pad 230ml/70ea",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 79,
+      "brand": "Laneige",
+      "name": "Waterful Bouncy Cream",
+      "domain": "us.laneige.com",
+      "catalogSize": 79,
+      "best": 0.67,
+      "candidates": [
+        {
+          "title": "Water Bank Blue Hyaluronic Cream + Refill Duo",
+          "sim": 0.67
+        },
+        {
+          "title": "Water Bank Blue Hyaluronic Cream Moisturizer",
+          "sim": 0.67
+        },
+        {
+          "title": "Water Bank Blue Hyaluronic Eye Cream",
+          "sim": 0.67
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 80,
+      "brand": "Laneige",
+      "name": "Lip Sleeping Mask",
+      "domain": "us.laneige.com",
+      "catalogSize": 79,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Tropical Lip Sleeping Mask Vault",
+          "sim": 1
+        },
+        {
+          "title": "Lip Sleeping Mask",
+          "sim": 1
+        },
+        {
+          "title": "Cica Sleeping Mask with Centella Asiatica for Moisture Barrier Support",
+          "sim": 0.67
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 180,
+      "brand": "Laneige",
+      "name": "Cream Skin Toner and Moisturizer",
+      "domain": "us.laneige.com",
+      "catalogSize": 79,
+      "best": 0.75,
+      "candidates": [
+        {
+          "title": "Cream Skin Milky Toner with Ceramides & Peptides for Nourishing Hydration",
+          "sim": 0.75
+        },
+        {
+          "title": "Cream Skin Milky Hydration Sheet Mask",
+          "sim": 0.5
+        },
+        {
+          "title": "Cream Skin & Mini Mist Duo",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 181,
+      "brand": "Laneige",
+      "name": "Neo Cushion Matte Foundation",
+      "domain": "us.laneige.com",
+      "catalogSize": 79,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "Neo Blurring Powder",
+          "sim": 0.33
+        },
+        {
+          "title": "Neo Powder & Electro Berry Keychain Bundle",
+          "sim": 0.25
+        },
+        {
+          "title": "Neo Powder & Lo-Fi Mauve Keychain Bundle",
+          "sim": 0.25
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 82,
+      "brand": "Haruharu Wonder",
+      "name": "Centella Asiatica Cream",
+      "domain": "haruharuwonder.com",
+      "catalogSize": 32,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "10 Hyaluronic Cream",
+          "sim": 0.33
+        },
+        {
+          "title": "Phyto & 5 Peptide Concentrate Cream",
+          "sim": 0.33
+        },
+        {
+          "title": "5% Niacinamide Radiance Gel Cream / Unscented",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 159,
+      "brand": "Haruharu Wonder",
+      "name": "Black Rice Hyaluronic Cream",
+      "domain": "haruharuwonder.com",
+      "catalogSize": 32,
+      "best": 0.75,
+      "candidates": [
+        {
+          "title": "Black Rice Hyaluronic Toner",
+          "sim": 0.75
+        },
+        {
+          "title": "Black Rice Hyaluronic Toner / / Free of Alcohol & Fragrance",
+          "sim": 0.75
+        },
+        {
+          "title": "10 Hyaluronic Cream",
+          "sim": 0.67
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 160,
+      "brand": "Haruharu Wonder",
+      "name": "Black Rice Moisture Sunscreen",
+      "domain": "haruharuwonder.com",
+      "catalogSize": 32,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Black Rice Hyaluronic Toner",
+          "sim": 0.5
+        },
+        {
+          "title": "Black Rice Hyaluronic Toner / / Free of Alcohol & Fragrance",
+          "sim": 0.5
+        },
+        {
+          "title": "Moisture Pure Mineral Relief Sunscreen SPF50+/PA++++ /Unscented",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 85,
+      "brand": "Anua",
+      "name": "Niacin Vita C Focus Serum",
+      "domain": "anua.com",
+      "catalogSize": 123,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Niacinamide 10 TXA 4 Serum for Brightening and Dark Spots",
+          "sim": 0.5
+        },
+        {
+          "title": "Nano Retinol 0.3% + Niacin Renewing Serum",
+          "sim": 0.5
+        },
+        {
+          "title": "Nano Retinol™ 0.3% + Niacin Renewing Serum",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 87,
+      "brand": "Anua",
+      "name": "Peach 70 Niacin Serum",
+      "domain": "anua.com",
+      "catalogSize": 123,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Peach 70% Niacinamide Serum",
+          "sim": 1
+        },
+        {
+          "title": "Peach 70% Niacinamide Serum",
+          "sim": 1
+        },
+        {
+          "title": "Peach 70 Niacin Brightening Collagen Mask",
+          "sim": 0.75
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 164,
+      "brand": "Anua",
+      "name": "Peach 70 Niacin Serum Glow",
+      "domain": "anua.com",
+      "catalogSize": 123,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Peach 70% Niacinamide Serum",
+          "sim": 1
+        },
+        {
+          "title": "Peach 70% Niacinamide Serum",
+          "sim": 1
+        },
+        {
+          "title": "Peach 70 Niacin Brightening Collagen Mask",
+          "sim": 0.6
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 165,
+      "brand": "Anua",
+      "name": "PDRN Hyaluronic Acid Cream",
+      "domain": "anua.com",
+      "catalogSize": 123,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "PDRN Hyaluronic Acid 100 Moisturizing Cream",
+          "sim": 1
+        },
+        {
+          "title": "PDRN Hyaluronic Acid 100 Moisturizing Cream",
+          "sim": 1
+        },
+        {
+          "title": "PDRN Hyaluronic Acid Capsule 100 Serum",
+          "sim": 0.75
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 90,
+      "brand": "Numbuzin",
+      "name": "Birch Juice Moisturizing Serum",
+      "domain": "us.numbuzin.com",
+      "catalogSize": 69,
+      "best": 0.25,
+      "candidates": [
+        {
+          "title": "Mini Serums Travel Set",
+          "sim": 0.25
+        },
+        {
+          "title": "No.2 & 2X Rose PDRN Collagen Plumping Serum Mini Kit (10EA)",
+          "sim": 0.25
+        },
+        {
+          "title": "No.4 Ceramide AHA Glazed Skin Prep Serum Mini Kit (1.3ml*10EA)",
+          "sim": 0.25
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 91,
+      "brand": "Numbuzin",
+      "name": "No.5 Vitamin Niacinamide Serum",
+      "domain": "us.numbuzin.com",
+      "catalogSize": 69,
+      "best": 0.75,
+      "candidates": [
+        {
+          "title": "No.5+ Glutathione Vitamin Concentrated Serum",
+          "sim": 0.75
+        },
+        {
+          "title": "No.5 Vitamin-Niacinamide Concentrated Toner Pads",
+          "sim": 0.75
+        },
+        {
+          "title": "No.5+ Glutathione Vitamin Concentrated Sheet Mask (5 Sheets)",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 101,
+      "brand": "Tonymoly",
+      "name": "Probiotics Relief Cream",
+      "domain": "tonymoly.us",
+      "catalogSize": 198,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "I'm Hand Cream",
+          "sim": 0.5
+        },
+        {
+          "title": "It's My Birthday Hand Cream & Lip Gloss Set",
+          "sim": 0.33
+        },
+        {
+          "title": "Deluxe Sample | Wonder Ceramide Mochi Water Cream",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 102,
+      "brand": "Beauty of Joseon",
+      "name": "Dynasty Cream",
+      "domain": "beautyofjoseon.com",
+      "catalogSize": 128,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Dynasty Cream 10ml",
+          "sim": 1
+        },
+        {
+          "title": "Dynasty Cream",
+          "sim": 1
+        },
+        {
+          "title": "Dynasty Triple Barrier Lock",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 103,
+      "brand": "Beauty of Joseon",
+      "name": "Relief Sun Rice and Probiotics",
+      "domain": "beautyofjoseon.com",
+      "catalogSize": 128,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Relief Sun : Rice + Probiotics (SPF50+ PA++++)",
+          "sim": 1
+        },
+        {
+          "title": "Relief Sun : Rice + Probiotics (SPF50+ PA++++)",
+          "sim": 1
+        },
+        {
+          "title": "Relief Sun : Rice + Probiotics (SPF50+ PA++++)",
+          "sim": 1
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 106,
+      "brand": "Beauty of Joseon",
+      "name": "Calming Serum Heartleaf and Panthenol",
+      "domain": "beautyofjoseon.com",
+      "catalogSize": 128,
+      "best": 0.75,
+      "candidates": [
+        {
+          "title": "🎁 Calming Serum : Green tea + Panthenol (100% off)",
+          "sim": 0.75
+        },
+        {
+          "title": "Calming Barrier Serum",
+          "sim": 0.67
+        },
+        {
+          "title": "Pore Firming Serum",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 107,
+      "brand": "Missha",
+      "name": "Time Revolution The First Treatment Essence",
+      "domain": "misshaus.com",
+      "catalogSize": 129,
+      "best": 0.8,
+      "candidates": [
+        {
+          "title": "Time Revolution The First Essence 5X Toner Pads",
+          "sim": 0.8
+        },
+        {
+          "title": "Time Revolution The First Essence 5X [FREE MEMBER UPGRADE GIFT - PREMIERE]",
+          "sim": 0.8
+        },
+        {
+          "title": "Time Revolution The First Essence Cream",
+          "sim": 0.8
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 108,
+      "brand": "Missha",
+      "name": "Time Revolution Night Repair Probio Ampoule",
+      "domain": "misshaus.com",
+      "catalogSize": 129,
+      "best": 0.83,
+      "candidates": [
+        {
+          "title": "Time Revolution Night Repair Ampoule 5X (MEMBER)",
+          "sim": 0.83
+        },
+        {
+          "title": "Time Revolution Night Repair Ampoule 5X (75ml)",
+          "sim": 0.83
+        },
+        {
+          "title": "Time Revolution Night Repair Retinol Intensive Ampoule",
+          "sim": 0.83
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 109,
+      "brand": "Missha",
+      "name": "Super Aqua Cell Renew Snail Cream",
+      "domain": "misshaus.com",
+      "catalogSize": 129,
+      "best": 0.67,
+      "candidates": [
+        {
+          "title": "Cell Renew Snail Mucin Vitamin C Cream",
+          "sim": 0.67
+        },
+        {
+          "title": "Cell Renew Snail Foaming Cleanser",
+          "sim": 0.6
+        },
+        {
+          "title": "Cell Renew Snail Sleeping Mask",
+          "sim": 0.6
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 110,
+      "brand": "Missha",
+      "name": "All Around Safe Block Essence Sun SPF45",
+      "domain": "misshaus.com",
+      "catalogSize": 129,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "All Around Vita C Sunscreen (SPF 50)",
+          "sim": 0.33
+        },
+        {
+          "title": "Artemisia Calming Essence",
+          "sim": 0.33
+        },
+        {
+          "title": "Essence Sunscreen SPF43+ 50ml (OTC)",
+          "sim": 0.25
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 111,
+      "brand": "Missha",
+      "name": "Velvet Finish Cushion Foundation",
+      "domain": "misshaus.com",
+      "catalogSize": 129,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "M Magic Cushion",
+          "sim": 0.5
+        },
+        {
+          "title": "A'pieu Waterlock Cushion",
+          "sim": 0.33
+        },
+        {
+          "title": "Glow Layering Fit Cushion",
+          "sim": 0.25
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 117,
+      "brand": "TIRTIR",
+      "name": "Milk Skin Toner",
+      "domain": "tirtir.us",
+      "catalogSize": 101,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Milk Skin Toner Light",
+          "sim": 1
+        },
+        {
+          "title": "Milk Skin Toner",
+          "sim": 1
+        },
+        {
+          "title": "Matcha Skin Toner",
+          "sim": 0.67
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 118,
+      "brand": "TIRTIR",
+      "name": "Mask Fit Red Cushion",
+      "domain": "tirtir.us",
+      "catalogSize": 101,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Mask Fit Red Cushion Refill",
+          "sim": 1
+        },
+        {
+          "title": "Mask Fit Red Cushion (Clearance)",
+          "sim": 1
+        },
+        {
+          "title": "[Set] Mask Fit Red Cushion + Red Mini Cushion + Red Puff(2 pcs)",
+          "sim": 1
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 119,
+      "brand": "TIRTIR",
+      "name": "Ceramic Skin Serum",
+      "domain": "tirtir.us",
+      "catalogSize": 101,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Ceramic Cream",
+          "sim": 0.5
+        },
+        {
+          "title": "SOS Serum",
+          "sim": 0.5
+        },
+        {
+          "title": "Matcha Dual Serum",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 120,
+      "brand": "TIRTIR",
+      "name": "Tone Up UV Sunscreen SPF50",
+      "domain": "tirtir.us",
+      "catalogSize": 101,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Hydro UV Shield Sunscreen",
+          "sim": 0.5
+        },
+        {
+          "title": "Mask Fit Tone Up Essence",
+          "sim": 0.4
+        },
+        {
+          "title": "TIRTIR BTS THE CITY NEWYORK PERFECT SETTING DUO",
+          "sim": 0
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 121,
+      "brand": "Medicube",
+      "name": "Age-R Booster H",
+      "domain": "medicube.us",
+      "catalogSize": 340,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "🎁 [GIFT] AGE-R Booster Pro Pink Pouch (100% off)",
+          "sim": 1
+        },
+        {
+          "title": "[GIFT] AGE-R Booster Pro Pink Pouch",
+          "sim": 1
+        },
+        {
+          "title": "[Subscr.] AGE-R Booster Gel Serum",
+          "sim": 1
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 122,
+      "brand": "Medicube",
+      "name": "Collagen Jelly Cream",
+      "domain": "medicube.us",
+      "catalogSize": 340,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "[GIFT] Collagen Niacinamide Jelly Cream",
+          "sim": 1
+        },
+        {
+          "title": "[Subscr.] Collagen Niacinamide Jelly Cream",
+          "sim": 1
+        },
+        {
+          "title": "[GIFT] Collagen Niacinamide Jelly Cream Mini",
+          "sim": 1
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 123,
+      "brand": "Medicube",
+      "name": "Red Erasing Serum",
+      "domain": "medicube.us",
+      "catalogSize": 340,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Red Serum",
+          "sim": 1
+        },
+        {
+          "title": "21% Red Succinic Acid Cleansing Booster Serum",
+          "sim": 0.67
+        },
+        {
+          "title": "Red Toner",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 124,
+      "brand": "Medicube",
+      "name": "Zero Sebum Powder",
+      "domain": "medicube.us",
+      "catalogSize": 340,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "Zero Pore Peeling Pads (8ea)",
+          "sim": 0.33
+        },
+        {
+          "title": "[GIFT] Zero Pore One Day Serum 10ml",
+          "sim": 0.33
+        },
+        {
+          "title": "[Subscr.] Zero Pore Blackhead Deep Cleansing Oil",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 134,
+      "brand": "Ma:nyo",
+      "name": "Pure Cleansing Oil",
+      "domain": "manyo.us",
+      "catalogSize": 80,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Pure Cleansing Set (Oil + Foam Cleanser)",
+          "sim": 1
+        },
+        {
+          "title": "Blackhead Pure Cleansing Oil Killpad",
+          "sim": 1
+        },
+        {
+          "title": "Pure Cleansing Oil Deep Clean",
+          "sim": 1
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 135,
+      "brand": "Ma:nyo",
+      "name": "Galactomy Niacin Essence",
+      "domain": "manyo.us",
+      "catalogSize": 80,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Galac Niacin 3.0 Essence",
+          "sim": 1
+        },
+        {
+          "title": "Galac Niacin Essence Mask - 10 Pack",
+          "sim": 1
+        },
+        {
+          "title": "Galactomy Essence Mist",
+          "sim": 0.67
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 136,
+      "brand": "Ma:nyo",
+      "name": "Hyaluron Moisture Cream",
+      "domain": "manyo.us",
+      "catalogSize": 80,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Panthetoin Cream",
+          "sim": 0.5
+        },
+        {
+          "title": "Best Selling Full-Routine Bundle (Cleansing Oil + Cleansing Foam + Toner + Serum + Exfoliator + Cream + Eye Cream)",
+          "sim": 0.33
+        },
+        {
+          "title": "Age Return Cream",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 141,
+      "brand": "Rovectin",
+      "name": "Skin Essentials Barrier Repair Cream-Mist",
+      "domain": "rovectin.com",
+      "catalogSize": 45,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Anti-Irritant Barrier Repair Ultra Cream",
+          "sim": 0.5
+        },
+        {
+          "title": "Calming Lotus Cream",
+          "sim": 0.33
+        },
+        {
+          "title": "Calming Lotus Cream Duo",
+          "sim": 0.25
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 142,
+      "brand": "Rovectin",
+      "name": "Clean Vitamin C Brightening Serum",
+      "domain": "rovectin.com",
+      "catalogSize": 45,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "Aqua Peptide Serum",
+          "sim": 0.33
+        },
+        {
+          "title": "Vita 3-Step Brightening Set",
+          "sim": 0.25
+        },
+        {
+          "title": "Vita Dark Spot Brightening Jelly Mask",
+          "sim": 0.25
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 143,
+      "brand": "Rovectin",
+      "name": "Aqua Soothing Gel Cream",
+      "domain": "rovectin.com",
+      "catalogSize": 45,
+      "best": 0.75,
+      "candidates": [
+        {
+          "title": "Aqua Cleansing Gel & Lotus Cream Set",
+          "sim": 0.75
+        },
+        {
+          "title": "Aqua Hyaluronic Soothing Cream",
+          "sim": 0.75
+        },
+        {
+          "title": "Aqua Essence & Hyaluronic Cream Set",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 144,
+      "brand": "Tocobo",
+      "name": "Bio Watery Sun Cream SPF50",
+      "domain": "tocobo.us",
+      "catalogSize": 49,
+      "best": 0.75,
+      "candidates": [
+        {
+          "title": "🎁 Bio Watery Sun Screen",
+          "sim": 0.75
+        },
+        {
+          "title": "Bio Watery Sun Screen",
+          "sim": 0.75
+        },
+        {
+          "title": "Ultimate Sun Duo",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 145,
+      "brand": "Tocobo",
+      "name": "Glass Sun Stick SPF50",
+      "domain": "tocobo.us",
+      "catalogSize": 49,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Mini Cotton Airy Sun Stick",
+          "sim": 0.5
+        },
+        {
+          "title": "Cotton Airy Sun Stick",
+          "sim": 0.5
+        },
+        {
+          "title": "Ultimate Sun Duo",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 146,
+      "brand": "Tocobo",
+      "name": "Collagen Clay Foam Cleanser",
+      "domain": "tocobo.us",
+      "catalogSize": 49,
+      "best": 0.5,
+      "candidates": [
+        {
+          "title": "Coconut Clay Cleansing Foam",
+          "sim": 0.5
+        },
+        {
+          "title": "SPF + Collagen Care Duo",
+          "sim": 0.25
+        },
+        {
+          "title": "Collagen Brightening Eye Gel Cream",
+          "sim": 0.25
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 153,
+      "brand": "mixsoon",
+      "name": "Bean Serum",
+      "domain": "mixsoon.us",
+      "catalogSize": 212,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "mixsoon Bean Essence x PDRN Collagen Serum Duo",
+          "sim": 1
+        },
+        {
+          "title": "mixsoon Bean Essence & Soybean Serum Duo Set",
+          "sim": 1
+        },
+        {
+          "title": "mixsoon Bean Glow Protect Duo",
+          "sim": 0.5
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 154,
+      "brand": "mixsoon",
+      "name": "Centella Asiatica Gel",
+      "domain": "mixsoon.us",
+      "catalogSize": 212,
+      "best": 0.67,
+      "candidates": [
+        {
+          "title": "mixsoon Glow & Calm Essence Duo / Bean Essence 30ml + Soondy Centella Asiatica Essence 30ml",
+          "sim": 0.67
+        },
+        {
+          "title": "mixsoon Soondy Centella Asiatica Essence Stick Pouch (1.5ml * 10ea)",
+          "sim": 0.67
+        },
+        {
+          "title": "mixsoon Centella Asiatica Toner 150ml",
+          "sim": 0.67
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 155,
+      "brand": "mixsoon",
+      "name": "Propolis Extract Ampoule",
+      "domain": "mixsoon.us",
+      "catalogSize": 212,
+      "best": 0.33,
+      "candidates": [
+        {
+          "title": "mixsoon Black Rice Peeling Ampoule 100ml",
+          "sim": 0.33
+        },
+        {
+          "title": "mixsoon White Rice Peeling Ampoule 100ml",
+          "sim": 0.33
+        },
+        {
+          "title": "mixsoon Bean Balancing Ampoule Mist 100ml",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-2) 스토어에 흔적 없음"
+    },
+    {
+      "id": 156,
+      "brand": "Sulwhasoo",
+      "name": "First Care Activating Serum",
+      "domain": "us.sulwhasoo.com",
+      "catalogSize": 119,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "First Care Activating Eye Serum Refill",
+          "sim": 1
+        },
+        {
+          "title": "First Care Activating Eye Serum",
+          "sim": 1
+        },
+        {
+          "title": "First Care Activating Serum VI 8mL",
+          "sim": 1
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 157,
+      "brand": "Sulwhasoo",
+      "name": "Essential Balancing Water",
+      "domain": "us.sulwhasoo.com",
+      "catalogSize": 119,
+      "best": 0.67,
+      "candidates": [
+        {
+          "title": "Essential Revitalizing Water EX",
+          "sim": 0.67
+        },
+        {
+          "title": "Essential Firming Cream EX 1mL",
+          "sim": 0.33
+        },
+        {
+          "title": "The Ultimate S Enriched Water & Emulsion Set",
+          "sim": 0.33
+        }
+      ],
+      "verdict": "(나-1) 같은 라인의 다른 제품만 있음"
+    },
+    {
+      "id": 158,
+      "brand": "Sulwhasoo",
+      "name": "Concentrated Ginseng Renewing Serum",
+      "domain": "us.sulwhasoo.com",
+      "catalogSize": 119,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Concentrated Ginseng Renewing Serum 5mL",
+          "sim": 1
+        },
+        {
+          "title": "Concentrated Ginseng Rejuvenating Serum 5mL",
+          "sim": 0.75
+        },
+        {
+          "title": "Concentrated Ginseng Rejuvenating Serum 1mL",
+          "sim": 0.75
+        }
+      ],
+      "verdict": "통과"
+    },
+    {
+      "id": 170,
+      "brand": "SKIN1004",
+      "name": "Madagascar Centella Hyalu-Cica Water-Fit Sun Serum",
+      "domain": "skin1004.com",
+      "catalogSize": 94,
+      "best": 1,
+      "candidates": [
+        {
+          "title": "Hyalu-Cica Water-Fit Sun Serum",
+          "sim": 1
+        },
+        {
+          "title": "Hyalu-Cica Water-Fit Sun Serum UV",
+          "sim": 0.86
+        },
+        {
+          "title": "Hyalu-Cica Blue Serum",
+          "sim": 0.75
+        }
+      ],
+      "verdict": "통과"
+    }
+  ]
+}
