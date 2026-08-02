@@ -2202,7 +2202,9 @@ DB    Peach 70 Niacin Serum        Ma:nyo  Galactomy Niacin Essence
   이 제품은 조선미녀 것이고, id 103 에 같은 이름이 조선미녀로 따로 있다.
   브랜드 귀속 오류이자 중복으로 보인다. 브랜드명은 임의로 바꾸지 않는 값(§35.3)이라
   판단을 남긴다.
-- 채울 수 있는 1건(id 135)은 **Production write 라 승인 대기**.
+- id 135 Ma:nyo Galactomy Niacin Essence 보강 **완료** (2026-08-02, 승인 받음) —
+  전성분 0 → 23개. 백업 `backups/production_20260802_110735_full-ingredients-보강전.sql`.
+  읽기 검증: 전성분 보유 35 → 39행, 추천 풀 17/17 여전히 전부 검증 통과.
 
 ### 검증
 
