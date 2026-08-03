@@ -2284,11 +2284,39 @@ WQ-F 대기열에 «§35.7 파서 잔여물 — **광고 문구**가 성분 토�
 `test:recommendation-pilot` · `test:brand-diversity` 포함 **CI 회귀 40개 전부 통과**,
 `tsc --noEmit`·`lint` 무경고, `build` 통과.
 
-### 배포 상태 (변동 없음)
+### LHA 를 살리실산 회피에 묶었다 (WQ-F 대기열 해소)
 
-**`main` 은 여전히 `e5505c1`(PR #36).** 미병합 커밋 11개 → 12개.
+`Capryloyl Salicylic Acid`(LHA)를 `Salicylic Acid` alias 그룹에 넣을지 판단이 남아
+있었다. **넣기로 했다.**
+
+근거는 기존 선례다 — 이 그룹에는 이미 `Betaine Salicylate` 가 들어 있다. 살리실산
+유도체를, 살리실산을 피하는 사용자에게도 피해야 할 것으로 본다는 뜻이다. LHA 는 같은
+계열의 유도체 BHA 라 같은 판단이 적용된다. 판단이 갈릴 때는 **거르는 쪽**을 고른다 —
+못 거른 알레르겐이 잘못 거른 제품보다 나쁘다.
+
+```
+Salicylic Acid · BHA · Beta Hydroxy Acid · Betaine Salicylate
+  + Capryloyl Salicylic Acid · Lipohydroxy Acid · LHA · 카프릴로일살리실릭애씨드
+```
+
+**`Benzyl Salicylate` 는 일부러 다른 그룹으로 남겼다.** 이름은 닮았지만 각질제거
+성분이 아니라 향료 알레르겐이다. 묶으면 서로를 잘못 거른다. 양방향 회귀 테스트로 고정했다.
+
+Staging 영향: 활성 106건 중 LHA 함유 **2건**(63 넘버즈인 토너패드 · 177 Abib
+글루타치온좀 잡티 토너). 살리실산 회피 사용자에게 이제 걸러진다.
+
+### 배포 상태 — PR #37 이 이미 열려 있고 초록 체크다
+
+사용자 화면 확인 결과(2026-08-04): Open PR 2건.
+
+| PR | 상태 |
+|---|---|
+| **#37 특징/두피 모달 트랙 20260727** | ✓ 초록 체크 · 4일 전 생성 — **병합만 하면 된다** |
+| #33 순위 결과에서 검증된 사용 설명서를 동기화하세요 | ✗ 실패 · 2주 전 — 별개 건, 방치 상태 |
+
+**`main` 은 여전히 `e5505c1`(PR #36).** 미병합 커밋 13개.
 `git push origin main` 과 `git merge origin/main` 은 `.claude/settings.json` 이 막고
-있고 `gh` CLI 도 없다. 병합은 사람이 해야 한다.
+있고 `gh` CLI 도 토큰도 없다. **병합 버튼은 사람이 눌러야 한다** — 우회하지 않았다.
 
 ---
 

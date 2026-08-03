@@ -118,7 +118,9 @@ notes: |
   2026-08-04 §35.7 파서 잔여물 해소 — 알레르겐 미검출 2 -> 0건. 원인은 광고 문구가 아니라
   (a) 규제 안내가 마지막 성분에 쉼표 없이 붙음, (b) 호수별 목록이 이어붙음 두 가지였다.
   stripIngredientNoticeTail + 호수 구분자 분리로 해결. 호수는 끊지 않고 쪼갠다(뒤쪽 알레르겐 보존).
-  대기열: Capryloyl Salicylic Acid(LHA)를 Salicylic Acid 회피에 묶을지 — alias 그룹 판단.
+  2026-08-04 LHA 판단 완료 — Salicylic Acid 그룹에 묶었다. Betaine Salicylate 를 같은 그룹에
+  둔 기존 선례와 같은 결이고, 판단이 갈리면 «거르는 쪽» 을 고른다. Benzyl Salicylate 는
+  향료 알레르겐이라 일부러 분리 유지(양방향 회귀 테스트로 고정). Staging 영향 2건.
 
 ### TASK WQ-G-prelaunch-integration
 

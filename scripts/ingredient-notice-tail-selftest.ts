@@ -97,4 +97,39 @@ for (const keep of [
 assert.equal(stripIngredientNoticeTail(""), "");
 assert.deepEqual(coerceIngredientListUnknown(null), []);
 
+// ── LHA(살리실산 유도체)를 살리실산 회피에 묶는다 (2026-08-04 결정) ──
+{
+  // 살리실산을 피하는 사용자에게는 유도체도 피해야 할 것이다.
+  // `Betaine Salicylate` 를 같은 그룹에 둔 기존 판단과 같은 결이다.
+  for (const derivative of [
+    "Capryloyl Salicylic Acid",
+    "Lipohydroxy Acid",
+    "LHA",
+    "카프릴로일살리실릭애씨드",
+    "Betaine Salicylate",
+    "BHA",
+  ]) {
+    const idx = indexIngredients(coerceIngredientListUnknown([`Water, ${derivative}, Glycerin`]));
+    assert.ok(
+      matchAllergenByCanonical(toCanonical("Salicylic Acid"), idx),
+      `살리실산 회피가 «${derivative}» 를 걸러야 한다`
+    );
+  }
+
+  // `Benzyl Salicylate` 는 이름만 닮았을 뿐 각질제거 성분이 아니라 향료 알레르겐이다.
+  // 묶으면 서로를 잘못 거른다 — 양방향 모두 확인한다.
+  const benzyl = indexIngredients(coerceIngredientListUnknown(["Water, Benzyl Salicylate, Glycerin"]));
+  assert.equal(
+    matchAllergenByCanonical(toCanonical("Salicylic Acid"), benzyl),
+    null,
+    "살리실산 회피가 벤질살리실레이트를 걸러선 안 된다"
+  );
+  const bha = indexIngredients(coerceIngredientListUnknown(["Water, Salicylic Acid, Glycerin"]));
+  assert.equal(
+    matchAllergenByCanonical(toCanonical("Benzyl Salicylate"), bha),
+    null,
+    "벤질살리실레이트 회피가 살리실산을 걸러선 안 된다"
+  );
+}
+
 console.log("ingredient-notice-tail self-test: ok");
