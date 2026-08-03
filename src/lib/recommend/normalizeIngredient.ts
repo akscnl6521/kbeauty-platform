@@ -143,7 +143,10 @@ function flattenUnknownTokens(
     }
 
     if (/[,;/|·、]/.test(trimmed)) {
-      for (const part of trimmed.split(/[,;/|·、]+/)) {
+      // **앞뒤가 모두 숫자인 쉼표는 구분자가 아니다** — `1,2-Hexanediol` ·
+      // `1,2-헥산다이올` 은 성분명 하나다. 그냥 쪼개면 `1` 이라는 조각이 생기고
+      // 나머지가 `2-헥산다이올` 이 되어 사전과 대조가 안 된다.
+      for (const part of trimmed.split(/(?<!\d),|,(?!\d)|[;/|·、]+/)) {
         pushToken(out, seen, stripIngredientNoticeTail(part));
       }
       return;

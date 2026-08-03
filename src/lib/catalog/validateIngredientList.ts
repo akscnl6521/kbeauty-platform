@@ -147,8 +147,11 @@ function looksLikeInciToken(token: string): boolean {
  * 은 성분명 하나다. 그냥 `,` 로 쪼개면 `1` 이라는 조각이 생겨 정상 목록이 반려된다.
  */
 export function splitIngredientTokens(text: string): string[] {
+  // 쪼개지 **않는** 경우는 «앞뒤가 모두 숫자인 쉼표» 뿐이다 — `1,2-Hexanediol` 안의 쉼표.
+  // 앞 규칙 `,(?!\s*\d+\s*[,-])` 은 이름 **앞의** 쉼표까지 막아서
+  // `Niacinamide, 1,2-Hexanediol` 이 한 토큰으로 붙었다.
   return String(text ?? "")
-    .split(/,(?!\s*\d+\s*[,-])/)
+    .split(/(?<!\d),|,(?!\d)/)
     .map((t) => t.trim())
     .filter(Boolean);
 }
@@ -306,9 +309,38 @@ export type SanitizeResult =
     }
   | { ok: false; reason: string; sample?: string };
 
+/**
+ * 제형·호수별 목록이 **한 문자열에 이어 붙은 것**을 구분자로 가른다.
+ *
+ * 색조·립 제품은 호수마다 전성분이 다르고, 페이지에서는 라벨을 붙여 나열한다:
+ *
+ *   `… VITIS VINIFERA (GRAPE) JUICE GRAPEFRUIT: DIISOSTEARYL MALATE, …`
+ *   `… Tocopherol Compact: Mica, Talc, …`
+ *
+ * 라벨의 콜론에서 **끊으면** 뒤쪽 호수의 성분이 통째로 사라진다. 전성분은 함량
+ * 내림차순이라 향료·알레르겐이 뒤에 몰려 있어, 버리는 건 정확히 잘못된 방향이다.
+ * 그래서 **쉼표로 바꿔 이어 붙인다** — 모든 호수의 성분을 합집합으로 본다.
+ * 과다 포함이지만 알레르겐 판정에서는 안전한 쪽이다.
+ *
+ * 콜론은 INCI 이름에 쓰이지 않으므로 라벨 표시로 봐도 된다. 다만 **낱말 3개 이내**
+ * 짧은 라벨만 본다 — 긴 것은 설명 문장이라 라벨이 아니다.
+ *
+ * 메이크업의 `May Contain (+/-): CI 77491` 도 이 규칙에 걸려 색소가 살아남는다.
+ */
+function splitVariantLabels(text: string): string {
+  return text.replace(
+    /(^|[,\s])((?:[A-Za-z0-9'’&+.-]+[ ]){0,2}[A-Za-z0-9'’&+.()/-]+)\s*:\s+(?=[A-Za-z가-힣])/g,
+    (whole, lead: string, label: string) => {
+      // 라벨 안에 쉼표가 있으면 라벨이 아니라 목록이다 — 건드리지 않는다.
+      if (label.includes(",")) return whole;
+      return `${lead === "," ? "," : lead}, `;
+    }
+  );
+}
+
 export function sanitizeIngredientList(raw: string | null | undefined): SanitizeResult {
   const original = String(raw ?? "").trim();
-  const text = cutAtJunkMarker(original);
+  const text = cutAtJunkMarker(splitVariantLabels(original));
   if (!text) return { ok: false, reason: "빈 문자열" };
   const cutAtMarker = text.length < original.length;
 

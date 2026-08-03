@@ -132,4 +132,29 @@ assert.deepEqual(coerceIngredientListUnknown(null), []);
   );
 }
 
+// ── 숫자 사이 쉼표는 구분자가 아니다 (2026-08-04) ──
+{
+  // `1,2-Hexanediol` 을 쪼개면 `1` 이라는 조각이 생기고 나머지가 `2-Hexanediol` 이
+  // 되어 성분 사전과 대조가 안 된다. 이름 **앞의** 쉼표는 정상적으로 쪼개야 한다.
+  assert.deepEqual(
+    coerceIngredientListUnknown(["Water, Glycerin, 1,2-Hexanediol, Niacinamide"]),
+    ["Water", "Glycerin", "1,2-Hexanediol", "Niacinamide"]
+  );
+  assert.deepEqual(
+    coerceIngredientListUnknown(["정제수, 1,2-헥산다이올, 글리세린"]),
+    ["정제수", "1,2-헥산다이올", "글리세린"]
+  );
+  assert.deepEqual(
+    coerceIngredientListUnknown(["Water, 1,3-Butylene Glycol, Panthenol"]),
+    ["Water", "1,3-Butylene Glycol", "Panthenol"]
+  );
+  // 다른 구분자는 그대로 동작해야 한다
+  assert.deepEqual(coerceIngredientListUnknown(["Water; Glycerin/Panthenol·Allantoin"]), [
+    "Water",
+    "Glycerin",
+    "Panthenol",
+    "Allantoin",
+  ]);
+}
+
 console.log("ingredient-notice-tail self-test: ok");
