@@ -23,6 +23,55 @@ export function normalizeIngredient(name: string): string {
 /** @deprecated normalizeIngredient 사용. 기존 import 호환 */
 export const normalizeIngredientKey = normalizeIngredient;
 
+/**
+ * 성분 토큰에 **딸려 붙은 안내 문구를 잘라낸다.**
+ *
+ * 국내 화장품 페이지는 전성분 뒤에 규제 안내를 쉼표 없이 이어 붙인다. 그러면
+ * 마지막 성분이 안내 문구와 한 덩어리가 되어 정규화·대조가 어긋난다.
+ * 2026-08-04 Staging 실측 — 향료 알레르기를 신고해도 이 두 건이 안 걸렀다:
+ *
+ *   `향료 기능성 화장품 식품의약품안전처 심사필 여부 해당사항 없음 사용할 때의`
+ *
+ * `향료` 는 목록에 분명히 있는데 토큰 안에 갇혀 있었다. 필터 문제가 아니라
+ * **수집 데이터를 쪼갤 때 놓친 것**이다.
+ *
+ * 여기 담은 표시는 전부 **성분명에는 절대 안 쓰이는 규제·안내 낱말**이다.
+ * 성분명 일부일 수 있는 낱말은 넣지 않는다 — 넣으면 진짜 성분이 잘린다.
+ */
+const KO_NOTICE_MARKERS: ReadonlyArray<RegExp> = [
+  /기능성\s*화장품/,
+  /식품의약품안전처/,
+  /심사필/,
+  /해당\s*사항\s*없음/,
+  /사용할\s*때의/,
+  /사용\s*시\s*주의/,
+  /주의\s*사항/,
+  /제조\s*번호/,
+  /사용\s*기한/,
+  /개봉\s*후/,
+  /내용량/,
+  /품질\s*보증/,
+  /소비자\s*상담/,
+];
+
+/**
+ * 호수·번호별 목록이 이어 붙는 구분자 — `향료 (5번) 정제수`.
+ *
+ * 끝 표시가 아니라 **구분자**로 다룬다. 여기서 끊어 버리면 뒤쪽 호수의 성분이
+ * 통째로 사라지고, 그건 알레르겐을 놓치는 쪽이라 위험하다.
+ */
+const VARIANT_MARKER = /[([]\s*\d+\s*번\s*[)\]]/g;
+
+/** 안내 문구가 시작되는 지점에서 자른다. 없으면 원문 그대로. */
+export function stripIngredientNoticeTail(token: string): string {
+  let cut = token.length;
+  for (const re of KO_NOTICE_MARKERS) {
+    const m = token.match(re);
+    if (m?.index != null && m.index < cut) cut = m.index;
+  }
+  return token.slice(0, cut).trim();
+}
+
 function pushToken(out: string[], seen: Set<string>, token: string) {
   const t = token.trim();
   if (!t || seen.has(t)) return;
@@ -85,12 +134,22 @@ function flattenUnknownTokens(
       return;
     }
 
-    if (/[,;/|·、]/.test(trimmed)) {
-      for (const part of trimmed.split(/[,;/|·、]+/)) pushToken(out, seen, part);
+    // 호수별 목록이 이어 붙은 것을 먼저 가른다 — `향료 (5번) 정제수`.
+    // 여기서 끊지 않고 **쪼갠다**. 끊으면 뒤쪽 호수 성분이 통째로 사라진다.
+    const segments = trimmed.split(VARIANT_MARKER);
+    if (segments.length > 1) {
+      for (const seg of segments) flattenUnknownTokens(seg, out, seen, depth + 1);
       return;
     }
 
-    pushToken(out, seen, trimmed);
+    if (/[,;/|·、]/.test(trimmed)) {
+      for (const part of trimmed.split(/[,;/|·、]+/)) {
+        pushToken(out, seen, stripIngredientNoticeTail(part));
+      }
+      return;
+    }
+
+    pushToken(out, seen, stripIngredientNoticeTail(trimmed));
     return;
   }
 

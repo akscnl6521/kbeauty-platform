@@ -396,13 +396,23 @@ async function measureAllergenGap(
       `  ${pad(a.label, 32)}${String(inFull.length).padStart(10)}` +
         `${String(inFull.length - missed.length).padStart(14)}${String(missed.length).padStart(10)}`
     );
-    for (const p of missed) residue.push(`${a.label} → ${p.id}`);
+    // 미검출 건은 **실제로 걸린 토큰을 찍는다.** 원인을 «파서 잔여물» 이라고
+    // 단정해서 출력하던 것을 고쳤다 — 그건 확인이 아니라 가정이었고, 진짜로 필터가
+    // 놓친 경우와 구별이 안 됐다. 알레르겐 미검출은 사용자 안전 문제라 근거를 봐야 한다.
+    for (const p of missed) {
+      const culprit =
+        [...arr(p.full_ingredients), ...arr(p.key_ingredients)].find((t) =>
+          a.words.some((w) => t.toLowerCase().includes(w))
+        ) ?? "(토큰 못 찾음)";
+      residue.push(`${pad(a.label, 24)} 제품 ${p.id}\n        토큰: ${culprit.slice(0, 110)}`);
+    }
   }
   if (residue.length > 0) {
+    console.log(`\n  ── 미검출 ${residue.length}건 · 실제로 걸린 토큰 ──`);
+    for (const r of residue) console.log(`    ${r}`);
     console.log(
-      `\n  미검출 ${residue.length}건은 전부 §35.7 파서 잔여물이다 — 성분이 아니라 광고·안내\n` +
-        `  문구가 성분 토큰에 붙어 있어서(예: "*리모넨 *에센셜오일에서 자연적으로 발견되는 성분\n` +
-        `  기능성화장품의 경우…") 하나의 긴 토큰이 됐다. 필터가 아니라 수집 데이터 문제다.`
+      `\n  토큰 하나에 성분명과 안내 문구가 함께 들어 있으면 정규화·대조가 어긋난다.\n` +
+        `  필터가 아니라 수집 데이터 문제다 — 성분 목록을 쪼갤 때 고쳐야 한다.`
     );
   }
 

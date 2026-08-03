@@ -191,6 +191,7 @@
     "test:ingredient-list-validate": "tsx scripts/ingredient-list-validate-selftest.ts",
     "test:product-verify-gate": "tsx scripts/product-verify-gate-selftest.ts",
     "test:brand-store-name-match": "tsx scripts/brand-store-name-match-selftest.ts",
+    "test:ingredient-notice-tail": "tsx scripts/ingredient-notice-tail-selftest.ts",
     "check:name-match-diagnosis": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/diagnose-name-match-failures.ts",
     "check:production-full-ingredients": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/audit-production-full-ingredients.ts",
     "check:brand-shopify-discovery": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/discover-brand-shopify-stores.ts",
