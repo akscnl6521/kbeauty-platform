@@ -194,6 +194,7 @@
     "test:ingredient-notice-tail": "tsx scripts/ingredient-notice-tail-selftest.ts",
     "test:recommendation-cache-version": "tsx scripts/recommendation-cache-version-selftest.ts",
     "test:cache-version-guard": "tsx scripts/cache-version-guard-selftest.ts",
+    "test:mall-product-data": "tsx scripts/mall-product-data-selftest.ts",
     "check:cache-version-bump": "tsx scripts/check-cache-version-bump.ts",
     "check:name-match-diagnosis": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/diagnose-name-match-failures.ts",
     "check:korean-ingredient-sources": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/probe-korean-ingredient-sources.ts",

@@ -81,6 +81,13 @@ jobs:
         run: |
           npm run test:cache-version-guard
           npm run test:recommendation-cache-version
+      - name: Catalog data guards
+        # 국내몰이 주는 값에 대한 판단 — 자리표시 가격(라네즈 100원)·HTML 이름·
+        # 재고 미표기. 느슨해지면 곧바로 사용자에게 틀린 가격·재고가 나간다.
+        run: |
+          npm run test:mall-product-data
+          npm run test:ingredient-list-validate
+          npm run test:brand-store-name-match
       - name: Cache version bump check
         # main 대비 캐시 영향 파일이 바뀌었는데 버전을 안 올렸으면 실패한다.
         # 얕은 클론이면 기준을 못 찾아 통과시키므로 fetch-depth 0 이 필요하다.

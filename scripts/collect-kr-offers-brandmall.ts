@@ -30,6 +30,11 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 import { koreanProductNameToComparable } from "../src/lib/catalog/koreanProductTerms";
 import { nameSimilarity, nameTokens, NAME_MATCH_MIN } from "../src/lib/catalog/brandGlobalStores";
+import {
+  mallPricesLookLikePlaceholders,
+  parseMallProductJsonLd,
+  MIN_PLAUSIBLE_KRW,
+} from "../src/lib/catalog/mallProductData";
 
 loadDotEnvLocal();
 
@@ -71,62 +76,9 @@ async function get(url: string): Promise<string> {
   }
 }
 
-/**
- * JSON-LD `name` 에 HTML 이 섞여 오는 몰이 있다 (2026-08-04 Abib 실측:
- * `하이드레이션 크림<br /> <strong>워터 튜브</strong>`). 태그를 걷어내고 공백을 정리한다.
- */
-function cleanName(raw: string): string {
-  return String(raw ?? "")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&nbsp;/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/**
- * 화장품 소매가로 **말이 되는 값인가.**
- *
- * 2026-08-04 라네즈 몰 실측 — JSON-LD 가 모든 제품의 `price` 를 **100** 으로 준다.
- * 실제 가격이 아니라 자리표시다. 그대로 넣으면 «라네즈 립 밤 100원» 이 화면에 뜬다.
- * 가격을 지어내지 않는 것만큼 **분명히 틀린 값을 거르는 것**도 중요하다.
- */
-const MIN_PLAUSIBLE_KRW = 1000;
-
-/** 제품 페이지의 JSON-LD 에서 이름·가격·재고를 뽑는다. 없으면 null. */
-function parseProductJsonLd(html: string): Omit<MallItem, "url"> | null {
-  const blocks = [...html.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)].map(
-    (m) => m[1]
-  );
-  for (const raw of blocks) {
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(raw);
-    } catch {
-      continue;
-    }
-    const nodes = Array.isArray(parsed) ? parsed : [parsed];
-    for (const n of nodes) {
-      const node = n as Record<string, unknown>;
-      if (node["@type"] !== "Product") continue;
-      const name = cleanName(String(node.name ?? ""));
-      const offersRaw = node.offers;
-      const offer = (Array.isArray(offersRaw) ? offersRaw[0] : offersRaw) as
-        | Record<string, unknown>
-        | undefined;
-      if (!name || !offer) continue;
-      const price = Number(offer.price);
-      const currency = String(offer.priceCurrency ?? "").toUpperCase();
-      const avail = String(offer.availability ?? "");
-      if (!Number.isFinite(price) || price <= 0) continue;
-      // `availability` 가 **없으면 재고 있음으로 보지 않는다.** 없는 정보를 유리하게
-      // 해석하면 품절 제품에 구매 버튼이 붙는다 (Round Lab 몰은 이 필드를 안 준다).
-      const inStock = /InStock/i.test(avail) && !/OutOfStock/i.test(avail);
-      return { name, price, currency, inStock };
-    }
-  }
-  return null;
-}
+// 파싱·판단 규칙은 `src/lib/catalog/mallProductData.ts` 로 옮겼다 — 스크립트 안에 두면
+// `tsconfig` 가 `scripts/` 를 제외해 타입 검사도 회귀 테스트도 못 받는다.
+// 이 규칙들이 «틀린 값이 화면에 나가는 것» 을 막는 마지막 방어선이라 테스트가 필요하다.
 
 async function fetchAll<T>(client: SupabaseClient, table: string, select: string): Promise<T[]> {
   const out: T[] = [];
@@ -187,7 +139,7 @@ async function main() {
     const items: MallItem[] = [];
     for (const u of urls) {
       const html = await get(u);
-      const p = html ? parseProductJsonLd(html) : null;
+      const p = html ? parseMallProductJsonLd(html) : null;
       if (p) items.push({ url: u, ...p });
       await new Promise((r) => setTimeout(r, 350));
     }
@@ -195,13 +147,8 @@ async function main() {
 
     // 몰 전체가 자리표시 가격을 주는 경우가 있다 — 그런 몰은 통째로 건너뛴다.
     // 한두 건만 걸러내면 나머지 틀린 값이 그대로 들어간다.
-    const krw = items.filter((i) => i.currency === "KRW");
-    const placeholder = krw.filter((i) => i.price < MIN_PLAUSIBLE_KRW).length;
-    if (krw.length >= 5 && placeholder / krw.length > 0.5) {
-      console.log(
-        `  !! 가격의 ${Math.round((placeholder / krw.length) * 100)}% 가 ${MIN_PLAUSIBLE_KRW}원 미만이다 — ` +
-          `자리표시 값으로 보여 이 몰은 건너뛴다`
-      );
+    if (mallPricesLookLikePlaceholders(items)) {
+      console.log(`  !! 가격 대부분이 ${MIN_PLAUSIBLE_KRW}원 미만이다 — 자리표시 값으로 보여 이 몰은 건너뛴다`);
       continue;
     }
 
