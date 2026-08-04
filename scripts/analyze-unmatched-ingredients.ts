@@ -29,7 +29,7 @@ async function main() {
     return;
   }
 
-  const { normalizeTextKey, ingredientNameVariants, ingredientTokenLookupCandidates } =
+  const { normalizeTextKey, ingredientNameVariants, isIngredientTokenKnown } =
     await import("@/lib/pipeline/ingredient-normalize");
   const client = createClient(url, key, { auth: { persistSession: false } });
 
@@ -63,12 +63,9 @@ async function main() {
     if (tokens.length === 0) continue;
     let miss = 0;
     for (const t of tokens) {
-      const cand = ingredientTokenLookupCandidates(String(t));
-      if (!cand.whole) continue;
-      // 통째로 있으면 그것으로 끝. 없으면 «조각 전부가 사전에 있을 때만» 동의어로 본다.
-      const matched =
-        keys.has(cand.whole) ||
-        (cand.segments.length >= 2 && cand.segments.every((sg) => keys.has(sg)));
+      // 동의어 슬래시( ` / ` )는 조각 하나만 맞아도 같은 성분이고, 화학명 슬래시는
+      // 통째로 봐야 한다. 괄호 머리말(`Water (Aqua/Eau)` → `Water`)도 후보에 넣는다.
+      const matched = isIngredientTokenKnown(String(t), keys);
       if (!matched) {
         miss += 1;
         missCount.set(String(t), (missCount.get(String(t)) ?? 0) + 1);

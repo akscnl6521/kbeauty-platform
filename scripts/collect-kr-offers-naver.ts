@@ -201,9 +201,27 @@ async function main() {
     name_ko: string | null;
     active: boolean | null;
     verified_at: string | null;
-  }>(client, "products", "id,brand,name,name_ko,active,verified_at");
-  const targets = products.filter((p) => p.active === true && p.verified_at != null);
-  console.log(`활성 제품 ${targets.length}건`);
+    key_ingredients: string[] | null;
+    full_ingredients: string[] | null;
+  }>(
+    client,
+    "products",
+    "id,brand,name,name_ko,active,verified_at,key_ingredients,full_ingredients"
+  );
+
+  // 대상은 «성분을 갖춘 제품» 이다 — `verified_at` 으로 고르면 **이미 활성화된 것만**
+  // 훑게 되고, 정작 오퍼만 붙으면 살아날 제품을 건너뛴다(§38 에서 수집기에 있던 것과
+  // 같은 결함). 2026-08-04 실측: 성분은 갖췄는데 국내 오퍼가 없어 추천에서 빠진 것이
+  // 22건이고, 그중 다수가 추천 풀에 아예 없는 브랜드다(라네즈·설화수·클레어스·
+  // 메디큐브·마녀공장·이니스프리…). 사용자가 «회사 종류가 적다» 고 느끼는 원인이다.
+  const arr = (v: unknown) => (Array.isArray(v) ? v : []);
+  const targets = products.filter(
+    (p) => p.active !== false && arr(p.key_ingredients).length > 0 && arr(p.full_ingredients).length > 0
+  );
+  const alreadyLive = targets.filter((p) => p.verified_at != null).length;
+  console.log(
+    `대상 ${targets.length}건 (성분 보유 기준) — 이미 추천 풀 ${alreadyLive}건 · 풀 밖 ${targets.length - alreadyLive}건`
+  );
 
   // 가격 타당성 대조용 — 같은 제품의 US 오퍼 가격
   const usdByProduct = new Map<number, number>();
