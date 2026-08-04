@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-08-04T12:15:55.222Z",
+  "found": [
+    {
+      "productId": 4,
+      "brand": "COSRX",
+      "name": "Snail Mucin 96% Power Repairing Essence",
+      "mallName": "��庥���� ������ 96 �½� �Ŀ� ������ 100ml",
+      "price": 23000,
+      "currency": "KRW",
+      "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=196&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=bmx9W15A",
+      "similarity": 1,
+      "isNew": false
+    },
+    {
+      "productId": 28,
+      "brand": "COSRX",
+      "name": "Advanced Snail 92 All in One Cream",
+      "mallName": "������ 92 ���ο� ũ�� 100g(����/Ʃ����)",
+      "price": 23000,
+      "currency": "KRW",
+      "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=amx3VVs%3D",
+      "similarity": 1,
+      "isNew": false
+    },
+    {
+      "productId": 36,
+      "brand": "COSRX",
+      "name": "Galactomyces 95 Whitening Power Essence",
+      "mallName": "������̼��� 95 �� �뷱�� ������ 100ml",
+      "price": 15725,
+      "currency": "KRW",
+      "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=1174066&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=bmp8W19M",
+      "similarity": 1,
+      "isNew": true
+    }
+  ]
+}
