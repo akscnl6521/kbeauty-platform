@@ -2701,6 +2701,82 @@ CI 회귀 40개 통과 · `tsc`·`lint` 무경고 · `build` 통과.
 
 ---
 
+## 47. 캐시 무효화를 CI 에서 강제 + 검증기 정확도 수정 (2026-08-04)
+
+§46 의 «배포는 됐는데 화면이 안 바뀜» 을 **주석 대신 기계로** 막는다.
+
+### 새로 분석하면 구매하기가 나오는지 먼저 확인했다
+
+`npm run check:fresh-recommendation` (신규, 읽기 전용) — 카드가 CTA 를 띄울 때 쓰는
+것과 **똑같은 함수**(`resolveProductOffers` → `isOfferPurchasableForCta`)를 Production
+데이터에 태워, 캐시가 폐기되고 재계산되면 무엇이 나오는지 본다.
+
+```
+▶ 건성 + 장벽        구매하기 O  COSRX Hydrium Watery Toner      24,500원 · 쿠팡
+                    구매하기 O  Torriden Dive In Hyaluronic     15,730원 · 쿠팡
+▶ 지성 + 모공        구매하기 O  Beauty of Joseon Glow Serum     18,180원 · 롯데ON
+                    구매하기 O  Anua Heartleaf Soothing Toner    11,530원 · 쿠팡
+```
+
+**5개 시나리오 전부, Top 전원 구매 가능.** 판매처는 쿠팡·롯데ON·올리브영이고 원화
+가격이 붙는다. US 도 정상(cosrx.com 29 USD 등). 데이터·코드 모두 정상이고, 화면에
+안 뜬 것은 브라우저에 남은 배포 전 결과가 맞다.
+
+### 검증기가 화면보다 후했다 — 고쳤다
+
+§44 의 `check:production-recommendations` 는 `retailer_country` ·
+`verification_status` · `stock_status` **세 가지만** 봤다. 진짜 관문은 여덟 가지를
+본다(통화 일치 · `ships_to_countries` 포함 · `retailer_country` 일치 등).
+
+**검증기가 화면보다 후하면 «검증 통과» 가 거짓말이 된다.** 실제 관문
+`isOfferPurchasableForCta` 를 쓰도록 바꿨다. 정규화에 필요한 컬럼도 함께 조회한다 —
+빠지면 정규화가 실패해 전부 «구매 불가» 로 나온다. 결과는 동일(국내 13 · 미국 15).
+
+### 캐시 버전 관문 — CI 가 막는다
+
+`src/lib/release/cacheVersionGuard.ts` (순수 함수) + `check:cache-version-bump`.
+`main` 대비 **캐시에 영향을 주는 파일**이 바뀌었는데 `RECOMMENDATION_CACHE_VERSION`
+을 안 올렸으면 CI 가 실패한다.
+
+감시 대상 13개 — 오퍼(`productOffer` · `selectPurchaseLink` · `commerceStatus`),
+저장(`persistTopRankedProducts`), 선정(`applyBrandDiversity` · `rankProducts` ·
+`filterRankedByMatchEvidence`), 안전(`filterCandidatesBySafety` · `allergenMatch` ·
+`normalizeIngredient` · `ingredientAliases`), 후보(`fetchCandidateProducts` ·
+`publicCatalogFilter`).
+
+**감시 범위를 넓게 잡았다.** 헛detection 의 대가는 «버전 한 번 더 올리기»(사용자는
+한 번 재계산)이고, 놓쳤을 때의 대가는 «배포해도 화면이 안 바뀜» 이다. 비대칭이다.
+
+기준 브랜치를 못 찾으면 **통과시킨다.** 얕은 클론에서 이유 없이 실패하면 이 검사가
+무시당하는데, 무시당하는 관문은 없는 것만 못하다. 대신 CI 의 `checkout` 에
+`fetch-depth: 0` 을 넣어 기준을 확보했다.
+
+### 이 관문이 이번 사고를 실제로 잡는지 확인했다
+
+배포 시점(기준 `e5505c1`)의 실제 변경 파일로 태워 봤다:
+
+```
+배포 시점에 이 관문이 있었다면: 차단(정상)
+
+추천 캐시에 영향을 주는 파일이 바뀌었는데 RECOMMENDATION_CACHE_VERSION 을 안 올렸다.
+고칠 곳: src/lib/recommend/types.ts …
+바뀐 파일: persistTopRankedProducts.ts · applyBrandDiversity.ts
+           normalizeIngredient.ts · ingredientAliases.ts
+```
+
+«실패했다» 만 알려주는 관문은 못 고친다. **어느 파일 때문인지와 어디를 고쳐야 하는지**
+를 함께 낸다.
+
+### 회귀
+
+`test:cache-version-guard` (신규) — 사고 재현·정상 통과·경로 구분자·감시 목록의
+파일이 **실재하는지**(오타로 관문이 조용히 무력화되는 것을 막는다)까지 본다.
+`test:recommendation-cache-version` 과 함께 CI 에 넣었다.
+
+CI 회귀 40개 통과 · `tsc`·`lint` 무경고 · `build` 통과.
+
+---
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |
