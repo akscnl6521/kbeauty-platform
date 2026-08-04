@@ -157,9 +157,22 @@ export const RANKED_PRODUCTS_STORAGE_KEY = "skinRankedProducts";
 /**
  * 핵심 추천 캐시 버전.
  * 이미지/offer 부착 로직이 바뀌면 올려서 기존 Top 5를 폐기한다.
+ *
+ * 2026-08-04 — `..._V2` 로 올린다. 배포(§45) 뒤에도 «구매하기» 가 안 뜬다는 보고가
+ * 있었고, 원인이 **이 버전을 안 올린 것**이었다.
+ *
+ * 이번 배포에서 바뀐 것이 정확히 이 주석이 말하는 «offer 부착 로직» 이다:
+ *   · 오퍼 국가를 사용자 국가와 맞춘다 (`CORE_RECOMMEND_OFFER_COUNTRY` 하드코딩 제거)
+ *   · 브랜드 상한을 핵심 경로에 적용한다
+ *
+ * 그런데 결과 화면은 `skinRankedProducts`(localStorage)에서 읽는다. 배포 전에
+ * 분석을 돌린 사용자는 **옛 로직으로 계산된 Top 5** 를 계속 본다 — 그때는 오퍼가
+ * 전부 US 라 국내 구매 링크가 붙지 않았다. 코드를 고쳐도 화면이 안 바뀐 이유다.
+ *
+ * 버전을 올리면 `discardStaleRankedProductsCache()` 가 옛 캐시를 지우고 다시 계산한다.
  */
 export const RECOMMENDATION_CACHE_VERSION =
-  "KR_SCENARIO_PILOT_PHASE25_COMMERCE_SEP_V1";
+  "KR_SCENARIO_PILOT_PHASE25_COMMERCE_SEP_V2";
 
 /** 캐시 버전 localStorage 키 */
 export const RECOMMENDATION_CACHE_VERSION_KEY = "recommendationCacheVersion";
