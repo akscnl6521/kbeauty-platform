@@ -198,6 +198,7 @@
     "check:prohibited-ingredients": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/audit-prohibited-ingredients.ts",
     "check:production-recommendations": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/verify-production-recommendations.ts",
     "check:purchase-cta": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/diagnose-purchase-cta.ts",
+    "check:fresh-recommendation": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/simulate-fresh-recommendation.ts",
     "check:production-full-ingredients": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/audit-production-full-ingredients.ts",
     "check:brand-shopify-discovery": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/discover-brand-shopify-stores.ts",
     "repair:full-ingredients": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/repair-contaminated-full-ingredients.ts",
