@@ -108,6 +108,32 @@ const TRANSLITERATION: ReadonlyArray<readonly [ko: string, en: string]> = [
   ["아하", "aha"],
   ["비타민", "vitamin"],
   ["비타", "vita"],
+
+  // ── 2026-08-05 추가 — 국내몰 스냅샷의 **실제 표기와 DB 이름 쌍**에서 확인한 것만.
+  //    지어낸 대응은 없다. 각 줄 옆이 그 짝을 확인한 제품이다.
+  ["올인원", "all in one"],            // 스네일 92 올인원 크림 ↔ Advanced Snail 92 All in One Cream
+  ["미드나잇", "midnight"],            // 미드나잇 블루 카밍 크림 ↔ Midnight Blue Calming Cream
+  ["블루", "blue"],                   //   〃
+  ["굿모닝", "good morning"],          // 약산성 굿모닝 젤 클렌저 ↔ Low pH Good Morning Gel Cleanser
+  ["시트", "sheet"],                  // 약산성 시트 마스크 어성초 핏 ↔ Mild Acidic pH Sheet Mask Heartleaf Fit
+  ["핏", "fit"],                     //   〃
+  ["워터", "water"],                  // 센텔라 워터 알콜-프리 토너 ↔ Centella Water Alcohol-Free Toner
+  ["알콜", "alcohol"],                //   〃 (`알코올` 과 표기가 다르다)
+  ["프리", "free"],                   //   〃
+  ["서플", "supple"],                 // 서플 프레퍼레이션 언센티드 토너 ↔ Supple Preparation Unscented Toner
+  ["프레퍼레이션", "preparation"],      //   〃
+  ["언센티드", "unscented"],           //   〃
+  ["페이셜", "facial"],                // 같은 라인의 «페이셜» 판을 **구분하기 위해** 넣는다
+  ["어드벤스드", "advanced"],          // 어드벤스드 스네일 96 뮤신 ↔ Snail Mucin 96% (기존 `어드밴스드` 와 표기가 다르다)
+  ["히아루론산", "hyaluronic acid"],   // 히아루론산 인텐시브 크림 (기존 `히알루론산` 과 표기가 다르다)
+  ["리퀴드", "liquid"],                // 아하 7 화이트헤드 파워 리퀴드 ↔ … Power Liquid
+  ["화이트헤드", "whitehead"],         //   〃
+  ["폼", "foam"],                     // AC 컬렉션 카밍 폼 클렌저
+  ["모이스쳐라이징", "moisturizing"],   // 오일-프리 울트라 모이스쳐라이징 로션
+  ["울트라", "ultra"],                //   〃
+  ["리프팅", "lifting"],               // 실루엣 리프팅 크림 마스크
+  ["블랙", "black"],
+  ["스네일", "snail"],
 ];
 
 /** 브랜드 한글 표기 → 영문. 네이버 검색으로 확인된 것만 둔다. */

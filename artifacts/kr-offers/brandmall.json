@@ -1,38 +1,71 @@
 {
-  "checkedAt": "2026-08-04T12:52:17.255Z",
+  "checkedAt": "2026-08-04T21:33:56.091Z",
   "found": [
     {
-      "productId": 4,
+      "productId": 1,
       "brand": "COSRX",
-      "name": "Snail Mucin 96% Power Repairing Essence",
-      "mallName": "��庥���� ������ 96 �½� �Ŀ� ������ 100ml",
-      "price": 23000,
+      "name": "Centella Water Alcohol-Free Toner",
+      "mallName": "센텔라 워터 알콜-프리 토너 미스트 150ml",
+      "price": 10710,
       "currency": "KRW",
-      "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=196&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=bmx9W15A",
+      "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=192&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=bml4W19H",
       "similarity": 1,
-      "isNew": false
+      "isNew": true
     },
     {
       "productId": 28,
       "brand": "COSRX",
       "name": "Advanced Snail 92 All in One Cream",
-      "mallName": "������ 92 ���ο� ũ�� 100g(����/Ʃ����)",
+      "mallName": "스네일 92 올인원 크림 100g(단지/튜브형)",
       "price": 23000,
       "currency": "KRW",
       "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=202&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=amx3VVs%3D",
-      "similarity": 1,
+      "similarity": 0.86,
       "isNew": false
     },
     {
-      "productId": 36,
+      "productId": 4,
       "brand": "COSRX",
-      "name": "Galactomyces 95 Whitening Power Essence",
-      "mallName": "������̼��� 95 �� �뷱�� ������ 100ml",
-      "price": 15725,
+      "name": "Snail Mucin 96% Power Repairing Essence",
+      "mallName": "어드벤스드 스네일 96 뮤신 파워 에센스 100ml",
+      "price": 23000,
       "currency": "KRW",
-      "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=1174066&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=bmp8W19M",
-      "similarity": 1,
+      "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=196&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=bmx9W15A",
+      "similarity": 0.83,
       "isNew": false
+    },
+    {
+      "productId": 188,
+      "brand": "COSRX",
+      "name": "Low pH Good Morning Gel Cleanser",
+      "mallName": "약산성 굿모닝 젤 클렌저 150ml",
+      "price": 7920,
+      "currency": "KRW",
+      "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=222&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=bmt3Vw%3D%3D",
+      "similarity": 0.8,
+      "isNew": true
+    },
+    {
+      "productId": 189,
+      "brand": "COSRX",
+      "name": "AHA/BHA Clarifying Treatment Toner",
+      "mallName": "아하/바하 클래리파잉 토너 미스트 150ml",
+      "price": 11500,
+      "currency": "KRW",
+      "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=191&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=aG53U1w%3D",
+      "similarity": 0.8,
+      "isNew": false
+    },
+    {
+      "productId": 125,
+      "brand": "Abib",
+      "name": "Mild Acidic pH Sheet Mask Heartleaf Fit",
+      "mallName": "약산성 시트 마스크 어성초 핏",
+      "price": 4000,
+      "currency": "KRW",
+      "url": "https://abib.com/product/약산성-시트-마스크-어성초-핏/84/",
+      "similarity": 0.8,
+      "isNew": true
     }
   ]
 }
