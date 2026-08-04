@@ -1,325 +1,328 @@
 {
-  "checkedAt": "2026-08-04T08:30:57.867Z",
-  "poolSize": 17,
+  "checkedAt": "2026-08-04T11:43:25.629Z",
+  "poolSize": 26,
   "krBuyable": 13,
-  "usBuyable": 15,
+  "usBuyable": 24,
   "scenarios": [
     {
       "scenarioId": "kr-redness-sensitive-cream",
       "name": "민감·홍조 · 진정 크림",
-      "safe": 17,
-      "withEvidence": 5,
-      "finalCount": 4,
+      "safe": 26,
+      "withEvidence": 8,
+      "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 3,
       "brands": [
+        "Axis-Y",
+        "Klairs",
         "COSRX",
         "SKIN1004",
-        "COSRX",
-        "Anua"
+        "COSRX"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-redness-soothing-serum",
       "name": "홍조 · 저자극 진정 세럼",
-      "safe": 17,
-      "withEvidence": 8,
+      "safe": 26,
+      "withEvidence": 13,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 2,
       "brands": [
+        "Axis-Y",
+        "Klairs",
         "COSRX",
         "COSRX",
-        "Haruharu Wonder",
-        "SKIN1004",
-        "Anua"
+        "Haruharu Wonder"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-redness-gentle-cleanser",
       "name": "민감 피부 · 순한 클렌저",
-      "safe": 17,
-      "withEvidence": 7,
-      "finalCount": 4,
+      "safe": 26,
+      "withEvidence": 10,
+      "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 3,
       "brands": [
+        "Axis-Y",
+        "Klairs",
         "COSRX",
         "COSRX",
-        "SKIN1004",
-        "Anua"
+        "SKIN1004"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-redness-toner-pad",
       "name": "붉은기 · 진정 토너 패드",
-      "safe": 17,
-      "withEvidence": 7,
-      "finalCount": 4,
+      "safe": 26,
+      "withEvidence": 10,
+      "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 3,
       "brands": [
+        "Axis-Y",
+        "Klairs",
         "COSRX",
         "COSRX",
-        "SKIN1004",
-        "Anua"
+        "SKIN1004"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-redness-calming-mist",
       "name": "열감·홍조 · 진정 미스트",
-      "safe": 17,
-      "withEvidence": 13,
+      "safe": 26,
+      "withEvidence": 22,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
+        "Axis-Y",
+        "Klairs",
         "COSRX",
-        "SKIN1004",
-        "Haruharu Wonder",
-        "Torriden"
+        "Laneige"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-barrier-cream",
       "name": "건조·장벽 · 보습 크림",
-      "safe": 17,
-      "withEvidence": 13,
+      "safe": 26,
+      "withEvidence": 22,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
+        "Klairs",
+        "Axis-Y",
         "COSRX",
-        "Haruharu Wonder",
-        "SKIN1004",
-        "Torriden"
+        "Haruharu Wonder"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-barrier-essence",
       "name": "장벽 강화 · 보습 에센스",
-      "safe": 17,
-      "withEvidence": 10,
+      "safe": 26,
+      "withEvidence": 19,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
-        "Haruharu Wonder",
+        "Klairs",
         "COSRX",
-        "Torriden",
-        "Haruharu Wonder"
+        "Haruharu Wonder",
+        "Laneige"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-hydrating-toner",
       "name": "건조함 · 수분 토너",
-      "safe": 17,
-      "withEvidence": 10,
+      "safe": 26,
+      "withEvidence": 19,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
-        "Haruharu Wonder",
+        "Klairs",
         "COSRX",
-        "Torriden",
-        "Haruharu Wonder"
+        "Haruharu Wonder",
+        "Laneige"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-cream-moderate",
       "name": "중건성 · 데일리 크림",
-      "safe": 17,
-      "withEvidence": 13,
+      "safe": 26,
+      "withEvidence": 22,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
+        "Klairs",
+        "Axis-Y",
         "COSRX",
-        "SKIN1004",
-        "Haruharu Wonder",
-        "Torriden"
+        "Laneige"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-mask",
       "name": "건조·당김 · 수분 마스크",
-      "safe": 17,
-      "withEvidence": 10,
+      "safe": 26,
+      "withEvidence": 19,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
-        "Haruharu Wonder",
+        "Klairs",
         "COSRX",
-        "Torriden",
-        "Haruharu Wonder"
+        "Haruharu Wonder",
+        "Laneige"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-acne-sebum-cleanser",
       "name": "여드름·피지 · 클렌저",
-      "safe": 17,
-      "withEvidence": 12,
+      "safe": 26,
+      "withEvidence": 16,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 3,
       "brands": [
         "Beauty of Joseon",
         "COSRX",
         "COSRX",
         "Beauty of Joseon",
-        "SKIN1004"
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-acne-spot-treatment",
       "name": "트러블 · 스팟 케어",
-      "safe": 17,
-      "withEvidence": 12,
+      "safe": 26,
+      "withEvidence": 16,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 3,
       "brands": [
         "Beauty of Joseon",
         "COSRX",
         "COSRX",
         "Beauty of Joseon",
-        "SKIN1004"
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-acne-serum",
       "name": "여드름 · 세럼",
-      "safe": 17,
-      "withEvidence": 12,
+      "safe": 26,
+      "withEvidence": 17,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 3,
       "brands": [
+        "Axis-Y",
         "SKIN1004",
+        "COSRX",
         "Beauty of Joseon",
-        "COSRX",
-        "COSRX",
-        "Beauty of Joseon"
+        "COSRX"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-acne-pores-toner",
       "name": "모공·피지 · 토너",
-      "safe": 17,
-      "withEvidence": 12,
+      "safe": 26,
+      "withEvidence": 16,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 3,
       "brands": [
         "Beauty of Joseon",
         "COSRX",
         "COSRX",
         "Beauty of Joseon",
-        "SKIN1004"
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-acne-mattifying-emulsion",
       "name": "유분·트러블 · 에멀전",
-      "safe": 17,
-      "withEvidence": 12,
+      "safe": 26,
+      "withEvidence": 16,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 3,
       "brands": [
         "Beauty of Joseon",
         "COSRX",
         "COSRX",
         "Beauty of Joseon",
-        "SKIN1004"
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-uv-sunscreen-face",
       "name": "얼굴 · 데일리 선크림",
-      "safe": 17,
-      "withEvidence": 10,
+      "safe": 26,
+      "withEvidence": 15,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
+        "COSRX",
         "Beauty of Joseon",
+        "Axis-Y",
         "COSRX",
-        "SKIN1004",
-        "COSRX",
-        "Beauty of Joseon"
+        "SKIN1004"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-uv-sunscreen-sensitive",
       "name": "민감 피부 · 순한 선크림",
-      "safe": 17,
-      "withEvidence": 12,
+      "safe": 26,
+      "withEvidence": 19,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 5,
+      "krBuyableCount": 2,
       "brands": [
+        "COSRX",
+        "Axis-Y",
         "SKIN1004",
-        "COSRX",
-        "COSRX",
-        "Anua",
-        "Beauty of Joseon"
+        "Klairs",
+        "COSRX"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-uv-antiaging-sunscreen",
       "name": "광노화 · SPF 케어",
-      "safe": 17,
-      "withEvidence": 10,
+      "safe": 26,
+      "withEvidence": 15,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
+        "COSRX",
         "Beauty of Joseon",
+        "Axis-Y",
         "COSRX",
-        "SKIN1004",
-        "COSRX",
-        "Beauty of Joseon"
+        "SKIN1004"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-hydrating-sunscreen",
       "name": "건조 피부 · 보습 선크림",
-      "safe": 17,
-      "withEvidence": 16,
+      "safe": 26,
+      "withEvidence": 25,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
         "COSRX",
-        "Haruharu Wonder",
-        "Torriden",
+        "Klairs",
+        "Axis-Y",
         "Haruharu Wonder"
       ],
       "short": false
@@ -327,133 +330,133 @@
     {
       "scenarioId": "kr-uv-mist-spf",
       "name": "야외 · 선 미스트",
-      "safe": 17,
-      "withEvidence": 9,
+      "safe": 26,
+      "withEvidence": 14,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 2,
       "brands": [
+        "Axis-Y",
         "SKIN1004",
         "COSRX",
-        "Beauty of Joseon",
-        "Beauty of Joseon",
-        "COSRX"
+        "COSRX",
+        "Beauty of Joseon"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-firmness-serum",
       "name": "탄력 · 안티에이징 세럼",
-      "safe": 17,
-      "withEvidence": 16,
+      "safe": 26,
+      "withEvidence": 25,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 5,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
+        "Axis-Y",
         "COSRX",
         "SKIN1004",
-        "Torriden",
-        "Haruharu Wonder"
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-firmness-ampoule",
       "name": "주름·탄력 · 앰플",
-      "safe": 17,
-      "withEvidence": 11,
+      "safe": 26,
+      "withEvidence": 20,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
         "COSRX",
         "Beauty of Joseon",
-        "Haruharu Wonder",
-        "Torriden"
+        "Klairs",
+        "Laneige"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-eye-cream",
       "name": "눈가 · 아이크림",
-      "safe": 17,
-      "withEvidence": 11,
+      "safe": 26,
+      "withEvidence": 20,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
         "COSRX",
-        "Haruharu Wonder",
-        "Torriden",
-        "Haruharu Wonder"
+        "Klairs",
+        "Laneige",
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-neck-cream",
       "name": "목주름 · 크림",
-      "safe": 17,
-      "withEvidence": 11,
+      "safe": 26,
+      "withEvidence": 20,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
         "COSRX",
         "Beauty of Joseon",
-        "Haruharu Wonder",
-        "Torriden"
+        "Klairs",
+        "Laneige"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-essence",
       "name": "노화방지 · 에센스",
-      "safe": 17,
-      "withEvidence": 16,
+      "safe": 26,
+      "withEvidence": 25,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
+        "COSRX",
         "Beauty of Joseon",
+        "Axis-Y",
         "COSRX",
-        "COSRX",
-        "SKIN1004",
-        "Torriden"
+        "SKIN1004"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-eye-wrinkle-cream",
       "name": "눈가 주름 · 아이크림",
-      "safe": 17,
-      "withEvidence": 14,
+      "safe": 26,
+      "withEvidence": 23,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
         "COSRX",
-        "Beauty of Joseon",
-        "SKIN1004",
-        "Haruharu Wonder"
+        "Klairs",
+        "Axis-Y",
+        "Beauty of Joseon"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-eye-dark-circle-serum",
       "name": "다크서클 · 아이 세럼",
-      "safe": 17,
-      "withEvidence": 10,
+      "safe": 26,
+      "withEvidence": 15,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 2,
       "brands": [
-        "Beauty of Joseon",
         "COSRX",
+        "Beauty of Joseon",
         "COSRX",
         "Beauty of Joseon",
         "Haruharu Wonder"
@@ -463,51 +466,51 @@
     {
       "scenarioId": "kr-neck-firming-cream",
       "name": "목 · 탄력 크림",
-      "safe": 17,
-      "withEvidence": 11,
+      "safe": 26,
+      "withEvidence": 20,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
         "COSRX",
         "Beauty of Joseon",
-        "Haruharu Wonder",
-        "Torriden"
+        "Klairs",
+        "Laneige"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-neck-serum",
       "name": "목주름 · 세럼",
-      "safe": 17,
-      "withEvidence": 11,
+      "safe": 26,
+      "withEvidence": 20,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
         "COSRX",
         "Beauty of Joseon",
-        "Haruharu Wonder",
-        "Torriden"
+        "Klairs",
+        "Laneige"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-eye-neck-multi-cream",
       "name": "눈가·목 · 멀티 크림",
-      "safe": 17,
-      "withEvidence": 14,
+      "safe": 26,
+      "withEvidence": 23,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 1,
       "brands": [
         "COSRX",
         "COSRX",
-        "Beauty of Joseon",
-        "SKIN1004",
-        "Haruharu Wonder"
+        "Klairs",
+        "Axis-Y",
+        "Beauty of Joseon"
       ],
       "short": false
     }

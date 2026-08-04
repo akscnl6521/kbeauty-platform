@@ -1,6 +1,15 @@
 {
-  "checkedAt": "2026-08-04T11:13:15.102Z",
+  "checkedAt": "2026-08-04T11:43:57.473Z",
   "found": [
+    {
+      "productId": 3,
+      "brand": "Laneige",
+      "name": "Water Sleeping Mask",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0255/0189/2660/files/WSM_AD_PDP_2.jpg?v=1754046790",
+      "sourcePage": "https://us.laneige.com/products/water-sleeping-mask",
+      "similarity": 1,
+      "inPool": true
+    },
     {
       "productId": 4,
       "brand": "COSRX",
@@ -29,6 +38,15 @@
       "inPool": true
     },
     {
+      "productId": 21,
+      "brand": "COSRX",
+      "name": "Vitamin C 23 Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/Advanced_VitaminC23_00.webp?v=1760935746",
+      "sourcePage": "https://cosrx.com/products/cosrx-advanced-the-vitamin-c-23-serum",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
       "productId": 27,
       "brand": "COSRX",
       "name": "BHA Blackhead Power Liquid",
@@ -53,6 +71,33 @@
       "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/Retinol03Cream_800x1067_c88d3441-5851-4a65-8438-a93bbfb4f86b.webp?v=1724837060",
       "sourcePage": "https://cosrx.com/products/the-retinol-0-3-cream",
       "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 32,
+      "brand": "Innisfree",
+      "name": "Green Tea Hyaluronic Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0089/3367/1012/files/01_IF_GT-HC_Packshot_2024_01_1080x1080_60c0b92c-41a4-417a-8995-6b86728bee2f.jpg?v=1758640121",
+      "sourcePage": "https://us.innisfree.com/products/green-tea-seed-hyaluronic-cream",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 48,
+      "brand": "Klairs",
+      "name": "Supple Preparation Unscented Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0934/1766/8886/files/SupplePreparationUnscentedToner180mL_product.jpg?v=1776808592",
+      "sourcePage": "https://klairs.com/products/supple-preparation-unscented-toner",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 77,
+      "brand": "CosRX",
+      "name": "Black Snail All In One Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/snail_cream_thumbnail.png?v=1748420673",
+      "sourcePage": "https://cosrx.com/products/advanced-snail-92-all-in-one-cream",
+      "similarity": 0.83,
       "inPool": true
     },
     {
@@ -110,6 +155,24 @@
       "inPool": true
     },
     {
+      "productId": 166,
+      "brand": "Axis-Y",
+      "name": "Dark Spot Correcting Glow Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0578/0157/2530/files/9ff5d79afa157b3862577adfcdc9caa4.png?v=1781504891",
+      "sourcePage": "https://axis-y.com/products/dark-spot-correcting-glow-serum",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 167,
+      "brand": "Axis-Y",
+      "name": "Complete No-Stress Physical Sunscreen",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0578/0157/2530/files/1637cf65cb3582c472d80977ee162c77.png?v=1781505585",
+      "sourcePage": "https://axis-y.com/products/complete-no-stress-physical-sunscreen",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
       "productId": 171,
       "brand": "SKIN1004",
       "name": "Madagascar Centella Tone Brightening Capsule Ampoule",
@@ -124,6 +187,15 @@
       "name": "Advanced Snail Peptide Eye Cream",
       "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/advanced-snail-peptide-eye-cream-cosrx-official-1.png?v=1724835637",
       "sourcePage": "https://cosrx.com/products/advanced-snail-peptide-eye-cream",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 187,
+      "brand": "COSRX",
+      "name": "The Vitamin C 23 Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/Advanced_VitaminC23_00.webp?v=1760935746",
+      "sourcePage": "https://cosrx.com/products/cosrx-advanced-the-vitamin-c-23-serum",
       "similarity": 1,
       "inPool": true
     },
@@ -155,38 +227,20 @@
       "inPool": true
     },
     {
+      "productId": 192,
+      "brand": "COSRX",
+      "name": "The 6 Peptide Skin Booster Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/THE_6_PEPTIDE_SKIN_BOOSTER_SERUM___800x1067_1.webp?v=1784097536",
+      "sourcePage": "https://cosrx.com/products/the-6-peptide-skin-booster-serum",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
       "productId": 1,
       "brand": "COSRX",
       "name": "Centella Water Alcohol-Free Toner",
       "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/centella-water-alcohol-free-toner-cosrx-official-1.jpg?v=1724835527",
       "sourcePage": "https://cosrx.com/products/centella-water-alcohol-free-toner",
-      "similarity": 1,
-      "inPool": false
-    },
-    {
-      "productId": 3,
-      "brand": "Laneige",
-      "name": "Water Sleeping Mask",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0255/0189/2660/files/WSM_AD_PDP_2.jpg?v=1754046790",
-      "sourcePage": "https://us.laneige.com/products/water-sleeping-mask",
-      "similarity": 1,
-      "inPool": false
-    },
-    {
-      "productId": 21,
-      "brand": "COSRX",
-      "name": "Vitamin C 23 Serum",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/Advanced_VitaminC23_00.webp?v=1760935746",
-      "sourcePage": "https://cosrx.com/products/cosrx-advanced-the-vitamin-c-23-serum",
-      "similarity": 1,
-      "inPool": false
-    },
-    {
-      "productId": 32,
-      "brand": "Innisfree",
-      "name": "Green Tea Hyaluronic Cream",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0089/3367/1012/files/01_IF_GT-HC_Packshot_2024_01_1080x1080_60c0b92c-41a4-417a-8995-6b86728bee2f.jpg?v=1758640121",
-      "sourcePage": "https://us.innisfree.com/products/green-tea-seed-hyaluronic-cream",
       "similarity": 1,
       "inPool": false
     },
@@ -209,15 +263,6 @@
       "inPool": false
     },
     {
-      "productId": 48,
-      "brand": "Klairs",
-      "name": "Supple Preparation Unscented Toner",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0934/1766/8886/files/SupplePreparationUnscentedToner180mL_product.jpg?v=1776808592",
-      "sourcePage": "https://klairs.com/products/supple-preparation-unscented-toner",
-      "similarity": 1,
-      "inPool": false
-    },
-    {
       "productId": 51,
       "brand": "Holika Holika",
       "name": "Jeju Aloe 99% Soothing Gel",
@@ -233,15 +278,6 @@
       "imageUrl": "https://cdn.shopify.com/s/files/1/0940/1807/6983/files/5_6545267b-69eb-448d-bebf-d3cf84e61d9e.jpg?v=1783323238",
       "sourcePage": "https://pyunkangyulglobal.com/products/pyunkangyul-essence-toner-2-size",
       "similarity": 1,
-      "inPool": false
-    },
-    {
-      "productId": 77,
-      "brand": "CosRX",
-      "name": "Black Snail All In One Cream",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/snail_cream_thumbnail.png?v=1748420673",
-      "sourcePage": "https://cosrx.com/products/advanced-snail-92-all-in-one-cream",
-      "similarity": 0.83,
       "inPool": false
     },
     {
@@ -434,24 +470,6 @@
       "inPool": false
     },
     {
-      "productId": 166,
-      "brand": "Axis-Y",
-      "name": "Dark Spot Correcting Glow Serum",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0578/0157/2530/files/9ff5d79afa157b3862577adfcdc9caa4.png?v=1781504891",
-      "sourcePage": "https://axis-y.com/products/dark-spot-correcting-glow-serum",
-      "similarity": 1,
-      "inPool": false
-    },
-    {
-      "productId": 167,
-      "brand": "Axis-Y",
-      "name": "Complete No-Stress Physical Sunscreen",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0578/0157/2530/files/1637cf65cb3582c472d80977ee162c77.png?v=1781505585",
-      "sourcePage": "https://axis-y.com/products/complete-no-stress-physical-sunscreen",
-      "similarity": 1,
-      "inPool": false
-    },
-    {
       "productId": 168,
       "brand": "Round Lab",
       "name": "Birch Juice Moisturizing Serum",
@@ -497,29 +515,11 @@
       "inPool": false
     },
     {
-      "productId": 187,
-      "brand": "COSRX",
-      "name": "The Vitamin C 23 Serum",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/Advanced_VitaminC23_00.webp?v=1760935746",
-      "sourcePage": "https://cosrx.com/products/cosrx-advanced-the-vitamin-c-23-serum",
-      "similarity": 1,
-      "inPool": false
-    },
-    {
       "productId": 191,
       "brand": "COSRX",
       "name": "The Niacinamide 15 Serum",
       "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/niacin.png?v=1748420816",
       "sourcePage": "https://cosrx.com/products/the-niacinamide-15-serum",
-      "similarity": 1,
-      "inPool": false
-    },
-    {
-      "productId": 192,
-      "brand": "COSRX",
-      "name": "The 6 Peptide Skin Booster Serum",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/THE_6_PEPTIDE_SKIN_BOOSTER_SERUM___800x1067_1.webp?v=1784097536",
-      "sourcePage": "https://cosrx.com/products/the-6-peptide-skin-booster-serum",
       "similarity": 1,
       "inPool": false
     }

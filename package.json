@@ -206,6 +206,8 @@
     "check:production-full-ingredients": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/audit-production-full-ingredients.ts",
     "check:brand-shopify-discovery": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/discover-brand-shopify-stores.ts",
     "repair:full-ingredients": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/repair-contaminated-full-ingredients.ts",
+    "repair:resplit-ingredients": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/resplit-stored-full-ingredients.ts",
+    "apply:activate-ready": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/activate-ingredient-ready-products.ts",
     "refill:full-ingredients": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/refill-full-ingredients-from-brand-store.ts",
     "test:face-track-filter": "tsx scripts/face-track-filter-selftest.ts",
     "test:allergen-full-ingredients": "tsx scripts/allergen-full-ingredients-selftest.ts",
