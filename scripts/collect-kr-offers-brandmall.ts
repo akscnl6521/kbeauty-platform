@@ -71,6 +71,28 @@ async function get(url: string): Promise<string> {
   }
 }
 
+/**
+ * JSON-LD `name` 에 HTML 이 섞여 오는 몰이 있다 (2026-08-04 Abib 실측:
+ * `하이드레이션 크림<br /> <strong>워터 튜브</strong>`). 태그를 걷어내고 공백을 정리한다.
+ */
+function cleanName(raw: string): string {
+  return String(raw ?? "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * 화장품 소매가로 **말이 되는 값인가.**
+ *
+ * 2026-08-04 라네즈 몰 실측 — JSON-LD 가 모든 제품의 `price` 를 **100** 으로 준다.
+ * 실제 가격이 아니라 자리표시다. 그대로 넣으면 «라네즈 립 밤 100원» 이 화면에 뜬다.
+ * 가격을 지어내지 않는 것만큼 **분명히 틀린 값을 거르는 것**도 중요하다.
+ */
+const MIN_PLAUSIBLE_KRW = 1000;
+
 /** 제품 페이지의 JSON-LD 에서 이름·가격·재고를 뽑는다. 없으면 null. */
 function parseProductJsonLd(html: string): Omit<MallItem, "url"> | null {
   const blocks = [...html.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)].map(
@@ -87,7 +109,7 @@ function parseProductJsonLd(html: string): Omit<MallItem, "url"> | null {
     for (const n of nodes) {
       const node = n as Record<string, unknown>;
       if (node["@type"] !== "Product") continue;
-      const name = String(node.name ?? "").trim();
+      const name = cleanName(String(node.name ?? ""));
       const offersRaw = node.offers;
       const offer = (Array.isArray(offersRaw) ? offersRaw[0] : offersRaw) as
         | Record<string, unknown>
@@ -97,7 +119,10 @@ function parseProductJsonLd(html: string): Omit<MallItem, "url"> | null {
       const currency = String(offer.priceCurrency ?? "").toUpperCase();
       const avail = String(offer.availability ?? "");
       if (!Number.isFinite(price) || price <= 0) continue;
-      return { name, price, currency, inStock: /InStock/i.test(avail) && !/OutOfStock/i.test(avail) };
+      // `availability` 가 **없으면 재고 있음으로 보지 않는다.** 없는 정보를 유리하게
+      // 해석하면 품절 제품에 구매 버튼이 붙는다 (Round Lab 몰은 이 필드를 안 준다).
+      const inStock = /InStock/i.test(avail) && !/OutOfStock/i.test(avail);
+      return { name, price, currency, inStock };
     }
   }
   return null;
@@ -168,6 +193,18 @@ async function main() {
     }
     console.log(`  가격 정보가 있는 제품 ${items.length}개 (그중 재고 있음 ${items.filter((i) => i.inStock).length}개)`);
 
+    // 몰 전체가 자리표시 가격을 주는 경우가 있다 — 그런 몰은 통째로 건너뛴다.
+    // 한두 건만 걸러내면 나머지 틀린 값이 그대로 들어간다.
+    const krw = items.filter((i) => i.currency === "KRW");
+    const placeholder = krw.filter((i) => i.price < MIN_PLAUSIBLE_KRW).length;
+    if (krw.length >= 5 && placeholder / krw.length > 0.5) {
+      console.log(
+        `  !! 가격의 ${Math.round((placeholder / krw.length) * 100)}% 가 ${MIN_PLAUSIBLE_KRW}원 미만이다 — ` +
+          `자리표시 값으로 보여 이 몰은 건너뛴다`
+      );
+      continue;
+    }
+
     for (const p of mine) {
       const want = nameTokens(String(p.name ?? ""), String(p.brand ?? ""));
       let best: { it: MallItem; sim: number } | null = null;
@@ -178,6 +215,10 @@ async function main() {
         if (!best || sim > best.sim) best = { it, sim };
       }
       if (!best || best.sim < NAME_MATCH_MIN) continue;
+      if (best.it.price < MIN_PLAUSIBLE_KRW) {
+        console.log(`  · ${String(p.id).padStart(4)} ${String(p.name).slice(0, 30)} — 가격 ${best.it.price} 은 자리표시로 보여 건너뛴다`);
+        continue;
+      }
       if (!best.it.inStock) {
         console.log(`  · ${String(p.id).padStart(4)} ${String(p.name).slice(0, 30)} — 몰에 있으나 품절`);
         continue;

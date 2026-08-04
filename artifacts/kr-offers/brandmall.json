@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-04T12:15:55.222Z",
+  "checkedAt": "2026-08-04T12:52:17.255Z",
   "found": [
     {
       "productId": 4,
@@ -32,7 +32,7 @@
       "currency": "KRW",
       "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=1174066&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=bmp8W19M",
       "similarity": 1,
-      "isNew": true
+      "isNew": false
     }
   ]
 }
