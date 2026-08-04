@@ -202,6 +202,7 @@
     "check:purchase-cta": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/diagnose-purchase-cta.ts",
     "check:fresh-recommendation": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/simulate-fresh-recommendation.ts",
     "check:catalog-funnel": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/diagnose-catalog-funnel.ts",
+    "collect:product-images": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/collect-product-images.ts",
     "check:production-full-ingredients": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/audit-production-full-ingredients.ts",
     "check:brand-shopify-discovery": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/discover-brand-shopify-stores.ts",
     "repair:full-ingredients": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/repair-contaminated-full-ingredients.ts",

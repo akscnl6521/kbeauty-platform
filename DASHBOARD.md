@@ -2865,6 +2865,70 @@ DB 전체 브랜드 55개  →  추천 풀 브랜드 6개
 
 ---
 
+## 49. 제품 이미지 — 데이터 확보 + 배선 완료, 테이블만 남음 (2026-08-04)
+
+§48 에서 «이미지는 처음부터 뜬 적이 없다» 를 확인했다. 세 조각 중 둘을 끝냈다.
+
+### 1) 데이터 — 추천 풀 **17건 전부** 확보
+
+`npm run collect:product-images` (신규). 브랜드 Shopify 스토어의 `/products.json` 이
+`images[].src` 로 공식 제품 사진을 공개한다. 제품명 대조로 짝지어 모았다.
+
+```
+확보 58건 (추천 풀 17건 전부) · 못 찾음 49건
+
+풀   4 COSRX            Snail Mucin 96% Power Repairing   대조 0.83
+풀  20 Torriden         Dive In Low Molecular Hyaluronic  대조 1.00
+풀 104 Beauty of Joseon Glow Serum Propolis and Niacin…   대조 1.00
+…
+```
+
+**지어내지 않는다** — 제품명 대조가 0.8 미만이면 붙이지 않는다. 엉뚱한 제품 사진은
+사진이 없는 것보다 나쁘다(사용자가 다른 제품을 산다). 이미지 URL 이 실제로 열리는지도
+HEAD 로 확인한다(HTTP 200 + `content-type: image/*`) — 죽은 링크를 저장하면 화면이
+깨진 채로 남는다.
+
+### 2) 배선 — 라우트를 부르는 곳이 없었다
+
+부품은 다 있는데 **`/api/catalog/product-images` 를 호출하는 코드가 하나도 없었다.**
+
+`src/hooks/useProductImages.ts` (신규)로 연결했다. 랭킹 결과는 localStorage 에서 오고
+거기엔 이미지가 없다. 그리고 이미지 URL 은 **서명이 붙어 만료되므로 캐시에 넣으면 안 된다** —
+화면을 열 때마다 받아야 한다. 그래서 저장 경로가 아니라 훅이 맡는다.
+
+실패해도 화면을 막지 않는다. 이미지는 부가 정보이고, 카드에는 이미 «이미지 없음»
+자리표시가 있다.
+
+### 3) 남은 것 — 테이블이 Production 에 없다
+
+`catalog_product_media` 자체가 **Production 에 없다.** DDL 실행 경로도 없다
+(`exec_sql` 류 RPC 없음 — 확인함). 사람이 대시보드에서 붙여넣어야 한다.
+
+`supabase/migrations/20260804120000_production_catalog_product_media.sql` 을 준비했다.
+원본(`20260714040000`)을 따르되 **`catalog_staging_products`·`catalog_sources` 외래키를 뺐다** —
+그 두 테이블은 Staging 자동화용이라 Production 에 없을 수 있고, 없는 테이블을 참조하면
+마이그레이션이 통째로 실패한다. 컬럼 이름·CHECK 값은 원본과 똑같이 뒀다
+(`createAdminProduct` 가 그 값을 그대로 쓴다).
+
+제품당 대표 이미지 유일성은 **부분 유니크 인덱스**로 DB 가 막는다 — 스크립트의
+«이미 있으면 건너뛴다» 는 동시 실행에서 새는 구멍이 있다.
+
+### 이 마이그레이션이 적용되면
+
+`npm run collect:product-images -- --apply` 한 번으로 17건이 적재되고, 배포 후
+**추천 화면에 제품 사진이 뜬다.** 수집 결과는 이미 artifact 에 있어 재수집도 필요 없다.
+
+### 네이버 쇼핑 — 아직 404
+
+권한 승인 뒤 재확인했지만 여전히 `SE05`. 콘솔 반영에 시간이 걸리는 것으로 보인다.
+반영되면 국내 오퍼 수집을 바로 이어간다.
+
+### 검증
+
+CI 회귀 40개 통과 · `tsc`·`lint` 무경고 · `build` 통과.
+
+---
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |
