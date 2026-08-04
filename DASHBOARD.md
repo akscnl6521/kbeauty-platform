@@ -1846,6 +1846,741 @@ Tier 2 브랜드 7곳
 크롤링(node fetch) · Staging 데이터 적재(PostgREST service_role) · 코드·테스트·빌드 ·
 문서 · 작업 브랜치 push 는 현재 설정으로도 가능하다. **DDL 과 Production write 만 막힌다.**
 
+## 37. 전성분 쓰기 관문 + **Production 오염 17건 확인** (2026-07-30)
+
+### 왜 검증기를 따로 만들었나
+
+추출기(`extractLabeledIngredients`)를 두 번 고쳤는데도 마케팅 문구가 전성분으로
+새어 들어왔다. §32 에서 오염 18건을 되돌렸고, 07-30 재수집에서 또 나왔다:
+
+```
+#HIGH-CONCENTRATION #Brightening #PUREVITAMINC
+get a welcome offer, email-only, text-only offers
+first dibs on new products. COMPANY About Us Our Ingredients
+Potassium Hyaluronate Overall rating: 4.9310346 / 5 from 203
+```
+
+페이지 구조는 브랜드마다 다르고 계속 바뀐다. 추출기를 조이는 것만으로는 못 막는다.
+**쓰기 직전에 막는 관문**을 세웠다 — `src/lib/catalog/validateIngredientList.ts`.
+
+전성분은 알레르겐 필터가 읽는 입력이다(§34 에서 주요 성분만 보던 것을 전성분
+전체로 확장했다). 쓰레기가 들어가면 "안전하다" 는 판정 자체가 무의미해진다.
+그래서 **의심스러우면 반려**한다 — 놓친 제품은 활성화가 늦어질 뿐이지만,
+통과시킨 쓰레기는 사용자에게 잘못된 안전 정보로 간다.
+
+### 판정 규칙
+
+| 규칙 | 근거 |
+|---|---|
+| HTML 엔티티·해시태그·URL·연도·물음표·말줄임 → 반려 | INCI 이름에 나올 수 없다 |
+| INCI 에 없는 기능어(`from`·`to`·`with`·`of`) 포함 → 그 항목은 성분 아님 | INCI 는 명사구뿐이라 전치사·대명사가 없다. `Body From Skin to Hair Care` 를 낱말 수만으로는 성분과 구별 못 한다 |
+| 슬래시는 **동의어 구분자** — 조각별로 판정 | `EUPHORBIA CERIFERA (CANDELILLA) WAX / EUPHORBIA CERIFERA CERA / CIRE DE CANDELILLA` 를 한 덩어리로 세면 낱말 12개라 «문장» 으로 오판된다 |
+| 숫자 사이 쉼표는 구분자 아님 | `1,2-Hexanediol` 을 쪼개면 `1` 이라는 조각이 생겨 정상 목록이 반려된다 |
+| 기제 성분에 **유상·분말도 포함** | 페이셜 오일·파우더는 물이 없는 게 정상이다. 하루하루원더 Black Rice Facial Oil 이 이 때문에 오판됐다 |
+
+### 꼬리 절단 — 왜 조심해야 하나
+
+목록 끝에 페이지 본문이 **쉼표 없이 붙는다**:
+
+```
+… Glycyrrhiza Glabra (Licorice) Root Extract, Beta-Carotene 🤖 Still not sure? Ask our AI …
+```
+
+항목(쉼표) 단위로만 자르면 `Beta-Carotene` 까지 함께 잃는다. 그래서 항목으로
+쪼개기 전에 **문자 단위로 먼저 끊는다**(이모지·`?`·`&entity;`·리뷰 위젯 문구).
+
+전성분은 함량 내림차순이라 **향료·알레르겐이 목록 끝에 온다**(Limonene·Linalool).
+잘못 자르면 알레르기 필터가 볼 성분이 사라지고, 그건 §34 에서 고친 결함으로
+되돌아간다. 그래서 **꼬리 전체가 진짜 쓰레기인지 확인하고 자른다** — 잘린 뒤에도
+성분 형태인 항목이 30% 넘게 있으면 경계가 애매하다는 뜻이므로 **자르지 않고 반려**한다.
+
+메이크업의 `May Contain (+/-): CI 77491` 은 뒤에 오는 색소가 실제 성분이라
+이 «경계 애매» 조건에 걸려 사람이 보게 된다 — 의도한 동작이다.
+
+### ⚠️ Production 실측 — 오염 17건, **단 노출된 적은 없다** (판정 기준 정정)
+
+`npm run check:production-full-ingredients` (읽기 전용) 결과. products 191행 중
+전성분 있음 35행, 그중 **17행이 검증 반려**.
+
+**최초 보고를 정정한다.** 처음에는 `active = true` 를 «노출 중» 으로 읽어 17건을
+사용자 노출 위험으로 보고했는데 **틀렸다.** 추천 풀은 `fetchCandidateProducts` 가
+`active = true AND verified_at IS NOT NULL` 로 뽑는다. Production 은 191행 중
+**190행이 `active = true`** 라서 이 값만으로는 아무것도 걸러지지 않는다.
+
+실제 추천 풀은 **17건**이고, 오염된 17건은 전부 `verified_at` 이 비어 **풀에 없었다.**
+즉 오염된 전성분이 사용자 추천에 나간 적은 없다. 감사 스크립트의 판정 기준을
+`isInRecommendationPool()` 로 고쳤다 — `fetchCandidateProducts` 와 같은 조건이어야
+감사 결과가 현실과 어긋나지 않는다.
+
+오염 자체는 여전히 고쳐야 한다. 이 제품들은 **활성화 대기 중**이고, 그대로 활성화되면
+그때 진짜 위험이 된다.
+
+**위험도가 둘로 갈린다.**
+
+(가) **실제 성분은 다 있고 뒤/앞에 문구가 붙은 것** — 없는 성분이 생긴 게 아니라
+없는 문구가 붙은 것이므로 알레르겐 오검출은 «안전한 쪽» 으로만 틀린다. 사용자에게
+성분표가 지저분하게 보이는 신뢰 문제다.
+
+(나) **실제 성분이 아예 없는 것** — 알레르겐 검사가 훑을 성분이 없으니
+«알레르겐 없음 = 안전» 이라는 **잘못된 판정**이 나온다. 진짜 위험이다.
+
+| id | 브랜드 | 제품 | 반려 이유 | 구분 |
+|---|---|---|---|---|
+| 1 | COSRX | Centella Water Alcohol-Free Toner | 전성분 전체가 자바스크립트 배열 (`"works"`·`"skin"`·`"bottle"`) — **실제 성분 0개** | **(나)** |
+| 21 · 187 | COSRX | (The) Vitamin C 23 Serum | 목록 뒤로 임상 문구 (`including fine lines`·`loss of elasticity`·`and`) | (가) |
+| 32 | Innisfree | Green Tea Hyaluronic Cream | 사용법 문구 (`neck. Gently pat …`) | (가) |
+| 48 | Klairs | Supple Preparation Unscented Toner | 제품 설명 (`pH-balanced toner designed for sensitive`) | (가) |
+| 77 | CosRX | Black Snail All In One Cream | HTML 엔티티 + 판촉 문구 | (가) |
+| 80 | Laneige | Lip Sleeping Mask | 향 종류별 목록이 합쳐짐 (`… GRAPEFRUIT:` · `WATERMELON POP:`) — 과다 포함이라 안전한 쪽 | (가) |
+| 93 | Innisfree | Complete No-Sebum Mineral Powder | 제형별(`Compact:`) 목록 합쳐짐 | (가) |
+| 123 | Medicube | Red Erasing Serum | 첫 항목이 라벨 (`. Red Serum 2.0 Water`) + `&times` | (가) |
+| 133 | Ma:nyo | Bifida Biome Complex Ampoule | 리뷰 위젯 (`Overall rating: 4.93…`) | (가) |
+| 156 | Sulwhasoo | First Care Activating Serum | 설명 문단이 앞에 붙음 | (가) |
+| 167 | Axis-Y | Complete No-Stress Physical Sunscreen | 연도 (`2023`) | (가) |
+| 168 · 169 | Round Lab | Birch Juice Moisturizing Serum/Cream | 뉴스레터 푸터 (`email-only`·`text-only offers`·`COMPANY About Us`) | (가) |
+| 176 | Innisfree | Green Tea Seed Serum | 핵심 성분 설명 구간을 잡음 (`Green Tea Water + Encapsulated Hyaluronic Acid:`) | (가) |
+| 191 | COSRX | The Niacinamide 15 Serum | 임상 표 (`Clinically Proven Yes (Non-comedogenic tested)`) | (가) |
+| 192 | COSRX | The 6 Peptide Skin Booster Serum | 설명 문구 | (가) |
+
+**오검출이 아님을 확인한 1건**: id 161 하루하루원더 Black Rice Facial Oil 은 처음
+«기제 없음» 으로 반려됐는데, 페이셜 오일은 물·글리세린이 없는 게 정상이다.
+검증기를 고쳤고 지금은 통과한다. 감사 결과에서 제외했다.
+
+### 왜 «그냥 비우기» 가 해법이 아닌가
+
+`full_ingredients` 를 NULL 로 만들면 안전 필터가 `key_ingredients` 만 보게 된다.
+그건 기능성 성분 사전으로 고른 부분집합이라 **향료·리모넨·리날룰이 구조적으로
+빠진다** — §34 에서 고친 결함으로 정확히 되돌아간다.
+**정제해서 교체하거나, 교체가 안 되면 비활성화해야 한다.**
+
+### 조치 준비 상태 (Production write 승인 대기)
+
+`npm run repair:full-ingredients` dry-run 결과: **교체 가능 10행 · 교체 불가 7행.**
+
+- 교체 가능 (21·32·48·77·133·167·168·169·187·192): 공식 판매 페이지에서 재수집 →
+  검증 통과분으로 교체. 쓰기 전 `backups/production_*_full-ingredients-정제전.sql` 자동 생성.
+- 교체 불가 (1·80·93·123·156·176·191): 그 페이지들에는 깨끗한 전성분 구간이 아예 없다.
+  구간 선택 점수에 «첫 항목이 성분이어야 한다» 를 넣어 봤지만 대안 구간이 없어 그대로다.
+  **특히 id 1 은 (나) 유형이라 비활성화가 필요하다.**
+
+### 신규 브랜드 스토어 11개 (Tier 3)
+
+`npm run check:brand-shopify-discovery` — 미검증 제품이 있는 브랜드 55개의 도메인을
+추측해서 `/products.json` 이 실제로 제품을 돌려주는 것만 남겼다. 27개 브랜드 91건.
+이미 등록된 16개를 빼고 **11개 신규**를 수집기에 추가했다:
+
+```
+TIRTIR tirtir.us · Heimish heimish.us · Rovectin rovectin.com · Tocobo tocobo.us
+mixsoon mixsoon.us · Holika Holika holikaholika.com · Pyunkang Yul pyunkangyulglobal.com
+Numbuzin us.numbuzin.com · Tonymoly tonymoly.us
+```
+
+- 비K뷰티(SK-II · Elizabeth Arden)는 스토어가 열려 있어도 §29 스코프 밖이라 뺐다.
+- Glow Recipe 4건은 한국 제조·미국 법인이라 스코프 판단이 남아 **보류**.
+- 수집 결과 Tier 3 브랜드는 **매칭 1건**(Pyunkang Yul Essence Toner). 나머지는 DB 제품명이
+  미국 스토어 카탈로그에 없다. 브랜드 스토어를 찾는 것만으로는 부족하다는 뜻이다.
+
+### 전성분 검증 통과율
+
+같은 21건 후보에 대해 **3/21 → 14/21**. 남은 7건은 위 «교체 불가» 와 같은 원인이다.
+
+### 실제로 남아 있던 유일한 빈틈 — 추천 풀 2건의 전성분 부재
+
+풀 17건 중 **15건만** 전성분 검증을 통과한다. 나머지 2건은 반려가 아니라
+**전성분이 아예 없다**:
+
+| id | 제품 | 상태 |
+|---|---|---|
+| 4 | COSRX Snail Mucin 96% Power Repairing Essence | `full_ingredients` 없음 · `key_ingredients` 2개뿐 |
+| 28 | COSRX Advanced Snail 92 All in One Cream | `full_ingredients` 없음 · `key_ingredients` 2개뿐 |
+
+이 2건은 알레르겐 검사가 `key_ingredients`(`Snail Secretion Filtrate` ·
+`Sodium Hyaluronate`)만 보게 된다. 기능성 성분 사전으로 고른 부분집합이라
+향료·리모넨·리날룰이 구조적으로 없다 — 향료 알레르기를 입력해도 «알레르겐 없음» 이 된다.
+**오염 17건보다 이쪽이 실제 위험이다.** (§34 가 고친 결함의 잔여 케이스)
+
+**왜 여태 보강되지 않았나 — 수집기 대상 선정의 결함.** 수집기는
+`verified_at IS NULL` 인 제품만 대상으로 삼는다. 그런데 추천 풀 조건은
+`verified_at IS NOT NULL` 이다. 즉 **수집기가 정확히 «라이브인 제품» 을 건너뛴다.**
+활성 제품의 데이터 구멍은 구조적으로 메워지지 않는다.
+
+보강 가능성은 확인했다(읽기 전용). cosrx.com 글로벌 스토어에서 두 제품 모두
+찾히고, 새 검증기를 통과한다:
+
+```
+ 4 통과 · 성분 12개 — Snail Secretion Filtrate, Betaine, Butylene Glycol, 1,2-Hexanediol …
+28 통과 · 성분 22개 — Snail Secretion Filtrate, Betaine, Caprylic/Capric Triglyceride …
+```
+
+Production write 라서 승인 대기.
+
+### 반영 완료 (2026-07-30 · 승인 받음)
+
+1. **오염 10건 정제 교체** — `npm run repair:full-ingredients -- --apply`
+   (21·32·48·77·133·167·168·169·187·192). 백업
+   `backups/production_20260730_145720_full-ingredients-정제전.sql`.
+   읽기 검증: 검증 반려 17행 → 7행.
+2. **id 1 비활성화** — `scripts/deactivate-product-no-ingredients.ts --apply`.
+   백업 `backups/production_20260730_145830_제품-비활성화전.sql`.
+   전성분 전체가 자바스크립트 배열이라 교체가 불가능했다. 오염된 값은 **지우지 않고
+   남겼다** — 지우면 무엇이 잘못됐는지 추적할 근거가 사라지고, NULL 로 만들면
+   안전 필터가 `key_ingredients` 만 보게 되어 §34 결함으로 되돌아간다.
+   (사후 확인: 이 제품도 `verified_at` 이 비어 원래 풀에 없었다. 비활성화는 노출
+   차단이 아니라 **잘못된 데이터로 활성화되는 것을 막는 효과**다.)
+
+남은 5건(80·93·123·156·176·191 중 191 포함)은 그 페이지에 깨끗한 전성분 구간이
+아예 없어 추출기로는 해결되지 않는다. 80·93 은 향/제형별 목록이 합쳐진 것으로
+**과다 포함이라 안전한 쪽**이다.
+
+### 백업·검증
+
+- 코드: `bcd4756` (feature 브랜치 push 완료)
+- 회귀: `test:ingredient-list-validate`(신규 26케이스) · `test:ingredient-extract-contamination` ·
+  `test:allergen-full-ingredients` · `test:brand-diversity` · `test:symptom-safety` ·
+  `test:journey` · `test:recommendation-scenarios` · `test:key-ingredients-derive` ·
+  `test:face-track-filter` 전부 통과. `npx tsc --noEmit` 무경고. `npm run build` 통과.
+- 감사 결과: `artifacts/production-audit/full-ingredients-verdicts.json`
+- 추출 원문 덤프: `artifacts/ingredient-extract/raw-dump.txt`
+
+---
+
+## 38. 오염 재발을 **구조적으로** 막음 + 라이브 알레르겐 빈틈 해소 (2026-07-30)
+
+§37 에서 «데이터를 고쳐도 재발한다» 는 것이 두 번 확인됐다. 이번에는 데이터가 아니라
+**경로**를 고쳤다.
+
+### 1) 활성화 게이트가 전성분 «형태» 를 요구한다
+
+`evaluateProductVerificationGate` 에 `ingredientsTextValid` 입력을 추가했다.
+텍스트가 **있다**(`hasOfficialIngredientsText`)는 것만으로는 부족하다 — 페이지 문구가
+들어차 있어도 «있다» 는 참이다.
+
+```
+official_ingredients_text_missing   전성분이 없다        (기존)
+official_ingredients_text_invalid   성분표 형태가 아니다  (신규)
+```
+
+`needsReview` 에도 넣었다 — 조용히 버려지면 안 되고 사람이 봐야 하는 건이다.
+활성화 경로 두 곳(`product-activate` · `product-reactivate`) 모두에 걸었다.
+한쪽만 막으면 다른 경로로 오염이 들어온다.
+
+**이제 오염된 전성분을 가진 제품은 활성화될 수 없다.** §37 의 남은 6건도 이 게이트에
+걸리므로 별도 조치가 필요 없다 — 그게 3번 항목의 답이다.
+
+**놓칠 뻔한 것**: `tsconfig.json` 이 `**/*selftest.ts` 를 제외하므로
+`src/lib/pipeline/selftest.ts` 의 게이트 픽스처는 **타입 검사를 받지 않는다.**
+`tsc --noEmit` 은 통과했지만 런타임에서 `product gate A pass` 가 깨졌다.
+`scripts/pipeline-selftest-entry.ts` 로 실제 실행해서 잡았다. 타입 검사만 믿으면 안 된다.
+
+### 2) 수집기가 라이브 제품을 건너뛰던 결함
+
+수집기 대상은 `verified_at IS NULL` 이었다. 추천 풀 조건은
+`active = true AND verified_at IS NOT NULL` 이다. **정확히 반대라서 라이브인 제품의
+데이터 구멍은 구조적으로 메워지지 않았다.**
+
+대상 선정을 «검증 안 됨 **또는** 전성분이 비어 있음» 으로 바꿨다.
+
+### 3) 라이브 알레르겐 빈틈 해소 — 추천 풀 15/17 → 17/17
+
+풀 2건이 `full_ingredients` 가 비어 알레르겐 검사가 `key_ingredients` 2개
+(`Snail Secretion Filtrate` · `Sodium Hyaluronate`)만 보고 있었다. 향료·리모넨·
+리날룰이 구조적으로 없어 향료 알레르기를 입력해도 «알레르겐 없음» 이 됐다.
+**§37 의 오염 17건보다 이쪽이 실제 위험이었다.**
+
+`npm run refill:full-ingredients -- --apply` 로 브랜드 글로벌 스토어에서 채웠다.
+
+| id | 제품 | 결과 |
+|---|---|---|
+| 4 | COSRX Snail Mucin 96% Power Repairing Essence | 0 → 12개 (대조 0.83) |
+| 28 | COSRX Advanced Snail 92 All in One Cream | 0 → 22개 (대조 1.00) |
+| 76 | Pyunkang Yul Essence Toner | 0 → 12개 (대조 1.00) — 풀 밖이지만 같이 채움 |
+
+백업 `backups/production_20260730_152254_full-ingredients-보강전.sql`.
+읽기 검증: **추천 풀 제품 중 전성분 검증 통과 17행 / 풀 17행.**
+
+기존 `repair-contaminated-full-ingredients` 는 `product_offers` 의 URL 에서
+재수집하는데 그게 국내몰(`cosrx.co.kr`)이나 올리브영이면 전성분 구간이 없다.
+새 스크립트는 **브랜드 글로벌 스토어**에서 가져오고, 제품명 대조가 `NAME_MATCH_MIN`
+(0.8) 미만이면 연결하지 않는다.
+
+### 4) 중복 제거
+
+브랜드 → 글로벌 스토어 도메인 목록과 제품명 대조 함수가 수집기 안에만 있었는데
+보강 스크립트도 같은 것이 필요해졌다. `src/lib/catalog/brandGlobalStores.ts` 로
+옮겨 단일 출처로 만들었다 — 두 곳에 복사하면 한쪽만 갱신되어 어긋난다.
+매칭 하한 `0.8` 도 하드코딩 3곳을 `NAME_MATCH_MIN` 으로 통일했다.
+
+이전 세션에서 커밋된 임시 파일 `scripts/_tmp_metafield.mjs` 도 지웠다 (lint 경고 원인).
+
+### 아직 안 된 것
+
+- **카탈로그 확대는 막혀 있다.** 브랜드 스토어를 11개 더 찾아 붙였지만 수집 결과는
+  매칭 1건이었다. 전성분이 없거나 오염된 79건 중 채울 수 있었던 것은 3건뿐이다.
+  나머지는 **제품명 대조 미달**(DB 이름이 미국 스토어 카탈로그에 없음)이거나
+  **페이지에 전성분 구간 없음**이다. 스토어를 더 찾는 것으로는 안 늘어난다.
+- Glow Recipe 4건 — 한국 제조·미국 법인. §29 스코프 판단 대기.
+- 브랜드 상한(`e585323`)·이번 변경 모두 **아직 배포 안 됨**. 다음 PR 필요.
+
+### 검증
+
+- 코드: `fcaf00b` 이후 커밋 (feature 브랜치)
+- CI 회귀 목록(`core-journey-ci.yml`) **40개 전부 통과**
+- 신규: `test:product-verify-gate`(게이트 블로커 12케이스) ·
+  `test:ingredient-list-validate`(28케이스)
+- `npx tsc --noEmit` 무경고 · `npm run lint` 무경고 · `npm run build` 통과
+- 파이프라인 셀프테스트 `scripts/pipeline-selftest-entry.ts` 통과
+
+---
+
+## 39. 카탈로그 확대가 막힌 **진짜 이유** (2026-08-01)
+
+§38 에서 «브랜드 스토어를 더 찾아도 안 늘어난다» 고만 적었다. 원인을 특정하지 않은
+채로 두면 다음에 또 «스토어를 더 찾자» 로 돌아간다. 그래서 원인을 갈랐다.
+
+`npm run check:name-match-diagnosis` (읽기 전용) — 실패 건마다 그 스토어의 **후보
+상위 3개를 눈으로 볼 수 있게** 찍는다.
+
+### 처음 붙인 이름표가 틀렸다
+
+처음에는 점수 0.5~0.79 구간을 «(다) 표기 차이 — 고칠 수 있는 것» 으로 분류했다.
+33건을 실제로 눈으로 보니 **대부분 같은 라인의 다른 제품**이었다:
+
+```
+Rich Moist Soothing Serum    ↔  Rich Moist Soothing Cream       (세럼 ↔ 크림)
+Black Rice Hyaluronic Cream  ↔  Black Rice Hyaluronic Toner     (크림 ↔ 토너)
+Pure Fit Cica Serum          ↔  Pure Fit Cica Creamy Foam Cleanser
+Peach 70 Niacin Serum        ↔  Peach 70 Niacin ... Collagen Mask
+```
+
+**즉 «하한을 낮추면 더 붙는다» 가 아니다.** 낮추면 형제 제품의 전성분이 붙는다 —
+빈 상태보다 나쁘다. 하한 0.8 은 제 역할을 하고 있다. 분류 이름을
+`(나-1) 같은 라인의 다른 제품만 있음` 으로 고쳤다.
+
+### 최종 집계 (대상 76건)
+
+| 구분 | 건수 | 뜻 |
+|---|---|---|
+| 통과 | 27 | 이름은 붙는다 (전성분 추출에서 따로 걸린다) |
+| (가) 카탈로그를 못 받음 | 0 | 봇 차단은 없다 |
+| (나-1) 같은 라인의 다른 제품만 있음 | 33 | 스토어가 그 제품을 안 판다 |
+| (나-2) 스토어에 흔적 없음 | 16 | 미국 미출시·단종·브랜드 귀속 오류 |
+
+**카탈로그가 안 늘어나는 이유는 대조 알고리즘이 아니라 «DB 에 있는 제품을 그 스토어가
+팔지 않는 것» 이다.** 국내 전용 제품이 글로벌 스토어에 없는 게 당연하다.
+스토어를 더 찾는 방식으로는 해결되지 않는다.
+
+### 그래도 고친 것 — 접두 일치
+
+제품명은 성분명을 줄여 적는 일이 흔하다:
+
+```
+DB    Peach 70 Niacin Serum        Ma:nyo  Galactomy Niacin Essence
+스토어  Peach 70% Niacinamide Serum          Galactomyces Niacinamide Essence
+```
+
+`niacin` 과 `niacinamide` 를 다른 토큰으로 세면 0.75 가 되어 끊긴다.
+알레르겐 매처(§34)에 쓴 것과 같은 **접두 일치**를 대조에도 넣었다.
+**포함(substring)이 아니라 접두**다 — 포함으로 보면 엉뚱한 짝이 생긴다.
+5자 미만은 인정하지 않는다 (`sun` 이 `sunscreen` 에 붙으면 다른 제품이 묶인다).
+제품명 기능어(`and`·`with`·`for`)도 뺐다 — 한쪽에만 있으면 분모만 키운다.
+
+효과는 **이름 대조 24 → 27건**, 실제로 채울 수 있게 된 것 **1건**
+(id 135 Ma:nyo Galactomy Niacin Essence · 23개). 크지 않다. 그래도 옳은 규칙이라 남긴다.
+
+한 토큰이 상대쪽 여러 토큰에 중복으로 세어지지 않도록 짝지은 것은 소비한다 —
+안 그러면 점수가 부풀어 엉뚱한 제품이 연결된다.
+
+### 회귀
+
+`test:brand-store-name-match` (신규) — 실측 짝으로만 만들었다. **붙어야 하는 것
+4건** 과 **붙으면 안 되는 것 6건** 을 같이 둔다. 대조가 느슨해지면 엉뚱한 제품의
+전성분·가격이 붙으므로, 후자가 더 중요하다.
+
+### 남은 발견
+
+- **id 16 `Relief Sun Rice and Probiotics` 의 브랜드가 Round Lab 으로 돼 있다.**
+  이 제품은 조선미녀 것이고, id 103 에 같은 이름이 조선미녀로 따로 있다.
+  브랜드 귀속 오류이자 중복으로 보인다. 브랜드명은 임의로 바꾸지 않는 값(§35.3)이라
+  판단을 남긴다.
+- id 135 Ma:nyo Galactomy Niacin Essence 보강 **완료** (2026-08-02, 승인 받음) —
+  전성분 0 → 23개. 백업 `backups/production_20260802_110735_full-ingredients-보강전.sql`.
+  읽기 검증: 전성분 보유 35 → 39행, 추천 풀 17/17 여전히 전부 검증 통과.
+
+### 검증
+
+- CI 회귀 40개 전부 통과 · `tsc --noEmit` 무경고 · `lint` 무경고 · `build` 통과
+
+### 배포 상태
+
+**`main` 은 아직 `e5505c1`(PR #36) 이다.** §37·§38 과 브랜드 상한을 담은 9커밋이
+병합되지 않았다. `git push origin main` 과 `git merge origin/main` 은
+`.claude/settings.json` 이 막고 있고 `gh` CLI 도 없어, 병합은 사람이 해야 한다.
+
+---
+
+## 40. 알레르겐 미검출 2건 해소 — 원인은 알려진 것과 달랐다 (2026-08-04)
+
+WQ-F 대기열에 «§35.7 파서 잔여물 — **광고 문구**가 성분 토큰에 붙어 알레르겐 2건
+미검출» 로 남아 있던 항목. 실제로 보니 원인이 달랐다.
+
+### 원인을 세 번 고쳐 잡았다
+
+커버리지 스크립트가 미검출 사유를 **단정해서 출력**하고 있었다 — «전부 파서
+잔여물이다» 라고. 그건 확인이 아니라 가정이고, 진짜로 필터가 놓친 경우와 구별이
+안 됐다. 알레르겐 미검출은 사용자 안전 문제라 근거를 봐야 한다. **실제 토큰을 찍도록**
+고친 뒤에야 원인이 보였다.
+
+| 가설 | 결과 |
+|---|---|
+| 광고 문구가 붙었다 (기존 기록) | 절반만 맞음 — 광고가 아니라 **규제 안내** |
+| 전성분 전체가 배열 원소 하나에 통째로 | **틀림** — 필터는 정상적으로 쪼갠다 |
+| `무향료`(무첨가)를 향료로 오인 | **틀림** — 그런 건 없었다 |
+| 한글↔영문 동의어가 없다 | **틀림** — `향료` → `fragrance` 정상 매핑 |
+
+진짜 원인은 두 가지였다:
+
+```
+제품 60  향료 기능성 화장품 식품의약품안전처 심사필 여부 해당사항 없음 사용할 때의
+         └ 마지막 성분에 규제 안내가 쉼표 없이 이어 붙었다
+
+제품 63  향료 (5번) 정제수
+         └ 다음 호수의 목록이 이어 붙었다
+```
+
+둘 다 `향료` 가 목록에 **분명히 있는데** 토큰 안에 갇혀 정규화가 어긋났다.
+필터 문제가 아니라 수집 데이터를 쪼갤 때 놓친 것이다.
+
+### 고친 방식
+
+`normalizeIngredient.ts` 에 두 가지를 넣었다.
+
+1. **`stripIngredientNoticeTail`** — 규제·안내 문구가 시작되는 지점에서 자른다
+   (`기능성 화장품` · `식품의약품안전처` · `심사필` · `사용 시 주의` · `제조번호` …).
+   전부 **성분명에는 절대 안 쓰이는 낱말**만 넣었다. 성분명 일부일 수 있는 낱말은
+   넣지 않는다 — 넣으면 진짜 성분이 잘리고, 그건 알레르겐을 놓치는 쪽이라 더 위험하다.
+2. **호수 구분자 `(N번)` 분리** — **끊지 않고 쪼갠다.** 끊어 버리면 뒤쪽 호수의
+   성분이 통째로 사라진다. 전성분은 함량 내림차순이라 향료·알레르겐이 뒤에 몰려 있어서,
+   뒤를 버리는 건 정확히 잘못된 방향이다.
+
+### 결과 (Staging 실측 · 활성 98건)
+
+```
+                        단어 보임   필터가 잡음   미검출
+향료 fragrance/parfum      18         18        0     ← 16 → 18
+변성알코올 alcohol denat      3          3        0
+리모넨 limonene            12         12        0
+리날룰 linalool            10         10        0
+```
+
+**전 항목 미검출 0건.**
+
+### 회귀
+
+`test:ingredient-notice-tail` (신규) — «잘라야 하는 것» 4건과 **«자르면 안 되는 것»
+12건**을 같이 둔다. 후자가 더 중요하다: 과하게 자르면 성분이 사라지고 알레르겐을 놓친다.
+`Cetearyl Alcohol` 을 변성알코올로 오인하지 않는지(2026-07-27 회귀)도 함께 지킨다.
+
+공유 정규화기를 건드렸으므로 랭킹 영향을 확인했다 — `test:recommendation-scenarios` ·
+`test:recommendation-pilot` · `test:brand-diversity` 포함 **CI 회귀 40개 전부 통과**,
+`tsc --noEmit`·`lint` 무경고, `build` 통과.
+
+### LHA 를 살리실산 회피에 묶었다 (WQ-F 대기열 해소)
+
+`Capryloyl Salicylic Acid`(LHA)를 `Salicylic Acid` alias 그룹에 넣을지 판단이 남아
+있었다. **넣기로 했다.**
+
+근거는 기존 선례다 — 이 그룹에는 이미 `Betaine Salicylate` 가 들어 있다. 살리실산
+유도체를, 살리실산을 피하는 사용자에게도 피해야 할 것으로 본다는 뜻이다. LHA 는 같은
+계열의 유도체 BHA 라 같은 판단이 적용된다. 판단이 갈릴 때는 **거르는 쪽**을 고른다 —
+못 거른 알레르겐이 잘못 거른 제품보다 나쁘다.
+
+```
+Salicylic Acid · BHA · Beta Hydroxy Acid · Betaine Salicylate
+  + Capryloyl Salicylic Acid · Lipohydroxy Acid · LHA · 카프릴로일살리실릭애씨드
+```
+
+**`Benzyl Salicylate` 는 일부러 다른 그룹으로 남겼다.** 이름은 닮았지만 각질제거
+성분이 아니라 향료 알레르겐이다. 묶으면 서로를 잘못 거른다. 양방향 회귀 테스트로 고정했다.
+
+Staging 영향: 활성 106건 중 LHA 함유 **2건**(63 넘버즈인 토너패드 · 177 Abib
+글루타치온좀 잡티 토너). 살리실산 회피 사용자에게 이제 걸러진다.
+
+### 배포 상태 — PR #37 이 이미 열려 있고 초록 체크다
+
+사용자 화면 확인 결과(2026-08-04): Open PR 2건.
+
+| PR | 상태 |
+|---|---|
+| **#37 특징/두피 모달 트랙 20260727** | ✓ 초록 체크 · 4일 전 생성 — **병합만 하면 된다** |
+| #33 순위 결과에서 검증된 사용 설명서를 동기화하세요 | ✗ 실패 · 2주 전 — 별개 건, 방치 상태 |
+
+**`main` 은 여전히 `e5505c1`(PR #36).** 미병합 커밋 13개.
+`git push origin main` 과 `git merge origin/main` 은 `.claude/settings.json` 이 막고
+있고 `gh` CLI 도 토큰도 없다. **병합 버튼은 사람이 눌러야 한다** — 우회하지 않았다.
+
+---
+
+## 41. 제형별 목록 분리 + 숫자 쉼표 버그 (2026-08-04)
+
+§40 에서 한글 호수 표기 `(5번)` 을 구분자로 다뤘다. 같은 형태가 **영문 라벨**로도
+있었는데 그건 못 잡고 있었다.
+
+### 제형·호수 라벨을 구분자로
+
+```
+… VITIS VINIFERA (GRAPE) JUICE GRAPEFRUIT: DIISOSTEARYL MALATE, …   (립 마스크 향별)
+… Tocopherol Compact: Mica, Talc, …                                 (파우더 제형별)
+```
+
+콜론에서 **끊으면** 뒤쪽 제형의 성분이 통째로 사라진다. 전성분은 함량 내림차순이라
+향료·알레르겐이 뒤에 몰려 있어 정확히 잘못된 방향이다. **쉼표로 바꿔 이어 붙인다** —
+모든 제형의 합집합으로 본다. 과다 포함이지만 알레르겐 판정에서는 안전한 쪽이다.
+
+콜론은 INCI 이름에 안 쓰이므로 라벨 표시로 봐도 된다. 다만 **낱말 3개 이내** 짧은
+라벨만 본다 — 긴 것은 설명 문장이라 라벨이 아니다. 메이크업의
+`May Contain (+/-): CI 77491` 도 이 규칙에 걸려 **색소가 살아남는다**(전에는 반려됐다).
+
+효과 — 오염 7건 중 **교체 가능 0 → 2건**:
+
+| id | 제품 | 결과 |
+|---|---|---|
+| 80 | Laneige Lip Sleeping Mask | 43 → 98개 (향별 합집합) |
+| 93 | Innisfree Complete No-Sebum Mineral Powder | 21 → 26개 (제형별 합집합) |
+
+### 숫자 사이 쉼표 버그 — 두 곳에 있었다
+
+`1,2-Hexanediol` 안의 쉼표를 보호하려던 규칙이 **이름 앞의 쉼표까지 막고 있었다.**
+
+```
+검증기   `Niacinamide, 1,2-Hexanediol`  → ["Niacinamide, 1,2-Hexanediol"]   한 토큰으로 붙음
+추천경로 `Water, 1,2-Hexanediol`        → ["Water","1","2-Hexanediol"]      쪼개짐
+```
+
+추천 경로 쪽이 더 나쁘다 — `1` 과 `2-헥산다이올` 은 성분 사전과 대조가 안 된다.
+규칙을 «앞뒤가 **모두** 숫자인 쉼표만 보호» 로 바로잡았다(`(?<!\d),|,(?!\d)`).
+두 곳 다 고쳤고 회귀로 고정했다.
+
+### 검증
+
+- Staging 알레르겐 커버리지 변동 없음 — 전 항목 **미검출 0건** 유지
+- CI 회귀 40개 전부 통과 · `tsc --noEmit`·`lint` 무경고 · `build` 통과
+- `check:production` · `check:release-security` 둘 다 통과 (WQ-G 게이트)
+
+### 이름 있는 HTML 엔티티를 안 풀고 있었다
+
+`decodeHtmlEntities` 가 `&amp;` 계열 다섯 개만 풀고 나머지는 문자 그대로 남겼다.
+그래서 `&emsp;` · `&times;` 가 전성분에 저장됐다(Production 감사에서 7건).
+`stripHtml` 도 `&nbsp;` 만 공백으로 바꿨다.
+
+공백류(`&emsp;` · `&ensp;` · `&thinsp;`)는 **공백으로** 푼다 — 안 그러면 앞뒤 낱말이
+붙어버린다. 나머지(`&times;` · `&middot;` · `&bull;` · `&mdash;` · `&reg;` …)는 제 문자로.
+
+이 수정으로 **id 1 이 복구됐다.** 전에는 전성분 자리에 자바스크립트 배열
+(`"works"` · `"skin"` · `"bottle"`)이 들어 있어 실제 성분이 0개였다:
+
+```
+Water, Centella Asiatica Leaf Water, Butylene Glycol, 1,2-Hexanediol,
+Betaine, Panthenol, Allantoin, Ethyl Hexanediol, Sodium Hyaluronate
+```
+
+9개는 짧지만 이 토너의 실제 처방이 맞다(cosrx.com 공식 페이지 확인).
+
+### Production 반영 (승인 받음)
+
+| 작업 | 결과 | 백업 |
+|---|---|---|
+| 오염 2건 교체 (80 · 93) | 반려 7 → 5행 | `production_20260804_091725_*` |
+| 오염 1건 교체 (1) | 반려 5 → **4행** | `production_20260804_091917_*` |
+
+**추천 풀 17/17 전성분 검증 통과** 유지.
+
+### 남은 4건 (123 · 156 · 176 · 191)
+
+전부 추천 풀 밖이고, 페이지에 깨끗한 전성분 구간이 없다. 새 활성화 게이트(§38)가
+막으므로 잘못 활성화될 위험은 없다.
+
+**id 1 은 §37 에서 «실제 성분 0개» 를 이유로 비활성화했는데 그 이유가 해소됐다.**
+`verified_at` 이 비어 어차피 추천 풀 밖이라 사용자 영향은 없다. 되돌릴지는 판단으로 남긴다.
+
+---
+
+## 42. 전성분 확보 경로를 **전수 조사** — 국내 소스는 막혀 있다 (2026-08-04)
+
+§39 에서 «영문 글로벌 스토어 경로는 소진됐다» 를 확인했다. 남은 가능성은 국내
+소스였다. 추측으로 «국내 몰을 크롤하면 된다» 고 넘기지 않고, 실제로 두드려 봤다.
+
+### 조사 1 — 우리가 이미 가진 오퍼 링크 (`npm run check:korean-ingredient-sources`)
+
+오퍼 40건 · 호스트 18곳. 각 호스트에서 한 건씩만 받아 «정적 fetch 로 전성분이
+나오는가» 만 봤다. 읽기 전용.
+
+| 호스트 | 오퍼 | 결과 |
+|---|---|---|
+| link.coupang.com | 7 | **HTTP 403** — 봇 차단 |
+| oliveyoung.co.kr | 2 | **HTTP 403** — 봇 차단 |
+| lotteon.com | 3 | 200 이지만 전성분 라벨 없음 — 본문을 JS 로 그린다 |
+| cosrx.co.kr | 2 | 200 이지만 전성분 라벨 없음 — 본문을 JS 로 그린다 |
+| roundlab.com | 3 | 200 이지만 전성분 라벨 없음 |
+| us.innisfree.com · us.laneige.com · beautyofjoseon.com · anua.com · klairs.com · axis-y.com · torriden.us · manyo.us · haruharuwonder.com · skin1004.com | 각 1~4 | **쓸 수 있다** (성분 7~46개) |
+
+**전성분 소스로 쓸 수 있는 곳 11 / 18. 그런데 11곳이 전부 영문 글로벌 스토어다.**
+국내 소스(쿠팡·올리브영·롯데온·브랜드 국내몰)는 **한 곳도 못 쓴다** — 봇 차단이거나
+본문을 자바스크립트로 그린다. 정적 fetch 로는 방법이 없다.
+
+### 조사 2 — 식약처 공공데이터 API 3종
+
+`npm run probe:mfds-cosmetic-apis` — 인증키로 셋 다 HTTP 200.
+
+| API | 주는 것 | 전성분? |
+|---|---|---|
+| 화장품 원료성분정보 | `INGR_KOR_NAME` · `INGR_ENG_NAME` · `CAS_NO` · 동의어 | **아니다** — 성분 사전이지 제품별 목록이 아니다 |
+| 기능성화장품 보고품목정보 | 품목명 · 업체 · 효능 · SPF/PA · 보고일 | **아니다** — 성분 필드가 없다 |
+| 화장품 규제정보 | `INGR_STD_NAME` · `PROH_NATIONAL` · `LIMIT_NATIONAL` | 아니다 (규제 목록) |
+
+**식약처에는 제품별 전성분을 주는 공개 API 가 없다.** 원료 사전(§36 에서 이미 활용)과
+규제 목록은 있지만, «이 제품의 전성분» 은 없다.
+
+### 결론 — 전성분 확보는 브랜드 글로벌 스토어가 유일한 경로다
+
+추측이 아니라 실측이다. 이걸 모르면 «국내 몰을 크롤하자» 로 계속 돌아가게 된다.
+
+남은 선택지는 셋뿐이고, 전부 사람의 판단이 필요하다:
+
+1. **헤드리스 브라우저** — 롯데온·cosrx.co.kr 은 JS 렌더링일 뿐이라 브라우저를 띄우면
+   읽힌다. 다만 운영 비용·차단 위험이 붙고, §운영 원칙상 에이전트가 상시 돌릴 것이 아니다.
+2. **쿠팡·올리브영 제휴 API** — 403 은 봇 차단이므로 정식 경로가 필요하다. 다만
+   쿠팡 파트너스는 §39.1 제휴 공시 의무가 따라온다.
+3. **카탈로그 범위를 글로벌 스토어가 파는 제품으로 좁힌다** — 지금 실제로 되는 것.
+
+### 덤으로 확인한 것 — 화장품 규제정보 API
+
+`PROH_NATIONAL`(금지 국가) · `LIMIT_NATIONAL`(제한 국가)을 성분별로 준다.
+`2,4,5-트라이메틸아닐린 → EU,대만,아세안,중국,한국 금지` 같은 식이다.
+**«이 제품에 한국에서 금지된 성분이 있다» 를 공식 출처로 판정할 수 있다는 뜻이다.**
+지금 안전 필터는 사용자가 신고한 알레르기·회피만 본다. 별개 기능이라 손대지 않았고,
+방향 판단을 남긴다.
+
+---
+
+## 43. 규제 성분 판정 시도 — **이 데이터로는 안 된다** (2026-08-04)
+
+§42 에서 식약처 «화장품 규제정보» API 가 성분별 금지·제한 국가를 준다는 것을 확인했고,
+«이 제품에 한국에서 금지된 성분이 있는가» 를 공식 출처로 판정할 수 있어 보였다.
+만들어서 돌려 봤고, **못 쓴다는 결론**이 나왔다. 실패를 기록해 둔다 — 안 그러면
+다음에 또 같은 시도를 한다.
+
+### 하마터면 거짓 경보를 낼 뻔했다
+
+첫 실행 결과는 «규제 성분 38건 적중» 이었다. 그대로 보고했으면 라네즈·설화수·
+이니스프리·조선미녀 제품에 «금지 성분 함유» 딱지를 붙이는 셈이었다. 보고 전에
+원자료를 확인해서 막았다.
+
+### 왜 못 쓰는가 — 근거 셋
+
+**1. 금지 조건이 성분명 안에 박혀 있다**
+
+```
+INGR_STD_NAME  과산화물가가 10mmol/L을 초과하는 대왕소나무 잎과 잔가지의 오일 및 추출물
+PROH_NATIONAL  한국
+```
+
+금지 대상은 «대왕소나무 추출물» 이 아니라 **규격을 벗어난 형태**다. 이런 행이 242개다.
+이름만 맞추면 정상 제품이 걸린다 (COSRX Low pH 클렌저가 실제로 이렇게 걸렸다).
+
+**2. 비율이 말이 안 된다**
+
+7,257행 중 **3,385행(47%)** 이 `PROH_NATIONAL` 에 한국을 단다. 단순 금지 원료
+목록이라면 나올 수 없다. 국제 규제 비교표에 가깝다.
+
+**3. 결과가 현실과 어긋난다**
+
+`Tromethamine`(흔한 pH 조절제)이 «한국 금지» 로 잡혔는데, 토리든·코스알엑스·아누아·
+조선미녀 제품에 들어 있다. **정말 금지라면 이 제품들이 존재할 수 없다.**
+
+### 함께 고친 것 — 별칭 병합을 규제 판정에 쓰면 안 된다
+
+`toCanonical` 은 **회피 판정용**이라 `Betaine Salicylate` · `BHA` · `Salicylic Acid` 를
+한 키로 묶는다(§40 에서 LHA 도 넣었다). 그 키를 규제 조회에 쓰니 규제 목록의
+«베타인살리실레이트» 항목이 평범한 `Salicylic Acid` 제품을 전부 적중시켰다.
+
+**규제는 성분의 «신원» 을 따지는 것이고, 회피는 «같은 계열인가» 를 따지는 것이다.**
+목적이 다르므로 키도 달라야 한다. 별칭 병합 없는 `normalizeIngredient` 로 바꿨다.
+
+### 「제한」은 애초에 경보가 아니다
+
+`LIMIT_NATIONAL` 은 «한도 안에서 쓸 수 있다» 는 뜻이다. 페녹시에탄올(1%)·
+티타늄디옥사이드 같은 **정상적인 규제 대상**이 들어간다. 이걸 위험으로 세면
+노이즈만 쌓이고 진짜 경보가 묻힌다. 건수만 세고 경보에서 뺐다.
+
+### 남긴 것
+
+`npm run check:prohibited-ingredients` 는 «감사» 가 아니라 **조사 기록**으로 남겼다.
+매 실행마다 판정 불가 근거를 숫자로 다시 보여주고, 적중 목록에 «경보 아님» 을
+못박는다. 나중에 조건까지 담은 데이터셋이 생기거나 필드 의미가 확인되면 그때
+판정 도구로 바꿀 수 있게 기계 부분만 남겼다.
+
+**다음 단계는 사람 판단이다** — 식약처에 필드 의미를 확인하거나, 조건까지 담은
+데이터셋을 찾거나, 이 경로를 접는다.
+
+---
+
+## 44. Production 실데이터로 사용자 결과 검증 + 시나리오 이름 깨짐 수정 (2026-08-04)
+
+### 지금까지 «시나리오 통과» 는 전부 Staging 기준이었다
+
+`verify-recommendation-scenarios` 는 Staging 을 보고, Production ref 를 만나면
+일부러 멈춘다. Staging 활성 **106건** · Production **17건** — 결과가 전혀 다르다.
+**사용자가 실제로 무엇을 받는지는 확인된 적이 없었다.**
+
+기존 가드는 그대로 두고(읽기 전용이라도 안전장치는 유지), Production 전용 읽기
+검증기를 따로 만들었다: `npm run check:production-recommendations`.
+
+Staging 검증기와 다른 점 — 시나리오 6개가 아니라 **30개 전부**를 돌리고,
+**브랜드 상한을 적용한 뒤의 최종 결과**를 보며, **나라별 구매 가능 여부**까지 센다.
+
+### 결과 — 이대로 배포하면 사용자 경험이 성립한다
+
+```
+추천 풀 17건
+  국내 구매 가능 13건 · 미국 구매 가능 15건
+  브랜드 구성  COSRX 10 · Haruharu Wonder 2 · Beauty of Joseon 2 · Torriden 1 · Anua 1 · SKIN1004 1
+```
+
+| 점검 | 결과 |
+|---|---|
+| 최소 개수(3)를 못 채우는 시나리오 | **0 / 30** |
+| 결과는 있으나 국내 구매처가 하나도 없는 시나리오 | **0 / 30** |
+| 브랜드 상한(2)을 넘는 시나리오 | **0 / 30** |
+
+시나리오마다 최종 4~5건이 나오고, 그중 국내 구매 가능이 최소 3건이다.
+**카탈로그가 17건으로 얇은데도 30개 시나리오 전부가 성립한다** — §41 까지의
+브랜드 상한·국내 오퍼 수집이 실제로 작동한다는 뜻이다. 배포만 남았다.
+
+### 곁가지로 찾은 것 — 시나리오 표시명 17건이 깨져 있었다
+
+`krCoreScenarios.json` 의 `displayNameKo` 가 인코딩 사고로 손상돼 있었다.
+**소스 데이터 자체가 깨진 것**이지 콘솔 문제가 아니다.
+
+```
+세·¼   → 세럼      클렘저 → 클렌저    장방  → 장벽
+스팯   → 스팟      에메론 → 에멀전    선크크림 → 선크림
+압플   → 앰플      노화늜지 → 노화방지  여드·피지 → 여드름·피지
+```
+
+**추측으로 고치지 않았다.** 각 시나리오의 `productCategory` 필드가 정답을 확증해준다 —
+`kr-acne-serum` 의 카테고리가 `serum` 이므로 `세·¼` 는 `세럼` 이다. 30건 전부
+카테고리와 대조해 확인했다.
+
+이 이름은 공개 화면이 아니라 시나리오 정의·리포트에 쓰인다(관리자 화면의
+`displayNameKo` 는 제품명 필드로 별개다). 그래도 손상된 데이터를 두면 리포트를
+읽을 수 없고, 나중에 노출 경로가 생기면 그대로 나간다.
+
+### 검증
+
+CI 회귀 40개 통과 · `tsc --noEmit`·`lint` 무경고 · `build` 통과.
+
+---
+
 ## 5. 로드맵 9단계 현황 요약 (2026-07-25 최종 갱신 · 2026-07-26 출시 반영)
 
 | 단계 | 상태 |

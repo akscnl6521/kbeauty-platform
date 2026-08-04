@@ -6,6 +6,7 @@ import { loadPipelineOperationConfig } from "@/lib/pipeline/operation-config";
 import { evaluateProductVerificationGate } from "@/lib/pipeline/product-verify/product-verify-gate";
 import type { ProductQualityGrade } from "@/lib/pipeline/product-verify/product-verify-gate";
 import { normalizeProductOffer } from "@/lib/recommend/productOffer";
+import { validateIngredientList } from "@/lib/catalog/validateIngredientList";
 
 /**
  * 한 번 검증됐다가 **내려진** 제품을 다시 공개한다.
@@ -128,6 +129,8 @@ export async function reactivateVerifiedProduct(
     qualityGrade: input.qualityGrade,
     allowedGrades: op.productVerifyQualityGrades as ProductQualityGrade[],
     hasOfficialIngredientsText: fullIngredients.length > 0,
+    // 재활성화도 같은 기준이어야 한다 — 한쪽만 막으면 다른 경로로 오염이 들어온다.
+    ingredientsTextValid: validateIngredientList(fullIngredients.map(String).join(", ")).ok,
     structuredOfficialIngredientCount: officialStructured.length,
     ambiguousIngredientCount: input.ambiguousIngredientCount,
     unmatchedIngredientCount: input.unmatchedIngredientCount,

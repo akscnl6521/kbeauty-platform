@@ -1,0 +1,168 @@
+{
+  "collectedAt": "2026-07-30T03:23:25.120Z",
+  "brandMap": [
+    {
+      "en": "COSRX",
+      "ko": "코스알엑스",
+      "evidence": "네이버 쇼핑 검색 \"COSRX\" 결과 22건에서 최빈"
+    },
+    {
+      "en": "Torriden",
+      "ko": "토리든",
+      "evidence": "네이버 쇼핑 검색 \"Torriden\" 결과 20건에서 최빈"
+    },
+    {
+      "en": "Haruharu Wonder",
+      "ko": "하루하루",
+      "evidence": "네이버 쇼핑 검색 \"Haruharu Wonder\" 결과 9건에서 최빈"
+    },
+    {
+      "en": "Anua",
+      "ko": "아누아",
+      "evidence": "네이버 쇼핑 검색 \"Anua\" 결과 20건에서 최빈"
+    },
+    {
+      "en": "Beauty of Joseon",
+      "ko": "조선미녀",
+      "evidence": "네이버 쇼핑 검색 \"Beauty of Joseon\" 결과 19건에서 최빈"
+    },
+    {
+      "en": "SKIN1004",
+      "ko": "스킨1004",
+      "evidence": "네이버 쇼핑 검색 \"SKIN1004\" 결과 20건에서 최빈"
+    }
+  ],
+  "found": [
+    {
+      "productId": 4,
+      "brand": "COSRX",
+      "name": "Snail Mucin 96% Power Repairing Essence",
+      "nameKo": "코스알엑스 어드밴스드 Snail 96 Mucin 파워 에센스",
+      "mall": "신세계몰",
+      "price": 53950,
+      "link": "http://shinsegaemall.ssg.com/item/itemView.ssg?itemId=1000799038430&siteNo=6004&salestrNo=6005&ckwhere=s_naver&appPopYn=n&utm_medium=PCS&utm_source=naver&utm_campaign=naver_pcs",
+      "similarity": 0.83
+    },
+    {
+      "productId": 10,
+      "brand": "COSRX",
+      "name": "Propolis Light Ampoule",
+      "nameKo": "COSRX 프로폴리스 라이트 앰플",
+      "mall": "쿠팡",
+      "price": 43470,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=1729213171&ctag=1729213171&lptag=l979229811626&itemId=96181276992&vendorItemId=86286194225&spec=10305197",
+      "similarity": 0.67
+    },
+    {
+      "productId": 27,
+      "brand": "COSRX",
+      "name": "BHA Blackhead Power Liquid",
+      "nameKo": "바하 블랙헤드 피지 100ml / COSRX, BHA Blackhead Power Liquid",
+      "mall": "롯데ON",
+      "price": 36910,
+      "link": "https://www.lotteon.com/p/product/LO2733819600?sitmNo=LO2733819600_2733819601&ch_no=100065&ch_dtl_no=1000030&entryPoint=pcs&dp_infw_cd=CHT",
+      "similarity": 1
+    },
+    {
+      "productId": 29,
+      "brand": "COSRX",
+      "name": "Retinol 0.1 Cream",
+      "nameKo": "뷰티관리 COSRX SET 더 레티놀 0.1 크림 20ml x 2개 6212176",
+      "mall": "쿠팡",
+      "price": 98400,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=9081785161&ctag=9081785161&lptag=l252562275002&itemId=65202055272&vendorItemId=93233463421&spec=10305199",
+      "similarity": 1
+    },
+    {
+      "productId": 78,
+      "brand": "COSRX",
+      "name": "AC Collection Lightweight Soothing Moisturizer",
+      "nameKo": "코스알엑스 AC 컬렉션 라이트웨이트 수딩 모이스처라이저 80ml(2.7fl oz)  1개  80ml",
+      "mall": "쿠팡",
+      "price": 29800,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=7154362519&ctag=7154362519&lptag=I24950669815&itemId=24950669815&vendorItemId=91956546386&spec=10305199",
+      "similarity": 1
+    },
+    {
+      "productId": 83,
+      "brand": "Haruharu Wonder",
+      "name": "Black Rice Hyaluronic Toner",
+      "nameKo": "하루하루 원더 흑미 블랙 라이스 히알루론산 토너 300ml Wonder Black Rice Hyaluronic Toner",
+      "mall": "롯데ON",
+      "price": 46890,
+      "link": "https://www.lotteon.com/p/product/LO2663868239?sitmNo=LO2663868239_2663868240&ch_no=100065&ch_dtl_no=1000030&entryPoint=pcs&dp_infw_cd=CHT",
+      "similarity": 1
+    },
+    {
+      "productId": 86,
+      "brand": "Anua",
+      "name": "Heartleaf Soothing Toner",
+      "nameKo": "크루얼티프리 수딩 공급 HEARTLEAF 77 비건 PH 상쾌함 진정 45액량 정화 250ML 수분 I ANUA 5 8 토너 케어  무향  8.45액량 온스 1팩",
+      "mall": "쿠팡",
+      "price": 75300,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=8969411447&ctag=8969411447&lptag=I26250025671&itemId=26250025671&vendorItemId=93228554826&spec=10305199",
+      "similarity": 1
+    },
+    {
+      "productId": 161,
+      "brand": "Haruharu Wonder",
+      "name": "Black Rice Facial Oil",
+      "nameKo": "블랙라이스 페이셜 오일 10ml",
+      "mall": "신세계몰",
+      "price": 9610,
+      "link": "http://shinsegaemall.ssg.com/item/itemView.ssg?itemId=1000522320726&siteNo=6004&salestrNo=6005&ckwhere=s_naver&appPopYn=n&utm_medium=PCS&utm_source=naver&utm_campaign=naver_pcs",
+      "similarity": 0.75
+    },
+    {
+      "productId": 186,
+      "brand": "COSRX",
+      "name": "Advanced Snail Peptide Eye Cream",
+      "nameKo": "코스알엑스 어드밴스드 스네일 펩타이드 아이 크림 25ml(0.84fl oz)  1개  25ml",
+      "mall": "쿠팡",
+      "price": 40500,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=8049982247&ctag=8049982247&lptag=I24248809493&itemId=24248809493&vendorItemId=91329874439&spec=10305199",
+      "similarity": 0.8
+    },
+    {
+      "productId": 189,
+      "brand": "COSRX",
+      "name": "AHA/BHA Clarifying Treatment Toner",
+      "nameKo": "코스알엑스 AHA/BHA 클래리파잉 트리트먼트 토너 150ml(5.07fl oz)  1개",
+      "mall": "쿠팡",
+      "price": 17800,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=7538747589&ctag=7538747589&lptag=I24302877230&itemId=24302877230&vendorItemId=91318804789&spec=10305199",
+      "similarity": 1
+    }
+  ],
+  "rejected": [
+    {
+      "productId": 20,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 28,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 104,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 105,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 171,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 188,
+      "reason": "유사도 0.25 미달",
+      "best": "포밍 젤 워시 모로칸로즈 532ml"
+    },
+    {
+      "productId": 190,
+      "reason": "신뢰 판매처 결과 없음"
+    }
+  ]
+}

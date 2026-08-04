@@ -58,7 +58,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-redness-soothing-serum",
-    "displayNameKo": "홍조 · 저자극 진정 세·¼",
+    "displayNameKo": "홍조 · 저자극 진정 세럼",
     "primaryConcern": "redness",
     "secondaryConcerns": [
       "sensitivity",
@@ -99,7 +99,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-redness-gentle-cleanser",
-    "displayNameKo": "민감 피부 · 순한 클렘저",
+    "displayNameKo": "민감 피부 · 순한 클렌저",
     "primaryConcern": "sensitivity",
     "secondaryConcerns": [
       "redness"
@@ -214,7 +214,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-dryness-barrier-cream",
-    "displayNameKo": "건조·장방 · 보습 크림",
+    "displayNameKo": "건조·장벽 · 보습 크림",
     "primaryConcern": "dryness",
     "secondaryConcerns": [
       "barrier",
@@ -252,7 +252,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-dryness-barrier-essence",
-    "displayNameKo": "장방 강화 · 보습 에센스",
+    "displayNameKo": "장벽 강화 · 보습 에센스",
     "primaryConcern": "barrier",
     "secondaryConcerns": [
       "dryness"
@@ -399,7 +399,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-acne-sebum-cleanser",
-    "displayNameKo": "여드·피지 · 클렘저",
+    "displayNameKo": "여드름·피지 · 클렌저",
     "primaryConcern": "acne",
     "secondaryConcerns": [
       "pores"
@@ -436,7 +436,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-acne-spot-treatment",
-    "displayNameKo": "트러블 · 스팯 케어",
+    "displayNameKo": "트러블 · 스팟 케어",
     "primaryConcern": "acne",
     "secondaryConcerns": [
       "pores"
@@ -472,7 +472,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-acne-serum",
-    "displayNameKo": "여드· 세·¼",
+    "displayNameKo": "여드름 · 세럼",
     "primaryConcern": "acne",
     "secondaryConcerns": [
       "pores",
@@ -546,7 +546,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-acne-mattifying-emulsion",
-    "displayNameKo": "유분·트러블 · 에메론",
+    "displayNameKo": "유분·트러블 · 에멀전",
     "primaryConcern": "acne",
     "secondaryConcerns": [
       "pores"
@@ -582,7 +582,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-uv-sunscreen-face",
-    "displayNameKo": "얼굴 · 데일리 선크크림",
+    "displayNameKo": "얼굴 · 데일리 선크림",
     "primaryConcern": "uv",
     "secondaryConcerns": [
       "pigmentation",
@@ -619,7 +619,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-uv-sunscreen-sensitive",
-    "displayNameKo": "민감 피부 · 순한 선크크림",
+    "displayNameKo": "민감 피부 · 순한 선크림",
     "primaryConcern": "uv",
     "secondaryConcerns": [
       "sensitivity",
@@ -694,7 +694,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-dryness-hydrating-sunscreen",
-    "displayNameKo": "건조 피부 · 보습 선크크림",
+    "displayNameKo": "건조 피부 · 보습 선크림",
     "primaryConcern": "uv",
     "secondaryConcerns": [
       "dryness",
@@ -766,7 +766,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-aging-firmness-serum",
-    "displayNameKo": "탄력 · 안티에이징 세·¼",
+    "displayNameKo": "탄력 · 안티에이징 세럼",
     "primaryConcern": "antiaging",
     "secondaryConcerns": [
       "dryness",
@@ -803,7 +803,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-aging-firmness-ampoule",
-    "displayNameKo": "주름·탄력 · 압플",
+    "displayNameKo": "주름·탄력 · 앰플",
     "primaryConcern": "antiaging",
     "secondaryConcerns": [
       "dryness"
@@ -911,7 +911,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-aging-essence",
-    "displayNameKo": "노화늜지 · 에센스",
+    "displayNameKo": "노화방지 · 에센스",
     "primaryConcern": "antiaging",
     "secondaryConcerns": [
       "pigmentation",
@@ -985,7 +985,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-eye-dark-circle-serum",
-    "displayNameKo": "다크서클 · 아이 세·¼",
+    "displayNameKo": "다크서클 · 아이 세럼",
     "primaryConcern": "pigmentation",
     "secondaryConcerns": [
       "antiaging"
@@ -1055,7 +1055,7 @@
       "noCriticalSourceConflict": true
     },
     "scenarioId": "kr-neck-serum",
-    "displayNameKo": "목주름 · 세·¼",
+    "displayNameKo": "목주름 · 세럼",
     "primaryConcern": "antiaging",
     "secondaryConcerns": [
       "dryness"

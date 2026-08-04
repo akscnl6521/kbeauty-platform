@@ -15,6 +15,7 @@ import {
 } from "@/lib/recommend/productOffer";
 import type { ShippingCountry } from "@/lib/recommend/selectPurchaseLink";
 import type { ExtractedCatalogProduct } from "@/lib/pipeline/types";
+import { validateIngredientList } from "@/lib/catalog/validateIngredientList";
 
 const OFFICIAL_SOURCE_TYPES = new Set([
   "official_brand_page",
@@ -194,9 +195,12 @@ export async function verifyAndActivateProduct(
 
   const fullIngredients = asStringArray(row.full_ingredients);
   const keyIngredients = asStringArray(row.key_ingredients);
-  const hasOfficialText =
-    fullIngredients.length > 0 ||
-    Boolean(input.extracted?.fullIngredientsText?.trim());
+  const officialIngredientsText =
+    fullIngredients.join(", ") || (input.extracted?.fullIngredientsText?.trim() ?? "");
+  const hasOfficialText = officialIngredientsText.length > 0;
+  // 텍스트가 «있다» 가 아니라 «성분표 형태인가» 를 본다. 추출기가 페이지 문구를
+  // 전성분으로 저장한 적이 두 번 있고(§37), 그건 알레르겐 필터의 입력이다.
+  const ingredientsTextValid = validateIngredientList(officialIngredientsText).ok;
 
   const extracted: ExtractedCatalogProduct = input.extracted ?? {
     productName: row.name,
@@ -237,6 +241,7 @@ export async function verifyAndActivateProduct(
     qualityGrade: grade,
     allowedGrades,
     hasOfficialIngredientsText: hasOfficialText,
+    ingredientsTextValid,
     structuredOfficialIngredientCount: officialStructured.length,
     ambiguousIngredientCount: input.ambiguousIngredientCount ?? 0,
     unmatchedIngredientCount: input.unmatchedIngredientCount ?? 0,

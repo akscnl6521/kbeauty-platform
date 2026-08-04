@@ -115,8 +115,12 @@ notes: |
   알레르겐 노출 감사: 옛 필터가 놓쳤던 28건 전부 해소 확인 (Staging 한정).
   2026-07-27 얼굴 트랙 밖 8건 추천 풀에서 제외 완료 (제품은 내리지 않음, 코드 필터). 풀 106 -> 98.
   진행 중: Production 알레르겐 감사 — SELECT 전용 SQL 작성 완료, 사람이 Dashboard 에서 실행 후 결과 회수.
-  대기열: §35.7 파서 잔여물 — 광고 문구가 성분 토큰에 붙어 알레르겐 2건 미검출.
-  대기열: Capryloyl Salicylic Acid(LHA)를 Salicylic Acid 회피에 묶을지 — alias 그룹 판단.
+  2026-08-04 §35.7 파서 잔여물 해소 — 알레르겐 미검출 2 -> 0건. 원인은 광고 문구가 아니라
+  (a) 규제 안내가 마지막 성분에 쉼표 없이 붙음, (b) 호수별 목록이 이어붙음 두 가지였다.
+  stripIngredientNoticeTail + 호수 구분자 분리로 해결. 호수는 끊지 않고 쪼갠다(뒤쪽 알레르겐 보존).
+  2026-08-04 LHA 판단 완료 — Salicylic Acid 그룹에 묶었다. Betaine Salicylate 를 같은 그룹에
+  둔 기존 선례와 같은 결이고, 판단이 갈리면 «거르는 쪽» 을 고른다. Benzyl Salicylate 는
+  향료 알레르겐이라 일부러 분리 유지(양방향 회귀 테스트로 고정). Staging 영향 2건.
 
 ### TASK WQ-G-prelaunch-integration
 

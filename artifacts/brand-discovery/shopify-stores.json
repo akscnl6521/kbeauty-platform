@@ -1,0 +1,282 @@
+{
+  "checkedAt": "2026-07-30T03:49:27.964Z",
+  "found": [
+    {
+      "brand": "COSRX",
+      "count": 8,
+      "domain": "cosrx.com"
+    },
+    {
+      "brand": "Innisfree",
+      "count": 7,
+      "domain": "us.innisfree.com"
+    },
+    {
+      "brand": "Axis-Y",
+      "count": 6,
+      "domain": "axis-y.com"
+    },
+    {
+      "brand": "Laneige",
+      "count": 5,
+      "domain": "us.laneige.com"
+    },
+    {
+      "brand": "Round Lab",
+      "count": 5,
+      "domain": "roundlab.com"
+    },
+    {
+      "brand": "Klairs",
+      "count": 5,
+      "domain": "klairs.com"
+    },
+    {
+      "brand": "Glow Recipe",
+      "count": 4,
+      "domain": "glowrecipe.com"
+    },
+    {
+      "brand": "Anua",
+      "count": 4,
+      "domain": "anua.com"
+    },
+    {
+      "brand": "TIRTIR",
+      "count": 4,
+      "domain": "tirtir.us"
+    },
+    {
+      "brand": "Medicube",
+      "count": 4,
+      "domain": "medicube.us"
+    },
+    {
+      "brand": "Ma:nyo",
+      "count": 4,
+      "domain": "manyo.us"
+    },
+    {
+      "brand": "Torriden",
+      "count": 3,
+      "domain": "torriden.us"
+    },
+    {
+      "brand": "Heimish",
+      "count": 3,
+      "domain": "heimish.us"
+    },
+    {
+      "brand": "Haruharu Wonder",
+      "count": 3,
+      "domain": "haruharuwonder.com"
+    },
+    {
+      "brand": "Beauty of Joseon",
+      "count": 3,
+      "domain": "beautyofjoseon.com"
+    },
+    {
+      "brand": "Rovectin",
+      "count": 3,
+      "domain": "rovectin.com"
+    },
+    {
+      "brand": "Tocobo",
+      "count": 3,
+      "domain": "tocobo.us"
+    },
+    {
+      "brand": "mixsoon",
+      "count": 3,
+      "domain": "mixsoon.us"
+    },
+    {
+      "brand": "Sulwhasoo",
+      "count": 3,
+      "domain": "us.sulwhasoo.com"
+    },
+    {
+      "brand": "Holika Holika",
+      "count": 2,
+      "domain": "holikaholika.com"
+    },
+    {
+      "brand": "Pyunkang Yul",
+      "count": 2,
+      "domain": "pyunkangyulglobal.com"
+    },
+    {
+      "brand": "Numbuzin",
+      "count": 2,
+      "domain": "us.numbuzin.com"
+    },
+    {
+      "brand": "SK-II",
+      "count": 1,
+      "domain": "sk-ii.com"
+    },
+    {
+      "brand": "CosRX",
+      "count": 1,
+      "domain": "cosrx.com"
+    },
+    {
+      "brand": "Elizabeth Arden",
+      "count": 1,
+      "domain": "elizabetharden.com"
+    },
+    {
+      "brand": "Tonymoly",
+      "count": 1,
+      "domain": "tonymoly.us"
+    },
+    {
+      "brand": "SKIN1004",
+      "count": 1,
+      "domain": "skin1004.com"
+    }
+  ],
+  "missing": [
+    {
+      "brand": "Some By Mi",
+      "count": 8,
+      "tried": 10
+    },
+    {
+      "brand": "Dr. Jart+",
+      "count": 7,
+      "tried": 10
+    },
+    {
+      "brand": "Purito",
+      "count": 6,
+      "tried": 5
+    },
+    {
+      "brand": "The Ordinary",
+      "count": 6,
+      "tried": 10
+    },
+    {
+      "brand": "Missha",
+      "count": 5,
+      "tried": 5
+    },
+    {
+      "brand": "Etude House",
+      "count": 5,
+      "tried": 10
+    },
+    {
+      "brand": "Goodal",
+      "count": 4,
+      "tried": 5
+    },
+    {
+      "brand": "Abib",
+      "count": 4,
+      "tried": 5
+    },
+    {
+      "brand": "Isntree",
+      "count": 4,
+      "tried": 5
+    },
+    {
+      "brand": "Benton",
+      "count": 4,
+      "tried": 5
+    },
+    {
+      "brand": "Neogen",
+      "count": 3,
+      "tried": 5
+    },
+    {
+      "brand": "Nacific",
+      "count": 3,
+      "tried": 5
+    },
+    {
+      "brand": "IOPE",
+      "count": 3,
+      "tried": 5
+    },
+    {
+      "brand": "I Am From",
+      "count": 2,
+      "tried": 10
+    },
+    {
+      "brand": "Clinique",
+      "count": 2,
+      "tried": 5
+    },
+    {
+      "brand": "Belif",
+      "count": 2,
+      "tried": 5
+    },
+    {
+      "brand": "Medi-Peel",
+      "count": 2,
+      "tried": 10
+    },
+    {
+      "brand": "Kiehls",
+      "count": 2,
+      "tried": 5
+    },
+    {
+      "brand": "Erborian",
+      "count": 2,
+      "tried": 5
+    },
+    {
+      "brand": "Banila Co",
+      "count": 1,
+      "tried": 10
+    },
+    {
+      "brand": "Youth To The People",
+      "count": 1,
+      "tried": 10
+    },
+    {
+      "brand": "Skinfood",
+      "count": 1,
+      "tried": 5
+    },
+    {
+      "brand": "Peach Slices",
+      "count": 1,
+      "tried": 10
+    },
+    {
+      "brand": "Atopalm",
+      "count": 1,
+      "tried": 5
+    },
+    {
+      "brand": "Hyggee",
+      "count": 1,
+      "tried": 5
+    },
+    {
+      "brand": "Lagom",
+      "count": 1,
+      "tried": 5
+    },
+    {
+      "brand": "Bioderma",
+      "count": 1,
+      "tried": 5
+    },
+    {
+      "brand": "Caudalie",
+      "count": 1,
+      "tried": 5
+    }
+  ]
+}

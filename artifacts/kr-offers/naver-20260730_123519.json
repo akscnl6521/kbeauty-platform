@@ -1,0 +1,182 @@
+{
+  "collectedAt": "2026-07-30T03:35:19.006Z",
+  "brandMap": [
+    {
+      "en": "COSRX",
+      "ko": "코스알엑스",
+      "evidence": "네이버 쇼핑 검색 \"COSRX\" 결과 22건에서 최빈"
+    },
+    {
+      "en": "Torriden",
+      "ko": "토리든",
+      "evidence": "네이버 쇼핑 검색 \"Torriden\" 결과 20건에서 최빈"
+    },
+    {
+      "en": "Haruharu Wonder",
+      "ko": "하루하루",
+      "evidence": "네이버 쇼핑 검색 \"Haruharu Wonder\" 결과 9건에서 최빈"
+    },
+    {
+      "en": "Anua",
+      "ko": "아누아",
+      "evidence": "네이버 쇼핑 검색 \"Anua\" 결과 20건에서 최빈"
+    },
+    {
+      "en": "Beauty of Joseon",
+      "ko": "조선미녀",
+      "evidence": "네이버 쇼핑 검색 \"Beauty of Joseon\" 결과 19건에서 최빈"
+    },
+    {
+      "en": "SKIN1004",
+      "ko": "스킨1004",
+      "evidence": "네이버 쇼핑 검색 \"SKIN1004\" 결과 20건에서 최빈"
+    }
+  ],
+  "found": [
+    {
+      "productId": 4,
+      "brand": "COSRX",
+      "name": "Snail Mucin 96% Power Repairing Essence",
+      "nameKo": "[보습광채] 코스알엑스 어드벤스드 스네일 96 뮤신 파워 에센스 100ml",
+      "mall": "올리브영",
+      "price": 23000,
+      "link": "https://www.oliveyoung.co.kr/store/common/partner.do?chlNo=1&chlDtlNo=1&utm_source=naver&utm_medium=shopping_ep&utm_campaign=onpro_ep_product_0101_1231&utm_content=pc_price&sndType=goods&sndVal=A000000103391",
+      "similarity": 0.83
+    },
+    {
+      "productId": 10,
+      "brand": "COSRX",
+      "name": "Propolis Light Ampoule",
+      "nameKo": "코스알엑스 프로폴리스 라이트 앰플 30ml",
+      "mall": "올리브영",
+      "price": 23500,
+      "link": "https://www.oliveyoung.co.kr/store/common/partner.do?chlNo=1&chlDtlNo=1&utm_source=naver&utm_medium=shopping_ep&utm_campaign=onpro_ep_product_0101_1231&utm_content=pc_price&sndType=goods&sndVal=A000000244937",
+      "similarity": 0.67
+    },
+    {
+      "productId": 20,
+      "brand": "Torriden",
+      "name": "Dive In Low Molecular Hyaluronic Acid Serum",
+      "nameKo": "토리든 다이브인 저분자 히알루론산 세럼  40ml  1개",
+      "mall": "쿠팡",
+      "price": 15730,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=6685577070&ctag=6685577070&lptag=I16430184220&itemId=16430184220&vendorItemId=94525545680&spec=10305199",
+      "similarity": 0.71
+    },
+    {
+      "productId": 27,
+      "brand": "COSRX",
+      "name": "BHA Blackhead Power Liquid",
+      "nameKo": "바하 블랙헤드 피지 100ml / COSRX, BHA Blackhead Power Liquid",
+      "mall": "롯데ON",
+      "price": 36910,
+      "link": "https://www.lotteon.com/p/product/LO2733819600?sitmNo=LO2733819600_2733819601&ch_no=100065&ch_dtl_no=1000030&entryPoint=pcs&dp_infw_cd=CHT",
+      "similarity": 1
+    },
+    {
+      "productId": 78,
+      "brand": "COSRX",
+      "name": "AC Collection Lightweight Soothing Moisturizer",
+      "nameKo": "코스알엑스 AC 컬렉션 라이트웨이트 수딩 모이스처라이저 80ml(2.7fl oz)  1개  80ml",
+      "mall": "쿠팡",
+      "price": 29800,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=7154362519&ctag=7154362519&lptag=I24950669815&itemId=24950669815&vendorItemId=91956546386&spec=10305199",
+      "similarity": 1
+    },
+    {
+      "productId": 83,
+      "brand": "Haruharu Wonder",
+      "name": "Black Rice Hyaluronic Toner",
+      "nameKo": "하루하루 원더 블랙 라이스 히알루로닉 토너",
+      "mall": "쿠팡",
+      "price": 22720,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=172585142&ctag=172585142&lptag=l2874507466&itemId=706687544&vendorItemId=79111607423&spec=10305198",
+      "similarity": 0.75
+    },
+    {
+      "productId": 86,
+      "brand": "Anua",
+      "name": "Heartleaf Soothing Toner",
+      "nameKo": "아누아 어성초 77 수딩 토너",
+      "mall": "쿠팡",
+      "price": 11530,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=4368053116&ctag=4368053116&lptag=l516321347199&itemId=51119439736&vendorItemId=94675170059&spec=10305199",
+      "similarity": 1
+    },
+    {
+      "productId": 104,
+      "brand": "Beauty of Joseon",
+      "name": "Glow Serum Propolis and Niacinamide",
+      "nameKo": "조선미녀 프로폴리스 + 나이아신아마이드 글로우 세럼 30ml",
+      "mall": "롯데ON",
+      "price": 18180,
+      "link": "https://www.lotteon.com/p/product/LO2637511641?sitmNo=LO2637511641_2637511642&ch_no=100065&ch_dtl_no=1000030&entryPoint=pcs&dp_infw_cd=CHT",
+      "similarity": 0.8
+    },
+    {
+      "productId": 171,
+      "brand": "SKIN1004",
+      "name": "Madagascar Centella Tone Brightening Capsule Ampoule",
+      "nameKo": "스킨1004 마다가스카르 센텔라 톤 브라이트닝 캡슐 앰플  100ml  1개",
+      "mall": "쿠팡",
+      "price": 23000,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=6072620823&ctag=6072620823&lptag=V92760007702&itemId=24805594300&vendorItemId=92760007702&spec=10305199",
+      "similarity": 0.67
+    },
+    {
+      "productId": 186,
+      "brand": "COSRX",
+      "name": "Advanced Snail Peptide Eye Cream",
+      "nameKo": "코스알엑스 어드벤스드 스네일 펩타이드 아이 크림 25ml",
+      "mall": "롯데ON",
+      "price": 21720,
+      "link": "https://www.lotteon.com/p/product/LO1807208690?sitmNo=LO1807208690_1807208691&ch_no=100065&ch_dtl_no=1000030&entryPoint=pcs&dp_infw_cd=CHT",
+      "similarity": 0.6
+    },
+    {
+      "productId": 189,
+      "brand": "COSRX",
+      "name": "AHA/BHA Clarifying Treatment Toner",
+      "nameKo": "코스알엑스 아하 바하 클래리파잉 트리트먼트 토너  150ml  1개",
+      "mall": "쿠팡",
+      "price": 10950,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=6370698167&ctag=6370698167&lptag=I18917575776&itemId=18917575776&vendorItemId=3881693250&spec=10305199",
+      "similarity": 1
+    },
+    {
+      "productId": 190,
+      "brand": "COSRX",
+      "name": "Hydrium Watery Toner",
+      "nameKo": "CosRx (코스알엑스) 하이드리움 워터리 토너 150ml(5.07fl oz)  1개",
+      "mall": "쿠팡",
+      "price": 24500,
+      "link": "https://link.coupang.com/re/PCSNAVERPCSDP?pageKey=6540100565&ctag=6540100565&lptag=I24951024340&itemId=24951024340&vendorItemId=91956897805&spec=10305199",
+      "similarity": 1
+    }
+  ],
+  "rejected": [
+    {
+      "productId": 28,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 29,
+      "reason": "세트·묶음 상품",
+      "best": "뷰티관리 COSRX SET 더 레티놀 0.1 크림 20ml x 2개 62"
+    },
+    {
+      "productId": 105,
+      "reason": "유사도 0.00 미달",
+      "best": "베리썸 타임톡스 리바이탈라이징 에센스  50ml  1개"
+    },
+    {
+      "productId": 161,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 188,
+      "reason": "제목에 브랜드 없음",
+      "best": "약산성 굿모닝 젤 클렌저"
+    }
+  ]
+}

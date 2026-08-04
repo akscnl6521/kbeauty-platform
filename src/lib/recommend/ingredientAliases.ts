@@ -99,6 +99,16 @@ export const INGREDIENT_ALIAS_GROUPS: readonly (readonly string[])[] = [
     "BHA",
     "Beta Hydroxy Acid",
     "Betaine Salicylate",
+    // LHA — 살리실산 유도체 BHA. `Betaine Salicylate` 를 이 그룹에 둔 것과 같은
+    // 판단이다: 살리실산을 피하는 사용자에게는 유도체도 피해야 할 것이다.
+    // 판단이 갈리면 «거르는 쪽» 을 고른다 — 못 거른 알레르겐이 잘못 거른 제품보다 나쁘다.
+    //
+    // `Benzyl Salicylate` 는 **일부러 다른 그룹**이다. 이름은 닮았지만 각질제거
+    // 성분이 아니라 향료 알레르겐이라, 묶으면 서로를 잘못 거른다.
+    "Capryloyl Salicylic Acid",
+    "Lipohydroxy Acid",
+    "LHA",
+    "카프릴로일살리실릭애씨드",
     "살리실산",
     "サリチル酸",
   ],

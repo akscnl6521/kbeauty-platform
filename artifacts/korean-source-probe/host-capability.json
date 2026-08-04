@@ -1,0 +1,149 @@
+{
+  "checkedAt": "2026-08-04T00:24:03.440Z",
+  "report": [
+    {
+      "host": "cosrx.com",
+      "offerCount": 14,
+      "status": 200,
+      "bytes": 1045687,
+      "label": "Full Ingredients",
+      "verdict": "**쓸 수 있다** — 성분 9개"
+    },
+    {
+      "host": "link.coupang.com",
+      "offerCount": 7,
+      "status": 403,
+      "bytes": 0,
+      "label": null,
+      "verdict": "HTTP 403"
+    },
+    {
+      "host": "us.innisfree.com",
+      "offerCount": 4,
+      "status": 200,
+      "bytes": 1066325,
+      "label": "Full Ingredient",
+      "verdict": "**쓸 수 있다** — 성분 43개"
+    },
+    {
+      "host": "lotteon.com",
+      "offerCount": 3,
+      "status": 200,
+      "bytes": 23095,
+      "label": null,
+      "verdict": "전성분 라벨 없음 (본문을 JS 로 그리는 듯)"
+    },
+    {
+      "host": "roundlab.com",
+      "offerCount": 3,
+      "status": 200,
+      "bytes": 926937,
+      "label": null,
+      "verdict": "전성분 라벨 없음 (본문을 JS 로 그리는 듯)"
+    },
+    {
+      "host": "us.laneige.com",
+      "offerCount": 2,
+      "status": 200,
+      "bytes": 1158074,
+      "label": "Ingredients",
+      "verdict": "**쓸 수 있다** — 성분 43개"
+    },
+    {
+      "host": "oliveyoung.co.kr",
+      "offerCount": 2,
+      "status": 403,
+      "bytes": 0,
+      "label": null,
+      "verdict": "HTTP 403"
+    },
+    {
+      "host": "cosrx.co.kr",
+      "offerCount": 2,
+      "status": 200,
+      "bytes": 194079,
+      "label": null,
+      "verdict": "전성분 라벨 없음 (본문을 JS 로 그리는 듯)"
+    },
+    {
+      "host": "haruharuwonder.com",
+      "offerCount": 2,
+      "status": 200,
+      "bytes": 755620,
+      "label": "Full Ingredients",
+      "verdict": "**쓸 수 있다** — 성분 28개"
+    },
+    {
+      "host": "beautyofjoseon.com",
+      "offerCount": 2,
+      "status": 200,
+      "bytes": 941128,
+      "label": "Full Ingredient",
+      "verdict": "**쓸 수 있다** — 성분 30개"
+    },
+    {
+      "host": "axis-y.com",
+      "offerCount": 2,
+      "status": 200,
+      "bytes": 413768,
+      "label": "ingredients:",
+      "verdict": "**쓸 수 있다** — 성분 25개"
+    },
+    {
+      "host": "torriden.us",
+      "offerCount": 1,
+      "status": 200,
+      "bytes": 878325,
+      "label": "Full Ingredient",
+      "verdict": "**쓸 수 있다** — 성분 33개"
+    },
+    {
+      "host": "klairs.com",
+      "offerCount": 1,
+      "status": 200,
+      "bytes": 1722268,
+      "label": "INGREDIENTS",
+      "verdict": "**쓸 수 있다** — 성분 32개"
+    },
+    {
+      "host": "anua.com",
+      "offerCount": 1,
+      "status": 200,
+      "bytes": 963139,
+      "label": "Ingredients",
+      "verdict": "**쓸 수 있다** — 성분 24개"
+    },
+    {
+      "host": "medicube.us",
+      "offerCount": 1,
+      "status": 200,
+      "bytes": 778588,
+      "label": "ingredients",
+      "verdict": "라벨은 있으나 반려 — 목록 앞부분부터 성분명이 아니다 (성분 형태 0개뿐)"
+    },
+    {
+      "host": "manyo.us",
+      "offerCount": 1,
+      "status": 200,
+      "bytes": 314683,
+      "label": "Full Ingredient",
+      "verdict": "**쓸 수 있다** — 성분 46개"
+    },
+    {
+      "host": "us.sulwhasoo.com",
+      "offerCount": 1,
+      "status": 200,
+      "bytes": 733799,
+      "label": "INGREDIENTS",
+      "verdict": "라벨은 있으나 반려 — 목록 앞부분부터 성분명이 아니다 (성분 형태 3개뿐)"
+    },
+    {
+      "host": "skin1004.com",
+      "offerCount": 1,
+      "status": 200,
+      "bytes": 506646,
+      "label": "FULL INGREDIENTS",
+      "verdict": "**쓸 수 있다** — 성분 7개"
+    }
+  ]
+}

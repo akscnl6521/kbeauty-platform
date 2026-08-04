@@ -11,13 +11,33 @@ const LABEL_RE =
 const STOP_RE =
   /(?:주의\s*사항|사용\s*방법|사용법|효능|효과|제품\s*특징|how\s*to\s*use|directions?|caution|warning|shipping|returns?|배송|교환|환불|리뷰|review|description|제품\s*설명|용량|사용기한)\s*[:：]?/i;
 
+/**
+ * 이름 있는 HTML 엔티티. 예전에는 `&amp;` 계열 다섯 개만 풀었고, 나머지는 문자
+ * 그대로 남아 성분 토큰에 섞였다 — 2026-07-30 Production 감사에서 `&emsp;` 6건,
+ * `&times;` 1건이 전성분에 저장돼 있었다.
+ *
+ * 공백류(`&emsp;` · `&ensp;` · `&thinsp;`)는 **공백으로** 푼다. 그래야 앞뒤 낱말이
+ * 붙어버리지 않는다.
+ */
+const NAMED_ENTITIES: ReadonlyArray<readonly [RegExp, string]> = [
+  [/&(?:emsp|ensp|thinsp|nbsp);/gi, " "],
+  [/&times;/gi, "×"],
+  [/&middot;/gi, "·"],
+  [/&bull;/gi, "•"],
+  [/&mdash;/gi, "—"],
+  [/&ndash;/gi, "–"],
+  [/&hellip;/gi, "…"],
+  [/&reg;/gi, "®"],
+  [/&trade;/gi, "™"],
+  [/&copy;/gi, "©"],
+  [/&deg;/gi, "°"],
+  [/&plusmn;/gi, "±"],
+];
+
 function decodeHtmlEntities(value: string): string {
-  return value
-    .replace(/&amp;/gi, "&")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;|&apos;/gi, "'")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
+  let out = value;
+  for (const [re, ch] of NAMED_ENTITIES) out = out.replace(re, ch);
+  return out
     .replace(/&#(\d+);/g, (_, code: string) =>
       String.fromCodePoint(Number(code))
     )
@@ -77,11 +97,15 @@ function inciListScore(text: string): number {
   const ratio = parts.filter(looksLikeIngredientToken).length / parts.length;
   if (ratio < 0.85) return 0;
 
-  return ratio;
-}
-
-function looksLikeInciList(text: string): boolean {
-  return inciListScore(text) > 0;
+  // **첫 항목이 성분이 아니면 구간을 잘못 잡은 것이다.** 전성분은 함량 내림차순이라
+  // 첫 자리는 반드시 성분이다. 설명 문단 한가운데를 집으면 여기가 문장으로 시작한다:
+  //
+  //   «improves hydration, firmness GINSENG CAFFEINETM COMPLEX : Reduces, GLYCERIN, …»
+  //   «Green Tea Water + Encapsulated Hyaluronic Acid: Amplified hydration, …»
+  //
+  // 같은 페이지에 제대로 된 구간이 따로 있으면 그쪽이 이기도록 점수를 깎는다.
+  // 0 으로 만들지는 않는다 — 다른 후보가 없을 때는 이거라도 사람이 보는 편이 낫다.
+  return looksLikeIngredientToken(parts[0]) ? ratio : ratio * 0.5;
 }
 
 /**

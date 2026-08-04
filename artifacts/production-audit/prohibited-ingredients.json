@@ -1,0 +1,593 @@
+{
+  "checkedAt": "2026-08-04T05:06:19.369Z",
+  "source": "https://apis.data.go.kr/1471000/CsmtcsReglMaterialInfoService/getCsmtcsReglMaterialInfoService",
+  "regulatedRows": 7257,
+  "koreaProhibitedCanonicals": 6411,
+  "koreaLimitedCanonicals": 1249,
+  "productsChecked": 39,
+  "recommendationPoolSize": 17,
+  "usableForProductVerdict": false,
+  "whyNotUsable": "금지 조건이 성분명 안에 박혀 있고(예: «과산화물가가 10mmol/L을 초과하는 …»), 한국을 금지국으로 다는 행이 전체의 47%다. 이름 대조로는 판정할 수 없다.",
+  "nameHitsForReferenceOnly": [
+    {
+      "productId": 3,
+      "brand": "Laneige",
+      "name": "Water Sleeping Mask",
+      "inRecommendationPool": false,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 3,
+      "brand": "Laneige",
+      "name": "Water Sleeping Mask",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 4,
+      "brand": "COSRX",
+      "name": "Snail Mucin 96% Power Repairing Essence",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Phenoxyethanol",
+      "regulatedName": "페녹시에탄올",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,일본,중국,한국"
+    },
+    {
+      "productId": 20,
+      "brand": "Torriden",
+      "name": "Dive In Low Molecular Hyaluronic Acid Serum",
+      "inRecommendationPool": true,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 21,
+      "brand": "COSRX",
+      "name": "Vitamin C 23 Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Sodium Hydroxide",
+      "regulatedName": "소듐하이드록사이드",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,중국,한국"
+    },
+    {
+      "productId": 21,
+      "brand": "COSRX",
+      "name": "Vitamin C 23 Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 27,
+      "brand": "COSRX",
+      "name": "BHA Blackhead Power Liquid",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Betaine Salicylate",
+      "regulatedName": "베타인살리실레이트",
+      "countries": "한국"
+    },
+    {
+      "productId": 28,
+      "brand": "COSRX",
+      "name": "Advanced Snail 92 All in One Cream",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Phenoxyethanol",
+      "regulatedName": "페녹시에탄올",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,일본,중국,한국"
+    },
+    {
+      "productId": 29,
+      "brand": "COSRX",
+      "name": "Retinol 0.1 Cream",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 29,
+      "brand": "COSRX",
+      "name": "Retinol 0.1 Cream",
+      "inRecommendationPool": true,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 29,
+      "brand": "COSRX",
+      "name": "Retinol 0.1 Cream",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Polysilicone-11",
+      "regulatedName": "폴리실리콘-15",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,일본,중국,한국"
+    },
+    {
+      "productId": 29,
+      "brand": "COSRX",
+      "name": "Retinol 0.1 Cream",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Sodium Sulfite",
+      "regulatedName": "소듐설파이트",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,중국,한국"
+    },
+    {
+      "productId": 32,
+      "brand": "Innisfree",
+      "name": "Green Tea Hyaluronic Cream",
+      "inRecommendationPool": false,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 32,
+      "brand": "Innisfree",
+      "name": "Green Tea Hyaluronic Cream",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 48,
+      "brand": "Klairs",
+      "name": "Supple Preparation Unscented Toner",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Chlorphenesin",
+      "regulatedName": "클로페네신",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,일본,중국,한국"
+    },
+    {
+      "productId": 77,
+      "brand": "CosRX",
+      "name": "Black Snail All In One Cream",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Phenoxyethanol",
+      "regulatedName": "페녹시에탄올",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,일본,중국,한국"
+    },
+    {
+      "productId": 78,
+      "brand": "COSRX",
+      "name": "AC Collection Lightweight Soothing Moisturizer",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Zinc PCA",
+      "regulatedName": "징크피씨에이",
+      "countries": "EU,브라질,아르헨티나,아세안,중국,한국"
+    },
+    {
+      "productId": 78,
+      "brand": "COSRX",
+      "name": "AC Collection Lightweight Soothing Moisturizer",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Betaine Salicylate",
+      "regulatedName": "베타인살리실레이트",
+      "countries": "한국"
+    },
+    {
+      "productId": 80,
+      "brand": "Laneige",
+      "name": "Lip Sleeping Mask",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "TITANIUM DIOXIDE (CI 77891)",
+      "regulatedName": "티타늄디옥사이드",
+      "countries": "EU,대만,미국,브라질,아르헨티나,아세안,중국,캐나다,한국"
+    },
+    {
+      "productId": 80,
+      "brand": "Laneige",
+      "name": "Lip Sleeping Mask",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "TOCOPHEROL",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 86,
+      "brand": "Anua",
+      "name": "Heartleaf Soothing Toner",
+      "inRecommendationPool": true,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 93,
+      "brand": "Innisfree",
+      "name": "Complete No-Sebum Mineral Powder",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 104,
+      "brand": "Beauty of Joseon",
+      "name": "Glow Serum Propolis and Niacinamide",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Betaine Salicylate",
+      "regulatedName": "베타인살리실레이트",
+      "countries": "한국"
+    },
+    {
+      "productId": 104,
+      "brand": "Beauty of Joseon",
+      "name": "Glow Serum Propolis and Niacinamide",
+      "inRecommendationPool": true,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 104,
+      "brand": "Beauty of Joseon",
+      "name": "Glow Serum Propolis and Niacinamide",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 105,
+      "brand": "Beauty of Joseon",
+      "name": "Revive Eye Serum Retinal and Caffeine",
+      "inRecommendationPool": true,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 105,
+      "brand": "Beauty of Joseon",
+      "name": "Revive Eye Serum Retinal and Caffeine",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Aluminum",
+      "regulatedName": "알루미늄",
+      "countries": "한국"
+    },
+    {
+      "productId": 105,
+      "brand": "Beauty of Joseon",
+      "name": "Revive Eye Serum Retinal and Caffeine",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 123,
+      "brand": "Medicube",
+      "name": "Red Erasing Serum",
+      "inRecommendationPool": false,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 123,
+      "brand": "Medicube",
+      "name": "Red Erasing Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Zinc PCA",
+      "regulatedName": "징크피씨에이",
+      "countries": "EU,브라질,아르헨티나,아세안,중국,한국"
+    },
+    {
+      "productId": 123,
+      "brand": "Medicube",
+      "name": "Red Erasing Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Salicylic Acid",
+      "regulatedName": "살리실릭애씨드",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,일본,중국,캐나다,한국"
+    },
+    {
+      "productId": 123,
+      "brand": "Medicube",
+      "name": "Red Erasing Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 133,
+      "brand": "Ma:nyo",
+      "name": "Bifida Biome Complex Ampoule",
+      "inRecommendationPool": false,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 135,
+      "brand": "Ma:nyo",
+      "name": "Galactomy Niacin Essence",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 156,
+      "brand": "Sulwhasoo",
+      "name": "First Care Activating Serum",
+      "inRecommendationPool": false,
+      "kind": "금지",
+      "matchedLabel": "TROMETHAMINE",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 156,
+      "brand": "Sulwhasoo",
+      "name": "First Care Activating Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "TOCOPHEROL",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 156,
+      "brand": "Sulwhasoo",
+      "name": "First Care Activating Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "SODIUM HYDROXIDE",
+      "regulatedName": "소듐하이드록사이드",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,중국,한국"
+    },
+    {
+      "productId": 166,
+      "brand": "Axis-Y",
+      "name": "Dark Spot Correcting Glow Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Chlorphenesin",
+      "regulatedName": "클로페네신",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,일본,중국,한국"
+    },
+    {
+      "productId": 167,
+      "brand": "Axis-Y",
+      "name": "Complete No-Stress Physical Sunscreen",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 168,
+      "brand": "Round Lab",
+      "name": "Birch Juice Moisturizing Serum",
+      "inRecommendationPool": false,
+      "kind": "금지",
+      "matchedLabel": "Aminomethyl Propanol",
+      "regulatedName": "아미노메틸프로판올",
+      "countries": "한국"
+    },
+    {
+      "productId": 168,
+      "brand": "Round Lab",
+      "name": "Birch Juice Moisturizing Serum",
+      "inRecommendationPool": false,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 168,
+      "brand": "Round Lab",
+      "name": "Birch Juice Moisturizing Serum",
+      "inRecommendationPool": false,
+      "kind": "금지",
+      "matchedLabel": "Pinus Sylvestris Leaf Oil",
+      "regulatedName": "구주소나무잎오일",
+      "countries": "한국"
+    },
+    {
+      "productId": 169,
+      "brand": "Round Lab",
+      "name": "Birch Juice Moisturizing Cream",
+      "inRecommendationPool": false,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 176,
+      "brand": "Innisfree",
+      "name": "Green Tea Seed Serum",
+      "inRecommendationPool": false,
+      "kind": "금지",
+      "matchedLabel": "Tromethamine",
+      "regulatedName": "트로메타민",
+      "countries": "한국"
+    },
+    {
+      "productId": 176,
+      "brand": "Innisfree",
+      "name": "Green Tea Seed Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 177,
+      "brand": "Innisfree",
+      "name": "Jeju Volcanic Pore Cleansing Foam",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Potassium Hydroxide",
+      "regulatedName": "포타슘하이드록사이드",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,중국,한국"
+    },
+    {
+      "productId": 177,
+      "brand": "Innisfree",
+      "name": "Jeju Volcanic Pore Cleansing Foam",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Salicylic Acid",
+      "regulatedName": "살리실릭애씨드",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,일본,중국,캐나다,한국"
+    },
+    {
+      "productId": 177,
+      "brand": "Innisfree",
+      "name": "Jeju Volcanic Pore Cleansing Foam",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Zinc PCA",
+      "regulatedName": "징크피씨에이",
+      "countries": "EU,브라질,아르헨티나,아세안,중국,한국"
+    },
+    {
+      "productId": 177,
+      "brand": "Innisfree",
+      "name": "Jeju Volcanic Pore Cleansing Foam",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Sodium Benzoate",
+      "regulatedName": "소듐벤조에이트",
+      "countries": "EU,브라질,아르헨티나,아세안,일본,중국,한국"
+    },
+    {
+      "productId": 187,
+      "brand": "COSRX",
+      "name": "The Vitamin C 23 Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Sodium Hydroxide",
+      "regulatedName": "소듐하이드록사이드",
+      "countries": "EU,대만,브라질,아르헨티나,아세안,중국,한국"
+    },
+    {
+      "productId": 187,
+      "brand": "COSRX",
+      "name": "The Vitamin C 23 Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 188,
+      "brand": "COSRX",
+      "name": "Low pH Good Morning Gel Cleanser",
+      "inRecommendationPool": true,
+      "kind": "금지",
+      "matchedLabel": "Pinus Palustris Leaf Extract",
+      "regulatedName": "대왕소나무잎추출물",
+      "countries": "한국"
+    },
+    {
+      "productId": 188,
+      "brand": "COSRX",
+      "name": "Low pH Good Morning Gel Cleanser",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Betaine Salicylate",
+      "regulatedName": "베타인살리실레이트",
+      "countries": "한국"
+    },
+    {
+      "productId": 188,
+      "brand": "COSRX",
+      "name": "Low pH Good Morning Gel Cleanser",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Sodium Benzoate",
+      "regulatedName": "소듐벤조에이트",
+      "countries": "EU,브라질,아르헨티나,아세안,일본,중국,한국"
+    },
+    {
+      "productId": 189,
+      "brand": "COSRX",
+      "name": "AHA/BHA Clarifying Treatment Toner",
+      "inRecommendationPool": true,
+      "kind": "제한",
+      "matchedLabel": "Betaine Salicylate",
+      "regulatedName": "베타인살리실레이트",
+      "countries": "한국"
+    },
+    {
+      "productId": 191,
+      "brand": "COSRX",
+      "name": "The Niacinamide 15 Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "zinc PCA",
+      "regulatedName": "징크피씨에이",
+      "countries": "EU,브라질,아르헨티나,아세안,중국,한국"
+    },
+    {
+      "productId": 192,
+      "brand": "COSRX",
+      "name": "The 6 Peptide Skin Booster Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Tocopherol",
+      "regulatedName": "토코페롤",
+      "countries": "한국"
+    },
+    {
+      "productId": 192,
+      "brand": "COSRX",
+      "name": "The 6 Peptide Skin Booster Serum",
+      "inRecommendationPool": false,
+      "kind": "제한",
+      "matchedLabel": "Potassium Sorbate",
+      "regulatedName": "포타슘솔베이트",
+      "countries": "EU,대만,아세안,일본,중국,한국"
+    }
+  ]
+}

@@ -141,6 +141,7 @@ export {
 } from "./filterRankedByMatchEvidence";
 export { formatVerifiedAtForDisplay } from "./formatVerifiedAt";
 export { applyUserIngredientPreferences } from "./applyUserIngredientPreferences";
+export { applyBrandDiversity, DEFAULT_BRAND_CAP } from "./applyBrandDiversity";
 export { filterCandidatesBySafety } from "./filterCandidatesBySafety";
 export type { SafetyFilterResult } from "./filterCandidatesBySafety";
 export { asConcernOrToneField } from "./asConcernOrToneField";
