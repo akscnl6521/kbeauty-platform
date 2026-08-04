@@ -30,6 +30,8 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 import { koreanProductNameToComparable } from "../src/lib/catalog/koreanProductTerms";
 import { nameSimilarity, nameTokens, NAME_MATCH_MIN } from "../src/lib/catalog/brandGlobalStores";
+import { decodeHtmlBody } from "../src/lib/catalog/decodeHtmlBody";
+import { KR_MALLS } from "../src/lib/catalog/krMalls";
 import {
   mallPricesLookLikePlaceholders,
   parseMallProductJsonLd,
@@ -42,17 +44,7 @@ const EXPECTED_PROD_REF = "rhfrmvkjsummaylpzmns";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36";
 
-/**
- * 브랜드 → 국내 공식몰. **사이트맵이 실제로 제품 URL 을 돌려주는 것만** 넣는다
- * (2026-08-04 확인). 도메인이 비슷하다고 추측해서 넣지 않는다.
- */
-const KR_MALLS: ReadonlyArray<{ brands: string[]; domain: string }> = [
-  { brands: ["COSRX", "CosRX"], domain: "www.cosrx.co.kr" },
-  { brands: ["Round Lab", "ROUND LAB"], domain: "roundlab.co.kr" },
-  { brands: ["Klairs"], domain: "klairs.co.kr" },
-  { brands: ["Laneige"], domain: "www.laneige.com" },
-  { brands: ["Abib", "Abib Cosmetic"], domain: "abib.co.kr" },
-];
+// 몰 목록은 `src/lib/catalog/krMalls.ts` 가 단일 출처다.
 
 type Product = { id: number; brand: string | null; name: string | null; name_ko: string | null };
 type MallItem = { url: string; name: string; price: number; currency: string; inStock: boolean };
@@ -70,7 +62,7 @@ async function get(url: string): Promise<string> {
       signal: ctrl.signal,
     });
     clearTimeout(t);
-    return r.ok ? await r.text() : "";
+    return r.ok ? await decodeHtmlBody(r) : "";
   } catch {
     return "";
   }
@@ -152,16 +144,41 @@ async function main() {
       continue;
     }
 
+    // **몰 상품 하나는 제품 하나만 뒷받침한다.**
+    //
+    // 2026-08-05 실측 — `Black Snail All In One Cream`(77)과
+    // `Advanced Snail 92 All in One Cream`(28)이 **같은 몰 상품**(«스네일 92 올인원 크림»)에
+    // 각각 0.83 / 0.86 으로 붙었다. 28 이 맞고 77 은 틀렸다. 제품마다 따로 최고점을
+    // 고르면 이런 충돌을 못 본다.
+    //
+    // 그래서 (제품 × 상품) 짝을 **점수 높은 순으로 훑으며 하나씩 확정**한다.
+    // 이미 쓰인 상품은 다음 제품이 가져갈 수 없다 — 다른 상품을 찾거나 못 찾는다.
+    const pairs: Array<{ p: Product; it: MallItem; sim: number }> = [];
     for (const p of mine) {
       const want = nameTokens(String(p.name ?? ""), String(p.brand ?? ""));
-      let best: { it: MallItem; sim: number } | null = null;
       for (const it of items) {
         // 한글 몰 이름을 비교용 영문으로 바꿔서 대조한다.
         const cmp = koreanProductNameToComparable(it.name);
         const sim = nameSimilarity(want, nameTokens(cmp, String(p.brand ?? "")));
-        if (!best || sim > best.sim) best = { it, sim };
+        if (sim >= NAME_MATCH_MIN) pairs.push({ p, it, sim });
       }
-      if (!best || best.sim < NAME_MATCH_MIN) continue;
+    }
+    pairs.sort((a, b) => b.sim - a.sim);
+
+    // 중복 판정은 **URL 이 아니라 상품명**으로 한다. 같은 상품이 카테고리마다 다른
+    // URL 로 노출되기 때문이다 — `branduid=202` 하나가 `scode=001` · `scode=005` 로
+    // 두 번 잡혀 URL 로는 다른 것처럼 보였고, 그래서 서로 다른 두 제품에 같은 상품이
+    // 붙었다 (2026-08-05: Black Snail 과 Advanced Snail 92 가 둘 다 «스네일 92 올인원 크림»).
+    const itemKey = (it: MallItem) => it.name.replace(/\s+/g, " ").trim().toLowerCase();
+    const usedItem = new Set<string>();
+    const usedProduct = new Set<number>();
+    for (const pair of pairs) {
+      if (usedProduct.has(pair.p.id) || usedItem.has(itemKey(pair.it))) continue;
+      usedProduct.add(pair.p.id);
+      usedItem.add(itemKey(pair.it));
+
+      const p = pair.p;
+      const best = { it: pair.it, sim: pair.sim };
       if (best.it.price < MIN_PLAUSIBLE_KRW) {
         console.log(`  · ${String(p.id).padStart(4)} ${String(p.name).slice(0, 30)} — 가격 ${best.it.price} 은 자리표시로 보여 건너뛴다`);
         continue;
