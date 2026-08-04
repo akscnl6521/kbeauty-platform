@@ -1,39 +1,9 @@
 {
-  "checkedAt": "2026-08-02T02:07:43.142Z",
+  "checkedAt": "2026-08-04T00:19:19.530Z",
   "totalProducts": 191,
   "recommendationPoolSize": 17,
   "withIngredients": 39,
   "rejected": [
-    {
-      "id": 1,
-      "brand": "COSRX",
-      "name": "Centella Water Alcohol-Free Toner",
-      "active": false,
-      "verifiedAt": null,
-      "inRecommendationPool": false,
-      "reason": "성분명 형태가 아닌 항목 4개",
-      "sample": "\"works\""
-    },
-    {
-      "id": 80,
-      "brand": "Laneige",
-      "name": "Lip Sleeping Mask",
-      "active": true,
-      "verifiedAt": null,
-      "inRecommendationPool": false,
-      "reason": "성분명 형태가 아닌 항목 2개",
-      "sample": "VITIS VINIFERA (GRAPE) JUICE GRAPEFRUIT: DIISOSTEARYL MALATE"
-    },
-    {
-      "id": 93,
-      "brand": "Innisfree",
-      "name": "Complete No-Sebum Mineral Powder",
-      "active": true,
-      "verifiedAt": null,
-      "inRecommendationPool": false,
-      "reason": "성분명 형태가 아닌 항목 1개",
-      "sample": "Tocopherol Compact: Mica"
-    },
     {
       "id": 123,
       "brand": "Medicube",

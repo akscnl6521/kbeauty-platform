@@ -2366,11 +2366,41 @@ Staging 영향: 활성 106건 중 LHA 함유 **2건**(63 넘버즈인 토너패�
 - CI 회귀 40개 전부 통과 · `tsc --noEmit`·`lint` 무경고 · `build` 통과
 - `check:production` · `check:release-security` 둘 다 통과 (WQ-G 게이트)
 
-### 승인 대기
+### 이름 있는 HTML 엔티티를 안 풀고 있었다
 
-- 오염 2건(80 · 93) Production 교체 — 둘 다 `verified_at` 이 비어 추천 풀 밖이라 급하지 않다.
-- 남은 5건(1 · 123 · 156 · 176 · 191)은 페이지에 깨끗한 전성분 구간이 없다.
-  새 활성화 게이트(§38)가 막으므로 잘못 활성화될 위험은 없다.
+`decodeHtmlEntities` 가 `&amp;` 계열 다섯 개만 풀고 나머지는 문자 그대로 남겼다.
+그래서 `&emsp;` · `&times;` 가 전성분에 저장됐다(Production 감사에서 7건).
+`stripHtml` 도 `&nbsp;` 만 공백으로 바꿨다.
+
+공백류(`&emsp;` · `&ensp;` · `&thinsp;`)는 **공백으로** 푼다 — 안 그러면 앞뒤 낱말이
+붙어버린다. 나머지(`&times;` · `&middot;` · `&bull;` · `&mdash;` · `&reg;` …)는 제 문자로.
+
+이 수정으로 **id 1 이 복구됐다.** 전에는 전성분 자리에 자바스크립트 배열
+(`"works"` · `"skin"` · `"bottle"`)이 들어 있어 실제 성분이 0개였다:
+
+```
+Water, Centella Asiatica Leaf Water, Butylene Glycol, 1,2-Hexanediol,
+Betaine, Panthenol, Allantoin, Ethyl Hexanediol, Sodium Hyaluronate
+```
+
+9개는 짧지만 이 토너의 실제 처방이 맞다(cosrx.com 공식 페이지 확인).
+
+### Production 반영 (승인 받음)
+
+| 작업 | 결과 | 백업 |
+|---|---|---|
+| 오염 2건 교체 (80 · 93) | 반려 7 → 5행 | `production_20260804_091725_*` |
+| 오염 1건 교체 (1) | 반려 5 → **4행** | `production_20260804_091917_*` |
+
+**추천 풀 17/17 전성분 검증 통과** 유지.
+
+### 남은 4건 (123 · 156 · 176 · 191)
+
+전부 추천 풀 밖이고, 페이지에 깨끗한 전성분 구간이 없다. 새 활성화 게이트(§38)가
+막으므로 잘못 활성화될 위험은 없다.
+
+**id 1 은 §37 에서 «실제 성분 0개» 를 이유로 비활성화했는데 그 이유가 해소됐다.**
+`verified_at` 이 비어 어차피 추천 풀 밖이라 사용자 영향은 없다. 되돌릴지는 판단으로 남긴다.
 
 ---
 

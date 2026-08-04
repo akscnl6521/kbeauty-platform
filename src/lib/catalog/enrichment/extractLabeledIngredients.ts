@@ -11,13 +11,33 @@ const LABEL_RE =
 const STOP_RE =
   /(?:주의\s*사항|사용\s*방법|사용법|효능|효과|제품\s*특징|how\s*to\s*use|directions?|caution|warning|shipping|returns?|배송|교환|환불|리뷰|review|description|제품\s*설명|용량|사용기한)\s*[:：]?/i;
 
+/**
+ * 이름 있는 HTML 엔티티. 예전에는 `&amp;` 계열 다섯 개만 풀었고, 나머지는 문자
+ * 그대로 남아 성분 토큰에 섞였다 — 2026-07-30 Production 감사에서 `&emsp;` 6건,
+ * `&times;` 1건이 전성분에 저장돼 있었다.
+ *
+ * 공백류(`&emsp;` · `&ensp;` · `&thinsp;`)는 **공백으로** 푼다. 그래야 앞뒤 낱말이
+ * 붙어버리지 않는다.
+ */
+const NAMED_ENTITIES: ReadonlyArray<readonly [RegExp, string]> = [
+  [/&(?:emsp|ensp|thinsp|nbsp);/gi, " "],
+  [/&times;/gi, "×"],
+  [/&middot;/gi, "·"],
+  [/&bull;/gi, "•"],
+  [/&mdash;/gi, "—"],
+  [/&ndash;/gi, "–"],
+  [/&hellip;/gi, "…"],
+  [/&reg;/gi, "®"],
+  [/&trade;/gi, "™"],
+  [/&copy;/gi, "©"],
+  [/&deg;/gi, "°"],
+  [/&plusmn;/gi, "±"],
+];
+
 function decodeHtmlEntities(value: string): string {
-  return value
-    .replace(/&amp;/gi, "&")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;|&apos;/gi, "'")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
+  let out = value;
+  for (const [re, ch] of NAMED_ENTITIES) out = out.replace(re, ch);
+  return out
     .replace(/&#(\d+);/g, (_, code: string) =>
       String.fromCodePoint(Number(code))
     )

@@ -35,7 +35,9 @@ export function stripHtml(raw: string): string {
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/g, " ")
+    // 공백류 엔티티는 공백으로 — 안 풀면 문자 그대로 남아 성분 토큰에 섞인다
+    // (2026-07-30 Production 감사에서 `&emsp;` 6건이 전성분에 저장돼 있었다).
+    .replace(/&(?:nbsp|emsp|ensp|thinsp);/gi, " ")
     .replace(/&amp;/g, "&")
     .replace(/\s+/g, " ")
     .trim();
