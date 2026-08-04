@@ -1,0 +1,159 @@
+{
+  "collectedAt": "2026-08-04T09:49:59.859Z",
+  "brandMap": [],
+  "found": [],
+  "rejected": [
+    {
+      "productId": 3,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 4,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 10,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 20,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 21,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 27,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 28,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 29,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 32,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 48,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 76,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 77,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 78,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 80,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 83,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 86,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 93,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 104,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 105,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 123,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 133,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 135,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 156,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 161,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 166,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 167,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 168,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 169,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 171,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 176,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 177,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 186,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 187,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 188,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 189,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 190,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 191,
+      "reason": "신뢰 판매처 결과 없음"
+    },
+    {
+      "productId": 192,
+      "reason": "신뢰 판매처 결과 없음"
+    }
+  ]
+}

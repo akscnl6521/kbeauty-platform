@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { useCountry } from "@/hooks/useCountry";
 import { useLocale } from "@/hooks/useLocale";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
+import { useProductImages } from "@/hooks/useProductImages";
 import {
   faceExplorerZoneApplicationAreas,
   isFaceExplorerZone,
@@ -528,6 +529,20 @@ function ResultsPageInner() {
   const isRiskResults = isRiskManagementLevel(
     savedRecommendation?.managementLevel
   );
+
+  // 이미지는 랭킹 캐시에 없다(서명 URL 이라 만료된다). 화면을 열 때 받아서 붙인다.
+  // 2026-08-04 이전에는 이 연결이 없어 이미지가 한 번도 뜨지 않았다.
+  const { imageUrlById } = useProductImages(
+    rankedProducts.map((r) => r.product.id)
+  );
+  const withImage = (ranked: (typeof rankedProducts)[number]) => {
+    const url = imageUrlById.get(String(ranked.product.id));
+    if (!url) return ranked;
+    return {
+      ...ranked,
+      product: { ...ranked.product, image_url: url, image_verified: true },
+    };
+  };
   const scenarioPilot = savedRecommendation?.scenarioPilot;
   const scenarioPilotDetails = savedRecommendation?.scenarioPilotDetails;
   const scenarioMatched = Boolean(scenarioPilot?.scenarioId);
@@ -1618,7 +1633,7 @@ function ResultsPageInner() {
                             <RecommendedProductCard
                               key={ranked.product.id}
                               rank={index + 1}
-                              ranked={ranked}
+                              ranked={withImage(ranked)}
                               locale={locale}
                               countryCode={countryCode ?? "KR"}
                               hidePurchaseCta
@@ -1692,7 +1707,7 @@ function ResultsPageInner() {
                         <RecommendedProductCard
                           key={ranked.product.id}
                           rank={index + 1}
-                          ranked={ranked}
+                          ranked={withImage(ranked)}
                           locale={locale}
                           countryCode={countryCode ?? "KR"}
                           recommendation={savedRecommendation}

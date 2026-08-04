@@ -15,6 +15,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # `main...HEAD` 비교가 필요해서 전체 히스토리를 받는다 (캐시 버전 관문).
+          # 얕은 클론이면 기준을 못 찾아 관문이 조용히 통과된다.
+          fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -70,6 +74,24 @@ jobs:
           npx --yes tsx scripts/admin-review-api-selftest.ts
       - name: Customer journey regression
         run: npm run test:journey
+      - name: Recommendation cache invalidation
+        # 2026-08-04 — 배포는 됐는데 사용자 화면이 안 바뀐 사고. offer/랭킹 로직을
+        # 바꾸면 RECOMMENDATION_CACHE_VERSION 을 올려야 옛 Top 5 가 폐기된다.
+        # 주석으로만 적어 뒀더니 잊었다. 여기서 막는다.
+        run: |
+          npm run test:cache-version-guard
+          npm run test:recommendation-cache-version
+      - name: Catalog data guards
+        # 국내몰이 주는 값에 대한 판단 — 자리표시 가격(라네즈 100원)·HTML 이름·
+        # 재고 미표기. 느슨해지면 곧바로 사용자에게 틀린 가격·재고가 나간다.
+        run: |
+          npm run test:mall-product-data
+          npm run test:ingredient-list-validate
+          npm run test:brand-store-name-match
+      - name: Cache version bump check
+        # main 대비 캐시 영향 파일이 바뀌었는데 버전을 안 올렸으면 실패한다.
+        # 얕은 클론이면 기준을 못 찾아 통과시키므로 fetch-depth 0 이 필요하다.
+        run: npm run check:cache-version-bump
       - name: Apply analyze concern integration patch
         run: npm run patch:analyze-concerns
       - name: Build

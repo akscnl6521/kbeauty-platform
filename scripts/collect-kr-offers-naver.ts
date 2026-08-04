@@ -10,6 +10,23 @@
  *
  * `--apply` 없이 실행하면 무엇을 얻었는지만 출력한다. DB 쓰기 없음.
  *
+ * ## ⚠ 2026-08-04 — 쇼핑 검색 API 가 더 이상 제공되지 않는다
+ *
+ * 이 스크립트는 지금 **아무것도 못 가져온다.** 설정 문제가 아니라 네이버 정책이다.
+ * 개발자센터 화면까지 확인한 결과:
+ *
+ *   · 앱 `k뷰티매치` 의 «사용 API» 에 **검색이 등록돼 있다** (웹 서비스 URL 도
+ *     `kbeautymatch.com` 으로 맞다)
+ *   · 같은 인증키로 블로그·뉴스·백과사전은 **HTTP 200**
+ *   · `search/shop.json` 만 **HTTP 404 · SE05 «존재하지 않는 검색 api»**
+ *
+ * 인증은 통과하는데 그 엔드포인트만 없다고 답한다 — 권한이 아니라 **폐지**다.
+ * 데이터랩 쇼핑인사이트(`datalab/shopping/*`)는 살아 있지만 검색어 추세만 주고
+ * 판매처·가격·재고가 없어 오퍼로 쓸 수 없다.
+ *
+ * 이미 수집해 둔 국내 오퍼 14건은 그대로 유효하다. 코드는 지우지 않는다 —
+ * 네이버가 되살리거나 같은 형태의 다른 소스가 생기면 그대로 쓴다.
+ *
  * 실행: npm run collect:kr-offers -- --apply
  */
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -201,9 +218,27 @@ async function main() {
     name_ko: string | null;
     active: boolean | null;
     verified_at: string | null;
-  }>(client, "products", "id,brand,name,name_ko,active,verified_at");
-  const targets = products.filter((p) => p.active === true && p.verified_at != null);
-  console.log(`활성 제품 ${targets.length}건`);
+    key_ingredients: string[] | null;
+    full_ingredients: string[] | null;
+  }>(
+    client,
+    "products",
+    "id,brand,name,name_ko,active,verified_at,key_ingredients,full_ingredients"
+  );
+
+  // 대상은 «성분을 갖춘 제품» 이다 — `verified_at` 으로 고르면 **이미 활성화된 것만**
+  // 훑게 되고, 정작 오퍼만 붙으면 살아날 제품을 건너뛴다(§38 에서 수집기에 있던 것과
+  // 같은 결함). 2026-08-04 실측: 성분은 갖췄는데 국내 오퍼가 없어 추천에서 빠진 것이
+  // 22건이고, 그중 다수가 추천 풀에 아예 없는 브랜드다(라네즈·설화수·클레어스·
+  // 메디큐브·마녀공장·이니스프리…). 사용자가 «회사 종류가 적다» 고 느끼는 원인이다.
+  const arr = (v: unknown) => (Array.isArray(v) ? v : []);
+  const targets = products.filter(
+    (p) => p.active !== false && arr(p.key_ingredients).length > 0 && arr(p.full_ingredients).length > 0
+  );
+  const alreadyLive = targets.filter((p) => p.verified_at != null).length;
+  console.log(
+    `대상 ${targets.length}건 (성분 보유 기준) — 이미 추천 풀 ${alreadyLive}건 · 풀 밖 ${targets.length - alreadyLive}건`
+  );
 
   // 가격 타당성 대조용 — 같은 제품의 US 오퍼 가격
   const usdByProduct = new Map<number, number>();

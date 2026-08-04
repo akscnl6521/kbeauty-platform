@@ -1,0 +1,823 @@
+{
+  "checkedAt": "2026-08-04T11:43:57.473Z",
+  "found": [
+    {
+      "productId": 3,
+      "brand": "Laneige",
+      "name": "Water Sleeping Mask",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0255/0189/2660/files/WSM_AD_PDP_2.jpg?v=1754046790",
+      "sourcePage": "https://us.laneige.com/products/water-sleeping-mask",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 4,
+      "brand": "COSRX",
+      "name": "Snail Mucin 96% Power Repairing Essence",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/james_800x1067_1_1_4e9750cc-2cd6-4817-ace5-be2305a85806.jpg?v=1763111577",
+      "sourcePage": "https://cosrx.com/products/advanced-snail-96-mucin-power-essence",
+      "similarity": 0.83,
+      "inPool": true
+    },
+    {
+      "productId": 10,
+      "brand": "COSRX",
+      "name": "Propolis Light Ampoule",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/full-fit-propolis-light-ampoule-cosrx-official-1.jpg?v=1724835475",
+      "sourcePage": "https://cosrx.com/products/full-fit-propolis-light-ampoule",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 20,
+      "brand": "Torriden",
+      "name": "Dive In Low Molecular Hyaluronic Acid Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/DIVEINSerum1_631ac0e3-a77b-422a-a806-bf34477cac19.jpg?v=1753346213",
+      "sourcePage": "https://torriden.us/products/dive-in-serum",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 21,
+      "brand": "COSRX",
+      "name": "Vitamin C 23 Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/Advanced_VitaminC23_00.webp?v=1760935746",
+      "sourcePage": "https://cosrx.com/products/cosrx-advanced-the-vitamin-c-23-serum",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 27,
+      "brand": "COSRX",
+      "name": "BHA Blackhead Power Liquid",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/bha-blackhead-power-liquid-cosrx-official-1.jpg?v=1689840681",
+      "sourcePage": "https://cosrx.com/products/bha-blackhead-power-liquid",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 28,
+      "brand": "COSRX",
+      "name": "Advanced Snail 92 All in One Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/snail_cream_thumbnail.png?v=1748420673",
+      "sourcePage": "https://cosrx.com/products/advanced-snail-92-all-in-one-cream",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 29,
+      "brand": "COSRX",
+      "name": "Retinol 0.1 Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/Retinol03Cream_800x1067_c88d3441-5851-4a65-8438-a93bbfb4f86b.webp?v=1724837060",
+      "sourcePage": "https://cosrx.com/products/the-retinol-0-3-cream",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 32,
+      "brand": "Innisfree",
+      "name": "Green Tea Hyaluronic Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0089/3367/1012/files/01_IF_GT-HC_Packshot_2024_01_1080x1080_60c0b92c-41a4-417a-8995-6b86728bee2f.jpg?v=1758640121",
+      "sourcePage": "https://us.innisfree.com/products/green-tea-seed-hyaluronic-cream",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 48,
+      "brand": "Klairs",
+      "name": "Supple Preparation Unscented Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0934/1766/8886/files/SupplePreparationUnscentedToner180mL_product.jpg?v=1776808592",
+      "sourcePage": "https://klairs.com/products/supple-preparation-unscented-toner",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 77,
+      "brand": "CosRX",
+      "name": "Black Snail All In One Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/snail_cream_thumbnail.png?v=1748420673",
+      "sourcePage": "https://cosrx.com/products/advanced-snail-92-all-in-one-cream",
+      "similarity": 0.83,
+      "inPool": true
+    },
+    {
+      "productId": 78,
+      "brand": "COSRX",
+      "name": "AC Collection Lightweight Soothing Moisturizer",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/ac-collection-lightweight-soothing-moisturizer-cosrx-official-1.jpg?v=1724835868",
+      "sourcePage": "https://cosrx.com/products/ac-collection-lightweight-soothing-moisturizer",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 83,
+      "brand": "Haruharu Wonder",
+      "name": "Black Rice Hyaluronic Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0707/0190/8217/files/150ml_11e70ee9-f850-4fe7-8e7e-a960590e938d.jpg?v=1751443548",
+      "sourcePage": "https://haruharuwonder.com/products/haruharuwonder-black-rice-hyaluronic-toner",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 86,
+      "brand": "Anua",
+      "name": "Heartleaf Soothing Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-toner-heartleaf-77-soothing-toner-1239193744.jpg?v=1779181932",
+      "sourcePage": "https://anua.com/products/heartleaf-77-soothing-toner",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 104,
+      "brand": "Beauty of Joseon",
+      "name": "Glow Serum Propolis and Niacinamide",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/glow-serum-propolis-niacinamide-1-front.webp?v=1770278801",
+      "sourcePage": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 105,
+      "brand": "Beauty of Joseon",
+      "name": "Revive Eye Serum Retinal and Caffeine",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/01_0325.jpg?v=1774440555",
+      "sourcePage": "https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal-duo",
+      "similarity": 0.8,
+      "inPool": true
+    },
+    {
+      "productId": 161,
+      "brand": "Haruharu Wonder",
+      "name": "Black Rice Facial Oil",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0707/0190/8217/files/30ml_94897b4f-836d-4210-98ac-465fc5150383.jpg?v=1757409398",
+      "sourcePage": "https://haruharuwonder.com/products/haruharuwonder-black-rice-facial-oil",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 166,
+      "brand": "Axis-Y",
+      "name": "Dark Spot Correcting Glow Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0578/0157/2530/files/9ff5d79afa157b3862577adfcdc9caa4.png?v=1781504891",
+      "sourcePage": "https://axis-y.com/products/dark-spot-correcting-glow-serum",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 167,
+      "brand": "Axis-Y",
+      "name": "Complete No-Stress Physical Sunscreen",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0578/0157/2530/files/1637cf65cb3582c472d80977ee162c77.png?v=1781505585",
+      "sourcePage": "https://axis-y.com/products/complete-no-stress-physical-sunscreen",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 171,
+      "brand": "SKIN1004",
+      "name": "Madagascar Centella Tone Brightening Capsule Ampoule",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-ampoule-serum-centella-ampoule-1246455500.png?v=1782787571",
+      "sourcePage": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 186,
+      "brand": "COSRX",
+      "name": "Advanced Snail Peptide Eye Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/advanced-snail-peptide-eye-cream-cosrx-official-1.png?v=1724835637",
+      "sourcePage": "https://cosrx.com/products/advanced-snail-peptide-eye-cream",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 187,
+      "brand": "COSRX",
+      "name": "The Vitamin C 23 Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/Advanced_VitaminC23_00.webp?v=1760935746",
+      "sourcePage": "https://cosrx.com/products/cosrx-advanced-the-vitamin-c-23-serum",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 188,
+      "brand": "COSRX",
+      "name": "Low pH Good Morning Gel Cleanser",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/low-ph-good-morning-gel-cleanser-cosrx-official-1.jpg?v=1768785801",
+      "sourcePage": "https://cosrx.com/products/low-ph-good-morning-gel-cleanser",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 189,
+      "brand": "COSRX",
+      "name": "AHA/BHA Clarifying Treatment Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/ahabha-clarifying-treatment-toner-cosrx-official-1.jpg?v=1724835581",
+      "sourcePage": "https://cosrx.com/products/aha-bha-clarifying-treatment-toner",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 190,
+      "brand": "COSRX",
+      "name": "Hydrium Watery Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/hydrium-watery-toner-cosrx-official-1.jpg?v=1724836011",
+      "sourcePage": "https://cosrx.com/products/hydrium-watery-toner",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 192,
+      "brand": "COSRX",
+      "name": "The 6 Peptide Skin Booster Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/THE_6_PEPTIDE_SKIN_BOOSTER_SERUM___800x1067_1.webp?v=1784097536",
+      "sourcePage": "https://cosrx.com/products/the-6-peptide-skin-booster-serum",
+      "similarity": 1,
+      "inPool": true
+    },
+    {
+      "productId": 1,
+      "brand": "COSRX",
+      "name": "Centella Water Alcohol-Free Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/centella-water-alcohol-free-toner-cosrx-official-1.jpg?v=1724835527",
+      "sourcePage": "https://cosrx.com/products/centella-water-alcohol-free-toner",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 40,
+      "brand": "Heimish",
+      "name": "All Clean Balm",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0421/5871/9127/files/Adobe_Express_Photo_project_-_July_28_2026_at_16.17.34_6.png?v=1785369265",
+      "sourcePage": "https://heimish.us/products/all-clean-balm-mandarin-120ml-x-3",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 47,
+      "brand": "Klairs",
+      "name": "Midnight Blue Calming Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0934/1766/8886/files/Midnight-Blue-Calming-Cream-thumbnail-01-product_3f8a006a-4c08-4afc-a59a-e101622aca83.gif?v=1771649529",
+      "sourcePage": "https://klairs.com/products/midnight-blue-calming-cream-sca_clone_freegift",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 51,
+      "brand": "Holika Holika",
+      "name": "Jeju Aloe 99% Soothing Gel",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0709/8096/0489/files/71JBdIifTSL._SL1500.jpg?v=1775287749",
+      "sourcePage": "https://holikaholika.com/products/aloe-99-soothing-gel-fresh-moisturizing",
+      "similarity": 0.8,
+      "inPool": false
+    },
+    {
+      "productId": 76,
+      "brand": "Pyunkang Yul",
+      "name": "Essence Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0940/1807/6983/files/5_6545267b-69eb-448d-bebf-d3cf84e61d9e.jpg?v=1783323238",
+      "sourcePage": "https://pyunkangyulglobal.com/products/pyunkangyul-essence-toner-2-size",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 80,
+      "brand": "Laneige",
+      "name": "Lip Sleeping Mask",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0255/0189/2660/files/PDP1x1_2.png?v=1764712766",
+      "sourcePage": "https://us.laneige.com/products/tropical-lip-sleeping-mask-vault",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 87,
+      "brand": "Anua",
+      "name": "Peach 70 Niacin Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-global-ampoule-serum-peach-70-niacinamide-serum-1239193727.jpg?v=1779177611",
+      "sourcePage": "https://anua.com/products/peach-70-niacinamide-serum-copy",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 89,
+      "brand": "Round Lab",
+      "name": "1025 Dokdo Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/simplest_2_step_routine_-_dokdo_toner_birch_cream.png?v=1777397097",
+      "sourcePage": "https://roundlab.com/products/dokdo-toner-birch-cream-the-perfect-hydration-boost",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 93,
+      "brand": "Innisfree",
+      "name": "Complete No-Sebum Mineral Powder",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0089/3367/1012/files/01_IF_NSMP_Packshots_2025_product_1080x1080_a5136b44-5360-4d31-86bd-eeed0c1ce49c_1.jpg?v=1759868916",
+      "sourcePage": "https://us.innisfree.com/products/no-sebum-matte-mineral-setting-powder",
+      "similarity": 0.8,
+      "inPool": false
+    },
+    {
+      "productId": 102,
+      "brand": "Beauty of Joseon",
+      "name": "Dynasty Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/Dynasty-Cream-10ml_Beauty-of-Joseon_62949240-52404429324660.jpg?v=1762679472",
+      "sourcePage": "https://beautyofjoseon.com/products/dynasty-cream-10ml",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 103,
+      "brand": "Beauty of Joseon",
+      "name": "Relief Sun Rice and Probiotics",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/02_0612.jpg?v=1782766185",
+      "sourcePage": "https://beautyofjoseon.com/products/relief-sun-rice-probiotics-spf50-pa-uk",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 107,
+      "brand": "Missha",
+      "name": "Time Revolution The First Treatment Essence",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0526/9559/7243/files/MSMS2856AB-time-revolution-essence-pads-hero.png?v=1770698186",
+      "sourcePage": "https://misshaus.com/products/time-revolution-5x-essence-toner-pads",
+      "similarity": 0.8,
+      "inPool": false
+    },
+    {
+      "productId": 108,
+      "brand": "Missha",
+      "name": "Time Revolution Night Repair Probio Ampoule",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0526/9559/7243/products/001_071cb1b0-1dc1-4660-bd0f-af00290d2f8a.jpg?v=1773694048",
+      "sourcePage": "https://misshaus.com/products/time-revolution-night-repair-ampoule-5x-member",
+      "similarity": 0.83,
+      "inPool": false
+    },
+    {
+      "productId": 117,
+      "brand": "TIRTIR",
+      "name": "Milk Skin Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/Thumbnail_2x_9cf0fdb9-3ece-497f-baa6-15f479f4bd41.png?v=1770863123",
+      "sourcePage": "https://tirtir.us/products/milk-skin-toner-light",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 118,
+      "brand": "TIRTIR",
+      "name": "Mask Fit Red Cushion",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/Untitleddesign_18_7ff5eaa2-2c96-442f-9e9b-3ee41bf38c16.png?v=1770707459",
+      "sourcePage": "https://tirtir.us/products/mask-fit-red-cushion-refill",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 121,
+      "brand": "Medicube",
+      "name": "Age-R Booster H",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/20240320_ME_thumbnail58447_copy_d38310bf-4720-4587-aa10-18244c860448.png?v=1733988029",
+      "sourcePage": "https://medicube.us/products/gift-age-r-booster-pro-pink-pouch-sca_clone_freegift",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 122,
+      "brand": "Medicube",
+      "name": "Collagen Jelly Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/00_a9b14741-17a3-41e8-9f39-f5754eaf3fe8.jpg?v=1766563811",
+      "sourcePage": "https://medicube.us/products/gift-collagen-niacinamide-jelly-cream",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 123,
+      "brand": "Medicube",
+      "name": "Red Erasing Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/393f730529b559c515a5027eb4531b7c.jpg?v=1721379091",
+      "sourcePage": "https://medicube.us/products/red-serum",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 133,
+      "brand": "Ma:nyo",
+      "name": "Bifida Biome Complex Ampoule",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/bifida_biome_ampoule_2025.png?v=1753809824",
+      "sourcePage": "https://manyo.us/products/bifida-biome-complex-ampoule",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 134,
+      "brand": "Ma:nyo",
+      "name": "Pure Cleansing Oil",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/Untitleddesign_10.png?v=1784159768",
+      "sourcePage": "https://manyo.us/products/pure-cleansing-set",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 135,
+      "brand": "Ma:nyo",
+      "name": "Galactomy Niacin Essence",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/galac3.0thumbnail.png?v=1754329745",
+      "sourcePage": "https://manyo.us/products/galac-niacin-3-0-essence",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 153,
+      "brand": "mixsoon",
+      "name": "Bean Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0797/3299/8445/files/NEW_83ffb8b7-0ec4-4707-99f2-71e8a7d40a12.png?v=1772700756",
+      "sourcePage": "https://mixsoon.us/products/mixsoon-bean-essence-x-pdrn-collagen-serum",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 156,
+      "brand": "Sulwhasoo",
+      "name": "First Care Activating Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0249/8399/4413/files/01.FCASEYESERUMREFILLTHUMBNAIL_THUMBNAIL_1080px1_1ratio.jpg?v=1781795207",
+      "sourcePage": "https://us.sulwhasoo.com/products/first-care-activating-eye-serum-refill",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 158,
+      "brand": "Sulwhasoo",
+      "name": "Concentrated Ginseng Renewing Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0249/8399/4413/files/CGRSerumEX-5ml_1.jpg?v=1693502237",
+      "sourcePage": "https://us.sulwhasoo.com/products/concentrated-ginseng-renewing-serum-5ml-23ad",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 164,
+      "brand": "Anua",
+      "name": "Peach 70 Niacin Serum Glow",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-global-ampoule-serum-peach-70-niacinamide-serum-1239193727.jpg?v=1779177611",
+      "sourcePage": "https://anua.com/products/peach-70-niacinamide-serum-copy",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 165,
+      "brand": "Anua",
+      "name": "PDRN Hyaluronic Acid Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/hidden-amazon-s-choice-pdrn-hyaluronic-acid-100-moisturising-cream-1251166217.png?v=1785136090",
+      "sourcePage": "https://anua.com/products/amazon-choice-pdrn-hyaluronic-acid-100-moisturising-cream",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 168,
+      "brand": "Round Lab",
+      "name": "Birch Juice Moisturizing Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/Birch_Sun_Serum_5.jpg?v=1782887703",
+      "sourcePage": "https://roundlab.com/products/birch-juice-moisturizing-sun-serum-spf50",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 169,
+      "brand": "Round Lab",
+      "name": "Birch Juice Moisturizing Cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/birch-moisturizing-cream-round-lab-3.jpg?v=1775165383",
+      "sourcePage": "https://roundlab.com/products/birch-moisturizing-cream",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 170,
+      "brand": "SKIN1004",
+      "name": "Madagascar Centella Hyalu-Cica Water-Fit Sun Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-sun-hyalu-cica-water-fit-sun-serum-spf50-pa-42321189568758.jpg?v=1733104913",
+      "sourcePage": "https://skin1004.com/products/hyalu-cica-water-fit-sun-serum-spf50-pa",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 176,
+      "brand": "Innisfree",
+      "name": "Green Tea Seed Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0089/3367/1012/files/IF_BottleRePlay_Packshot.jpg?v=1775044946",
+      "sourcePage": "https://us.innisfree.com/products/green-tea-seed-hyaluronic-serum",
+      "similarity": 1,
+      "inPool": false
+    },
+    {
+      "productId": 177,
+      "brand": "Innisfree",
+      "name": "Jeju Volcanic Pore Cleansing Foam",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0089/3367/1012/files/01_IF_V-CF_Packshot_2024_01_1080x1080_4fec1f38-dc5c-4af5-9473-11d658c5bbdc_1.jpg?v=1760452237",
+      "sourcePage": "https://us.innisfree.com/products/volcanic-bha-pore-cleansing-foam",
+      "similarity": 0.8,
+      "inPool": false
+    },
+    {
+      "productId": 191,
+      "brand": "COSRX",
+      "name": "The Niacinamide 15 Serum",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/niacin.png?v=1748420816",
+      "sourcePage": "https://cosrx.com/products/the-niacinamide-15-serum",
+      "similarity": 1,
+      "inPool": false
+    }
+  ],
+  "missed": [
+    {
+      "productId": 9,
+      "brand": "COSRX",
+      "name": "Pure Fit Cica Serum",
+      "why": "제품명 대조 미달 (0.75)"
+    },
+    {
+      "productId": 12,
+      "brand": "Innisfree",
+      "name": "Tone Up Cream",
+      "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 16,
+      "brand": "Round Lab",
+      "name": "Relief Sun Rice and Probiotics",
+      "why": "제품명 대조 미달 (0.25)"
+    },
+    {
+      "productId": 17,
+      "brand": "Innisfree",
+      "name": "Mugwort Pore Clarifying Serum",
+      "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 19,
+      "brand": "Torriden",
+      "name": "Hyaluronic Acid Hydra Power Essence",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 26,
+      "brand": "COSRX",
+      "name": "Galactomyces Pure Vitamin C Glow Serum",
+      "why": "제품명 대조 미달 (0.67)"
+    },
+    {
+      "productId": 31,
+      "brand": "Innisfree",
+      "name": "Tea Tree Pore Tightening Toner",
+      "why": "제품명 대조 미달 (0.40)"
+    },
+    {
+      "productId": 36,
+      "brand": "COSRX",
+      "name": "Galactomyces 95 Whitening Power Essence",
+      "why": "제품명 대조 미달 (0.60)"
+    },
+    {
+      "productId": 37,
+      "brand": "Holika Holika",
+      "name": "Aloe Soothing Sun Cream",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 38,
+      "brand": "Axis-Y",
+      "name": "Heartleaf Quercetinol Pore Cleansing Serum",
+      "why": "제품명 대조 미달 (0.25)"
+    },
+    {
+      "productId": 39,
+      "brand": "Heimish",
+      "name": "Propolis Energy Boosting Serum",
+      "why": "제품명 대조 미달 (0.25)"
+    },
+    {
+      "productId": 41,
+      "brand": "Axis-Y",
+      "name": "Cicaful Ampoule",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 44,
+      "brand": "Torriden",
+      "name": "B5 Hydra-Gel Eye Cream",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 46,
+      "brand": "Klairs",
+      "name": "Brightening Vitamin C Cream",
+      "why": "제품명 대조 미달 (0.67)"
+    },
+    {
+      "productId": 55,
+      "brand": "Axis-Y",
+      "name": "Cica Serum",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 73,
+      "brand": "Torriden",
+      "name": "Water Filler Hyaluronic Serum",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 75,
+      "brand": "Pyunkang Yul",
+      "name": "Cica Peptide Toner",
+      "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 79,
+      "brand": "Laneige",
+      "name": "Waterful Bouncy Cream",
+      "why": "제품명 대조 미달 (0.67)"
+    },
+    {
+      "productId": 82,
+      "brand": "Haruharu Wonder",
+      "name": "Centella Asiatica Cream",
+      "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 84,
+      "brand": "Heimish",
+      "name": "Propolis Synergy Toner",
+      "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 85,
+      "brand": "Anua",
+      "name": "Niacin Vita C Focus Serum",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 88,
+      "brand": "Round Lab",
+      "name": "Cica Soosoo Cream",
+      "why": "제품명 대조 미달 (0.67)"
+    },
+    {
+      "productId": 90,
+      "brand": "Numbuzin",
+      "name": "Birch Juice Moisturizing Serum",
+      "why": "제품명 대조 미달 (0.25)"
+    },
+    {
+      "productId": 91,
+      "brand": "Numbuzin",
+      "name": "No.5 Vitamin Niacinamide Serum",
+      "why": "제품명 대조 미달 (0.75)"
+    },
+    {
+      "productId": 92,
+      "brand": "Axis-Y",
+      "name": "Cicaful Aqua Cream",
+      "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 101,
+      "brand": "Tonymoly",
+      "name": "Probiotics Relief Cream",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 106,
+      "brand": "Beauty of Joseon",
+      "name": "Calming Serum Heartleaf and Panthenol",
+      "why": "제품명 대조 미달 (0.75)"
+    },
+    {
+      "productId": 109,
+      "brand": "Missha",
+      "name": "Super Aqua Cell Renew Snail Cream",
+      "why": "제품명 대조 미달 (0.67)"
+    },
+    {
+      "productId": 110,
+      "brand": "Missha",
+      "name": "All Around Safe Block Essence Sun SPF45",
+      "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 111,
+      "brand": "Missha",
+      "name": "Velvet Finish Cushion Foundation",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 119,
+      "brand": "TIRTIR",
+      "name": "Ceramic Skin Serum",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 120,
+      "brand": "TIRTIR",
+      "name": "Tone Up UV Sunscreen SPF50",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 124,
+      "brand": "Medicube",
+      "name": "Zero Sebum Powder",
+      "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 136,
+      "brand": "Ma:nyo",
+      "name": "Hyaluron Moisture Cream",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 141,
+      "brand": "Rovectin",
+      "name": "Skin Essentials Barrier Repair Cream-Mist",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 142,
+      "brand": "Rovectin",
+      "name": "Clean Vitamin C Brightening Serum",
+      "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 143,
+      "brand": "Rovectin",
+      "name": "Aqua Soothing Gel Cream",
+      "why": "제품명 대조 미달 (0.75)"
+    },
+    {
+      "productId": 144,
+      "brand": "Tocobo",
+      "name": "Bio Watery Sun Cream SPF50",
+      "why": "제품명 대조 미달 (0.75)"
+    },
+    {
+      "productId": 145,
+      "brand": "Tocobo",
+      "name": "Glass Sun Stick SPF50",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 146,
+      "brand": "Tocobo",
+      "name": "Collagen Clay Foam Cleanser",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 154,
+      "brand": "mixsoon",
+      "name": "Centella Asiatica Gel",
+      "why": "제품명 대조 미달 (0.67)"
+    },
+    {
+      "productId": 155,
+      "brand": "mixsoon",
+      "name": "Propolis Extract Ampoule",
+      "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 157,
+      "brand": "Sulwhasoo",
+      "name": "Essential Balancing Water",
+      "why": "제품명 대조 미달 (0.67)"
+    },
+    {
+      "productId": 159,
+      "brand": "Haruharu Wonder",
+      "name": "Black Rice Hyaluronic Cream",
+      "why": "제품명 대조 미달 (0.75)"
+    },
+    {
+      "productId": 160,
+      "brand": "Haruharu Wonder",
+      "name": "Black Rice Moisture Sunscreen",
+      "why": "제품명 대조 미달 (0.50)"
+    },
+    {
+      "productId": 178,
+      "brand": "Klairs",
+      "name": "Rich Moist Soothing Serum",
+      "why": "제품명 대조 미달 (0.75)"
+    },
+    {
+      "productId": 179,
+      "brand": "Klairs",
+      "name": "Freshly Juiced Vitamin C Serum",
+      "why": "제품명 대조 미달 (0.75)"
+    },
+    {
+      "productId": 180,
+      "brand": "Laneige",
+      "name": "Cream Skin Toner and Moisturizer",
+      "why": "제품명 대조 미달 (0.75)"
+    },
+    {
+      "productId": 181,
+      "brand": "Laneige",
+      "name": "Neo Cushion Matte Foundation",
+      "why": "제품명 대조 미달 (0.33)"
+    }
+  ]
+}

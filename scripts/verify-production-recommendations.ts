@@ -93,6 +93,8 @@ async function main() {
       isExcludedFromPublicCatalog,
       isOutsideFaceTrack,
       applyBrandDiversity,
+      normalizeProductOffer,
+      isOfferPurchasableForCta,
     },
     { toCanonicalConcern },
     scenariosModule,
@@ -122,23 +124,27 @@ async function main() {
     .filter((p) => !isExcludedFromPublicCatalog(p))
     .filter((p) => !isOutsideFaceTrack(p));
 
-  const offers = await fetchAll<{
-    product_id: string;
-    retailer_country: string | null;
-    stock_status: string | null;
-    verification_status: string | null;
-  }>(client, "product_offers", "id,product_id,retailer_country,stock_status,verification_status");
+  const offers = await fetchAll<Record<string, unknown>>(
+    client,
+    "product_offers",
+    "id,product_id,retailer_name,retailer_country,ships_to_countries,purchase_url,price,currency," +
+      "stock_status,verification_status,is_official,verified_at,last_checked_at,rating,review_count,source,active"
+  );
 
-  const buyableBy = (country: string) =>
+  /**
+   * «구매 가능» 은 **실제 CTA 관문**으로 판정한다.
+   *
+   * 처음에는 `retailer_country` · `verification_status` · `stock_status` 세 가지만 봤다.
+   * 그건 진짜 관문(`isOfferPurchasableForCta`)보다 느슨해서, 통화 불일치·
+   * `ships_to_countries` 누락 같은 탈락 사유를 못 본다. 2026-08-04 «구매하기가 안
+   * 뜬다» 를 조사하면서 드러났다 — 검증기가 화면보다 후하면 «검증 통과» 가 거짓말이 된다.
+   */
+  const buyableBy = (country: "KR" | "US") =>
     new Set(
       offers
-        .filter(
-          (o) =>
-            o.retailer_country === country &&
-            o.verification_status === "verified" &&
-            o.stock_status === "in_stock"
-        )
-        .map((o) => String(o.product_id))
+        .map((o) => ({ pid: String(o.product_id), offer: normalizeProductOffer(o) }))
+        .filter((x) => x.offer != null && isOfferPurchasableForCta(x.offer, country))
+        .map((x) => x.pid)
     );
   const krBuyable = buyableBy("KR");
   const usBuyable = buyableBy("US");
