@@ -196,6 +196,7 @@
     "test:cache-version-guard": "tsx scripts/cache-version-guard-selftest.ts",
     "test:mall-product-data": "tsx scripts/mall-product-data-selftest.ts",
     "test:decode-html-body": "tsx scripts/decode-html-body-selftest.ts",
+    "test:mall-sitemap": "tsx scripts/mall-sitemap-selftest.ts",
     "check:cache-version-bump": "tsx scripts/check-cache-version-bump.ts",
     "check:name-match-diagnosis": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/diagnose-name-match-failures.ts",
     "check:korean-ingredient-sources": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/probe-korean-ingredient-sources.ts",

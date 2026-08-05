@@ -87,6 +87,7 @@ jobs:
         run: |
           npm run test:mall-product-data
           npm run test:decode-html-body
+          npm run test:mall-sitemap
           npm run test:ingredient-list-validate
           npm run test:brand-store-name-match
       - name: Cache version bump check

@@ -31,6 +31,7 @@ import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 import { koreanProductNameToComparable } from "../src/lib/catalog/koreanProductTerms";
 import { nameSimilarity, nameTokens, NAME_MATCH_MIN } from "../src/lib/catalog/brandGlobalStores";
 import { decodeHtmlBody } from "../src/lib/catalog/decodeHtmlBody";
+import { extractProductUrlsFromSitemap } from "../src/lib/catalog/mallSitemap";
 import { KR_MALLS } from "../src/lib/catalog/krMalls";
 import {
   mallPricesLookLikePlaceholders,
@@ -48,10 +49,6 @@ const UA =
 
 type Product = { id: number; brand: string | null; name: string | null; name_ko: string | null };
 type MallItem = { url: string; name: string; price: number; currency: string; inStock: boolean };
-
-function decodeXml(s: string): string {
-  return s.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"');
-}
 
 async function get(url: string): Promise<string> {
   try {
@@ -117,13 +114,7 @@ async function main() {
     if (mine.length === 0) continue;
 
     const sm = await get(`https://${mall.domain}/sitemap.xml`);
-    const urls = [
-      ...new Set(
-        [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)]
-          .map((m) => decodeXml(m[1]))
-          .filter((u) => /shopdetail|\/product\/|goods|item/i.test(u))
-      ),
-    ];
+    const urls = extractProductUrlsFromSitemap(sm);
     console.log(`\n=== ${mall.brands[0]} (${mall.domain}) — DB 제품 ${mine.length}건 · 몰 URL ${urls.length}개 ===`);
     if (urls.length === 0) continue;
 
