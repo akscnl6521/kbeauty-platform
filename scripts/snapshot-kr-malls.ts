@@ -12,16 +12,13 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { KR_MALLS } from "../src/lib/catalog/krMalls";
 import { decodeHtmlBody } from "../src/lib/catalog/decodeHtmlBody";
+import { extractProductUrlsFromSitemap } from "../src/lib/catalog/mallSitemap";
 import { parseMallProductJsonLd, type MallProduct } from "../src/lib/catalog/mallProductData";
 
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36";
 /** 상대 서버 부담을 줄인다. 급하게 긁다가 차단당하면 다음 실행이 아예 안 된다. */
 const DELAY_MS = 700;
-
-function decodeXml(s: string): string {
-  return s.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"');
-}
 
 async function get(url: string): Promise<string> {
   try {
@@ -43,13 +40,7 @@ async function main() {
 
   for (const mall of KR_MALLS) {
     const sm = await get(`https://${mall.domain}/sitemap.xml`);
-    const urls = [
-      ...new Set(
-        [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)]
-          .map((m) => decodeXml(m[1]))
-          .filter((u) => /shopdetail|\/product\/|goods|item/i.test(u))
-      ),
-    ];
+    const urls = extractProductUrlsFromSitemap(sm);
     console.log(`${mall.domain.padEnd(22)} 제품 URL ${urls.length}개 — 읽는 중…`);
 
     const items: Array<MallProduct & { url: string }> = [];
