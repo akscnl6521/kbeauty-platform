@@ -1,3 +1,5 @@
+import { stripIngredientNoticeTail } from "@/lib/recommend/normalizeIngredient";
+
 /**
  * 전성분 문자열이 **실제 INCI 목록인지** 판정한다.
  *
@@ -146,12 +148,34 @@ function looksLikeInciToken(token: string): boolean {
  * **숫자 사이의 쉼표는 구분자가 아니다** — `1,2-Hexanediol` · `1,3-Butylene Glycol`
  * 은 성분명 하나다. 그냥 `,` 로 쪼개면 `1` 이라는 조각이 생겨 정상 목록이 반려된다.
  */
+/**
+ * 한 토큰 안에서 **라틴 문자 목록과 한글 목록이 맞붙은 곳**을 가른다.
+ *
+ * 국내몰 상세 페이지는 전성분을 영문·한글 두 벌로 싣는 일이 많다. 라벨 뒤 구간을
+ * 잘라 오면 두 목록이 한 토큰에 붙어 온다 (2026-08-05 실측):
+ *
+ *   `Disodium EDTA 정제수`   ← 영문 목록의 끝 + 한글 목록의 시작
+ *   `콘민트추출물 Salix Alba (Willow) Bark Water`
+ *
+ * 성분명 하나에 라틴과 한글이 섞이는 경우는 없으므로, 문자 종류가 바뀌는 지점은
+ * **목록 경계**로 봐도 된다.
+ */
+function splitScriptBoundary(token: string): string[] {
+  const t = token.trim();
+  if (!/[A-Za-z]/.test(t) || !/[가-힣]/.test(t)) return [t];
+  // 라틴↔한글이 공백을 사이에 두고 맞붙은 곳에서만 자른다.
+  const parts = t.split(/(?<=[A-Za-z0-9)\]])\s+(?=[가-힣])|(?<=[가-힣])\s+(?=[A-Za-z])/);
+  return parts.map((p) => p.trim()).filter(Boolean);
+}
+
 export function splitIngredientTokens(text: string): string[] {
   // 쪼개지 **않는** 경우는 «앞뒤가 모두 숫자인 쉼표» 뿐이다 — `1,2-Hexanediol` 안의 쉼표.
   // 앞 규칙 `,(?!\s*\d+\s*[,-])` 은 이름 **앞의** 쉼표까지 막아서
   // `Niacinamide, 1,2-Hexanediol` 이 한 토큰으로 붙었다.
   return String(text ?? "")
     .split(/(?<!\d),|,(?!\d)/)
+    .flatMap((t) => splitScriptBoundary(t))
+    .map((t) => stripIngredientNoticeTail(t))
     .map((t) => t.trim())
     .filter(Boolean);
 }

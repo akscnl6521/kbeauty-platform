@@ -1,184 +1,184 @@
 {
-  "checkedAt": "2026-08-04T21:33:59.904Z",
-  "poolSize": 26,
-  "krBuyable": 14,
-  "usBuyable": 24,
+  "checkedAt": "2026-08-05T12:35:34.237Z",
+  "poolSize": 36,
+  "krBuyable": 24,
+  "usBuyable": 25,
   "scenarios": [
     {
       "scenarioId": "kr-redness-sensitive-cream",
       "name": "민감·홍조 · 진정 크림",
-      "safe": 26,
-      "withEvidence": 8,
+      "safe": 36,
+      "withEvidence": 17,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
       "brands": [
-        "Axis-Y",
-        "Klairs",
+        "Abib",
+        "Abib",
         "COSRX",
-        "SKIN1004",
-        "COSRX"
+        "Axis-Y",
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-redness-soothing-serum",
       "name": "홍조 · 저자극 진정 세럼",
-      "safe": 26,
-      "withEvidence": 13,
+      "safe": 36,
+      "withEvidence": 22,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 2,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
+        "COSRX",
         "Axis-Y",
-        "Klairs",
-        "COSRX",
-        "COSRX",
-        "Haruharu Wonder"
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-redness-gentle-cleanser",
       "name": "민감 피부 · 순한 클렌저",
-      "safe": 26,
-      "withEvidence": 10,
+      "safe": 36,
+      "withEvidence": 19,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
+        "COSRX",
         "Axis-Y",
-        "Klairs",
-        "COSRX",
-        "COSRX",
-        "SKIN1004"
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-redness-toner-pad",
       "name": "붉은기 · 진정 토너 패드",
-      "safe": 26,
-      "withEvidence": 10,
+      "safe": 36,
+      "withEvidence": 19,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
+        "COSRX",
         "Axis-Y",
-        "Klairs",
-        "COSRX",
-        "COSRX",
-        "SKIN1004"
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-redness-calming-mist",
       "name": "열감·홍조 · 진정 미스트",
-      "safe": 26,
-      "withEvidence": 22,
+      "safe": 36,
+      "withEvidence": 32,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "Axis-Y",
-        "Klairs",
-        "COSRX",
-        "Laneige"
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-barrier-cream",
       "name": "건조·장벽 · 보습 크림",
-      "safe": 26,
-      "withEvidence": 22,
+      "safe": 36,
+      "withEvidence": 32,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "Klairs",
-        "Axis-Y",
-        "COSRX",
-        "Haruharu Wonder"
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-barrier-essence",
       "name": "장벽 강화 · 보습 에센스",
-      "safe": 26,
-      "withEvidence": 19,
+      "safe": 36,
+      "withEvidence": 29,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "Klairs",
-        "COSRX",
-        "Haruharu Wonder",
-        "Laneige"
+        "COSRX"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-hydrating-toner",
       "name": "건조함 · 수분 토너",
-      "safe": 26,
-      "withEvidence": 19,
+      "safe": 36,
+      "withEvidence": 29,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "Klairs",
-        "COSRX",
-        "Haruharu Wonder",
-        "Laneige"
+        "COSRX"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-cream-moderate",
       "name": "중건성 · 데일리 크림",
-      "safe": 26,
-      "withEvidence": 22,
+      "safe": 36,
+      "withEvidence": 32,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "Klairs",
-        "Axis-Y",
-        "COSRX",
-        "Laneige"
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-mask",
       "name": "건조·당김 · 수분 마스크",
-      "safe": 26,
-      "withEvidence": 19,
+      "safe": 36,
+      "withEvidence": 29,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "Klairs",
-        "COSRX",
-        "Haruharu Wonder",
-        "Laneige"
+        "COSRX"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-acne-sebum-cleanser",
       "name": "여드름·피지 · 클렌저",
-      "safe": 26,
-      "withEvidence": 16,
+      "safe": 36,
+      "withEvidence": 23,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -194,8 +194,8 @@
     {
       "scenarioId": "kr-acne-spot-treatment",
       "name": "트러블 · 스팟 케어",
-      "safe": 26,
-      "withEvidence": 16,
+      "safe": 36,
+      "withEvidence": 23,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -211,8 +211,8 @@
     {
       "scenarioId": "kr-acne-serum",
       "name": "여드름 · 세럼",
-      "safe": 26,
-      "withEvidence": 17,
+      "safe": 36,
+      "withEvidence": 24,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -220,16 +220,16 @@
         "Axis-Y",
         "SKIN1004",
         "COSRX",
-        "Beauty of Joseon",
-        "COSRX"
+        "Abib",
+        "Abib"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-acne-pores-toner",
       "name": "모공·피지 · 토너",
-      "safe": 26,
-      "withEvidence": 16,
+      "safe": 36,
+      "withEvidence": 23,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -245,8 +245,8 @@
     {
       "scenarioId": "kr-acne-mattifying-emulsion",
       "name": "유분·트러블 · 에멀전",
-      "safe": 26,
-      "withEvidence": 16,
+      "safe": 36,
+      "withEvidence": 23,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -262,76 +262,76 @@
     {
       "scenarioId": "kr-uv-sunscreen-face",
       "name": "얼굴 · 데일리 선크림",
-      "safe": 26,
-      "withEvidence": 15,
+      "safe": 36,
+      "withEvidence": 22,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 2,
       "brands": [
         "COSRX",
+        "Abib",
+        "Abib",
         "Beauty of Joseon",
-        "Axis-Y",
-        "COSRX",
-        "SKIN1004"
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-uv-sunscreen-sensitive",
       "name": "민감 피부 · 순한 선크림",
-      "safe": 26,
-      "withEvidence": 19,
+      "safe": 36,
+      "withEvidence": 29,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 2,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
-        "Axis-Y",
-        "SKIN1004",
-        "Klairs",
-        "COSRX"
+        "COSRX",
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-uv-antiaging-sunscreen",
       "name": "광노화 · SPF 케어",
-      "safe": 26,
-      "withEvidence": 15,
+      "safe": 36,
+      "withEvidence": 22,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 2,
       "brands": [
         "COSRX",
+        "Abib",
+        "Abib",
         "Beauty of Joseon",
-        "Axis-Y",
-        "COSRX",
-        "SKIN1004"
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-dryness-hydrating-sunscreen",
       "name": "건조 피부 · 보습 선크림",
-      "safe": 26,
-      "withEvidence": 25,
+      "safe": 36,
+      "withEvidence": 35,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "COSRX",
-        "Klairs",
-        "Axis-Y",
-        "Haruharu Wonder"
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-uv-mist-spf",
       "name": "야외 · 선 미스트",
-      "safe": 26,
-      "withEvidence": 14,
+      "safe": 36,
+      "withEvidence": 21,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 2,
@@ -340,177 +340,177 @@
         "SKIN1004",
         "COSRX",
         "COSRX",
-        "Beauty of Joseon"
+        "Abib"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-firmness-serum",
       "name": "탄력 · 안티에이징 세럼",
-      "safe": 26,
-      "withEvidence": 25,
+      "safe": 36,
+      "withEvidence": 35,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 2,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "Axis-Y",
-        "COSRX",
-        "SKIN1004",
-        "Klairs"
+        "COSRX"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-firmness-ampoule",
       "name": "주름·탄력 · 앰플",
-      "safe": 26,
-      "withEvidence": 20,
+      "safe": 36,
+      "withEvidence": 30,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "COSRX",
-        "Beauty of Joseon",
-        "Klairs",
-        "Laneige"
+        "Beauty of Joseon"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-eye-cream",
       "name": "눈가 · 아이크림",
-      "safe": 26,
-      "withEvidence": 20,
+      "safe": 36,
+      "withEvidence": 30,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "COSRX",
-        "Klairs",
-        "Laneige",
-        "Axis-Y"
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-neck-cream",
       "name": "목주름 · 크림",
-      "safe": 26,
-      "withEvidence": 20,
+      "safe": 36,
+      "withEvidence": 30,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "COSRX",
-        "Beauty of Joseon",
-        "Klairs",
-        "Laneige"
+        "Beauty of Joseon"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-essence",
       "name": "노화방지 · 에센스",
-      "safe": 26,
-      "withEvidence": 25,
+      "safe": 36,
+      "withEvidence": 35,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 2,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "Beauty of Joseon",
-        "Axis-Y",
-        "COSRX",
-        "SKIN1004"
+        "Axis-Y"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-eye-wrinkle-cream",
       "name": "눈가 주름 · 아이크림",
-      "safe": 26,
-      "withEvidence": 23,
+      "safe": 36,
+      "withEvidence": 33,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "COSRX",
-        "Klairs",
-        "Axis-Y",
-        "Beauty of Joseon"
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-eye-dark-circle-serum",
       "name": "다크서클 · 아이 세럼",
-      "safe": 26,
-      "withEvidence": 15,
+      "safe": 36,
+      "withEvidence": 22,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 2,
       "brands": [
         "COSRX",
+        "Abib",
+        "Abib",
         "Beauty of Joseon",
-        "COSRX",
-        "Beauty of Joseon",
-        "Haruharu Wonder"
+        "COSRX"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-neck-firming-cream",
       "name": "목 · 탄력 크림",
-      "safe": 26,
-      "withEvidence": 20,
+      "safe": 36,
+      "withEvidence": 30,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "COSRX",
-        "Beauty of Joseon",
-        "Klairs",
-        "Laneige"
+        "Beauty of Joseon"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-neck-serum",
       "name": "목주름 · 세럼",
-      "safe": 26,
-      "withEvidence": 20,
+      "safe": 36,
+      "withEvidence": 30,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "COSRX",
-        "Beauty of Joseon",
-        "Klairs",
-        "Laneige"
+        "Beauty of Joseon"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-eye-neck-multi-cream",
       "name": "눈가·목 · 멀티 크림",
-      "safe": 26,
-      "withEvidence": 23,
+      "safe": 36,
+      "withEvidence": 33,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 1,
+      "krBuyableCount": 3,
       "brands": [
+        "Abib",
+        "Abib",
         "COSRX",
         "COSRX",
-        "Klairs",
-        "Axis-Y",
-        "Beauty of Joseon"
+        "Klairs"
       ],
       "short": false
     }
