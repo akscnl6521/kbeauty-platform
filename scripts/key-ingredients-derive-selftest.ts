@@ -77,4 +77,43 @@ import { deriveKeyIngredientsFromFullList } from "../src/lib/catalog/keyIngredie
   assert.deepEqual(derived, ["Glycerin", "Panthenol", "Niacinamide"]);
 }
 
+
+
+// ── 한글 전성분에서도 주요 성분을 뽑는다 (2026-08-05 국내몰 등록) ──
+{
+  // 영문 키만 있으면 한 개도 못 뽑고, 그러면 안전 필터가 추천 자격을 안 준다.
+  const ko = deriveKeyIngredientsFromFullList([
+    "정제수",
+    "글리세린",
+    "부틸렌글라이콜",
+    "나이아신아마이드",
+    "판테놀",
+    "알란토인",
+    "병풀추출물",
+    "소듐하이알루로네이트",
+    "아데노신",
+    "토코페롤",
+  ]);
+  assert.ok(ko.length >= 5, `한글 목록에서 주요 성분을 뽑아야 한다: ${JSON.stringify(ko)}`);
+  // 반환값은 사전 표시명이 아니라 **전성분에 적힌 원문 토큰**이어야 한다.
+  assert.ok(ko.includes("나이아신아마이드"), "원문 한글 토큰을 그대로 돌려줘야 한다");
+  assert.ok(ko.includes("병풀추출물"));
+  assert.ok(!ko.includes("Niacinamide"), "제품이 선언하지 않은 이름이 들어가면 안 된다");
+}
+
+// ── 영문 목록은 그대로 동작한다 (한글 추가로 깨지지 않았는지) ──
+{
+  const en = deriveKeyIngredientsFromFullList([
+    "Water",
+    "Glycerin",
+    "Niacinamide",
+    "Panthenol",
+    "Centella Asiatica Extract",
+    "Sodium Hyaluronate",
+  ]);
+  assert.ok(en.includes("Niacinamide"));
+  assert.ok(en.includes("Centella Asiatica Extract"));
+  assert.ok(!en.includes("나이아신아마이드"));
+}
+
 console.log("key-ingredients-derive self-test: ok");

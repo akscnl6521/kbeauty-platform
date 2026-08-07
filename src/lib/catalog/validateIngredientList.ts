@@ -1,4 +1,4 @@
-import { stripIngredientNoticeTail } from "@/lib/recommend/normalizeIngredient";
+import { splitBracketVariantSegments, stripIngredientNoticeTail } from "@/lib/recommend/normalizeIngredient";
 
 /**
  * 전성분 문자열이 **실제 INCI 목록인지** 판정한다.
@@ -174,6 +174,7 @@ export function splitIngredientTokens(text: string): string[] {
   // `Niacinamide, 1,2-Hexanediol` 이 한 토큰으로 붙었다.
   return String(text ?? "")
     .split(/(?<!\d),|,(?!\d)/)
+    .flatMap((t) => splitBracketVariantSegments(t))
     .flatMap((t) => splitScriptBoundary(t))
     .map((t) => stripIngredientNoticeTail(t))
     .map((t) => t.trim())

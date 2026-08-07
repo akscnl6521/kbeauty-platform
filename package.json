@@ -234,7 +234,8 @@
     "apply:product-category-fill": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/fill-product-category.ts",
     "check:allergen-expansion-dryrun": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/dryrun-allergen-full-ingredients.ts",
     "check:recommendation-scenarios": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/verify-recommendation-scenarios.ts",
-    "apply:key-ingredients-backfill": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/backfill-key-ingredients.ts"
+    "apply:key-ingredients-backfill": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/backfill-key-ingredients.ts",
+    "build:mfds-ko-synonyms": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/build-mfds-korean-synonyms.ts"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.32",

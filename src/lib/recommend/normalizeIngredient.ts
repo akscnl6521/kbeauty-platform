@@ -45,7 +45,15 @@ const KO_NOTICE_MARKERS: ReadonlyArray<RegExp> = [
   /해당\s*사항\s*없음/,
   /사용할\s*때의/,
   /사용\s*시\s*주의/,
+  /사용\s*시의/,
   /주의\s*사항/,
+  // 기능성 표시·법령 인용 — 성분표 뒤에 붙는다 (2026-08-07 국내몰 실측)
+  /화장품법/,
+  /주름\s*개선/,
+  /미백\s*기능/,
+  /자외선\s*차단\s*제품/,
+  /해당\s*없음/,
+  /심사\s*결과/,
   /제조\s*번호/,
   /사용\s*기한/,
   /개봉\s*후/,
@@ -62,6 +70,21 @@ const KO_NOTICE_MARKERS: ReadonlyArray<RegExp> = [
  */
 const VARIANT_MARKER = /[([]\s*\d+\s*번\s*[)\]]/g;
 
+/**
+ * 제형·호수 이름이 **대괄호 라벨**로 붙는 경우 — `[블루드롭] 정제수, …` ·
+ * `[카밍 크림] 정제수, …`. 한 페이지에 여러 제품의 전성분을 나란히 싣는 형태다.
+ *
+ * `(N번)` 과 같은 이유로 **끊지 않고 쪼갠다** — 뒤쪽 목록을 버리면 그쪽 알레르겐이 사라진다.
+ */
+const BRACKET_LABEL = /\[[^\]]{1,20}\]/g;
+
+/** 제형 라벨(`(1번)`·`[블루드롭]`)에서 쪼갠다 — 끊지 않는다. */
+export function splitBracketVariantSegments(text: string): string[] {
+  return String(text ?? "")
+    .split(VARIANT_MARKER)
+    .flatMap((x) => x.split(BRACKET_LABEL));
+}
+
 /** 안내 문구가 시작되는 지점에서 자른다. 없으면 원문 그대로. */
 export function stripIngredientNoticeTail(token: string): string {
   let cut = token.length;
@@ -69,7 +92,11 @@ export function stripIngredientNoticeTail(token: string): string {
     const m = token.match(re);
     if (m?.index != null && m.index < cut) cut = m.index;
   }
-  return token.slice(0, cut).trim();
+  // 잘라낸 자리에 여는 괄호만 남는 일이 있다 — `아데노신 ｢화장품법｣…` → `아데노신 ｢`.
+  return token
+    .slice(0, cut)
+    .replace(/[\s([{<「『｢]+$/u, "")
+    .trim();
 }
 
 function pushToken(out: string[], seen: Set<string>, token: string) {
@@ -136,7 +163,7 @@ function flattenUnknownTokens(
 
     // 호수별 목록이 이어 붙은 것을 먼저 가른다 — `향료 (5번) 정제수`.
     // 여기서 끊지 않고 **쪼갠다**. 끊으면 뒤쪽 호수 성분이 통째로 사라진다.
-    const segments = trimmed.split(VARIANT_MARKER);
+    const segments = splitBracketVariantSegments(trimmed);
     if (segments.length > 1) {
       for (const seg of segments) flattenUnknownTokens(seg, out, seen, depth + 1);
       return;

@@ -4,6 +4,16 @@
  * Never invent ingredient names that are not in the declared list.
  */
 
+/**
+ * 기능성 성분 사전.
+ *
+ * **한글 표기를 함께 둔다** — 국내몰에서 등록한 제품은 전성분이 한글이라, 영문 키만
+ * 있으면 주요 성분을 하나도 못 뽑는다. 그러면 안전 필터가 `incomplete_info` 로
+ * 추천 자격 자체를 주지 않는다 (2026-08-05: 국내 등록 후보 15건이 이 때문에 빠졌다).
+ *
+ * 한글 표기는 **지어내지 않았다.** 전부 우리 성분 사전(`ingredients.name_ko`,
+ * 식약처 «화장품 원료성분정보» 출처)에서 조회해 확인한 값이다.
+ */
 const KEY_ACTIVE_DICTIONARY: Array<{
   /** Normalized match keys (lowercase, spaces). */
   keys: string[];
@@ -20,28 +30,28 @@ const KEY_ACTIVE_DICTIONARY: Array<{
   >;
   confidence: number;
 }> = [
-  { keys: ["niacinamide"], displayName: "Niacinamide", roles: ["active", "brightening"], confidence: 0.95 },
-  { keys: ["glycerin", "glycerol"], displayName: "Glycerin", roles: ["moisturizing"], confidence: 0.9 },
-  { keys: ["hyaluronic acid", "sodium hyaluronate", "hydrolyzed hyaluronic acid"], displayName: "Hyaluronic Acid / Sodium Hyaluronate", roles: ["moisturizing"], confidence: 0.95 },
-  { keys: ["panthenol", "d panthenol", "dexpanthenol"], displayName: "Panthenol", roles: ["soothing", "moisturizing"], confidence: 0.92 },
-  { keys: ["ceramide np", "ceramide ap", "ceramide eop", "ceramide ns", "ceramides"], displayName: "Ceramide", roles: ["barrier"], confidence: 0.95 },
-  { keys: ["cholesterol"], displayName: "Cholesterol", roles: ["barrier"], confidence: 0.85 },
-  { keys: ["centella asiatica", "centella asiatica extract", "madecassoside", "asiaticoside", "asiatic acid", "madecassic acid"], displayName: "Centella / Madecassoside", roles: ["soothing"], confidence: 0.93 },
-  { keys: ["allantoin"], displayName: "Allantoin", roles: ["soothing"], confidence: 0.88 },
-  { keys: ["tranexamic acid"], displayName: "Tranexamic Acid", roles: ["brightening", "active"], confidence: 0.95 },
-  { keys: ["ascorbic acid", "sodium ascorbyl phosphate", "3 o ethyl ascorbic acid", "ascorbyl glucoside", "ascorbyl tetraisopalmitate"], displayName: "Vitamin C derivative", roles: ["antioxidant", "brightening"], confidence: 0.92 },
-  { keys: ["tocopherol", "tocopheryl acetate"], displayName: "Tocopherol", roles: ["antioxidant"], confidence: 0.88 },
-  { keys: ["retinol", "retinal", "retinaldehyde", "retinyl palmitate"], displayName: "Retinoid", roles: ["active"], confidence: 0.95 },
-  { keys: ["salicylic acid", "betaine salicylate"], displayName: "Salicylic Acid / Betaine Salicylate", roles: ["exfoliating", "active"], confidence: 0.93 },
-  { keys: ["glycolic acid", "lactic acid", "mandelic acid", "pha", "gluconolactone"], displayName: "AHA / PHA", roles: ["exfoliating"], confidence: 0.9 },
-  { keys: ["azelaic acid", "potassium azeloyl diglycinate"], displayName: "Azelaic Acid", roles: ["active", "brightening"], confidence: 0.92 },
-  { keys: ["snail secretion filtrate"], displayName: "Snail Secretion Filtrate", roles: ["moisturizing", "soothing"], confidence: 0.9 },
-  { keys: ["beta glucan", "beta-glucan"], displayName: "Beta-Glucan", roles: ["soothing", "moisturizing"], confidence: 0.9 },
-  { keys: ["squalane"], displayName: "Squalane", roles: ["moisturizing", "barrier"], confidence: 0.88 },
-  { keys: ["zinc pca", "zinc oxide"], displayName: "Zinc compound", roles: ["soothing"], confidence: 0.85 },
-  { keys: ["adenosine"], displayName: "Adenosine", roles: ["active"], confidence: 0.9 },
-  { keys: ["peptide", "copper tripeptide", "palmitoyl pentapeptide", "acetyl hexapeptide"], displayName: "Peptide", roles: ["active"], confidence: 0.8 },
-  { keys: ["green tea extract", "camellia sinensis leaf extract"], displayName: "Green Tea Extract", roles: ["antioxidant", "soothing"], confidence: 0.85 },
+  { keys: ["niacinamide", "나이아신아마이드"], displayName: "Niacinamide", roles: ["active", "brightening"], confidence: 0.95 },
+  { keys: ["glycerin", "glycerol", "글리세린"], displayName: "Glycerin", roles: ["moisturizing"], confidence: 0.9 },
+  { keys: ["hyaluronic acid", "sodium hyaluronate", "hydrolyzed hyaluronic acid", "히알루론산", "소듐하이알루로네이트", "하이드롤라이즈드하이알루로닉애씨드", "하이알루로닉애씨드"], displayName: "Hyaluronic Acid / Sodium Hyaluronate", roles: ["moisturizing"], confidence: 0.95 },
+  { keys: ["panthenol", "d panthenol", "dexpanthenol", "판테놀", "덱스판테놀"], displayName: "Panthenol", roles: ["soothing", "moisturizing"], confidence: 0.92 },
+  { keys: ["ceramide np", "ceramide ap", "ceramide eop", "ceramide ns", "ceramides", "세라마이드엔피", "세라마이드에이피", "세라마이드이오피", "세라마이드엔에스"], displayName: "Ceramide", roles: ["barrier"], confidence: 0.95 },
+  { keys: ["cholesterol", "콜레스테롤"], displayName: "Cholesterol", roles: ["barrier"], confidence: 0.85 },
+  { keys: ["centella asiatica", "centella asiatica extract", "madecassoside", "asiaticoside", "asiatic acid", "madecassic acid", "병풀추출물", "마데카소사이드", "아시아티코사이드", "아시아틱애씨드", "마데카식애씨드"], displayName: "Centella / Madecassoside", roles: ["soothing"], confidence: 0.93 },
+  { keys: ["allantoin", "알란토인"], displayName: "Allantoin", roles: ["soothing"], confidence: 0.88 },
+  { keys: ["tranexamic acid", "트라넥사믹애씨드"], displayName: "Tranexamic Acid", roles: ["brightening", "active"], confidence: 0.95 },
+  { keys: ["ascorbic acid", "sodium ascorbyl phosphate", "3 o ethyl ascorbic acid", "ascorbyl glucoside", "ascorbyl tetraisopalmitate", "아스코빅애씨드", "소듐아스코빌포스페이트", "아스코빌글루코사이드", "아스코빌테트라이소팔미테이트"], displayName: "Vitamin C derivative", roles: ["antioxidant", "brightening"], confidence: 0.92 },
+  { keys: ["tocopherol", "tocopheryl acetate", "토코페롤", "토코페릴아세테이트"], displayName: "Tocopherol", roles: ["antioxidant"], confidence: 0.88 },
+  { keys: ["retinol", "retinal", "retinaldehyde", "retinyl palmitate", "레티놀", "레틴알"], displayName: "Retinoid", roles: ["active"], confidence: 0.95 },
+  { keys: ["salicylic acid", "betaine salicylate", "살리실산", "베타인살리실레이트"], displayName: "Salicylic Acid / Betaine Salicylate", roles: ["exfoliating", "active"], confidence: 0.93 },
+  { keys: ["glycolic acid", "lactic acid", "mandelic acid", "pha", "gluconolactone", "글라이콜릭애씨드", "락틱애씨드", "만델릭애씨드", "글루코노락톤"], displayName: "AHA / PHA", roles: ["exfoliating"], confidence: 0.9 },
+  { keys: ["azelaic acid", "potassium azeloyl diglycinate", "아젤라익애씨드"], displayName: "Azelaic Acid", roles: ["active", "brightening"], confidence: 0.92 },
+  { keys: ["snail secretion filtrate", "달팽이 분비물 여과물", "달팽이분비물여과물"], displayName: "Snail Secretion Filtrate", roles: ["moisturizing", "soothing"], confidence: 0.9 },
+  { keys: ["beta glucan", "beta-glucan", "베타글루칸"], displayName: "Beta-Glucan", roles: ["soothing", "moisturizing"], confidence: 0.9 },
+  { keys: ["squalane", "스쿠알란"], displayName: "Squalane", roles: ["moisturizing", "barrier"], confidence: 0.88 },
+  { keys: ["zinc pca", "zinc oxide", "징크피씨에이", "징크옥사이드"], displayName: "Zinc compound", roles: ["soothing"], confidence: 0.85 },
+  { keys: ["adenosine", "아데노신"], displayName: "Adenosine", roles: ["active"], confidence: 0.9 },
+  { keys: ["peptide", "copper tripeptide", "palmitoyl pentapeptide", "acetyl hexapeptide", "펩타이드"], displayName: "Peptide", roles: ["active"], confidence: 0.8 },
+  { keys: ["green tea extract", "camellia sinensis leaf extract", "녹차추출물", "녹차 추출물", "녹차수"], displayName: "Green Tea Extract", roles: ["antioxidant", "soothing"], confidence: 0.85 },
 ];
 
 export type KeyIngredientHit = {

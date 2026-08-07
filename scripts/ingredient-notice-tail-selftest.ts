@@ -16,6 +16,7 @@ import {
   stripIngredientNoticeTail,
   toCanonical,
 } from "../src/lib/recommend/normalizeIngredient";
+import { splitIngredientTokens } from "../src/lib/catalog/validateIngredientList";
 import { matchAllergenByCanonical } from "../src/lib/recommend/allergenMatch";
 
 // ── 안내 문구는 잘라낸다 (실측) ──
@@ -157,4 +158,19 @@ assert.deepEqual(coerceIngredientListUnknown(null), []);
   ]);
 }
 
-console.log("ingredient-notice-tail self-test: ok");
+
+  // 2026-08-07 국내몰 실측 — 기능성 표시·법령 인용·제형 라벨이 성분표에 섞여 온다.
+  {
+    const t = splitIngredientTokens("정제수, 주름개선, 아데노신 ｢화장품법｣에 따른, [블루드롭] 정제수, 1,2-헥산다이올");
+    assert.deepEqual(t, ["정제수", "아데노신", "정제수", "1,2-헥산다이올"]);
+  }
+  // 잘라낸 자리에 여는 괄호만 남으면 안 된다.
+  assert.equal(stripIngredientNoticeTail("아데노신 ｢화장품법｣에 따른"), "아데노신");
+  assert.equal(stripIngredientNoticeTail("에틸헥산다이올 사용 시의"), "에틸헥산다이올");
+  assert.equal(stripIngredientNoticeTail("자외선 차단제품 등) 의 경우 주름개선"), "");
+  // 정상 성분명은 절대 건드리지 않는다 — 과잉 절단이 더 위험하다.
+  for (const keep of ["글리세린", "부틸렌글라이콜", "1,2-헥산다이올", "Butylene Glycol"]) {
+    assert.equal(stripIngredientNoticeTail(keep), keep);
+  }
+
+  console.log("ingredient-notice-tail self-test: ok");
