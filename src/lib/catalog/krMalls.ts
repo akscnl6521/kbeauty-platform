@@ -19,7 +19,16 @@ export const KR_MALLS: readonly KrMall[] = [
   { brands: ["Round Lab", "ROUND LAB"], domain: "roundlab.co.kr" },
   { brands: ["Klairs"], domain: "klairs.co.kr" },
   { brands: ["Abib", "Abib Cosmetic"], domain: "abib.co.kr" },
-  // 2026-08-07 `npm run probe:kr-malls` 통과 — 제품 221건 · 가격 6/6 · 재고 표기 있음.
+  // 2026-08-07 `npm run probe:kr-malls` 통과 — 제품 221건 · 가격 220건 · 재고 71건.
+  //
+  // **다만 등록되는 제품은 지금 0건이다.** 이 몰은 전성분을 상세 «이미지» 로만
+  // 싣는다 — 페이지 텍스트에 `정제수` 조차 없다. 글로벌 스토어
+  // (`pyunkangyulglobal.com`, Shopify 121건) 에도 전성분이 없다.
+  // 활성화 게이트가 요구하는 «공식 전성분 텍스트» 를 어디서도 못 얻는다.
+  // OCR 로 읽어 채우지 않는다 — 알레르겐 판정에 쓸 만큼 믿을 수 없다.
+  //
+  // 그래도 남겨 둔다. 오퍼(가격·재고)는 정상이고, 전성분을 텍스트로 내기
+  // 시작하면 그날 바로 잡힌다. 지우면 이 확인을 처음부터 다시 하게 된다.
   { brands: ["Pyunkang Yul", "PYUNKANG YUL", "편강율"], domain: "pyunkangyul.com" },
 ];
 
