@@ -19,7 +19,28 @@ export const KR_MALLS: readonly KrMall[] = [
   { brands: ["Round Lab", "ROUND LAB"], domain: "roundlab.co.kr" },
   { brands: ["Klairs"], domain: "klairs.co.kr" },
   { brands: ["Abib", "Abib Cosmetic"], domain: "abib.co.kr" },
+  // 2026-08-07 `npm run probe:kr-malls` 통과 — 제품 221건 · 가격 6/6 · 재고 표기 있음.
+  { brands: ["Pyunkang Yul", "PYUNKANG YUL", "편강율"], domain: "pyunkangyul.com" },
 ];
+
+/**
+ * 확인해 봤지만 **쓰지 않기로 한** 도메인. 다시 후보로 올리는 수고를 줄이려고 남긴다.
+ *
+ *   numbuzin.com   가격은 정상인데 `availability` 를 안 준다 — 재고를 추측하지 않는다
+ *   dalba.co.kr    제품 281건이나 JSON-LD 에 가격이 없다
+ *   torriden.com   제품 URL 5건뿐이고 JSON-LD 가격 없음
+ *   www.laneige.com  JSON-LD 가격이 전부 `100` (자리표시)
+ *   anua / skin1004 / goodal / isntree / manyo / mixsoon / beautyofjoseon / haruharuwonder
+ *                  사이트맵을 못 찾음 (도메인이 다르거나 사이트맵을 안 낸다)
+ *
+ * 판정 근거는 `artifacts/kr-malls/probe.json`.
+ */
+export const KR_MALLS_REJECTED = [
+  "numbuzin.com",
+  "dalba.co.kr",
+  "torriden.com",
+  "www.laneige.com",
+] as const;
 
 /** 브랜드 표기로 국내몰을 찾는다. 대소문자·공백만 다른 표기도 같게 본다. */
 export function findKrMall(brand: string | null | undefined): string | null {

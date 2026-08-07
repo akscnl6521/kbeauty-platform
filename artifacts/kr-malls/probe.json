@@ -1,0 +1,215 @@
+{
+  "probedAt": "2026-08-07T14:04:32.786Z",
+  "results": [
+    {
+      "domain": "www.anua.co.kr",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "anua.co.kr",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "torriden.com",
+      "sitemap": "/sitemap.xml",
+      "productUrls": 5,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "제품 5건이나 JSON-LD 가격이 없음 (6건 표본)"
+    },
+    {
+      "domain": "www.torriden.com",
+      "sitemap": "/sitemap.xml",
+      "productUrls": 5,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "제품 5건이나 JSON-LD 가격이 없음 (6건 표본)"
+    },
+    {
+      "domain": "skin1004.com",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "www.skin1004.com",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "numbuzin.com",
+      "sitemap": "/sitemap.xml",
+      "productUrls": 27,
+      "priced": 6,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": true,
+      "note": "가격은 정상이나 재고(availability)를 안 줌 — 재고를 추측하면 안 되므로 반쪽"
+    },
+    {
+      "domain": "www.numbuzin.com",
+      "sitemap": "/sitemap.xml",
+      "productUrls": 27,
+      "priced": 6,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": true,
+      "note": "가격은 정상이나 재고(availability)를 안 줌 — 재고를 추측하면 안 되므로 반쪽"
+    },
+    {
+      "domain": "beautyofjoseon.com",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "haruharuwonder.com",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "goodal.co.kr",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "www.goodal.co.kr",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "isntree.com",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "www.isntree.com",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "pyunkangyul.com",
+      "sitemap": "/sitemap.xml",
+      "productUrls": 221,
+      "priced": 6,
+      "inStock": 2,
+      "placeholderPrices": false,
+      "usable": true,
+      "note": "사용 가능"
+    },
+    {
+      "domain": "www.pyunkangyul.com",
+      "sitemap": "/sitemap.xml",
+      "productUrls": 221,
+      "priced": 6,
+      "inStock": 2,
+      "placeholderPrices": false,
+      "usable": true,
+      "note": "사용 가능"
+    },
+    {
+      "domain": "mixsoon.com",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "dalba.co.kr",
+      "sitemap": "/sitemap.xml",
+      "productUrls": 281,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "제품 281건이나 JSON-LD 가격이 없음 (6건 표본)"
+    },
+    {
+      "domain": "www.dalba.co.kr",
+      "sitemap": "/sitemap.xml",
+      "productUrls": 281,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "제품 281건이나 JSON-LD 가격이 없음 (6건 표본)"
+    },
+    {
+      "domain": "manyo.co.kr",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "www.manyo.co.kr",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    }
+  ]
+}
