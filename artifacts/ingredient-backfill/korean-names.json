@@ -1,0 +1,925 @@
+{
+  "builtAt": "2026-08-05T12:30:11.711Z",
+  "plan": [
+    {
+      "id": 41,
+      "en": "Water",
+      "ko": "탄산수"
+    },
+    {
+      "id": 42,
+      "en": "Cocamidopropyl Betaine",
+      "ko": "코카미도프로필베타인"
+    },
+    {
+      "id": 43,
+      "en": "Sodium Lauroyl Methyl Isethionate",
+      "ko": "소듐라우로일메틸이세티오네이트"
+    },
+    {
+      "id": 44,
+      "en": "Sodium Chloride",
+      "ko": "소듐클로라이드"
+    },
+    {
+      "id": 45,
+      "en": "Polysorbate 20",
+      "ko": "폴리솔베이트20"
+    },
+    {
+      "id": 49,
+      "en": "Butylene Glycol",
+      "ko": "부틸렌글라이콜"
+    },
+    {
+      "id": 50,
+      "en": "Saccharomyces Ferment",
+      "ko": "효모발효물"
+    },
+    {
+      "id": 51,
+      "en": "Cryptomeria Japonica Leaf Extract",
+      "ko": "삼나무잎추출물"
+    },
+    {
+      "id": 52,
+      "en": "Nelumbo Nucifera Leaf Extract",
+      "ko": "연꽃잎추출물"
+    },
+    {
+      "id": 53,
+      "en": "Pinus Palustris Leaf Extract",
+      "ko": "대왕소나무잎추출물"
+    },
+    {
+      "id": 54,
+      "en": "Ulmus Davidiana Root Extract",
+      "ko": "당느릅나무뿌리추출물"
+    },
+    {
+      "id": 55,
+      "en": "Oenothera Biennis (Evening Primrose) Flower Extract",
+      "ko": "달맞이꽃꽃추출물"
+    },
+    {
+      "id": 57,
+      "en": "Melaleuca Alternifolia (Tea Tree) Leaf Oil",
+      "ko": "티트리잎오일"
+    },
+    {
+      "id": 59,
+      "en": "Caprylyl Glycol",
+      "ko": "카프릴릴글라이콜"
+    },
+    {
+      "id": 60,
+      "en": "Ethylhexylglycerin",
+      "ko": "에틸헥실글리세린"
+    },
+    {
+      "id": 61,
+      "en": "Betaine Salicylate",
+      "ko": "베타인살리실레이트"
+    },
+    {
+      "id": 62,
+      "en": "Citric Acid",
+      "ko": "시트릭애씨드"
+    },
+    {
+      "id": 63,
+      "en": "Ethyl Hexanediol",
+      "ko": "에틸헥산다이올"
+    },
+    {
+      "id": 65,
+      "en": "Trisodium Ethylenediamine Disuccinate",
+      "ko": "트라이소듐에틸렌다이아민다이석시네이트"
+    },
+    {
+      "id": 66,
+      "en": "Sodium Benzoate",
+      "ko": "소듐벤조에이트"
+    },
+    {
+      "id": 67,
+      "en": "Disodium EDTA",
+      "ko": "다이소듐이디티에이"
+    },
+    {
+      "id": 69,
+      "en": "Salix Alba (Willow) Bark Water",
+      "ko": "흰버드나무껍질수"
+    },
+    {
+      "id": 70,
+      "en": "Pyrus Malus (Apple) Fruit Water",
+      "ko": "사과수"
+    },
+    {
+      "id": 73,
+      "en": "Sodium Lactate",
+      "ko": "소듐락테이트"
+    },
+    {
+      "id": 74,
+      "en": "Glycolic Acid",
+      "ko": "글라이콜릭애씨드"
+    },
+    {
+      "id": 79,
+      "en": "Glycerin",
+      "ko": "글리세린"
+    },
+    {
+      "id": 81,
+      "en": "Pentylene Glycol",
+      "ko": "펜틸렌글라이콜"
+    },
+    {
+      "id": 82,
+      "en": "Sodium hyaluronate Crosspolymer",
+      "ko": "소듐하이알루로네이트크로스폴리머"
+    },
+    {
+      "id": 83,
+      "en": "Hydrolyzed Hyaluronic Acid",
+      "ko": "하이드롤라이즈드하이알루로닉애씨드"
+    },
+    {
+      "id": 86,
+      "en": "Hydrolyzed Sodium Hyaluronate",
+      "ko": "하이드롤라이즈드소듐하이알루로네이트"
+    },
+    {
+      "id": 87,
+      "en": "Niacinamide( )",
+      "ko": "나이아신아마이드"
+    },
+    {
+      "id": 88,
+      "en": "Acetyl Glucosamine",
+      "ko": "아세틸글루코사민"
+    },
+    {
+      "id": 89,
+      "en": "Zinc PCA",
+      "ko": "징크피씨에이"
+    },
+    {
+      "id": 90,
+      "en": "Trehalose",
+      "ko": "트레할로오스"
+    },
+    {
+      "id": 91,
+      "en": "Xanthan Gum",
+      "ko": "잔탄검"
+    },
+    {
+      "id": 92,
+      "en": "Pullulan",
+      "ko": "풀루란"
+    },
+    {
+      "id": 93,
+      "en": "Sodium Phytate",
+      "ko": "소듐파이테이트"
+    },
+    {
+      "id": 95,
+      "en": "Tocopherol",
+      "ko": "토코페롤"
+    },
+    {
+      "id": 96,
+      "en": "Dipropylene Glycol",
+      "ko": "다이프로필렌글라이콜"
+    },
+    {
+      "id": 98,
+      "en": "Acetyl Hexapeptide-8",
+      "ko": "아세틸헥사펩타이드-8"
+    },
+    {
+      "id": 99,
+      "en": "Copper Tripeptide-1",
+      "ko": "카퍼트라이펩타이드-1"
+    },
+    {
+      "id": 100,
+      "en": "sh-Polypeptide-121",
+      "ko": "에스에이치-폴리펩타이드-121"
+    },
+    {
+      "id": 101,
+      "en": "Dipeptide Diaminobutyroyl Benzylamide Diacetate",
+      "ko": "다이펩타이드다이아미노부티로일벤질아마이드다이아세테이트"
+    },
+    {
+      "id": 102,
+      "en": "Oligopeptide-68",
+      "ko": "올리고펩타이드-68"
+    },
+    {
+      "id": 103,
+      "en": "Palmitoyl Tripeptide-8",
+      "ko": "팔미토일트라이펩타이드-8"
+    },
+    {
+      "id": 104,
+      "en": "Serine",
+      "ko": "세린"
+    },
+    {
+      "id": 105,
+      "en": "Alanine",
+      "ko": "알라닌"
+    },
+    {
+      "id": 106,
+      "en": "Glycine",
+      "ko": "글라이신"
+    },
+    {
+      "id": 107,
+      "en": "Threonine",
+      "ko": "트레오닌"
+    },
+    {
+      "id": 108,
+      "en": "Arginine",
+      "ko": "알지닌"
+    },
+    {
+      "id": 109,
+      "en": "Proline",
+      "ko": "프롤린"
+    },
+    {
+      "id": 110,
+      "en": "Betaine",
+      "ko": "베타인"
+    },
+    {
+      "id": 111,
+      "en": "Sodium PCA",
+      "ko": "소듐피씨에이"
+    },
+    {
+      "id": 112,
+      "en": "PCA",
+      "ko": "피씨에이"
+    },
+    {
+      "id": 113,
+      "en": "Glutamic Acid",
+      "ko": "글루타믹애씨드"
+    },
+    {
+      "id": 114,
+      "en": "Lysine HCl",
+      "ko": "라이신에이치씨엘"
+    },
+    {
+      "id": 115,
+      "en": "Dextran",
+      "ko": "덱스트란"
+    },
+    {
+      "id": 116,
+      "en": "Glycine Soja (Soybean) Oil",
+      "ko": "돌콩오일"
+    },
+    {
+      "id": 117,
+      "en": "Hydrogenated Lecithin",
+      "ko": "하이드로제네이티드레시틴"
+    },
+    {
+      "id": 120,
+      "en": "Polyacrylate Crosspolymer-6",
+      "ko": "폴리아크릴레이트크로스폴리머-6"
+    },
+    {
+      "id": 121,
+      "en": "Adenosine",
+      "ko": "아데노신"
+    },
+    {
+      "id": 122,
+      "en": "Polyquaternium-51",
+      "ko": "폴리쿼터늄-51"
+    },
+    {
+      "id": 125,
+      "en": "t-Butyl Alcohol",
+      "ko": "t-부틸알코올"
+    },
+    {
+      "id": 126,
+      "en": "Potassium Sorbate",
+      "ko": "포타슘솔베이트"
+    },
+    {
+      "id": 127,
+      "en": "Sodium Oleate",
+      "ko": "소듐올리에이트"
+    },
+    {
+      "id": 131,
+      "en": "Ascorbic Acid( )",
+      "ko": "아스코빅애씨드"
+    },
+    {
+      "id": 133,
+      "en": "3-O-Ethyl Ascorbic Acid",
+      "ko": "3-O-에틸아스코빅애씨드"
+    },
+    {
+      "id": 134,
+      "en": "Sodium Hydroxide",
+      "ko": "소듐하이드록사이드"
+    },
+    {
+      "id": 135,
+      "en": "Caffeine",
+      "ko": "카페인"
+    },
+    {
+      "id": 136,
+      "en": "Sodium Metaphosphate",
+      "ko": "소듐메타포스페이트"
+    },
+    {
+      "id": 139,
+      "en": "Tocotrienols",
+      "ko": "토코트라이엔올"
+    },
+    {
+      "id": 140,
+      "en": "Elaeis Guineensis (Palm) Oil",
+      "ko": "오일팜오일"
+    },
+    {
+      "id": 142,
+      "en": "Helianthus Annuus (Sunflower) Seed Oil",
+      "ko": "해바라기씨오일"
+    },
+    {
+      "id": 143,
+      "en": "Methyl Trimethicone",
+      "ko": "메틸트라이메티콘"
+    },
+    {
+      "id": 146,
+      "en": "Daucus Carota Sativa (Carrot) Root Extract",
+      "ko": "당근추출물"
+    },
+    {
+      "id": 151,
+      "en": "Cetearyl Olivate",
+      "ko": "세테아릴올리베이트"
+    },
+    {
+      "id": 152,
+      "en": "Sorbitan Olivate",
+      "ko": "솔비탄올리베이트"
+    },
+    {
+      "id": 158,
+      "en": "Tocopheryl Acetate",
+      "ko": "토코페릴아세테이트"
+    },
+    {
+      "id": 160,
+      "en": "Polyglyceryl-10 Stearate",
+      "ko": "폴리글리세릴-10스테아레이트"
+    },
+    {
+      "id": 168,
+      "en": "Oryza Sativa (Rice) Bran Wax",
+      "ko": "쌀겨왁스"
+    },
+    {
+      "id": 170,
+      "en": "Sorbitan Isostearate",
+      "ko": "솔비탄아이소스테아레이트"
+    },
+    {
+      "id": 173,
+      "en": "Limnanthes Alba (Meadowfoam) Seed Oil",
+      "ko": "메도우폼씨오일"
+    },
+    {
+      "id": 174,
+      "en": "Sodium Acetylated Hyaluronate",
+      "ko": "소듐아세틸레이티드하이알루로네이트"
+    },
+    {
+      "id": 178,
+      "en": "PEG-20 Glyceryl Triisostearate",
+      "ko": "피이지-20글리세릴트라이아이소스테아레이트"
+    },
+    {
+      "id": 179,
+      "en": "PEG-10 Isostearate",
+      "ko": "피이지-10아이소스테아레이트"
+    },
+    {
+      "id": 181,
+      "en": "Onsen-Sui",
+      "ko": "온천수"
+    },
+    {
+      "id": 182,
+      "en": "Lithospermum Erythrorhizon Root Extract",
+      "ko": "지치뿌리추출물"
+    },
+    {
+      "id": 185,
+      "en": "Bambusa Vulgaris Leaf/Stem Extract",
+      "ko": "밤부사 불가리스잎/줄기추출물"
+    },
+    {
+      "id": 186,
+      "en": "Aspalathus Linearis Extract",
+      "ko": "루이보스추출물"
+    },
+    {
+      "id": 187,
+      "en": "Angelica Archangelica Root Extract",
+      "ko": "안젤리카뿌리추출물"
+    },
+    {
+      "id": 188,
+      "en": "Malpighia Glabra (Acerola) Fruit Extract",
+      "ko": "아세로라추출물"
+    },
+    {
+      "id": 189,
+      "en": "Polydiethyleneglycol Adipate/IPDI Copolymer",
+      "ko": "폴리다이에틸렌글라이콜아디페이트/아이피디아이코폴리머"
+    },
+    {
+      "id": 190,
+      "en": "Acrylates/Ammonium Methacrylate Copolymer",
+      "ko": "아크릴레이트/암모늄메타크릴레이트코폴리머"
+    },
+    {
+      "id": 191,
+      "en": "Acrylates/Methoxy PEG-15 Methacrylate Copolymer",
+      "ko": "아크릴레이트/메톡시피이지-15메타크릴레이트코폴리머"
+    },
+    {
+      "id": 192,
+      "en": "Houttuynia Cordata Flower/Leaf/Stem Water",
+      "ko": "약모밀꽃/잎/줄기수"
+    },
+    {
+      "id": 193,
+      "en": "Isopentyldiol",
+      "ko": "아이소펜틸다이올"
+    },
+    {
+      "id": 196,
+      "en": "Arctium Lappa Root Extract",
+      "ko": "우엉뿌리추출물"
+    },
+    {
+      "id": 197,
+      "en": "Phellinus Linteus Extract",
+      "ko": "진흙버섯추출물"
+    },
+    {
+      "id": 199,
+      "en": "Chamomilla Recutita (Matricaria) Flower Extract",
+      "ko": "마트리카리아꽃추출물"
+    },
+    {
+      "id": 200,
+      "en": "Vitex Agnus-Castus Extract",
+      "ko": "체이스트트리추출물"
+    },
+    {
+      "id": 201,
+      "en": "Hydroxypropyltrimonium Hyaluronate",
+      "ko": "하이드록시프로필트라이모늄하이알루로네이트"
+    },
+    {
+      "id": 202,
+      "en": "Potassium Hyaluronate",
+      "ko": "포타슘하이알루로네이트"
+    },
+    {
+      "id": 203,
+      "en": "Propolis Extract",
+      "ko": "프로폴리스추출물"
+    },
+    {
+      "id": 205,
+      "en": "Sodium Polyacryloyldimethyl Taurate",
+      "ko": "소듐폴리아크릴로일다이메틸타우레이트"
+    },
+    {
+      "id": 214,
+      "en": "Lotus Corniculatus Seed Extract",
+      "ko": "서양벌노랑이씨추출물"
+    },
+    {
+      "id": 215,
+      "en": "Octanediol",
+      "ko": "옥탄다이올"
+    },
+    {
+      "id": 216,
+      "en": "Calophyllum Inophyllum Seed Oil",
+      "ko": "호동씨오일"
+    },
+    {
+      "id": 217,
+      "en": "Chondrus Crispus Extract",
+      "ko": "아이리쉬모스추출물"
+    },
+    {
+      "id": 218,
+      "en": "Saccharum Officinarum (Sugarcane) Extract",
+      "ko": "사탕수수추출물"
+    },
+    {
+      "id": 220,
+      "en": "Protease",
+      "ko": "프로테아제"
+    },
+    {
+      "id": 240,
+      "en": "Homosalate",
+      "ko": "호모살레이트"
+    },
+    {
+      "id": 242,
+      "en": "Octocrylene",
+      "ko": "옥토크릴렌"
+    },
+    {
+      "id": 244,
+      "en": "Ethylhexyl Methoxycrylene",
+      "ko": "에틸헥실메톡시크릴렌"
+    },
+    {
+      "id": 247,
+      "en": "Tripropylene Glycol",
+      "ko": "트라이프로필렌글라이콜"
+    },
+    {
+      "id": 248,
+      "en": "Xylitylglucoside",
+      "ko": "자일리틸글루코사이드"
+    },
+    {
+      "id": 250,
+      "en": "Xylose",
+      "ko": "자일로오스"
+    },
+    {
+      "id": 251,
+      "en": "Diphenylsiloxy Phenyl Trimethicone",
+      "ko": "다이페닐실록시페닐트라이메티콘"
+    },
+    {
+      "id": 252,
+      "en": "Lauryl Dimethicone",
+      "ko": "라우릴다이메티콘"
+    },
+    {
+      "id": 253,
+      "en": "Polymethylsilsesquioxane",
+      "ko": "폴리메틸실세스퀴옥세인"
+    },
+    {
+      "id": 254,
+      "en": "Trimethyl Pentaphenyl Trisiloxane",
+      "ko": "트라이메틸펜타페닐트라이실록세인"
+    },
+    {
+      "id": 255,
+      "en": "Poly C10-30 Alkyl Acrylate",
+      "ko": "폴리C10-30알킬아크릴레이트"
+    },
+    {
+      "id": 257,
+      "en": "Vinyl Dimethicone/Methicone Silsesquioxane Crosspolymer",
+      "ko": "비닐다이메티콘/메티콘실세스퀴옥세인크로스폴리머"
+    },
+    {
+      "id": 258,
+      "en": "Glyceryl Glucoside",
+      "ko": "글리세릴글루코사이드"
+    },
+    {
+      "id": 259,
+      "en": "Anhydroxylitol",
+      "ko": "안하이드로자일리톨"
+    },
+    {
+      "id": 261,
+      "en": "Cetyl Alcohol",
+      "ko": "세틸알코올"
+    },
+    {
+      "id": 348,
+      "en": "PENTAERYTHRITYL TETRAISOSTEARATE",
+      "ko": "펜타에리스리틸테트라아이소스테아레이트"
+    },
+    {
+      "id": 350,
+      "en": "BEHENYL ALCOHOL",
+      "ko": "베헤닐알코올"
+    },
+    {
+      "id": 351,
+      "en": "HYDROXYPROPYL BISPALMITAMIDE MEA",
+      "ko": "하이드록시프로필비스팔미타마이드엠이에이"
+    },
+    {
+      "id": 352,
+      "en": "MANNITOL",
+      "ko": "만니톨"
+    },
+    {
+      "id": 353,
+      "en": "C14-22 ALCOHOLS",
+      "ko": "C14-22알코올"
+    },
+    {
+      "id": 354,
+      "en": "HYDROXYPROPYL BISLAURAMIDE MEA",
+      "ko": "하이드록시프로필비스라우라마이드엠이에이"
+    },
+    {
+      "id": 355,
+      "en": "ARACHIDYL ALCOHOL",
+      "ko": "아라키딜알코올"
+    },
+    {
+      "id": 358,
+      "en": "C12-20 ALKYL GLUCOSIDE",
+      "ko": "C12-20알킬글루코사이드"
+    },
+    {
+      "id": 359,
+      "en": "ARACHIDYL GLUCOSIDE",
+      "ko": "아라키딜글루코사이드"
+    },
+    {
+      "id": 366,
+      "en": "SPHINGOLIPIDS",
+      "ko": "스핑고리피드"
+    },
+    {
+      "id": 368,
+      "en": "OLEIC ACID",
+      "ko": "올레익애씨드"
+    },
+    {
+      "id": 371,
+      "en": "Phenyl Trimethicone",
+      "ko": "페닐트라이메티콘"
+    },
+    {
+      "id": 372,
+      "en": "C12-16 Alcohols",
+      "ko": "C12-16알코올"
+    },
+    {
+      "id": 373,
+      "en": "Glyceryl Stearate SE",
+      "ko": "글리세릴스테아레이트에스이"
+    },
+    {
+      "id": 374,
+      "en": "Ceramide AP",
+      "ko": "세라마이드에이피"
+    },
+    {
+      "id": 375,
+      "en": "Ceramide AS",
+      "ko": "세라마이드에이에스"
+    },
+    {
+      "id": 376,
+      "en": "Ceramide EOP",
+      "ko": "세라마이드이오피"
+    },
+    {
+      "id": 377,
+      "en": "Ceramide NS",
+      "ko": "세라마이드엔에스"
+    },
+    {
+      "id": 378,
+      "en": "Cetearyl Glucoside",
+      "ko": "세테아릴글루코사이드"
+    },
+    {
+      "id": 380,
+      "en": "Hamamelis Virginiana (Witch Hazel) Leaf Extract",
+      "ko": "버지니아풍년화잎추출물"
+    },
+    {
+      "id": 381,
+      "en": "Madecassic Acid",
+      "ko": "마데카식애씨드"
+    },
+    {
+      "id": 382,
+      "en": "Malachite Extract",
+      "ko": "말라카이트추출물"
+    },
+    {
+      "id": 388,
+      "en": "Paeonia Suffruticosa Root Extract",
+      "ko": "모란뿌리추출물"
+    },
+    {
+      "id": 389,
+      "en": "Cellulose Gum",
+      "ko": "셀룰로오스검"
+    },
+    {
+      "id": 390,
+      "en": "Prunus Mume Fruit Water",
+      "ko": "매실수"
+    },
+    {
+      "id": 392,
+      "en": "Coccinia Indica Fruit Extract",
+      "ko": "아이비고드열매추출물"
+    },
+    {
+      "id": 393,
+      "en": "Curcuma Longa (Turmeric) Root Extract",
+      "ko": "울금뿌리추출물"
+    },
+    {
+      "id": 401,
+      "en": "Oryza Sativa (Rice) Extract",
+      "ko": "쌀추출물"
+    },
+    {
+      "id": 402,
+      "en": "Phyllostachys Pubescens Shoot Bark Extract",
+      "ko": "죽순대싹껍질추출물"
+    },
+    {
+      "id": 406,
+      "en": "Usnea Barbata (Lichen) Extract",
+      "ko": "우스니아추출물"
+    },
+    {
+      "id": 407,
+      "en": "Zanthoxylum Piperitum Fruit Extract",
+      "ko": "초피나무열매추출물"
+    },
+    {
+      "id": 408,
+      "en": "Pulsatilla Koreana Extract",
+      "ko": "할미꽃추출물"
+    },
+    {
+      "id": 409,
+      "en": "Tamarindus Indica Seed Gum",
+      "ko": "타마린드씨검"
+    },
+    {
+      "id": 410,
+      "en": "Polyglyceryl-10 Myristate",
+      "ko": "폴리글리세릴-10미리스테이트"
+    },
+    {
+      "id": 413,
+      "en": "Lavandula Angustifolia (Lavender) Oil",
+      "ko": "라벤더오일"
+    },
+    {
+      "id": 560,
+      "en": "Olea Europaea (Olive) Fruit Oil",
+      "ko": "올리브오일"
+    },
+    {
+      "id": 561,
+      "en": "Betula Platyphylla Japonica Juice",
+      "ko": "자작나무수액"
+    },
+    {
+      "id": 562,
+      "en": "Caprylic Acid",
+      "ko": "카프릴릭애씨드"
+    },
+    {
+      "id": 563,
+      "en": "Betulin",
+      "ko": "베툴린"
+    },
+    {
+      "id": 597,
+      "en": "Dehydroacetic Acid",
+      "ko": "데하이드로아세틱애씨드"
+    },
+    {
+      "id": 598,
+      "en": "Sorbeth-30 Tetraoleate",
+      "ko": "솔베스-30테트라올리에이트"
+    },
+    {
+      "id": 599,
+      "en": "Prunus Amygdalus Dulcis (Sweet Almond) Oil",
+      "ko": "스위트아몬드오일"
+    },
+    {
+      "id": 600,
+      "en": "Ceresin",
+      "ko": "세레신"
+    },
+    {
+      "id": 602,
+      "en": "Triisostearin",
+      "ko": "트라이아이소스테아린"
+    },
+    {
+      "id": 603,
+      "en": "Polyglyceryl-2 Isostearate/Dimer Dilinoleate Copolymer",
+      "ko": "폴리글리세릴-2아이소스테아레이트/다이머다이리놀리에이트코폴리머"
+    },
+    {
+      "id": 605,
+      "en": "Hippophae Rhamnoides Water",
+      "ko": "비타민나무수"
+    },
+    {
+      "id": 607,
+      "en": "Hippophae Rhamnoides Fruit Extract",
+      "ko": "비타민나무열매추출물"
+    },
+    {
+      "id": 611,
+      "en": "Aminomethyl Propanol",
+      "ko": "아미노메틸프로판올"
+    },
+    {
+      "id": 613,
+      "en": "Polyphenylsilsesquioxane",
+      "ko": "폴리페닐실세스퀴옥세인"
+    },
+    {
+      "id": 614,
+      "en": "Polyacrylic Acid",
+      "ko": "폴리아크릴릭애씨드"
+    },
+    {
+      "id": 615,
+      "en": "Artemisia Annua Extract",
+      "ko": "개똥쑥추출물"
+    },
+    {
+      "id": 617,
+      "en": "Sphingomonas Ferment Extract",
+      "ko": "스핑고모나스발효추출물"
+    },
+    {
+      "id": 618,
+      "en": "Bacillus Ferment",
+      "ko": "바실러스발효물"
+    },
+    {
+      "id": 620,
+      "en": "Pinus Sylvestris Leaf Oil",
+      "ko": "구주소나무잎오일"
+    },
+    {
+      "id": 621,
+      "en": "Dioscorea Japonica Root Extract",
+      "ko": "참마뿌리추출물"
+    },
+    {
+      "id": 622,
+      "en": "Laminaria Japonica Extract",
+      "ko": "다시마추출물"
+    },
+    {
+      "id": 623,
+      "en": "Viola Mandshurica Flower Extract",
+      "ko": "제비꽃꽃추출물"
+    },
+    {
+      "id": 625,
+      "en": "Polyglyceryl 2 Isostearate",
+      "ko": "폴리글리세릴-2아이소스테아레이트"
+    },
+    {
+      "id": 627,
+      "en": "Ascorbic Acid.",
+      "ko": "아스코빅애씨드"
+    }
+  ]
+}

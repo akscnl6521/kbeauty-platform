@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-08-04T11:46:47.355Z",
-  "totalProducts": 191,
-  "recommendationPoolSize": 26,
-  "withIngredients": 39,
+  "checkedAt": "2026-08-05T12:35:35.643Z",
+  "totalProducts": 213,
+  "recommendationPoolSize": 36,
+  "withIngredients": 61,
   "rejected": [
     {
       "id": 123,

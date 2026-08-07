@@ -24,6 +24,8 @@ export type MallProduct = {
   currency: string;
   /** `availability` 가 명시적으로 InStock 일 때만 참 */
   inStock: boolean;
+  /** JSON-LD `image` 의 첫 장. 국내몰은 공식 제품 사진을 여기 싣는다. */
+  imageUrl: string | null;
 };
 
 /**
@@ -76,11 +78,17 @@ export function parseMallProductJsonLd(html: string): MallProduct | null {
       if (!Number.isFinite(price) || price <= 0) continue;
 
       const availability = String(offer.availability ?? "");
+      const rawImage = node.image;
+      const firstImage = Array.isArray(rawImage) ? rawImage[0] : rawImage;
+      const imageUrl =
+        typeof firstImage === "string" && /^https?:\/\//i.test(firstImage) ? firstImage : null;
+
       return {
         name,
         price,
         currency: String(offer.priceCurrency ?? "").toUpperCase(),
         inStock: /InStock/i.test(availability) && !/OutOfStock/i.test(availability),
+        imageUrl,
       };
     }
   }

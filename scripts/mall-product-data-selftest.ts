@@ -48,6 +48,26 @@ const ld = (obj: unknown) =>
   assert.equal(p!.inStock, true);
 }
 
+// ── JSON-LD `image` 를 가져온다 (국내몰이 공식 제품 사진을 여기 싣는다) ──
+{
+  const p = parseMallProductJsonLd(
+    ld({
+      "@type": "Product",
+      name: "1025 독도 토너 200ml",
+      image: ["https://roundlab.co.kr/web/product/big/a.jpg", "https://roundlab.co.kr/b.jpg"],
+      offers: { price: "11900", priceCurrency: "KRW", availability: "InStock" },
+    })
+  );
+  assert.equal(p!.imageUrl, "https://roundlab.co.kr/web/product/big/a.jpg", "첫 장을 쓴다");
+}
+{
+  // 이미지가 없거나 상대 경로면 null — 화면에서 깨진 링크가 되면 안 된다
+  const p = parseMallProductJsonLd(
+    ld({ "@type": "Product", name: "X", image: "/web/rel.jpg", offers: { price: "9900", priceCurrency: "KRW" } })
+  );
+  assert.equal(p!.imageUrl, null, "절대 URL 이 아니면 쓰지 않는다");
+}
+
 // ── 품절은 재고 있음이 아니다 ──
 {
   const p = parseMallProductJsonLd(
@@ -110,7 +130,7 @@ const ld = (obj: unknown) =>
 
 // ── 자리표시 가격 몰은 통째로 버린다 (라네즈 실측) ──
 {
-  const mk = (price: number): MallProduct => ({ name: "x", price, currency: "KRW", inStock: true });
+  const mk = (price: number): MallProduct => ({ name: "x", price, currency: "KRW", inStock: true, imageUrl: null });
 
   // 라네즈: 전부 100원
   assert.equal(
@@ -136,7 +156,7 @@ const ld = (obj: unknown) =>
   assert.equal(mallPricesLookLikePlaceholders([]), false);
 
   // KRW 가 아닌 것은 이 판단에서 뺀다
-  const usd = (price: number): MallProduct => ({ name: "x", price, currency: "USD", inStock: true });
+  const usd = (price: number): MallProduct => ({ name: "x", price, currency: "USD", inStock: true, imageUrl: null });
   assert.equal(mallPricesLookLikePlaceholders([usd(9), usd(12), usd(8), usd(20), usd(15), usd(11)]), false);
 }
 

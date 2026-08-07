@@ -7,7 +7,11 @@
  * 실행: npm run test:ingredient-list-validate
  */
 import assert from "node:assert/strict";
-import { sanitizeIngredientList, validateIngredientList } from "../src/lib/catalog/validateIngredientList";
+import {
+  sanitizeIngredientList,
+  splitIngredientTokens,
+  validateIngredientList,
+} from "../src/lib/catalog/validateIngredientList";
 
 const ok = (s: string, why: string) => {
   const v = validateIngredientList(s);
@@ -204,5 +208,41 @@ ok(
 
 assert.equal(sanitizeIngredientList("").ok, false);
 assert.equal(sanitizeIngredientList(null).ok, false);
+
+// ── 영문·한글 목록이 맞붙은 토큰을 가른다 (2026-08-05 국내몰 실측) ──
+{
+  // 국내몰은 전성분을 영문·한글 두 벌로 싣는다. 라벨 뒤 구간을 잘라 오면
+  // 두 목록이 한 토큰에 붙는다.
+  assert.deepEqual(splitIngredientTokens("Butylene Glycol, Disodium EDTA 정제수, 글리세린"), [
+    "Butylene Glycol",
+    "Disodium EDTA",
+    "정제수",
+    "글리세린",
+  ]);
+  assert.deepEqual(splitIngredientTokens("콘민트추출물 Salix Alba Bark Water, Glycerin"), [
+    "콘민트추출물",
+    "Salix Alba Bark Water",
+    "Glycerin",
+  ]);
+  // 성분명 하나에 라틴과 한글이 섞이는 경우는 없다. 순수 목록은 그대로 둔다.
+  assert.deepEqual(splitIngredientTokens("Water, Glycerin, Butylene Glycol"), [
+    "Water",
+    "Glycerin",
+    "Butylene Glycol",
+  ]);
+  assert.deepEqual(splitIngredientTokens("정제수, 글리세린, 부틸렌글라이콜"), [
+    "정제수",
+    "글리세린",
+    "부틸렌글라이콜",
+  ]);
+}
+
+// ── 안내 문구가 붙은 토큰을 정리한다 ──
+{
+  assert.deepEqual(splitIngredientTokens("글리세린, 다이소듐이디티에이 사용할 때의"), [
+    "글리세린",
+    "다이소듐이디티에이",
+  ]);
+}
 
 console.log("ingredient-list-validate self-test: ok");
