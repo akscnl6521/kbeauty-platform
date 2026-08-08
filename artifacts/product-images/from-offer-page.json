@@ -1,0 +1,21 @@
+{
+  "builtAt": "2026-08-08T10:45:50.290Z",
+  "found": [
+    {
+      "productId": 28,
+      "brand": "COSRX",
+      "name": "Advanced Snail 92 All in One Cream",
+      "imageUrl": "https://www.cosrx.co.kr/shopimages/cosrx/0190000006503.jpg",
+      "sourcePage": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202"
+    },
+    {
+      "productId": 77,
+      "brand": "CosRX",
+      "name": "Black Snail All In One Cream",
+      "imageUrl": "http://www.cosrx.com/cdn/shop/files/snail_cream_thumbnail_1200x1200.png?v=1748420673",
+      "sourcePage": "https://cosrx.com/products/advanced-snail-92-all-in-one-cream"
+    }
+  ],
+  "missed": [],
+  "dropped": []
+}

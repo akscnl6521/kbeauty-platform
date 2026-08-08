@@ -110,3 +110,60 @@ export function mallPricesLookLikePlaceholders(items: readonly MallProduct[]): b
   const cheap = krw.filter((i) => i.price < MIN_PLAUSIBLE_KRW).length;
   return cheap / krw.length > PLACEHOLDER_RATIO_MAX;
 }
+
+/**
+ * 제품 페이지의 **대표 이미지**를 뽑는다.
+ *
+ * JSON-LD 에 `image` 가 없는 몰이 있다 — 달바(고도몰)가 그렇다. 그런 곳도
+ * `og:image` 는 제품별로 다르게 넣어 둔다(URL 에 상품번호가 들어간다).
+ *
+ * ## 여기서 판정하지 않는 것
+ *
+ * `og:image` 는 **사이트 공통 로고**일 수도 있다. 그건 이 함수만 보고는 알 수
+ * 없다 — 여러 제품에서 같은 URL 이 나오는지 봐야 알 수 있고, 그 판정은
+ * 부르는 쪽(`dropSiteWideImages`)이 한다. 여기서는 «이 페이지가 내세우는
+ * 이미지» 만 돌려준다.
+ */
+export function extractProductImageUrl(html: string): string | null {
+  const patterns: readonly RegExp[] = [
+    /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i,
+    /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i,
+    /<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i,
+    /"image"\s*:\s*\[\s*"([^"]+)"/,
+    /"image"\s*:\s*"([^"]+)"/,
+  ];
+  for (const re of patterns) {
+    const m = String(html ?? "").match(re);
+    const url = m?.[1]?.trim();
+    if (url && /^https?:\/\//i.test(url)) return url;
+  }
+  return null;
+}
+
+/**
+ * **여러 제품이 같은 이미지를 가리키면 전부 버린다.**
+ *
+ * 사이트 공통 로고나 «준비 중» 자리표시를 `og:image` 로 내는 몰이 있다. 그걸
+ * 그대로 담으면 화면에서 서로 다른 제품이 같은 그림을 달고 나오고, 그건 없는
+ * 것보다 나쁘다 — 사용자가 «이 사이트는 엉터리» 라고 판단하게 된다.
+ *
+ * 한 제품에만 쓰인 이미지는 그 제품 것으로 본다.
+ */
+export function dropSiteWideImages<T extends { imageUrl: string }>(items: readonly T[]): {
+  kept: T[];
+  dropped: Array<{ imageUrl: string; count: number }>;
+} {
+  const byUrl = new Map<string, T[]>();
+  for (const it of items) {
+    const bucket = byUrl.get(it.imageUrl) ?? [];
+    bucket.push(it);
+    byUrl.set(it.imageUrl, bucket);
+  }
+  const kept: T[] = [];
+  const dropped: Array<{ imageUrl: string; count: number }> = [];
+  for (const [url, bucket] of byUrl) {
+    if (bucket.length === 1) kept.push(bucket[0]);
+    else dropped.push({ imageUrl: url, count: bucket.length });
+  }
+  return { kept, dropped };
+}

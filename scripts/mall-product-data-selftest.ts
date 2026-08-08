@@ -13,6 +13,8 @@ import {
   parseMallProductJsonLd,
   MIN_PLAUSIBLE_KRW,
   type MallProduct,
+  extractProductImageUrl,
+  dropSiteWideImages,
 } from "../src/lib/catalog/mallProductData";
 
 const ld = (obj: unknown) =>
@@ -162,4 +164,35 @@ const ld = (obj: unknown) =>
 
 assert.equal(MIN_PLAUSIBLE_KRW, 1000);
 
-console.log("mall-product-data self-test: ok");
+
+  // ── 대표 이미지 ────────────────────────────────────────────────
+  // 달바(고도몰)는 JSON-LD 에 image 가 없고 og:image 만 준다. 2026-08-08 실측.
+  {
+    const html =
+      '<meta property="og:image" content="https://cdn.example/goods/1000000072/image/detail/10">' +
+      '<script type="application/ld+json">{"@type":"Product","name":"x"}</script>';
+    assert.equal(extractProductImageUrl(html), "https://cdn.example/goods/1000000072/image/detail/10");
+  }
+  // 속성 순서가 뒤바뀐 형태도 읽는다.
+  assert.equal(
+    extractProductImageUrl('<meta content="https://cdn.example/a.jpg" property="og:image">'),
+    "https://cdn.example/a.jpg"
+  );
+  // 상대 경로는 쓰지 않는다 — 어느 도메인 것인지 여기서는 알 수 없다.
+  assert.equal(extractProductImageUrl('<meta property="og:image" content="/images/logo.png">'), null);
+  assert.equal(extractProductImageUrl("<html></html>"), null);
+
+  // **여러 제품이 같은 이미지를 가리키면 전부 버린다** — 사이트 공통 로고다.
+  // 서로 다른 제품이 같은 그림을 달고 나오는 건 사진이 없는 것보다 나쁘다.
+  {
+    const { kept, dropped } = dropSiteWideImages([
+      { id: 1, imageUrl: "https://cdn/a.jpg" },
+      { id: 2, imageUrl: "https://cdn/logo.png" },
+      { id: 3, imageUrl: "https://cdn/logo.png" },
+      { id: 4, imageUrl: "https://cdn/b.jpg" },
+    ]);
+    assert.deepEqual(kept.map((k) => k.id), [1, 4]);
+    assert.deepEqual(dropped, [{ imageUrl: "https://cdn/logo.png", count: 2 }]);
+  }
+
+  console.log("mall-product-data self-test: ok");
