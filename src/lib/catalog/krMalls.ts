@@ -34,6 +34,8 @@ export const KR_MALLS: readonly KrMall[] = [
   { brands: ["d'Alba", "dAlba", "DALBA", "달바"], domain: "dalba.co.kr" },
   { brands: ["TIRTIR", "Tirtir", "티르티르"], domain: "tirtir.co.kr" },
   { brands: ["Sulwhasoo", "SULWHASOO", "설화수"], domain: "sulwhasoo.com" },
+  // 2026-08-08 탐침 통과 — 제품 58 · 가격 10/10 · 재고 7 · 전성분 9/10.
+  { brands: ["April Skin", "AprilSkin", "에이프릴스킨"], domain: "aprilskin.com" },
 ];
 
 /**
@@ -45,6 +47,23 @@ export const KR_MALLS: readonly KrMall[] = [
  *                    틀리면 품절 상품 구매 링크로 사람을 보낸다. 쓰지 않는다.
  *                    (2026-08-08 제품 3건 실측: 22=OutOfStock · 24·25=표시 없음)
  *   hanyul.com       같은 이유 — 표본 3건 모두 `availability` 없음
+ *   wellage.co.kr    같은 이유 (전성분 10/10 · 재고 표기 0/10)
+ *   illiyoon.com     같은 이유 (전성분 9/10)
+ *   mamonde.com      같은 이유 (전성분 10/10)
+ *   primera.co.kr    같은 이유 (전성분 8/10)
+ *   droracle.co.kr   가격·재고는 정상인데 전성분이 텍스트로 없다 — 편강율과 같은 사례
+ *
+ * **여섯 곳(넘버즈인·한율·웰라쥬·일리윤·마몽드·프리메라)이 가격과 전성분은 다 주고
+ * 재고만 안 준다.** 제품 수로는 270건이 넘는다. 넘버즈인을 뜯어보면 `availability`
+ * 를 **품절일 때만** 내므로(`OutOfStock`), 「표기가 없으면 판매중」 으로 읽으면 이
+ * 전부를 쓸 수 있다.
+ *
+ * **2026-08-08, 그렇게 하지 않기로 결정했다(운영자 판단).**
+ * 제품 수보다 「구매하기가 뜨면 진짜 살 수 있다」 를 지킨다. 표기가 없는 것을
+ * 판매중으로 읽는 건 추측이고, 틀리면 품절 상품 구매 링크로 사람을 보낸다.
+ *
+ * 이 결정을 뒤집으려면 운영자가 다시 말해야 한다 — 재고 판정은 국내 오퍼 자격
+ * 조건이고, `PROJECT_RULE`·`CLAUDE.md` 가 **명시적 요청 없이는 바꾸지 말라**고 한다.
  *   roundlab.co.kr   재고도 없고 **전성분도 텍스트로 없다**(10건 표본 0/10).
  *                    KR_MALLS 에는 남아 있으나 등록되는 제품은 0건이다.
  *   torriden.com     제품 URL 5건뿐이고 JSON-LD 가격 없음
