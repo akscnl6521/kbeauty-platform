@@ -240,7 +240,9 @@
     "test:mall-registration-filters": "tsx scripts/mall-registration-filters-selftest.ts",
     "collect:images-from-offer": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/collect-images-from-offer-page.ts",
     "check:duplicate-formulas": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/audit-duplicate-formulas.ts",
-    "apply:deactivate-wrong-data": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/deactivate-wrong-data-products.ts"
+    "apply:deactivate-wrong-data": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/deactivate-wrong-data-products.ts",
+    "repair:media-validation": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/repair-media-validation-status.ts",
+    "repair:media-http-urls": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/repair-media-http-urls.ts"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.32",
