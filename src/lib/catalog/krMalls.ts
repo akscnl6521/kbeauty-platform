@@ -39,8 +39,12 @@ export const KR_MALLS: readonly KrMall[] = [
 /**
  * 확인해 봤지만 **쓰지 않기로 한** 도메인. 다시 후보로 올리는 수고를 줄이려고 남긴다.
  *
- *   numbuzin.com     가격·전성분은 정상인데 `availability` 를 안 준다 — 재고를 추측하지 않는다
- *   hanyul.com       같은 이유
+ *   numbuzin.com     가격·전성분은 정상. `availability` 는 **품절일 때만** 나온다
+ *                    (`OutOfStock`). 판매중일 때는 아무 표시가 없다. 즉 «표시가
+ *                    없으면 판매중» 이라고 읽어야 쓸 수 있는데, 그건 추측이다.
+ *                    틀리면 품절 상품 구매 링크로 사람을 보낸다. 쓰지 않는다.
+ *                    (2026-08-08 제품 3건 실측: 22=OutOfStock · 24·25=표시 없음)
+ *   hanyul.com       같은 이유 — 표본 3건 모두 `availability` 없음
  *   roundlab.co.kr   재고도 없고 **전성분도 텍스트로 없다**(10건 표본 0/10).
  *                    KR_MALLS 에는 남아 있으나 등록되는 제품은 0건이다.
  *   torriden.com     제품 URL 5건뿐이고 JSON-LD 가격 없음

@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-04T21:33:56.091Z",
+  "checkedAt": "2026-08-08T11:15:33.495Z",
   "found": [
     {
       "productId": 1,
@@ -10,7 +10,7 @@
       "currency": "KRW",
       "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=192&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=bml4W19H",
       "similarity": 1,
-      "isNew": true
+      "isNew": false
     },
     {
       "productId": 28,
@@ -43,7 +43,7 @@
       "currency": "KRW",
       "url": "http://www.cosrx.co.kr/shop/shopdetail.html?branduid=222&xcode=070&mcode=001&scode=001&type=Y&sort=manual&cur_code=070001001&GfDT=bmt3Vw%3D%3D",
       "similarity": 0.8,
-      "isNew": true
+      "isNew": false
     },
     {
       "productId": 189,
@@ -57,6 +57,17 @@
       "isNew": false
     },
     {
+      "productId": 206,
+      "brand": "Abib",
+      "name": "그린 LHA 모공 패드 클리어 터치",
+      "mallName": "그린 LHA 모공 패드 클리어 터치",
+      "price": 24000,
+      "currency": "KRW",
+      "url": "https://abib.com/product/그린-lha-모공-패드-클리어-터치/398/",
+      "similarity": 0.83,
+      "isNew": false
+    },
+    {
       "productId": 125,
       "brand": "Abib",
       "name": "Mild Acidic pH Sheet Mask Heartleaf Fit",
@@ -65,7 +76,117 @@
       "currency": "KRW",
       "url": "https://abib.com/product/약산성-시트-마스크-어성초-핏/84/",
       "similarity": 0.8,
-      "isNew": true
+      "isNew": false
+    },
+    {
+      "productId": 252,
+      "brand": "d'Alba",
+      "name": "화이트 트러플 더블 마스크팩 (진정/보습) 2BOX (총 8개)",
+      "mallName": "화이트 트러플 더블 마스크팩 (진정/보습) 2BOX (총 8개)",
+      "price": 60000,
+      "currency": "KRW",
+      "url": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000807",
+      "similarity": 0.88,
+      "isNew": false
+    },
+    {
+      "productId": 254,
+      "brand": "d'Alba",
+      "name": "화이트 트러플 클리닉 모델링 마스크 [영양/보습] (4회분)",
+      "mallName": "화이트 트러플 클리닉 모델링 마스크 [영양/보습] (4회분)",
+      "price": 50000,
+      "currency": "KRW",
+      "url": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000812",
+      "similarity": 0.88,
+      "isNew": false
+    },
+    {
+      "productId": 255,
+      "brand": "d'Alba",
+      "name": "달바 시그니처 안티에이징 탄력 스프레이 앰플 12%",
+      "mallName": "달바 시그니처 안티에이징 탄력 스프레이 앰플 12%",
+      "price": 46000,
+      "currency": "KRW",
+      "url": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000814",
+      "similarity": 0.86,
+      "isNew": false
+    },
+    {
+      "productId": 233,
+      "brand": "d'Alba",
+      "name": "화이트 트러플 밸런싱 스프레이 세럼 스킨",
+      "mallName": "화이트 트러플 밸런싱 스프레이 세럼 스킨",
+      "price": 32000,
+      "currency": "KRW",
+      "url": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000076",
+      "similarity": 0.83,
+      "isNew": false
+    },
+    {
+      "productId": 249,
+      "brand": "d'Alba",
+      "name": "안티에이징 멀티 케어 스프레이 세럼 8퍼센트",
+      "mallName": "안티에이징 멀티 케어 스프레이 세럼 8퍼센트",
+      "price": 38000,
+      "currency": "KRW",
+      "url": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000729",
+      "similarity": 0.83,
+      "isNew": false
+    },
+    {
+      "productId": 250,
+      "brand": "d'Alba",
+      "name": "화이트 트러플 아쿠아 마린 에너지 세럼",
+      "mallName": "화이트 트러플 아쿠아 마린 에너지 세럼",
+      "price": 46000,
+      "currency": "KRW",
+      "url": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000739",
+      "similarity": 0.83,
+      "isNew": false
+    },
+    {
+      "productId": 234,
+      "brand": "d'Alba",
+      "name": "화이트 트러플 퍼스트 아로마틱 토너 155ml",
+      "mallName": "화이트 트러플 퍼스트 아로마틱 스프레이 세럼",
+      "price": 42000,
+      "currency": "KRW",
+      "url": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000102",
+      "similarity": 0.8,
+      "isNew": false
+    },
+    {
+      "productId": 238,
+      "brand": "d'Alba",
+      "name": "화이트 트러플 엑스트라 너리싱 크림",
+      "mallName": "화이트 트러플 엑스트라 너리싱 크림",
+      "price": 42000,
+      "currency": "KRW",
+      "url": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000412",
+      "similarity": 0.8,
+      "isNew": false
+    },
+    {
+      "productId": 248,
+      "brand": "d'Alba",
+      "name": "화이트 트러플 모이스트 리커버리 크림",
+      "mallName": "화이트 트러플 모이스트 리커버리 크림",
+      "price": 38000,
+      "currency": "KRW",
+      "url": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000537",
+      "similarity": 0.8,
+      "isNew": false
+    },
+    {
+      "productId": 266,
+      "brand": "Sulwhasoo",
+      "name": "자음생캡슐세럼",
+      "mallName": "자음생캡슐세럼",
+      "price": 155000,
+      "currency": "KRW",
+      "url": "https://sulwhasoo.com/product/%EC%9E%90%EC%9D%8C%EC%83%9D%EC%BA%A1%EC%8A%90%EC%84%B8%EB%9F%BC/55/",
+      "similarity": 1,
+      "isNew": false
     }
   ]
 }
