@@ -90,6 +90,8 @@ jobs:
           npm run test:mall-sitemap
           npm run test:ingredient-list-validate
           npm run test:brand-store-name-match
+          npm run test:ingredient-notice-tail
+          npm run test:mall-registration-filters
       - name: Cache version bump check
         # main 대비 캐시 영향 파일이 바뀌었는데 버전을 안 올렸으면 실패한다.
         # 얕은 클론이면 기준을 못 찾아 통과시키므로 fetch-depth 0 이 필요하다.
