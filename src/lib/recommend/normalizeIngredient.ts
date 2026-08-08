@@ -86,6 +86,24 @@ export function splitBracketVariantSegments(text: string): string[] {
     .flatMap((x) => x.split(BRACKET_LABEL));
 }
 
+/**
+ * 성분표 **앞머리에 붙은 화면 문구**를 뗀다.
+ *
+ * 몰 페이지의 «전성분 보기» · «자세히보기» 같은 버튼 글자가 첫 성분에 붙어 온다.
+ * 2026-08-08 에이프릴스킨 실측에서 네 제품이 전부 `보기 정제수` 라는 토큰 하나
+ * 때문에 막혔다 — 성분 40개 중 39개는 멀쩡한데 첫 개만 못 읽는 것이다.
+ *
+ * 뒤가 아니라 **앞**을 떼는 게 요점이다. `stripIngredientNoticeTail` 은 뒤를
+ * 자르므로 이건 못 잡는다.
+ *
+ * 라벨로 쓰이는 낱말만 본다 — INCI 이름에는 «보기» · «전성분» 이 들어가지 않는다.
+ */
+const LABEL_HEAD = /^\s*(?:[가-힣]{0,6}보기|전성분|성분\s*정보|원료\s*정보)\s+/;
+
+export function stripIngredientLabelHead(token: string): string {
+  return String(token ?? "").replace(LABEL_HEAD, "").trim();
+}
+
 /** 안내 문구가 시작되는 지점에서 자른다. 없으면 원문 그대로. */
 export function stripIngredientNoticeTail(token: string): string {
   let cut = token.length;

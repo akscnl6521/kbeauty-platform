@@ -114,7 +114,7 @@ function containment(a: Set<string>, b: Set<string>): number {
  * 실측에서 «COSRX SET 더 레티놀 0.1 크림 20ml x 2개» 98,400원이 단품으로 잡혔다.
  */
 const BUNDLE_MARKERS =
-  /(?:set|bundle|pack)|세트|기획|묶음|증정|사은품|더블|듀오|리필\s*포함|\d+\s*개입|(?:^|[^\d])[2-9]\d*\s*개(?![월년])|x\s*\d+\s*개|\d\s*\+\s*\d|리필|\+\s*\d+\s*개/i;
+  /\b(?:set|bundle|pack)\b|세트|기획|묶음|증정|사은품|더블|듀오|리필\s*포함|\d+\s*개입|(?:^|[^\d])[2-9]\d*\s*개(?![월년])|x\s*\d+\s*개|\d\s*\+\s*\d|리필|\+\s*\d+\s*개/i;
 
 function looksLikeBundle(title: string): boolean {
   return BUNDLE_MARKERS.test(title);

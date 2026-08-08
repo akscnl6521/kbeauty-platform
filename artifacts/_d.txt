@@ -1,0 +1,58 @@
+/**
+ * 카탈로그 중복 점검 (관리자 입력 단계).
+ * 추천 점수·필터 로직과 분리한다.
+ */
+
+import type { KoreanProductInput, KoreanProductOfferInput } from "./catalogTypes";
+
+export type DuplicateIdIssue = {
+  kind: "productId" | "offerId";
+  id: string;
+  count: number;
+  indexes: number[];
+};
+
+export type DuplicateProductGroup = {
+  /** normalize 된 브랜드|제품명 키 */
+  key: string;
+  canonicalBrandName: string;
+  productNameKo: string;
+  productNameEn: string;
+  productIds: string[];
+  indexes: number[];
+};
+
+export type DuplicateScanResult = {
+  duplicateProductIds: DuplicateIdIssue[];
+  duplicateOfferIds: DuplicateIdIssue[];
+  duplicateBrandProductNames: DuplicateProductGroup[];
+  hasDuplicates: boolean;
+};
+
+function collapse(value: string): string {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function normalizeNameKey(value: string): string {
+  return collapse(value)
+    .toLowerCase()
+    .replace(/[,.'’+]/g, "");
+}
+
+function duplicateIds(
+  kind: "productId" | "offerId",
+  ids: Array<string | null | undefined>
+): DuplicateIdIssue[] {
+  const map = new Map<string, number[]>();
+  ids.forEach((raw, index) => {
+    const id = typeof raw === "string" ? collapse(raw) : "";
+    if (!id) return;
+    const list = map.get(id) ?? [];
+    list.push(index);
+    map.set(id, list);
+  });
+
+  const out: DuplicateIdIssue[] = [];
+  for (const [id, indexes] of map) {
+    if (indexes.length < 2) continue;
+    out.push({ kind, i

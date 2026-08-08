@@ -30,6 +30,7 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import {
+  bundleSetReason,
   conditionalSaleReason,
   nonFaceSkincareReason,
   packagingNeutralKey,
@@ -198,6 +199,13 @@ async function main() {
         return Math.max(a, b) >= DUPLICATE_MIN;
       });
       if (dupe) continue;
+
+      // 세트는 전성분이 «여러 제품의 합» 이라 한 제품으로 등록하면 안전 판정이 틀어진다.
+      const bundle = bundleSetReason(it.name);
+      if (bundle) {
+        skipped.push({ name: it.name, why: `세트 상품(전성분이 합쳐져 있다) — «${bundle}»` });
+        continue;
+      }
 
       const nonFace = nonFaceSkincareReason(it.name);
       if (nonFace) {
