@@ -143,14 +143,39 @@ function slugify(en: string): string {
 async function main() {
   const apply = process.argv.includes("--apply");
   const { redactSecrets } = await import("../src/lib/publicData/secrets");
-  const { parseIngredientList, attachIngredientMatches, buildIngredientLookupMaps, normalizeTextKey } =
-    await import("../src/lib/pipeline/ingredient-normalize");
+  const {
+    parseIngredientList,
+    attachIngredientMatches,
+    buildIngredientLookupMaps,
+    normalizeTextKey,
+    ingredientNameVariants,
+    isIngredientTokenKnown,
+  } = await import("../src/lib/pipeline/ingredient-normalize");
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  // Production 은 **명시적으로 켤 때만** 연다. 기본은 예전 그대로 Staging 이다.
+  //
+  // 플래그 이름이 `--production` 이면 안 된다 — **npm 이 자기 설정 플래그로 먹어서**
+  // 스크립트까지 오지 않는다. 2026-08-08 에 `npm run … -- --production --apply` 를
+  // 돌렸는데 아무 경고 없이 Staging 에 96행이 들어갔다. npm 이 모르는 이름을 쓴다.
+  const toProduction = process.argv.includes("--target-production");
+  const url = toProduction
+    ? (process.env.PRODUCTION_SUPABASE_URL ?? "")
+    : process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const key = toProduction
+    ? (process.env.PRODUCTION_SUPABASE_SERVICE_ROLE_KEY ?? "")
+    : process.env.SUPABASE_SERVICE_ROLE_KEY!;
   const ref = url.match(/https:\/\/([a-z0-9]+)\.supabase\.co/i)?.[1] ?? "";
-  if (ref === PROD_REF) throw new Error("ABORT_PRODUCTION");
-  if (ref !== STAGING_REF) throw new Error(`ABORT_NOT_STAGING:${ref}`);
+  if (toProduction) {
+    // 대상이 정말 Production 인지 확인한다. 어긋나면 멈춘다 — 엉뚱한 DB 에
+    // 성분 행을 넣으면 되돌리기 어렵다.
+    if (ref !== PROD_REF) throw new Error(`ABORT_NOT_PRODUCTION:${ref}`);
+  } else {
+    if (ref === PROD_REF) throw new Error("ABORT_PRODUCTION");
+    if (ref !== STAGING_REF) throw new Error(`ABORT_NOT_STAGING:${ref}`);
+  }
+  // 어느 DB 를 보고 있는지 **매번 첫 줄에 찍는다.** 이걸 안 찍어서 Staging 결과를
+  // Production 결과로 읽고 여러 판을 헛돌았다.
+  console.log(`대상 DB: ${toProduction ? "Production" : "Staging"} (${ref})\n`);
 
   const svcKey = (process.env.MFDS_DATA_GO_KR_SERVICE_KEY || process.env.DATA_GO_KR_SERVICE_KEY || "").trim();
   const apiUrl = (process.env.MFDS_COSMETIC_INGREDIENT_API_URL ?? "").trim();
@@ -213,6 +238,42 @@ async function main() {
       if (k && r.engName && !mfdsByKo.has(k)) mfdsByKo.set(k, r);
     }
   }
+  console.log(
+    `식약처 색인 — 한글명 키 ${mfdsByKo.size}종 (한글명이 있는 원본 행 ${mfds.filter((r) => r.korName).length})`
+  );
+
+  /**
+   * **구분자만 무시하는 느슨한 키.**
+   *
+   * 미매칭 토큰 448종을 못 찾던 이유가 이것이다 — 옛 매처가 하이픈을 공백으로
+   * 바꿔 놓아서 `폴리글리세릴 10 올리에이트` 가 되고, 식약처의
+   * `폴리글리세릴-10올리에이트` 와 글자는 같은데 키가 달랐다.
+   *
+   * 공백·하이픈·가운뎃점만 지운다. **글자는 건드리지 않는다** — 글자를 지우기
+   * 시작하면 다른 성분에 붙는다. 정확 일치가 실패했을 때만 마지막으로 쓴다.
+   */
+  const looseKey = (v: string) => String(v ?? "").replace(/[\s·\-‐-―]/g, "").toLowerCase();
+
+  // 느슨하게 보면 둘 이상이 같아지는 키는 **쓰지 않는다.** 어느 쪽인지 모르는
+  // 채로 붙이면 엉뚱한 성분에 매칭되고, 그때부터 알레르겐 판정이 틀어진다.
+  const looseCandidates = new Map<string, Set<string>>();
+  for (const r of mfds)
+    for (const label of [r.korName, r.engName, ...r.synonym.split(/[,;]/)]) {
+      const k = looseKey(label);
+      if (!k || !r.engName) continue;
+      const bucket = looseCandidates.get(k) ?? new Set<string>();
+      bucket.add(r.engName);
+      looseCandidates.set(k, bucket);
+    }
+  const mfdsByLoose = new Map<string, MfdsRow>();
+  for (const r of mfds)
+    for (const label of [r.korName, r.engName, ...r.synonym.split(/[,;]/)]) {
+      const k = looseKey(label);
+      if (!k || !r.engName) continue;
+      if ((looseCandidates.get(k)?.size ?? 0) > 1) continue; // 모호하면 버린다
+      if (!mfdsByLoose.has(k)) mfdsByLoose.set(k, r);
+    }
+  console.log(`  느슨한 키 ${mfdsByLoose.size}종 (모호해서 뺀 것 ${[...looseCandidates.values()].filter((v) => v.size > 1).length}종)`);
   const mfdsByEn = new Map<string, MfdsRow>();
   for (const r of mfds) {
     const k = normalizeTextKey(r.engName);
@@ -232,6 +293,29 @@ async function main() {
     }
   }
 
+  // 활성화 게이트는 `isIngredientTokenKnown` 으로 미매칭을 센다. 위의
+  // `attachIngredientMatches` 와 결과가 달라서, 이 스크립트가 «다 덮었다» 고
+  // 해도 게이트는 계속 막을 수 있다. **막는 쪽이 보는 토큰**도 대상에 넣는다.
+  {
+    const known = new Set<string>();
+    for (const r of ingredients)
+      for (const n of [r.name_en, r.name_ko])
+        for (const v of ingredientNameVariants(n)) {
+          const k = normalizeTextKey(v);
+          if (k) known.add(k);
+        }
+    for (const p of products) {
+      const fi = p.full_ingredients;
+      if (!Array.isArray(fi) || fi.length === 0) continue;
+      for (const raw of fi.map(String)) {
+        if (isIngredientTokenKnown(raw, known)) continue;
+        const key = raw.trim();
+        if (!key || unmatched.has(key)) continue;
+        unmatched.set(key, [p.id]);
+      }
+    }
+  }
+
   // ---------- 계획 ----------
   type NewAlias = { ingredient_id: number; alias: string; normalized_alias: string; via: string };
   type NewIngredient = { slug: string; name_en: string; name_ko: string; token: string };
@@ -243,9 +327,29 @@ async function main() {
   const plannedKeys = new Set<string>();
   const plannedSlugs = new Set(ingredients.map((r) => (r.slug ?? "").toLowerCase()));
 
+  let hitCount = 0;
+  let noHit = 0;
+  const noHitExamples: string[] = [];
   for (const [token] of unmatched) {
-    const hit = mfdsByKo.get(token) ?? mfdsByEn.get(token);
-    if (!hit || !hit.engName) continue;
+    // 색인은 `normalizeTextKey` 로 만들어 두고 조회는 토큰 원문으로 했다 —
+    // 키 모양이 달라 **항상 빗나갔다.** 여러 판에 걸쳐 «식약처에 없다» 는
+    // 결론을 냈던 게 실은 이것이다. 원문과 정규화 키를 둘 다 시도한다.
+    const tokenKey = normalizeTextKey(token);
+    const hit =
+      mfdsByKo.get(tokenKey) ??
+      mfdsByKo.get(token) ??
+      mfdsByEn.get(tokenKey) ??
+      mfdsByEn.get(token) ??
+      // 마지막 수단 — 구분자만 무시한다.
+      mfdsByLoose.get(looseKey(token)) ??
+      // `흰서양송로추출물(10,000ppm)` 처럼 농도 표기가 붙은 것은 괄호 앞을 본다.
+      mfdsByLoose.get(looseKey(token.replace(/\([^)]*\)\s*$/, "")));
+    if (!hit || !hit.engName) {
+      noHit += 1;
+      if (noHitExamples.length < 10) noHitExamples.push(token);
+      continue;
+    }
+    hitCount += 1;
     if (taken.has(token) || plannedKeys.has(token)) {
       skipped.push([token, "이미 다른 성분이 이 키를 쓰고 있다"]);
       continue;
@@ -302,6 +406,18 @@ async function main() {
   }
 
   console.log(`미매칭 토큰 ${unmatched.size}종 대상`);
+  console.log(`  식약처에서 찾음 ${hitCount}종 · 못 찾음 ${noHit}종`);
+  {
+    // 버려지는 사유를 **세어서** 본다. 예시만 몇 줄 찍으면 어느 사유가 큰지 모른다.
+    const why = new Map<string, number>();
+    for (const [, reason] of skipped) {
+      const head = reason.replace(/«[^»]*»/g, "«…»");
+      why.set(head, (why.get(head) ?? 0) + 1);
+    }
+    for (const [w, n] of [...why.entries()].sort((a, b) => b[1] - a[1]))
+      console.log(`    버림 ${String(n).padStart(3)}종 — ${w}`);
+  }
+  if (noHitExamples.length) console.log(`  못 찾은 예: ${noHitExamples.join(" · ")}`);
   console.log(`  경로1 별칭만 추가 (기존 성분)  ${newAliases.length}건`);
   console.log(`  경로2 새 성분 행 추가          ${newIngredients.length}건`);
   console.log(`  경로3 새 행에 붙일 별칭        ${pendingAliasesForNew.length}건`);

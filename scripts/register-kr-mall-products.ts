@@ -29,6 +29,11 @@
  * 실행: npm run register:kr-products -- --apply
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  conditionalSaleReason,
+  nonFaceSkincareReason,
+  packagingNeutralKey,
+} from "../src/lib/catalog/mallRegistrationFilters";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 import { decodeHtmlBody } from "../src/lib/catalog/decodeHtmlBody";
@@ -108,6 +113,11 @@ function slugify(brand: string, name: string): string {
   return base.slice(0, 80) || `kr-${Date.now()}`;
 }
 
+
+
+
+
+
 async function main() {
   const apply = process.argv.includes("--apply");
   const url = process.env.PRODUCTION_SUPABASE_URL ?? "";
@@ -158,6 +168,7 @@ async function main() {
         return true;
       });
     if (items.length === 0) continue;
+    const pickedPackKeys = new Set<string>();
     // 우리 카탈로그의 영문 표기를 쓴다 — 브랜드명은 번역하지 않는다.
     const brand = mall.brands[0];
     const mine = existing.filter((p) => mall.brands.includes(String(p.brand ?? "")));
@@ -166,12 +177,39 @@ async function main() {
     for (const it of items) {
       // 이미 있는 제품인가 — 한글 몰 이름을 비교용으로 바꿔 대조한다.
       const cmp = koreanProductNameToComparable(it.name);
+      // 같은 몰 안에서도 같은 제품이 두 번 올라온다 —
+      // `… 2BOX` 와 `… 2BOX (총 8개)`, `퍼스널 케어 마스크` 와 `… 10개 SET`.
+      //
+      // **이름 유사도로 묶으면 안 된다.** 한 브랜드 라인은 이름 대부분을 공유해서
+      // (달바는 거의 전부 «화이트 트러플 …») 서로 다른 제품이 통째로 묶인다.
+      // 실제로 유사도 방식은 폼 클렌저·젤 클렌저·오일 클렌저를 하나로 봤다.
+      //
+      // 그래서 **포장·수량 표기만 지우고 나머지가 글자까지 같을 때만** 중복으로 본다.
+      // 용량(ml·g)은 지우지 않는다 — 100ml 와 150ml 는 값이 다른 별개 상품이다.
+      const packKey = packagingNeutralKey(it.name);
+      if (pickedPackKeys.has(packKey)) {
+        skipped.push({ name: it.name, why: "같은 몰 안 중복(포장·수량만 다름)" });
+        continue;
+      }
+
       const dupe = mine.some((p) => {
         const a = nameSimilarity(nameTokens(cmp, brand), nameTokens(String(p.name ?? ""), brand));
         const b = nameSimilarity(nameTokens(it.name, brand), nameTokens(String(p.name_ko ?? ""), brand));
         return Math.max(a, b) >= DUPLICATE_MIN;
       });
       if (dupe) continue;
+
+      const nonFace = nonFaceSkincareReason(it.name);
+      if (nonFace) {
+        skipped.push({ name: it.name, why: `얼굴 스킨케어가 아님 — «${nonFace}»` });
+        continue;
+      }
+
+      const conditional = conditionalSaleReason(it.name);
+      if (conditional) {
+        skipped.push({ name: it.name, why: `조건부 판매·단종 — «${conditional}»` });
+        continue;
+      }
 
       const html = await get(it.url);
       const raw = html ? extractLabeledIngredientsRaw(html) : null;
@@ -190,6 +228,7 @@ async function main() {
         continue;
       }
 
+      pickedPackKeys.add(packKey);
       candidates.push({
         brand,
         mallName: it.name,

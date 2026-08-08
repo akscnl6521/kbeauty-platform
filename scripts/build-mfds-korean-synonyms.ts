@@ -157,6 +157,94 @@ async function main() {
   }
   console.log(`  영문명 ${koByEng.size}종`);
 
+  // --coverage: 지금 활성화가 막혀 있는 «미매칭 토큰» 을 식약처가 얼마나 덮는지 본다.
+  // 파서를 새로 짜지 않고 **이미 동작이 확인된 이 스크립트 안에서** 재어야
+  // 답을 믿을 수 있다 — 따로 짠 XML 파서가 조용히 0행을 돌려줘 두 번 헛짚었다.
+  if (process.argv.includes("--coverage")) {
+    // 식약처는 한글명과 **영문명을 둘 다** 준다. 한글만 세면 `Cynanchum Atratum
+    // Extract` 처럼 영문으로 적힌 걸림돌을 «못 덮는다» 고 잘못 세게 된다.
+    const koToEn = new Map<string, string>();
+    const enSet = new Set<string>();
+    const norm = (v: string) => v.replace(/[\s·]/g, "").toLowerCase();
+    for (const r of mfds) {
+      const ko = norm(String(r.INGR_KOR_NAME ?? ""));
+      const en = String(r.INGR_ENG_NAME ?? "").trim();
+      if (ko && en && !koToEn.has(ko)) koToEn.set(ko, en);
+      // 영문명은 쉼표로 여러 개를 묶어 주는 행이 있다.
+      for (const one of en.split(",")) {
+        const k = norm(one);
+        if (k) enSet.add(k);
+      }
+    }
+    const inMfds = (token: string) => {
+      const k = norm(token);
+      if (!k) return false;
+      if (koToEn.has(k) || enSet.has(k)) return true;
+      // `흰서양송로추출물(10,000ppm)` 처럼 농도 표기가 붙은 것은 괄호 앞을 본다.
+      const head = norm(token.replace(/\([^)]*\)\s*$/, ""));
+      return !!head && (koToEn.has(head) || enSet.has(head));
+    };
+    console.log(`
+식약처 한글명 ${koToEn.size}종 · 영문명 ${enSet.size}종`);
+
+    const { normalizeTextKey, ingredientNameVariants, isIngredientTokenKnown } = await import(
+      "@/lib/pipeline/ingredient-normalize"
+    );
+    const dictRows = await fetchDictionary(client);
+    const known = new Set<string>();
+    for (const r of dictRows)
+      for (const n of [r.name_en, r.name_ko])
+        for (const v of ingredientNameVariants(n)) {
+          const k = normalizeTextKey(v);
+          if (k) known.add(k);
+        }
+    const { data: ps } = await client
+      .from("products")
+      .select("id,full_ingredients")
+      .is("verified_at", null)
+      .not("full_ingredients", "is", null);
+    const missing = new Set<string>();
+    for (const p of ps ?? [])
+      for (const t of (Array.isArray(p.full_ingredients) ? p.full_ingredients : []).map(String))
+        if (!isIngredientTokenKnown(t, known)) missing.add(t);
+
+    let covered = 0;
+    const examples: string[] = [];
+    for (const m of missing) {
+      if (!inMfds(m)) continue;
+      const en = koToEn.get(m.replace(/[\s·]/g, "").toLowerCase()) ?? "(영문명으로 확인)";
+      covered += 1;
+      if (examples.length < 8) examples.push(`${m} → ${en}`);
+    }
+    console.log(`미검증 제품의 미매칭 토큰 ${missing.size}종 중 식약처가 덮는 것 ${covered}종`);
+    for (const e of examples) console.log(`    ${e}`);
+
+    // 토큰 몇 종을 덮느냐보다 **제품 몇 건이 풀리느냐**가 중요하다.
+    // 게이트는 `unmatchedIngredientCount === 0` 을 요구하므로, 한 제품에 못 덮는
+    // 토큰이 하나라도 남으면 그 제품은 그대로 막힌다.
+    let wouldUnblock = 0;
+    let stillBlocked = 0;
+    const blockers = new Map<string, number>();
+    for (const p of ps ?? []) {
+      const toks = (Array.isArray(p.full_ingredients) ? p.full_ingredients : []).map(String);
+      if (toks.length === 0) continue;
+      const left = toks.filter(
+        (t) => !isIngredientTokenKnown(t, known) && !inMfds(t)
+      );
+      if (left.length === 0) wouldUnblock += 1;
+      else {
+        stillBlocked += 1;
+        for (const b of left) blockers.set(b, (blockers.get(b) ?? 0) + 1);
+      }
+    }
+    console.log(`
+식약처를 다 넣었다고 가정하면 — 풀리는 제품 ${wouldUnblock}건 · 그래도 막히는 제품 ${stillBlocked}건`);
+    console.log("그래도 남는 걸림돌 상위 12:");
+    for (const [n, k] of [...blockers.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12))
+      console.log(`  ${String(k).padStart(3)}회  ${n.slice(0, 46)}`);
+    return;
+  }
+
   const dict = await fetchDictionary(client);
   console.log(`\n우리 사전 ${dict.length}행`);
 

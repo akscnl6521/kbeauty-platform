@@ -30,23 +30,35 @@ export const KR_MALLS: readonly KrMall[] = [
   // 그래도 남겨 둔다. 오퍼(가격·재고)는 정상이고, 전성분을 텍스트로 내기
   // 시작하면 그날 바로 잡힌다. 지우면 이 확인을 처음부터 다시 하게 된다.
   { brands: ["Pyunkang Yul", "PYUNKANG YUL", "편강율"], domain: "pyunkangyul.com" },
+  // 2026-08-08 탐침 통과 — 가격·재고·전성분이 다 있다.
+  { brands: ["d'Alba", "dAlba", "DALBA", "달바"], domain: "dalba.co.kr" },
+  { brands: ["TIRTIR", "Tirtir", "티르티르"], domain: "tirtir.co.kr" },
+  { brands: ["Sulwhasoo", "SULWHASOO", "설화수"], domain: "sulwhasoo.com" },
 ];
 
 /**
  * 확인해 봤지만 **쓰지 않기로 한** 도메인. 다시 후보로 올리는 수고를 줄이려고 남긴다.
  *
- *   numbuzin.com   가격은 정상인데 `availability` 를 안 준다 — 재고를 추측하지 않는다
- *   dalba.co.kr    제품 281건이나 JSON-LD 에 가격이 없다
- *   torriden.com   제품 URL 5건뿐이고 JSON-LD 가격 없음
+ *   numbuzin.com     가격·전성분은 정상인데 `availability` 를 안 준다 — 재고를 추측하지 않는다
+ *   hanyul.com       같은 이유
+ *   roundlab.co.kr   재고도 없고 **전성분도 텍스트로 없다**(10건 표본 0/10).
+ *                    KR_MALLS 에는 남아 있으나 등록되는 제품은 0건이다.
+ *   torriden.com     제품 URL 5건뿐이고 JSON-LD 가격 없음
  *   www.laneige.com  JSON-LD 가격이 전부 `100` (자리표시)
- *   anua / skin1004 / goodal / isntree / manyo / mixsoon / beautyofjoseon / haruharuwonder
- *                  사이트맵을 못 찾음 (도메인이 다르거나 사이트맵을 안 낸다)
+ *   anua · skin1004 · goodal · isntree · manyo · mixsoon · beautyofjoseon ·
+ *   haruharuwonder · clubclio · drg · banilaco · tonymoly · thesaem ·
+ *   naturerepublic · skinfood · isoi · cellfusionc · innisfree · aritaum
+ *                    사이트맵을 못 찾음 (도메인이 다르거나 사이트맵을 안 낸다)
  *
- * 판정 근거는 `artifacts/kr-malls/probe.json`.
+ * 판정 근거는 `artifacts/kr-malls/probe.json`. 다시 보고 싶으면
+ * `npm run probe:kr-malls -- <도메인>` 으로 한 곳만 확인할 수 있다.
+ *
+ * **표본은 사이트맵 앞쪽이 아니라 고르게 퍼뜨려 뽑는다.** 앞 6건만 봤을 때는
+ * 달바가 「가격 0/6」 으로 탈락했지만, 고르게 뽑으니 「가격 9/10 · 재고 9」 였다.
  */
 export const KR_MALLS_REJECTED = [
   "numbuzin.com",
-  "dalba.co.kr",
+  "hanyul.com",
   "torriden.com",
   "www.laneige.com",
 ] as const;

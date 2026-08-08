@@ -20,6 +20,7 @@
  * 실행: npm run collect:product-images -- --apply
  */
 import { mkdirSync, writeFileSync } from "node:fs";
+import { dropSiteWideImages } from "../src/lib/catalog/mallProductData";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 import {
@@ -165,6 +166,25 @@ async function main() {
       similarity: Number(best.sim.toFixed(2)),
       inPool: p.active === true && p.verified_at != null,
     });
+  }
+
+  // **서로 다른 제품이 같은 사진을 달면 안 된다.**
+  //
+  // 이 수집기는 스토어 제품명을 «유사도» 로 대조하므로, 이름이 겹치는 두 제품이
+  // 같은 스토어 항목에 붙을 수 있다. 2026-08-08 Production 실측에서 실제로 그랬다:
+  //
+  //   Advanced Snail 92 All in One Cream  ↔  Black Snail All In One Cream
+  //   Peach 70 Niacin Serum               ↔  Peach 70 Niacin Serum Glow
+  //
+  // 사진이 없는 것보다 **다른 제품 사진이 붙는 쪽이 훨씬 나쁘다** — 그걸 보고
+  // 엉뚱한 제품을 산다. 겹치면 양쪽 다 버리고, 제품 페이지에서 직접 받는
+  // `collect:images-from-offer` 로 넘긴다.
+  {
+    const { kept, dropped } = dropSiteWideImages(found);
+    for (const d of dropped)
+      console.log(`  !! 제품 ${d.count}건이 같은 사진을 가리킨다 — 양쪽 다 버린다: ${d.imageUrl.slice(0, 70)}`);
+    found.length = 0;
+    found.push(...kept);
   }
 
   const poolFound = found.filter((f) => f.inPool).length;

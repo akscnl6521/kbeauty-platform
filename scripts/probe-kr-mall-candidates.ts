@@ -13,8 +13,15 @@
  *   2. 거기서 **제품 URL** 이 나오는가 (목록·게시판 페이지가 아니라)
  *   3. 제품 페이지가 JSON-LD 로 **가격**을 주는가
  *   4. 그 가격이 자리표시가 아닌가 (`mallPricesLookLikePlaceholders`)
+ *   5. **전성분이 텍스트로 있는가** ← 2026-08-07 편강율에서 배운 것
  *
- * 넷을 다 통과한 도메인만 사람이 `KR_MALLS` 에 넣는다. 이 스크립트는 **아무것도
+ * 다섯째가 실질적인 관문이다. 편강율은 1~4 를 다 통과하고 재고 71건을 줬는데
+ * **등록된 제품은 0건**이었다. 전성분을 상세 «이미지» 로만 싣기 때문이다.
+ * 활성화 게이트가 공식 전성분 텍스트를 요구하므로, 전성분이 없는 몰은 오퍼만
+ * 있고 제품이 안 생긴다. 그러니 «국내에서 파는가» 보다 «전성분을 텍스트로
+ * 내는가» 를 먼저 봐야 한다.
+ *
+ * 다섯을 다 통과한 도메인만 사람이 `KR_MALLS` 에 넣는다. 이 스크립트는 **아무것도
  * 쓰지 않는다** — 공개 페이지 GET 뿐이고 DB 도 건드리지 않는다.
  *
  * 실행: npm run probe:kr-malls -- anua.co.kr torriden.com
@@ -31,32 +38,51 @@ import { parseMallProductJsonLd, mallPricesLookLikePlaceholders } from "../src/l
  * 판정은 이 스크립트의 출력이 한다.
  */
 const DEFAULT_CANDIDATES = [
+  // 이미 쓰고 있는 몰 — 탐침이 이들을 탈락시키면 탐침이 틀린 것이다(회귀 확인용).
+  "www.cosrx.co.kr",
+  "klairs.co.kr",
+  "abib.co.kr",
+  // 확인해 볼 후보
   "www.anua.co.kr",
-  "anua.co.kr",
   "torriden.com",
-  "www.torriden.com",
   "skin1004.com",
-  "www.skin1004.com",
   "numbuzin.com",
-  "www.numbuzin.com",
   "beautyofjoseon.com",
   "haruharuwonder.com",
   "goodal.co.kr",
-  "www.goodal.co.kr",
   "isntree.com",
-  "www.isntree.com",
-  "pyunkangyul.com",
-  "www.pyunkangyul.com",
   "mixsoon.com",
   "dalba.co.kr",
-  "www.dalba.co.kr",
   "manyo.co.kr",
-  "www.manyo.co.kr",
+  "tirtir.co.kr",
+  "www.tirtir.co.kr",
+  "clubclio.co.kr",
+  "www.clubclio.co.kr",
+  "drg.co.kr",
+  "www.drg.co.kr",
+  "banilaco.com",
+  "www.banilaco.com",
+  "tonymoly.com",
+  "www.tonymoly.com",
+  "thesaemcosmetic.com",
+  "www.thesaemcosmetic.com",
+  "naturerepublic.com",
+  "www.naturerepublic.com",
+  "skinfood.co.kr",
+  "www.skinfood.co.kr",
+  "isoi.co.kr",
+  "www.isoi.co.kr",
+  "cellfusionc.com",
+  "www.cellfusionc.com",
+  "hanyul.com",
+  "innisfree.com",
+  "sulwhasoo.com",
+  "aritaum.com",
 ];
 
 const SITEMAP_PATHS = ["/sitemap.xml", "/sitemap_index.xml", "/sitemap/sitemap.xml"];
 const UA = "Mozilla/5.0 (compatible; KBeautyMatchCatalog/1.0)";
-const SAMPLE = 6;
+const SAMPLE = 10;
 const TIMEOUT_MS = 12_000;
 
 async function get(url: string): Promise<{ ok: boolean; status: number; text: string }> {
@@ -79,9 +105,43 @@ type Verdict = {
   priced: number;
   inStock: number;
   placeholderPrices: boolean;
+  /** 표본 중 전성분을 **텍스트로** 싣고 있던 제품 수 */
+  withIngredientText: number;
   usable: boolean;
   note: string;
 };
+
+/**
+ * 전성분이 **텍스트로** 있는지 본다.
+ *
+ * 성분 하나가 우연히 등장하는 것과 «전성분 목록» 은 다르다. 마케팅 문구에도
+ * `히알루론산` 은 흔히 나온다. 그래서 **거의 모든 화장품에 들어가는 성분이
+ * 여러 개 함께** 있을 때만 목록으로 본다 — 물 + 다가알코올·보습제 계열.
+ *
+ * 여기서 «있다» 고 판정해도 실제 등록은 추출기(`extractLabeledIngredients`)와
+ * 검증기(`validateIngredientList`)를 다시 통과해야 한다. 이건 몰을 고르기 위한
+ * 어림짐작이지 등록 판정이 아니다.
+ */
+// 낱말 경계를 둔다 — 경계가 없으면 `Rosewater` · `Aquatic` 같은 마케팅 문구가
+// 물로 잡혀 «전성분이 있다» 고 잘못 판정한다.
+const WATER_MARKERS = [/정제수/, /\bWater\b/i, /\bAqua\b/i];
+const COMMON_MARKERS = [
+  /글리세린/,
+  /부틸렌글라이콜/,
+  /헥산다이올/,
+  /나이아신아마이드/,
+  /판테놀/,
+  /\bGlycerin\b/i,
+  /\bButylene Glycol\b/i,
+  /\bNiacinamide\b/i,
+  /\bPanthenol\b/i,
+];
+
+function hasIngredientText(html: string): boolean {
+  const text = html.replace(/<[^>]+>/g, " ");
+  if (!WATER_MARKERS.some((re) => re.test(text))) return false;
+  return COMMON_MARKERS.filter((re) => re.test(text)).length >= 2;
+}
 
 async function probe(domain: string): Promise<Verdict> {
   const base: Verdict = {
@@ -91,6 +151,7 @@ async function probe(domain: string): Promise<Verdict> {
     priced: 0,
     inStock: 0,
     placeholderPrices: false,
+    withIngredientText: 0,
     usable: false,
     note: "",
   };
@@ -132,8 +193,15 @@ async function probe(domain: string): Promise<Verdict> {
     return base;
   }
 
+  // **앞에서 N 개를 자르지 않는다.** 사이트맵 앞쪽은 신제품·기획전·품절 상품이
+  // 몰려 있어 그 몰의 대표 표본이 아니다. 실제로 앞 6건만 봤을 때 COSRX 는
+  // 「가격 1/6 · 재고 0」 으로 나왔지만, 전수 수집에서는 가격 57건 · 재고 53건이었다.
+  // 탐침이 잘 되는 몰을 탈락시키면 탐침이 없느니만 못하다.
+  const step = Math.max(1, Math.floor(urls.length / SAMPLE));
+  const sampled = urls.filter((_, i) => i % step === 0).slice(0, SAMPLE);
+
   const prices: number[] = [];
-  for (const u of urls.slice(0, SAMPLE)) {
+  for (const u of sampled) {
     const page = await get(u);
     if (!page.ok) continue;
     const parsed = parseMallProductJsonLd(page.text);
@@ -141,10 +209,11 @@ async function probe(domain: string): Promise<Verdict> {
     base.priced += 1;
     prices.push(parsed.price);
     if (parsed.inStock) base.inStock += 1;
+    if (hasIngredientText(page.text)) base.withIngredientText += 1;
   }
 
   if (base.priced === 0) {
-    base.note = `제품 ${urls.length}건이나 JSON-LD 가격이 없음 (${SAMPLE}건 표본)`;
+    base.note = `제품 ${urls.length}건이나 JSON-LD 가격이 없음 (${sampled.length}건 표본)`;
     return base;
   }
 
@@ -154,10 +223,16 @@ async function probe(domain: string): Promise<Verdict> {
     return base;
   }
 
+  // 전성분이 없으면 오퍼만 생기고 **제품은 하나도 안 생긴다** (편강율 사례).
+  if (base.withIngredientText === 0) {
+    base.note = `가격·재고는 정상이나 전성분이 텍스트로 없음 (${sampled.length}건 표본) — 편강율과 같은 사례`;
+    return base;
+  }
+
   base.usable = true;
   base.note =
     base.inStock === 0
-      ? "가격은 정상이나 재고(availability)를 안 줌 — 재고를 추측하면 안 되므로 반쪽"
+      ? "가격·전성분은 정상이나 재고(availability)를 안 줌 — 재고를 추측하면 안 되므로 반쪽"
       : "사용 가능";
   return base;
 }
@@ -174,7 +249,7 @@ async function main() {
     const mark = v.usable ? (v.inStock > 0 ? "OK  " : "반쪽") : "  X ";
     console.log(
       `${mark} ${d.padEnd(24)} 제품URL ${String(v.productUrls).padStart(4)} · ` +
-        `가격 ${v.priced}/${SAMPLE} · 재고 ${v.inStock}  ${v.note}`
+        `가격 ${v.priced}/${SAMPLE} · 재고 ${v.inStock} · 전성분 ${v.withIngredientText}/${SAMPLE}  ${v.note}`
     );
   }
 

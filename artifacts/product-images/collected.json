@@ -1,6 +1,15 @@
 {
-  "checkedAt": "2026-08-04T21:34:35.237Z",
+  "checkedAt": "2026-08-08T09:56:24.856Z",
   "found": [
+    {
+      "productId": 1,
+      "brand": "COSRX",
+      "name": "Centella Water Alcohol-Free Toner",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/centella-water-alcohol-free-toner-cosrx-official-1.jpg?v=1724835527",
+      "sourcePage": "https://cosrx.com/products/centella-water-alcohol-free-toner",
+      "similarity": 1,
+      "inPool": true
+    },
     {
       "productId": 3,
       "brand": "Laneige",
@@ -123,7 +132,7 @@
       "brand": "Anua",
       "name": "Heartleaf Soothing Toner",
       "imageUrl": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-toner-heartleaf-77-soothing-toner-1239193744.jpg?v=1779181932",
-      "sourcePage": "https://anua.com/products/heartleaf-77-soothing-toner",
+      "sourcePage": "https://anua.com/products/heartleaf-77-soothing-toner-1",
       "similarity": 1,
       "inPool": true
     },
@@ -176,7 +185,7 @@
       "productId": 171,
       "brand": "SKIN1004",
       "name": "Madagascar Centella Tone Brightening Capsule Ampoule",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-ampoule-serum-centella-ampoule-1246455500.png?v=1782787571",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-ampoule-serum-centella-ampoule-1253199402.jpg?v=1786012992",
       "sourcePage": "https://skin1004.com/products/skin1004-madagascar-centella-ampoule",
       "similarity": 1,
       "inPool": true
@@ -231,18 +240,9 @@
       "brand": "COSRX",
       "name": "The 6 Peptide Skin Booster Serum",
       "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/THE_6_PEPTIDE_SKIN_BOOSTER_SERUM___800x1067_1.webp?v=1784097536",
-      "sourcePage": "https://cosrx.com/products/the-6-peptide-skin-booster-serum",
+      "sourcePage": "https://cosrx.com/products/the-6-peptide-skin-booster-serum-2-pack",
       "similarity": 1,
       "inPool": true
-    },
-    {
-      "productId": 1,
-      "brand": "COSRX",
-      "name": "Centella Water Alcohol-Free Toner",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/centella-water-alcohol-free-toner-cosrx-official-1.jpg?v=1724835527",
-      "sourcePage": "https://cosrx.com/products/centella-water-alcohol-free-toner",
-      "similarity": 1,
-      "inPool": false
     },
     {
       "productId": 40,
@@ -356,7 +356,7 @@
       "productId": 117,
       "brand": "TIRTIR",
       "name": "Milk Skin Toner",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/Thumbnail_2x_9cf0fdb9-3ece-497f-baa6-15f479f4bd41.png?v=1770863123",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/thumbnail_milk-skin-toner-light_1_2_1e784317-c17d-4a2a-9999-77710fed820a.png?v=1786086346",
       "sourcePage": "https://tirtir.us/products/milk-skin-toner-light",
       "similarity": 1,
       "inPool": false
@@ -464,8 +464,8 @@
       "productId": 165,
       "brand": "Anua",
       "name": "PDRN Hyaluronic Acid Cream",
-      "imageUrl": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/hidden-amazon-s-choice-pdrn-hyaluronic-acid-100-moisturising-cream-1251166217.png?v=1785136090",
-      "sourcePage": "https://anua.com/products/amazon-choice-pdrn-hyaluronic-acid-100-moisturising-cream",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/gwp-2-pdrn-hyaluronic-acid-100-moisturizing-cream-30ml-1245700564.jpg?v=1782190870",
+      "sourcePage": "https://anua.com/products/pdrn-hyaluronic-acid-100-moisturizing-cream-30ml",
       "similarity": 1,
       "inPool": false
     },
@@ -525,6 +525,102 @@
     }
   ],
   "missed": [
+    {
+      "productId": 216,
+      "brand": "COSRX",
+      "name": "AC 컬렉션 카밍 폼 클렌저 150ml",
+      "why": "제품명 대조 미달 (0.25)"
+    },
+    {
+      "productId": 217,
+      "brand": "COSRX",
+      "name": "알로에 수딩 선 크림 SPF50+ PA+++ 50ml",
+      "why": "제품명 대조 미달 (0.40)"
+    },
+    {
+      "productId": 218,
+      "brand": "COSRX",
+      "name": "아하 7 화이트헤드 파워 리퀴드 100ml",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 219,
+      "brand": "COSRX",
+      "name": "오일-프리 울트라 모이스쳐라이징 로션 100ml",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 220,
+      "brand": "COSRX",
+      "name": "살리실산 데일리 젠틀 클렌저 150ml",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 221,
+      "brand": "COSRX",
+      "name": "찹쌀 쫀쫀팩 60g",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 222,
+      "brand": "COSRX",
+      "name": "히아루론산 인텐시브 크림 100ml",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 223,
+      "brand": "COSRX",
+      "name": "센텔라 블래미쉬 크림 30ml",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 224,
+      "brand": "Klairs",
+      "name": "블루 드롭+블루 크림 60g",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 225,
+      "brand": "Klairs",
+      "name": "펀더멘탈 워터리 오일 드롭",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 226,
+      "brand": "Klairs",
+      "name": "미드나잇 블루 유스 액티베이팅 드롭 20mlX2개",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 227,
+      "brand": "Klairs",
+      "name": "메이플 에너지 인퓨징 세럼 30ml",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 228,
+      "brand": "Klairs",
+      "name": "메이플 에너지 인퓨징 크림",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 229,
+      "brand": "Klairs",
+      "name": "메이플 에너지 인퓨징 크림+세럼",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 230,
+      "brand": "Klairs",
+      "name": "블루드롭20ml+클리어링 워터 크림50g 2종 세트",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 263,
+      "brand": "Sulwhasoo",
+      "name": "순행클렌징오일",
+      "why": "제품명 대조 미달 (0.00)"
+    },
     {
       "productId": 9,
       "brand": "COSRX",
@@ -818,6 +914,54 @@
       "brand": "Laneige",
       "name": "Neo Cushion Matte Foundation",
       "why": "제품명 대조 미달 (0.33)"
+    },
+    {
+      "productId": 194,
+      "brand": "COSRX",
+      "name": "투인원 포어리스 파워 리퀴드 100ml",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 260,
+      "brand": "TIRTIR",
+      "name": "도자기 크림",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 261,
+      "brand": "TIRTIR",
+      "name": "퍼스널 케어 마스크",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 262,
+      "brand": "TIRTIR",
+      "name": "밀크 팩 클렌저",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 264,
+      "brand": "Sulwhasoo",
+      "name": "자음생크림",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 265,
+      "brand": "Sulwhasoo",
+      "name": "자음생크림 리치",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 266,
+      "brand": "Sulwhasoo",
+      "name": "자음생캡슐세럼",
+      "why": "제품명 대조 미달 (0.00)"
+    },
+    {
+      "productId": 267,
+      "brand": "Sulwhasoo",
+      "name": "탄력크림 EX",
+      "why": "제품명 대조 미달 (0.50)"
     }
   ]
 }

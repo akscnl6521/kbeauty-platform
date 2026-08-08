@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-07T13:52:40.100Z",
-  "poolSize": 51,
-  "krBuyable": 39,
+  "checkedAt": "2026-08-08T09:55:53.827Z",
+  "poolSize": 80,
+  "krBuyable": 68,
   "usBuyable": 25,
   "scenarios": [
     {
       "scenarioId": "kr-redness-sensitive-cream",
       "name": "민감·홍조 · 진정 크림",
-      "safe": 51,
-      "withEvidence": 25,
+      "safe": 80,
+      "withEvidence": 37,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -24,8 +24,8 @@
     {
       "scenarioId": "kr-redness-soothing-serum",
       "name": "홍조 · 저자극 진정 세럼",
-      "safe": 51,
-      "withEvidence": 30,
+      "safe": 80,
+      "withEvidence": 49,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -41,8 +41,8 @@
     {
       "scenarioId": "kr-redness-gentle-cleanser",
       "name": "민감 피부 · 순한 클렌저",
-      "safe": 51,
-      "withEvidence": 27,
+      "safe": 80,
+      "withEvidence": 41,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -58,8 +58,8 @@
     {
       "scenarioId": "kr-redness-toner-pad",
       "name": "붉은기 · 진정 토너 패드",
-      "safe": 51,
-      "withEvidence": 27,
+      "safe": 80,
+      "withEvidence": 41,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -75,8 +75,8 @@
     {
       "scenarioId": "kr-redness-calming-mist",
       "name": "열감·홍조 · 진정 미스트",
-      "safe": 51,
-      "withEvidence": 47,
+      "safe": 80,
+      "withEvidence": 75,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -92,8 +92,8 @@
     {
       "scenarioId": "kr-dryness-barrier-cream",
       "name": "건조·장벽 · 보습 크림",
-      "safe": 51,
-      "withEvidence": 47,
+      "safe": 80,
+      "withEvidence": 75,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -109,8 +109,8 @@
     {
       "scenarioId": "kr-dryness-barrier-essence",
       "name": "장벽 강화 · 보습 에센스",
-      "safe": 51,
-      "withEvidence": 44,
+      "safe": 80,
+      "withEvidence": 72,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -126,8 +126,8 @@
     {
       "scenarioId": "kr-dryness-hydrating-toner",
       "name": "건조함 · 수분 토너",
-      "safe": 51,
-      "withEvidence": 44,
+      "safe": 80,
+      "withEvidence": 72,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -143,8 +143,8 @@
     {
       "scenarioId": "kr-dryness-cream-moderate",
       "name": "중건성 · 데일리 크림",
-      "safe": 51,
-      "withEvidence": 47,
+      "safe": 80,
+      "withEvidence": 75,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -160,8 +160,8 @@
     {
       "scenarioId": "kr-dryness-mask",
       "name": "건조·당김 · 수분 마스크",
-      "safe": 51,
-      "withEvidence": 44,
+      "safe": 80,
+      "withEvidence": 72,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -177,8 +177,8 @@
     {
       "scenarioId": "kr-acne-sebum-cleanser",
       "name": "여드름·피지 · 클렌저",
-      "safe": 51,
-      "withEvidence": 27,
+      "safe": 80,
+      "withEvidence": 43,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -194,8 +194,8 @@
     {
       "scenarioId": "kr-acne-spot-treatment",
       "name": "트러블 · 스팟 케어",
-      "safe": 51,
-      "withEvidence": 27,
+      "safe": 80,
+      "withEvidence": 43,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -211,8 +211,8 @@
     {
       "scenarioId": "kr-acne-serum",
       "name": "여드름 · 세럼",
-      "safe": 51,
-      "withEvidence": 28,
+      "safe": 80,
+      "withEvidence": 44,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -228,8 +228,8 @@
     {
       "scenarioId": "kr-acne-pores-toner",
       "name": "모공·피지 · 토너",
-      "safe": 51,
-      "withEvidence": 27,
+      "safe": 80,
+      "withEvidence": 43,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -245,8 +245,8 @@
     {
       "scenarioId": "kr-acne-mattifying-emulsion",
       "name": "유분·트러블 · 에멀전",
-      "safe": 51,
-      "withEvidence": 27,
+      "safe": 80,
+      "withEvidence": 43,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -262,62 +262,28 @@
     {
       "scenarioId": "kr-uv-sunscreen-face",
       "name": "얼굴 · 데일리 선크림",
-      "safe": 51,
-      "withEvidence": 30,
+      "safe": 80,
+      "withEvidence": 57,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 2,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "COSRX",
         "Abib",
-        "Beauty of Joseon",
-        "Axis-Y"
+        "d'Alba",
+        "d'Alba"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-uv-sunscreen-sensitive",
       "name": "민감 피부 · 순한 선크림",
-      "safe": 51,
-      "withEvidence": 38,
+      "safe": 80,
+      "withEvidence": 65,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
-      "brands": [
-        "Abib",
-        "Abib",
-        "COSRX",
-        "COSRX",
-        "Axis-Y"
-      ],
-      "short": false
-    },
-    {
-      "scenarioId": "kr-uv-antiaging-sunscreen",
-      "name": "광노화 · SPF 케어",
-      "safe": 51,
-      "withEvidence": 30,
-      "finalCount": 5,
-      "min": 3,
-      "krBuyableCount": 2,
-      "brands": [
-        "Abib",
-        "COSRX",
-        "Abib",
-        "Beauty of Joseon",
-        "Axis-Y"
-      ],
-      "short": false
-    },
-    {
-      "scenarioId": "kr-dryness-hydrating-sunscreen",
-      "name": "건조 피부 · 보습 선크림",
-      "safe": 51,
-      "withEvidence": 50,
-      "finalCount": 5,
-      "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "Abib",
@@ -328,10 +294,44 @@
       "short": false
     },
     {
+      "scenarioId": "kr-uv-antiaging-sunscreen",
+      "name": "광노화 · SPF 케어",
+      "safe": 80,
+      "withEvidence": 57,
+      "finalCount": 5,
+      "min": 3,
+      "krBuyableCount": 4,
+      "brands": [
+        "Abib",
+        "COSRX",
+        "Abib",
+        "d'Alba",
+        "d'Alba"
+      ],
+      "short": false
+    },
+    {
+      "scenarioId": "kr-dryness-hydrating-sunscreen",
+      "name": "건조 피부 · 보습 선크림",
+      "safe": 80,
+      "withEvidence": 79,
+      "finalCount": 5,
+      "min": 3,
+      "krBuyableCount": 4,
+      "brands": [
+        "Abib",
+        "Abib",
+        "COSRX",
+        "d'Alba",
+        "d'Alba"
+      ],
+      "short": false
+    },
+    {
       "scenarioId": "kr-uv-mist-spf",
       "name": "야외 · 선 미스트",
-      "safe": 51,
-      "withEvidence": 26,
+      "safe": 80,
+      "withEvidence": 52,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 2,
@@ -347,50 +347,50 @@
     {
       "scenarioId": "kr-aging-firmness-serum",
       "name": "탄력 · 안티에이징 세럼",
-      "safe": 51,
-      "withEvidence": 50,
+      "safe": 80,
+      "withEvidence": 79,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 2,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "Abib",
         "COSRX",
-        "Axis-Y",
-        "COSRX"
+        "d'Alba",
+        "d'Alba"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-firmness-ampoule",
       "name": "주름·탄력 · 앰플",
-      "safe": 51,
-      "withEvidence": 45,
+      "safe": 80,
+      "withEvidence": 74,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "Abib",
         "COSRX",
-        "COSRX",
-        "Beauty of Joseon"
+        "d'Alba",
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-eye-cream",
       "name": "눈가 · 아이크림",
-      "safe": 51,
-      "withEvidence": 45,
+      "safe": 80,
+      "withEvidence": 74,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "Abib",
         "COSRX",
-        "COSRX",
+        "Klairs",
         "Klairs"
       ],
       "short": false
@@ -398,119 +398,119 @@
     {
       "scenarioId": "kr-aging-neck-cream",
       "name": "목주름 · 크림",
-      "safe": 51,
-      "withEvidence": 45,
+      "safe": 80,
+      "withEvidence": 74,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "Abib",
         "COSRX",
-        "COSRX",
-        "Beauty of Joseon"
+        "d'Alba",
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-aging-essence",
       "name": "노화방지 · 에센스",
-      "safe": 51,
-      "withEvidence": 50,
+      "safe": 80,
+      "withEvidence": 79,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 2,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "Abib",
         "COSRX",
-        "Beauty of Joseon",
-        "Axis-Y"
+        "d'Alba",
+        "d'Alba"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-eye-wrinkle-cream",
       "name": "눈가 주름 · 아이크림",
-      "safe": 51,
-      "withEvidence": 48,
+      "safe": 80,
+      "withEvidence": 77,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "Abib",
         "COSRX",
-        "COSRX",
-        "Klairs"
+        "d'Alba",
+        "COSRX"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-eye-dark-circle-serum",
       "name": "다크서클 · 아이 세럼",
-      "safe": 51,
-      "withEvidence": 29,
+      "safe": 80,
+      "withEvidence": 56,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 2,
+      "krBuyableCount": 4,
       "brands": [
         "COSRX",
         "Abib",
         "Abib",
-        "Beauty of Joseon",
-        "COSRX"
+        "d'Alba",
+        "d'Alba"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-neck-firming-cream",
       "name": "목 · 탄력 크림",
-      "safe": 51,
-      "withEvidence": 45,
+      "safe": 80,
+      "withEvidence": 74,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "Abib",
         "COSRX",
-        "COSRX",
-        "Beauty of Joseon"
+        "d'Alba",
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-neck-serum",
       "name": "목주름 · 세럼",
-      "safe": 51,
-      "withEvidence": 45,
+      "safe": 80,
+      "withEvidence": 74,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "Abib",
         "COSRX",
-        "COSRX",
-        "Beauty of Joseon"
+        "d'Alba",
+        "Klairs"
       ],
       "short": false
     },
     {
       "scenarioId": "kr-eye-neck-multi-cream",
       "name": "눈가·목 · 멀티 크림",
-      "safe": 51,
-      "withEvidence": 48,
+      "safe": 80,
+      "withEvidence": 77,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 3,
+      "krBuyableCount": 4,
       "brands": [
         "Abib",
         "Abib",
         "COSRX",
-        "COSRX",
-        "Klairs"
+        "d'Alba",
+        "COSRX"
       ],
       "short": false
     }
