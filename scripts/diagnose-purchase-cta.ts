@@ -51,6 +51,7 @@ async function main() {
   }
 
   const { normalizeProductOffer, isOfferPurchasableForCta } = await import("@/lib/recommend");
+  const noCtaByCountry: Record<string, Array<{ id: unknown; brand: unknown; name: unknown }>> = {};
   const client = createClient(url, key, { auth: { persistSession: false } });
 
   const rawOffers = await fetchAll<Record<string, unknown>>(
@@ -64,7 +65,8 @@ async function main() {
     "products",
     "id,brand,name,active,verified_at"
   );
-  const pool = new Set(products.filter((p) => p.active === true && p.verified_at != null).map((p) => String(p.id)));
+  const poolProducts = products.filter((p) => p.active === true && p.verified_at != null);
+  const pool = new Set(poolProducts.map((p) => String(p.id)));
 
   console.log(`오퍼 ${rawOffers.length}행 · 추천 풀 제품 ${pool.size}건\n`);
 
@@ -118,6 +120,15 @@ async function main() {
       for (const p of passed.slice(0, 5))
         console.log(`    제품 ${p.pid.padStart(4)}  ${String(p.retailer).padEnd(14)} ${p.price} ${p.currency}`);
     }
+
+    // **통과한 것보다 «통과 못 한 제품» 이 알고 싶은 값이다.** 합계만 찍으면
+    // 어느 제품에 구매 버튼이 안 뜨는지 매번 따로 세게 된다.
+    const withoutCta = poolProducts.filter((p) => !productsWithCta.has(String(p.id)));
+    console.log(`  ${country} 구매 버튼이 안 뜨는 제품 ${withoutCta.length}건`);
+    for (const p of withoutCta.slice(0, 20))
+      console.log(`    ${String(p.id).padStart(4)} ${String(p.brand).padEnd(12)} ${String(p.name).slice(0, 38)}`);
+    if (withoutCta.length > 20) console.log(`    … 외 ${withoutCta.length - 20}건`);
+    noCtaByCountry[country] = withoutCta.map((p) => ({ id: p.id, brand: p.brand, name: p.name }));
     console.log("");
   }
 
