@@ -196,4 +196,12 @@ assert.deepEqual(coerceIngredientListUnknown(null), []);
   assert.deepEqual(splitIngredientTokens("1,2-헥산다이올, 부틸렌글라이콜"), ["1,2-헥산다이올", "부틸렌글라이콜"]);
   assert.equal(stripIngredientNoticeTail("마데카식애씨드 사용할 때"), "마데카식애씨드");
 
+  
+  // 쇼핑몰 화면 글자가 성분표에 섞여 온다 — 2026-08-08 참존 실측.
+  // 라벨은 두 겹으로 붙는다(`보러가기 전성분 정제수`).
+  assert.deepEqual(
+    splitIngredientTokens("보러가기 전성분 정제수, 글리세린, 향료 닫기 특이사항, 장바구니 바로구매 선물하기 상세 정보"),
+    ["정제수", "글리세린", "향료"]
+  );
+
   console.log("ingredient-notice-tail self-test: ok");

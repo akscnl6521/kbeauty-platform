@@ -1,21 +1,6 @@
 {
-  "builtAt": "2026-08-08T12:40:19.644Z",
-  "found": [
-    {
-      "productId": 238,
-      "brand": "d'Alba",
-      "name": "화이트 트러플 엑스트라 너리싱 크림",
-      "imageUrl": "https://godomall.speedycdn.net/95803ed2b538f43d548bda9185c01365/goods/1000000412/image/detail/1000000412_detail_092.png",
-      "sourcePage": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000412"
-    },
-    {
-      "productId": 250,
-      "brand": "d'Alba",
-      "name": "화이트 트러플 아쿠아 마린 에너지 세럼",
-      "imageUrl": "https://godomall.speedycdn.net/95803ed2b538f43d548bda9185c01365/goods/1000000739/image/detail/1000000739_detail_092.png",
-      "sourcePage": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000739"
-    }
-  ],
+  "builtAt": "2026-08-08T15:46:13.495Z",
+  "found": [],
   "missed": [],
   "dropped": []
 }
