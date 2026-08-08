@@ -108,6 +108,110 @@ function slugify(brand: string, name: string): string {
   return base.slice(0, 80) || `kr-${Date.now()}`;
 }
 
+/**
+ * **조건부 가격·단종 버전은 등록하지 않는다.**
+ *
+ * 국내몰은 같은 제품을 여러 «판매 조건» 으로 나란히 올린다. 2026-08-08 달바
+ * 수집에서 나온 실제 사례:
+ *
+ *   `[주주우대] 화이트 트러플 … 세럼 로션 100ml`   9,900원   ← 주주만 살 수 있는 값
+ *   `[홈트라이 전용] 화이트 트러플 더블 세럼 앤 크림`         ← 특정 행사 참가자 전용
+ *   `비타 토닝 캡슐 크림 (튜브형) - 리뉴얼 전버전`           ← 단종된 옛 버전
+ *
+ * 이 값들은 **거짓이 아니지만 조건부**다. 그대로 화면에 올리면 「9,900원」 을 보고
+ * 들어간 사람이 살 수 없는 값을 만난다. 우리가 지어낸 가격이 아니라도 결과는
+ * 같으므로 넣지 않는다.
+ *
+ * 판정은 **이름에 드러난 것만** 본다. 조건을 추측하지 않는다 — 이름에 표시가
+ * 없으면 정상 판매로 본다.
+ */
+const CONDITIONAL_SALE_MARKERS = [
+  /주주\s*우대/,
+  /\[\s*미운영[^\]]*\]/,
+  /임직원/,
+  /홈\s*트라이/,
+  /체험\s*단/,
+  /리뉴얼\s*전\s*버전/,
+  /구\s*버전/,
+  /단종/,
+  /샘플/,
+  /비매품/,
+  /증정\s*용/,
+];
+
+function conditionalSaleReason(name: string): string | null {
+  for (const re of CONDITIONAL_SALE_MARKERS) {
+    const m = name.match(re);
+    if (m) return m[0].replace(/\s+/g, "");
+  }
+  return null;
+}
+
+
+/**
+ * **얼굴 스킨케어가 아닌 제품은 등록하지 않는다.**
+ *
+ * 브랜드 자사몰을 통째로 훑으면 메이크업·헤어·바디가 같이 딸려 온다. 문제는
+ * 유형 추정이 이름의 «세럼» · «크림» 같은 낱말을 보기 때문에 **엉뚱한 유형으로
+ * 들어온다**는 것이다. 2026-08-08 달바 수집 실측:
+ *
+ *   `스킨 핏 커버 세럼 비비 크림`        → toner   ← BB 크림이 토너로
+ *   `글로우 핏 세럼 커버 쿠션 (미니)`      → serum   ← 쿠션이 세럼으로
+ *   `프로페셔널 리페어링 헤어 퍼퓸 세럼`     → serum   ← 헤어 제품이 세럼으로
+ *   `화이트 트러플 세럼 바디 크림`         → serum   ← 바디 크림이 세럼으로
+ *
+ * `isOutsideFaceTrack` 은 **카테고리**로 거르므로 이건 못 잡는다. 카테고리가
+ * 이미 틀렸기 때문이다. 그래서 들어오는 자리에서 **이름으로** 막는다.
+ *
+ * 카테고리를 고치는 것과는 다른 문제다 — 여기서 막는 것은 «얼굴 스킨케어가
+ * 아닌 것» 이고, 얼굴 제품의 유형이 틀린 것은 별개로 다룬다.
+ */
+const NON_FACE_SKINCARE_MARKERS = [
+  // 메이크업
+  /메이크업/,
+  /쿠션/,
+  /비비\s*크림|비비크림|BB/i,
+  /씨씨\s*크림|씨씨크림|CC\s*크림/i,
+  /파운데이션/,
+  /틴티드/,
+  /컨실러/,
+  /픽서/,
+  /파우더\s*팩트|팩트/,
+  /아이섀도|마스카라|아이라이너|아이브로우/,
+  /립\s*스틱|립스틱|립\s*틴트|립틴트|립\s*밤|립밤/,
+  // 헤어·향수
+  /헤어/,
+  /샴푸/,
+  /린스/,
+  /퍼퓸|향수/,
+  // 바디·핸드·풋
+  /바디/,
+  /핸드\s*크림|핸드크림/,
+  /풋\s*크림|풋크림/,
+];
+
+function nonFaceSkincareReason(name: string): string | null {
+  for (const re of NON_FACE_SKINCARE_MARKERS) {
+    const m = name.match(re);
+    if (m) return m[0].replace(/\s+/g, "");
+  }
+  return null;
+}
+
+
+/** 포장·수량 표기를 지운 비교용 키. 용량(ml·g)은 남긴다. */
+function packagingNeutralKey(name: string): string {
+  return name
+    .replace(/\d+\s*BOX/gi, " ")
+    .replace(/총\s*\d+\s*개/g, " ")
+    .replace(/\d+\s*개\s*(SET|세트)/gi, " ")
+    .replace(/\d+\s*회분/g, " ")
+    .replace(/\(\s*\)/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
 async function main() {
   const apply = process.argv.includes("--apply");
   const url = process.env.PRODUCTION_SUPABASE_URL ?? "";
@@ -158,6 +262,7 @@ async function main() {
         return true;
       });
     if (items.length === 0) continue;
+    const pickedPackKeys = new Set<string>();
     // 우리 카탈로그의 영문 표기를 쓴다 — 브랜드명은 번역하지 않는다.
     const brand = mall.brands[0];
     const mine = existing.filter((p) => mall.brands.includes(String(p.brand ?? "")));
@@ -166,12 +271,39 @@ async function main() {
     for (const it of items) {
       // 이미 있는 제품인가 — 한글 몰 이름을 비교용으로 바꿔 대조한다.
       const cmp = koreanProductNameToComparable(it.name);
+      // 같은 몰 안에서도 같은 제품이 두 번 올라온다 —
+      // `… 2BOX` 와 `… 2BOX (총 8개)`, `퍼스널 케어 마스크` 와 `… 10개 SET`.
+      //
+      // **이름 유사도로 묶으면 안 된다.** 한 브랜드 라인은 이름 대부분을 공유해서
+      // (달바는 거의 전부 «화이트 트러플 …») 서로 다른 제품이 통째로 묶인다.
+      // 실제로 유사도 방식은 폼 클렌저·젤 클렌저·오일 클렌저를 하나로 봤다.
+      //
+      // 그래서 **포장·수량 표기만 지우고 나머지가 글자까지 같을 때만** 중복으로 본다.
+      // 용량(ml·g)은 지우지 않는다 — 100ml 와 150ml 는 값이 다른 별개 상품이다.
+      const packKey = packagingNeutralKey(it.name);
+      if (pickedPackKeys.has(packKey)) {
+        skipped.push({ name: it.name, why: "같은 몰 안 중복(포장·수량만 다름)" });
+        continue;
+      }
+
       const dupe = mine.some((p) => {
         const a = nameSimilarity(nameTokens(cmp, brand), nameTokens(String(p.name ?? ""), brand));
         const b = nameSimilarity(nameTokens(it.name, brand), nameTokens(String(p.name_ko ?? ""), brand));
         return Math.max(a, b) >= DUPLICATE_MIN;
       });
       if (dupe) continue;
+
+      const nonFace = nonFaceSkincareReason(it.name);
+      if (nonFace) {
+        skipped.push({ name: it.name, why: `얼굴 스킨케어가 아님 — «${nonFace}»` });
+        continue;
+      }
+
+      const conditional = conditionalSaleReason(it.name);
+      if (conditional) {
+        skipped.push({ name: it.name, why: `조건부 판매·단종 — «${conditional}»` });
+        continue;
+      }
 
       const html = await get(it.url);
       const raw = html ? extractLabeledIngredientsRaw(html) : null;
@@ -190,6 +322,7 @@ async function main() {
         continue;
       }
 
+      pickedPackKeys.add(packKey);
       candidates.push({
         brand,
         mallName: it.name,

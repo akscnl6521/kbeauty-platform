@@ -157,6 +157,53 @@ async function main() {
   }
   console.log(`  영문명 ${koByEng.size}종`);
 
+  // --coverage: 지금 활성화가 막혀 있는 «미매칭 토큰» 을 식약처가 얼마나 덮는지 본다.
+  // 파서를 새로 짜지 않고 **이미 동작이 확인된 이 스크립트 안에서** 재어야
+  // 답을 믿을 수 있다 — 따로 짠 XML 파서가 조용히 0행을 돌려줘 두 번 헛짚었다.
+  if (process.argv.includes("--coverage")) {
+    const koToEn = new Map<string, string>();
+    for (const r of mfds) {
+      const ko = String(r.INGR_KOR_NAME ?? "").replace(/[\s·]/g, "");
+      const en = String(r.INGR_ENG_NAME ?? "").trim();
+      if (ko && en && !koToEn.has(ko)) koToEn.set(ko, en);
+    }
+    console.log(`
+식약처 한글명 ${koToEn.size}종`);
+
+    const { normalizeTextKey, ingredientNameVariants, isIngredientTokenKnown } = await import(
+      "@/lib/pipeline/ingredient-normalize"
+    );
+    const dictRows = await fetchDictionary(client);
+    const known = new Set<string>();
+    for (const r of dictRows)
+      for (const n of [r.name_en, r.name_ko])
+        for (const v of ingredientNameVariants(n)) {
+          const k = normalizeTextKey(v);
+          if (k) known.add(k);
+        }
+    const { data: ps } = await client
+      .from("products")
+      .select("id,full_ingredients")
+      .is("verified_at", null)
+      .not("full_ingredients", "is", null);
+    const missing = new Set<string>();
+    for (const p of ps ?? [])
+      for (const t of (Array.isArray(p.full_ingredients) ? p.full_ingredients : []).map(String))
+        if (!isIngredientTokenKnown(t, known)) missing.add(t);
+
+    let covered = 0;
+    const examples: string[] = [];
+    for (const m of missing) {
+      const en = koToEn.get(m.replace(/[\s·]/g, ""));
+      if (!en) continue;
+      covered += 1;
+      if (examples.length < 8) examples.push(`${m} → ${en}`);
+    }
+    console.log(`미검증 제품의 미매칭 토큰 ${missing.size}종 중 식약처가 덮는 것 ${covered}종`);
+    for (const e of examples) console.log(`    ${e}`);
+    return;
+  }
+
   const dict = await fetchDictionary(client);
   console.log(`\n우리 사전 ${dict.length}행`);
 

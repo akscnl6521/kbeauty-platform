@@ -232,6 +232,29 @@ async function main() {
     }
   }
 
+  // 활성화 게이트는 `isIngredientTokenKnown` 으로 미매칭을 센다. 위의
+  // `attachIngredientMatches` 와 결과가 달라서, 이 스크립트가 «다 덮었다» 고
+  // 해도 게이트는 계속 막을 수 있다. **막는 쪽이 보는 토큰**도 대상에 넣는다.
+  {
+    const known = new Set<string>();
+    for (const r of ingredients)
+      for (const n of [r.name_en, r.name_ko])
+        for (const v of ingredientNameVariants(n)) {
+          const k = normalizeTextKey(v);
+          if (k) known.add(k);
+        }
+    for (const p of products) {
+      const fi = p.full_ingredients;
+      if (!Array.isArray(fi) || fi.length === 0) continue;
+      for (const raw of fi.map(String)) {
+        if (isIngredientTokenKnown(raw, known)) continue;
+        const key = raw.trim();
+        if (!key || unmatched.has(key)) continue;
+        unmatched.set(key, [p.id]);
+      }
+    }
+  }
+
   // ---------- 계획 ----------
   type NewAlias = { ingredient_id: number; alias: string; normalized_alias: string; via: string };
   type NewIngredient = { slug: string; name_en: string; name_ko: string; token: string };
@@ -244,7 +267,15 @@ async function main() {
   const plannedSlugs = new Set(ingredients.map((r) => (r.slug ?? "").toLowerCase()));
 
   for (const [token] of unmatched) {
-    const hit = mfdsByKo.get(token) ?? mfdsByEn.get(token);
+    // 색인은 `normalizeTextKey` 로 만들어 두고 조회는 토큰 원문으로 했다 —
+    // 키 모양이 달라 **항상 빗나갔다.** 여러 판에 걸쳐 «식약처에 없다» 는
+    // 결론을 냈던 게 실은 이것이다. 원문과 정규화 키를 둘 다 시도한다.
+    const tokenKey = normalizeTextKey(token);
+    const hit =
+      mfdsByKo.get(tokenKey) ??
+      mfdsByKo.get(token) ??
+      mfdsByEn.get(tokenKey) ??
+      mfdsByEn.get(token);
     if (!hit || !hit.engName) continue;
     if (taken.has(token) || plannedKeys.has(token)) {
       skipped.push([token, "이미 다른 성분이 이 키를 쓰고 있다"]);
