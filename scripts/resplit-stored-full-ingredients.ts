@@ -35,6 +35,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 import { splitIngredientTokens } from "../src/lib/catalog/validateIngredientList";
+import { stripIngredientNoticeTail } from "../src/lib/recommend/normalizeIngredient";
 
 loadDotEnvLocal();
 
@@ -103,10 +104,23 @@ async function main() {
     }
 
     if (after.length === before.length && after.every((v, i) => v === before[i])) continue;
-    // 줄어드는 변경은 성분이 사라진다는 뜻이다 — 적용하지 않는다.
+    // 줄어드는 변경은 원칙적으로 성분이 사라진다는 뜻이라 막는다. 다만 «안내 문구»
+    // 원소는 사라지는 게 맞다 — `주름개선` · `｢화장품법｣에 따른` 은 성분이 아니다.
+    // 그래서 **사라지는 원소 하나하나가 안내 문구임을 따로 확인**하고서만 허용한다.
+    // 스플리터를 믿고 통과시키면, 스플리터가 틀린 날 성분이 조용히 지워진다.
     if (after.length < before.length) {
-      console.log(`  !! ${r.id} 토큰이 ${before.length} → ${after.length} 로 줄어 건너뛴다`);
-      continue;
+      const vanished = before.filter((el) => splitIngredientTokens(el).length === 0);
+      const allNotice =
+        vanished.length > 0 &&
+        vanished.every((el) => {
+          const t = el.trim();
+          return !t || stripIngredientNoticeTail(t).length < t.length;
+        });
+      if (!allNotice) {
+        console.log(`  !! ${r.id} 토큰이 ${before.length} → ${after.length} 로 줄어 건너뛴다`);
+        continue;
+      }
+      console.log(`  -- ${r.id} 안내 문구 ${vanished.length}개 제거: ${vanished.map((v) => v.slice(0, 24)).join(" / ")}`);
     }
     changes.push({ row: r, before, after });
   }
