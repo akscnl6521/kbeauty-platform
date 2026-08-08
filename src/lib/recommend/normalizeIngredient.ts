@@ -47,6 +47,7 @@ const KO_NOTICE_MARKERS: ReadonlyArray<RegExp> = [
   /사용\s*시\s*주의/,
   /사용\s*시의/,
   /사용상의/,
+  /사용할\s*때/,
   /주의\s*사항/,
   // 기능성 표시·법령 인용 — 성분표 뒤에 붙는다 (2026-08-07 국내몰 실측)
   /화장품법/,
@@ -100,8 +101,22 @@ export function splitBracketVariantSegments(text: string): string[] {
  */
 const LABEL_HEAD = /^\s*(?:[가-힣]{0,6}보기|전성분|성분\s*정보|원료\s*정보)\s+/;
 
+/**
+ * 성분명 앞에 남는 **기호 부스러기**. `+ 정제수` · `• Astragalus Root Extract`.
+ *
+ * 몰이 목록을 `+` 나 `•` 로 찍어 놓은 것이 토큰에 딸려 온다. 2026-08-08 실측에서
+ * 티르티르 두 제품이 `+ 정제수` · `+ 글리세린` 때문에 막혀 있었다.
+ *
+ * **성분명 안에 쓰이는 기호는 건드리지 않는다** — 맨 앞에 있고 뒤에 글자가
+ * 이어질 때만 뗀다. `1,2-헥산다이올` 의 하이픈처럼 이름 일부인 기호는 그대로 둔다.
+ */
+const BULLET_HEAD = /^\s*[+•·▪◦*\-–—]\s+/;
+
 export function stripIngredientLabelHead(token: string): string {
-  return String(token ?? "").replace(LABEL_HEAD, "").trim();
+  return String(token ?? "")
+    .replace(BULLET_HEAD, "")
+    .replace(LABEL_HEAD, "")
+    .trim();
 }
 
 /** 안내 문구가 시작되는 지점에서 자른다. 없으면 원문 그대로. */
