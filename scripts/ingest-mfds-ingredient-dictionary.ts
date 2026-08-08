@@ -152,11 +152,30 @@ async function main() {
     isIngredientTokenKnown,
   } = await import("../src/lib/pipeline/ingredient-normalize");
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  // Production 은 **명시적으로 켤 때만** 연다. 기본은 예전 그대로 Staging 이다.
+  //
+  // 플래그 이름이 `--production` 이면 안 된다 — **npm 이 자기 설정 플래그로 먹어서**
+  // 스크립트까지 오지 않는다. 2026-08-08 에 `npm run … -- --production --apply` 를
+  // 돌렸는데 아무 경고 없이 Staging 에 96행이 들어갔다. npm 이 모르는 이름을 쓴다.
+  const toProduction = process.argv.includes("--target-production");
+  const url = toProduction
+    ? (process.env.PRODUCTION_SUPABASE_URL ?? "")
+    : process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const key = toProduction
+    ? (process.env.PRODUCTION_SUPABASE_SERVICE_ROLE_KEY ?? "")
+    : process.env.SUPABASE_SERVICE_ROLE_KEY!;
   const ref = url.match(/https:\/\/([a-z0-9]+)\.supabase\.co/i)?.[1] ?? "";
-  if (ref === PROD_REF) throw new Error("ABORT_PRODUCTION");
-  if (ref !== STAGING_REF) throw new Error(`ABORT_NOT_STAGING:${ref}`);
+  if (toProduction) {
+    // 대상이 정말 Production 인지 확인한다. 어긋나면 멈춘다 — 엉뚱한 DB 에
+    // 성분 행을 넣으면 되돌리기 어렵다.
+    if (ref !== PROD_REF) throw new Error(`ABORT_NOT_PRODUCTION:${ref}`);
+  } else {
+    if (ref === PROD_REF) throw new Error("ABORT_PRODUCTION");
+    if (ref !== STAGING_REF) throw new Error(`ABORT_NOT_STAGING:${ref}`);
+  }
+  // 어느 DB 를 보고 있는지 **매번 첫 줄에 찍는다.** 이걸 안 찍어서 Staging 결과를
+  // Production 결과로 읽고 여러 판을 헛돌았다.
+  console.log(`대상 DB: ${toProduction ? "Production" : "Staging"} (${ref})\n`);
 
   const svcKey = (process.env.MFDS_DATA_GO_KR_SERVICE_KEY || process.env.DATA_GO_KR_SERVICE_KEY || "").trim();
   const apiUrl = (process.env.MFDS_COSMETIC_INGREDIENT_API_URL ?? "").trim();

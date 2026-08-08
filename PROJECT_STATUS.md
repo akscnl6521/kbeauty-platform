@@ -1,20 +1,31 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-08-08 (라이브 51건 · 신규 37건 등록했으나 사전 확장 권한이 막혀 대기)
+최종 갱신: 2026-08-08 (추천 풀 51 → 80건 · 브랜드 14개 · 배포 대기)
 
 
 
-## 2026-08-08 국내몰 3곳 확대 · 제품 37건 등록 (활성화 대기 — 권한 막힘)
+## 2026-08-08 추천 풀 51 → 80건 · 브랜드 14개 (배포 대기)
 
-next_task: **Production 성분 사전 확장 실행 권한.** 아래 명령이 auto mode 분류기에
-막혀 있고, `.claude/settings.json` 편집도 같이 막혀 에이전트가 규칙을 넣을 수 없다.
+next_task: 달바 24건 이미지 수집 (몰 JSON-LD 가 이미지를 안 준다 — og:image 등 다른 경로 확인)
 
-```
-npm run apply:mfds-ingredient-dictionary -- --production            # dry-run(읽기 전용)
-npm run apply:mfds-ingredient-dictionary -- --production --apply    # 계획 확인 후 적재
-```
+### 지금 Production 실측
 
-이게 풀리면 등록해 둔 37건(231~267)이 게이트를 통과해 화면에 나온다.
+| 항목 | 값 |
+|---|---|
+| 추천 풀 | **80건** (전 51) |
+| 추천 풀 브랜드 | **14개** (전 12) — d'Alba 24 · COSRX 22 · Abib 13 · Klairs 8 … |
+| 성분 사전 | **1,494행** (전 1,341) · 별칭 48행 (전 0) |
+| 시나리오 30개 중 최소 개수 미달 | 0 |
+| 국내 구매처 없는 시나리오 | 0 |
+| 풀 중 이미지 있음 | 56 / 80 |
+
+### 사전 확장이 «항상 0건» 이던 마지막 원인 — npm 이 플래그를 먹었다
+
+`--production` 은 **npm 자신의 설정 플래그**다. `npm run … -- --production --apply`
+를 돌리면 npm 이 가로채서 스크립트까지 오지 않는다. 그래서 아무 경고 없이
+**Staging 에 96행이 들어갔고**, 나는 그 결과를 Production 결과로 읽고 여러 판을
+헛돌았다. 플래그를 `--target-production` 으로 바꾸고, **어느 DB 를 보는지 첫 줄에
+항상 찍게** 했다. Production 은 그동안 한 번도 바뀌지 않았다(직접 조회로 확인).
 
 ### 한 일
 
