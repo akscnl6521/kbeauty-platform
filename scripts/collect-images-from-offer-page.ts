@@ -176,12 +176,21 @@ async function main() {
       canonical_image_url: f.imageUrl,
       source_page_url: f.sourcePage,
       source_domain: new URL(f.sourcePage).hostname,
-      source_type: "official_brand_page",
+      source_type: "official_brand",
       is_official_source: true,
       is_primary: true,
-      display_order: 1,
+      display_order: 0,
       http_status: 200,
       is_accessible: true,
+      is_fixture: false,
+      // **이걸 빼면 화면에 안 뜬다.** 공개 API(`resolveVerifiedProductImageUrls`)는
+      // `validation_status = "verified"` 인 행만 내보낸다. 기본값은 `discovered`
+      // 라서, 넣어 놓고도 «이미지가 안 나온다» 가 된다(2026-08-08 실측).
+      //
+      // 여기서 «verified» 라고 쓸 근거: 그 제품의 공식 페이지가 내세운 이미지이고,
+      // 실제로 열리는지(HTTP 200 + image/*) 확인했고, 여러 제품이 공유하는
+      // 이미지는 버렸다. 등록 경로(`register-kr-mall-products`)와 같은 기준이다.
+      validation_status: "verified",
       verified_at: new Date().toISOString(),
       last_checked_at: new Date().toISOString(),
     });
