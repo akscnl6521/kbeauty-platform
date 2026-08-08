@@ -173,4 +173,6 @@ assert.deepEqual(coerceIngredientListUnknown(null), []);
     assert.equal(stripIngredientNoticeTail(keep), keep);
   }
 
+    assert.equal(stripIngredientNoticeTail("아세틸옥타펩타이드-3 사용상의"), "아세틸옥타펩타이드-3");
+
   console.log("ingredient-notice-tail self-test: ok");

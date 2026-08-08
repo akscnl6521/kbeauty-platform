@@ -143,8 +143,14 @@ function slugify(en: string): string {
 async function main() {
   const apply = process.argv.includes("--apply");
   const { redactSecrets } = await import("../src/lib/publicData/secrets");
-  const { parseIngredientList, attachIngredientMatches, buildIngredientLookupMaps, normalizeTextKey } =
-    await import("../src/lib/pipeline/ingredient-normalize");
+  const {
+    parseIngredientList,
+    attachIngredientMatches,
+    buildIngredientLookupMaps,
+    normalizeTextKey,
+    ingredientNameVariants,
+    isIngredientTokenKnown,
+  } = await import("../src/lib/pipeline/ingredient-normalize");
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -213,6 +219,9 @@ async function main() {
       if (k && r.engName && !mfdsByKo.has(k)) mfdsByKo.set(k, r);
     }
   }
+  console.log(
+    `식약처 색인 — 한글명 키 ${mfdsByKo.size}종 (한글명이 있는 원본 행 ${mfds.filter((r) => r.korName).length})`
+  );
   const mfdsByEn = new Map<string, MfdsRow>();
   for (const r of mfds) {
     const k = normalizeTextKey(r.engName);
@@ -266,6 +275,9 @@ async function main() {
   const plannedKeys = new Set<string>();
   const plannedSlugs = new Set(ingredients.map((r) => (r.slug ?? "").toLowerCase()));
 
+  let hitCount = 0;
+  let noHit = 0;
+  const noHitExamples: string[] = [];
   for (const [token] of unmatched) {
     // 색인은 `normalizeTextKey` 로 만들어 두고 조회는 토큰 원문으로 했다 —
     // 키 모양이 달라 **항상 빗나갔다.** 여러 판에 걸쳐 «식약처에 없다» 는
@@ -276,7 +288,12 @@ async function main() {
       mfdsByKo.get(token) ??
       mfdsByEn.get(tokenKey) ??
       mfdsByEn.get(token);
-    if (!hit || !hit.engName) continue;
+    if (!hit || !hit.engName) {
+      noHit += 1;
+      if (noHitExamples.length < 10) noHitExamples.push(token);
+      continue;
+    }
+    hitCount += 1;
     if (taken.has(token) || plannedKeys.has(token)) {
       skipped.push([token, "이미 다른 성분이 이 키를 쓰고 있다"]);
       continue;
@@ -333,6 +350,8 @@ async function main() {
   }
 
   console.log(`미매칭 토큰 ${unmatched.size}종 대상`);
+  console.log(`  식약처에서 찾음 ${hitCount}종 · 못 찾음 ${noHit}종`);
+  if (noHitExamples.length) console.log(`  못 찾은 예: ${noHitExamples.join(" · ")}`);
   console.log(`  경로1 별칭만 추가 (기존 성분)  ${newAliases.length}건`);
   console.log(`  경로2 새 성분 행 추가          ${newIngredients.length}건`);
   console.log(`  경로3 새 행에 붙일 별칭        ${pendingAliasesForNew.length}건`);

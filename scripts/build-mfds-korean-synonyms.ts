@@ -201,6 +201,30 @@ async function main() {
     }
     console.log(`미검증 제품의 미매칭 토큰 ${missing.size}종 중 식약처가 덮는 것 ${covered}종`);
     for (const e of examples) console.log(`    ${e}`);
+
+    // 토큰 몇 종을 덮느냐보다 **제품 몇 건이 풀리느냐**가 중요하다.
+    // 게이트는 `unmatchedIngredientCount === 0` 을 요구하므로, 한 제품에 못 덮는
+    // 토큰이 하나라도 남으면 그 제품은 그대로 막힌다.
+    let wouldUnblock = 0;
+    let stillBlocked = 0;
+    const blockers = new Map<string, number>();
+    for (const p of ps ?? []) {
+      const toks = (Array.isArray(p.full_ingredients) ? p.full_ingredients : []).map(String);
+      if (toks.length === 0) continue;
+      const left = toks.filter(
+        (t) => !isIngredientTokenKnown(t, known) && !koToEn.has(t.replace(/[\s·]/g, ""))
+      );
+      if (left.length === 0) wouldUnblock += 1;
+      else {
+        stillBlocked += 1;
+        for (const b of left) blockers.set(b, (blockers.get(b) ?? 0) + 1);
+      }
+    }
+    console.log(`
+식약처를 다 넣었다고 가정하면 — 풀리는 제품 ${wouldUnblock}건 · 그래도 막히는 제품 ${stillBlocked}건`);
+    console.log("그래도 남는 걸림돌 상위 12:");
+    for (const [n, k] of [...blockers.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12))
+      console.log(`  ${String(k).padStart(3)}회  ${n.slice(0, 46)}`);
     return;
   }
 
