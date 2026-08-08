@@ -85,6 +85,27 @@ async function main() {
         if (k) keys.add(k);
       }
 
+  // **별칭도 성분 이름이다.**
+  //
+  // 실제 파이프라인 매처(`buildIngredientLookupMaps(ingredients, aliases)`)는
+  // `ingredient_aliases` 를 함께 본다. 여기서 그걸 빼면 이 스크립트가 **실제
+  // 시스템보다 엄격해져서**, 별칭으로 아는 성분까지 «모르는 성분» 으로 세고
+  // 멀쩡한 제품을 막는다. 검사기가 실제보다 엄하면 «막혔다» 도 거짓말이 된다.
+  const aliases = await fetchAll<{ alias: string | null; normalized_alias: string | null; active: boolean }>(
+    client,
+    "ingredient_aliases",
+    "id,alias,normalized_alias,active"
+  );
+  for (const a of aliases) {
+    if (a.active === false) continue;
+    for (const n of [a.normalized_alias, a.alias])
+      for (const v of ingredientNameVariants(n)) {
+        const k = normalizeTextKey(v);
+        if (k) keys.add(k);
+      }
+  }
+  console.log(`성분 사전 ${dict.length}행 · 별칭 ${aliases.length}행`);
+
   const products = await fetchAll<Row>(
     client,
     "products",

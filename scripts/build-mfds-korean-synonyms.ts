@@ -161,14 +161,31 @@ async function main() {
   // 파서를 새로 짜지 않고 **이미 동작이 확인된 이 스크립트 안에서** 재어야
   // 답을 믿을 수 있다 — 따로 짠 XML 파서가 조용히 0행을 돌려줘 두 번 헛짚었다.
   if (process.argv.includes("--coverage")) {
+    // 식약처는 한글명과 **영문명을 둘 다** 준다. 한글만 세면 `Cynanchum Atratum
+    // Extract` 처럼 영문으로 적힌 걸림돌을 «못 덮는다» 고 잘못 세게 된다.
     const koToEn = new Map<string, string>();
+    const enSet = new Set<string>();
+    const norm = (v: string) => v.replace(/[\s·]/g, "").toLowerCase();
     for (const r of mfds) {
-      const ko = String(r.INGR_KOR_NAME ?? "").replace(/[\s·]/g, "");
+      const ko = norm(String(r.INGR_KOR_NAME ?? ""));
       const en = String(r.INGR_ENG_NAME ?? "").trim();
       if (ko && en && !koToEn.has(ko)) koToEn.set(ko, en);
+      // 영문명은 쉼표로 여러 개를 묶어 주는 행이 있다.
+      for (const one of en.split(",")) {
+        const k = norm(one);
+        if (k) enSet.add(k);
+      }
     }
+    const inMfds = (token: string) => {
+      const k = norm(token);
+      if (!k) return false;
+      if (koToEn.has(k) || enSet.has(k)) return true;
+      // `흰서양송로추출물(10,000ppm)` 처럼 농도 표기가 붙은 것은 괄호 앞을 본다.
+      const head = norm(token.replace(/\([^)]*\)\s*$/, ""));
+      return !!head && (koToEn.has(head) || enSet.has(head));
+    };
     console.log(`
-식약처 한글명 ${koToEn.size}종`);
+식약처 한글명 ${koToEn.size}종 · 영문명 ${enSet.size}종`);
 
     const { normalizeTextKey, ingredientNameVariants, isIngredientTokenKnown } = await import(
       "@/lib/pipeline/ingredient-normalize"
@@ -194,8 +211,8 @@ async function main() {
     let covered = 0;
     const examples: string[] = [];
     for (const m of missing) {
-      const en = koToEn.get(m.replace(/[\s·]/g, ""));
-      if (!en) continue;
+      if (!inMfds(m)) continue;
+      const en = koToEn.get(m.replace(/[\s·]/g, "").toLowerCase()) ?? "(영문명으로 확인)";
       covered += 1;
       if (examples.length < 8) examples.push(`${m} → ${en}`);
     }
@@ -212,7 +229,7 @@ async function main() {
       const toks = (Array.isArray(p.full_ingredients) ? p.full_ingredients : []).map(String);
       if (toks.length === 0) continue;
       const left = toks.filter(
-        (t) => !isIngredientTokenKnown(t, known) && !koToEn.has(t.replace(/[\s·]/g, ""))
+        (t) => !isIngredientTokenKnown(t, known) && !inMfds(t)
       );
       if (left.length === 0) wouldUnblock += 1;
       else {
