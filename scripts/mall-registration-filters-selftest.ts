@@ -8,6 +8,7 @@
  */
 import assert from "node:assert/strict";
 import {
+  bundleSetReason,
   conditionalSaleReason,
   nonFaceSkincareReason,
   packagingNeutralKey,
@@ -85,6 +86,51 @@ function main() {
   for (const [a, b] of mustDiffer) {
     assert.notEqual(packagingNeutralKey(a), packagingNeutralKey(b), `다른 제품인데 묶였다: ${a} / ${b}`);
   }
+
+  
+  // ── 세트는 막는다 (전성분이 여러 제품의 합이라 안전 판정이 틀어진다) ──
+  for (const name of [
+    "★선착순 100명★ 기미 철벽커버 2종 세트",
+    "블루 드롭+블루 크림 60g",
+    "메이플 에너지 인퓨징 크림+세럼",
+    "블루드롭20ml+클리어링 워터 크림50g 2종",
+    "베이직&베스트 기초 3종 세트 (무향)",
+  ]) {
+    assert.ok(bundleSetReason(name), `세트인데 통과했다: ${name}`);
+  }
+  // 낱개 제품을 세트로 보면 안 된다.
+  for (const name of [
+    "화이트 트러플 엑스트라 퍼밍 크림 50ml",
+    "자음생캡슐세럼",
+    "1025 독도 토너 200ml",
+    "센텔라 카밍 앰플",
+    // `10개 SET` 은 **같은 제품 10개**다 — 전성분은 정상이고 수량만 다르다.
+    // 세트(서로 다른 제품을 묶은 것)가 아니므로 여기서 막지 않는다.
+    // 이런 수량 표기는 `packagingNeutralKey` 가 중복으로 잡는다.
+    "퍼스널 케어 마스크 10개 SET",
+  ]) {
+    assert.equal(bundleSetReason(name), null, `낱개인데 세트로 막혔다: ${name}`);
+  }
+
+  // ── 행사 조건이 붙은 값은 막는다 (2026-08-08 에이프릴스킨 실측) ──
+  for (const name of [
+    "[1+1] 핑크알로에 뮤신세럼 (비타토너 15ml 증정)",
+    "[5+5 / 9,900원 특가] 캐로틴 대왕 팩패드 (유통기한 임박)",
+    "★선착순 100명★ 기미 철벽커버",
+    "[비밀할인링크] 센텔라 카밍 앰플",
+    "[여름한정특가] 기미 철벅커버",
+    "[2천원 추가할인] 센텔라 카밍 앰플",
+  ]) {
+    assert.ok(conditionalSaleReason(name), `조건부인데 통과했다: ${name}`);
+  }
+  // 색조가 더 있었다.
+  assert.ok(nonFaceSkincareReason("히어로 올데이 플럼핑 틴트"));
+  assert.ok(nonFaceSkincareReason("[NEW] 히어로 글레이즈 립글로스"));
+  assert.ok(nonFaceSkincareReason("블러 스킨 파우더"));
+  assert.ok(nonFaceSkincareReason("퍼펙트 수정화장패드 (1개월분)"));
+  // 세안제인 파우더는 얼굴 스킨케어다 — 막으면 안 된다.
+  assert.equal(nonFaceSkincareReason("효소 파우더 클렌저"), null);
+  assert.equal(nonFaceSkincareReason("아미노 파우더 워시"), null);
 
   console.log("mall-registration-filters self-test: ok");
 }

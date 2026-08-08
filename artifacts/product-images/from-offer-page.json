@@ -1,19 +1,19 @@
 {
-  "builtAt": "2026-08-08T10:45:50.290Z",
+  "builtAt": "2026-08-08T12:40:19.644Z",
   "found": [
     {
-      "productId": 28,
-      "brand": "COSRX",
-      "name": "Advanced Snail 92 All in One Cream",
-      "imageUrl": "https://www.cosrx.co.kr/shopimages/cosrx/0190000006503.jpg",
-      "sourcePage": "https://www.cosrx.co.kr/shop/shopdetail.html?branduid=202"
+      "productId": 238,
+      "brand": "d'Alba",
+      "name": "화이트 트러플 엑스트라 너리싱 크림",
+      "imageUrl": "https://godomall.speedycdn.net/95803ed2b538f43d548bda9185c01365/goods/1000000412/image/detail/1000000412_detail_092.png",
+      "sourcePage": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000412"
     },
     {
-      "productId": 77,
-      "brand": "CosRX",
-      "name": "Black Snail All In One Cream",
-      "imageUrl": "http://www.cosrx.com/cdn/shop/files/snail_cream_thumbnail_1200x1200.png?v=1748420673",
-      "sourcePage": "https://cosrx.com/products/advanced-snail-92-all-in-one-cream"
+      "productId": 250,
+      "brand": "d'Alba",
+      "name": "화이트 트러플 아쿠아 마린 에너지 세럼",
+      "imageUrl": "https://godomall.speedycdn.net/95803ed2b538f43d548bda9185c01365/goods/1000000739/image/detail/1000000739_detail_092.png",
+      "sourcePage": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000739"
     }
   ],
   "missed": [],

@@ -175,4 +175,15 @@ assert.deepEqual(coerceIngredientListUnknown(null), []);
 
     assert.equal(stripIngredientNoticeTail("아세틸옥타펩타이드-3 사용상의"), "아세틸옥타펩타이드-3");
 
+  
+  // 앞머리에 붙은 화면 문구 — 2026-08-08 에이프릴스킨 실측.
+  // 네 제품이 전부 `보기 정제수` 토큰 하나 때문에 막혀 있었다.
+  {
+    const t = splitIngredientTokens("보기 정제수, 글리세린, 알로에베라잎수");
+    assert.deepEqual(t, ["정제수", "글리세린", "알로에베라잎수"]);
+  }
+  assert.deepEqual(splitIngredientTokens("자세히보기 정제수, 판테놀"), ["정제수", "판테놀"]);
+  // 라벨이 없으면 그대로 둔다.
+  assert.deepEqual(splitIngredientTokens("정제수, 부틸렌글라이콜"), ["정제수", "부틸렌글라이콜"]);
+
   console.log("ingredient-notice-tail self-test: ok");

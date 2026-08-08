@@ -1,4 +1,4 @@
-import { splitBracketVariantSegments, stripIngredientNoticeTail } from "@/lib/recommend/normalizeIngredient";
+import { splitBracketVariantSegments, stripIngredientLabelHead, stripIngredientNoticeTail } from "@/lib/recommend/normalizeIngredient";
 
 /**
  * 전성분 문자열이 **실제 INCI 목록인지** 판정한다.
@@ -176,6 +176,7 @@ export function splitIngredientTokens(text: string): string[] {
     .split(/(?<!\d),|,(?!\d)/)
     .flatMap((t) => splitBracketVariantSegments(t))
     .flatMap((t) => splitScriptBoundary(t))
+    .map((t) => stripIngredientLabelHead(t))
     .map((t) => stripIngredientNoticeTail(t))
     .map((t) => t.trim())
     .filter(Boolean);
