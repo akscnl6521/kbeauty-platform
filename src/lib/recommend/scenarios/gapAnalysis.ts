@@ -45,8 +45,12 @@ const INGREDIENT_CONCERN_HINTS: Readonly<Record<string, string[]>> = {
   peptides: ["antiaging"],
 };
 
-function normalizeToken(value: string): string {
-  return value.trim().toLowerCase();
+/**
+ * 배열 안에 `null` 이 섞여 온다 — 백업 JSON 에는 없었지만 Production 에는 있다
+ * (2026-08-09, `key_ingredients` 원소). 여기서 터지면 분석 전체가 멈춘다.
+ */
+function normalizeToken(value: unknown): string {
+  return String(value ?? "").trim().toLowerCase();
 }
 
 function inferConcernsFromProduct(row: BackupProductRow): string[] {
@@ -90,17 +94,36 @@ function mapUsageArea(value?: string | null): string {
   return t || "face";
 }
 
+/**
+ * 이미지가 있는지 **부르는 쪽이 알려줄 수 있다.**
+ *
+ * 원래 이 분석기는 백업 JSON 만 봤고, 백업에는 이미지 정보가 없어서
+ * `imageUnknown` 을 `true` 로 박아 두었다. 그런데 `imageUnknown` 이면 무조건
+ * `review_required` 라서 — **`recommendation_ready` 가 구조적으로 영원히 0** 이었다.
+ * 추천 풀이 36 → 106건이 되도록 이 계기판은 0 을 가리켰다(2026-08-09 발견).
+ *
+ * 이미지는 `products` 가 아니라 `catalog_product_media` 에 있다. 그래서 행만
+ * 봐서는 알 수 없고, 아는 쪽이 넣어 주는 게 맞다. 안 넣으면 예전과 똑같이
+ * «모른다» 로 둔다 — 없는 정보를 있다고 치지 않는다.
+ */
+export type ReadinessContext = {
+  imageReadyProductIds?: ReadonlySet<string>;
+};
+
 export function estimateProductReadiness(
   row: BackupProductRow,
-  offerCount = 0
+  offerCount = 0,
+  ctx: ReadinessContext = {}
 ): { state: ProductReadinessState; evidence: CatalogGapEvidence } {
   const ingredients = row.full_ingredients ?? [];
   const hasCategory = Boolean(row.category && row.category.trim());
   const active = row.active === true;
   const verified = Boolean(row.verified_at);
 
+  const imageKnown =
+    ctx.imageReadyProductIds != null && ctx.imageReadyProductIds.has(String(row.id ?? ""));
   const evidence: CatalogGapEvidence = {
-    imageUnknown: true,
+    imageUnknown: !imageKnown,
     offerUnknown: offerCount === 0,
     minOffersMet: offerCount >= 1,
   };
@@ -148,7 +171,8 @@ export function mapProductToScenarioIds(row: BackupProductRow): string[] {
 
 export function analyzeScenarioCatalogGaps(
   products: readonly BackupProductRow[],
-  offerCountsByProductId: Readonly<Record<string, number>> = {}
+  offerCountsByProductId: Readonly<Record<string, number>> = {},
+  ctx: ReadinessContext = {}
 ): ScenarioCatalogGap[] {
   const byScenario = new Map<string, ScenarioCatalogGap>();
 
@@ -166,7 +190,7 @@ export function analyzeScenarioCatalogGaps(
     const productId = String(row.id ?? "");
     const scenarioIds = mapProductToScenarioIds(row);
     const offerCount = offerCountsByProductId[productId] ?? 0;
-    const readiness = estimateProductReadiness(row, offerCount);
+    const readiness = estimateProductReadiness(row, offerCount, ctx);
 
     for (const scenarioId of scenarioIds) {
       const entry = byScenario.get(scenarioId);

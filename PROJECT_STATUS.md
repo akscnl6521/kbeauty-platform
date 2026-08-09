@@ -1,12 +1,49 @@
 # PROJECT_STATUS.md — K-Beauty Match 현재 상태
 
-최종 갱신: 2026-08-09 (추천 풀 106건 · 브랜드 16개 · 국내 구매 96건 · 배포 대기)
+최종 갱신: 2026-08-09 (활성 과제 WQ-F 진행도 22/30 시나리오 — 계기판 수리 후 실측)
 
 
 
 
 
 
+
+
+## 2026-08-09 (4차) 활성 과제의 진행도 계기판이 고장나 있었다
+
+next_task: **비어 있는 시나리오 8개를 채운다.** 몰을 더 뒤지는 게 아니라
+**빠진 제품 유형**을 찾는 일이다 (아래 표).
+
+### 무엇이 고장나 있었나
+
+`analyze:scenario-catalog-gap` 은 WQ-F(활성 과제)의 진행도를 재는 도구인데,
+세 가지가 겹쳐 **영원히 0 을 가리키고 있었다**:
+
+1. **`data/backups/2026-07-14-catalog` 를 경로째 박아 두고** 읽었다 —
+   그날 이후 무엇을 하든 숫자가 안 움직였다.
+2. `imageUnknown` 이 **`true` 로 고정**돼 있었다. 이미지가 모르는 상태면 무조건
+   `review_required` 라서, `recommendation_ready` 가 **구조적으로 0** 이었다.
+   (이미지는 `products` 가 아니라 `catalog_product_media` 에 있어서 백업 JSON
+   만으로는 알 수 없었고, 그래서 그렇게 둔 것이다.)
+3. Production 행에는 배열 안에 `null` 이 섞여 있어 `normalizeToken` 이 터졌다.
+
+고친 뒤: **22 / 30 시나리오가 추천 준비됨.**
+
+### 아직 비어 있는 시나리오 8개 — 이게 진짜 남은 일이다
+
+| 시나리오 | 매칭 제품 | 무엇이 없나 |
+|---|---|---|
+| `kr-acne-spot-treatment` | 0 | **스팟 케어 제품이 하나도 없다** |
+| `kr-acne-mattifying-emulsion` | 0 | **에멀전이 없다** |
+| `kr-uv-mist-spf` | 0 | **선 미스트가 없다** |
+| `kr-redness-calming-mist` | 1 | 진정 미스트 부족 |
+| `kr-dryness-cream-moderate` | 1 | 보통 건성용 크림 부족 |
+| `kr-acne-sebum-cleanser` | 1 | 피지 클렌저 부족 |
+| `kr-redness-gentle-cleanser` | 1 | 오퍼 없음 |
+| `kr-redness-toner-pad` | 6 | 이미지·오퍼 없음 |
+
+**«제품을 더 늘린다» 가 아니라 «이 유형을 찾는다» 가 남은 일이다.** 몰을 무작정
+더 뒤지는 것보다 이 8칸을 겨냥하는 편이 빠르다.
 
 ## 2026-08-09 (3차) 셀리맥스·카히 추가 — 추천 풀 106건 · 국내 구매 96건
 
