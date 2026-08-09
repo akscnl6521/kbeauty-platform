@@ -65,6 +65,8 @@ function main() {
   // ── 덩어리 유형은 «이름이 말해 줄 때만» 좁힌다 ──
   const refine: Array<[string, string, string]> = [
     ["mask", "약산성 시트 마스크 아쿠아 핏", "sheet_mask"],
+    // «마스크» 라는 낱말이 이름에 없어도, 유형이 mask 이고 «시트» 가 있으면 시트다.
+    ["mask", "마데카소사이드 진정 시트 에센셜 핏", "sheet_mask"],
     ["mask", "화이트 트러플 슬리핑 마스크", "sleeping_mask"],
     ["mask", "화이트 트러플 클리닉 모델링 마스크 [영양/보습]", "modeling_mask"],
     ["mask", "달바 시그니처 비타 캡슐 콜라겐 하이드로겔 마스크", "hydrogel_mask"],
@@ -78,6 +80,8 @@ function main() {
 
   // **이름이 말해 주지 않으면 null.** 덩어리 값을 그대로 둔다.
   assert.equal(refineCategoryFromName("mask", "찹쌀 쫀쫀팩 60g"), null);
+  // «마스크팩» 만으로는 시트인지 워시오프인지 모른다.
+  assert.equal(refineCategoryFromName("mask", "화이트 트러플 리프팅 마스크팩"), null);
   // `오일 크림 클렌저` 는 클렌징 오일인지 밀크인지 이름만으로 단정할 수 없다.
   // `밀크 팩 클렌저` 도 마찬가지다. **애매하면 null** 이 맞다 — 하나로 정해
   // 버리면 틀렸다는 것조차 드러나지 않는다.
