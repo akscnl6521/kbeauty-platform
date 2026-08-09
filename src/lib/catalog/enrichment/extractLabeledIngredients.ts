@@ -37,13 +37,26 @@ const NAMED_ENTITIES: ReadonlyArray<readonly [RegExp, string]> = [
 function decodeHtmlEntities(value: string): string {
   let out = value;
   for (const [re, ch] of NAMED_ENTITIES) out = out.replace(re, ch);
-  return out
+  out = out
     .replace(/&#(\d+);/g, (_, code: string) =>
       String.fromCodePoint(Number(code))
     )
     .replace(/&#x([0-9a-f]+);/gi, (_, code: string) =>
       String.fromCodePoint(Number.parseInt(code, 16))
     );
+
+  // 기본 다섯 개는 **맨 마지막에** 푼다. `&amp;` 를 먼저 풀면 `&amp;lt;` 가
+  // `&lt;` 를 거쳐 `<` 가 되어, 원문에 없던 태그 문자가 생긴다.
+  //
+  // 이것들이 빠져 있어서 `Official &amp; Verified Product` 처럼 `&amp;` 가 그대로
+  // 남았다. 자체 테스트는 이미 잡고 있었는데 CI 목록에 없어 드러나지 않았다
+  // (2026-08-09 발견).
+  return out
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#0?39;|&apos;/gi, "'")
+    .replace(/&amp;/gi, "&");
 }
 
 /**
@@ -85,13 +98,25 @@ function inciListScore(text: string): number {
   const latinOrKorean = parts.filter((p) => /[A-Za-z가-힣]/.test(p)).length;
   if (latinOrKorean / parts.length < 0.8) return 0;
 
-  // 전성분은 거의 언제나 용매·기제로 시작한다. 가장 강한 신호다.
+  // 전성분에는 **거의 언제나 흔한 기본 성분이 하나는 들어 있다.** 마케팅 문단에는
+  // 안 들어가므로 목록과 문장을 가르는 강한 신호다.
+  //
+  // 예전에는 «물·글리세린 계열» 만 봤는데 **너무 좁았다.** 전성분이 늘 용매로
+  // 시작하지는 않는다 — 달팽이 크림은 `달팽이점액여과물` 로, 어떤 제품은
+  // `카프릴릭/카프릭트라이글리세라이드` 로 시작한다. 그런 목록이 통째로
+  // «전성분 없음» 으로 버려지고 있었다(2026-08-09 실측, COSRX 스네일 92).
+  //
+  // 그래서 **거의 모든 화장품에 들어가는 성분**으로 넓힌다. 하나라도 있으면
+  // 목록으로 본다. 나머지 검사(항목 3개 이상 · 성분 형태 85%)는 그대로다.
   const joined = text.toLowerCase();
-  const hasVehicle =
-    /\b(aqua|water|glycerin|glycerol|butylene\s+glycol|propanediol|dipropylene\s+glycol|caprylic|alcohol\s+denat|ethanol)\b|정제수|글리세린|부틸렌글라이콜|프로판다이올|변성알코올/i.test(
+  const hasCommonIngredient =
+    /\b(aqua|water|glycerin|glycerol|butylene\s+glycol|propanediol|dipropylene\s+glycol|caprylic|alcohol\s+denat|ethanol|dimethicone|panthenol|niacinamide|tocopherol|xanthan\s+gum|phenoxyethanol|sodium\s+hyaluronate)\b/i.test(
       joined
+    ) ||
+    /정제수|글리세린|부틸렌글라이콜|프로판다이올|변성알코올|다이프로필렌글라이콜|펜틸렌글라이콜|헥산다이올|카프릭트라이글리세라이드|다이메티콘|사이클로펜타실록세인|소듐하이알루로네이트|판테놀|나이아신아마이드|세테아릴알코올|잔탄검|페녹시에탄올|토코페롤|달팽이점액여과물/.test(
+      text
     );
-  if (!hasVehicle) return 0;
+  if (!hasCommonIngredient) return 0;
 
   // 목록 전체가 성분처럼 보여야 한다. 섞여 있으면 잘못 잡은 것이다.
   const ratio = parts.filter(looksLikeIngredientToken).length / parts.length;

@@ -80,11 +80,18 @@ Carbomer, Tromethamine, Ethylhexylglycerin, Disodium EDTA</div>`;
 }
 
 {
-  // 용매가 없는 오일 제품 — 지금 규칙은 용매를 요구하므로 통과하지 못한다.
-  // 이건 «놓치는 쪽» 이고, 잘못 넣는 것보다 낫다. 동작을 명시적으로 고정해 둔다.
-  const html = `<div>Ingredients: Simmondsia Chinensis Seed Oil, Tocopherol, Rosa Canina Fruit Oil</div>`;
-  const got = extractLabeledIngredientsRaw(html);
-  assert.equal(got, null, "용매 없는 목록의 현재 동작이 바뀌었다 — 의도한 변경인지 확인할 것");
+  // 2026-08-09 **의도한 변경**: 용매(물·글리세린)가 없어도 «거의 모든 화장품에
+  // 들어가는 성분» 이 하나라도 있으면 목록으로 본다.
+  //
+  // 예전 규칙은 용매를 요구했고, 그래서 오일 제품과 `달팽이점액여과물` 로 시작하는
+  // 크림이 통째로 «전성분 없음» 으로 버려졌다(COSRX 스네일 92 실측).
+  // 이 오일 목록은 **진짜 전성분**이므로 뽑히는 게 맞다.
+  const oilOnly = `<div>Ingredients: Simmondsia Chinensis Seed Oil, Tocopherol, Rosa Canina Fruit Oil</div>`;
+  assert.ok(extractLabeledIngredientsRaw(oilOnly), "진짜 오일 전성분인데 거부됐다");
+
+  // **흔한 성분이 하나도 없으면 여전히 안 뽑는다** — 넓힌 게 아니라 정확해진 것이다.
+  const noSignal = `<div>Ingredients: Best Choice, Free Shipping, Made In Korea</div>`;
+  assert.equal(extractLabeledIngredientsRaw(noSignal), null, "성분 신호가 없는데 뽑혔다");
 }
 
 console.log("ingredient-extract-contamination self-test: ok");
