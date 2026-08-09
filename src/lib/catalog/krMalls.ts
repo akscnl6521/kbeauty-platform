@@ -45,6 +45,8 @@ export const KR_MALLS: readonly KrMall[] = [
   // 2026-08-09 4차 탐침 통과.
   { brands: ["Celimax", "셀리맥스"], domain: "celimax.co.kr" },
   { brands: ["KAHI", "Kahi", "카히"], domain: "kahi.co.kr" },
+  // 2026-08-09 5차 탐침 통과.
+  { brands: ["Klavuu", "클라뷰"], domain: "klavuu.com" },
 ];
 
 /**
@@ -68,6 +70,10 @@ export const KR_MALLS: readonly KrMall[] = [
  *   mixsoon.co.kr    가격·재고는 정상인데 전성분이 텍스트로 없다 (제품 155)
  *   nacific.com      같은 이유 (제품 61)
  *   abib.com         Abib 글로벌몰 — 국내몰 `abib.co.kr` 을 이미 쓰고 있어 중복이다
+ *   jmsolution.com   제품 310건이나 전성분이 텍스트로 없다 — 편강율과 같은 사례
+ *   ohora.co.kr      같은 이유
+ *   dermafirm.co.kr  가격·전성분은 정상, 재고 표기 없음
+ *   wellderma.com    같은 이유
  *
  * **여섯 곳(넘버즈인·한율·웰라쥬·일리윤·마몽드·프리메라)이 가격과 전성분은 다 주고
  * 재고만 안 준다.** 제품 수로는 270건이 넘는다. 넘버즈인을 뜯어보면 `availability`

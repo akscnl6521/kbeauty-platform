@@ -36,6 +36,19 @@ const TARGETS: ReadonlyArray<{ id: number; why: string; evidence: string }> = [
       "cosrx.com/products/advanced-snail-92-all-in-one-cream (Advanced Snail 92 페이지)",
   },
   {
+    id: 290,
+    why: "다른 제품과 전성분이 글자·순서까지 똑같다 — 한쪽이 남의 성분일 수 있다",
+    evidence:
+      "290 «오일 컨트롤 에센스 30ml» 과 291 «오일 컨트롤 수분 크림 80ml» 의 전성분 39개가 " +
+      "순서까지 동일하다. 출처 페이지는 서로 다르다. 에센스와 크림이 같은 처방일 수는 없다. " +
+      "게다가 둘 다 두 번째 성분이 «징크옥사이드» 다(자외선 차단 성분).",
+  },
+  {
+    id: 291,
+    why: "위와 같은 묶음 — 어느 쪽이 맞는지 알 수 없어 둘 다 내린다",
+    evidence: "290 과 전성분 39개가 순서까지 동일. 한쪽만 내리면 틀린 쪽을 남길 수 있다.",
+  },
+  {
     id: 21,
     why: "187 과 같은 제품이 두 번 등록됐다",
     evidence:

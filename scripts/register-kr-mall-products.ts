@@ -363,8 +363,12 @@ async function main() {
       const { error: mErr } = await client.from("catalog_product_media").insert({
         product_id: productId,
         media_type: "product_front",
-        image_url: c.imageUrl,
-        canonical_image_url: c.imageUrl,
+        // **https 로 올려서 담는다.** 사이트는 https 라, `http://` 이미지는
+        // 브라우저가 혼합 콘텐츠로 차단한다 — DB 에도 있고 API 도 내보내는데
+        // 화면에는 안 뜬다(2026-08-09 실측 9건). 몰이 http 로 줘도 같은 경로가
+        // https 로 열리는 경우가 대부분이다.
+        image_url: c.imageUrl.replace(/^http:\/\//i, "https://"),
+        canonical_image_url: c.imageUrl.replace(/^http:\/\//i, "https://"),
         source_page_url: c.url,
         source_domain: new URL(c.url).hostname,
         source_type: "official_brand",

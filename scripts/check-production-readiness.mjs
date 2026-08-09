@@ -1,4 +1,15 @@
 #!/usr/bin/env node
+/**
+ * **구조 검사다. 「출시해도 되는가」 에는 답하지 않는다.**
+ *
+ * 여기서 보는 것: 필수 파일이 있는가 · `.env.local` 이 무시되는가 ·
+ * 클라이언트 경로에 서비스 키가 새지 않는가. CI 에서 네트워크 없이 돌아야 하므로
+ * 이게 맞다.
+ *
+ * 실제 상태(화면이 열리는가 · 사진이 뜨는가 · 살 수 있는가)는
+ * **`npm run gate:prelaunch`** 가 Production 을 읽어서 잰다. 이름이 비슷해
+ * 헷갈리기 쉬운데, 이 검사가 통과했다고 출시 준비가 된 것은 아니다.
+ */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

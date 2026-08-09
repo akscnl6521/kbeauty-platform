@@ -1,8 +1,8 @@
 {
-  "probedAt": "2026-08-09T02:05:47.065Z",
+  "probedAt": "2026-08-09T08:41:47.564Z",
   "results": [
     {
-      "domain": "goodalusa.com",
+      "domain": "acnes.co.kr",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -13,7 +13,7 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "anua-global.com",
+      "domain": "sebamed.co.kr",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -24,53 +24,53 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "skin1004.co.kr",
-      "sitemap": null,
-      "productUrls": 0,
-      "priced": 0,
-      "inStock": 0,
-      "placeholderPrices": false,
-      "withIngredientText": 0,
-      "usable": false,
-      "note": "사이트맵을 못 찾음"
-    },
-    {
-      "domain": "torriden.co.kr",
-      "sitemap": null,
-      "productUrls": 0,
-      "priced": 0,
-      "inStock": 0,
-      "placeholderPrices": false,
-      "withIngredientText": 0,
-      "usable": false,
-      "note": "사이트맵을 못 찾음"
-    },
-    {
-      "domain": "isntree.co.kr",
-      "sitemap": null,
-      "productUrls": 0,
-      "priced": 0,
-      "inStock": 0,
-      "placeholderPrices": false,
-      "withIngredientText": 0,
-      "usable": false,
-      "note": "사이트맵을 못 찾음"
-    },
-    {
-      "domain": "manyofactory.com",
-      "sitemap": null,
-      "productUrls": 0,
-      "priced": 0,
-      "inStock": 0,
-      "placeholderPrices": false,
-      "withIngredientText": 0,
-      "usable": false,
-      "note": "사이트맵을 못 찾음"
-    },
-    {
-      "domain": "mixsoon.co.kr",
+      "domain": "dermafirm.co.kr",
       "sitemap": "/sitemap.xml",
-      "productUrls": 155,
+      "productUrls": 99,
+      "priced": 10,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "withIngredientText": 7,
+      "usable": true,
+      "note": "가격·전성분은 정상이나 재고(availability)를 안 줌 — 재고를 추측하면 안 되므로 반쪽"
+    },
+    {
+      "domain": "cnpcosmetics.com",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "withIngredientText": 0,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "aha-bha.co.kr",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "withIngredientText": 0,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "wellderma.com",
+      "sitemap": "/sitemap.xml",
+      "productUrls": 42,
+      "priced": 10,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "withIngredientText": 1,
+      "usable": true,
+      "note": "가격·전성분은 정상이나 재고(availability)를 안 줌 — 재고를 추측하면 안 되므로 반쪽"
+    },
+    {
+      "domain": "jmsolution.com",
+      "sitemap": "/sitemap.xml",
+      "productUrls": 310,
       "priced": 10,
       "inStock": 1,
       "placeholderPrices": false,
@@ -79,7 +79,7 @@
       "note": "가격·재고는 정상이나 전성분이 텍스트로 없음 (10건 표본) — 편강율과 같은 사례"
     },
     {
-      "domain": "beplain.co.kr",
+      "domain": "mediancosmetic.com",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -90,7 +90,7 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "numbuzin.co.kr",
+      "domain": "etudehouse.com",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -101,51 +101,40 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "celimax.co.kr",
+      "domain": "skinceuticals.co.kr",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "withIngredientText": 0,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "dermatoryshop.com",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "withIngredientText": 0,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "klavuu.com",
       "sitemap": "/sitemap.xml",
-      "productUrls": 72,
-      "priced": 10,
-      "inStock": 6,
-      "placeholderPrices": false,
-      "withIngredientText": 10,
-      "usable": true,
-      "note": "사용 가능"
-    },
-    {
-      "domain": "tocobo.com",
-      "sitemap": null,
-      "productUrls": 0,
-      "priced": 0,
-      "inStock": 0,
-      "placeholderPrices": false,
-      "withIngredientText": 0,
-      "usable": false,
-      "note": "사이트맵을 못 찾음"
-    },
-    {
-      "domain": "abib.com",
-      "sitemap": "/sitemap.xml",
-      "productUrls": 97,
+      "productUrls": 63,
       "priced": 10,
       "inStock": 3,
-      "placeholderPrices": false,
-      "withIngredientText": 10,
-      "usable": true,
-      "note": "사용 가능"
-    },
-    {
-      "domain": "kahi.co.kr",
-      "sitemap": "/sitemap.xml",
-      "productUrls": 141,
-      "priced": 10,
-      "inStock": 2,
       "placeholderPrices": false,
       "withIngredientText": 6,
       "usable": true,
       "note": "사용 가능"
     },
     {
-      "domain": "bonajour.co.kr",
+      "domain": "lagom-cosmetic.com",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -156,7 +145,7 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "acwell.co.kr",
+      "domain": "ma-nyo.com",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -167,7 +156,7 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "benton.co.kr",
+      "domain": "trueskin.co.kr",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -178,7 +167,7 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "thelabbyblanc.com",
+      "domain": "peachandlily.co.kr",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -189,29 +178,18 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "dr-althea.com",
-      "sitemap": null,
-      "productUrls": 0,
-      "priced": 0,
-      "inStock": 0,
-      "placeholderPrices": false,
-      "withIngredientText": 0,
-      "usable": false,
-      "note": "사이트맵을 못 찾음"
-    },
-    {
-      "domain": "nacific.com",
+      "domain": "ohora.co.kr",
       "sitemap": "/sitemap.xml",
-      "productUrls": 61,
-      "priced": 10,
+      "productUrls": 6,
+      "priced": 6,
       "inStock": 2,
       "placeholderPrices": false,
       "withIngredientText": 0,
       "usable": false,
-      "note": "가격·재고는 정상이나 전성분이 텍스트로 없음 (10건 표본) — 편강율과 같은 사례"
+      "note": "가격·재고는 정상이나 전성분이 텍스트로 없음 (6건 표본) — 편강율과 같은 사례"
     },
     {
-      "domain": "heimish.co.kr",
+      "domain": "houseofhur.com",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -222,7 +200,7 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "rovectin.com",
+      "domain": "biodance.co.kr",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -233,7 +211,7 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "goodndoc.com",
+      "domain": "mediheal.com",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -244,7 +222,7 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "aestura.co.kr",
+      "domain": "jungsaemmool.com",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
@@ -255,7 +233,29 @@
       "note": "사이트맵을 못 찾음"
     },
     {
-      "domain": "atoderm.co.kr",
+      "domain": "dr-g.co.kr",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "withIngredientText": 0,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "wonjinbeauty.com",
+      "sitemap": null,
+      "productUrls": 0,
+      "priced": 0,
+      "inStock": 0,
+      "placeholderPrices": false,
+      "withIngredientText": 0,
+      "usable": false,
+      "note": "사이트맵을 못 찾음"
+    },
+    {
+      "domain": "dearklairs.com",
       "sitemap": null,
       "productUrls": 0,
       "priced": 0,
