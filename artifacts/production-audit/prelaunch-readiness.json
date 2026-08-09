@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-09T08:58:02.917Z",
+  "checkedAt": "2026-08-09T09:30:19.116Z",
   "site": "https://www.kbeautymatch.com",
   "checks": [
     {
@@ -12,13 +12,13 @@
       "name": "추천 풀에 제품이 있다",
       "blocking": true,
       "ok": true,
-      "detail": "제품 116건 · 브랜드 16개"
+      "detail": "제품 118건 · 브랜드 17개"
     },
     {
       "name": "화면에 제품 사진이 뜬다",
       "blocking": true,
       "ok": true,
-      "detail": "116/116건 · http:// 0건 · 서로 다른 제품이 공유하는 사진 0건"
+      "detail": "118/118건 · http:// 0건 · 서로 다른 제품이 공유하는 사진 0건"
     },
     {
       "name": "남의 전성분을 들고 있는 제품이 없다",
@@ -30,7 +30,7 @@
       "name": "국내에서 «구매하기» 가 뜨는 제품",
       "blocking": false,
       "ok": true,
-      "detail": "105 / 116건"
+      "detail": "107 / 118건"
     }
   ]
 }

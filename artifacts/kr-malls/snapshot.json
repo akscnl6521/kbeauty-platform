@@ -1,5 +1,5 @@
 {
-  "takenAt": "2026-08-09T02:41:12.006Z",
+  "takenAt": "2026-08-09T09:17:45.274Z",
   "malls": {
     "www.cosrx.co.kr": [
       {
@@ -13159,6 +13159,512 @@
         "currency": "KRW",
         "inStock": false,
         "imageUrl": "https://kahicosmetics.co.kr/web/product/big/202607/eb2df52153490e128e7bc46d8ea19d68.png"
+      }
+    ],
+    "klavuu.com": [
+      {
+        "url": "https://klavuu.com/product/화이트-펄세이션-인리치드-디바인-펄-세럼-마스크/29/",
+        "name": "화이트 펄세이션 인리치드 디바인 펄 세럼 마스크",
+        "price": 4000,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202512/7fb2988ed154be72ed19e25fad7bbd11.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/액트리스-백스테이지-크림-30ml/45/",
+        "name": "액트리스 백스테이지 크림 30ml",
+        "price": 18900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/8abfed5f7c970000f04016cc67b7b798.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/블루-펄세이션-원데이-에잇컵스-마린-콜라겐-아쿠아-크림-50ml/53/",
+        "name": "블루 펄세이션 원데이 에잇컵스 마린 콜라겐 아쿠아 크림 50ml",
+        "price": 27900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/163e4e3efd83f98655e47d1517d67d79.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/어반-펄세이션-스파클-아이섀도우-14g/113/",
+        "name": "어반 펄세이션 스파클 아이섀도우 1.4g",
+        "price": 10900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202606/736bb53626aed90f00e7f9781b301841.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/세미-글로우-블루-펄세이션-하이커버리지-마린-콜라겐-아쿠아-쿠션-리필세트/284/",
+        "name": "[세미 글로우] 블루 펄세이션 하이커버리지 마린 콜라겐 아쿠아 쿠션 리필세트(본품+리필) SPF50+ PA+++ 12gx2",
+        "price": 26900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/79fd26a639be0236e1a703e5c0df2e88.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/uv-프로텍션-프레쉬-선젤-spf50-pa-50ml/331/",
+        "name": "UV 프로텍션 프레쉬 선젤 SPF50+ PA++++ 50ml",
+        "price": 17900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/bbfbd0831c74a8af7ff17ec463582e9c.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/블루-펄세이션-에잇-하이드라-마린-앰플-50ml/447/",
+        "name": "블루 펄세이션 에잇 하이드라 마린 앰플 50ml",
+        "price": 21900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/63edecb0a361dc1f6b5b7608d6f8deb6.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/세미-매트-어반-펄세이션-하이-커버리지-텐션-쿠션-ex/561/",
+        "name": "[세미 매트] 어반 펄세이션 하이 커버리지 텐션 쿠션 EX",
+        "price": 22900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/c001d8eaf17e65ac433703a1c2b1047a.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/레쥬브-펄세이션-멀티-펄-펩타이드-크림-50ml/568/",
+        "name": "레쥬브 펄세이션 멀티 펄 펩타이드 크림 50ml",
+        "price": 56900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/9d78aa11ecf44afbc99837e88b3c5606.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/레쥬브-펄세이션-멀티-펄-펩타이드-아이크림-20ml/569/",
+        "name": "레쥬브 펄세이션 멀티 펄 펩타이드 아이크림 20ml",
+        "price": 47900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/d1bc741fb061642fcbed0323d5624a69.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/균일가-7900원-디-오리진-오션-에센스-워터-170ml-디-오리진-오션-부스터-샷/570/",
+        "name": "[균일가 7,900원] 디 오리진 오션 에센스 워터 170ml & 디 오리진 오션 부스터 샷 30ml",
+        "price": 7900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202607/abc2f4d3c29f990e9cfe2495fb129239.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/디-오리진-딥-오션-젤-컴포터-70ml/590/",
+        "name": "디 오리진 딥 오션 젤 컴포터 70ml",
+        "price": 16900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/6f5ccfc8be501cd3725c7a3b68cfbcbd.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/세미-매트-어반-펄세이션-하이-커버리지-텐션-쿠션-ex-리필세트본품리필-sp/637/",
+        "name": "[세미 매트] 어반 펄세이션 하이 커버리지 텐션 쿠션 EX 리필세트(본품+리필) SPF50+ PA++++ 12gx2",
+        "price": 27900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/79f2a62f3c07294cefacfaa847caab37.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/디-오리진-앰플-디핑-패드-50매/701/",
+        "name": "디 오리진 앰플 디핑 패드 50매",
+        "price": 19900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/8a8f42609064435ac0f2b2fd8970ded7.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/피톤치드-마일드-클렌징-폼-150ml/702/",
+        "name": "피톤치드 마일드 클렌징 폼 150ml",
+        "price": 11200,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/1066ce6922a05f6977ea92517ef1a73d.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/리얼-비건-퀵-클렌징-패드-50매/703/",
+        "name": "리얼 비건 퀵 클렌징 패드 50매",
+        "price": 11400,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/0596ae468294ab661ae581917daa10f7.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/피톤치드-퀵-클렌징-패드-100매/705/",
+        "name": "피톤치드 퀵 클렌징 패드 100매",
+        "price": 23200,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/53613b8495ccaea7de279682ea41f4e7.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/리바이탈라이징-페이셜-클렌징-폼-150ml/706/",
+        "name": "리바이탈라이징 페이셜 클렌징 폼 150ml",
+        "price": 11900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/2ab4bc69bc858a22de34352c37579229.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/균일가-7900원-비건-징크-선크림-spf50-pa-50ml/747/",
+        "name": "[균일가 7,900원] 비건 징크 선크림 SPF50+ PA++++ 50ml",
+        "price": 7900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202607/fb7a6a58c2ad065aad0bb491723349ab.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/너리싱-케어-립-슬리핑-팩-20g/779/",
+        "name": "너리싱 케어 립 슬리핑 팩 20g",
+        "price": 11900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/45a5b59cf63da956d1b51ef74343f1c5.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/리얼-비건-콜라겐-앰플-30ml/784/",
+        "name": "리얼 비건 콜라겐 앰플 30ml",
+        "price": 26400,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/9a142de74e79426c8620c27b20fc4b87.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/리얼-비건-콜라겐-크림-50ml/785/",
+        "name": "리얼 비건 콜라겐 크림 50ml",
+        "price": 28000,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/c653559e45aa6b13774f1ff635b1de71.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/액트리스-백스테이지-베이스-픽싱-spf-50-pa-30ml-한겹-선비비/791/",
+        "name": "액트리스 백스테이지 베이스 픽싱 SPF 50+ PA++++ 30ml (한겹 선비비)",
+        "price": 17900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202606/8f2d05ffde0fac73f9c2670be7c8398b.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/백스테이지-필오프마스크-70ml/804/",
+        "name": "백스테이지 필오프마스크 70ml",
+        "price": 19900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202604/12c2051fea36489e81788839cd90b49a.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/리얼-비건-콜라겐-아이패치-60매/805/",
+        "name": "리얼 비건 콜라겐 아이패치 60매",
+        "price": 19200,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/9469fab05321d9a6acefd3fdac658539.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/리얼-비건-비타민-앰플-30ml/806/",
+        "name": "리얼 비건 비타민 앰플 30ml",
+        "price": 26400,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/4debcb48e7235cf09f7519f2f8e0f60e.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/리얼-비건-히알루론산-앰플-30ml/807/",
+        "name": "리얼 비건 히알루론산 앰플 30ml",
+        "price": 26400,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/ec54acaea2fdbebabcaeb1565871c61b.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/지성-보송-픽싱-베이스-set/816/",
+        "name": "[지성] 보송 픽싱 베이스 SET",
+        "price": 28900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/0a7598a4fa9d0f871d7f85343bfa1a38.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/균일가-9900원-백스테이지-아이래쉬-부스터-세럼-10g/821/",
+        "name": "[균일가 9,900원] 백스테이지 아이래쉬 부스터 세럼 10g",
+        "price": 9900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202607/de3907086e95b33aafab0fe88192c284.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/set-생기-블러셔-스파클-아이-듀오-세트/825/",
+        "name": "[SET] 생기 블러셔 & 스파클 아이 듀오 세트",
+        "price": 20900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202606/680a84191196ffeb7c98867a603b78db.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/균일가-5900원-리얼-비건-트래블-키트/829/",
+        "name": "[균일가 5,900원] 리얼 비건 트래블 키트",
+        "price": 5900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202607/46596a2e2a840ea5d3f26b7e1b301266.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/균일가-8900원-부스팅-쿠션-글로우-12g/835/",
+        "name": "[균일가 8,900원] 부스팅 쿠션 글로우 12g",
+        "price": 8900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202607/28ce1c1f2b0e911068f0765e7c8c80d7.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/클리어런스-부스팅-쿠션-글로우-리필세트/836/",
+        "name": "[클리어런스] 부스팅 쿠션 글로우 리필세트",
+        "price": 12900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/eb75c3af0d1695a62c9e703320372ace.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/매트-액트리스-백스테이지-부스팅-픽싱-쿠션/855/",
+        "name": "[매트] 액트리스 백스테이지 부스팅 픽싱 쿠션",
+        "price": 22900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/0b0480859f263e8c79931879d79f7f1d.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/매트-액트리스-백스테이지-부스팅-쿠션-픽싱-리필세트/861/",
+        "name": "[매트] 액트리스 백스테이지 부스팅 쿠션 픽싱 리필세트",
+        "price": 30900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/b45a1b49b819a4150eb2873288562ff6.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/화이트-펄세이션-스페셜-디바인-펄-세럼-33ml/888/",
+        "name": "화이트 펄세이션 스페셜 디바인 펄 세럼 33ml",
+        "price": 36900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/0572de0cf03fc27d4c2a9dd56110d501.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/화이트-펄세이션-리바이탈라이징-펄-트리트먼트-토너-140ml/889/",
+        "name": "화이트 펄세이션 리바이탈라이징 펄 트리트먼트 토너 140ml",
+        "price": 25900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/0dd2aee560221a207549b5ca454a7427.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/블루-펄세이션-마린-아쿠아-인리치드-크림-50ml/890/",
+        "name": "블루 펄세이션 마린 아쿠아 인리치드 크림 50ml",
+        "price": 25900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/6e1ce3f853b2e41e144339061d9859dc.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/어반-펄세이션-내추럴-파우더-블러셔-45g/891/",
+        "name": "어반 펄세이션 내추럴 파우더 블러셔 4.5g",
+        "price": 12900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202606/fda5a20b9b8a91ca5d8099d0ed5ca683.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/화이트-펄세이션-컴플리티드-리바이탈라이징-펄-아이크림-20ml/892/",
+        "name": "화이트 펄세이션 컴플리티드 리바이탈라이징 펄 아이크림 20ml",
+        "price": 39900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/a7d7ace1cdcc4d78f53e40b29fdd676e.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/세미-글로우-블루-펄세이션-하이커버리지-마린-콜라겐-아쿠아-쿠션-spf50-p/893/",
+        "name": "[세미 글로우] 블루 펄세이션 하이커버리지 마린 콜라겐 아쿠아 쿠션 SPF50+ PA+++ 12g",
+        "price": 22900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/3a9a7c3b3ddc31ac486d96d86db42b74.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/블루-펄세이션-원데이-에잇컵스-마린-콜라겐-아쿠아-토너-140ml/904/",
+        "name": "블루 펄세이션 원데이 에잇컵스 마린 콜라겐 아쿠아 토너 140ml",
+        "price": 24900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/8392a85400810db0aaa3130b5e5db3ef.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/그린-펄세이션-티트리-케어-바디-스프레이-100ml/905/",
+        "name": "그린 펄세이션 티트리 케어 바디 스프레이 100ml",
+        "price": 10400,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/43cd7cb24858b1722f52116633e10bbe.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/화이트-펄세이션-인리치드-디바인-펄-크림-50ml/906/",
+        "name": "화이트 펄세이션 인리치드 디바인 펄 크림 50ml",
+        "price": 36900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/07c0de535370dbebeeedd48594bf07d1.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/포롱이-딸기하트-인형-키링/937/",
+        "name": "포롱이 딸기하트 인형 키링",
+        "price": 7500,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/1e7ae87b8cd033615ec986dce82f5f9b.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/포롱이-헬로-키링/938/",
+        "name": "포롱이 헬로 키링",
+        "price": 7500,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/659e8b114ecedd5ee56a9d162b9f8b58.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/진정-수분-올케어-set-패드에센스젤-크림/942/",
+        "name": "진정 수분 올케어 SET ( 패드+에센스+젤 크림 )",
+        "price": 31900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202604/e6f77f22db93532df6a845c486e8208a.png"
+      },
+      {
+        "url": "https://klavuu.com/product/웰컴딜-너리싱-케어-립-슬리핑-팩-20g-코코넛-유통기한-2026-10-11/943/",
+        "name": "[웰컴딜] 너리싱 케어 립 슬리핑 팩 20g (코코넛 유통기한 2026-10-11",
+        "price": 14000,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202606/42f505dc85e2d6f4ab946a8ae3fe3158.png"
+      },
+      {
+        "url": "https://klavuu.com/product/리뉴얼-6종-체험-키트본품굿즈-추가/994/",
+        "name": "[리뉴얼] 6종 체험 키트(본품+굿즈 추가)",
+        "price": 3000,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202606/33a1400327cfa0f60dfab45696dfbb8c.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/균일가-5900원-펄-아이크림-20ml-유통기한-2026-08-24/1006/",
+        "name": "[균일가 5,900원] 펄 아이크림 20ml (유통기한 : 2026-08-24)",
+        "price": 5900,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202607/ed146f2ea2b5335cad43e505aa2e169f.png"
+      },
+      {
+        "url": "https://klavuu.com/product/건성수부지-광채-지속-베이스-set/1012/",
+        "name": "[건성/수부지] 광채 지속 베이스 SET",
+        "price": 51900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/defd12648c3de4666d172247c8a428e2.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/글로우-밀착-퍼프-루비셀-3종-set/1015/",
+        "name": "글로우 밀착 퍼프 루비셀 3종 SET",
+        "price": 4200,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202512/afb26f8d07a466a9a9002d877d730bcc.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/자사몰-단독-3d-무결점-피부-set/1044/",
+        "name": "[자사몰 단독] 3D 무결점 피부 Set",
+        "price": 24500,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202604/7e9d5b3d8628b442b446727521c67aa3.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/액트리스-백스테이지-퍼스널-컨실러-16g/1045/",
+        "name": "액트리스 백스테이지 퍼스널 컨실러 1.6g",
+        "price": 9900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202604/b65fa29339d55af74db62274a59674f5.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/웰컴딜-부스팅-쿠션-글로우-12g-19호-23호-한정/1049/",
+        "name": "[웰컴딜] 부스팅 쿠션 글로우 12g (19호, 23호 한정)",
+        "price": 33000,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202605/c7d6f92cce0bf14c7eebdb49fbf7f62a.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/웰컴딜-액트리스-백스테이지-크림-10ml-민트/1050/",
+        "name": "[웰컴딜] 액트리스 백스테이지 크림 10ml (민트)",
+        "price": 9000,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202605/2bb539f5c7881f10aacd42811ae4a355.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/화이트-펄세이션-트래블-키트미백/1056/",
+        "name": "화이트 펄세이션 트래블 키트(미백)",
+        "price": 28000,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202606/7eaaad2990f75eda077ed929231936d8.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/부스팅-쿠션-글로우-단독-세트본품3개-리필-1개/1062/",
+        "name": "부스팅 쿠션 글로우 단독 세트(본품3개 + 리필 1개)",
+        "price": 26900,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202607/76e529242ecce0fc1b471ae423ee2ed2.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/패밀리특가액트리스-백스테이지-크림-30ml/1064/",
+        "name": "[패밀리특가]액트리스 백스테이지 크림 30ml",
+        "price": 3000,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/8abfed5f7c970000f04016cc67b7b798.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/패밀리특가너리싱-케어-립-슬리핑-팩-20g/1075/",
+        "name": "[패밀리특가]너리싱 케어 립 슬리핑 팩 20g",
+        "price": 1000,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202511/45a5b59cf63da956d1b51ef74343f1c5.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/패밀리특가부스팅-쿠션-글로우-12g/1081/",
+        "name": "[패밀리특가]부스팅 쿠션 글로우 12g",
+        "price": 3000,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202608/a694ce3917771d5b6539089bba61443f.jpg"
+      },
+      {
+        "url": "https://klavuu.com/product/패밀리특가어반-펄세이션-내추럴-파우더-블러셔-45g-구형/1086/",
+        "name": "[패밀리특가]어반 펄세이션 내추럴 파우더 블러셔 4.5g (구형)",
+        "price": 2000,
+        "currency": "KRW",
+        "inStock": true,
+        "imageUrl": "https://klavuu.com/web/product/big/202608/e115f53e702d5b381e6664394cc6a94d.png"
+      },
+      {
+        "url": "https://klavuu.com/product/패밀리특가어반-펄세이션-스파클-아이섀도우-14g-구형/1091/",
+        "name": "[패밀리특가]어반 펄세이션 스파클 아이섀도우 1.4g (구형)",
+        "price": 1000,
+        "currency": "KRW",
+        "inStock": false,
+        "imageUrl": "https://klavuu.com/web/product/big/202604/88ac0b95863afac0e096e0305bed1872.png"
       }
     ]
   }
