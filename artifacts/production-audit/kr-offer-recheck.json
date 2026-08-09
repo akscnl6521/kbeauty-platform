@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-08-09T09:54:53.333Z",
-  "applied": true,
+  "checkedAt": "2026-08-09T11:42:42.117Z",
+  "applied": false,
   "results": [
     {
       "offerId": "01efb425-3199-4bd3-9cee-084405d1732c",
@@ -584,5 +584,10 @@
       "outcome": "그대로",
       "detail": ""
     }
-  ]
+  ],
+  "media": {
+    "live": 166,
+    "ok": 166,
+    "dead": []
+  }
 }

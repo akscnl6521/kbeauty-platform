@@ -1,5 +1,5 @@
 /**
- * 국내몰 오퍼의 **가격·재고를 출처에서 다시 확인한다.**
+ * 국내몰 오퍼의 **가격·재고**와 제품 **사진 주소**를 출처에서 다시 확인한다.
  *
  * ## 왜 필요한가
  *
@@ -16,6 +16,10 @@
  * ## 무엇을 하나
  *
  *   · 국내몰(`KR_MALLS`) 페이지에서 온 오퍼만 다시 받는다
+ *   · **화면에 나가는 사진이 아직 열리는지도 확인한다** — 몰이 상품 페이지를
+ *     갈아엎으면 이미지 주소가 404 가 되고, 화면에는 깨진 자리만 남는다.
+ *     안 열린다고 지우지 않는다: `validation_status` 를 내려 화면에서만 빼고,
+ *     다시 열리면 되살릴 수 있게 둔다.
  *   · JSON-LD 의 가격·재고를 저장된 값과 견준다
  *   · `--apply` 면 **바뀐 값을 반영하고 `last_checked_at` 을 새로 찍는다**
  *
@@ -208,10 +212,62 @@ async function main() {
     if (changed.length > 20) console.log(`  … 외 ${changed.length - 20}건`);
   }
 
+  // ── 사진 주소도 썩는다 ──────────────────────────────────────
+  //
+  // 몰이 상품 페이지를 갈아엎으면 이미지 주소가 404 가 된다. 그러면 화면에는
+  // **깨진 사진 자리**가 남는데, 아무 오류도 나지 않아서 알 수가 없다.
+  // 오퍼와 같은 «오늘 넣은 게 언제 낡는가» 문제라 여기서 같이 본다.
+  //
+  // **안 열린다고 지우지 않는다.** 일시 장애일 수 있다. `validation_status` 를
+  // 내려 화면에서만 빠지게 하고, 다시 열리면 되살릴 수 있게 둔다.
+  const media = await fetchAll<{
+    id: string;
+    product_id: string | number | null;
+    image_url: string | null;
+    validation_status: string | null;
+  }>(client, "catalog_product_media", "id,product_id,image_url,validation_status");
+  const liveMedia = media.filter((m) => m.validation_status === "verified");
+
+  let mediaOk = 0;
+  const mediaDead: Array<{ id: string; productId: string; why: string }> = [];
+  for (const m of liveMedia) {
+    try {
+      const g = await fetch(String(m.image_url), { redirect: "follow", signal: AbortSignal.timeout(15_000) });
+      if (g.ok && /^image\//i.test(g.headers.get("content-type") ?? "")) mediaOk += 1;
+      else mediaDead.push({ id: m.id, productId: String(m.product_id), why: `HTTP ${g.status}` });
+    } catch {
+      mediaDead.push({ id: m.id, productId: String(m.product_id), why: "받기 실패" });
+    }
+  }
+  console.log("\n── 사진 주소 ──");
+  console.log(`  화면에 나가는 사진 ${liveMedia.length}건 · 열림 ${mediaOk} · **안 열림 ${mediaDead.length}**`);
+  for (const d of mediaDead.slice(0, 12)) console.log(`     제품 ${d.productId} — ${d.why}`);
+
+  if (apply && mediaDead.length > 0) {
+    let downed = 0;
+    for (const d of mediaDead) {
+      const { error } = await client
+        .from("catalog_product_media")
+        .update({ validation_status: "broken", is_accessible: false, last_checked_at: new Date().toISOString() })
+        .eq("id", d.id);
+      if (!error) downed += 1;
+    }
+    console.log(`  화면에서 뺀 사진 ${downed}건 (지우지 않았다 — 다시 열리면 되살릴 수 있다)`);
+  }
+
   mkdirSync("artifacts/production-audit", { recursive: true });
   writeFileSync(
     "artifacts/production-audit/kr-offer-recheck.json",
-    JSON.stringify({ checkedAt: new Date().toISOString(), applied: apply, results }, null, 2),
+    JSON.stringify(
+      {
+        checkedAt: new Date().toISOString(),
+        applied: apply,
+        results,
+        media: { live: liveMedia.length, ok: mediaOk, dead: mediaDead },
+      },
+      null,
+      2
+    ),
     "utf8"
   );
   console.log("\n결과 저장: artifacts/production-audit/kr-offer-recheck.json");
