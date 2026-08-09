@@ -211,9 +211,17 @@ async function main() {
   const maps = buildIngredientLookupMaps(ingredients, activeAliases);
 
   // 이미 점유된 정규화 키 -> 성분 id. 새 값이 여기와 부딪히면 건너뛴다.
+  //
+  // **slug 는 여기 넣지 않는다.** 성분 대조(`isIngredientTokenKnown`)는 `name_en` ·
+  // `name_ko` · 별칭만 본다 — slug 는 URL 용이라 매칭에 쓰이지 않는다. 그런데
+  // slug 를 «점유된 키» 로 세면 **가짜 충돌**이 생긴다: 31번 «Honey Extract» 의
+  // slug 가 `honey` 라서, 전혀 다른 성분인 «Honey»(꿀)를 못 넣고 있었다.
+  // 설화수 5개 제품이 `꿀` 하나 때문에 막혀 있었다(2026-08-09).
+  //
+  // slug 중복은 `plannedSlugs` 와 DB 제약이 따로 막는다.
   const taken = new Map<string, number>();
   for (const r of ingredients)
-    for (const v of [r.slug, r.name_en, r.name_ko]) {
+    for (const v of [r.name_en, r.name_ko]) {
       const k = normalizeTextKey(v);
       if (k && !taken.has(k)) taken.set(k, r.id);
     }
@@ -395,14 +403,21 @@ async function main() {
       skipped.push([token, "영문명에서 슬러그를 만들 수 없다"]);
       continue;
     }
-    if (plannedSlugs.has(slug)) {
-      skipped.push([token, `슬러그 «${slug}» 중복`]);
+    // **slug 가 겹치면 다른 이름을 붙인다 — 성분을 버리지 않는다.**
+    // slug 는 URL 용 키일 뿐 성분 대조에 쓰이지 않는다. 그런데 겹친다고 건너뛰면
+    // 멀쩡한 성분이 사전에 못 들어간다: 31번 «Honey Extract» 의 slug 가 `honey`
+    // 라서, 전혀 다른 성분인 «Honey»(꿀)가 막혀 있었다(설화수 5개 제품).
+    let finalSlug = slug;
+    for (let n = 2; plannedSlugs.has(finalSlug) && n <= 20; n += 1) finalSlug = `${slug}-${n}`;
+    if (plannedSlugs.has(finalSlug)) {
+      skipped.push([token, `슬러그 «${slug}» 를 20번까지 시도했으나 전부 중복`]);
       continue;
     }
-    plannedSlugs.add(slug);
+    const slugToUse = finalSlug;
+    plannedSlugs.add(slugToUse);
     plannedKeys.add(token);
     plannedKeys.add(enKey);
-    newIngredients.push({ slug, name_en: hit.engName, name_ko: hit.korName || token, token });
+    newIngredients.push({ slug: slugToUse, name_en: hit.engName, name_ko: hit.korName || token, token });
   }
 
   console.log(`미매칭 토큰 ${unmatched.size}종 대상`);

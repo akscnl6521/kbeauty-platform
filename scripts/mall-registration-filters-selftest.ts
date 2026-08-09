@@ -127,6 +127,11 @@ function main() {
   assert.ok(nonFaceSkincareReason("히어로 올데이 플럼핑 틴트"));
   assert.ok(nonFaceSkincareReason("[NEW] 히어로 글레이즈 립글로스"));
   assert.ok(nonFaceSkincareReason("블러 스킨 파우더"));
+  assert.ok(nonFaceSkincareReason("퍼펙팅 트윈케이크"));
+  assert.ok(nonFaceSkincareReason("퍼펙팅 스킨커버"));
+  // 설화수 스킨케어는 막으면 안 된다.
+  assert.equal(nonFaceSkincareReason("윤조에센스 6세대"), null);
+  assert.equal(nonFaceSkincareReason("진설크림"), null);
   assert.ok(nonFaceSkincareReason("퍼펙트 수정화장패드 (1개월분)"));
   // 세안제인 파우더는 얼굴 스킨케어다 — 막으면 안 된다.
   assert.equal(nonFaceSkincareReason("효소 파우더 클렌저"), null);
@@ -166,6 +171,7 @@ function main() {
     "트라넥삼산 브라이트닝 팩패드 (40매/80매)",
     "레티날 투스텝 겔 마스크 1매/5매/8매",
     "프레쉴리 쥬스드 비타민 차징 세럼X2개",
+    "서플 프레퍼레이션 올오버로션X2",
     "미드나잇 블루 유스 액티베이팅 드롭 20mlX2개",
   ]) {
     assert.ok(conditionalSaleReason(name), `조건부인데 통과했다: ${name}`);

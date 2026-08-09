@@ -245,4 +245,33 @@ assert.equal(sanitizeIngredientList(null).ok, false);
   ]);
 }
 
-console.log("ingredient-list-validate self-test: ok");
+
+  // ── 우리가 못 알아보던 진짜 성분들 (2026-08-09 실측) ──
+  //
+  // 이것들 때문에 «목록 끝 경계가 애매하다» 로 제품 11건이 반려돼 있었다.
+  // 검수가 아니라 형태 판정기의 결함이었다.
+  {
+    const base = "정제수, 글리세린, %, 부틸렌글라이콜, 판테놀, 나이아신아마이드";
+    for (const real of [
+      "꿀", // 벌꿀 — 한 글자 한글 성분명
+      "토마토열매/잎/줄기추출물", // 슬래시로 이어 적는 식물 부위, `잎` 이 한 글자
+      "바질꽃/잎/줄기추출물",
+      "나일론6/12", // 슬래시 뒤가 숫자만 — 이름의 일부다
+    ]) {
+      const r = sanitizeIngredientList(base.replace("%", real));
+      assert.ok(r.ok, `진짜 성분인데 반려됐다: ${real}`);
+    }
+
+    // **쓰레기는 여전히 반려돼야 한다** — 느슨해진 게 아니라 정확해진 것이다.
+    for (const junk of [
+      "Body From Skin to Hair Care works looks bottle results improvement radiance",
+      "2025",
+      "a",
+      "12/34", // 조각이 전부 숫자면 성분이 아니다
+    ]) {
+      const r = sanitizeIngredientList(base.replace("%", junk));
+      assert.equal(r.ok, false, `쓰레기인데 통과했다: ${junk}`);
+    }
+  }
+
+  console.log("ingredient-list-validate self-test: ok");

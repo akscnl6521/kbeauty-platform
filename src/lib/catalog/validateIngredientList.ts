@@ -100,7 +100,11 @@ const NON_INCI_SINGLE_WORDS: ReadonlySet<string> = new Set([
 /** 성분명 한 조각(슬래시 동의어 중 하나)이 INCI 이름 형태인가. */
 function looksLikeInciSegment(segment: string): boolean {
   const t = segment.trim();
-  if (t.length < 2 || t.length > 90) return false;
+  // **한글 성분명은 한 글자짜리가 있다** — `꿀`(벌꿀) · `잎`(슬래시로 이어 적는
+  // 식물 부위). 2026-08-09 실측에서 `꿀` 때문에 6개 제품이, `…열매/잎/줄기추출물`
+  // 때문에 5개가 반려됐다. 로마자 한 글자는 여전히 성분이 아니다.
+  const minLength = /[가-힣]/.test(t) ? 1 : 2;
+  if (t.length < minLength || t.length > 90) return false;
   // 낱말 수 상한 — `Sodium Hyaluronate` 2, `Butyrospermum Parkii (Shea) Butter` 4.
   // 8 낱말을 넘는 성분명은 실무에서 거의 없고, 넘으면 문장일 가능성이 높다.
   const words = t.split(/\s+/).filter(Boolean);
@@ -139,7 +143,13 @@ function looksLikeInciToken(token: string): boolean {
     .map((s) => s.trim())
     .filter(Boolean);
   if (segments.length === 0) return false;
-  return segments.every(looksLikeInciSegment);
+
+  // **숫자만인 조각은 이름의 일부다** — `나일론6/12` · `Acrylates/C10-30`.
+  // 홀로 성분일 수는 없으므로, 슬래시로 이어진 자리에 있으면 앞 이름에 딸린
+  // 번호로 본다. 다만 **모든 조각이 숫자면 성분이 아니다** — 그건 그냥 숫자다.
+  const named = segments.filter((s) => !/^[\d.\-]+$/.test(s));
+  if (named.length === 0) return false;
+  return named.every(looksLikeInciSegment);
 }
 
 /**
@@ -396,7 +406,12 @@ export function sanitizeIngredientList(raw: string | null | undefined): Sanitize
   if (shapedInTail / tail.length > TAIL_JUNK_RATIO_MAX) {
     return {
       ok: false,
-      reason: `목록 끝 경계가 애매하다 (잘린 뒤에도 성분 형태 ${shapedInTail}/${tail.length}개)`,
+      // **어느 토큰에서 잘렸는지 함께 말한다.** 이유만 알면 «사람이 봐야 한다» 로
+      // 끝나지만, 걸린 토큰을 알면 그게 진짜 쓰레기인지 우리가 못 알아본 성분인지
+      // 가려낼 수 있다 — 후자면 검수가 아니라 추출기를 고칠 일이다.
+      reason:
+        `목록 끝 경계가 애매하다 (잘린 뒤에도 성분 형태 ${shapedInTail}/${tail.length}개) ` +
+        `· 걸린 토큰 «${String(tokens[cut] ?? "").slice(0, 40)}»`,
       sample: tail[0]?.slice(0, 60),
     };
   }
