@@ -172,7 +172,7 @@ export const RANKED_PRODUCTS_STORAGE_KEY = "skinRankedProducts";
  * 버전을 올리면 `discardStaleRankedProductsCache()` 가 옛 캐시를 지우고 다시 계산한다.
  */
 export const RECOMMENDATION_CACHE_VERSION =
-  "KR_SCENARIO_PILOT_PHASE25_COMMERCE_SEP_V5";
+  "KR_SCENARIO_PILOT_PHASE25_COMMERCE_SEP_V6";
 
 /** 캐시 버전 localStorage 키 */
 export const RECOMMENDATION_CACHE_VERSION_KEY = "recommendationCacheVersion";

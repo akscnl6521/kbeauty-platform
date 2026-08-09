@@ -518,9 +518,13 @@ async function main() {
   }
 
   if (newAliases.length > 0) {
+    // 이미 있는 별칭이면 그냥 둔다. 예전 실행이 넣어 둔 것과 부딪히면
+    // `ingredient_aliases_normalized_lang_uidx` 로 통째로 실패해서, **그 앞에서
+    // 성공한 성분 추가만 남고 별칭은 하나도 안 들어가는** 중간 상태가 된다
+    // (2026-08-08 실측: 성분 28행은 들어갔는데 별칭은 0행).
     const { data, error } = await client
       .from("ingredient_aliases")
-      .insert(
+      .upsert(
         newAliases.map((a) => ({
           ingredient_id: a.ingredient_id,
           alias: a.alias,
@@ -530,6 +534,8 @@ async function main() {
           review_status: "pending",
           active: true,
         }))
+      ,
+        { onConflict: "normalized_alias,language_code", ignoreDuplicates: true }
       )
       .select("id");
     if (error) {

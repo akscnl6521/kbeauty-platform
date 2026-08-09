@@ -8,6 +8,11 @@
  */
 import assert from "node:assert/strict";
 import {
+  ingredientNameVariants,
+  isIngredientTokenKnown,
+  normalizeTextKey,
+} from "../src/lib/pipeline/ingredient-normalize";
+import {
   attachIngredientMatches,
   buildIngredientLookupMaps,
   normalizeTextKey,
@@ -93,4 +98,22 @@ const matchOf = (raw: string, maps: IngredientLookupMaps) =>
   assert.equal(hit?.needsReview, true);
 }
 
-console.log("ingredient key normalize selftest: ok");
+
+  // ── 한글 성분명 안에 끼어든 공백 (2026-08-08 참존 실측) ──
+  // 몰이 줄바꿈한 자리에 공백이 남아 `나이아 신아마이드` 로 갈라져 온다.
+  // 붙인 형태가 **사전에 그대로 있을 때만** 같은 성분으로 본다.
+  {
+    const known = new Set<string>();
+    for (const n of ["나이아신아마이드", "트로메타민", "벤질글라이콜", "Butylene Glycol"])
+      for (const v of ingredientNameVariants(n)) {
+        const k = normalizeTextKey(v);
+        if (k) known.add(k);
+      }
+    for (const t of ["나이아 신아마이드", "트로메타 민", "벤질글라이 콜", "나이아신아마이드"])
+      assert.ok(isIngredientTokenKnown(t, known), `공백만 다른데 못 알아봤다: ${t}`);
+    // 사전에 없는 이름을 공백만 지워서 아는 척하면 안 된다.
+    assert.equal(isIngredientTokenKnown("모르는 성분", known), false);
+    assert.equal(isIngredientTokenKnown("모 르 는 성 분", known), false);
+  }
+
+  console.log("ingredient key normalize selftest: ok");

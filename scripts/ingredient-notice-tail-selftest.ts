@@ -186,4 +186,22 @@ assert.deepEqual(coerceIngredientListUnknown(null), []);
   // 라벨이 없으면 그대로 둔다.
   assert.deepEqual(splitIngredientTokens("정제수, 부틸렌글라이콜"), ["정제수", "부틸렌글라이콜"]);
 
+  
+  // 목록 기호가 성분명 앞에 딸려 온다 — 2026-08-08 티르티르·편강율 실측.
+  assert.deepEqual(
+    splitIngredientTokens("+ 정제수, 글리세린, 시트릭애씨드 사용할 때, • Astragalus Root Extract"),
+    ["정제수", "글리세린", "시트릭애씨드", "Astragalus Root Extract"]
+  );
+  // 이름 일부인 기호는 건드리지 않는다.
+  assert.deepEqual(splitIngredientTokens("1,2-헥산다이올, 부틸렌글라이콜"), ["1,2-헥산다이올", "부틸렌글라이콜"]);
+  assert.equal(stripIngredientNoticeTail("마데카식애씨드 사용할 때"), "마데카식애씨드");
+
+  
+  // 쇼핑몰 화면 글자가 성분표에 섞여 온다 — 2026-08-08 참존 실측.
+  // 라벨은 두 겹으로 붙는다(`보러가기 전성분 정제수`).
+  assert.deepEqual(
+    splitIngredientTokens("보러가기 전성분 정제수, 글리세린, 향료 닫기 특이사항, 장바구니 바로구매 선물하기 상세 정보"),
+    ["정제수", "글리세린", "향료"]
+  );
+
   console.log("ingredient-notice-tail self-test: ok");

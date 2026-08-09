@@ -132,6 +132,28 @@ function main() {
   assert.equal(nonFaceSkincareReason("효소 파우더 클렌저"), null);
   assert.equal(nonFaceSkincareReason("아미노 파우더 워시"), null);
 
+  
+  // ── 스킨케어 브랜드몰이라고 스킨케어만 팔지 않는다 (2026-08-08 아로마티카 실측) ──
+  for (const name of [
+    "주방세제 레몬&오렌지 리필 2L",
+    "그린 만다린 핸드워시 250ML",
+    "[탈모케어] 티트리 퓨리파잉 토닉 100ML",
+  ]) {
+    assert.ok(nonFaceSkincareReason(name), `얼굴 제품이 아닌데 통과했다: ${name}`);
+  }
+
+  // ── 묶음 값은 단가가 아니다 (2026-08-08 참존 실측) ──
+  for (const name of [
+    "하이드라 수분 인 세럼 30ml 5개",
+    "마유 마일드 폼 클렌저 150ml 4개",
+    "더블 모이스처 오일 인 세럼 플러스 30ml 6개",
+  ]) {
+    assert.ok(conditionalSaleReason(name), `묶음인데 통과했다: ${name}`);
+  }
+  // 그 자체가 한 상품인 개수 표기는 막지 않는다.
+  assert.equal(conditionalSaleReason("약산성 시트 마스크 아쿠아 핏"), null);
+  assert.equal(conditionalSaleReason("프로폴리스 마유 크림 50ml"), null);
+
   console.log("mall-registration-filters self-test: ok");
 }
 

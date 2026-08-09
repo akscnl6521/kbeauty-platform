@@ -47,6 +47,20 @@ const KO_NOTICE_MARKERS: ReadonlyArray<RegExp> = [
   /사용\s*시\s*주의/,
   /사용\s*시의/,
   /사용상의/,
+  /사용할\s*때/,
+  // 2026-08-08 참존 실측 — 쇼핑몰 화면 글자가 성분표 뒤에 그대로 붙어 온다.
+  // 성분명에는 쓰이지 않는 낱말이라 잘라도 안전하다.
+  /닫기/,
+  /특이\s*사항/,
+  /장바구니/,
+  /바로\s*구매/,
+  /선물하기/,
+  /상세\s*정보/,
+  /합계\s*\d/,
+  /상품\s*금액/,
+  /기본\s*옵션/,
+  /배송\s*안내/,
+  /리뷰\s*쓰기/,
   /주의\s*사항/,
   // 기능성 표시·법령 인용 — 성분표 뒤에 붙는다 (2026-08-07 국내몰 실측)
   /화장품법/,
@@ -98,10 +112,29 @@ export function splitBracketVariantSegments(text: string): string[] {
  *
  * 라벨로 쓰이는 낱말만 본다 — INCI 이름에는 «보기» · «전성분» 이 들어가지 않는다.
  */
-const LABEL_HEAD = /^\s*(?:[가-힣]{0,6}보기|전성분|성분\s*정보|원료\s*정보)\s+/;
+const LABEL_HEAD = /^\s*(?:[가-힣]{0,6}보기|[가-힣]{0,6}보러가기|전성분|성분\s*정보|원료\s*정보)\s+/;
+
+/**
+ * 성분명 앞에 남는 **기호 부스러기**. `+ 정제수` · `• Astragalus Root Extract`.
+ *
+ * 몰이 목록을 `+` 나 `•` 로 찍어 놓은 것이 토큰에 딸려 온다. 2026-08-08 실측에서
+ * 티르티르 두 제품이 `+ 정제수` · `+ 글리세린` 때문에 막혀 있었다.
+ *
+ * **성분명 안에 쓰이는 기호는 건드리지 않는다** — 맨 앞에 있고 뒤에 글자가
+ * 이어질 때만 뗀다. `1,2-헥산다이올` 의 하이픈처럼 이름 일부인 기호는 그대로 둔다.
+ */
+const BULLET_HEAD = /^\s*[+•·▪◦*\-–—]\s+/;
 
 export function stripIngredientLabelHead(token: string): string {
-  return String(token ?? "").replace(LABEL_HEAD, "").trim();
+  // 라벨이 두 겹으로 붙는다 — `보러가기 전성분 정제수`. 한 번만 떼면 `전성분 정제수`
+  // 가 남아 여전히 성분을 못 알아본다. 더 떨어지지 않을 때까지 반복한다.
+  let out = String(token ?? "");
+  for (let i = 0; i < 4; i += 1) {
+    const next = out.replace(BULLET_HEAD, "").replace(LABEL_HEAD, "");
+    if (next === out) break;
+    out = next;
+  }
+  return out.trim();
 }
 
 /** 안내 문구가 시작되는 지점에서 자른다. 없으면 원문 그대로. */
