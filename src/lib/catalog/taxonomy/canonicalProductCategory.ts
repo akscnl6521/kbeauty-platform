@@ -107,7 +107,10 @@ export function isCanonicalProductCategory(raw: string | null | undefined): bool
  * 시트인지 수면팩인지 모르는데 하나로 정해 버리면, 틀렸다는 것조차 드러나지 않는다.
  */
 const MASK_HINTS: ReadonlyArray<[RegExp, string]> = [
-  [/시트\s*마스크|sheet\s*mask/i, "sheet_mask"],
+  // 유형이 이미 `mask` 인 상태에서 이름에 «시트» 가 있으면 시트 마스크다.
+  // `마데카소사이드 진정 시트 에센셜 핏` 처럼 «마스크» 라는 낱말이 이름에
+  // 없는 경우가 있다 — 그건 유형 쪽이 이미 말해 주고 있다.
+  [/시트\s*마스크|sheet\s*mask|(?:^|[\s(])시트(?:[\s)]|$)/i, "sheet_mask"],
   [/슬리핑|수면\s*팩|sleeping/i, "sleeping_mask"],
   [/모델링|modeling|modelling/i, "modeling_mask"],
   [/하이드로겔|hydrogel/i, "hydrogel_mask"],

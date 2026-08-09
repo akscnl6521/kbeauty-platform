@@ -116,4 +116,23 @@ const matchOf = (raw: string, maps: IngredientLookupMaps) =>
     assert.equal(isIngredientTokenKnown("모 르 는 성 분", known), false);
   }
 
+  
+  // ── 사전 한 칸에 이름이 여럿 (2026-08-09) ──
+  // 식약처가 동의어를 쉼표로 이어 준다. 통째로 한 이름으로 보면 어느 쪽으로도
+  // 못 찾는다 — `Cynanchum Atratum Extract` 하나 때문에 제품 5건이 막혀 있었고,
+  // 그 성분은 사전에 **이미 있었다**.
+  {
+    const known = new Set<string>();
+    for (const n of ["Vincetoxicum Atratum Extract,Cynanchum Atratum Extract", "1,2-Hexanediol"])
+      for (const v of ingredientNameVariants(n)) {
+        const k = normalizeTextKey(v);
+        if (k) known.add(k);
+      }
+    assert.ok(isIngredientTokenKnown("Cynanchum Atratum Extract", known));
+    assert.ok(isIngredientTokenKnown("Vincetoxicum Atratum Extract", known));
+    // 숫자 사이의 쉼표는 이름의 일부다 — 쪼개면 안 된다.
+    assert.ok(isIngredientTokenKnown("1,2-Hexanediol", known));
+    assert.equal(isIngredientTokenKnown("2-Hexanediol", known), false);
+  }
+
   console.log("ingredient key normalize selftest: ok");
