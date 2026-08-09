@@ -204,4 +204,12 @@ assert.deepEqual(coerceIngredientListUnknown(null), []);
     ["정제수", "글리세린", "향료"]
   );
 
+  
+  // 라벨의 닫는 괄호가 첫 성분에 붙어 온다 — 2026-08-09 클라뷰 실측.
+  // 세 제품이 전부 `] 정제수` 하나에 막혀 있었다.
+  assert.deepEqual(
+    splitIngredientTokens("] 정제수, 글리세린, 1,2-헥산다이올, - 판테놀"),
+    ["정제수", "글리세린", "1,2-헥산다이올", "판테놀"]
+  );
+
   console.log("ingredient-notice-tail self-test: ok");

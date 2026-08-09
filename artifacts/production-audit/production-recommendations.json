@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-09T05:43:40.268Z",
+  "checkedAt": "2026-08-09T09:31:14.865Z",
   "poolSize": 118,
   "krBuyable": 107,
   "usBuyable": 24,
@@ -8,7 +8,7 @@
       "scenarioId": "kr-redness-sensitive-cream",
       "name": "민감·홍조 · 진정 크림",
       "safe": 118,
-      "withEvidence": 64,
+      "withEvidence": 66,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -26,7 +26,7 @@
       "scenarioId": "kr-redness-soothing-serum",
       "name": "홍조 · 저자극 진정 세럼",
       "safe": 118,
-      "withEvidence": 80,
+      "withEvidence": 82,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 5,
@@ -44,7 +44,7 @@
       "scenarioId": "kr-redness-gentle-cleanser",
       "name": "민감 피부 · 순한 클렌저",
       "safe": 118,
-      "withEvidence": 68,
+      "withEvidence": 70,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -62,7 +62,7 @@
       "scenarioId": "kr-redness-toner-pad",
       "name": "붉은기 · 진정 토너 패드",
       "safe": 118,
-      "withEvidence": 68,
+      "withEvidence": 70,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -80,7 +80,7 @@
       "scenarioId": "kr-redness-calming-mist",
       "name": "열감·홍조 · 진정 미스트",
       "safe": 118,
-      "withEvidence": 110,
+      "withEvidence": 112,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -98,7 +98,7 @@
       "scenarioId": "kr-dryness-barrier-cream",
       "name": "건조·장벽 · 보습 크림",
       "safe": 118,
-      "withEvidence": 110,
+      "withEvidence": 112,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 5,
@@ -116,7 +116,7 @@
       "scenarioId": "kr-dryness-barrier-essence",
       "name": "장벽 강화 · 보습 에센스",
       "safe": 118,
-      "withEvidence": 105,
+      "withEvidence": 107,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 5,
@@ -134,7 +134,7 @@
       "scenarioId": "kr-dryness-hydrating-toner",
       "name": "건조함 · 수분 토너",
       "safe": 118,
-      "withEvidence": 105,
+      "withEvidence": 107,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 5,
@@ -152,7 +152,7 @@
       "scenarioId": "kr-dryness-cream-moderate",
       "name": "중건성 · 데일리 크림",
       "safe": 118,
-      "withEvidence": 110,
+      "withEvidence": 112,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -170,7 +170,7 @@
       "scenarioId": "kr-dryness-mask",
       "name": "건조·당김 · 수분 마스크",
       "safe": 118,
-      "withEvidence": 105,
+      "withEvidence": 107,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 5,
@@ -188,7 +188,7 @@
       "scenarioId": "kr-acne-sebum-cleanser",
       "name": "여드름·피지 · 클렌저",
       "safe": 118,
-      "withEvidence": 62,
+      "withEvidence": 61,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
@@ -206,7 +206,7 @@
       "scenarioId": "kr-acne-spot-treatment",
       "name": "트러블 · 스팟 케어",
       "safe": 118,
-      "withEvidence": 62,
+      "withEvidence": 61,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
@@ -224,7 +224,7 @@
       "scenarioId": "kr-acne-serum",
       "name": "여드름 · 세럼",
       "safe": 118,
-      "withEvidence": 63,
+      "withEvidence": 62,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
@@ -242,7 +242,7 @@
       "scenarioId": "kr-acne-pores-toner",
       "name": "모공·피지 · 토너",
       "safe": 118,
-      "withEvidence": 62,
+      "withEvidence": 61,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
@@ -260,7 +260,7 @@
       "scenarioId": "kr-acne-mattifying-emulsion",
       "name": "유분·트러블 · 에멀전",
       "safe": 118,
-      "withEvidence": 62,
+      "withEvidence": 61,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
@@ -278,7 +278,7 @@
       "scenarioId": "kr-uv-sunscreen-face",
       "name": "얼굴 · 데일리 선크림",
       "safe": 118,
-      "withEvidence": 85,
+      "withEvidence": 84,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
@@ -314,7 +314,7 @@
       "scenarioId": "kr-uv-antiaging-sunscreen",
       "name": "광노화 · SPF 케어",
       "safe": 118,
-      "withEvidence": 85,
+      "withEvidence": 84,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
@@ -340,8 +340,8 @@
       "brands": [
         "Abib",
         "Abib",
+        "Klavuu",
         "COSRX",
-        "d'Alba",
         "d'Alba"
       ],
       "short": false
@@ -350,17 +350,17 @@
       "scenarioId": "kr-uv-mist-spf",
       "name": "야외 · 선 미스트",
       "safe": 118,
-      "withEvidence": 79,
+      "withEvidence": 78,
       "finalCount": 5,
       "min": 3,
-      "krBuyableCount": 4,
+      "krBuyableCount": 3,
       "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
-        "Celimax",
-        "Celimax",
-        "Axis-Y"
+        "Axis-Y",
+        "SKIN1004",
+        "COSRX"
       ],
       "short": false
     },
@@ -377,7 +377,7 @@
         "Abib",
         "Abib",
         "COSRX",
-        "d'Alba",
+        "Klavuu",
         "d'Alba"
       ],
       "short": false
@@ -396,7 +396,7 @@
         "Abib",
         "COSRX",
         "d'Alba",
-        "Klairs"
+        "Klavuu"
       ],
       "short": false
     },
@@ -413,7 +413,7 @@
         "Abib",
         "Abib",
         "COSRX",
-        "Klairs",
+        "Klavuu",
         "Klairs"
       ],
       "short": false
@@ -432,7 +432,7 @@
         "Abib",
         "COSRX",
         "d'Alba",
-        "Klairs"
+        "Klavuu"
       ],
       "short": false
     },
@@ -450,7 +450,7 @@
         "Abib",
         "COSRX",
         "d'Alba",
-        "d'Alba"
+        "Klavuu"
       ],
       "short": false
     },
@@ -476,7 +476,7 @@
       "scenarioId": "kr-eye-dark-circle-serum",
       "name": "다크서클 · 아이 세럼",
       "safe": 118,
-      "withEvidence": 84,
+      "withEvidence": 83,
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
@@ -504,7 +504,7 @@
         "Abib",
         "COSRX",
         "d'Alba",
-        "Klairs"
+        "Klavuu"
       ],
       "short": false
     },
@@ -522,7 +522,7 @@
         "Abib",
         "COSRX",
         "d'Alba",
-        "Klairs"
+        "Klavuu"
       ],
       "short": false
     },

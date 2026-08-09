@@ -179,6 +179,18 @@ function main() {
   assert.ok(nonFaceSkincareReason("가히 한겹 톤업 선 스킨 베이지/퍼플/그린 (40ml)"));
   assert.equal(nonFaceSkincareReason("노니 리페어 크림 50ml"), null);
 
+  
+  // ── 2026-08-09 클라뷰 실측 ──
+  for (const name of [
+    "너리싱 케어 립 슬리핑 팩 20g",
+    "액트리스 백스테이지 베이스 픽싱 SPF 50+ PA++++ 30ml (한겹 선비비)",
+  ]) {
+    assert.ok(nonFaceSkincareReason(name), `얼굴 스킨케어가 아닌데 통과했다: ${name}`);
+  }
+  // «립» 이 낱말 시작이 아니면 막지 않는다.
+  assert.equal(nonFaceSkincareReason("리얼 비건 콜라겐 앰플 30ml"), null);
+  assert.equal(nonFaceSkincareReason("백스테이지 필오프마스크 70ml"), null);
+
   console.log("mall-registration-filters self-test: ok");
 }
 
