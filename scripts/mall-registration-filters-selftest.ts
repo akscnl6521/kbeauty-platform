@@ -154,6 +154,29 @@ function main() {
   assert.equal(conditionalSaleReason("약산성 시트 마스크 아쿠아 핏"), null);
   assert.equal(conditionalSaleReason("프로폴리스 마유 크림 50ml"), null);
 
+  
+  // ── 2026-08-09 셀리맥스·카히 실측 ──
+  for (const name of [
+    "[99딜 비밀링크] 나이아신아마이드 시카 세럼 40ml",
+    "[더 비타 키트 전용] 레티놀 샷 타이트닝 세럼 & 부스터 비밀링크",
+    "[쿨링썸머] 노니 글로우 패드 50매 (쿨링마사저 증정)",
+    "[더블/ 키링증정] 가히 에어리 핏 선스틱 (14g)*2개",
+    // 한 상품에 용량·매수가 여럿이면 그 값이 어느 것인지 알 수 없다.
+    "노니 에너지 앰플 (30ml/50ml/100ml)",
+    "트라넥삼산 브라이트닝 팩패드 (40매/80매)",
+    "레티날 투스텝 겔 마스크 1매/5매/8매",
+  ]) {
+    assert.ok(conditionalSaleReason(name), `조건부인데 통과했다: ${name}`);
+  }
+  // 용량이 하나면 정상이다.
+  assert.equal(conditionalSaleReason("노니 밸런싱 토너 150ml"), null);
+  assert.equal(conditionalSaleReason("노니 얼티밋 아이크림 20ml"), null);
+  assert.equal(conditionalSaleReason("지우개패드 60매"), null);
+
+  // 호수가 여럿이면 어느 색의 성분·값인지 알 수 없다.
+  assert.ok(nonFaceSkincareReason("가히 한겹 톤업 선 스킨 베이지/퍼플/그린 (40ml)"));
+  assert.equal(nonFaceSkincareReason("노니 리페어 크림 50ml"), null);
+
   console.log("mall-registration-filters self-test: ok");
 }
 
