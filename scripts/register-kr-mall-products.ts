@@ -50,7 +50,22 @@ const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36";
 const SNAPSHOT = "artifacts/kr-malls/snapshot.json";
 /** 이 이상 닮았으면 이미 있는 제품으로 본다 — 중복 등록보다 빠뜨리는 편이 낫다. */
-const DUPLICATE_MIN = 0.7;
+/**
+ * DB 에 이미 있는 제품인지 판정하는 이름 유사도 기준.
+ *
+ * **0.7 이었는데 너무 낮았다.** 한 브랜드 라인은 이름 대부분을 공유해서
+ * (달바는 거의 전부 «화이트 트러플 …») 서로 다른 제품이 0.75~0.86 으로 붙는다.
+ * 2026-08-09 실측에서 **176건이 «이미 있는 제품» 으로 조용히 버려졌는데**,
+ * 그중 유사도 1.00 인 진짜 중복은 132건뿐이었다. 나머지 44건은 다른 제품이다:
+ *
+ *   `딥 클린 폼 클렌저`            ↔ `리턴 오일 크림 클렌저 160ml`   0.75
+ *   `갈락토미세스 95 톤 밸런싱 에센스` ↔ `갈락토미세스 95 화이트닝 파워 에센스` 0.75
+ *   `너리싱 트리트먼트 마스크`        ↔ `슬리핑 마스크`                0.75
+ *
+ * 이름이 «거의 같을 때만» 같은 제품으로 본다. 포장·수량만 다른 경우는
+ * `packagingNeutralKey` 가 따로 잡으므로 유사도를 낮게 둘 이유가 없다.
+ */
+const DUPLICATE_MIN = 0.95;
 
 type SnapItem = { name: string; url: string; price: number; currency: string; inStock: boolean; imageUrl: string | null };
 type DbProduct = { id: number; brand: string | null; name: string | null; name_ko: string | null };
@@ -193,12 +208,37 @@ async function main() {
         continue;
       }
 
-      const dupe = mine.some((p) => {
+      // 포장·수량 표기만 다른 같은 제품 — 유사도와 별개로 잡는다.
+      const packKeyForDb = packagingNeutralKey(it.name);
+      const samePackaging = mine.some(
+        (p) =>
+          packagingNeutralKey(String(p.name_ko ?? "")) === packKeyForDb ||
+          packagingNeutralKey(String(p.name ?? "")) === packKeyForDb
+      );
+      const dupe = samePackaging || mine.some((p) => {
         const a = nameSimilarity(nameTokens(cmp, brand), nameTokens(String(p.name ?? ""), brand));
         const b = nameSimilarity(nameTokens(it.name, brand), nameTokens(String(p.name_ko ?? ""), brand));
         return Math.max(a, b) >= DUPLICATE_MIN;
       });
-      if (dupe) continue;
+      if (dupe) {
+        // **중복 판정도 기록한다.** 아무 말 없이 버리면, 유사도가 잘못 묶어
+        // 멀쩡한 제품을 떨어뜨려도 알 수가 없다. 2026-08-09 에 COSRX 토너
+        // 미스트가 후보에도 안 올라와 있었는데 왜인지 알아낼 방법이 없었다.
+        const near = mine
+          .map((p) => ({
+            name: String(p.name_ko ?? p.name ?? ""),
+            sim: Math.max(
+              nameSimilarity(nameTokens(cmp, brand), nameTokens(String(p.name ?? ""), brand)),
+              nameSimilarity(nameTokens(it.name, brand), nameTokens(String(p.name_ko ?? ""), brand))
+            ),
+          }))
+          .sort((a, b) => b.sim - a.sim)[0];
+        skipped.push({
+          name: it.name,
+          why: `이미 있는 제품으로 봄 — «${near?.name.slice(0, 30)}» 유사도 ${near?.sim.toFixed(2)}`,
+        });
+        continue;
+      }
 
       // 세트는 전성분이 «여러 제품의 합» 이라 한 제품으로 등록하면 안전 판정이 틀어진다.
       const bundle = bundleSetReason(it.name);
