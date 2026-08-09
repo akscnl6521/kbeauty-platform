@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-09T09:30:19.116Z",
+  "checkedAt": "2026-08-09T09:55:09.588Z",
   "site": "https://www.kbeautymatch.com",
   "checks": [
     {
@@ -31,6 +31,12 @@
       "blocking": false,
       "ok": true,
       "detail": "107 / 118건"
+    },
+    {
+      "name": "오퍼를 마지막으로 확인한 시점",
+      "blocking": false,
+      "ok": true,
+      "detail": "가장 오래된 것 10일 전 · 한 달 넘은 오퍼 0행 / 168행"
     }
   ]
 }

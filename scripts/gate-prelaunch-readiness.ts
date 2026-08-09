@@ -186,6 +186,29 @@ async function main() {
     detail: `${poolBuyable} / ${pool.length}건`,
   });
 
+  // ── 6. 오퍼를 마지막으로 확인한 게 언제인가 (보고) ──────────
+  //
+  // 구매 CTA 관문은 `verifiedAt` 이 **있는지**만 보고 **얼마나 오래됐는지는
+  // 보지 않는다.** 그래서 오래된 값도 그대로 «구매하기» 로 나간다. 신선도를
+  // 자격 조건으로 바꾸는 건 국내 오퍼 규칙을 바꾸는 일이라 사람이 정할 몫이고,
+  // 여기서는 **숫자를 보이게** 한다. 다시 확인하려면 `check:kr-offer-freshness`.
+  const nowMs = Date.now();
+  const offerAges = offers
+    .map((o) => {
+      const t = (o as { last_checked_at?: unknown; verified_at?: unknown }).last_checked_at ??
+        (o as { verified_at?: unknown }).verified_at;
+      return typeof t === "string" ? Math.floor((nowMs - new Date(t).getTime()) / 86_400_000) : null;
+    })
+    .filter((d): d is number => d != null);
+  const oldest = offerAges.length ? Math.max(...offerAges) : 0;
+  const overMonth = offerAges.filter((d) => d > 30).length;
+  checks.push({
+    name: "오퍼를 마지막으로 확인한 시점",
+    blocking: false,
+    ok: overMonth === 0,
+    detail: `가장 오래된 것 ${oldest}일 전 · 한 달 넘은 오퍼 ${overMonth}행 / ${offerAges.length}행`,
+  });
+
   // ── 출력 ────────────────────────────────────────────────────
   console.log("── 차단 항목 (이대로 나가면 사용자가 잘못된 것을 본다) ──");
   for (const c of checks.filter((c) => c.blocking))

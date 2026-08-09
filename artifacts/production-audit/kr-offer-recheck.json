@@ -1,0 +1,588 @@
+{
+  "checkedAt": "2026-08-09T09:54:53.333Z",
+  "applied": true,
+  "results": [
+    {
+      "offerId": "01efb425-3199-4bd3-9cee-084405d1732c",
+      "productId": "217",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "02e833fb-51ec-47cc-bd79-f4c89de611e1",
+      "productId": "286",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "034d7051-f3c8-4a01-bb72-c099c2bf5217",
+      "productId": "241",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "03c09947-994f-43a1-85d9-0258d1e50ba3",
+      "productId": "253",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "04ae763a-dbdf-41f7-b05a-3e3b75253a94",
+      "productId": "303",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "0613cdab-5191-4701-89c5-651f50983d46",
+      "productId": "285",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "0be4e471-621e-4d7f-9905-fae4c4bf5dd5",
+      "productId": "4",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "0ce821fd-519d-47b5-a1c8-7a047cf2ec60",
+      "productId": "284",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "11f77c03-f75a-4122-a7d6-2a95ab80d3a7",
+      "productId": "272",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "152a8751-8e0d-491f-8d0a-95514c8852d2",
+      "productId": "255",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "176887c5-d175-4e0c-b37e-e4d4d48fdfad",
+      "productId": "262",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "193377cd-1442-4db6-837f-3046149de1f8",
+      "productId": "1",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "1962bf7a-0328-412c-8777-72a0c0d619a0",
+      "productId": "276",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "1ad28520-5902-4e0d-85a8-a16fd44dc1e6",
+      "productId": "266",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "1afeb591-d65d-4f5c-9c68-f41a49bee98f",
+      "productId": "224",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "1d0acc07-0883-4d38-b8a2-baf1ef5708fb",
+      "productId": "222",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "1d9b63b3-3f24-4769-ba38-04f8e7c03765",
+      "productId": "287",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "1dfff015-0e5c-4af9-a7d1-2449acbc48ee",
+      "productId": "238",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "20bae3d8-543b-4431-b284-86edf86a3f5f",
+      "productId": "188",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "22e13136-f9b3-434c-9f04-2836c8710286",
+      "productId": "277",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "2307bd4c-6e15-4b01-bf64-8df35a719e65",
+      "productId": "240",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "253aeda6-eb23-4b15-abc8-e832231300c6",
+      "productId": "280",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "27c8dd14-f50f-4b49-a535-a1ae1d0ca08a",
+      "productId": "265",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "2b1bef99-7c1d-4bbc-bd2e-135b6d325d92",
+      "productId": "298",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "2e26c8a0-7848-4d80-811e-dff17357ca00",
+      "productId": "223",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "327046fe-81a6-4413-b37d-f23b53a37a9d",
+      "productId": "293",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "33153f67-6454-42f9-a618-afd735ec8fae",
+      "productId": "28",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "357a1963-8c6b-4992-884b-f6dc64cb611f",
+      "productId": "220",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "39856ea0-2fd7-4c50-983e-365d0d487e3a",
+      "productId": "228",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "3aa1b3f6-332c-43ba-a2a0-bbfba8c5c884",
+      "productId": "274",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "3b41ccbe-431c-42e5-b983-5621c4d36969",
+      "productId": "261",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "3be34057-26f6-4f1f-8231-9d9fec688f01",
+      "productId": "221",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "448d2b38-b88f-4703-bceb-af7875c8cd39",
+      "productId": "234",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "46a86bbc-a1a1-4966-ac69-8051ebde5013",
+      "productId": "305",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "47e82c54-aa29-43c6-9675-f005e3aa3970",
+      "productId": "232",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "48781adf-bdd5-49c5-9289-3a14db7b6af9",
+      "productId": "242",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "532f960a-b73a-4cc7-9af9-1bf857dcfc75",
+      "productId": "225",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "545a16b1-3a17-424a-963a-1e3a22016f40",
+      "productId": "246",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "54dc2d11-3de3-49e3-a6ea-799b756ed6d8",
+      "productId": "282",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "578922fa-4e0e-4791-a1ef-1b2155bdaaea",
+      "productId": "36",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "594b73ce-7584-4588-b24a-5d14acb55384",
+      "productId": "251",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "61b56764-28da-48a7-91f6-fd2b792d9849",
+      "productId": "239",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "6354486f-cb78-4c5c-9b59-babd0d1667d3",
+      "productId": "279",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "6718f3b9-1ccc-44eb-a988-817d4486f138",
+      "productId": "248",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "68c47c79-9332-4575-bd9a-f7483ebc1945",
+      "productId": "297",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "7cbe5baf-8b9b-421a-bea8-677f925b1f47",
+      "productId": "273",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "7cef64bb-2598-4e0e-8467-dba6ae1dfc3b",
+      "productId": "278",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "814bd254-01b6-4ed1-8733-03736e1eebde",
+      "productId": "291",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "833e9e78-54c9-4206-a10c-b7d1e442a2e4",
+      "productId": "288",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "854110cf-80e9-4f43-adab-623f1cfd4745",
+      "productId": "227",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "871d945f-6736-45c9-819e-3deac582e38a",
+      "productId": "299",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "874562cd-655f-4b1d-81d1-59453a62aef5",
+      "productId": "289",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "894c457f-039b-48ca-b91e-0d275fd0024b",
+      "productId": "281",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "89a88556-b21d-4bb0-b6d7-e73a9272df75",
+      "productId": "249",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "8bb421c7-631d-4bde-acb0-38cdf2c156bb",
+      "productId": "290",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "8c574c51-262d-4bac-9f39-57b305c840f1",
+      "productId": "301",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "8ca2a36f-fbb0-4000-bbcb-f96cdf8937fc",
+      "productId": "245",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "8d31eabd-6ee9-4434-9998-c56cfd9dce27",
+      "productId": "270",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "90a7976c-19a3-4a47-bc67-1dfd141c904a",
+      "productId": "250",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "91226b41-3705-43a0-b267-6def83129815",
+      "productId": "257",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "93e5afa6-2365-4c44-9cda-ebde3cf10e67",
+      "productId": "247",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "952a9948-e60d-40b1-8a69-fea369aaad4f",
+      "productId": "243",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "967b703f-0625-415c-b031-e860e5d8f610",
+      "productId": "229",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "975679c3-452b-43b3-aa86-f08d74451f64",
+      "productId": "226",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "986100a0-932e-4736-abd3-5ae44c0d068d",
+      "productId": "294",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "9c541126-4efe-4975-8e59-01f094466b6d",
+      "productId": "300",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "aa10ded0-8379-4d95-b934-36671308285e",
+      "productId": "252",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "af96e927-4f21-4c29-ad71-411048d31826",
+      "productId": "254",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "afbcd980-a507-4868-9071-c1f64085eab6",
+      "productId": "275",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "b5ce959b-7132-4727-bca5-898015fdfb16",
+      "productId": "216",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "b61faab2-d902-4a09-8122-0ff7066840ed",
+      "productId": "218",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "b8169a82-1d95-439f-9b65-d4eb0580a4be",
+      "productId": "269",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "bb1c901c-1ba0-42ef-ab8a-54105877754d",
+      "productId": "307",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "bb66edba-aebe-4cd4-924b-4c572cdf84c9",
+      "productId": "219",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "bc574cb9-add8-490d-a4c8-bfd9957ab036",
+      "productId": "283",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "bd43e179-294c-4489-a739-1ace72afc99c",
+      "productId": "295",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "bdf2d15c-32f7-4925-b8ab-ba1369afa7e9",
+      "productId": "244",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "c0efe8b9-2344-4f58-8a10-97a0bd1f36e4",
+      "productId": "231",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "cbc02983-6f3e-43e5-a3f9-df1bb5947631",
+      "productId": "237",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "cdf5f5b6-cccf-4eae-bab3-09a5e48aacbb",
+      "productId": "259",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "ced4ca62-516e-4d3c-8cc5-502e67339562",
+      "productId": "263",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "d033b95a-ffbd-40a4-bd0e-044eff782fb0",
+      "productId": "292",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "d42b9ebc-b6c4-45e4-b293-e08b13ffa7b4",
+      "productId": "268",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "d9b63935-bf15-4fdc-9417-fc846b10f240",
+      "productId": "258",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "dcbdb1a3-3bcd-428c-8fea-367dd829a699",
+      "productId": "236",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "dd58d312-b9e8-4d00-aa89-bea4ac3d0a44",
+      "productId": "194",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "df5f7075-bb8f-47ec-b673-be5b44d7552e",
+      "productId": "296",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "e4c36dbc-d925-4110-802f-398706201522",
+      "productId": "267",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "e5e3f6f0-600b-4666-9e9b-bdaa2b4915bd",
+      "productId": "264",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "e6cd228f-853d-46d4-9307-e07cf15d77cf",
+      "productId": "230",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "ea1e56e0-f87d-4335-b71b-b44898815712",
+      "productId": "271",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "eab8475d-1be9-4daf-8a27-f9c95f46c9cc",
+      "productId": "233",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "ee2d6dd7-3c40-484a-bc1b-dc5aadf3f055",
+      "productId": "306",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "f4957759-727d-4a36-aec8-56c1ab805d46",
+      "productId": "302",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "fa0500af-6ee2-4152-923c-e04f3cd6d5d1",
+      "productId": "256",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "fc3c4a8b-b1dd-4ebe-a16d-912e275c972e",
+      "productId": "260",
+      "outcome": "그대로",
+      "detail": ""
+    },
+    {
+      "offerId": "fd2415ab-16d1-48d1-93bd-0bc8997b779e",
+      "productId": "235",
+      "outcome": "그대로",
+      "detail": ""
+    }
+  ]
+}
