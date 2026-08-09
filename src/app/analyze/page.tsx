@@ -7,6 +7,7 @@ import { useMemo, useState, useEffect } from "react";
 import { useLocale } from "@/hooks/useLocale";
 import { useCountry } from "@/hooks/useCountry";
 import { RecommendedProductCard } from "@/components/recommendation/RecommendedProductCard";
+import { useProductImages } from "@/hooks/useProductImages";
 import { ConcernObservationPanel } from "@/components/analyze/ConcernObservationPanel";
 import {
   photoAnalysisOnlyAckMessage,
@@ -724,6 +725,19 @@ export default function AnalyzePage() {
   const [rankedProducts, setRankedProducts] = useState<
     RankedProduct<CandidateProduct>[]
   >([]);
+
+  // **이미지는 랭킹 캐시에 없다** — 서명 URL 이라 만료된다. 화면을 열 때 받아 붙인다.
+  // 결과 화면(`/results`)에만 연결돼 있어서 이 화면은 사진이 한 번도 뜨지 않았다
+  // (2026-08-09 발견). 같은 카드를 쓰는 곳은 같이 연결해야 한다.
+  const { imageUrlById } = useProductImages(rankedProducts.map((r) => r.product.id));
+  const withImage = (ranked: (typeof rankedProducts)[number]) => {
+    const url = imageUrlById.get(String(ranked.product.id));
+    if (!url) return ranked;
+    return {
+      ...ranked,
+      product: { ...ranked.product, image_url: url, image_verified: true },
+    };
+  };
 
   useEffect(() => {
     // next dev 에서만 true. production 빌드에서는 false.
@@ -1770,7 +1784,7 @@ export default function AnalyzePage() {
                 <RecommendedProductCard
                   key={ranked.product.id}
                   rank={index + 1}
-                  ranked={ranked}
+                  ranked={withImage(ranked)}
                   locale={locale}
                   countryCode="KR"
                 />

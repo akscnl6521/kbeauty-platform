@@ -244,7 +244,8 @@
     "repair:media-validation": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/repair-media-validation-status.ts",
     "repair:media-http-urls": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/repair-media-http-urls.ts",
     "test:canonical-category": "tsx scripts/canonical-product-category-selftest.ts",
-    "repair:product-categories": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/normalize-product-categories.ts"
+    "repair:product-categories": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/normalize-product-categories.ts",
+    "test:product-image-wiring": "tsx scripts/product-image-wiring-selftest.ts"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.32",

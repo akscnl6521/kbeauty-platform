@@ -170,6 +170,8 @@ async function main() {
     finalCount: number;
     min: number;
     krBuyableCount: number;
+    /** Top N 중 화면에 «매칭된 성분 없음» 이 뜨는 제품 수 */
+    noMatchCount: number;
     brands: string[];
     short: boolean;
   }> = [];
@@ -195,6 +197,10 @@ async function main() {
 
     const brands = final.map((r) => String(r.product.brand ?? "-"));
     const krCount = final.filter((r) => krBuyable.has(r.product.id)).length;
+    // **화면에 «매칭된 성분 없음» 이 뜨는 제품 수.**
+    // 카드는 DB 의 추천 이유가 아니라 «매칭 성분» 을 보여준다. 매칭이 비면
+    // 사용자는 «왜 이게 추천됐는지» 를 알 수 없는 카드를 본다.
+    const noMatch = final.filter((r) => (r.matchedIngredients?.length ?? 0) === 0).length;
     const short = final.length < min;
 
     results.push({
@@ -205,6 +211,7 @@ async function main() {
       finalCount: final.length,
       min,
       krBuyableCount: krCount,
+      noMatchCount: noMatch,
       brands,
       short,
     });
@@ -217,6 +224,14 @@ async function main() {
   }
 
   const shortfall = results.filter((r) => r.short);
+  const withNoMatch = results.filter((r) => r.noMatchCount > 0);
+  console.log(
+    `  화면에 «매칭된 성분 없음» 이 뜨는 제품이 있는 시나리오 ` +
+      `**${withNoMatch.length}개** (총 ${results.reduce((a, r) => a + r.noMatchCount, 0)}건)`
+  );
+  for (const r of withNoMatch.slice(0, 10))
+    console.log(`    ! ${pad(r.name, 30)} ${r.noMatchCount}/${r.finalCount}건`);
+
   const noKr = results.filter((r) => r.finalCount > 0 && r.krBuyableCount === 0);
 
   console.log(`\n── 요약 ──`);

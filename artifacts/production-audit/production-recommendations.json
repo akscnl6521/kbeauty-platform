@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-08T23:48:24.191Z",
+  "checkedAt": "2026-08-09T01:51:51.414Z",
   "poolSize": 86,
   "krBuyable": 76,
   "usBuyable": 23,
@@ -12,6 +12,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -29,6 +30,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -46,6 +48,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -63,6 +66,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -80,6 +84,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -97,6 +102,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -114,6 +120,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -131,6 +138,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -148,6 +156,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -165,6 +174,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -182,6 +192,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Beauty of Joseon",
         "COSRX",
@@ -199,6 +210,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Beauty of Joseon",
         "COSRX",
@@ -216,6 +228,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Axis-Y",
         "SKIN1004",
@@ -233,6 +246,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Beauty of Joseon",
         "COSRX",
@@ -250,6 +264,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 3,
+      "noMatchCount": 0,
       "brands": [
         "Beauty of Joseon",
         "COSRX",
@@ -267,6 +282,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "COSRX",
@@ -284,6 +300,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -301,6 +318,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "COSRX",
@@ -318,6 +336,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -335,6 +354,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 2,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Axis-Y",
@@ -352,6 +372,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -369,6 +390,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -386,6 +408,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -403,6 +426,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -420,6 +444,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -437,6 +462,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -454,6 +480,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "COSRX",
         "Abib",
@@ -471,6 +498,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -488,6 +516,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
@@ -505,6 +534,7 @@
       "finalCount": 5,
       "min": 3,
       "krBuyableCount": 4,
+      "noMatchCount": 0,
       "brands": [
         "Abib",
         "Abib",
