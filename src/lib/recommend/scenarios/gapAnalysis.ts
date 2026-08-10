@@ -32,17 +32,62 @@ export type ScenarioCatalogGap = {
   evidenceGaps: string[];
 };
 
+/**
+ * 성분 이름으로 피부 고민을 미루어 본다.
+ *
+ * **힌트가 영어뿐이었다.** 국내몰에서 등록한 제품은 전성분이 한글이라 하나도
+ * 걸리지 않았고, 그래서 고민이 비어 추천 시나리오에 **한 건도 안 잡혔다** —
+ * 2026-08-10 실측에서 추천 풀 131건 중 **108건**이 그 상태였다(주요 성분은
+ * 다 갖고 있었는데도).
+ *
+ * 한글 표기를 함께 넣는다. 표기가 여럿인 성분은 여럿 다 넣는다 —
+ * `살리실릭애씨드`/`살리실산` 은 같은 성분이고 몰마다 다르게 적는다.
+ */
 const INGREDIENT_CONCERN_HINTS: Readonly<Record<string, string[]>> = {
   niacinamide: ["redness", "pigmentation", "pores"],
+  나이아신아마이드: ["redness", "pigmentation", "pores"],
   panthenol: ["redness", "dryness", "barrier"],
+  판테놀: ["redness", "dryness", "barrier"],
   centella: ["redness", "sensitivity", "barrier"],
+  병풀: ["redness", "sensitivity", "barrier"],
+  센텔라: ["redness", "sensitivity", "barrier"],
+  마데카소사이드: ["redness", "sensitivity", "barrier"],
+  마데카식애씨드: ["redness", "sensitivity", "barrier"],
   "snail secretion filtrate": ["dryness", "barrier"],
+  달팽이점액여과물: ["dryness", "barrier"],
+  "달팽이 분비물 여과물": ["dryness", "barrier"],
   "hyaluronic acid": ["dryness", "barrier"],
+  하이알루로닉애씨드: ["dryness", "barrier"],
+  히알루론산: ["dryness", "barrier"],
   "sodium hyaluronate": ["dryness", "barrier"],
+  소듐하이알루로네이트: ["dryness", "barrier"],
   "salicylic acid": ["acne", "pores"],
+  살리실릭애씨드: ["acne", "pores"],
+  살리실산: ["acne", "pores"],
+  베타인살리실레이트: ["acne", "pores"],
   retinol: ["antiaging", "acne"],
+  레티놀: ["antiaging", "acne"],
+  레티날: ["antiaging", "acne"],
   "ascorbic acid": ["pigmentation", "antiaging"],
+  아스코빅애씨드: ["pigmentation", "antiaging"],
+  아스코빌: ["pigmentation", "antiaging"],
   peptides: ["antiaging"],
+  펩타이드: ["antiaging"],
+  // 국내 제품에서 흔한 미백·진정 성분 — 위 목록에 대응하는 영문이 없어 따로 적는다.
+  트라넥사믹애씨드: ["pigmentation"],
+  트라넥삼산: ["pigmentation"],
+  알부틴: ["pigmentation"],
+  어성초: ["redness", "sensitivity"],
+  티트리: ["acne"],
+  "tea tree": ["acne"],
+  녹차: ["redness", "sensitivity"],
+  알로에: ["dryness", "sensitivity"],
+  세라마이드: ["dryness", "barrier"],
+  ceramide: ["dryness", "barrier"],
+  콜라겐: ["antiaging"],
+  collagen: ["antiaging"],
+  아데노신: ["antiaging"],
+  adenosine: ["antiaging"],
 };
 
 /**

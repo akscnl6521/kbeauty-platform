@@ -149,3 +149,43 @@ export function refineCategoryFromName(
   }
   return null;
 }
+
+/**
+ * 유형이 **비어 있는** 제품을, **이름이 유형을 분명히 말할 때만** 채운다.
+ *
+ * 유형이 없으면 시나리오 대조에서 유형 조건이 통째로 건너뛰어져 **아무 시나리오에나
+ * 걸린다** — 2026-08-10 실측에서 `지우개 폼 클렌징` 이 여드름 스팟·에멀전 시나리오에
+ * 잡혀 있었다. 비어 있는 것이 «아무거나» 로 읽히는 셈이다.
+ *
+ * **이름에 유형 낱말이 그대로 있을 때만** 채운다. `지우개 폼 클렌징` 은 폼 클렌저다.
+ * 애매하면 null 을 돌려주고 비워 둔다 — 억지로 채우면 틀렸다는 것조차 드러나지 않는다.
+ */
+const NAME_SAYS_CATEGORY: ReadonlyArray<[RegExp, string]> = [
+  [/클렌징\s*오일|오일\s*클렌저/, "cleansing_oil"],
+  [/클렌징\s*밤/, "cleansing_balm"],
+  [/클렌징\s*워터/, "cleansing_water"],
+  [/클렌징\s*밀크/, "cleansing_milk"],
+  [/폼\s*클렌징|폼\s*클렌저|폼클렌저|클렌징\s*폼/, "foam_cleanser"],
+  [/젤\s*클렌징|젤\s*클렌저|젤클렌저/, "gel_cleanser"],
+  [/토너\s*패드|패드/, "toner_pad"],
+  [/시트\s*마스크|마스크\s*시트/, "sheet_mask"],
+  [/슬리핑\s*마스크|수면\s*팩/, "sleeping_mask"],
+  [/선\s*크림|선크림|선\s*스틱|선스틱|선\s*스프레이/, "sunscreen"],
+  [/아이\s*크림|아이크림/, "eye_cream"],
+  [/미스트/, "facial_mist"],
+  [/앰플/, "ampoule"],
+  [/에센스/, "essence"],
+  [/세럼/, "serum"],
+  [/토너|스킨(?!\s*커버)/, "toner"],
+  [/로션|에멀전|에멀젼/, "lotion"],
+  [/크림/, "cream"],
+];
+
+export function categoryFromNameWhenEmpty(name: string | null | undefined): string | null {
+  const text = String(name ?? "");
+  if (!text.trim()) return null;
+  for (const [re, to] of NAME_SAYS_CATEGORY) {
+    if (re.test(text) && CANONICAL.has(to)) return to;
+  }
+  return null;
+}

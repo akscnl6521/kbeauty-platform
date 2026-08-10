@@ -20,6 +20,7 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { loadDotEnvLocal } from "./_loadDotEnvLocal";
 import {
   canonicalProductCategory,
+  categoryFromNameWhenEmpty,
   refineCategoryFromName,
 } from "../src/lib/catalog/taxonomy/canonicalProductCategory";
 
@@ -75,7 +76,15 @@ async function main() {
 
   for (const p of products) {
     const raw = String(p.category ?? "").trim();
-    if (!raw) continue; // 비어 있는 것은 추측해서 채우지 않는다
+    if (!raw) {
+      // **비어 있으면 «아무 시나리오에나» 걸린다** — 유형 조건이 통째로 건너뛰어진다.
+      // 이름이 유형을 분명히 말할 때만 채운다. 애매하면 그대로 둔다.
+      const label = `${String(p.name_ko ?? "")} ${String(p.name ?? "")}`;
+      const guessed = categoryFromNameWhenEmpty(label);
+      if (guessed) changes.push({ row: p, to: guessed });
+      else untouched.set("(비어 있음)", (untouched.get("(비어 있음)") ?? 0) + 1);
+      continue;
+    }
     const canonical = canonicalProductCategory(raw);
     if (canonical && canonical !== raw) {
       changes.push({ row: p, to: canonical });
@@ -116,11 +125,16 @@ async function main() {
 
   let done = 0;
   for (const [i, c] of changes.entries()) {
-    const { error } = await client
-      .from("products")
-      .update({ category: c.to })
-      .eq("id", c.row.id)
-      .eq("category", c.row.category);
+    // **`.eq(칼럼, null)` 은 NULL 을 못 잡는다** — SQL 에서 `= NULL` 은 참이 되지
+    // 않는다. 그래서 비어 있던 유형을 채우는 갱신이 **0행을 바꾸고도 «성공» 으로**
+    // 보고됐다(2026-08-10: «2건 바꿨다» 고 했지만 DB 는 그대로였다).
+    // 비어 있으면 `.is()` 를 써야 한다.
+    const q = client.from("products").update({ category: c.to }).eq("id", c.row.id);
+    const guarded =
+      c.row.category == null || c.row.category === ""
+        ? q.is("category", null)
+        : q.eq("category", c.row.category);
+    const { data: updated, error } = await guarded.select("id");
     if (error) {
       console.log(`  ${c.row.id} 실패: ${error.code} ${error.message.slice(0, 70)}`);
       if (i === 0) {
@@ -129,7 +143,9 @@ async function main() {
       }
       continue;
     }
-    done += 1;
+    // **바뀐 행 수를 세어서 보고한다.** 갱신이 0행을 건드려도 오류는 나지 않는다.
+    if ((updated ?? []).length > 0) done += 1;
+    else console.log(`  ${c.row.id} 갱신이 0행을 바꿨다 — 그 사이 값이 달라졌을 수 있다`);
   }
   console.log(`\n유형을 표준으로 바꾼 제품 ${done}건`);
 }
