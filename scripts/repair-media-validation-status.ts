@@ -128,10 +128,14 @@ async function main() {
 
   let done = 0;
   for (const [i, m] of targets.entries()) {
-    const { error } = await client
+    const { data: updated, error } = await client
       .from("catalog_product_media")
+      // **바뀐 행을 돌려받아 센다.** 갱신이 0행을 건드려도 오류는 나지 않는다 —
+      // 2026-08-10 에 다른 스크립트가 «2건 바꿨다» 고 보고하고 실제로는 아무것도
+      // 안 바꾼 일이 있었다. 성공 보고는 바뀐 행 수로만 한다.
       .update({ validation_status: "verified", is_fixture: false })
-      .eq("id", m.id);
+      .eq("id", m.id)
+      .select("id");
     if (error) {
       console.log(`  ${m.id} 실패: ${error.code} ${error.message.slice(0, 70)}`);
       if (i === 0) {
@@ -140,7 +144,8 @@ async function main() {
       }
       continue;
     }
-    done += 1;
+    if ((updated ?? []).length > 0) done += 1;
+    else console.log(`  ${m.id} 갱신이 0행을 바꿨다`);
   }
   console.log(`\nverified 로 올린 행 ${done}건`);
 }

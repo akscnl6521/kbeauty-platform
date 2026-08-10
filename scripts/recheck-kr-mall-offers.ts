@@ -198,8 +198,14 @@ async function main() {
 
     if (apply) {
       patch.last_checked_at = new Date().toISOString();
-      const { error } = await client.from("product_offers").update(patch).eq("id", o.id);
+      // 바뀐 행을 돌려받아 센다 — 갱신이 0행을 건드려도 오류는 나지 않는다.
+      const { data: updated, error } = await client
+        .from("product_offers")
+        .update(patch)
+        .eq("id", o.id)
+        .select("id");
       if (error) console.log(`  ${o.id} 반영 실패: ${error.code} ${error.message.slice(0, 60)}`);
+      else if ((updated ?? []).length === 0) console.log(`  ${o.id} 갱신이 0행을 바꿨다`);
     }
   }
 
@@ -246,11 +252,13 @@ async function main() {
   if (apply && mediaDead.length > 0) {
     let downed = 0;
     for (const d of mediaDead) {
-      const { error } = await client
+      const { data: updated, error } = await client
         .from("catalog_product_media")
         .update({ validation_status: "broken", is_accessible: false, last_checked_at: new Date().toISOString() })
-        .eq("id", d.id);
-      if (!error) downed += 1;
+        .eq("id", d.id)
+        .select("id");
+      // 바뀐 행 수로만 센다 — 오류가 없다고 바뀐 것은 아니다.
+      if (!error && (updated ?? []).length > 0) downed += 1;
     }
     console.log(`  화면에서 뺀 사진 ${downed}건 (지우지 않았다 — 다시 열리면 되살릴 수 있다)`);
   }

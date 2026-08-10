@@ -104,7 +104,12 @@ async function main() {
     if (String(f.row.canonical_image_url ?? "") === String(f.row.image_url ?? "")) {
       patch.canonical_image_url = f.https;
     }
-    const { error } = await client.from("catalog_product_media").update(patch).eq("id", f.row.id);
+    // 바뀐 행을 돌려받아 센다 — 갱신이 0행을 건드려도 오류는 나지 않는다.
+    const { data: updated, error } = await client
+      .from("catalog_product_media")
+      .update(patch)
+      .eq("id", f.row.id)
+      .select("id");
     if (error) {
       console.log(`  ${f.row.id} 실패: ${error.code} ${error.message.slice(0, 70)}`);
       if (i === 0) {
@@ -113,7 +118,8 @@ async function main() {
       }
       continue;
     }
-    done += 1;
+    if ((updated ?? []).length > 0) done += 1;
+    else console.log(`  ${f.row.id} 갱신이 0행을 바꿨다`);
   }
   console.log(`\nhttps 로 바꾼 행 ${done}건`);
 }
