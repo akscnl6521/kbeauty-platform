@@ -172,6 +172,8 @@ async function main() {
     krBuyableCount: number;
     /** Top N 중 화면에 «매칭된 성분 없음» 이 뜨는 제품 수 */
     noMatchCount: number;
+    /** Top N 안에서 전성분이 똑같은 제품이 겹친 수 */
+    sameFormulaPairs: number;
     brands: string[];
     short: boolean;
   }> = [];
@@ -201,6 +203,18 @@ async function main() {
     // 카드는 DB 의 추천 이유가 아니라 «매칭 성분» 을 보여준다. 매칭이 비면
     // 사용자는 «왜 이게 추천됐는지» 를 알 수 없는 카드를 본다.
     const noMatch = final.filter((r) => (r.matchedIngredients?.length ?? 0) === 0).length;
+
+    // **같은 처방이 한 화면에 두 번 뜨는가.**
+    // 용량만 다른 같은 제형(`진설크림` / `진설크림 리필`)은 카탈로그에는 둘 다
+    // 맞지만, Top 5 에 나란히 뜨면 사용자가 고를 것이 하나 줄어든다.
+    const formulaKeys = final.map((r) => {
+      const fi = (r.product as { full_ingredients?: unknown }).full_ingredients;
+      const list = Array.isArray(fi) ? fi : [];
+      return list.length >= 5
+        ? `${String(r.product.brand ?? "").toLowerCase()}||${list.map((x) => String(x).replace(/\s+/g, "").toLowerCase()).join(",")}`
+        : `unique-${r.product.id}`;
+    });
+    const sameFormulaPairs = formulaKeys.length - new Set(formulaKeys).size;
     const short = final.length < min;
 
     results.push({
@@ -212,6 +226,7 @@ async function main() {
       min,
       krBuyableCount: krCount,
       noMatchCount: noMatch,
+      sameFormulaPairs,
       brands,
       short,
     });
@@ -231,6 +246,13 @@ async function main() {
   );
   for (const r of withNoMatch.slice(0, 10))
     console.log(`    ! ${pad(r.name, 30)} ${r.noMatchCount}/${r.finalCount}건`);
+
+  const dupFormula = results.filter((r) => r.sameFormulaPairs > 0);
+  console.log(
+    `  **같은 처방이 한 화면에 두 번 뜨는 시나리오 ${dupFormula.length}개** ` +
+      `(총 ${results.reduce((a, r) => a + r.sameFormulaPairs, 0)}쌍)`
+  );
+  for (const r of dupFormula.slice(0, 10)) console.log(`    ! ${pad(r.name, 30)} ${r.sameFormulaPairs}쌍`);
 
   const noKr = results.filter((r) => r.finalCount > 0 && r.krBuyableCount === 0);
 
