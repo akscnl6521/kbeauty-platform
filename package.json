@@ -248,7 +248,8 @@
     "test:product-image-wiring": "tsx scripts/product-image-wiring-selftest.ts",
     "gate:prelaunch": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/gate-prelaunch-readiness.ts",
     "check:kr-offer-freshness": "node --import ./scripts/register-server-only.mjs --import tsx/esm scripts/recheck-kr-mall-offers.ts",
-    "test:extract-labeled-ingredients": "tsx scripts/extract-labeled-ingredients-selftest.ts"
+    "test:extract-labeled-ingredients": "tsx scripts/extract-labeled-ingredients-selftest.ts",
+    "test:runbook-commands": "tsx scripts/runbook-commands-selftest.ts"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.32",
