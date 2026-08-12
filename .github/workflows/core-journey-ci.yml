@@ -55,6 +55,7 @@ jobs:
           npm run test:usage-guide-display
           npm run test:usage-media-organic
           npx --yes tsx scripts/routine-usage-guide-display-selftest.ts
+          npx --yes tsx scripts/results-usage-guide-sync-selftest.ts
           npm run test:clinic-referral
           npm run test:clinic-refresh
           npm run test:clinic-sync
