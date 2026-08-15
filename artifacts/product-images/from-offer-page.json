@@ -1,14 +1,6 @@
 {
-  "builtAt": "2026-08-09T23:34:06.505Z",
-  "found": [
-    {
-      "productId": 321,
-      "brand": "d'Alba",
-      "name": "달바 시그니처 비타 50000 토닝 패치",
-      "imageUrl": "https://godomall.speedycdn.net/95803ed2b538f43d548bda9185c01365/goods/1000000818/image/detail/1000000818_detail_071.png",
-      "sourcePage": "https://dalba.co.kr/goods/goods_view.php?goodsNo=1000000818"
-    }
-  ],
+  "builtAt": "2026-08-15T09:29:12.386Z",
+  "found": [],
   "missed": [],
   "dropped": []
 }

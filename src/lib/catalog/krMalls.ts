@@ -47,6 +47,10 @@ export const KR_MALLS: readonly KrMall[] = [
   { brands: ["KAHI", "Kahi", "카히"], domain: "kahi.co.kr" },
   // 2026-08-09 5차 탐침 통과.
   { brands: ["Klavuu", "클라뷰"], domain: "klavuu.com" },
+  // 2026-08-11 6차 탐침 통과. 아크로패스는 트러블 패치 전문이라
+  // 비어 있는 `kr-acne-spot-treatment` 시나리오를 겨냥해 넣었다.
+  { brands: ["Acropass", "아크로패스"], domain: "acropass.com" },
+  { brands: ["Labiotte", "라비오뜨"], domain: "labiotte.com" },
 ];
 
 /**

@@ -8,6 +8,7 @@
 import assert from "node:assert/strict";
 import {
   canonicalProductCategory,
+  categoryFromNameWhenEmpty,
   isCanonicalProductCategory,
   refineCategoryFromName,
 } from "../src/lib/catalog/taxonomy/canonicalProductCategory";
@@ -90,6 +91,16 @@ function main() {
   assert.equal(refineCategoryFromName("cleanser", "데일리 젠틀 클렌저"), null);
   // 이미 표준인 값은 건드리지 않는다.
   assert.equal(refineCategoryFromName("serum", "무엇이든"), null);
+
+  
+  // ── 유형이 비어 있을 때 이름으로 채우기 (2026-08-15 아크로패스) ──
+  assert.equal(categoryFromNameWhenEmpty("트러블큐어 마이크로콘 패치 (6패치)"), "spot_care");
+  assert.equal(categoryFromNameWhenEmpty("흔적케어 마이크로콘 패치"), "spot_care");
+  assert.equal(categoryFromNameWhenEmpty("지우개 폼 클렌징 150ml"), "foam_cleanser");
+  // 토너 패드는 스팟 케어가 아니다 — «무엇을 위한 패치인지» 가 있어야 스팟으로 본다.
+  assert.equal(categoryFromNameWhenEmpty("그린 LHA 모공 패드 클리어 터치"), "toner_pad");
+  // 이름이 유형을 말하지 않으면 채우지 않는다.
+  assert.equal(categoryFromNameWhenEmpty("찹쌀 쫀쫀팩 60g"), null);
 
   console.log("canonical-product-category self-test: ok");
 }

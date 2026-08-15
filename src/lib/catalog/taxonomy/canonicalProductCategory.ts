@@ -167,6 +167,10 @@ const NAME_SAYS_CATEGORY: ReadonlyArray<[RegExp, string]> = [
   [/클렌징\s*밀크/, "cleansing_milk"],
   [/폼\s*클렌징|폼\s*클렌저|폼클렌저|클렌징\s*폼/, "foam_cleanser"],
   [/젤\s*클렌징|젤\s*클렌저|젤클렌저/, "gel_cleanser"],
+  // **트러블 패치는 스팟 케어다.** `트러블큐어 마이크로콘 패치` ·
+  // `흔적케어 마이크로콘 패치`. 토너 패드와 헷갈리지 않도록 «무엇을 위한
+  // 패치인지» 가 이름에 있을 때만 본다.
+  [/(트러블|흔적|스팟|아크네|여드름)[^,]{0,12}패치/, "spot_care"],
   [/토너\s*패드|패드/, "toner_pad"],
   [/시트\s*마스크|마스크\s*시트/, "sheet_mask"],
   [/슬리핑\s*마스크|수면\s*팩/, "sleeping_mask"],
